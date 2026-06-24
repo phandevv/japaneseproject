@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Volume2 } from 'lucide-react';
 
 const FlashcardCard = ({ word, onFlip }) => {
   const [isFlipped, setIsFlipped] = useState(false);
@@ -8,12 +9,35 @@ const FlashcardCard = ({ word, onFlip }) => {
     setIsFlipped(false);
   }, [word]);
 
+  useEffect(() => {
+    return () => {
+      if (typeof window !== 'undefined' && window.speechSynthesis) {
+        window.speechSynthesis.cancel();
+      }
+    };
+  }, []);
+
   const handleFlip = () => {
     const newFlipState = !isFlipped;
     setIsFlipped(newFlipState);
     if (onFlip) {
       onFlip(newFlipState);
     }
+  };
+
+  const handleSpeak = (e) => {
+    e.stopPropagation();
+    if (typeof window === 'undefined' || !window.speechSynthesis) return;
+
+    const textToSpeak = word?.hiragana || word?.kanji || word?.meaning || '';
+    if (!textToSpeak) return;
+
+    window.speechSynthesis.cancel();
+    const utterance = new SpeechSynthesisUtterance(textToSpeak);
+    utterance.lang = 'ja-JP';
+    utterance.rate = 0.95;
+    utterance.pitch = 1;
+    window.speechSynthesis.speak(utterance);
   };
 
   if (!word) return null;
@@ -34,11 +58,19 @@ const FlashcardCard = ({ word, onFlip }) => {
             </p>
           )}
           
-          <div style={{ position: 'absolute', bottom: '20px', display: 'flex', gap: '10px' }}>
+          <div style={{ position: 'absolute', bottom: '20px', display: 'flex', gap: '10px', flexWrap: 'wrap', alignItems: 'center' }}>
             <span className="level-badge">{word.level}</span>
             <span className="level-badge" style={{ borderColor: 'var(--border-color)', color: 'var(--text-secondary)', backgroundColor: 'transparent' }}>
               Click to flip
             </span>
+            <button
+              type="button"
+              className="btn btn-secondary"
+              onClick={handleSpeak}
+              style={{ padding: '6px 12px', fontSize: '0.9rem', display: 'flex', alignItems: 'center', gap: '6px' }}
+            >
+              <Volume2 size={16} /> Pronounce
+            </button>
           </div>
         </div>
 

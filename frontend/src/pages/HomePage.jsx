@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { vocabApi } from '../services/api';
-import { Play, Loader, BarChart3, Database } from 'lucide-react';
+import { Play, Loader, BarChart3, Database, Sparkles } from 'lucide-react';
 
-const HomePage = ({ startStudy }) => {
+const HomePage = ({ startStudy, user, streak, onLogin, onLogout }) => {
   const [stats, setStats] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [loginName, setLoginName] = useState('');
 
   useEffect(() => {
     const fetchStats = async () => {
@@ -49,8 +50,51 @@ const HomePage = ({ startStudy }) => {
     "TRO_TU": "#06b6d4" // cyan
   };
 
+  const handleLogin = (e) => {
+    e.preventDefault();
+    if (onLogin) {
+      onLogin(loginName);
+      setLoginName('');
+    }
+  };
+
   return (
     <div className="container animate-fade-in" style={{ padding: '40px 20px' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '16px', marginBottom: '24px', padding: '18px 22px', borderRadius: '18px', background: 'linear-gradient(135deg, rgba(239, 68, 68, 0.14), rgba(14, 165, 233, 0.12))', border: '1px solid var(--border-color)' }}>
+        <div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '6px', color: 'var(--accent-color)' }}>
+            <Sparkles size={18} />
+            <strong>Study streak</strong>
+          </div>
+          {user ? (
+            <p style={{ margin: 0, color: 'var(--text-secondary)' }}>
+              Xin chào <strong>{user.userName}</strong> — streak hiện tại của bạn là <strong>{streak || 0} ngày</strong>.
+            </p>
+          ) : (
+            <p style={{ margin: 0, color: 'var(--text-secondary)' }}>
+              Đăng nhập để lưu chuỗi học mỗi ngày và theo dõi tiến trình của bạn.
+            </p>
+          )}
+        </div>
+
+        {user ? (
+          <button className="btn btn-secondary" onClick={onLogout}>
+            Đăng xuất
+          </button>
+        ) : (
+          <form onSubmit={handleLogin} style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
+            <input
+              value={loginName}
+              onChange={(e) => setLoginName(e.target.value)}
+              placeholder="Tên của bạn"
+              style={{ minWidth: '180px', padding: '10px 12px', borderRadius: '10px', border: '1px solid var(--border-color)', background: 'var(--surface-color)', color: 'var(--text-primary)' }}
+            />
+            <button className="btn btn-primary" type="submit">
+              Đăng nhập
+            </button>
+          </form>
+        )}
+      </div>
       
       {/* Hero Section */}
       <div style={{ textAlign: 'center', marginBottom: '60px' }}>
