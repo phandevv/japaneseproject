@@ -1,0 +1,226 @@
+// ============================================================
+// Translations: Vietnamese (vi) & English (en)
+// ============================================================
+
+export const translations = {
+  vi: {
+    // Navbar
+    nav: {
+      home: 'Trang chủ',
+      search: 'Tìm kiếm',
+    },
+
+    // HomePage
+    home: {
+      loading: 'Đang tải từ vựng...',
+      streakTitle: 'Chuỗi học',
+      hello: 'Xin chào',
+      streakMsg: (name, streak) => `Xin chào ${name} — chuỗi học hiện tại của bạn là ${streak} ngày.`,
+      loginPrompt: 'Đăng nhập để lưu chuỗi học mỗi ngày và theo dõi tiến trình của bạn.',
+      logout: 'Đăng xuất',
+      loginPlaceholder: 'Tên của bạn',
+      loginBtn: 'Đăng nhập',
+      heroTitle: 'Chào mừng trở lại',
+      heroSub: 'Học từ vựng tiếng Nhật với hệ thống flashcard thông minh. Chọn cấp độ bên dưới để bắt đầu!',
+      studyByLevel: 'Học theo cấp độ',
+      words: 'từ',
+      levelDesc: (label) => `Ôn tập từ vựng ngẫu nhiên từ danh sách ${label} để cải thiện khả năng ghi nhớ.`,
+      dailyStudy: 'Học hàng ngày',
+      flashcard: 'Flashcard',
+      levelLabels: {
+        N5: 'JLPT N5',
+        N4: 'JLPT N4',
+        N3: 'JLPT N3',
+        N2: 'JLPT N2',
+        N1: 'JLPT N1',
+        TU_LAY: 'Từ Láy',
+        TRO_TU: 'Trợ Từ',
+      },
+    },
+
+    // FlashcardPage
+    flashcard: {
+      loading: 'Đang chuẩn bị flashcard...',
+      noWords: 'Không tìm thấy từ nào ở cấp độ này.',
+      backDashboard: 'Về trang chủ',
+      level: 'Cấp độ',
+      shuffleNew: 'Xáo trộn mới',
+      card: 'Thẻ',
+      of: '/',
+      complete: '% Hoàn thành',
+      navigate: '← → để chuyển thẻ',
+      flip: 'Space để lật',
+      pronounce: 'Phát âm',
+      clickToFlip: 'Nhấn để lật',
+    },
+
+    // FlashcardCard
+    card: {
+      clickToFlip: 'Nhấn để lật',
+      pronounce: 'Phát âm',
+    },
+
+    // SearchPage
+    search: {
+      title: 'Tìm kiếm từ điển',
+      subtitle: 'Tìm kiếm theo Kanji, Hiragana, nghĩa tiếng Việt hoặc âm Hán Việt',
+      placeholder: 'VD: 学生, gakusei, học sinh...',
+      searchBtn: 'Tìm kiếm',
+      found: (n) => `Tìm thấy ${n} kết quả`,
+      noResult: (q) => `Không tìm thấy từ vựng nào phù hợp với "${q}"`,
+      page: 'Trang',
+      hanViet: 'Hán Việt',
+    },
+
+    // DailyStudyPage
+    daily: {
+      backDashboard: 'Về trang chủ',
+      dailyStudy: 'Học hàng ngày',
+      levelInfo: (totalWords, totalDays) =>
+        `Cấp độ này có ${totalWords} từ, chia thành ${totalDays} ngày (20 từ/ngày).`,
+      day: 'Ngày',
+      wordsPerDay: '20 từ',
+      loading: (day) => `Đang tải từ cho Ngày ${day}...`,
+      chooseAnotherDay: 'Chọn ngày khác',
+      studyReview: 'Ôn tập',
+      startQuiz: 'Bắt đầu kiểm tra',
+      colNo: '#',
+      colKanji: 'Kanji',
+      colHiragana: 'Hiragana',
+      colMeaning: 'Nghĩa tiếng Việt',
+      colHanViet: 'Hán Việt',
+      question: 'Câu hỏi',
+      score: 'Điểm',
+      quizPrompt: 'Từ tiếng Nhật của từ này là gì:',
+      inputPlaceholder: 'Nhập Hiragana hoặc Kanji...',
+      checkBtn: 'Kiểm tra',
+      correct: 'Đúng rồi!',
+      incorrect: 'Sai rồi',
+      correctAnswerIs: 'Đáp án đúng là:',
+      nextBtn: 'Tiếp theo',
+      continueBtn: 'Tiếp tục',
+      quizDone: 'Hoàn thành bài kiểm tra!',
+      yourScore: 'Điểm của bạn',
+      perfectMsg: 'Điểm tuyệt đối! Bạn thật tuyệt vời! 🎉',
+      goodMsg: 'Làm tốt lắm! Tiếp tục luyện tập để đạt điểm tối đa.',
+      reviewAgain: 'Xem lại danh sách',
+      nextDay: 'Ngày tiếp theo',
+    },
+
+    // Language toggle
+    lang: {
+      toggle: 'EN',
+      label: 'Tiếng Việt',
+    },
+  },
+
+  en: {
+    // Navbar
+    nav: {
+      home: 'Home',
+      search: 'Search',
+    },
+
+    // HomePage
+    home: {
+      loading: 'Loading your vocabulary...',
+      streakTitle: 'Study streak',
+      streakMsg: (name, streak) => `Hello ${name} — your current streak is ${streak} days.`,
+      loginPrompt: 'Log in to save your daily study streak and track your progress.',
+      logout: 'Logout',
+      loginPlaceholder: 'Your name',
+      loginBtn: 'Login',
+      heroTitle: 'Welcome back to',
+      heroSub: 'Master Japanese vocabulary with our intelligent flashcard system. Select a level below to start studying!',
+      studyByLevel: 'Study by Level',
+      words: 'words',
+      levelDesc: (label) => `Practice random vocabulary from the ${label} list to improve your retention.`,
+      dailyStudy: 'Daily Study',
+      flashcard: 'Flashcard',
+      levelLabels: {
+        N5: 'JLPT N5',
+        N4: 'JLPT N4',
+        N3: 'JLPT N3',
+        N2: 'JLPT N2',
+        N1: 'JLPT N1',
+        TU_LAY: 'Reduplication',
+        TRO_TU: 'Particles',
+      },
+    },
+
+    // FlashcardPage
+    flashcard: {
+      loading: 'Preparing your flashcards...',
+      noWords: 'No words found for this level.',
+      backDashboard: 'Back to Dashboard',
+      level: 'Level',
+      shuffleNew: 'Shuffle New',
+      card: 'Card',
+      of: 'of',
+      complete: '% Complete',
+      navigate: '← → to navigate',
+      flip: 'Space to flip',
+      pronounce: 'Pronounce',
+      clickToFlip: 'Click to flip',
+    },
+
+    // FlashcardCard
+    card: {
+      clickToFlip: 'Click to flip',
+      pronounce: 'Pronounce',
+    },
+
+    // SearchPage
+    search: {
+      title: 'Dictionary Search',
+      subtitle: 'Search by Kanji, Hiragana, meaning, or Romaji (Hán Việt)',
+      placeholder: 'E.g. 学生, gakusei, student...',
+      searchBtn: 'Search',
+      found: (n) => `Found ${n} results`,
+      noResult: (q) => `No vocabulary found matching "${q}"`,
+      page: 'Page',
+      hanViet: 'Hán Việt',
+    },
+
+    // DailyStudyPage
+    daily: {
+      backDashboard: 'Back to Dashboard',
+      dailyStudy: 'Daily Study',
+      levelInfo: (totalWords, totalDays) =>
+        `This level has ${totalWords} words, divided into ${totalDays} days (20 words/day).`,
+      day: 'Day',
+      wordsPerDay: '20 words',
+      loading: (day) => `Loading words for Day ${day}...`,
+      chooseAnotherDay: 'Choose Another Day',
+      studyReview: 'Study Review',
+      startQuiz: 'Start Quiz',
+      colNo: '#',
+      colKanji: 'Kanji',
+      colHiragana: 'Hiragana',
+      colMeaning: 'Vietnamese Meaning',
+      colHanViet: 'Han Viet',
+      question: 'Question',
+      score: 'Score',
+      quizPrompt: 'What is the Japanese word for:',
+      inputPlaceholder: 'Type in Hiragana or Kanji...',
+      checkBtn: 'Check',
+      correct: 'Correct!',
+      incorrect: 'Incorrect',
+      correctAnswerIs: 'The correct answer is:',
+      nextBtn: 'Next',
+      continueBtn: 'Continue',
+      quizDone: 'Quiz Completed!',
+      yourScore: 'Your Score',
+      perfectMsg: "Perfect score! You're amazing! 🎉",
+      goodMsg: 'Great job! Keep practicing to get a perfect score.',
+      reviewAgain: 'Review List Again',
+      nextDay: 'Next Day',
+    },
+
+    // Language toggle
+    lang: {
+      toggle: 'VI',
+      label: 'English',
+    },
+  },
+};

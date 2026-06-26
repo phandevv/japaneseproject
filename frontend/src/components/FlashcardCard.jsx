@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Volume2 } from 'lucide-react';
+import { useLanguage } from '../context/LanguageContext';
 
 const FlashcardCard = ({ word, onFlip }) => {
+  const { t } = useLanguage();
   const [isFlipped, setIsFlipped] = useState(false);
 
   // Reset flip state when the word changes
@@ -61,7 +63,7 @@ const FlashcardCard = ({ word, onFlip }) => {
           <div style={{ position: 'absolute', bottom: '20px', display: 'flex', gap: '10px', flexWrap: 'wrap', alignItems: 'center' }}>
             <span className="level-badge">{word.level}</span>
             <span className="level-badge" style={{ borderColor: 'var(--border-color)', color: 'var(--text-secondary)', backgroundColor: 'transparent' }}>
-              Click to flip
+              {t.card.clickToFlip}
             </span>
             <button
               type="button"
@@ -69,7 +71,7 @@ const FlashcardCard = ({ word, onFlip }) => {
               onClick={handleSpeak}
               style={{ padding: '6px 12px', fontSize: '0.9rem', display: 'flex', alignItems: 'center', gap: '6px' }}
             >
-              <Volume2 size={16} /> Pronounce
+              <Volume2 size={16} /> {t.card.pronounce}
             </button>
           </div>
         </div>

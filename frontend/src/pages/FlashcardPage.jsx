@@ -2,8 +2,10 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { vocabApi } from '../services/api';
 import FlashcardCard from '../components/FlashcardCard';
 import { ArrowLeft, ArrowRight, Shuffle, Loader, CornerUpLeft } from 'lucide-react';
+import { useLanguage } from '../context/LanguageContext';
 
 const FlashcardPage = ({ level, goBack }) => {
+  const { t } = useLanguage();
   const [words, setWords] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [loading, setLoading] = useState(true);
@@ -12,7 +14,6 @@ const FlashcardPage = ({ level, goBack }) => {
   const fetchWords = useCallback(async () => {
     setLoading(true);
     try {
-      // Fetch 50 random words for the session
       const data = await vocabApi.getRandomByLevel(level, 50);
       setWords(data);
       setCurrentIndex(0);
@@ -64,7 +65,7 @@ const FlashcardPage = ({ level, goBack }) => {
     return (
       <div className="flex-center" style={{ height: '70vh', flexDirection: 'column', gap: '20px' }}>
         <Loader size={40} className="animate-spin" style={{ color: 'var(--accent-color)' }} />
-        <p>Preparing your flashcards...</p>
+        <p>{t.flashcard.loading}</p>
       </div>
     );
   }
@@ -72,8 +73,8 @@ const FlashcardPage = ({ level, goBack }) => {
   if (words.length === 0) {
     return (
       <div className="container flex-center" style={{ height: '70vh', flexDirection: 'column', gap: '20px' }}>
-        <h2>No words found for this level.</h2>
-        <button className="btn btn-primary" onClick={goBack}>Go Back</button>
+        <h2>{t.flashcard.noWords}</h2>
+        <button className="btn btn-primary" onClick={goBack}>{t.flashcard.backDashboard}</button>
       </div>
     );
   }
@@ -83,29 +84,29 @@ const FlashcardPage = ({ level, goBack }) => {
 
   return (
     <div className="container animate-fade-in" style={{ padding: '20px', maxWidth: '800px' }}>
-      
+
       {/* Header */}
       <div className="flex-between" style={{ marginBottom: '30px' }}>
         <button className="btn btn-secondary" style={{ padding: '8px 15px' }} onClick={goBack}>
-          <CornerUpLeft size={18} /> Back to Dashboard
+          <CornerUpLeft size={18} /> {t.flashcard.backDashboard}
         </button>
-        
+
         <div style={{ textAlign: 'center' }}>
           <h2 style={{ fontSize: '1.5rem', marginBottom: '5px' }}>
-            Level: <span style={{ color: 'var(--accent-color)' }}>{level}</span>
+            {t.flashcard.level}: <span style={{ color: 'var(--accent-color)' }}>{level}</span>
           </h2>
         </div>
-        
+
         <button className="btn btn-secondary" style={{ padding: '8px 15px' }} onClick={fetchWords}>
-          <Shuffle size={18} /> Shuffle New
+          <Shuffle size={18} /> {t.flashcard.shuffleNew}
         </button>
       </div>
 
       {/* Progress Bar */}
       <div style={{ marginBottom: '40px' }}>
         <div className="flex-between" style={{ marginBottom: '10px', fontSize: '0.9rem', color: 'var(--text-secondary)' }}>
-          <span>Card {currentIndex + 1} of {words.length}</span>
-          <span>{Math.round(progressPercentage)}% Complete</span>
+          <span>{t.flashcard.card} {currentIndex + 1} {t.flashcard.of} {words.length}</span>
+          <span>{Math.round(progressPercentage)}{t.flashcard.complete}</span>
         </div>
         <div className="progress-bg">
           <div className="progress-fill" style={{ width: `${progressPercentage}%` }}></div>
@@ -114,33 +115,33 @@ const FlashcardPage = ({ level, goBack }) => {
 
       {/* Flashcard Area */}
       <div style={{ minHeight: '450px', display: 'flex', alignItems: 'center' }}>
-        <FlashcardCard 
-          word={currentWord} 
-          onFlip={setFlipped} 
+        <FlashcardCard
+          word={currentWord}
+          onFlip={setFlipped}
         />
       </div>
 
       {/* Controls */}
       <div className="flex-center" style={{ gap: '20px', marginTop: '40px' }}>
-        <button 
-          className="btn-icon" 
-          onClick={handlePrev} 
+        <button
+          className="btn-icon"
+          onClick={handlePrev}
           disabled={currentIndex === 0}
           style={{ width: '60px', height: '60px', opacity: currentIndex === 0 ? 0.5 : 1, cursor: currentIndex === 0 ? 'not-allowed' : 'pointer' }}
         >
           <ArrowLeft size={28} />
         </button>
-        
+
         <div style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', textAlign: 'center', minWidth: '150px' }}>
-          Use ← → to navigate<br/>Space to flip
+          {t.flashcard.navigate}<br/>{t.flashcard.flip}
         </div>
-        
-        <button 
-          className="btn-icon" 
-          onClick={handleNext} 
+
+        <button
+          className="btn-icon"
+          onClick={handleNext}
           disabled={currentIndex === words.length - 1}
-          style={{ 
-            width: '60px', height: '60px', 
+          style={{
+            width: '60px', height: '60px',
             backgroundColor: currentIndex === words.length - 1 ? 'var(--surface-color)' : 'var(--accent-color)',
             color: currentIndex === words.length - 1 ? 'var(--text-primary)' : 'white',
             border: currentIndex === words.length - 1 ? '1px solid var(--border-color)' : 'none',
