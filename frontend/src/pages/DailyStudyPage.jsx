@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { vocabApi, userSettingsApi } from '../services/api';
-import { CornerUpLeft, BookOpen, CheckCircle, XCircle, ArrowRight, Loader, Play, ChevronRight, Settings, Download } from 'lucide-react';
+import { CornerUpLeft, BookOpen, CheckCircle, XCircle, ArrowRight, Loader, Play, ChevronRight, Settings, Download, Volume2, Eye, EyeOff } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
 import { useAuth } from '../context/AuthContext';
 import KanjiDetailModal from '../components/KanjiDetailModal';
@@ -18,6 +18,7 @@ const DailyStudyPage = ({ level, stats, goBack }) => {
   const [selectedDay, setSelectedDay] = useState(1);
   const [words, setWords] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [hideMeanings, setHideMeanings] = useState(false);
 
   // Modal state
   const [modalIndex, setModalIndex] = useState(null); // null = closed, number = open at that index
@@ -48,6 +49,20 @@ const DailyStudyPage = ({ level, stats, goBack }) => {
       [arr[i], arr[j]] = [arr[j], arr[i]];
     }
     return arr;
+  };
+
+  // Text-To-Speech Pronunciation utility
+  const speakWord = (word) => {
+    if (typeof window === 'undefined' || !window.speechSynthesis) return;
+    const textToSpeak = word?.hiragana || word?.kanji || '';
+    if (!textToSpeak) return;
+
+    window.speechSynthesis.cancel();
+    const utterance = new SpeechSynthesisUtterance(textToSpeak);
+    utterance.lang = 'ja-JP';
+    utterance.rate = 0.95;
+    utterance.pitch = 1;
+    window.speechSynthesis.speak(utterance);
   };
 
   // Load configuration from backend (if logged in) or localStorage (guest)
@@ -183,6 +198,7 @@ const DailyStudyPage = ({ level, stats, goBack }) => {
       if (!failedWordIds.has(currentWord.id)) {
         setScore(s => s + 1);
       }
+      speakWord(currentWord);
     } else {
       setQuizStatus('incorrect');
       setFailedWordIds(prev => {
@@ -206,6 +222,7 @@ const DailyStudyPage = ({ level, stats, goBack }) => {
       const updated = [...quizWords];
       updated.splice(insertIndex, 0, currentWord);
       setQuizWords(updated);
+      speakWord(currentWord);
     }
   };
 
@@ -409,6 +426,14 @@ const DailyStudyPage = ({ level, stats, goBack }) => {
             >
               <Download size={18} /> {t.daily.exportBtn}
             </button>
+            <button 
+              className="btn btn-secondary" 
+              onClick={() => setHideMeanings(!hideMeanings)}
+              style={{ display: 'flex', alignItems: 'center', gap: '6px' }}
+            >
+              {hideMeanings ? <Eye size={18} /> : <EyeOff size={18} />}
+              {hideMeanings ? t.daily.showMeanings : t.daily.hideMeanings}
+            </button>
             <button className="btn btn-primary" onClick={openQuizSetup}>
               <Play size={18} /> {t.daily.startQuiz}
             </button>
@@ -428,7 +453,7 @@ const DailyStudyPage = ({ level, stats, goBack }) => {
                 <th style={{ padding: '15px 20px', width: '50px' }}>{t.daily.colNo}</th>
                 <th style={{ padding: '15px 20px' }}>{t.daily.colKanji}</th>
                 <th style={{ padding: '15px 20px' }}>{t.daily.colHiragana}</th>
-                <th style={{ padding: '15px 20px' }}>{t.daily.colMeaning}</th>
+                {!hideMeanings && <th style={{ padding: '15px 20px' }}>{t.daily.colMeaning}</th>}
                 <th style={{ padding: '15px 20px' }}>{t.daily.colHanViet}</th>
               </tr>
             </thead>
@@ -448,11 +473,35 @@ const DailyStudyPage = ({ level, stats, goBack }) => {
                   <td style={{ padding: '15px 20px', color: 'var(--text-secondary)' }}>{index + 1}</td>
                   <td className="jp-text" style={{ padding: '15px 20px', fontSize: '1.2rem', fontWeight: 700 }}>{word.kanji}</td>
                   <td className="jp-text" style={{ padding: '15px 20px', color: 'var(--accent-color)' }}>{word.hiragana}</td>
-                  <td style={{ padding: '15px 20px', fontWeight: 500 }}>{word.meaning}</td>
+                  {!hideMeanings && <td style={{ padding: '15px 20px', fontWeight: 500 }}>{word.meaning}</td>}
                   <td style={{ padding: '15px 20px', color: 'var(--text-secondary)' }}>
                     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '8px' }}>
                       <span>{word.hanViet}</span>
-                      <ChevronRight size={14} style={{ opacity: 0.3, flexShrink: 0 }} />
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                        <button
+                          type="button"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            speakWord(word);
+                          }}
+                          style={{
+                            background: 'none',
+                            border: 'none',
+                            color: 'var(--text-secondary)',
+                            cursor: 'pointer',
+                            padding: '4px',
+                            display: 'flex',
+                            alignItems: 'center',
+                            borderRadius: '4px',
+                            transition: 'color 0.15s ease'
+                          }}
+                          onMouseEnter={ev => ev.currentTarget.style.color = 'var(--accent-color)'}
+                          onMouseLeave={ev => ev.currentTarget.style.color = 'var(--text-secondary)'}
+                        >
+                          <Volume2 size={16} />
+                        </button>
+                        <ChevronRight size={14} style={{ opacity: 0.3, flexShrink: 0 }} />
+                      </div>
                     </div>
                   </td>
                 </tr>
@@ -550,9 +599,16 @@ const DailyStudyPage = ({ level, stats, goBack }) => {
                 <CheckCircle size={32} color="var(--success-color)" />
                 <div>
                   <h3 style={{ color: 'var(--success-color)' }}>{t.daily.correct}</h3>
-                  <p className="jp-text" style={{ fontSize: '1.2rem', marginTop: '5px' }}>
+                  <p className="jp-text" style={{ fontSize: '1.2rem', marginTop: '5px', display: 'flex', alignItems: 'center', gap: '8px' }}>
                     {currentWord.kanji && <span>{currentWord.kanji} </span>}
                     <span style={{ color: 'var(--text-secondary)' }}>({currentWord.hiragana})</span>
+                    <button 
+                      type="button" 
+                      onClick={() => speakWord(currentWord)} 
+                      style={{ background: 'none', border: 'none', color: 'var(--text-secondary)', cursor: 'pointer', padding: '4px', display: 'flex', alignItems: 'center' }}
+                    >
+                      <Volume2 size={16} />
+                    </button>
                   </p>
                 </div>
               </div>
@@ -569,9 +625,16 @@ const DailyStudyPage = ({ level, stats, goBack }) => {
                 <div>
                   <h3 style={{ color: 'var(--accent-color)' }}>{t.daily.incorrect}</h3>
                   <p style={{ marginTop: '5px' }}>{t.daily.correctAnswerIs}</p>
-                  <p className="jp-text" style={{ fontSize: '1.2rem', marginTop: '5px' }}>
+                  <p className="jp-text" style={{ fontSize: '1.2rem', marginTop: '5px', display: 'flex', alignItems: 'center', gap: '8px' }}>
                     {currentWord.kanji && <span style={{ color: 'var(--success-color)' }}>{currentWord.kanji} </span>}
                     <span style={{ color: 'var(--success-color)' }}>({currentWord.hiragana})</span>
+                    <button 
+                      type="button" 
+                      onClick={() => speakWord(currentWord)} 
+                      style={{ background: 'none', border: 'none', color: 'var(--success-color)', cursor: 'pointer', padding: '4px', display: 'flex', alignItems: 'center' }}
+                    >
+                      <Volume2 size={16} />
+                    </button>
                   </p>
                 </div>
               </div>

@@ -32,10 +32,14 @@ const FlashcardPage = ({ level, goBack }) => {
   // Keyboard navigation
   useEffect(() => {
     const handleKeyDown = (e) => {
-      if (e.key === 'ArrowRight' || e.key === ' ') {
+      if (e.key === ' ') {
+        e.preventDefault();
+        setFlipped(prev => !prev);
+      } else if (e.key === 'ArrowRight') {
         e.preventDefault();
         handleNext();
       } else if (e.key === 'ArrowLeft') {
+        e.preventDefault();
         handlePrev();
       } else if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
         e.preventDefault();
@@ -117,7 +121,8 @@ const FlashcardPage = ({ level, goBack }) => {
       <div style={{ minHeight: '450px', display: 'flex', alignItems: 'center' }}>
         <FlashcardCard
           word={currentWord}
-          onFlip={setFlipped}
+          flipped={flipped}
+          onFlip={() => setFlipped(!flipped)}
         />
       </div>
 

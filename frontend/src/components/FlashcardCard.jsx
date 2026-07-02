@@ -2,14 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Volume2 } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
 
-const FlashcardCard = ({ word, onFlip }) => {
+const FlashcardCard = ({ word, flipped, onFlip }) => {
   const { t } = useLanguage();
-  const [isFlipped, setIsFlipped] = useState(false);
-
-  // Reset flip state when the word changes
-  useEffect(() => {
-    setIsFlipped(false);
-  }, [word]);
 
   useEffect(() => {
     return () => {
@@ -20,10 +14,8 @@ const FlashcardCard = ({ word, onFlip }) => {
   }, []);
 
   const handleFlip = () => {
-    const newFlipState = !isFlipped;
-    setIsFlipped(newFlipState);
     if (onFlip) {
-      onFlip(newFlipState);
+      onFlip();
     }
   };
 
@@ -46,7 +38,7 @@ const FlashcardCard = ({ word, onFlip }) => {
 
   return (
     <div className="flashcard-container" onClick={handleFlip}>
-      <div className={`flashcard ${isFlipped ? 'is-flipped' : ''}`}>
+      <div className={`flashcard ${flipped ? 'is-flipped' : ''}`}>
         
         {/* Front side (Japanese) */}
         <div className="flashcard-face flashcard-front">
