@@ -1,0 +1,62 @@
+stages:
+  - build
+  - deploy
+
+variables:
+  AWS_DEFAULT_REGION: $AWS_REGION
+  BACKEND_IMAGE: $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/japaneseproject-backend:latest
+  FRONTEND_IMAGE: $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/japaneseproject-frontend:latest
+
+build_images:
+  stage: build
+  image: docker:24.0.5
+  services:
+    - docker:24.0.5-dind
+  before_script:
+    - apk add --no-cache aws-cli
+    - aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com
+  script:
+    - docker build -t $BACKEND_IMAGE ./backend
+    - docker build -t $FRONTEND_IMAGE ./frontend
+    - |
+      if [ "$CI_COMMIT_BRANCH" = "main" ] || [ "$CI_COMMIT_BRANCH" = "master" ]; then
+        docker push $BACKEND_IMAGE
+        docker push $FRONTEND_IMAGE
+      else
+        echo "Skipping ECR push for Merge Request / branch: $CI_COMMIT_REF_NAME"
+      fi
+  only:
+    - main
+    - master
+    - merge_requests
+
+deploy_aws:
+  stage: deploy
+  image: amazon/aws-cli:latest
+  script:
+    - |
+      INSTANCE_ID=$(aws ec2 describe-instances \
+        --filters "Name=tag:aws:cloudformation:stack-name,Values=JapaneseProjectStack" "Name=instance-state-name,Values=running" \
+        --query "Reservations[0].Instances[0].InstanceId" \
+        --output text)
+      
+      if [ -z "$INSTANCE_ID" ] || [ "$INSTANCE_ID" = "None" ]; then
+        echo "Error: No running EC2 instance found for stack JapaneseProjectStack"
+        exit 1
+      fi
+      
+      echo "Found EC2 Instance ID: $INSTANCE_ID"
+      
+      aws ssm send-command \
+        --document-name "AWS-RunShellScript" \
+        --instance-ids "$INSTANCE_ID" \
+        --parameters "commands=[
+          \"aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com\",
+          \"cd /home/ec2-user/app\",
+          \"docker-compose pull\",
+          \"docker-compose up -d\"
+        ]" \
+        --comment "CI/CD Auto Redeploy"
+  only:
+    - main
+    - master

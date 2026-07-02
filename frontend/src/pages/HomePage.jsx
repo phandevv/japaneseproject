@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { vocabApi } from '../services/api';
 import { Play, Loader, Sparkles } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
+import ExcelImport from '../components/ExcelImport';
 
 const HomePage = ({ startStudy, user, streak, onLogin, onLogout }) => {
   const { t } = useLanguage();
@@ -88,6 +89,8 @@ const HomePage = ({ startStudy, user, streak, onLogin, onLogout }) => {
           </form>
         )}
       </div>
+
+      <ExcelImport onImportSuccess={() => window.location.reload()} />
 
       {/* Hero Section */}
       <div style={{ textAlign: 'center', marginBottom: '60px' }}>

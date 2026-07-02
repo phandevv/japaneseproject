@@ -10,16 +10,16 @@ public class Vocabulary {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "kanji")
+    @Column(name = "kanji", length = 1000)
     private String kanji;
 
-    @Column(name = "hiragana")
+    @Column(name = "hiragana", length = 1000)
     private String hiragana;
 
-    @Column(name = "han_viet")
+    @Column(name = "han_viet", length = 1000)
     private String hanViet;
 
-    @Column(name = "meaning", length = 500)
+    @Column(name = "meaning", columnDefinition = "TEXT")
     private String meaning;
 
     @Column(name = "word_type")

@@ -1,7 +1,7 @@
 import openpyxl
 import sys
 
-wb = openpyxl.load_workbook(r'D:/ALL_Python/EXAMPLE_DOAN/Tieng_nhat_project/Từ-vựng-N5-N1.xlsx')
+wb = openpyxl.load_workbook(r'c:\Users\bbqdd\Documents\_my\japaneseproject\Từ-vựng-N5-N1.xlsx')
 print('Sheet names:', wb.sheetnames)
 sys.stdout.flush()
 

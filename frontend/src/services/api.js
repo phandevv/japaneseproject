@@ -1,6 +1,11 @@
 import axios from 'axios';
 
-const API_BASE_URL = 'http://localhost:8080/api/vocab';
+const getApiBaseUrl = () => {
+  const host = typeof window !== 'undefined' ? window.location.hostname : '127.0.0.1';
+  return `http://${host}:8080/api/vocab`;
+};
+
+const API_BASE_URL = getApiBaseUrl();
 
 export const vocabApi = {
   // Get overall stats
@@ -43,6 +48,27 @@ export const vocabApi = {
       return response.data;
     } catch (error) {
       console.error("Error searching vocab:", error);
+      throw error;
+    }
+  },
+
+  // Import Excel file
+  importExcel: async (file) => {
+    try {
+      const formData = new FormData();
+      formData.append('file', file);
+      // The endpoint is /api/import/excel, not /api/vocab/import/excel
+      // API_BASE_URL is /api/vocab, so we need to construct it manually or change the controller route.
+      // Let's use the explicit path relative to API_BASE_URL's host
+      const baseUrl = API_BASE_URL.replace('/api/vocab', '/api/import');
+      const response = await axios.post(`${baseUrl}/excel`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      });
+      return response.data;
+    } catch (error) {
+      console.error("Error importing excel:", error);
       throw error;
     }
   }

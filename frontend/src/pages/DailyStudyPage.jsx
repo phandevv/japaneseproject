@@ -1,12 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import { vocabApi } from '../services/api';
-import { CornerUpLeft, BookOpen, CheckCircle, XCircle, ArrowRight, Loader, Play, ChevronRight } from 'lucide-react';
+import { CornerUpLeft, BookOpen, CheckCircle, XCircle, ArrowRight, Loader, Play, ChevronRight, Settings, Download } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
 import KanjiDetailModal from '../components/KanjiDetailModal';
+import * as XLSX from 'xlsx';
 
 const DailyStudyPage = ({ level, stats, goBack }) => {
   const { t } = useLanguage();
-  const [phase, setPhase] = useState(1); // 1: Select Day, 2: Review Table, 3: Quiz
+  
+  const savedWpd = localStorage.getItem('wordsPerDay');
+  const initialWpd = savedWpd ? parseInt(savedWpd, 10) : 20;
+
+  const [phase, setPhase] = useState(savedWpd ? 1 : 0); // 0: Settings, 1: Select Day, 2: Review Table, 3: Quiz
+  const [wordsPerDay, setWordsPerDay] = useState(initialWpd);
+  const [customInput, setCustomInput] = useState('');
+
   const [selectedDay, setSelectedDay] = useState(1);
   const [words, setWords] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -21,15 +29,38 @@ const DailyStudyPage = ({ level, stats, goBack }) => {
   const [score, setScore] = useState(0);
   const [mistakes, setMistakes] = useState([]);
 
-  // Calculate total days for this level (20 words per day)
+  // Calculate total days for this level
   const totalWords = stats?.levels?.[level] || 0;
-  const totalDays = Math.ceil(totalWords / 20);
+  // Use Math.floor to merge remainder into the last day
+  const totalDays = Math.max(1, Math.floor(totalWords / wordsPerDay));
+
+  const getWordCountForDay = (day) => {
+    if (day === totalDays) {
+      return Math.max(0, totalWords - ((totalDays - 1) * wordsPerDay));
+    }
+    return wordsPerDay;
+  };
 
   const fetchWordsForDay = async (day) => {
     setLoading(true);
     try {
-      const data = await vocabApi.getByLevelPaginated(level, day - 1, 20);
-      setWords(data.content || []);
+      if (day === totalDays && totalWords > totalDays * wordsPerDay) {
+        // Last day and there is a remainder -> fetch current page and all remaining pages
+        let currentDayPage = day - 1;
+        let allWords = [];
+        
+        while (true) {
+          const data = await vocabApi.getByLevelPaginated(level, currentDayPage, wordsPerDay);
+          if (!data || !data.content || data.content.length === 0) break;
+          allWords = [...allWords, ...data.content];
+          if (data.last) break;
+          currentDayPage++;
+        }
+        setWords(allWords);
+      } else {
+        const data = await vocabApi.getByLevelPaginated(level, day - 1, wordsPerDay);
+        setWords(data.content || []);
+      }
       setSelectedDay(day);
       setPhase(2);
     } catch (error) {
@@ -76,6 +107,77 @@ const DailyStudyPage = ({ level, stats, goBack }) => {
     }
   };
 
+  const handleSaveSettings = (value) => {
+    const val = parseInt(value, 10);
+    if (!val || val <= 0) return;
+    setWordsPerDay(val);
+    localStorage.setItem('wordsPerDay', val.toString());
+    setPhase(1);
+  };
+
+  // Phase 0: Settings
+  if (phase === 0) {
+    return (
+      <div className="container animate-fade-in" style={{ padding: '20px', maxWidth: '600px', margin: '40px auto' }}>
+        <button className="btn btn-secondary" onClick={goBack} style={{ marginBottom: '20px' }}>
+          <CornerUpLeft size={18} /> {t.daily.backDashboard}
+        </button>
+        <div className="card" style={{ padding: '40px', textAlign: 'center' }}>
+          <h2 style={{ marginBottom: '10px' }}>{t.daily.settingsTitle}</h2>
+          <p style={{ color: 'var(--text-secondary)', marginBottom: '30px' }}>{t.daily.wordsPerDayPrompt}</p>
+          
+          <div className="flex-center" style={{ gap: '15px', flexWrap: 'wrap', marginBottom: '25px' }}>
+            {[10, 20, 30, 50].map(num => (
+              <button 
+                key={num}
+                className="btn"
+                style={{ 
+                  backgroundColor: wordsPerDay === num ? 'var(--accent-color)' : 'var(--surface-hover)',
+                  color: wordsPerDay === num ? 'white' : 'var(--text-primary)',
+                  fontSize: '1.2rem',
+                  padding: '12px 24px'
+                }}
+                onClick={() => setWordsPerDay(num)}
+              >
+                {num}
+              </button>
+            ))}
+          </div>
+
+          <div style={{ marginBottom: '30px', display: 'flex', justifyContent: 'center' }}>
+            <input 
+              type="number"
+              placeholder={t.daily.customAmount}
+              value={customInput}
+              onChange={(e) => {
+                setCustomInput(e.target.value);
+                const val = parseInt(e.target.value, 10);
+                if (val > 0) setWordsPerDay(val);
+              }}
+              style={{
+                padding: '12px',
+                borderRadius: '8px',
+                border: '1px solid var(--border-color)',
+                backgroundColor: 'var(--surface-color)',
+                color: 'var(--text-primary)',
+                width: '200px',
+                textAlign: 'center'
+              }}
+            />
+          </div>
+
+          <button 
+            className="btn btn-primary" 
+            style={{ padding: '14px 40px', fontSize: '1.1rem', width: '100%' }}
+            onClick={() => handleSaveSettings(wordsPerDay)}
+          >
+            {t.daily.saveSettings}
+          </button>
+        </div>
+      </div>
+    );
+  }
+
   // Phase 1: Select Day
   if (phase === 1) {
     return (
@@ -85,12 +187,14 @@ const DailyStudyPage = ({ level, stats, goBack }) => {
             <CornerUpLeft size={18} /> {t.daily.backDashboard}
           </button>
           <h2>{t.daily.dailyStudy} - <span style={{ color: 'var(--accent-color)' }}>{level}</span></h2>
-          <div style={{ width: '150px' }}></div>
+          <button className="btn btn-secondary" onClick={() => setPhase(0)}>
+            <Settings size={18} /> {t.daily.changeSettings}
+          </button>
         </div>
 
         <div style={{ textAlign: 'center', marginBottom: '30px' }}>
           <p style={{ color: 'var(--text-secondary)' }}>
-            {t.daily.levelInfo(totalWords, totalDays)}
+            {t.daily.levelInfo(totalWords, totalDays, wordsPerDay)}
           </p>
         </div>
 
@@ -103,7 +207,7 @@ const DailyStudyPage = ({ level, stats, goBack }) => {
               onClick={() => fetchWordsForDay(day)}
             >
               <h3 style={{ fontSize: '1.2rem' }}>{t.daily.day} {day}</h3>
-              <p style={{ fontSize: '0.9rem', color: 'var(--text-secondary)' }}>{t.daily.wordsPerDay}</p>
+              <p style={{ fontSize: '0.9rem', color: 'var(--text-secondary)' }}>{t.daily.wordsPerDay(getWordCountForDay(day))}</p>
             </button>
           ))}
         </div>
@@ -150,9 +254,31 @@ const DailyStudyPage = ({ level, stats, goBack }) => {
             <CornerUpLeft size={18} /> {t.daily.chooseAnotherDay}
           </button>
           <h2>{t.daily.day} {selectedDay} - {t.daily.studyReview}</h2>
-          <button className="btn btn-primary" onClick={startQuiz}>
-            <Play size={18} /> {t.daily.startQuiz}
-          </button>
+          
+          <div style={{ display: 'flex', gap: '10px' }}>
+            <button 
+              className="btn btn-secondary" 
+              onClick={() => {
+                const exportData = words.map((w, index) => ({
+                  'No.': index + 1,
+                  'Kanji': w.kanji || '',
+                  'Hiragana': w.hiragana || '',
+                  'Nghĩa tiếng Việt (Meaning)': w.meaning || '',
+                  'Hán Việt': w.hanViet || '',
+                  'Level': w.level || level
+                }));
+                const ws = XLSX.utils.json_to_sheet(exportData);
+                const wb = XLSX.utils.book_new();
+                XLSX.utils.book_append_sheet(wb, ws, `Day ${selectedDay}`);
+                XLSX.writeFile(wb, `Vocabulary_${level}_Day_${selectedDay}.xlsx`);
+              }}
+            >
+              <Download size={18} /> {t.daily.exportBtn}
+            </button>
+            <button className="btn btn-primary" onClick={startQuiz}>
+              <Play size={18} /> {t.daily.startQuiz}
+            </button>
+          </div>
         </div>
 
         {/* Hint */}

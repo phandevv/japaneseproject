@@ -1,4 +1,4 @@
-$files = Get-ChildItem -Path "D:\ALL_Python\EXAMPLE_DOAN\Tieng_nhat_project\*.xlsx"
+$files = Get-ChildItem -Path "c:\Users\bbqdd\Documents\_my\japaneseproject\Từ-vựng-N5-N1.xlsx"
 $filePath = $files[0].FullName
 Write-Host "Found file: $filePath"
 

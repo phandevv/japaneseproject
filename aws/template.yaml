@@ -1,0 +1,168 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: AWS Free Tier Infrastructure (EC2 + RDS + ECR)
+
+Parameters:
+  DBUsername:
+    Type: String
+    Default: admin
+    Description: Username for the RDS database
+  DBPassword:
+    Type: String
+    NoEcho: true
+    Default: JapaneseProject123!
+    Description: Password for the RDS database (min 8 characters)
+
+Resources:
+  BackendRepository:
+    Type: AWS::ECR::Repository
+    Properties:
+      RepositoryName: japaneseproject-backend
+  FrontendRepository:
+    Type: AWS::ECR::Repository
+    Properties:
+      RepositoryName: japaneseproject-frontend
+
+  EC2Role:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: [ec2.amazonaws.com]
+            Action: ["sts:AssumeRole"]
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly
+        - arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore
+
+  EC2InstanceProfile:
+    Type: AWS::IAM::InstanceProfile
+    Properties:
+      Roles:
+        - !Ref EC2Role
+
+  WebServerSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Enable HTTP, HTTPS, and SSH access
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 80
+          ToPort: 80
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: 443
+          ToPort: 443
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: 22
+          ToPort: 22
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: 8080
+          ToPort: 8080
+          CidrIp: 0.0.0.0/0
+
+  DatabaseSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Allow access to RDS from EC2
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 3306
+          ToPort: 3306
+          SourceSecurityGroupId: !GetAtt WebServerSecurityGroup.GroupId
+
+  MyRDSInstance:
+    Type: AWS::RDS::DBInstance
+    Properties:
+      DBInstanceIdentifier: japaneseproject-db
+      DBName: japanesedb
+      AllocatedStorage: 20
+      DBInstanceClass: db.t3.micro
+      Engine: mysql
+      EngineVersion: "8.0"
+      MasterUsername: !Ref DBUsername
+      MasterUserPassword: !Ref DBPassword
+      VPCSecurityGroups:
+        - !GetAtt DatabaseSecurityGroup.GroupId
+      PubliclyAccessible: false
+      StorageType: gp2
+      BackupRetentionPeriod: 0
+      MultiAZ: false
+
+  WebServerInstance:
+    Type: AWS::EC2::Instance
+    Properties:
+      InstanceType: t3.micro 
+      ImageId: resolve:ssm:/aws/service/ami-amazon-linux-latest/al2023-ami-kernel-6.1-x86_64
+      IamInstanceProfile: !Ref EC2InstanceProfile
+      SecurityGroupIds:
+        - !Ref WebServerSecurityGroup
+      UserData:
+        Fn::Base64: !Sub |
+          #!/bin/bash
+          # Deploy v2 - Update API URL to dynamic hostname
+          # Basic environment setup
+          dnf update -y
+          dnf install -y docker
+          systemctl enable docker
+          systemctl start docker
+          curl -L "https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+          chmod +x /usr/local/bin/docker-compose
+          ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
+          usermod -aG docker ec2-user
+
+          # Login to ECR
+          aws ecr get-login-password --region ${AWS::Region} | docker login --username AWS --password-stdin ${AWS::AccountId}.dkr.ecr.${AWS::Region}.amazonaws.com
+
+          mkdir -p /home/ec2-user/app
+          cd /home/ec2-user/app
+
+          # Create docker-compose.yml pointing to ECR
+          cat <<EOF > docker-compose.yml
+          version: '3.8'
+          services:
+            backend:
+              image: ${AWS::AccountId}.dkr.ecr.${AWS::Region}.amazonaws.com/japaneseproject-backend:latest
+              ports:
+                - "8080:8080"
+              env_file: .env
+              restart: unless-stopped
+            frontend:
+              image: ${AWS::AccountId}.dkr.ecr.${AWS::Region}.amazonaws.com/japaneseproject-frontend:latest
+              ports:
+                - "80:80"
+              depends_on:
+                - backend
+              restart: unless-stopped
+          EOF
+
+          # Create .env for DB configuration
+          echo "DB_URL=jdbc:mysql://${MyRDSInstance.Endpoint.Address}:3306/japanesedb?createDatabaseIfNotExist=true" > .env
+          echo "DB_DRIVER=com.mysql.cj.jdbc.Driver" >> .env
+          echo "DB_DIALECT=org.hibernate.dialect.MySQLDialect" >> .env
+          echo "DB_USER=${DBUsername}" >> .env
+          echo "SPRING_PROFILES_ACTIVE=prod" >> .env
+          echo "DB_PASSWORD=${DBPassword}" >> .env
+
+          chown -R ec2-user:ec2-user /home/ec2-user/app
+
+          # Wait for image and pull
+          until docker-compose pull; do
+            echo "Waiting for images to be pushed to ECR..."
+            sleep 30
+          done
+          docker-compose up -d
+
+Outputs:
+  WebsiteURL:
+    Description: URL of the Web Application
+    Value: !Sub 'http://${WebServerInstance.PublicIp}'
+  BackendECR:
+    Description: Backend ECR Repository URI
+    Value: !Sub '${AWS::AccountId}.dkr.ecr.${AWS::Region}.amazonaws.com/${BackendRepository}'
+  FrontendECR:
+    Description: Frontend ECR Repository URI
+    Value: !Sub '${AWS::AccountId}.dkr.ecr.${AWS::Region}.amazonaws.com/${FrontendRepository}'
