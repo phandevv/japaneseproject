@@ -41,7 +41,9 @@ build_images:
 
 deploy_aws:
   stage: deploy
-  image: amazon/aws-cli:latest
+  image:
+    name: amazon/aws-cli:latest
+    entrypoint: [""]
   script:
     - |
       INSTANCE_ID=$(aws ec2 describe-instances \
