@@ -1,19 +1,19 @@
 import React, { useState, useEffect } from 'react';
-import { vocabApi } from '../services/api';
+import { vocabApi, userSettingsApi } from '../services/api';
 import { CornerUpLeft, BookOpen, CheckCircle, XCircle, ArrowRight, Loader, Play, ChevronRight, Settings, Download } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
+import { useAuth } from '../context/AuthContext';
 import KanjiDetailModal from '../components/KanjiDetailModal';
 import * as XLSX from 'xlsx';
 
 const DailyStudyPage = ({ level, stats, goBack }) => {
   const { t } = useLanguage();
+  const { isAuthenticated } = useAuth();
   
-  const savedWpd = localStorage.getItem('wordsPerDay');
-  const initialWpd = savedWpd ? parseInt(savedWpd, 10) : 20;
-
-  const [phase, setPhase] = useState(savedWpd ? 1 : 0); // 0: Settings, 1: Select Day, 2: Review Table, 3: Quiz
-  const [wordsPerDay, setWordsPerDay] = useState(initialWpd);
+  const [phase, setPhase] = useState(0); // 0: Settings, 1: Select Day, 2: Review Table, 3: Quiz, 4: Quiz Config
+  const [wordsPerDay, setWordsPerDay] = useState(20);
   const [customInput, setCustomInput] = useState('');
+  const [loadingSetting, setLoadingSetting] = useState(true);
 
   const [selectedDay, setSelectedDay] = useState(1);
   const [words, setWords] = useState([]);
@@ -22,12 +22,65 @@ const DailyStudyPage = ({ level, stats, goBack }) => {
   // Modal state
   const [modalIndex, setModalIndex] = useState(null); // null = closed, number = open at that index
 
-  // Quiz states
+  // Quiz config & running states
+  const [quizWords, setQuizWords] = useState([]);
+  const [originalQuizLength, setOriginalQuizLength] = useState(0);
+  const [failedWordIds, setFailedWordIds] = useState(new Set());
+  
   const [quizIndex, setQuizIndex] = useState(0);
   const [userInput, setUserInput] = useState('');
   const [quizStatus, setQuizStatus] = useState('idle'); // idle, correct, incorrect, finished
   const [score, setScore] = useState(0);
   const [mistakes, setMistakes] = useState([]);
+
+  // Quiz setup form states
+  const [quizOptType, setQuizOptType] = useState('all'); // all, random, range
+  const [quizOptRandomCount, setQuizOptRandomCount] = useState('10');
+  const [quizOptRangeStart, setQuizOptRangeStart] = useState('1');
+  const [quizOptRangeEnd, setQuizOptRangeEnd] = useState('10');
+  const [quizSetupError, setQuizSetupError] = useState('');
+
+  // Shuffle helper function (Fisher-Yates)
+  const shuffleArray = (array) => {
+    const arr = [...array];
+    for (let i = arr.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+    return arr;
+  };
+
+  // Load configuration from backend (if logged in) or localStorage (guest)
+  useEffect(() => {
+    const loadSettings = async () => {
+      setLoadingSetting(true);
+      try {
+        if (isAuthenticated) {
+          const setting = await userSettingsApi.getSetting(level);
+          if (setting && setting.wordsPerDay) {
+            setWordsPerDay(setting.wordsPerDay);
+            setPhase(1);
+          } else {
+            setPhase(0);
+          }
+        } else {
+          const savedWpd = localStorage.getItem(`wordsPerDay_${level}`) || localStorage.getItem('wordsPerDay');
+          if (savedWpd) {
+            setWordsPerDay(parseInt(savedWpd, 10));
+            setPhase(1);
+          } else {
+            setPhase(0);
+          }
+        }
+      } catch (error) {
+        console.error("Failed to load settings:", error);
+        setPhase(0);
+      } finally {
+        setLoadingSetting(false);
+      }
+    };
+    loadSettings();
+  }, [level, isAuthenticated]);
 
   // Calculate total days for this level
   const totalWords = stats?.levels?.[level] || 0;
@@ -70,35 +123,94 @@ const DailyStudyPage = ({ level, stats, goBack }) => {
     }
   };
 
-  const startQuiz = () => {
-    setPhase(3);
+  const openQuizSetup = () => {
+    setPhase(4);
+    setQuizSetupError('');
+    setQuizOptRandomCount(Math.min(10, words.length).toString());
+    setQuizOptRangeStart('1');
+    setQuizOptRangeEnd(Math.min(10, words.length).toString());
+  };
+
+  const handleConfirmStartQuiz = () => {
+    setQuizSetupError('');
+    let selected = [];
+
+    if (quizOptType === 'all') {
+      selected = [...words];
+    } else if (quizOptType === 'random') {
+      const count = parseInt(quizOptRandomCount, 10);
+      if (isNaN(count) || count <= 0 || count > words.length) {
+        setQuizSetupError(t.daily.quizInvalidRandomCount(words.length));
+        return;
+      }
+      const shuffledAll = shuffleArray(words);
+      selected = shuffledAll.slice(0, count);
+    } else if (quizOptType === 'range') {
+      const start = parseInt(quizOptRangeStart, 10);
+      const end = parseInt(quizOptRangeEnd, 10);
+      if (isNaN(start) || isNaN(end) || start <= 0 || end > words.length || start > end) {
+        setQuizSetupError(t.daily.quizInvalidRange(words.length));
+        return;
+      }
+      selected = words.slice(start - 1, end);
+    }
+
+    const shuffledSelected = shuffleArray(selected);
+    
+    setQuizWords(shuffledSelected);
+    setOriginalQuizLength(shuffledSelected.length);
+    setFailedWordIds(new Set());
     setQuizIndex(0);
     setScore(0);
     setUserInput('');
     setQuizStatus('idle');
     setMistakes([]);
+    
+    setPhase(3);
   };
 
   const checkAnswer = (e) => {
     e.preventDefault();
     if (!userInput.trim()) return;
 
-    const currentWord = words[quizIndex];
+    const currentWord = quizWords[quizIndex];
     const inputClean = userInput.trim().toLowerCase();
     const kanjiClean = currentWord.kanji ? currentWord.kanji.trim().toLowerCase() : '';
     const hiraganaClean = currentWord.hiragana ? currentWord.hiragana.trim().toLowerCase() : '';
 
     if (inputClean === kanjiClean || inputClean === hiraganaClean) {
       setQuizStatus('correct');
-      setScore(s => s + 1);
+      if (!failedWordIds.has(currentWord.id)) {
+        setScore(s => s + 1);
+      }
     } else {
       setQuizStatus('incorrect');
-      setMistakes(prev => [...prev, currentWord]);
+      setFailedWordIds(prev => {
+        const next = new Set(prev);
+        next.add(currentWord.id);
+        return next;
+      });
+      setMistakes(prev => {
+        if (prev.some(m => m.id === currentWord.id)) return prev;
+        return [...prev, currentWord];
+      });
+
+      const remainingCount = quizWords.length - (quizIndex + 1);
+      let insertIndex;
+      if (remainingCount <= 0) {
+        insertIndex = quizIndex + 1;
+      } else {
+        const offset = Math.floor(Math.random() * (remainingCount + 1));
+        insertIndex = quizIndex + 1 + offset;
+      }
+      const updated = [...quizWords];
+      updated.splice(insertIndex, 0, currentWord);
+      setQuizWords(updated);
     }
   };
 
   const nextQuestion = () => {
-    if (quizIndex < words.length - 1) {
+    if (quizIndex < quizWords.length - 1) {
       setQuizIndex(quizIndex + 1);
       setUserInput('');
       setQuizStatus('idle');
@@ -107,13 +219,35 @@ const DailyStudyPage = ({ level, stats, goBack }) => {
     }
   };
 
-  const handleSaveSettings = (value) => {
+  const handleSaveSettings = async (value) => {
     const val = parseInt(value, 10);
     if (!val || val <= 0) return;
-    setWordsPerDay(val);
-    localStorage.setItem('wordsPerDay', val.toString());
-    setPhase(1);
+    
+    setLoading(true);
+    try {
+      if (isAuthenticated) {
+        await userSettingsApi.saveSetting(level, val);
+      } else {
+        localStorage.setItem(`wordsPerDay_${level}`, val.toString());
+        localStorage.setItem('wordsPerDay', val.toString());
+      }
+      setWordsPerDay(val);
+      setPhase(1);
+    } catch (error) {
+      console.error("Failed to save settings:", error);
+    } finally {
+      setLoading(false);
+    }
   };
+
+  if (loadingSetting) {
+    return (
+      <div className="flex-center" style={{ height: '70vh', flexDirection: 'column', gap: '20px' }}>
+        <Loader size={40} className="animate-spin" style={{ color: 'var(--accent-color)' }} />
+        <p style={{ color: 'var(--text-secondary)' }}>Loading settings...</p>
+      </div>
+    );
+  }
 
   // Phase 0: Settings
   if (phase === 0) {
@@ -275,7 +409,7 @@ const DailyStudyPage = ({ level, stats, goBack }) => {
             >
               <Download size={18} /> {t.daily.exportBtn}
             </button>
-            <button className="btn btn-primary" onClick={startQuiz}>
+            <button className="btn btn-primary" onClick={openQuizSetup}>
               <Play size={18} /> {t.daily.startQuiz}
             </button>
           </div>
@@ -336,16 +470,16 @@ const DailyStudyPage = ({ level, stats, goBack }) => {
     if (quizStatus === 'finished') {
       return (
         <div className="container flex-center animate-fade-in" style={{ height: '70vh', flexDirection: 'column', gap: '30px' }}>
-          <h1 style={{ fontSize: '3rem', color: score === words.length ? 'var(--success-color)' : 'var(--text-primary)' }}>
+          <h1 style={{ fontSize: '3rem', color: score === originalQuizLength ? 'var(--success-color)' : 'var(--text-primary)' }}>
             {t.daily.quizDone}
           </h1>
           <div className="card flex-center" style={{ padding: '40px 60px', flexDirection: 'column', gap: '15px' }}>
             <h2 style={{ fontSize: '2rem' }}>{t.daily.yourScore}</h2>
             <div style={{ fontSize: '4rem', fontWeight: 900, color: 'var(--accent-color)' }}>
-              {score} <span style={{ fontSize: '2rem', color: 'var(--text-secondary)' }}>/ {words.length}</span>
+              {score} <span style={{ fontSize: '2rem', color: 'var(--text-secondary)' }}>/ {originalQuizLength}</span>
             </div>
             <p style={{ color: 'var(--text-secondary)', marginTop: '10px' }}>
-              {score === words.length ? t.daily.perfectMsg : t.daily.goodMsg}
+              {score === originalQuizLength ? t.daily.perfectMsg : t.daily.goodMsg}
             </p>
           </div>
           <div className="flex-center" style={{ gap: '20px' }}>
@@ -360,19 +494,19 @@ const DailyStudyPage = ({ level, stats, goBack }) => {
       );
     }
 
-    const currentWord = words[quizIndex];
+    const currentWord = quizWords[quizIndex];
 
     return (
       <div className="container flex-center animate-fade-in" style={{ height: '70vh', flexDirection: 'column' }}>
         <div style={{ width: '100%', maxWidth: '600px' }}>
 
           <div className="flex-between" style={{ marginBottom: '20px', color: 'var(--text-secondary)' }}>
-            <span>{t.daily.question} {quizIndex + 1} / {words.length}</span>
+            <span>{t.daily.question} {quizIndex + 1} / {quizWords.length}</span>
             <span>{t.daily.score}: {score}</span>
           </div>
 
           <div className="progress-bg" style={{ marginBottom: '40px' }}>
-            <div className="progress-fill" style={{ width: `${((quizIndex) / words.length) * 100}%` }}></div>
+            <div className="progress-fill" style={{ width: `${((quizIndex) / quizWords.length) * 100}%` }}></div>
           </div>
 
           <div className="card" style={{ padding: '40px', textAlign: 'center', marginBottom: '30px' }}>
@@ -447,6 +581,190 @@ const DailyStudyPage = ({ level, stats, goBack }) => {
             </div>
           )}
 
+        </div>
+      </div>
+    );
+  }
+
+  // Phase 4: Quiz Setup UI
+  if (phase === 4) {
+    return (
+      <div className="container animate-fade-in" style={{ padding: '20px', maxWidth: '600px', margin: '40px auto' }}>
+        <button className="btn btn-secondary" onClick={() => setPhase(2)} style={{ marginBottom: '20px' }}>
+          <CornerUpLeft size={18} /> {t.daily.backToList || 'Quay lại danh sách'}
+        </button>
+        <div className="card" style={{ padding: '40px' }}>
+          <h2 style={{ marginBottom: '10px', textAlign: 'center' }}>{t.daily.quizSetupTitle}</h2>
+          <p style={{ color: 'var(--text-secondary)', marginBottom: '30px', textAlign: 'center' }}>
+            {t.daily.quizSetupPrompt(selectedDay, words.length)}
+          </p>
+
+          {quizSetupError && (
+            <div style={{ 
+              backgroundColor: 'rgba(239, 68, 68, 0.1)', 
+              color: 'var(--accent-color)', 
+              padding: '12px', 
+              borderRadius: '8px', 
+              marginBottom: '20px', 
+              fontSize: '0.9rem',
+              fontWeight: 500
+            }}>
+              {quizSetupError}
+            </div>
+          )}
+
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', marginBottom: '30px' }}>
+            {/* Option: All */}
+            <label style={{ 
+              display: 'flex', 
+              alignItems: 'center', 
+              gap: '12px', 
+              padding: '15px', 
+              borderRadius: '10px', 
+              border: `1px solid ${quizOptType === 'all' ? 'var(--accent-color)' : 'var(--border-color)'}`,
+              backgroundColor: quizOptType === 'all' ? 'rgba(239,68,68,0.04)' : 'transparent',
+              cursor: 'pointer'
+            }}>
+              <input 
+                type="radio" 
+                name="quizOptType" 
+                value="all" 
+                checked={quizOptType === 'all'} 
+                onChange={() => setQuizOptType('all')} 
+              />
+              <div>
+                <strong>{t.daily.quizOptAll}</strong>
+                <div style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', marginTop: '2px' }}>
+                  {t.daily.quizOptAllDesc(words.length)}
+                </div>
+              </div>
+            </label>
+
+            {/* Option: Random */}
+            <label style={{ 
+              display: 'flex', 
+              flexDirection: 'column',
+              gap: '12px', 
+              padding: '15px', 
+              borderRadius: '10px', 
+              border: `1px solid ${quizOptType === 'random' ? 'var(--accent-color)' : 'var(--border-color)'}`,
+              backgroundColor: quizOptType === 'random' ? 'rgba(239,68,68,0.04)' : 'transparent',
+              cursor: 'pointer'
+            }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                <input 
+                  type="radio" 
+                  name="quizOptType" 
+                  value="random" 
+                  checked={quizOptType === 'random'} 
+                  onChange={() => setQuizOptType('random')} 
+                />
+                <div>
+                  <strong>{t.daily.quizOptRandom}</strong>
+                  <div style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', marginTop: '2px' }}>
+                    {t.daily.quizOptRandomDesc}
+                  </div>
+                </div>
+              </div>
+              {quizOptType === 'random' && (
+                <div style={{ paddingLeft: '28px' }}>
+                  <input 
+                    type="number" 
+                    min="1" 
+                    max={words.length}
+                    value={quizOptRandomCount}
+                    onChange={(e) => setQuizOptRandomCount(e.target.value)}
+                    style={{
+                      padding: '8px 12px',
+                      borderRadius: '6px',
+                      border: '1px solid var(--border-color)',
+                      backgroundColor: 'var(--surface-color)',
+                      color: 'var(--text-primary)',
+                      width: '100px'
+                    }}
+                  />
+                  <span style={{ marginLeft: '10px', fontSize: '0.9rem', color: 'var(--text-secondary)' }}>
+                    {t.daily.words || 'từ'} {t.daily.quizRangeMax(words.length)}
+                  </span>
+                </div>
+              )}
+            </label>
+
+            {/* Option: Range */}
+            <label style={{ 
+              display: 'flex', 
+              flexDirection: 'column',
+              gap: '12px', 
+              padding: '15px', 
+              borderRadius: '10px', 
+              border: `1px solid ${quizOptType === 'range' ? 'var(--accent-color)' : 'var(--border-color)'}`,
+              backgroundColor: quizOptType === 'range' ? 'rgba(239,68,68,0.04)' : 'transparent',
+              cursor: 'pointer'
+            }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                <input 
+                  type="radio" 
+                  name="quizOptType" 
+                  value="range" 
+                  checked={quizOptType === 'range'} 
+                  onChange={() => setQuizOptType('range')} 
+                />
+                <div>
+                  <strong>{t.daily.quizOptRange}</strong>
+                  <div style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', marginTop: '2px' }}>
+                    {t.daily.quizOptRangeDesc}
+                  </div>
+                </div>
+              </div>
+              {quizOptType === 'range' && (
+                <div style={{ paddingLeft: '28px', display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
+                  <span>{t.daily.quizRangeFrom}</span>
+                  <input 
+                    type="number" 
+                    min="1" 
+                    max={words.length}
+                    value={quizOptRangeStart}
+                    onChange={(e) => setQuizOptRangeStart(e.target.value)}
+                    style={{
+                      padding: '8px 12px',
+                      borderRadius: '6px',
+                      border: '1px solid var(--border-color)',
+                      backgroundColor: 'var(--surface-color)',
+                      color: 'var(--text-primary)',
+                      width: '80px'
+                    }}
+                  />
+                  <span>{t.daily.quizRangeTo}</span>
+                  <input 
+                    type="number" 
+                    min="1" 
+                    max={words.length}
+                    value={quizOptRangeEnd}
+                    onChange={(e) => setQuizOptRangeEnd(e.target.value)}
+                    style={{
+                      padding: '8px 12px',
+                      borderRadius: '6px',
+                      border: '1px solid var(--border-color)',
+                      backgroundColor: 'var(--surface-color)',
+                      color: 'var(--text-primary)',
+                      width: '80px'
+                    }}
+                  />
+                  <span style={{ fontSize: '0.9rem', color: 'var(--text-secondary)' }}>
+                    {t.daily.quizRangeMax(words.length)}
+                  </span>
+                </div>
+              )}
+            </label>
+          </div>
+
+          <button 
+            className="btn btn-primary" 
+            style={{ padding: '14px', fontSize: '1.1rem', width: '100%' }}
+            onClick={handleConfirmStartQuiz}
+          >
+            {t.daily.quizStartBtn}
+          </button>
         </div>
       </div>
     );

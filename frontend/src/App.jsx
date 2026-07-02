@@ -3,25 +3,9 @@ import Navbar from './components/Navbar';
 import HomePage from './pages/HomePage';
 import FlashcardPage from './pages/FlashcardPage';
 import SearchPage from './pages/SearchPage';
-
 import DailyStudyPage from './pages/DailyStudyPage';
-
-const STORAGE_KEY = 'nihongo-streak-user';
-
-const loadStoredUser = () => {
-  if (typeof window === 'undefined') return null;
-  try {
-    return JSON.parse(localStorage.getItem(STORAGE_KEY));
-  } catch {
-    return null;
-  }
-};
-
-const saveStoredUser = (userData) => {
-  if (typeof window === 'undefined') return userData;
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(userData));
-  return userData;
-};
+import AuthPage from './pages/AuthPage';
+import { useAuth } from './context/AuthContext';
 
 const getTodayKey = () => new Date().toISOString().slice(0, 10);
 
@@ -47,57 +31,67 @@ const updateStreakForToday = (currentUser) => {
 };
 
 function App() {
+  const { user: authUser, logout: authLogout, isAuthenticated } = useAuth();
   const [currentPage, setCurrentPage] = useState('home');
   const [selectedLevel, setSelectedLevel] = useState(null);
   const [stats, setStats] = useState(null);
-  const [user, setUser] = useState(() => loadStoredUser());
-  const [streak, setStreak] = useState(() => loadStoredUser()?.streak || 0);
 
-  // Fetch stats once at app level so DailyStudyPage knows the total days
+  // Streak state associated with the active user (username or 'guest')
+  const [userStreakData, setUserStreakData] = useState(null);
+
+  const activeUsername = isAuthenticated ? authUser?.username : 'guest';
+  const streakStorageKey = `nihongo-streak-${activeUsername}`;
+
+  useEffect(() => {
+    const stored = localStorage.getItem(streakStorageKey);
+    if (stored) {
+      try {
+        setUserStreakData(JSON.parse(stored));
+      } catch {
+        setUserStreakData({ userName: activeUsername, streak: 0, lastStudyDate: null });
+      }
+    } else {
+      setUserStreakData({ userName: activeUsername, streak: 0, lastStudyDate: null });
+    }
+  }, [activeUsername, streakStorageKey]);
+
+  // Fetch stats once at app level
   useEffect(() => {
     import('./services/api').then(({ vocabApi }) => {
       vocabApi.getStats().then(setStats).catch(console.error);
     });
   }, []);
 
-  const handleLogin = (name) => {
-    const trimmedName = name.trim();
-    if (!trimmedName) return;
-
-    const existingUser = loadStoredUser();
-    const nextUser = existingUser?.userName?.toLowerCase() === trimmedName.toLowerCase()
-      ? existingUser
-      : { userName: trimmedName, streak: 0, lastStudyDate: null };
-
-    const persistedUser = saveStoredUser(nextUser);
-    setUser(persistedUser);
-    setStreak(persistedUser.streak || 0);
-  };
-
-  const handleLogout = () => {
-    if (typeof window !== 'undefined') {
-      localStorage.removeItem(STORAGE_KEY);
-    }
-    setUser(null);
-    setStreak(0);
+  const handleLogout = async () => {
+    await authLogout();
+    setCurrentPage('home');
   };
 
   const startStudy = (level, mode = 'flashcard') => {
     setSelectedLevel(level);
     setCurrentPage(mode);
 
-    if (user?.userName) {
-      const updatedUser = updateStreakForToday(user);
-      const persistedUser = saveStoredUser(updatedUser);
-      setUser(persistedUser);
-      setStreak(persistedUser.streak || 0);
+    if (userStreakData) {
+      const updatedUser = updateStreakForToday(userStreakData);
+      setUserStreakData(updatedUser);
+      localStorage.setItem(streakStorageKey, JSON.stringify(updatedUser));
     }
   };
 
   const renderPage = () => {
     switch (currentPage) {
       case 'home':
-        return <HomePage startStudy={startStudy} user={user} streak={streak} onLogin={handleLogin} onLogout={handleLogout} />;
+        return (
+          <HomePage 
+            startStudy={startStudy} 
+            user={isAuthenticated ? authUser : null} 
+            streak={userStreakData?.streak || 0} 
+            onLoginClick={() => setCurrentPage('auth')} 
+            onLogout={handleLogout} 
+          />
+        );
+      case 'auth':
+        return <AuthPage onCancel={() => setCurrentPage('home')} />;
       case 'flashcard':
         return <FlashcardPage level={selectedLevel} goBack={() => setCurrentPage('home')} />;
       case 'daily':

@@ -4,11 +4,10 @@ import { Play, Loader, Sparkles } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
 import ExcelImport from '../components/ExcelImport';
 
-const HomePage = ({ startStudy, user, streak, onLogin, onLogout }) => {
+const HomePage = ({ startStudy, user, streak, onLoginClick, onLogout }) => {
   const { t } = useLanguage();
   const [stats, setStats] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [loginName, setLoginName] = useState('');
 
   useEffect(() => {
     const fetchStats = async () => {
@@ -43,14 +42,6 @@ const HomePage = ({ startStudy, user, streak, onLogin, onLogout }) => {
     "TRO_TU": "#06b6d4"
   };
 
-  const handleLogin = (e) => {
-    e.preventDefault();
-    if (onLogin) {
-      onLogin(loginName);
-      setLoginName('');
-    }
-  };
-
   return (
     <div className="container animate-fade-in" style={{ padding: '40px 20px' }}>
       {/* Streak / Login Banner */}
@@ -62,7 +53,7 @@ const HomePage = ({ startStudy, user, streak, onLogin, onLogout }) => {
           </div>
           {user ? (
             <p style={{ margin: 0, color: 'var(--text-secondary)' }}>
-              {t.home.streakMsg(user.userName, streak || 0)}
+              {t.home.streakMsg(user.username, streak || 0)}
             </p>
           ) : (
             <p style={{ margin: 0, color: 'var(--text-secondary)' }}>
@@ -76,17 +67,9 @@ const HomePage = ({ startStudy, user, streak, onLogin, onLogout }) => {
             {t.home.logout}
           </button>
         ) : (
-          <form onSubmit={handleLogin} style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
-            <input
-              value={loginName}
-              onChange={(e) => setLoginName(e.target.value)}
-              placeholder={t.home.loginPlaceholder}
-              style={{ minWidth: '180px', padding: '10px 12px', borderRadius: '10px', border: '1px solid var(--border-color)', background: 'var(--surface-color)', color: 'var(--text-primary)' }}
-            />
-            <button className="btn btn-primary" type="submit">
-              {t.home.loginBtn}
-            </button>
-          </form>
+          <button className="btn btn-primary" onClick={onLoginClick}>
+            {t.auth?.loginTitle || 'Đăng nhập'}
+          </button>
         )}
       </div>
 

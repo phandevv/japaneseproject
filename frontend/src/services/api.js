@@ -2,16 +2,53 @@ import axios from 'axios';
 
 const getApiBaseUrl = () => {
   const host = typeof window !== 'undefined' ? window.location.hostname : '127.0.0.1';
-  return `http://${host}:8080/api/vocab`;
+  return `http://${host}:8080/api`;
 };
 
 const API_BASE_URL = getApiBaseUrl();
+
+// Automatically attach JWT/Session Token to all requests if present
+axios.interceptors.request.use(config => {
+  const token = localStorage.getItem('token');
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
+}, error => {
+  return Promise.reject(error);
+});
+
+export const authApi = {
+  register: async (username, password) => {
+    const response = await axios.post(`${API_BASE_URL}/auth/register`, { username, password });
+    return response.data;
+  },
+  login: async (username, password) => {
+    const response = await axios.post(`${API_BASE_URL}/auth/login`, { username, password });
+    return response.data;
+  },
+  logout: async () => {
+    const response = await axios.post(`${API_BASE_URL}/auth/logout`);
+    return response.data;
+  }
+};
+
+export const userSettingsApi = {
+  getSetting: async (level) => {
+    const response = await axios.get(`${API_BASE_URL}/user/settings/${level}`);
+    return response.data;
+  },
+  saveSetting: async (level, wordsPerDay) => {
+    const response = await axios.post(`${API_BASE_URL}/user/settings`, { level, wordsPerDay });
+    return response.data;
+  }
+};
 
 export const vocabApi = {
   // Get overall stats
   getStats: async () => {
     try {
-      const response = await axios.get(`${API_BASE_URL}/stats`);
+      const response = await axios.get(`${API_BASE_URL}/vocab/stats`);
       return response.data;
     } catch (error) {
       console.error("Error fetching stats:", error);
@@ -22,7 +59,7 @@ export const vocabApi = {
   // Get paginated vocabulary for a specific level (Daily Mode)
   getByLevelPaginated: async (level, page = 0, size = 20) => {
     try {
-      const response = await axios.get(`${API_BASE_URL}/level/${level}?page=${page}&size=${size}`);
+      const response = await axios.get(`${API_BASE_URL}/vocab/level/${level}?page=${page}&size=${size}`);
       return response.data;
     } catch (error) {
       console.error(`Error fetching paginated vocab for level ${level}:`, error);
@@ -33,7 +70,7 @@ export const vocabApi = {
   // Get random vocabulary for a specific level
   getRandomByLevel: async (level, count = 20) => {
     try {
-      const response = await axios.get(`${API_BASE_URL}/random?level=${level}&count=${count}`);
+      const response = await axios.get(`${API_BASE_URL}/vocab/random?level=${level}&count=${count}`);
       return response.data;
     } catch (error) {
       console.error(`Error fetching random vocab for level ${level}:`, error);
@@ -44,7 +81,7 @@ export const vocabApi = {
   // Search vocabulary
   search: async (keyword, page = 0, size = 20) => {
     try {
-      const response = await axios.get(`${API_BASE_URL}/search?q=${encodeURIComponent(keyword)}&page=${page}&size=${size}`);
+      const response = await axios.get(`${API_BASE_URL}/vocab/search?q=${encodeURIComponent(keyword)}&page=${page}&size=${size}`);
       return response.data;
     } catch (error) {
       console.error("Error searching vocab:", error);
@@ -57,11 +94,7 @@ export const vocabApi = {
     try {
       const formData = new FormData();
       formData.append('file', file);
-      // The endpoint is /api/import/excel, not /api/vocab/import/excel
-      // API_BASE_URL is /api/vocab, so we need to construct it manually or change the controller route.
-      // Let's use the explicit path relative to API_BASE_URL's host
-      const baseUrl = API_BASE_URL.replace('/api/vocab', '/api/import');
-      const response = await axios.post(`${baseUrl}/excel`, formData, {
+      const response = await axios.post(`${API_BASE_URL}/import/excel`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
