@@ -257,343 +257,6 @@ const DailyStudyPage = ({ level, stats, goBack }) => {
     }
   };
 
-  const renderRightPanel = () => {
-    // Phase 2: Show Quiz Welcome Panel
-    if (phase === 2) {
-      return (
-        <div className="card animate-fade-in" style={{ padding: '30px', textAlign: 'center', boxShadow: '0 4px 20px rgba(0,0,0,0.06)' }}>
-          <div className="flex-center" style={{ width: '50px', height: '50px', borderRadius: '12px', backgroundColor: 'rgba(239, 68, 68, 0.1)', color: 'var(--accent-color)', margin: '0 auto 15px' }}>
-            <Play size={24} />
-          </div>
-          <h3 style={{ fontSize: '1.2rem', marginBottom: '10px' }}>{t.daily.startQuiz}</h3>
-          <p style={{ color: 'var(--text-secondary)', fontSize: '0.85rem', marginBottom: '20px', lineHeight: '1.5' }}>
-            Bạn đã sẵn sàng kiểm tra trí nhớ? Nhấp vào nút bên dưới để chọn cấu hình bài Quiz cho ngày hôm nay.
-          </p>
-          <button className="btn btn-primary" style={{ width: '100%', padding: '12px', fontSize: '0.95rem' }} onClick={openQuizSetup}>
-            Bắt đầu Kiểm tra
-          </button>
-        </div>
-      );
-    }
-
-    // Phase 4: Show Quiz Setup Panel
-    if (phase === 4) {
-      return (
-        <div className="card animate-fade-in" style={{ padding: '30px', boxShadow: '0 4px 20px rgba(0,0,0,0.06)' }}>
-          <h3 style={{ fontSize: '1.2rem', marginBottom: '15px', textAlign: 'center' }}>{t.daily.quizSetupTitle}</h3>
-          
-          {quizSetupError && (
-            <div style={{ 
-              backgroundColor: 'rgba(239, 68, 68, 0.1)', 
-              color: 'var(--accent-color)', 
-              padding: '10px', 
-              borderRadius: '8px', 
-              marginBottom: '15px', 
-              fontSize: '0.85rem',
-              fontWeight: 500
-            }}>
-              {quizSetupError}
-            </div>
-          )}
-
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '15px', marginBottom: '25px' }}>
-            <label style={{ 
-              display: 'flex', 
-              alignItems: 'start', 
-              gap: '10px', 
-              padding: '12px', 
-              borderRadius: '8px', 
-              border: `1px solid ${quizOptType === 'all' ? 'var(--accent-color)' : 'var(--border-color)'}`,
-              backgroundColor: quizOptType === 'all' ? 'rgba(239,68,68,0.02)' : 'transparent',
-              cursor: 'pointer'
-            }}>
-              <input 
-                type="radio" 
-                name="quizOptType" 
-                value="all" 
-                checked={quizOptType === 'all'} 
-                onChange={() => setQuizOptType('all')} 
-                style={{ marginTop: '4px' }}
-              />
-              <div>
-                <strong style={{ fontSize: '0.9rem' }}>{t.daily.quizOptAll}</strong>
-                <div style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', marginTop: '2px' }}>
-                  {t.daily.quizOptAllDesc(words.length)}
-                </div>
-              </div>
-            </label>
-
-            <label style={{ 
-              display: 'flex', 
-              flexDirection: 'column',
-              gap: '8px', 
-              padding: '12px', 
-              borderRadius: '8px', 
-              border: `1px solid ${quizOptType === 'random' ? 'var(--accent-color)' : 'var(--border-color)'}`,
-              backgroundColor: quizOptType === 'random' ? 'rgba(239,68,68,0.02)' : 'transparent',
-              cursor: 'pointer'
-            }}>
-              <div style={{ display: 'flex', alignItems: 'start', gap: '10px' }}>
-                <input 
-                  type="radio" 
-                  name="quizOptType" 
-                  value="random" 
-                  checked={quizOptType === 'random'} 
-                  onChange={() => setQuizOptType('random')} 
-                  style={{ marginTop: '4px' }}
-                />
-                <div>
-                  <strong style={{ fontSize: '0.9rem' }}>{t.daily.quizOptRandom}</strong>
-                  <div style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', marginTop: '2px' }}>
-                    {t.daily.quizOptRandomDesc}
-                  </div>
-                </div>
-              </div>
-              {quizOptType === 'random' && (
-                <div style={{ paddingLeft: '24px', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                  <input 
-                    type="number" 
-                    min="1" 
-                    max={words.length}
-                    value={quizOptRandomCount}
-                    onChange={(e) => setQuizOptRandomCount(e.target.value)}
-                    style={{
-                      padding: '6px 10px',
-                      borderRadius: '6px',
-                      border: '1px solid var(--border-color)',
-                      backgroundColor: 'var(--surface-color)',
-                      color: 'var(--text-primary)',
-                      width: '70px',
-                      fontSize: '0.85rem'
-                    }}
-                  />
-                  <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>
-                    từ {t.daily.quizRangeMax(words.length)}
-                  </span>
-                </div>
-              )}
-            </label>
-
-            <label style={{ 
-              display: 'flex', 
-              flexDirection: 'column',
-              gap: '8px', 
-              padding: '12px', 
-              borderRadius: '8px', 
-              border: `1px solid ${quizOptType === 'range' ? 'var(--accent-color)' : 'var(--border-color)'}`,
-              backgroundColor: quizOptType === 'range' ? 'rgba(239,68,68,0.02)' : 'transparent',
-              cursor: 'pointer'
-            }}>
-              <div style={{ display: 'flex', alignItems: 'start', gap: '10px' }}>
-                <input 
-                  type="radio" 
-                  name="quizOptType" 
-                  value="range" 
-                  checked={quizOptType === 'range'} 
-                  onChange={() => setQuizOptType('range')} 
-                  style={{ marginTop: '4px' }}
-                />
-                <div>
-                  <strong style={{ fontSize: '0.9rem' }}>{t.daily.quizOptRange}</strong>
-                  <div style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', marginTop: '2px' }}>
-                    {t.daily.quizOptRangeDesc}
-                  </div>
-                </div>
-              </div>
-              {quizOptType === 'range' && (
-                <div style={{ paddingLeft: '24px', display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '6px', fontSize: '0.85rem' }}>
-                  <span>{t.daily.quizRangeFrom}</span>
-                  <input 
-                    type="number" 
-                    min="1" 
-                    value={quizOptRangeStart}
-                    onChange={(e) => setQuizOptRangeStart(e.target.value)}
-                    style={{
-                      padding: '6px 8px',
-                      borderRadius: '6px',
-                      border: '1px solid var(--border-color)',
-                      backgroundColor: 'var(--surface-color)',
-                      color: 'var(--text-primary)',
-                      width: '60px'
-                    }}
-                  />
-                  <span>{t.daily.quizRangeTo}</span>
-                  <input 
-                    type="number" 
-                    min="1" 
-                    value={quizOptRangeEnd}
-                    onChange={(e) => setQuizOptRangeEnd(e.target.value)}
-                    style={{
-                      padding: '6px 8px',
-                      borderRadius: '6px',
-                      border: '1px solid var(--border-color)',
-                      backgroundColor: 'var(--surface-color)',
-                      color: 'var(--text-primary)',
-                      width: '60px'
-                    }}
-                  />
-                </div>
-              )}
-            </label>
-          </div>
-
-          <div style={{ display: 'flex', gap: '10px' }}>
-            <button 
-              className="btn btn-secondary" 
-              style={{ flex: 1, padding: '10px' }} 
-              onClick={() => setPhase(2)}
-            >
-              Hủy
-            </button>
-            <button 
-              className="btn btn-primary" 
-              style={{ flex: 2, padding: '10px' }} 
-              onClick={handleConfirmStartQuiz}
-            >
-              {t.daily.quizStartBtn}
-            </button>
-          </div>
-        </div>
-      );
-    }
-
-    // Phase 3: Show Active Quiz Panel
-    if (phase === 3) {
-      if (quizStatus === 'finished') {
-        return (
-          <div className="card animate-fade-in" style={{ padding: '30px', textAlign: 'center', boxShadow: '0 4px 20px rgba(0,0,0,0.06)' }}>
-            <h3 style={{ fontSize: '1.2rem', color: score === originalQuizLength ? 'var(--success-color)' : 'var(--text-primary)', marginBottom: '15px' }}>
-              {t.daily.quizDone}
-            </h3>
-            
-            <div style={{ fontSize: '3rem', fontWeight: 900, color: 'var(--accent-color)', marginBottom: '10px' }}>
-              {score} <span style={{ fontSize: '1.5rem', color: 'var(--text-secondary)' }}>/ {originalQuizLength}</span>
-            </div>
-            
-            <p style={{ color: 'var(--text-secondary)', fontSize: '0.85rem', marginBottom: '25px' }}>
-              {score === originalQuizLength ? t.daily.perfectMsg : t.daily.goodMsg}
-            </p>
-
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-              <button className="btn btn-primary" style={{ width: '100%', padding: '10px' }} onClick={() => setPhase(2)}>
-                Thoát bài kiểm tra
-              </button>
-              <button className="btn btn-secondary" style={{ width: '100%', padding: '10px' }} onClick={openQuizSetup}>
-                Làm lại Quiz mới
-              </button>
-            </div>
-          </div>
-        );
-      }
-
-      const currentWord = quizWords[quizIndex];
-
-      return (
-        <div className="card animate-fade-in" style={{ padding: '25px', boxShadow: '0 4px 20px rgba(0,0,0,0.06)', display: 'flex', flexDirection: 'column', gap: '20px' }}>
-          
-          {/* Progress Header */}
-          <div className="flex-between" style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>
-            <span>{t.daily.question} {quizIndex + 1} / {quizWords.length}</span>
-            <span>{t.daily.score}: {score}</span>
-          </div>
-
-          <div className="progress-bg" style={{ height: '6px' }}>
-            <div className="progress-fill" style={{ width: `${((quizIndex) / quizWords.length) * 100}%` }}></div>
-          </div>
-
-          {/* Question Card */}
-          <div style={{ textAlign: 'center', padding: '20px 10px', backgroundColor: 'var(--surface-hover)', borderRadius: '10px', border: '1px solid var(--border-color)' }}>
-            <p style={{ color: 'var(--text-secondary)', fontSize: '0.8rem', marginBottom: '8px' }}>{t.daily.quizPrompt}</p>
-            <h2 style={{ fontSize: '1.8rem', marginBottom: '8px', color: 'var(--text-primary)', wordBreak: 'break-word' }}>
-              {currentWord.meaning}
-            </h2>
-            {currentWord.hanViet && (
-              <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>【{currentWord.hanViet}】</p>
-            )}
-          </div>
-
-          {/* Input Form or Feedback */}
-          {quizStatus === 'idle' && (
-            <form onSubmit={checkAnswer} style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-              <input
-                type="text"
-                autoFocus
-                value={userInput}
-                onChange={(e) => setUserInput(e.target.value)}
-                placeholder={t.daily.inputPlaceholder}
-                className="jp-text"
-                style={{
-                  width: '100%',
-                  padding: '12px 16px',
-                  borderRadius: '10px',
-                  border: '1px solid var(--border-color)',
-                  backgroundColor: 'var(--surface-color)',
-                  color: 'var(--text-primary)',
-                  fontSize: '1.1rem',
-                }}
-              />
-              <button type="submit" className="btn btn-primary" style={{ padding: '12px', fontSize: '0.95rem' }}>
-                {t.daily.checkBtn}
-              </button>
-            </form>
-          )}
-
-          {quizStatus === 'correct' && (
-            <div style={{ backgroundColor: 'rgba(16, 185, 129, 0.08)', borderColor: 'var(--success-color)', border: '1px solid var(--success-color)', borderRadius: '10px', padding: '15px', display: 'flex', flexDirection: 'column', gap: '12px' }}>
-              <div className="flex-center" style={{ gap: '10px', justifyContent: 'flex-start' }}>
-                <CheckCircle size={24} color="var(--success-color)" />
-                <h4 style={{ color: 'var(--success-color)', margin: 0 }}>{t.daily.correct}</h4>
-              </div>
-              <p className="jp-text" style={{ fontSize: '1.1rem', margin: 0, display: 'flex', alignItems: 'center', gap: '6px' }}>
-                {currentWord.kanji && <span>{currentWord.kanji} </span>}
-                <span style={{ color: 'var(--text-secondary)' }}>({currentWord.hiragana})</span>
-                <button 
-                  type="button" 
-                  onClick={() => speakWord(currentWord)} 
-                  style={{ background: 'none', border: 'none', color: 'var(--text-secondary)', cursor: 'pointer', padding: '4px', display: 'flex', alignItems: 'center' }}
-                >
-                  <Volume2 size={16} />
-                </button>
-              </p>
-              <button className="btn btn-primary" onClick={nextQuestion} autoFocus style={{ padding: '10px', width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px' }}>
-                {t.daily.nextBtn} <ArrowRight size={16} />
-              </button>
-            </div>
-          )}
-
-          {quizStatus === 'incorrect' && (
-            <div style={{ backgroundColor: 'rgba(239, 68, 68, 0.08)', borderColor: 'var(--accent-color)', border: '1px solid var(--accent-color)', borderRadius: '10px', padding: '15px', display: 'flex', flexDirection: 'column', gap: '12px' }}>
-              <div className="flex-center" style={{ gap: '10px', justifyContent: 'flex-start' }}>
-                <XCircle size={24} color="var(--accent-color)" />
-                <h4 style={{ color: 'var(--accent-color)', margin: 0 }}>{t.daily.incorrect}</h4>
-              </div>
-              <div>
-                <p style={{ margin: 0, fontSize: '0.8rem', color: 'var(--text-secondary)' }}>{t.daily.correctAnswerIs}</p>
-                <p className="jp-text" style={{ fontSize: '1.1rem', margin: '4px 0 0', display: 'flex', alignItems: 'center', gap: '6px' }}>
-                  {currentWord.kanji && <span style={{ color: 'var(--success-color)' }}>{currentWord.kanji} </span>}
-                  <span style={{ color: 'var(--success-color)' }}>({currentWord.hiragana})</span>
-                  <button 
-                    type="button" 
-                    onClick={() => speakWord(currentWord)} 
-                    style={{ background: 'none', border: 'none', color: 'var(--success-color)', cursor: 'pointer', padding: '4px', display: 'flex', alignItems: 'center' }}
-                  >
-                    <Volume2 size={16} />
-                  </button>
-                </p>
-              </div>
-              <button className="btn btn-primary" onClick={nextQuestion} autoFocus style={{ padding: '10px', width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px' }}>
-                {t.daily.continueBtn} <ArrowRight size={16} />
-              </button>
-            </div>
-          )}
-
-        </div>
-      );
-    }
-
-    return null;
-  };
-
   if (loadingSetting) {
     return (
       <div className="flex-center" style={{ height: '70vh', flexDirection: 'column', gap: '20px' }}>
@@ -703,12 +366,49 @@ const DailyStudyPage = ({ level, stats, goBack }) => {
     );
   }
 
-  // Phase >= 2: Unified Review Table and Sticky Quiz Column Layout
-  if (phase >= 2) {
+  // Loading state
+  if (loading) {
     return (
-      <div className="container animate-fade-in" style={{ padding: '20px', maxWidth: '1200px' }}>
-        {/* Header toolbar */}
-        <div className="flex-between" style={{ marginBottom: '25px', borderBottom: '1px solid var(--border-color)', paddingBottom: '15px' }}>
+      <div className="flex-center" style={{ height: '70vh', flexDirection: 'column', gap: '20px' }}>
+        <Loader size={40} className="animate-spin" style={{ color: 'var(--accent-color)' }} />
+        <p>{t.daily.loading(selectedDay)}</p>
+      </div>
+    );
+  }
+
+  // Phase 2: Review Table
+  if (phase === 2) {
+    return (
+      <div style={{ width: '100%', position: 'relative' }}>
+        {/* Kanji Detail Page */}
+        {modalIndex !== null && (
+          <div className="animate-fade-in" style={{ width: '100%' }}>
+            <KanjiDetailModal
+              words={words}
+              initialIndex={modalIndex}
+              onClose={() => setModalIndex(null)}
+            />
+          </div>
+        )}
+
+        {/* Word List Table (Hidden when showing Kanji Detail to act as separate page) */}
+        <div 
+          className="container animate-fade-in" 
+          style={{ 
+            padding: '20px', 
+            maxWidth: '1000px', 
+            display: modalIndex !== null ? 'none' : 'block' 
+          }}
+        >
+          <div className="flex-between" style={{ 
+            position: 'sticky', 
+            top: '0px', 
+            zIndex: 100, 
+            backgroundColor: 'var(--bg-color)', 
+            padding: '15px 0', 
+            borderBottom: '1px solid var(--border-color)',
+            marginBottom: '20px' 
+          }}>
           <button className="btn btn-secondary" onClick={() => setPhase(1)}>
             <CornerUpLeft size={18} /> {t.daily.chooseAnotherDay}
           </button>
@@ -742,107 +442,400 @@ const DailyStudyPage = ({ level, stats, goBack }) => {
               {hideMeanings ? <Eye size={18} /> : <EyeOff size={18} />}
               {hideMeanings ? t.daily.showMeanings : t.daily.hideMeanings}
             </button>
+            <button className="btn btn-primary" onClick={openQuizSetup}>
+              <Play size={18} /> {t.daily.startQuiz}
+            </button>
           </div>
         </div>
 
-        {/* Split Layout */}
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 400px', gap: '30px', alignItems: 'start' }}>
-          
-          {/* Left Column: Vocabulary List Table */}
-          <div style={{ position: 'relative', width: '100%', overflowX: 'auto' }}>
-            {/* Kanji Detail Page Overlay */}
-            {modalIndex !== null && (
-              <div className="animate-fade-in" style={{ width: '100%' }}>
-                <KanjiDetailModal
-                  words={words}
-                  initialIndex={modalIndex}
-                  onClose={() => setModalIndex(null)}
-                />
-              </div>
-            )}
+        {/* Hint */}
+        <p style={{ color: 'var(--text-secondary)', fontSize: '0.85rem', marginBottom: '14px', display: 'flex', alignItems: 'center', gap: '6px' }}>
+          <ChevronRight size={14} />
+          Nhấn vào một từ để xem chi tiết và thứ tự nét viết
+        </p>
 
-            {/* Word List Table (Hidden when showing Kanji Detail to act as separate page) */}
-            <div 
-              style={{ 
-                display: modalIndex !== null ? 'none' : 'block' 
-              }}
-            >
-              <p style={{ color: 'var(--text-secondary)', fontSize: '0.85rem', marginBottom: '14px', display: 'flex', alignItems: 'center', gap: '6px' }}>
-                <ChevronRight size={14} />
-                Nhấn vào một từ để xem chi tiết và thứ tự nét viết
-              </p>
+        <div className="card" style={{ padding: 0, overflow: 'hidden' }}>
+          <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
+            <thead style={{ backgroundColor: 'var(--surface-hover)', color: 'var(--text-secondary)' }}>
+              <tr>
+                <th style={{ padding: '15px 20px', width: '50px' }}>{t.daily.colNo}</th>
+                <th style={{ padding: '15px 20px' }}>{t.daily.colKanji}</th>
+                {!hideMeanings && <th style={{ padding: '15px 20px' }}>{t.daily.colHiragana}</th>}
+                {!hideMeanings && <th style={{ padding: '15px 20px' }}>{t.daily.colMeaning}</th>}
+                <th style={{ padding: '15px 20px' }}>{t.daily.colHanViet}</th>
+              </tr>
+            </thead>
+            <tbody>
+              {words.map((word, index) => (
+                <tr
+                  key={word.id}
+                  onClick={() => setModalIndex(index)}
+                  style={{
+                    borderBottom: '1px solid var(--border-color)',
+                    cursor: 'pointer',
+                    transition: 'background 0.15s ease',
+                  }}
+                  onMouseEnter={e => e.currentTarget.style.background = 'rgba(239,68,68,0.06)'}
+                  onMouseLeave={e => e.currentTarget.style.background = 'transparent'}
+                >
+                  <td style={{ padding: '15px 20px', color: 'var(--text-secondary)' }}>{index + 1}</td>
+                  <td className="jp-text" style={{ padding: '15px 20px', fontSize: '1.2rem', fontWeight: 700 }}>{word.kanji}</td>
+                  {!hideMeanings && <td className="jp-text" style={{ padding: '15px 20px', color: 'var(--accent-color)' }}>{word.hiragana}</td>}
+                  {!hideMeanings && <td style={{ padding: '15px 20px', fontWeight: 500 }}>{word.meaning}</td>}
+                  <td style={{ padding: '15px 20px', color: 'var(--text-secondary)' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '8px' }}>
+                      <span>{word.hanViet}</span>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                        <button
+                          type="button"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            speakWord(word);
+                          }}
+                          style={{
+                            background: 'none',
+                            border: 'none',
+                            color: 'var(--text-secondary)',
+                            cursor: 'pointer',
+                            padding: '4px',
+                            display: 'flex',
+                            alignItems: 'center',
+                            borderRadius: '4px',
+                            transition: 'color 0.15s ease'
+                          }}
+                          onMouseEnter={ev => ev.currentTarget.style.color = 'var(--accent-color)'}
+                          onMouseLeave={ev => ev.currentTarget.style.color = 'var(--text-secondary)'}
+                        >
+                          <Volume2 size={16} />
+                        </button>
+                        <ChevronRight size={14} style={{ opacity: 0.3, flexShrink: 0 }} />
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        </div>
+      </div>
+    );
+  }
 
-              <div className="card" style={{ padding: 0, overflow: 'hidden' }}>
-                <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
-                  <thead style={{ backgroundColor: 'var(--surface-hover)', color: 'var(--text-secondary)' }}>
-                    <tr>
-                      <th style={{ padding: '15px 20px', width: '50px' }}>{t.daily.colNo}</th>
-                      <th style={{ padding: '15px 20px' }}>{t.daily.colKanji}</th>
-                      {!hideMeanings && <th style={{ padding: '15px 20px' }}>{t.daily.colHiragana}</th>}
-                      {!hideMeanings && <th style={{ padding: '15px 20px' }}>{t.daily.colMeaning}</th>}
-                      <th style={{ padding: '15px 20px' }}>{t.daily.colHanViet}</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {words.map((word, index) => (
-                      <tr
-                        key={word.id}
-                        onClick={() => setModalIndex(index)}
-                        style={{
-                          borderBottom: '1px solid var(--border-color)',
-                          cursor: 'pointer',
-                          transition: 'background 0.15s ease',
-                        }}
-                        onMouseEnter={e => e.currentTarget.style.background = 'rgba(239,68,68,0.06)'}
-                        onMouseLeave={e => e.currentTarget.style.background = 'transparent'}
-                      >
-                        <td style={{ padding: '15px 20px', color: 'var(--text-secondary)' }}>{index + 1}</td>
-                        <td className="jp-text" style={{ padding: '15px 20px', fontSize: '1.2rem', fontWeight: 700 }}>{word.kanji}</td>
-                        {!hideMeanings && <td className="jp-text" style={{ padding: '15px 20px', color: 'var(--accent-color)' }}>{word.hiragana}</td>}
-                        {!hideMeanings && <td style={{ padding: '15px 20px', fontWeight: 500 }}>{word.meaning}</td>}
-                        <td style={{ padding: '15px 20px', color: 'var(--text-secondary)' }}>
-                          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '8px' }}>
-                            <span>{word.hanViet}</span>
-                            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                              <button
-                                type="button"
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  speakWord(word);
-                                }}
-                                style={{
-                                  background: 'none',
-                                  border: 'none',
-                                  color: 'var(--text-secondary)',
-                                  cursor: 'pointer',
-                                  padding: '4px',
-                                  display: 'flex',
-                                  alignItems: 'center',
-                                  borderRadius: '4px',
-                                  transition: 'color 0.15s ease'
-                                }}
-                                onMouseEnter={ev => ev.currentTarget.style.color = 'var(--accent-color)'}
-                                onMouseLeave={ev => ev.currentTarget.style.color = 'var(--text-secondary)'}
-                              >
-                                <Volume2 size={16} />
-                              </button>
-                              <ChevronRight size={14} style={{ opacity: 0.3, flexShrink: 0 }} />
-                            </div>
-                          </div>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
+  // Phase 3: Quiz Mode
+  if (phase === 3) {
+    if (quizStatus === 'finished') {
+      return (
+        <div className="container flex-center animate-fade-in" style={{ height: '70vh', flexDirection: 'column', gap: '30px' }}>
+          <h1 style={{ fontSize: '3rem', color: score === originalQuizLength ? 'var(--success-color)' : 'var(--text-primary)' }}>
+            {t.daily.quizDone}
+          </h1>
+          <div className="card flex-center" style={{ padding: '40px 60px', flexDirection: 'column', gap: '15px' }}>
+            <h2 style={{ fontSize: '2rem' }}>{t.daily.yourScore}</h2>
+            <div style={{ fontSize: '4rem', fontWeight: 900, color: 'var(--accent-color)' }}>
+              {score} <span style={{ fontSize: '2rem', color: 'var(--text-secondary)' }}>/ {originalQuizLength}</span>
             </div>
+            <p style={{ color: 'var(--text-secondary)', marginTop: '10px' }}>
+              {score === originalQuizLength ? t.daily.perfectMsg : t.daily.goodMsg}
+            </p>
+          </div>
+          <div className="flex-center" style={{ gap: '20px' }}>
+            <button className="btn btn-secondary" onClick={() => setPhase(2)}>
+              <BookOpen size={18} /> {t.daily.reviewAgain}
+            </button>
+            <button className="btn btn-primary" onClick={() => setPhase(1)}>
+              <ArrowRight size={18} /> {t.daily.nextDay}
+            </button>
+          </div>
+        </div>
+      );
+    }
+
+    const currentWord = quizWords[quizIndex];
+
+    return (
+      <div className="container flex-center animate-fade-in" style={{ height: '70vh', flexDirection: 'column' }}>
+        <div style={{ width: '100%', maxWidth: '600px' }}>
+
+          <div className="flex-between" style={{ marginBottom: '20px', color: 'var(--text-secondary)' }}>
+            <span>{t.daily.question} {quizIndex + 1} / {quizWords.length}</span>
+            <span>{t.daily.score}: {score}</span>
           </div>
 
-          {/* Right Column: Quiz Control / Setup / Active Quiz (Sticky!) */}
-          <div style={{ position: 'sticky', top: '20px', zIndex: 10 }}>
-            {renderRightPanel()}
+          <div className="progress-bg" style={{ marginBottom: '40px' }}>
+            <div className="progress-fill" style={{ width: `${((quizIndex) / quizWords.length) * 100}%` }}></div>
           </div>
 
+          <div className="card" style={{ padding: '40px', textAlign: 'center', marginBottom: '30px' }}>
+            <p style={{ color: 'var(--text-secondary)', marginBottom: '15px' }}>{t.daily.quizPrompt}</p>
+            <h2 style={{ fontSize: '2.5rem', marginBottom: '20px', color: 'var(--text-primary)' }}>
+              {currentWord.meaning}
+            </h2>
+            {currentWord.hanViet && (
+              <p style={{ color: 'var(--text-secondary)' }}>【{currentWord.hanViet}】</p>
+            )}
+          </div>
+
+          {quizStatus === 'idle' && (
+            <form onSubmit={checkAnswer} className="flex-center" style={{ gap: '10px' }}>
+              <input
+                type="text"
+                autoFocus
+                value={userInput}
+                onChange={(e) => setUserInput(e.target.value)}
+                placeholder={t.daily.inputPlaceholder}
+                className="jp-text"
+                style={{
+                  flex: 1,
+                  padding: '16px 20px',
+                  borderRadius: '12px',
+                  border: '1px solid var(--border-color)',
+                  backgroundColor: 'var(--surface-color)',
+                  color: 'var(--text-primary)',
+                  fontSize: '1.2rem',
+                }}
+              />
+              <button type="submit" className="btn btn-primary" style={{ padding: '16px 30px' }}>
+                {t.daily.checkBtn}
+              </button>
+            </form>
+          )}
+
+          {quizStatus === 'correct' && (
+            <div className="card animate-fade-in" style={{ backgroundColor: 'rgba(16, 185, 129, 0.1)', borderColor: 'var(--success-color)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <div className="flex-center" style={{ gap: '15px' }}>
+                <CheckCircle size={32} color="var(--success-color)" />
+                <div>
+                  <h3 style={{ color: 'var(--success-color)' }}>{t.daily.correct}</h3>
+                  <p className="jp-text" style={{ fontSize: '1.2rem', marginTop: '5px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    {currentWord.kanji && <span>{currentWord.kanji} </span>}
+                    <span style={{ color: 'var(--text-secondary)' }}>({currentWord.hiragana})</span>
+                    <button 
+                      type="button" 
+                      onClick={() => speakWord(currentWord)} 
+                      style={{ background: 'none', border: 'none', color: 'var(--text-secondary)', cursor: 'pointer', padding: '4px', display: 'flex', alignItems: 'center' }}
+                    >
+                      <Volume2 size={16} />
+                    </button>
+                  </p>
+                </div>
+              </div>
+              <button className="btn btn-primary" onClick={nextQuestion} autoFocus>
+                {t.daily.nextBtn} <ArrowRight size={18} />
+              </button>
+            </div>
+          )}
+
+          {quizStatus === 'incorrect' && (
+            <div className="card animate-fade-in" style={{ backgroundColor: 'rgba(239, 68, 68, 0.1)', borderColor: 'var(--accent-color)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <div className="flex-center" style={{ gap: '15px' }}>
+                <XCircle size={32} color="var(--accent-color)" />
+                <div>
+                  <h3 style={{ color: 'var(--accent-color)' }}>{t.daily.incorrect}</h3>
+                  <p style={{ marginTop: '5px' }}>{t.daily.correctAnswerIs}</p>
+                  <p className="jp-text" style={{ fontSize: '1.2rem', marginTop: '5px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    {currentWord.kanji && <span style={{ color: 'var(--success-color)' }}>{currentWord.kanji} </span>}
+                    <span style={{ color: 'var(--success-color)' }}>({currentWord.hiragana})</span>
+                    <button 
+                      type="button" 
+                      onClick={() => speakWord(currentWord)} 
+                      style={{ background: 'none', border: 'none', color: 'var(--success-color)', cursor: 'pointer', padding: '4px', display: 'flex', alignItems: 'center' }}
+                    >
+                      <Volume2 size={16} />
+                    </button>
+                  </p>
+                </div>
+              </div>
+              <button className="btn btn-primary" onClick={nextQuestion} autoFocus>
+                {t.daily.continueBtn} <ArrowRight size={18} />
+              </button>
+            </div>
+          )}
+
+        </div>
+      </div>
+    );
+  }
+
+  // Phase 4: Quiz Setup UI
+  if (phase === 4) {
+    return (
+      <div className="container animate-fade-in" style={{ padding: '20px', maxWidth: '600px', margin: '40px auto' }}>
+        <button className="btn btn-secondary" onClick={() => setPhase(2)} style={{ marginBottom: '20px' }}>
+          <CornerUpLeft size={18} /> {t.daily.backToList || 'Quay lại danh sách'}
+        </button>
+        <div className="card" style={{ padding: '40px' }}>
+          <h2 style={{ marginBottom: '10px', textAlign: 'center' }}>{t.daily.quizSetupTitle}</h2>
+          <p style={{ color: 'var(--text-secondary)', marginBottom: '30px', textAlign: 'center' }}>
+            {t.daily.quizSetupPrompt(selectedDay, words.length)}
+          </p>
+
+          {quizSetupError && (
+            <div style={{ 
+              backgroundColor: 'rgba(239, 68, 68, 0.1)', 
+              color: 'var(--accent-color)', 
+              padding: '12px', 
+              borderRadius: '8px', 
+              marginBottom: '20px', 
+              fontSize: '0.9rem',
+              fontWeight: 500
+            }}>
+              {quizSetupError}
+            </div>
+          )}
+
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', marginBottom: '30px' }}>
+            {/* Option: All */}
+            <label style={{ 
+              display: 'flex', 
+              alignItems: 'center', 
+              gap: '12px', 
+              padding: '15px', 
+              borderRadius: '10px', 
+              border: `1px solid ${quizOptType === 'all' ? 'var(--accent-color)' : 'var(--border-color)'}`,
+              backgroundColor: quizOptType === 'all' ? 'rgba(239,68,68,0.04)' : 'transparent',
+              cursor: 'pointer'
+            }}>
+              <input 
+                type="radio" 
+                name="quizOptType" 
+                value="all" 
+                checked={quizOptType === 'all'} 
+                onChange={() => setQuizOptType('all')} 
+              />
+              <div>
+                <strong>{t.daily.quizOptAll}</strong>
+                <div style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', marginTop: '2px' }}>
+                  {t.daily.quizOptAllDesc(words.length)}
+                </div>
+              </div>
+            </label>
+
+            {/* Option: Random */}
+            <label style={{ 
+              display: 'flex', 
+              flexDirection: 'column',
+              gap: '12px', 
+              padding: '15px', 
+              borderRadius: '10px', 
+              border: `1px solid ${quizOptType === 'random' ? 'var(--accent-color)' : 'var(--border-color)'}`,
+              backgroundColor: quizOptType === 'random' ? 'rgba(239,68,68,0.04)' : 'transparent',
+              cursor: 'pointer'
+            }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                <input 
+                  type="radio" 
+                  name="quizOptType" 
+                  value="random" 
+                  checked={quizOptType === 'random'} 
+                  onChange={() => setQuizOptType('random')} 
+                />
+                <div>
+                  <strong>{t.daily.quizOptRandom}</strong>
+                  <div style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', marginTop: '2px' }}>
+                    {t.daily.quizOptRandomDesc}
+                  </div>
+                </div>
+              </div>
+              {quizOptType === 'random' && (
+                <div style={{ paddingLeft: '28px' }}>
+                  <input 
+                    type="number" 
+                    min="1" 
+                    max={words.length}
+                    value={quizOptRandomCount}
+                    onChange={(e) => setQuizOptRandomCount(e.target.value)}
+                    style={{
+                      padding: '8px 12px',
+                      borderRadius: '6px',
+                      border: '1px solid var(--border-color)',
+                      backgroundColor: 'var(--surface-color)',
+                      color: 'var(--text-primary)',
+                      width: '100px'
+                    }}
+                  />
+                  <span style={{ marginLeft: '10px', fontSize: '0.9rem', color: 'var(--text-secondary)' }}>
+                    {t.daily.words || 'từ'} {t.daily.quizRangeMax(words.length)}
+                  </span>
+                </div>
+              )}
+            </label>
+
+            {/* Option: Range */}
+            <label style={{ 
+              display: 'flex', 
+              flexDirection: 'column',
+              gap: '12px', 
+              padding: '15px', 
+              borderRadius: '10px', 
+              border: `1px solid ${quizOptType === 'range' ? 'var(--accent-color)' : 'var(--border-color)'}`,
+              backgroundColor: quizOptType === 'range' ? 'rgba(239,68,68,0.04)' : 'transparent',
+              cursor: 'pointer'
+            }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                <input 
+                  type="radio" 
+                  name="quizOptType" 
+                  value="range" 
+                  checked={quizOptType === 'range'} 
+                  onChange={() => setQuizOptType('range')} 
+                />
+                <div>
+                  <strong>{t.daily.quizOptRange}</strong>
+                  <div style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', marginTop: '2px' }}>
+                    {t.daily.quizOptRangeDesc}
+                  </div>
+                </div>
+              </div>
+              {quizOptType === 'range' && (
+                <div style={{ paddingLeft: '28px', display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
+                  <span>{t.daily.quizRangeFrom}</span>
+                  <input 
+                    type="number" 
+                    min="1" 
+                    max={words.length}
+                    value={quizOptRangeStart}
+                    onChange={(e) => setQuizOptRangeStart(e.target.value)}
+                    style={{
+                      padding: '8px 12px',
+                      borderRadius: '6px',
+                      border: '1px solid var(--border-color)',
+                      backgroundColor: 'var(--surface-color)',
+                      color: 'var(--text-primary)',
+                      width: '80px'
+                    }}
+                  />
+                  <span>{t.daily.quizRangeTo}</span>
+                  <input 
+                    type="number" 
+                    min="1" 
+                    max={words.length}
+                    value={quizOptRangeEnd}
+                    onChange={(e) => setQuizOptRangeEnd(e.target.value)}
+                    style={{
+                      padding: '8px 12px',
+                      borderRadius: '6px',
+                      border: '1px solid var(--border-color)',
+                      backgroundColor: 'var(--surface-color)',
+                      color: 'var(--text-primary)',
+                      width: '80px'
+                    }}
+                  />
+                  <span style={{ fontSize: '0.9rem', color: 'var(--text-secondary)' }}>
+                    {t.daily.quizRangeMax(words.length)}
+                  </span>
+                </div>
+              )}
+            </label>
+          </div>
+
+          <button 
+            className="btn btn-primary" 
+            style={{ padding: '14px', fontSize: '1.1rem', width: '100%' }}
+            onClick={handleConfirmStartQuiz}
+          >
+            {t.daily.quizStartBtn}
+          </button>
         </div>
       </div>
     );
