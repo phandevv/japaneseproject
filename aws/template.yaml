@@ -103,7 +103,7 @@ Resources:
       UserData:
         Fn::Base64: !Sub |
           #!/bin/bash
-          # Deploy v2 - Update API URL to dynamic hostname
+          # Deploy v3 - Correct DB_URL variables and connection options
           # Basic environment setup
           dnf update -y
           dnf install -y docker
@@ -140,7 +140,7 @@ Resources:
           EOF
 
           # Create .env for DB configuration
-          echo "DB_URL=jdbc:mysql://${MyRDSInstance.Endpoint.Address}:3306/japanesedb?createDatabaseIfNotExist=true" > .env
+          echo "DB_URL=jdbc:mysql://${MyRDSInstance.Endpoint.Address}:3306/japanesedb?createDatabaseIfNotExist=true&useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true&characterEncoding=UTF-8&useUnicode=true" > .env
           echo "DB_DRIVER=com.mysql.cj.jdbc.Driver" >> .env
           echo "DB_DIALECT=org.hibernate.dialect.MySQLDialect" >> .env
           echo "DB_USER=${DBUsername}" >> .env
