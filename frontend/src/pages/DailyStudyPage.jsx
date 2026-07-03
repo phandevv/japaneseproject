@@ -237,13 +237,8 @@ const DailyStudyPage = ({ level, stats, goBack }) => {
       const hiraganaClean = currentWord.hiragana ? currentWord.hiragana.trim().toLowerCase() : '';
       isCorrect = (inputClean === kanjiClean || inputClean === hiraganaClean);
     } else {
-      // ja-to-vi mode: compare input with meaning parts
-      const meaning = currentWord.meaning || '';
-      const delimiters = /[,;\/()]/;
-      const parts = meaning.split(delimiters)
-        .map(p => p.trim().toLowerCase())
-        .filter(p => p.length > 0);
-      isCorrect = parts.some(p => p === inputClean) || inputClean === meaning.trim().toLowerCase();
+      // ja-to-vi mode: smart Vietnamese synonym & typo match
+      isCorrect = matchVietnameseAnswer(userInput, currentWord.meaning || '');
     }
 
     if (isCorrect) {
@@ -975,6 +970,148 @@ const DailyStudyPage = ({ level, stats, goBack }) => {
   }
 
   return null;
+};
+
+// ─── Vietnamese Synonym & Typo Matcher Utilities ──────────────────────────
+
+const VIETNAMESE_SYNONYMS = [
+  ["bỏ việc", "nghỉ việc", "thôi việc"],
+  ["cao tuổi", "lớn tuổi", "già"],
+  ["yêu", "thương", "mến", "thích"],
+  ["học sinh", "sinh viên", "học viên", "người học"],
+  ["giúp đỡ", "trợ giúp", "hỗ trợ", "giúp"],
+  ["bắt đầu", "khởi đầu"],
+  ["kết thúc", "hoàn thành", "xong"],
+  ["nhanh", "lẹ"],
+  ["chậm", "trễ", "muộn"],
+  ["đẹp", "xinh", "dễ thương"],
+  ["thông minh", "sáng dạ", "giỏi"],
+  ["đơn giản", "dễ", "dễ dàng"],
+  ["khó", "phức tạp"],
+  ["quyết định", "lựa chọn"],
+  ["lo lắng", "bồn chồn", "sợ", "lo"],
+  ["vui vẻ", "hạnh phúc", "vui"],
+  ["buồn", "sầu", "chán", "buồn bã"],
+  ["tức giận", "nổi giận", "giận", "bực mình"],
+  ["đồ ăn", "thức ăn", "món ăn"],
+  ["nước uống", "thức uống"],
+  ["công việc", "việc làm", "nghề nghiệp"],
+  ["thay đổi", "biến đổi", "chuyển"],
+  ["chuẩn bị", "sắp sửa"],
+  ["quan trọng", "chủ chốt", "cần thiết"],
+  ["nguy hiểm", "nguy kịch"],
+  ["an toàn", "yên tâm"],
+  ["sức khỏe", "khỏe mạnh", "khỏe"],
+  ["xe hơi", "ô tô", "xe ô tô"],
+  ["máy bay", "phi cơ"],
+  ["xe lửa", "tàu hỏa", "xe hỏa"],
+  ["nhà", "căn hộ", "nơi ở", "căn nhà"],
+  ["trường học", "trường"],
+  ["bệnh viện", "nhà thương"],
+  ["cửa hàng", "tiệm", "quán", "cửa tiệm"],
+  ["công ty", "doanh nghiệp"],
+  ["sử dụng", "dùng"],
+  ["làm", "thực hiện", "chế tạo"],
+  ["nói", "phát biểu", "trò chuyện"],
+  ["nghe", "lắng nghe"],
+  ["nhìn", "xem", "quan sát"],
+  ["nghĩ", "suy nghĩ", "tư duy"],
+  ["nhớ", "ghi nhớ"],
+  ["quên", "lãng quên"],
+  ["mua", "sắm"],
+  ["bán", "giao dịch"],
+  ["trả lời", "đáp"],
+  ["hỏi", "truy vấn"],
+  ["hiểu", "nắm rõ", "biết"],
+  ["tìm", "tìm kiếm"],
+  ["đóng", "tắt", "khóa"],
+  ["mở", "bật"],
+  ["gặp", "gặp gỡ"],
+  ["viết", "soạn thảo"],
+  ["đọc", "xem sách"],
+  ["ăn", "dùng bữa"],
+  ["uống", "nhấp nháp"],
+  ["ngủ", "ngủ nghỉ"],
+  ["đi", "di chuyển"],
+  ["đến", "tới"],
+  ["về", "trở về"],
+  ["chạy", "chạy bộ"],
+  ["bơi", "tắm biển"],
+  ["cười", "vui cười"],
+  ["khóc", "lệ rơi"]
+];
+
+const areVietnameseSynonyms = (w1, w2) => {
+  const clean1 = w1.trim().toLowerCase().normalize("NFC");
+  const clean2 = w2.trim().toLowerCase().normalize("NFC");
+  if (clean1 === clean2) return true;
+  
+  return VIETNAMESE_SYNONYMS.some(cluster => 
+    cluster.includes(clean1) && cluster.includes(clean2)
+  );
+};
+
+const getLevenshteinDistance = (a, b) => {
+  const aNorm = a.normalize("NFC");
+  const bNorm = b.normalize("NFC");
+
+  if (aNorm.length === 0) return bNorm.length;
+  if (bNorm.length === 0) return aNorm.length;
+
+  const matrix = [];
+  for (let i = 0; i <= bNorm.length; i++) matrix[i] = [i];
+  for (let j = 0; j <= aNorm.length; j++) matrix[0][j] = j;
+
+  for (let i = 1; i <= bNorm.length; i++) {
+    for (let j = 1; j <= aNorm.length; j++) {
+      if (bNorm.charAt(i - 1) === aNorm.charAt(j - 1)) {
+        matrix[i][j] = matrix[i - 1][j - 1];
+      } else {
+        matrix[i][j] = Math.min(
+          matrix[i - 1][j - 1] + 1,
+          Math.min(
+            matrix[i][j - 1] + 1,
+            matrix[i - 1][j] + 1
+          )
+        );
+      }
+    }
+  }
+  return matrix[bNorm.length][aNorm.length];
+};
+
+const matchVietnameseAnswer = (userInput, correctMeaning) => {
+  const inputClean = userInput.trim().toLowerCase().normalize("NFC");
+  const meaningClean = correctMeaning.trim().toLowerCase().normalize("NFC");
+  
+  if (inputClean === meaningClean) return true;
+
+  const delimiters = /[,;\/()]/;
+  const correctParts = meaningClean.split(delimiters)
+    .map(p => p.trim())
+    .filter(p => p.length > 0);
+
+  // 1. Direct match with splits
+  if (correctParts.includes(inputClean)) return true;
+
+  // 2. Synonym match
+  for (const part of correctParts) {
+    if (areVietnameseSynonyms(inputClean, part)) {
+      return true;
+    }
+  }
+
+  // 3. Typo/Fuzzy match (Levenshtein distance <= 1 for words length >= 4)
+  for (const part of correctParts) {
+    if (part.length >= 4) {
+      const dist = getLevenshteinDistance(inputClean, part);
+      if (dist <= 1) {
+        return true;
+      }
+    }
+  }
+
+  return false;
 };
 
 export default DailyStudyPage;
