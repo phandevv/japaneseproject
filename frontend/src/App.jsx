@@ -5,6 +5,7 @@ import FlashcardPage from './pages/FlashcardPage';
 import SearchPage from './pages/SearchPage';
 import DailyStudyPage from './pages/DailyStudyPage';
 import AuthPage from './pages/AuthPage';
+import VocabAdminPage from './pages/VocabAdminPage';
 import { useAuth } from './context/AuthContext';
 
 const getTodayKey = () => new Date().toISOString().slice(0, 10);
@@ -88,14 +89,19 @@ function App() {
             streak={userStreakData?.streak || 0} 
             onLoginClick={() => setCurrentPage('auth')} 
             onLogout={handleLogout} 
+            onAdminClick={() => setCurrentPage('admin-vocab')}
           />
         );
       case 'auth':
         return <AuthPage onCancel={() => setCurrentPage('home')} />;
       case 'flashcard':
         return <FlashcardPage level={selectedLevel} goBack={() => setCurrentPage('home')} />;
+      case 'srs-review':
+        return <FlashcardPage level="SRS" isSrs={true} goBack={() => setCurrentPage('home')} />;
       case 'daily':
         return <DailyStudyPage level={selectedLevel} stats={stats} goBack={() => setCurrentPage('home')} />;
+      case 'admin-vocab':
+        return <VocabAdminPage goBack={() => setCurrentPage('home')} />;
       case 'search':
         return <SearchPage />;
       default:

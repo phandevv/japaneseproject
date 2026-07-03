@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Volume2 } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
 
-const FlashcardCard = ({ word, flipped, onFlip }) => {
+const FlashcardCard = ({ word, flipped, onFlip, onRateWord }) => {
   const { t } = useLanguage();
 
   useEffect(() => {
@@ -96,6 +96,24 @@ const FlashcardCard = ({ word, flipped, onFlip }) => {
             }}>
               {word.wordType}
             </p>
+          )}
+
+          {/* Rate buttons for logged-in user in flashcard mode */}
+          {onRateWord && (
+            <div style={{ display: 'flex', gap: '8px', marginTop: '20px', width: '100%', justifyContent: 'center' }} onClick={e => e.stopPropagation()}>
+              <button className="btn" style={{ backgroundColor: 'rgba(239, 68, 68, 0.2)', color: '#ef4444', borderColor: '#ef4444', border: '1px solid', flex: 1, padding: '8px 4px', fontSize: '0.85rem', cursor: 'pointer' }} onClick={() => onRateWord(1)}>
+                Again
+              </button>
+              <button className="btn" style={{ backgroundColor: 'rgba(245, 158, 11, 0.2)', color: '#f59e0b', borderColor: '#f59e0b', border: '1px solid', flex: 1, padding: '8px 4px', fontSize: '0.85rem', cursor: 'pointer' }} onClick={() => onRateWord(2)}>
+                Hard
+              </button>
+              <button className="btn" style={{ backgroundColor: 'rgba(59, 130, 246, 0.2)', color: '#3b82f6', borderColor: '#3b82f6', border: '1px solid', flex: 1, padding: '8px 4px', fontSize: '0.85rem', cursor: 'pointer' }} onClick={() => onRateWord(3)}>
+                Good
+              </button>
+              <button className="btn" style={{ backgroundColor: 'rgba(16, 185, 129, 0.2)', color: '#10b981', borderColor: '#10b981', border: '1px solid', flex: 1, padding: '8px 4px', fontSize: '0.85rem', cursor: 'pointer' }} onClick={() => onRateWord(4)}>
+                Easy
+              </button>
+            </div>
           )}
         </div>
 

@@ -1,11 +1,13 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { vocabApi } from '../services/api';
+import { vocabApi, srsApi, analyticsApi } from '../services/api';
 import FlashcardCard from '../components/FlashcardCard';
 import { ArrowLeft, ArrowRight, Shuffle, Loader, CornerUpLeft } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
+import { useAuth } from '../context/AuthContext';
 
-const FlashcardPage = ({ level, goBack }) => {
+const FlashcardPage = ({ level, isSrs = false, goBack }) => {
   const { t } = useLanguage();
+  const { isAuthenticated } = useAuth();
   const [words, setWords] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [loading, setLoading] = useState(true);
@@ -14,7 +16,12 @@ const FlashcardPage = ({ level, goBack }) => {
   const fetchWords = useCallback(async () => {
     setLoading(true);
     try {
-      const data = await vocabApi.getRandomByLevel(level, 50);
+      let data = [];
+      if (isSrs) {
+        data = await srsApi.getDueWords();
+      } else {
+        data = await vocabApi.getRandomByLevel(level, 50);
+      }
       setWords(data);
       setCurrentIndex(0);
       setFlipped(false);
@@ -23,7 +30,7 @@ const FlashcardPage = ({ level, goBack }) => {
     } finally {
       setLoading(false);
     }
-  }, [level]);
+  }, [level, isSrs]);
 
   useEffect(() => {
     fetchWords();
@@ -65,6 +72,30 @@ const FlashcardPage = ({ level, goBack }) => {
     }
   };
 
+  const handleRateWord = async (quality) => {
+    if (words.length === 0) return;
+    const currentWord = words[currentIndex];
+
+    if (isAuthenticated) {
+      try {
+        await srsApi.reviewWord(currentWord.id, quality);
+        // Log study session: 1 word studied, 1 correct if quality is Good/Easy, total questions 1
+        await analyticsApi.logSession(1, quality >= 3 ? 1 : 0, 1);
+      } catch (error) {
+        console.error("Failed to save SRS review:", error);
+      }
+    }
+
+    // Advance to next word
+    if (currentIndex < words.length - 1) {
+      setCurrentIndex(prev => prev + 1);
+      setFlipped(false);
+    } else {
+      alert(isSrs ? "Chúc mừng! Bạn đã hoàn thành tất cả các từ cần ôn hôm nay." : "Bạn đã học hết xấp thẻ này!");
+      goBack();
+    }
+  };
+
   if (loading) {
     return (
       <div className="flex-center" style={{ height: '70vh', flexDirection: 'column', gap: '20px' }}>
@@ -77,7 +108,7 @@ const FlashcardPage = ({ level, goBack }) => {
   if (words.length === 0) {
     return (
       <div className="container flex-center" style={{ height: '70vh', flexDirection: 'column', gap: '20px' }}>
-        <h2>{t.flashcard.noWords}</h2>
+        <h2>{isSrs ? "Bạn không có từ nào đến hạn ôn tập hôm nay! 🎉" : t.flashcard.noWords}</h2>
         <button className="btn btn-primary" onClick={goBack}>{t.flashcard.backDashboard}</button>
       </div>
     );
@@ -97,13 +128,18 @@ const FlashcardPage = ({ level, goBack }) => {
 
         <div style={{ textAlign: 'center' }}>
           <h2 style={{ fontSize: '1.5rem', marginBottom: '5px' }}>
-            {t.flashcard.level}: <span style={{ color: 'var(--accent-color)' }}>{level}</span>
+            {isSrs ? "Ôn tập SRS" : `${t.flashcard.level}: `}
+            {!isSrs && <span style={{ color: 'var(--accent-color)' }}>{level}</span>}
           </h2>
         </div>
 
-        <button className="btn btn-secondary" style={{ padding: '8px 15px' }} onClick={fetchWords}>
-          <Shuffle size={18} /> {t.flashcard.shuffleNew}
-        </button>
+        {!isSrs ? (
+          <button className="btn btn-secondary" style={{ padding: '8px 15px' }} onClick={fetchWords}>
+            <Shuffle size={18} /> {t.flashcard.shuffleNew}
+          </button>
+        ) : (
+          <div style={{ width: '100px' }}></div>
+        )}
       </div>
 
       {/* Progress Bar */}
@@ -123,6 +159,7 @@ const FlashcardPage = ({ level, goBack }) => {
           word={currentWord}
           flipped={flipped}
           onFlip={() => setFlipped(!flipped)}
+          onRateWord={isAuthenticated ? handleRateWord : null}
         />
       </div>
 
@@ -164,3 +201,4 @@ const FlashcardPage = ({ level, goBack }) => {
 };
 
 export default FlashcardPage;
+

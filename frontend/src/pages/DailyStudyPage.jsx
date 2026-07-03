@@ -33,6 +33,7 @@ const DailyStudyPage = ({ level, stats, goBack }) => {
   const [quizStatus, setQuizStatus] = useState('idle'); // idle, correct, incorrect, finished
   const [score, setScore] = useState(0);
   const [mistakes, setMistakes] = useState([]);
+  const [quizQuestionType, setQuizQuestionType] = useState('vi-to-ja'); // 'vi-to-ja' or 'ja-to-vi'
 
   // Quiz setup form states
   const [quizOptType, setQuizOptType] = useState('all'); // all, random, range
@@ -190,10 +191,24 @@ const DailyStudyPage = ({ level, stats, goBack }) => {
 
     const currentWord = quizWords[quizIndex];
     const inputClean = userInput.trim().toLowerCase();
-    const kanjiClean = currentWord.kanji ? currentWord.kanji.trim().toLowerCase() : '';
-    const hiraganaClean = currentWord.hiragana ? currentWord.hiragana.trim().toLowerCase() : '';
+    
+    let isCorrect = false;
 
-    if (inputClean === kanjiClean || inputClean === hiraganaClean) {
+    if (quizQuestionType === 'vi-to-ja') {
+      const kanjiClean = currentWord.kanji ? currentWord.kanji.trim().toLowerCase() : '';
+      const hiraganaClean = currentWord.hiragana ? currentWord.hiragana.trim().toLowerCase() : '';
+      isCorrect = (inputClean === kanjiClean || inputClean === hiraganaClean);
+    } else {
+      // ja-to-vi mode: compare input with meaning parts
+      const meaning = currentWord.meaning || '';
+      const delimiters = /[,;\/()]/;
+      const parts = meaning.split(delimiters)
+        .map(p => p.trim().toLowerCase())
+        .filter(p => p.length > 0);
+      isCorrect = parts.some(p => p === inputClean) || inputClean === meaning.trim().toLowerCase();
+    }
+
+    if (isCorrect) {
       setQuizStatus('correct');
       if (!failedWordIds.has(currentWord.id)) {
         setScore(s => s + 1);
@@ -567,11 +582,16 @@ const DailyStudyPage = ({ level, stats, goBack }) => {
           </div>
 
           <div className="card" style={{ padding: '40px', textAlign: 'center', marginBottom: '30px' }}>
-            <p style={{ color: 'var(--text-secondary)', marginBottom: '15px' }}>{t.daily.quizPrompt}</p>
-            <h2 style={{ fontSize: '2.5rem', marginBottom: '20px', color: 'var(--text-primary)' }}>
-              {currentWord.meaning}
+            <p style={{ color: 'var(--text-secondary)', marginBottom: '15px' }}>
+              {quizQuestionType === 'vi-to-ja' ? t.daily.quizPrompt : 'Hãy điền nghĩa Tiếng Việt của từ sau:'}
+            </p>
+            <h2 className={quizQuestionType === 'ja-to-vi' ? 'jp-text' : ''} style={{ fontSize: quizQuestionType === 'ja-to-vi' ? '2.8rem' : '2.2rem', marginBottom: '20px', color: 'var(--text-primary)' }}>
+              {quizQuestionType === 'vi-to-ja' ? currentWord.meaning : (currentWord.kanji || currentWord.hiragana)}
             </h2>
-            {currentWord.hanViet && (
+            {quizQuestionType === 'ja-to-vi' && currentWord.kanji && (
+              <p style={{ color: 'var(--accent-color)', fontSize: '1.2rem', marginBottom: '10px' }}>({currentWord.hiragana})</p>
+            )}
+            {quizQuestionType === 'vi-to-ja' && currentWord.hanViet && (
               <p style={{ color: 'var(--text-secondary)' }}>【{currentWord.hanViet}】</p>
             )}
           </div>
@@ -583,8 +603,8 @@ const DailyStudyPage = ({ level, stats, goBack }) => {
                 autoFocus
                 value={userInput}
                 onChange={(e) => setUserInput(e.target.value)}
-                placeholder={t.daily.inputPlaceholder}
-                className="jp-text"
+                placeholder={quizQuestionType === 'vi-to-ja' ? t.daily.inputPlaceholder : 'Nhập nghĩa dịch Tiếng Việt...'}
+                className={quizQuestionType === 'vi-to-ja' ? 'jp-text' : ''}
                 style={{
                   flex: 1,
                   padding: '16px 20px',
@@ -618,6 +638,9 @@ const DailyStudyPage = ({ level, stats, goBack }) => {
                       <Volume2 size={16} />
                     </button>
                   </p>
+                  <p style={{ marginTop: '6px', fontSize: '1.05rem', color: 'var(--text-primary)' }}>
+                    <strong>Nghĩa:</strong> {currentWord.meaning}
+                  </p>
                 </div>
               </div>
               <button className="btn btn-primary" onClick={nextQuestion} autoFocus>
@@ -644,6 +667,9 @@ const DailyStudyPage = ({ level, stats, goBack }) => {
                       <Volume2 size={16} />
                     </button>
                   </p>
+                  <p style={{ marginTop: '6px', fontSize: '1.05rem', color: 'var(--text-primary)' }}>
+                    <strong>Nghĩa:</strong> {currentWord.meaning}
+                  </p>
                 </div>
               </div>
               <button className="btn btn-primary" onClick={nextQuestion} autoFocus>
@@ -666,9 +692,34 @@ const DailyStudyPage = ({ level, stats, goBack }) => {
         </button>
         <div className="card" style={{ padding: '40px' }}>
           <h2 style={{ marginBottom: '10px', textAlign: 'center' }}>{t.daily.quizSetupTitle}</h2>
-          <p style={{ color: 'var(--text-secondary)', marginBottom: '30px', textAlign: 'center' }}>
+          <p style={{ color: 'var(--text-secondary)', marginBottom: '24px', textAlign: 'center' }}>
             {t.daily.quizSetupPrompt(selectedDay, words.length)}
           </p>
+
+          {/* Question Direction Selection */}
+          <div style={{ marginBottom: '24px', paddingBottom: '20px', borderBottom: '1px solid var(--border-color)' }}>
+            <label style={{ display: 'block', fontWeight: 600, marginBottom: '12px', fontSize: '1rem' }}>
+              Dạng câu hỏi Quiz:
+            </label>
+            <div style={{ display: 'flex', gap: '16px' }}>
+              <button 
+                type="button"
+                className={`btn ${quizQuestionType === 'vi-to-ja' ? 'btn-primary' : 'btn-secondary'}`}
+                style={{ flex: 1, padding: '10px 6px', fontSize: '0.9rem' }}
+                onClick={() => setQuizQuestionType('vi-to-ja')}
+              >
+                Nghĩa Việt → Tiếng Nhật
+              </button>
+              <button 
+                type="button"
+                className={`btn ${quizQuestionType === 'ja-to-vi' ? 'btn-primary' : 'btn-secondary'}`}
+                style={{ flex: 1, padding: '10px 6px', fontSize: '0.9rem' }}
+                onClick={() => setQuizQuestionType('ja-to-vi')}
+              >
+                Tiếng Nhật → Nghĩa Việt
+              </button>
+            </div>
+          </div>
 
           {quizSetupError && (
             <div style={{ 

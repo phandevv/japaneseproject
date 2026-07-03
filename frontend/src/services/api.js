@@ -104,5 +104,50 @@ export const vocabApi = {
       console.error("Error importing excel:", error);
       throw error;
     }
+  },
+
+  // Create new vocabulary
+  create: async (vocabData) => {
+    const response = await axios.post(`${API_BASE_URL}/vocab`, vocabData);
+    return response.data;
+  },
+
+  // Update vocabulary
+  update: async (id, vocabData) => {
+    const response = await axios.put(`${API_BASE_URL}/vocab/${id}`, vocabData);
+    return response.data;
+  },
+
+  // Delete vocabulary
+  delete: async (id) => {
+    const response = await axios.delete(`${API_BASE_URL}/vocab/${id}`);
+    return response.data;
   }
 };
+
+export const srsApi = {
+  getDueWords: async () => {
+    const response = await axios.get(`${API_BASE_URL}/srs/due`);
+    return response.data;
+  },
+  reviewWord: async (vocabularyId, quality) => {
+    const response = await axios.post(`${API_BASE_URL}/srs/review`, { vocabularyId, quality });
+    return response.data;
+  }
+};
+
+export const analyticsApi = {
+  getDashboard: async () => {
+    const response = await axios.get(`${API_BASE_URL}/analytics/dashboard`);
+    return response.data;
+  },
+  logSession: async (wordsStudied, correctAnswers, totalQuestions) => {
+    const response = await axios.post(`${API_BASE_URL}/analytics/session`, {
+      wordsStudied,
+      correctAnswers,
+      totalQuestions
+    });
+    return response.data;
+  }
+};
+

@@ -1,0 +1,30 @@
+# Environment files — never commit secrets!
+.env
+.env.local
+.env.production
+
+# Build outputs
+frontend/dist/
+backend/target/
+
+# Java
+*.class
+*.jar
+*.war
+
+# Node
+node_modules/
+frontend/node_modules/
+
+# IDE
+.idea/
+*.iml
+.vscode/
+
+# Data directory (database files)
+data/*.mv.db
+data/*.trace.db
+data/logs/
+
+# macOS
+.DS_Store

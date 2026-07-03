@@ -13,7 +13,6 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/vocab")
-@CrossOrigin(origins = "*")
 public class VocabularyController {
 
     private final VocabularyService service;
@@ -87,5 +86,48 @@ public class VocabularyController {
     @GetMapping("/stats")
     public ResponseEntity<Map<String, Object>> getStats() {
         return ResponseEntity.ok(service.getStats());
+    }
+
+    /**
+     * Create new vocabulary word
+     * POST /api/vocab
+     */
+    @PostMapping
+    public ResponseEntity<?> create(@RequestBody Vocabulary vocabulary) {
+        if ((vocabulary.getKanji() == null || vocabulary.getKanji().isBlank()) && 
+            (vocabulary.getHiragana() == null || vocabulary.getHiragana().isBlank())) {
+            return ResponseEntity.badRequest().body(Map.of("error", "Kanji or Hiragana is required"));
+        }
+        return ResponseEntity.ok(service.save(vocabulary));
+    }
+
+    /**
+     * Update vocabulary word
+     * PUT /api/vocab/{id}
+     */
+    @PutMapping("/{id}")
+    public ResponseEntity<?> update(@PathVariable Long id, @RequestBody Vocabulary vocabulary) {
+        return service.getById(id).map(existing -> {
+            existing.setKanji(vocabulary.getKanji());
+            existing.setHiragana(vocabulary.getHiragana());
+            existing.setHanViet(vocabulary.getHanViet());
+            existing.setMeaning(vocabulary.getMeaning());
+            existing.setWordType(vocabulary.getWordType());
+            existing.setLevel(vocabulary.getLevel());
+            existing.setCategory(vocabulary.getCategory());
+            return ResponseEntity.ok(service.save(existing));
+        }).orElse(ResponseEntity.notFound().build());
+    }
+
+    /**
+     * Delete vocabulary word
+     * DELETE /api/vocab/{id}
+     */
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> delete(@PathVariable Long id) {
+        return service.getById(id).map(existing -> {
+            service.deleteById(id);
+            return ResponseEntity.ok(Map.of("success", true, "message", "Vocabulary deleted successfully"));
+        }).orElse(ResponseEntity.notFound().build());
     }
 }

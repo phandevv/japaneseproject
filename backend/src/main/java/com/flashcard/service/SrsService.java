@@ -1,0 +1,111 @@
+package com.flashcard.service;
+
+import com.flashcard.model.User;
+import com.flashcard.model.Vocabulary;
+import com.flashcard.model.WordReview;
+import com.flashcard.repository.VocabularyRepository;
+import com.flashcard.repository.WordReviewRepository;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
+@Service
+public class SrsService {
+
+    private final WordReviewRepository reviewRepository;
+    private final VocabularyRepository vocabularyRepository;
+
+    public SrsService(WordReviewRepository reviewRepository, VocabularyRepository vocabularyRepository) {
+        this.reviewRepository = reviewRepository;
+        this.vocabularyRepository = vocabularyRepository;
+    }
+
+    /**
+     * Get count of due words to review today
+     */
+    @Transactional(readOnly = true)
+    public long getDueCount(User user) {
+        return reviewRepository.countByUserAndNextReviewBefore(user, Instant.now());
+    }
+
+    /**
+     * Get list of Vocabulary objects that are due for review
+     */
+    @Transactional(readOnly = true)
+    public List<Vocabulary> getDueVocabulary(User user) {
+        return reviewRepository.findByUserAndNextReviewBefore(user, Instant.now())
+                .stream()
+                .map(WordReview::getVocabulary)
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * Handle word rating submission and recalculate next review interval using SM-2
+     * @param quality rating from user: 1 (Again), 2 (Hard), 3 (Good), 4 (Easy)
+     */
+    @Transactional
+    public WordReview reviewWord(User user, Long vocabularyId, int quality) {
+        if (quality < 1 || quality > 4) {
+            throw new IllegalArgumentException("Quality rating must be between 1 and 4");
+        }
+
+        Vocabulary vocab = vocabularyRepository.findById(vocabularyId)
+                .orElseThrow(() -> new IllegalArgumentException("Vocabulary word not found"));
+
+        WordReview review = reviewRepository.findByUserAndVocabulary(user, vocab)
+                .orElseGet(() -> new WordReview(user, vocab));
+
+        // Map 1-4 scale to SM-2 0-5 scale
+        // 1 (Again) -> q=0 or q=1 (let's use 1)
+        // 2 (Hard)  -> q=3
+        // 3 (Good)  -> q=4
+        // 4 (Easy)  -> q=5
+        int q = switch (quality) {
+            case 1 -> 1;
+            case 2 -> 3;
+            case 3 -> 4;
+            case 4 -> 5;
+            default -> 3;
+        };
+
+        double easeFactor = review.getEaseFactor();
+        int repetitions = review.getRepetitions();
+        int intervalDays;
+
+        if (q >= 3) { // Success response
+            if (repetitions == 0) {
+                intervalDays = 1;
+            } else if (repetitions == 1) {
+                intervalDays = 6;
+            } else {
+                intervalDays = (int) Math.round(review.getIntervalDays() * easeFactor);
+            }
+            repetitions++;
+        } else { // Fail response
+            repetitions = 0;
+            intervalDays = 1;
+        }
+
+        // Adjust Ease Factor (EF)
+        // EF' := EF + (0.1 - (5 - q) * (0.08 + (5 - q) * 0.02))
+        easeFactor = easeFactor + (0.1 - (5 - q) * (0.08 + (5 - q) * 0.02));
+        if (easeFactor < 1.3) {
+            easeFactor = 1.3;
+        }
+
+        review.setEaseFactor(easeFactor);
+        review.setRepetitions(repetitions);
+        review.setIntervalDays(intervalDays);
+
+        // Schedule next review date
+        Instant nextReview = Instant.now().plus(intervalDays, ChronoUnit.DAYS);
+        review.setNextReview(nextReview);
+
+        return reviewRepository.save(review);
+    }
+}

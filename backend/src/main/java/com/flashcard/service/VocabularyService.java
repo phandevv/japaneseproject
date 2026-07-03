@@ -86,4 +86,16 @@ public class VocabularyService {
     public long count() {
         return repository.count();
     }
+
+    public Vocabulary save(Vocabulary vocabulary) {
+        return repository.save(vocabulary);
+    }
+
+    public void deleteById(Long id) {
+        repository.deleteById(id);
+    }
+
+    public Optional<Vocabulary> getById(Long id) {
+        return repository.findById(id);
+    }
 }

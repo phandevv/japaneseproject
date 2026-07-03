@@ -3,14 +3,13 @@ package com.flashcard.controller;
 import com.flashcard.model.User;
 import com.flashcard.service.AuthService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
 import java.util.Map;
 
 @RestController
 @RequestMapping("/api/auth")
-@CrossOrigin(origins = "*")
 public class AuthController {
 
     private final AuthService authService;
@@ -22,13 +21,11 @@ public class AuthController {
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody Map<String, String> request) {
         try {
-            String username = request.get("username");
-            String password = request.get("password");
-            User user = authService.register(username, password);
-            Map<String, Object> response = new HashMap<>();
-            response.put("message", "User registered successfully");
-            response.put("username", user.getUsername());
-            return ResponseEntity.ok(response);
+            User user = authService.register(request.get("username"), request.get("password"));
+            return ResponseEntity.ok(Map.of(
+                "message", "User registered successfully",
+                "username", user.getUsername()
+            ));
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
         } catch (Exception e) {
@@ -39,13 +36,11 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody Map<String, String> request) {
         try {
-            String username = request.get("username");
-            String password = request.get("password");
-            String token = authService.login(username, password);
-            Map<String, String> response = new HashMap<>();
-            response.put("token", token);
-            response.put("username", username.trim());
-            return ResponseEntity.ok(response);
+            String token = authService.login(request.get("username"), request.get("password"));
+            return ResponseEntity.ok(Map.of(
+                "token", token,
+                "username", request.get("username").trim()
+            ));
         } catch (IllegalArgumentException e) {
             return ResponseEntity.status(401).body(Map.of("error", e.getMessage()));
         } catch (Exception e) {
@@ -53,21 +48,16 @@ public class AuthController {
         }
     }
 
+    /** Stateless JWT — logout is client-side (discard token). Endpoint kept for API compatibility. */
     @PostMapping("/logout")
-    public ResponseEntity<?> logout(@RequestHeader(value = "Authorization", required = false) String authHeader) {
-        try {
-            String token = extractToken(authHeader);
-            authService.logout(token);
-            return ResponseEntity.ok(Map.of("message", "Logged out successfully"));
-        } catch (Exception e) {
-            return ResponseEntity.internalServerError().body(Map.of("error", "Logout failed: " + e.getMessage()));
-        }
+    public ResponseEntity<?> logout() {
+        return ResponseEntity.ok(Map.of("message", "Logged out successfully"));
     }
 
-    private String extractToken(String header) {
-        if (header != null && header.startsWith("Bearer ")) {
-            return header.substring(7);
-        }
-        return null;
+    /** Returns current authenticated user info (useful for frontend session restore). */
+    @GetMapping("/me")
+    public ResponseEntity<?> me(@AuthenticationPrincipal User user) {
+        if (user == null) return ResponseEntity.status(401).body(Map.of("error", "Unauthorized"));
+        return ResponseEntity.ok(Map.of("username", user.getUsername(), "id", user.getId()));
     }
 }

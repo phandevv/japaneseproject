@@ -16,9 +16,7 @@ build_images:
     - |
       if [ -z "$AWS_REGION" ] || [ -z "$AWS_ACCOUNT_ID" ]; then
         echo "=========================================================================="
-        echo "ERROR: AWS_REGION hoặc AWS_ACCOUNT_ID chưa được định nghĩa trong GitLab CI/CD Variables!"
-        echo "LƯU Ý: Nếu bạn đang chạy trên nhánh feature (nhánh phụ), hãy đảm bảo rằng bạn đã"
-        echo "TẮT (UNCHECK) thuộc tính 'Protect variable' trong phần cấu hình biến của GitLab."
+        echo "ERROR: AWS_REGION or AWS_ACCOUNT_ID not defined in GitLab CI/CD Variables!"
         echo "=========================================================================="
         exit 1
       fi
@@ -41,33 +39,40 @@ build_images:
 
 deploy_aws:
   stage: deploy
+  # Use docker image with AWS CLI — run as shell, not as aws entrypoint
   image:
     name: amazon/aws-cli:latest
     entrypoint: [""]
+  before_script:
+    - |
+      if [ -z "$AWS_REGION" ] || [ -z "$AWS_ACCOUNT_ID" ]; then
+        echo "ERROR: AWS_REGION or AWS_ACCOUNT_ID not set"
+        exit 1
+      fi
   script:
     - |
       INSTANCE_ID=$(aws ec2 describe-instances \
         --filters "Name=tag:aws:cloudformation:stack-name,Values=JapaneseProjectStack" "Name=instance-state-name,Values=running" \
         --query "Reservations[0].Instances[0].InstanceId" \
-        --output text)
-      
+        --output text \
+        --region $AWS_REGION)
+
       if [ -z "$INSTANCE_ID" ] || [ "$INSTANCE_ID" = "None" ]; then
         echo "Error: No running EC2 instance found for stack JapaneseProjectStack"
         exit 1
       fi
-      
+
       echo "Found EC2 Instance ID: $INSTANCE_ID"
-      
+
+      # Build the redeploy command (uses .env file already on the server)
+      COMMAND="cd /home/ec2-user/app && aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com && docker-compose pull && docker-compose --env-file .env up -d --remove-orphans"
+
       aws ssm send-command \
         --document-name "AWS-RunShellScript" \
         --instance-ids "$INSTANCE_ID" \
-        --parameters "commands=[
-          \"aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com\",
-          \"cd /home/ec2-user/app\",
-          \"docker-compose pull\",
-          \"docker-compose up -d\"
-        ]" \
-        --comment "CI/CD Auto Redeploy"
+        --parameters "commands=[\"$COMMAND\"]" \
+        --comment "CI/CD Auto Redeploy - $CI_COMMIT_SHORT_SHA" \
+        --region $AWS_REGION
   only:
     - main
     - master

@@ -11,7 +11,6 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/import")
-@CrossOrigin(origins = "*") // Allow frontend to call this endpoint
 public class ImportController {
 
     private final ExcelImportService excelImportService;
