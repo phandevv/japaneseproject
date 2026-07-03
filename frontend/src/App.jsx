@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Navbar from './components/Navbar';
+import Footer from './components/Footer';
 import HomePage from './pages/HomePage';
 import FlashcardPage from './pages/FlashcardPage';
 import SearchPage from './pages/SearchPage';
@@ -36,6 +37,7 @@ function App() {
   const [currentPage, setCurrentPage] = useState('home');
   const [selectedLevel, setSelectedLevel] = useState(null);
   const [stats, setStats] = useState(null);
+  const [showStudySection, setShowStudySection] = useState(false);
 
   // Streak state associated with the active user (username or 'guest')
   const [userStreakData, setUserStreakData] = useState(null);
@@ -66,11 +68,18 @@ function App() {
   const handleLogout = async () => {
     await authLogout();
     setCurrentPage('home');
+    setShowStudySection(false);
+  };
+
+  const handleLoginSuccess = () => {
+    setCurrentPage('home');
+    setShowStudySection(true);
   };
 
   const startStudy = (level, mode = 'flashcard') => {
     setSelectedLevel(level);
     setCurrentPage(mode);
+    setShowStudySection(false);
 
     if (userStreakData) {
       const updatedUser = updateStreakForToday(userStreakData);
@@ -87,15 +96,35 @@ function App() {
             startStudy={startStudy} 
             user={isAuthenticated ? authUser : null} 
             streak={userStreakData?.streak || 0} 
-            onLoginClick={() => setCurrentPage('auth')} 
-            onLogout={handleLogout} 
+            onLoginClick={() => {
+              setCurrentPage('auth');
+              setShowStudySection(false);
+            }}
+            onDailyClick={() => {
+              if (isAuthenticated) {
+                setSelectedLevel(null);
+                setCurrentPage('daily');
+              } else {
+                setCurrentPage('auth');
+              }
+            }}
             onAdminClick={() => setCurrentPage('admin-vocab')}
+            showStudySection={showStudySection}
           />
         );
       case 'auth':
-        return <AuthPage onCancel={() => setCurrentPage('home')} />;
+        return <AuthPage onCancel={() => setCurrentPage('home')} onSuccess={handleLoginSuccess} />;
       case 'flashcard':
-        return <FlashcardPage level={selectedLevel} goBack={() => setCurrentPage('home')} />;
+        return (
+          <FlashcardPage
+            level={selectedLevel}
+            stats={stats}
+            goBack={() => {
+              setSelectedLevel(null);
+              setCurrentPage('home');
+            }}
+          />
+        );
       case 'srs-review':
         return <FlashcardPage level="SRS" isSrs={true} goBack={() => setCurrentPage('home')} />;
       case 'daily':
@@ -111,10 +140,21 @@ function App() {
 
   return (
     <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
-      <Navbar setCurrentPage={setCurrentPage} user={isAuthenticated ? authUser : null} />
+      <Navbar
+        setCurrentPage={(page) => {
+          if (page === 'flashcard' || page === 'daily') {
+            setSelectedLevel(null);
+          }
+          setCurrentPage(page);
+        }}
+        onLoginClick={() => setCurrentPage('auth')}
+        user={isAuthenticated ? authUser : null}
+        onLogout={handleLogout}
+      />
       <main style={{ flex: 1 }}>
         {renderPage()}
       </main>
+      <Footer />
     </div>
   );
 }

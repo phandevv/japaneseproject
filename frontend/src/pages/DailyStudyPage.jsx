@@ -6,10 +6,21 @@ import { useAuth } from '../context/AuthContext';
 import KanjiDetailModal from '../components/KanjiDetailModal';
 import * as XLSX from 'xlsx';
 
+const levelColors = {
+  N5: '#3b82f6',
+  N4: '#10b981',
+  N3: '#f59e0b',
+  N2: '#ef4444',
+  N1: '#8b5cf6',
+  TU_LAY: '#ec4899',
+  TRO_TU: '#06b6d4',
+};
+
 const DailyStudyPage = ({ level, stats, goBack }) => {
   const { t } = useLanguage();
   const { isAuthenticated } = useAuth();
   
+  const [currentLevel, setCurrentLevel] = useState(level);
   const [phase, setPhase] = useState(0); // 0: Settings, 1: Select Day, 2: Review Table, 3: Quiz, 4: Quiz Config
   const [wordsPerDay, setWordsPerDay] = useState(20);
   const [customInput, setCustomInput] = useState('');
@@ -68,7 +79,12 @@ const DailyStudyPage = ({ level, stats, goBack }) => {
 
   // Load configuration from backend (if logged in) or localStorage (guest)
   useEffect(() => {
+    setCurrentLevel(level);
+  }, [level]);
+
+  useEffect(() => {
     const loadSettings = async () => {
+      if (!currentLevel) return;
       setLoadingSetting(true);
       try {
         if (level === 'LEARNED_REVIEW') {
@@ -78,7 +94,7 @@ const DailyStudyPage = ({ level, stats, goBack }) => {
           return;
         }
         if (isAuthenticated) {
-          const setting = await userSettingsApi.getSetting(level);
+          const setting = await userSettingsApi.getSetting(currentLevel);
           if (setting && setting.wordsPerDay) {
             setWordsPerDay(setting.wordsPerDay);
             setPhase(1);
@@ -86,7 +102,7 @@ const DailyStudyPage = ({ level, stats, goBack }) => {
             setPhase(0);
           }
         } else {
-          const savedWpd = localStorage.getItem(`wordsPerDay_${level}`) || localStorage.getItem('wordsPerDay');
+          const savedWpd = localStorage.getItem(`wordsPerDay_${currentLevel}`) || localStorage.getItem('wordsPerDay');
           if (savedWpd) {
             setWordsPerDay(parseInt(savedWpd, 10));
             setPhase(1);
@@ -102,10 +118,10 @@ const DailyStudyPage = ({ level, stats, goBack }) => {
       }
     };
     loadSettings();
-  }, [level, isAuthenticated]);
+  }, [currentLevel, isAuthenticated]);
 
   // Calculate total days for this level
-  const totalWords = stats?.levels?.[level] || 0;
+  const totalWords = stats?.levels?.[currentLevel] || 0;
   // Use Math.floor to merge remainder into the last day
   const totalDays = Math.max(1, Math.floor(totalWords / wordsPerDay));
 
@@ -125,7 +141,7 @@ const DailyStudyPage = ({ level, stats, goBack }) => {
         let allWords = [];
         
         while (true) {
-          const data = await vocabApi.getByLevelPaginated(level, currentDayPage, wordsPerDay);
+          const data = await vocabApi.getByLevelPaginated(currentLevel, currentDayPage, wordsPerDay);
           if (!data || !data.content || data.content.length === 0) break;
           allWords = [...allWords, ...data.content];
           if (data.last) break;
@@ -133,7 +149,7 @@ const DailyStudyPage = ({ level, stats, goBack }) => {
         }
         setWords(allWords);
       } else {
-        const data = await vocabApi.getByLevelPaginated(level, day - 1, wordsPerDay);
+        const data = await vocabApi.getByLevelPaginated(currentLevel, day - 1, wordsPerDay);
         setWords(data.content || []);
       }
       setSelectedDay(day);
@@ -302,7 +318,7 @@ const DailyStudyPage = ({ level, stats, goBack }) => {
     setLoading(true);
     try {
       if (isAuthenticated) {
-        await userSettingsApi.saveSetting(level, val);
+        await userSettingsApi.saveSetting(currentLevel, val);
       } else {
         localStorage.setItem(`wordsPerDay_${level}`, val.toString());
         localStorage.setItem('wordsPerDay', val.toString());
@@ -483,12 +499,12 @@ const DailyStudyPage = ({ level, stats, goBack }) => {
                   'Hiragana': w.hiragana || '',
                   'Nghĩa tiếng Việt (Meaning)': w.meaning || '',
                   'Hán Việt': w.hanViet || '',
-                  'Level': w.level || level
+                  'Level': w.level || currentLevel
                 }));
                 const ws = XLSX.utils.json_to_sheet(exportData);
                 const wb = XLSX.utils.book_new();
                 XLSX.utils.book_append_sheet(wb, ws, `Day ${selectedDay}`);
-                XLSX.writeFile(wb, `Vocabulary_${level}_Day_${selectedDay}.xlsx`);
+                XLSX.writeFile(wb, `Vocabulary_${currentLevel}_Day_${selectedDay}.xlsx`);
               }}
             >
               <Download size={18} /> {t.daily.exportBtn}

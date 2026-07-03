@@ -1,9 +1,10 @@
 import React, { useRef, useState } from 'react';
-import { BookOpen, Search, Home, Languages, Upload, Loader } from 'lucide-react';
+import { BookOpen, Search, Home, Languages, Upload, Loader, Sparkles } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
 import { vocabApi } from '../services/api';
+import '../styles/Navbar.css';
 
-const Navbar = ({ setCurrentPage, user }) => {
+const Navbar = ({ setCurrentPage, onLoginClick, user, onLogout }) => {
   const { lang, toggleLang, t } = useLanguage();
   const fileInputRef = useRef(null);
   const [importing, setImporting] = useState(false);
@@ -31,34 +32,24 @@ const Navbar = ({ setCurrentPage, user }) => {
   const isAdmin = user && user.username === 'admin';
 
   return (
-    <nav style={{ 
-      backgroundColor: 'var(--surface-color)', 
-      borderBottom: '1px solid var(--border-color)',
-      padding: '15px 0',
-      position: 'sticky',
-      top: 0,
-      zIndex: 100
-    }}>
-      <div className="container flex-between">
-        <div 
-          className="flex-center" 
-          style={{ gap: '10px', cursor: 'pointer' }}
-          onClick={() => setCurrentPage('home')}
-        >
-          <div style={{ 
-            backgroundColor: 'var(--accent-color)', 
-            padding: '8px', 
-            borderRadius: '8px',
-            color: 'white'
-          }}>
-            <BookOpen size={24} />
+    <nav className="app-navbar">
+      <div className="container navbar-inner">
+        <div className="navbar-brand" onClick={() => setCurrentPage('home')}>
+          <div className="navbar-logo">
+            <Sparkles size={22} />
           </div>
-          <h1 style={{ fontSize: '1.5rem', margin: 0, letterSpacing: '-0.5px' }}>
-            Nihongo<span style={{ color: 'var(--accent-color)' }}>Cards</span>
-          </h1>
+          <div>
+            <h1>SIRO NIHONGO</h1>
+            <span>{t.nav.slogan}</span>
+          </div>
         </div>
 
-        <div className="flex-center" style={{ gap: '10px' }}>
+        <div className="navbar-links">
+          <button className="nav-link" onClick={() => setCurrentPage('home')}>{t.nav.home}</button>
+          <button className="nav-link" onClick={() => setCurrentPage('search')}>{t.nav.search}</button>
+          <button className="nav-link" onClick={() => setCurrentPage('daily')}>{t.nav.dailyStudy}</button>
+          <button className="nav-link" onClick={() => setCurrentPage('flashcard')}>{t.nav.flashcard}</button>
+          <button className="nav-link" onClick={() => setCurrentPage('home')}>{t.nav.jlpt}</button>
           {isAdmin && (
             <>
               <input 
@@ -69,67 +60,39 @@ const Navbar = ({ setCurrentPage, user }) => {
                 style={{ display: 'none' }} 
               />
               <button 
-                className="btn" 
+                className="nav-link btn-import" 
                 onClick={handleImportClick} 
                 disabled={importing}
                 style={{ 
                   display: 'flex', 
                   alignItems: 'center', 
                   gap: '6px', 
-                  padding: '7px 14px', 
-                  borderRadius: '20px', 
                   border: '1.5px solid var(--success-color)', 
                   color: 'var(--success-color)',
                   backgroundColor: 'transparent',
-                  fontWeight: 700,
-                  fontSize: '0.85rem',
+                  padding: '4px 12px',
+                  borderRadius: '12px',
+                  marginLeft: '10px',
                   cursor: 'pointer'
                 }}
               >
-                {importing ? <Loader size={15} className="animate-spin" /> : <Upload size={15} />}
+                {importing ? <Loader size={14} className="animate-spin" /> : <Upload size={14} />}
                 Nhập Excel
               </button>
             </>
           )}
+        </div>
 
-          <button className="btn-icon" onClick={() => setCurrentPage('home')} title={t.nav.home}>
-            <Home size={20} />
-          </button>
-          <button className="btn-icon" onClick={() => setCurrentPage('search')} title={t.nav.search}>
-            <Search size={20} />
-          </button>
-
-          {/* Language toggle */}
-          <button
-            onClick={toggleLang}
-            title={lang === 'vi' ? 'Switch to English' : 'Chuyển sang Tiếng Việt'}
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '6px',
-              padding: '7px 14px',
-              borderRadius: '20px',
-              border: '1.5px solid var(--accent-color)',
-              background: 'transparent',
-              color: 'var(--accent-color)',
-              fontWeight: 700,
-              fontSize: '0.85rem',
-              cursor: 'pointer',
-              letterSpacing: '0.5px',
-              transition: 'background 0.2s, color 0.2s',
-            }}
-            onMouseEnter={e => {
-              e.currentTarget.style.background = 'var(--accent-color)';
-              e.currentTarget.style.color = 'white';
-            }}
-            onMouseLeave={e => {
-              e.currentTarget.style.background = 'transparent';
-              e.currentTarget.style.color = 'var(--accent-color)';
-            }}
-          >
-            <Languages size={15} />
+        <div className="navbar-actions">
+          <button className="lang-btn" onClick={toggleLang}>
+            <Languages size={14} />
             {lang === 'vi' ? 'EN' : 'VI'}
           </button>
+          {user ? (
+            <button className="btn btn-logout" onClick={onLogout}>{t.home.logout}</button>
+          ) : (
+            <button className="btn btn-login" onClick={onLoginClick}>{t.auth.loginTitle}</button>
+          )}
         </div>
       </div>
     </nav>
