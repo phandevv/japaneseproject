@@ -84,16 +84,25 @@ public class SecurityConfig {
 
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
-        CorsConfiguration config = new CorsConfiguration();
-        config.setAllowedOrigins(Arrays.asList(allowedOriginsStr.split(",")));
-        config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-        config.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type", "Accept"));
-        config.setAllowCredentials(true);
-        config.setMaxAge(3600L);
-
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/api/**", config);
-        return source;
+        return request -> {
+            String origin = request.getHeader("Origin");
+            CorsConfiguration config = new CorsConfiguration();
+            
+            // Dynamic Origin Reflection: automatically echo back the incoming request origin.
+            // This satisfies browser security rules for requests with credentials (cookies/Auth headers)
+            // without requiring environment variables or restarts for domain/IP changes.
+            if (origin != null && !origin.isBlank()) {
+                config.setAllowedOrigins(List.of(origin));
+            } else {
+                config.setAllowedOrigins(List.of("*"));
+            }
+            
+            config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+            config.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type", "Accept"));
+            config.setAllowCredentials(true);
+            config.setMaxAge(3600L);
+            return config;
+        };
     }
 
     // ─── Rate Limit Filter (Bucket4j token-bucket algorithm) ─────────────────
