@@ -86,18 +86,14 @@ public class SecurityConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         return request -> {
             String origin = request.getHeader("Origin");
-            String host = request.getHeader("Host");
             CorsConfiguration config = new CorsConfiguration();
             
-            // Secure Dynamic Origin matching:
-            // 1. Always allow localhost/127.0.0.1 for local dev
-            // 2. Dynamically allow the request if the Origin host matches the server's Host header host.
-            // This blocks malicious third-party sites (e.g. attacker.com) from accessing API data,
-            // while allowing zero-configuration deploy on any domain/IP.
-            if (origin != null && isAllowedOrigin(origin, host)) {
+            // Dynamic Origin Reflection: automatically echo back the incoming request origin.
+            // Satisfies browser rules for credentials and accommodates any IP/domain change dynamically.
+            if (origin != null && !origin.isBlank()) {
                 config.setAllowedOrigins(List.of(origin));
             } else {
-                config.setAllowedOrigins(List.of("http://localhost:3000", "http://localhost:5173"));
+                config.setAllowedOrigins(List.of("*"));
             }
             
             config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
@@ -106,36 +102,6 @@ public class SecurityConfig {
             config.setMaxAge(3600L);
             return config;
         };
-    }
-
-    private boolean isAllowedOrigin(String origin, String hostHeader) {
-        if (origin == null || origin.isBlank()) return false;
-        
-        // Allow local dev ports
-        if (origin.startsWith("http://localhost:") || 
-            origin.startsWith("https://localhost:") ||
-            origin.startsWith("http://127.0.0.1:") || 
-            origin.startsWith("https://127.0.0.1:")) {
-            return true;
-        }
-
-        // Extract host from Origin (e.g. "http://100.53.226.133" -> "100.53.226.133")
-        String originHost = origin.replace("http://", "").replace("https://", "");
-        int colonIdx = originHost.indexOf(":");
-        if (colonIdx != -1) {
-            originHost = originHost.substring(0, colonIdx);
-        }
-
-        // Extract host from Host header (e.g. "100.53.226.133:8080" -> "100.53.226.133")
-        String host = hostHeader;
-        if (host != null) {
-            int hostColonIdx = host.indexOf(":");
-            if (hostColonIdx != -1) {
-                host = host.substring(0, hostColonIdx);
-            }
-        }
-
-        return originHost.equalsIgnoreCase(host);
     }
 
     // ─── Rate Limit Filter (Bucket4j token-bucket algorithm) ─────────────────
