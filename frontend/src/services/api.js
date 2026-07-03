@@ -18,6 +18,23 @@ axios.interceptors.request.use(config => {
   return Promise.reject(error);
 });
 
+// Intercept authentication errors (401/403) to automatically clear stale session data and log out
+axios.interceptors.response.use(response => {
+  return response;
+}, error => {
+  if (error.response && (error.response.status === 401 || error.response.status === 403)) {
+    const token = localStorage.getItem('token');
+    if (token) {
+      localStorage.removeItem('token');
+      localStorage.removeItem('username');
+      if (typeof window !== 'undefined') {
+        window.location.reload();
+      }
+    }
+  }
+  return Promise.reject(error);
+});
+
 export const authApi = {
   register: async (username, password) => {
     const response = await axios.post(`${API_BASE_URL}/auth/register`, { username, password });
