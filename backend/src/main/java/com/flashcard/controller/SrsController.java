@@ -63,4 +63,17 @@ public class SrsController {
             return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
         }
     }
+
+    /**
+     * Get a random list of already learned vocabulary words for review quiz
+     * GET /api/srs/learned/random
+     */
+    @GetMapping("/learned/random")
+    public ResponseEntity<?> getRandomLearnedWords(@AuthenticationPrincipal User user,
+                                                    @RequestParam(defaultValue = "20") int count) {
+        if (user == null) {
+            return ResponseEntity.status(401).body(Map.of("error", "Unauthorized"));
+        }
+        return ResponseEntity.ok(srsService.getRandomLearnedVocabulary(user, count));
+    }
 }

@@ -108,4 +108,20 @@ public class SrsService {
 
         return reviewRepository.save(review);
     }
+
+    /**
+     * Get a random list of already learned vocabulary words for review quiz
+     */
+    @Transactional(readOnly = true)
+    public List<Vocabulary> getRandomLearnedVocabulary(User user, int count) {
+        List<WordReview> learned = reviewRepository.findAllLearnedByUser(user);
+        if (learned.isEmpty()) {
+            return java.util.Collections.emptyList();
+        }
+        java.util.Collections.shuffle(learned);
+        return learned.stream()
+                .limit(count)
+                .map(WordReview::getVocabulary)
+                .collect(Collectors.toList());
+    }
 }

@@ -1,9 +1,34 @@
-import React from 'react';
-import { BookOpen, Search, Home, Languages } from 'lucide-react';
+import React, { useRef, useState } from 'react';
+import { BookOpen, Search, Home, Languages, Upload, Loader } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
+import { vocabApi } from '../services/api';
 
-const Navbar = ({ setCurrentPage }) => {
+const Navbar = ({ setCurrentPage, user }) => {
   const { lang, toggleLang, t } = useLanguage();
+  const fileInputRef = useRef(null);
+  const [importing, setImporting] = useState(false);
+
+  const handleImportClick = () => {
+    fileInputRef.current?.click();
+  };
+
+  const handleFileChange = async (e) => {
+    if (e.target.files && e.target.files.length > 0) {
+      const file = e.target.files[0];
+      setImporting(true);
+      try {
+        await vocabApi.importExcel(file);
+        alert("Nhập Excel thành công!");
+        window.location.reload();
+      } catch (error) {
+        alert("Nhập Excel thất bại: " + (error.response?.data?.message || error.message));
+      } finally {
+        setImporting(false);
+      }
+    }
+  };
+
+  const isAdmin = user && user.username === 'admin';
 
   return (
     <nav style={{ 
@@ -34,6 +59,39 @@ const Navbar = ({ setCurrentPage }) => {
         </div>
 
         <div className="flex-center" style={{ gap: '10px' }}>
+          {isAdmin && (
+            <>
+              <input 
+                type="file" 
+                ref={fileInputRef} 
+                accept=".xlsx, .xls" 
+                onChange={handleFileChange} 
+                style={{ display: 'none' }} 
+              />
+              <button 
+                className="btn" 
+                onClick={handleImportClick} 
+                disabled={importing}
+                style={{ 
+                  display: 'flex', 
+                  alignItems: 'center', 
+                  gap: '6px', 
+                  padding: '7px 14px', 
+                  borderRadius: '20px', 
+                  border: '1.5px solid var(--success-color)', 
+                  color: 'var(--success-color)',
+                  backgroundColor: 'transparent',
+                  fontWeight: 700,
+                  fontSize: '0.85rem',
+                  cursor: 'pointer'
+                }}
+              >
+                {importing ? <Loader size={15} className="animate-spin" /> : <Upload size={15} />}
+                Nhập Excel
+              </button>
+            </>
+          )}
+
           <button className="btn-icon" onClick={() => setCurrentPage('home')} title={t.nav.home}>
             <Home size={20} />
           </button>

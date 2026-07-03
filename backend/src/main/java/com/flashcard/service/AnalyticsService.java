@@ -97,8 +97,14 @@ public class AnalyticsService {
         long learnedCount = reviewRepository.countLearnedWords(user);
         int currentStreak = calculateStreak(user);
 
+        LocalDate today = LocalDate.now(java.time.ZoneId.systemDefault());
+        int wordsStudiedToday = sessionRepository.findByUserAndStudyDate(user, today)
+                .map(StudySession::getWordsStudied)
+                .orElse(0);
+
         stats.put("dueCount", dueCount);
         stats.put("learnedCount", learnedCount);
+        stats.put("wordsStudiedToday", wordsStudiedToday);
         stats.put("streak", currentStreak);
 
         // Fetch last 30 days of study history

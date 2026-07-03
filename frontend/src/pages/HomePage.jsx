@@ -181,53 +181,60 @@ const HomePage = ({ startStudy, user, streak, onLoginClick, onLogout, onAdminCli
             </div>
             
             <div className="card" style={{ display: 'flex', alignItems: 'center', gap: '16px', padding: '20px' }}>
-              <div style={{ padding: '12px', borderRadius: '12px', backgroundColor: 'rgba(16, 185, 129, 0.15)', color: 'var(--success-color)' }}>
-                <CheckCircle2 size={24} />
+              <div style={{ padding: '12px', borderRadius: '12px', backgroundColor: 'rgba(59, 130, 246, 0.15)', color: '#3b82f6' }}>
+                <Play size={24} />
               </div>
               <div>
-                <div style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>Từ đã học (SRS)</div>
-                <div style={{ fontSize: '1.8rem', fontWeight: 700, color: 'var(--text-primary)' }}>{dashboardData.learnedCount}</div>
+                <div style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>Đã học hôm nay</div>
+                <div style={{ fontSize: '1.8rem', fontWeight: 700, color: 'var(--text-primary)' }}>{dashboardData.wordsStudiedToday || 0}</div>
               </div>
             </div>
 
             <div className="card" style={{ display: 'flex', alignItems: 'center', gap: '16px', padding: '20px' }}>
-              <div style={{ padding: '12px', borderRadius: '12px', backgroundColor: 'rgba(245, 158, 11, 0.15)', color: 'var(--warning-color)' }}>
-                <Flame size={24} />
+              <div style={{ padding: '12px', borderRadius: '12px', backgroundColor: 'rgba(16, 185, 129, 0.15)', color: 'var(--success-color)' }}>
+                <CheckCircle2 size={24} />
               </div>
               <div>
-                <div style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>Streak học tập</div>
-                <div style={{ fontSize: '1.8rem', fontWeight: 700, color: 'var(--text-primary)' }}>{dashboardData.streak} ngày</div>
+                <div style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>Tổng số từ đã học</div>
+                <div style={{ fontSize: '1.8rem', fontWeight: 700, color: 'var(--text-primary)' }}>{dashboardData.learnedCount}</div>
               </div>
             </div>
           </div>
 
-          {dashboardData.dueCount > 0 && (
-            <div className="card animate-pulse" style={{ 
-              marginTop: '16px', 
-              padding: '18px 24px', 
-              display: 'flex', 
-              justifyContent: 'space-between', 
-              alignItems: 'center',
-              backgroundColor: 'rgba(239, 68, 68, 0.08)',
-              borderColor: 'rgba(239, 68, 68, 0.3)'
-            }}>
-              <div>
-                <h4 style={{ margin: 0, fontSize: '1.1rem' }}>Bạn có từ vựng đến hạn ôn tập!</h4>
-                <p style={{ margin: '4px 0 0 0', color: 'var(--text-secondary)', fontSize: '0.9rem' }}>
-                  Luyện tập ngắt quãng giúp bạn ghi nhớ từ vựng lâu hơn gấp 5 lần.
-                </p>
-              </div>
-              <button className="btn btn-primary" onClick={() => startStudy(null, 'srs-review')}>
-                <Brain size={18} /> Ôn tập ngay ({dashboardData.dueCount} từ)
-              </button>
+          <div className="card" style={{ 
+            marginTop: '16px', 
+            padding: '18px 24px', 
+            display: 'flex', 
+            justifyContent: 'space-between', 
+            alignItems: 'center',
+            backgroundColor: 'rgba(239, 68, 68, 0.08)',
+            borderColor: 'rgba(239, 68, 68, 0.3)'
+          }}>
+            <div>
+              <h4 style={{ margin: 0, fontSize: '1.1rem' }}>Hệ thống Ôn tập Ngắt quãng (SRS)</h4>
+              <p style={{ margin: '4px 0 0 0', color: 'var(--text-secondary)', fontSize: '0.9rem' }}>
+                {dashboardData.dueCount > 0 
+                  ? `Bạn có ${dashboardData.dueCount} từ cần ôn tập. Hãy luyện tập để không bị quên!` 
+                  : 'Luyện tập ngắt quãng giúp bạn ghi nhớ từ vựng lâu hơn gấp 5 lần.'}
+              </p>
             </div>
-          )}
+            <div style={{ display: 'flex', gap: '10px' }}>
+              {dashboardData.dueCount > 0 && (
+                <button className="btn btn-primary" onClick={() => startStudy(null, 'srs-review')}>
+                  <Brain size={18} /> Học Flashcard ({dashboardData.dueCount})
+                </button>
+              )}
+              {dashboardData.learnedCount > 0 && (
+                <button className="btn btn-secondary" onClick={() => startStudy('LEARNED_REVIEW', 'daily')}>
+                  <Play size={18} /> Làm Quiz ôn tập (Đã học)
+                </button>
+              )}
+            </div>
+          </div>
 
           {renderActivityGraph()}
         </div>
       )}
-
-      <ExcelImport onImportSuccess={() => window.location.reload()} />
 
       {/* Hero Section */}
       <div style={{ textAlign: 'center', marginBottom: '60px' }}>

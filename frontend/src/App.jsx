@@ -110,12 +110,12 @@ function App() {
   };
 
   return (
-    <>
-      <Navbar setCurrentPage={setCurrentPage} />
-      <main>
+    <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
+      <Navbar setCurrentPage={setCurrentPage} user={isAuthenticated ? authUser : null} />
+      <main style={{ flex: 1 }}>
         {renderPage()}
       </main>
-    </>
+    </div>
   );
 }
 

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { vocabApi, userSettingsApi } from '../services/api';
+import { vocabApi, userSettingsApi, srsApi, analyticsApi } from '../services/api';
 import { CornerUpLeft, BookOpen, CheckCircle, XCircle, ArrowRight, Loader, Play, ChevronRight, Settings, Download, Volume2, Eye, EyeOff } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
 import { useAuth } from '../context/AuthContext';
@@ -71,6 +71,12 @@ const DailyStudyPage = ({ level, stats, goBack }) => {
     const loadSettings = async () => {
       setLoadingSetting(true);
       try {
+        if (level === 'LEARNED_REVIEW') {
+          // Bypass settings and jump straight to Quiz Setup
+          setPhase(4);
+          setLoadingSetting(false);
+          return;
+        }
         if (isAuthenticated) {
           const setting = await userSettingsApi.getSetting(level);
           if (setting && setting.wordsPerDay) {
@@ -185,6 +191,38 @@ const DailyStudyPage = ({ level, stats, goBack }) => {
     setPhase(3);
   };
 
+  const handleStartLearnedQuiz = async () => {
+    setLoading(true);
+    setQuizSetupError('');
+    try {
+      const count = parseInt(quizOptRandomCount, 10);
+      if (isNaN(count) || count < 5 || count > 100) {
+        setQuizSetupError("Vui lòng nhập số câu hợp lệ (5 - 100)");
+        return;
+      }
+      const data = await srsApi.getRandomLearnedWords(count);
+      if (data.length === 0) {
+        setQuizSetupError("Bạn chưa có từ vựng nào trong danh sách Đã học!");
+        return;
+      }
+      const shuffled = shuffleArray(data);
+      setQuizWords(shuffled);
+      setOriginalQuizLength(shuffled.length);
+      setFailedWordIds(new Set());
+      setQuizIndex(0);
+      setScore(0);
+      setUserInput('');
+      setQuizStatus('idle');
+      setMistakes([]);
+      setPhase(3);
+    } catch (error) {
+      console.error("Failed to load learned words for quiz", error);
+      setQuizSetupError(error.response?.data?.error || "Không thể tải danh sách từ đã học.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const checkAnswer = (e) => {
     e.preventDefault();
     if (!userInput.trim()) return;
@@ -212,6 +250,11 @@ const DailyStudyPage = ({ level, stats, goBack }) => {
       setQuizStatus('correct');
       if (!failedWordIds.has(currentWord.id)) {
         setScore(s => s + 1);
+        // Correct on first try: add to studied count & learned list (SRS) in background
+        if (isAuthenticated) {
+          srsApi.reviewWord(currentWord.id, 3).catch(console.error);
+          analyticsApi.logSession(1, 1, 1).catch(console.error);
+        }
       }
       speakWord(currentWord);
     } else {
@@ -225,6 +268,12 @@ const DailyStudyPage = ({ level, stats, goBack }) => {
         if (prev.some(m => m.id === currentWord.id)) return prev;
         return [...prev, currentWord];
       });
+
+      // Failed: mark in SRS as Again in background
+      if (isAuthenticated) {
+        srsApi.reviewWord(currentWord.id, 1).catch(console.error);
+        analyticsApi.logSession(1, 0, 1).catch(console.error);
+      }
 
       const remainingCount = quizWords.length - (quizIndex + 1);
       let insertIndex;
@@ -687,13 +736,17 @@ const DailyStudyPage = ({ level, stats, goBack }) => {
   if (phase === 4) {
     return (
       <div className="container animate-fade-in" style={{ padding: '20px', maxWidth: '600px', margin: '40px auto' }}>
-        <button className="btn btn-secondary" onClick={() => setPhase(2)} style={{ marginBottom: '20px' }}>
-          <CornerUpLeft size={18} /> {t.daily.backToList || 'Quay lại danh sách'}
+        <button className="btn btn-secondary" onClick={level === 'LEARNED_REVIEW' ? goBack : () => setPhase(2)} style={{ marginBottom: '20px' }}>
+          <CornerUpLeft size={18} /> {level === 'LEARNED_REVIEW' ? 'Quay lại Trang chủ' : (t.daily.backToList || 'Quay lại danh sách')}
         </button>
         <div className="card" style={{ padding: '40px' }}>
-          <h2 style={{ marginBottom: '10px', textAlign: 'center' }}>{t.daily.quizSetupTitle}</h2>
+          <h2 style={{ marginBottom: '10px', textAlign: 'center' }}>
+            {level === 'LEARNED_REVIEW' ? 'Cấu hình Quiz ôn tập' : t.daily.quizSetupTitle}
+          </h2>
           <p style={{ color: 'var(--text-secondary)', marginBottom: '24px', textAlign: 'center' }}>
-            {t.daily.quizSetupPrompt(selectedDay, words.length)}
+            {level === 'LEARNED_REVIEW' 
+              ? 'Hệ thống sẽ lấy ngẫu nhiên các từ bạn đã thuộc để làm bài kiểm tra.'
+              : t.daily.quizSetupPrompt(selectedDay, words.length)}
           </p>
 
           {/* Question Direction Selection */}
@@ -736,154 +789,183 @@ const DailyStudyPage = ({ level, stats, goBack }) => {
           )}
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', marginBottom: '30px' }}>
-            {/* Option: All */}
-            <label style={{ 
-              display: 'flex', 
-              alignItems: 'center', 
-              gap: '12px', 
-              padding: '15px', 
-              borderRadius: '10px', 
-              border: `1px solid ${quizOptType === 'all' ? 'var(--accent-color)' : 'var(--border-color)'}`,
-              backgroundColor: quizOptType === 'all' ? 'rgba(239,68,68,0.04)' : 'transparent',
-              cursor: 'pointer'
-            }}>
-              <input 
-                type="radio" 
-                name="quizOptType" 
-                value="all" 
-                checked={quizOptType === 'all'} 
-                onChange={() => setQuizOptType('all')} 
-              />
+            {level === 'LEARNED_REVIEW' ? (
               <div>
-                <strong>{t.daily.quizOptAll}</strong>
-                <div style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', marginTop: '2px' }}>
-                  {t.daily.quizOptAllDesc(words.length)}
-                </div>
-              </div>
-            </label>
-
-            {/* Option: Random */}
-            <label style={{ 
-              display: 'flex', 
-              flexDirection: 'column',
-              gap: '12px', 
-              padding: '15px', 
-              borderRadius: '10px', 
-              border: `1px solid ${quizOptType === 'random' ? 'var(--accent-color)' : 'var(--border-color)'}`,
-              backgroundColor: quizOptType === 'random' ? 'rgba(239,68,68,0.04)' : 'transparent',
-              cursor: 'pointer'
-            }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                <label style={{ display: 'block', fontWeight: 600, marginBottom: '10px' }}>
+                  Số câu hỏi ôn tập:
+                </label>
                 <input 
-                  type="radio" 
-                  name="quizOptType" 
-                  value="random" 
-                  checked={quizOptType === 'random'} 
-                  onChange={() => setQuizOptType('random')} 
+                  type="number" 
+                  min="5" 
+                  max="100"
+                  value={quizOptRandomCount}
+                  onChange={(e) => setQuizOptRandomCount(e.target.value)}
+                  style={{
+                    padding: '10px 14px',
+                    borderRadius: '8px',
+                    border: '1px solid var(--border-color)',
+                    backgroundColor: 'var(--surface-color)',
+                    color: 'var(--text-primary)',
+                    width: '120px',
+                    fontSize: '1rem'
+                  }}
                 />
-                <div>
-                  <strong>{t.daily.quizOptRandom}</strong>
-                  <div style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', marginTop: '2px' }}>
-                    {t.daily.quizOptRandomDesc}
-                  </div>
-                </div>
+                <span style={{ marginLeft: '12px', color: 'var(--text-secondary)', fontSize: '0.9rem' }}>
+                  từ (Đề xuất: 20 từ)
+                </span>
               </div>
-              {quizOptType === 'random' && (
-                <div style={{ paddingLeft: '28px' }}>
+            ) : (
+              <>
+                {/* Option: All */}
+                <label style={{ 
+                  display: 'flex', 
+                  alignItems: 'center', 
+                  gap: '12px', 
+                  padding: '15px', 
+                  borderRadius: '10px', 
+                  border: `1px solid ${quizOptType === 'all' ? 'var(--accent-color)' : 'var(--border-color)'}`,
+                  backgroundColor: quizOptType === 'all' ? 'rgba(239,68,68,0.04)' : 'transparent',
+                  cursor: 'pointer'
+                }}>
                   <input 
-                    type="number" 
-                    min="1" 
-                    max={words.length}
-                    value={quizOptRandomCount}
-                    onChange={(e) => setQuizOptRandomCount(e.target.value)}
-                    style={{
-                      padding: '8px 12px',
-                      borderRadius: '6px',
-                      border: '1px solid var(--border-color)',
-                      backgroundColor: 'var(--surface-color)',
-                      color: 'var(--text-primary)',
-                      width: '100px'
-                    }}
+                    type="radio" 
+                    name="quizOptType" 
+                    value="all" 
+                    checked={quizOptType === 'all'} 
+                    onChange={() => setQuizOptType('all')} 
                   />
-                  <span style={{ marginLeft: '10px', fontSize: '0.9rem', color: 'var(--text-secondary)' }}>
-                    {t.daily.words || 'từ'} {t.daily.quizRangeMax(words.length)}
-                  </span>
-                </div>
-              )}
-            </label>
+                  <div>
+                    <strong>{t.daily.quizOptAll}</strong>
+                    <div style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', marginTop: '2px' }}>
+                      {t.daily.quizOptAllDesc(words.length)}
+                    </div>
+                  </div>
+                </label>
 
-            {/* Option: Range */}
-            <label style={{ 
-              display: 'flex', 
-              flexDirection: 'column',
-              gap: '12px', 
-              padding: '15px', 
-              borderRadius: '10px', 
-              border: `1px solid ${quizOptType === 'range' ? 'var(--accent-color)' : 'var(--border-color)'}`,
-              backgroundColor: quizOptType === 'range' ? 'rgba(239,68,68,0.04)' : 'transparent',
-              cursor: 'pointer'
-            }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                <input 
-                  type="radio" 
-                  name="quizOptType" 
-                  value="range" 
-                  checked={quizOptType === 'range'} 
-                  onChange={() => setQuizOptType('range')} 
-                />
-                <div>
-                  <strong>{t.daily.quizOptRange}</strong>
-                  <div style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', marginTop: '2px' }}>
-                    {t.daily.quizOptRangeDesc}
+                {/* Option: Random */}
+                <label style={{ 
+                  display: 'flex', 
+                  flexDirection: 'column',
+                  gap: '12px', 
+                  padding: '15px', 
+                  borderRadius: '10px', 
+                  border: `1px solid ${quizOptType === 'random' ? 'var(--accent-color)' : 'var(--border-color)'}`,
+                  backgroundColor: quizOptType === 'random' ? 'rgba(239,68,68,0.04)' : 'transparent',
+                  cursor: 'pointer'
+                }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                    <input 
+                      type="radio" 
+                      name="quizOptType" 
+                      value="random" 
+                      checked={quizOptType === 'random'} 
+                      onChange={() => setQuizOptType('random')} 
+                    />
+                    <div>
+                      <strong>{t.daily.quizOptRandom}</strong>
+                      <div style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', marginTop: '2px' }}>
+                        {t.daily.quizOptRandomDesc}
+                      </div>
+                    </div>
                   </div>
-                </div>
-              </div>
-              {quizOptType === 'range' && (
-                <div style={{ paddingLeft: '28px', display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
-                  <span>{t.daily.quizRangeFrom}</span>
-                  <input 
-                    type="number" 
-                    min="1" 
-                    max={words.length}
-                    value={quizOptRangeStart}
-                    onChange={(e) => setQuizOptRangeStart(e.target.value)}
-                    style={{
-                      padding: '8px 12px',
-                      borderRadius: '6px',
-                      border: '1px solid var(--border-color)',
-                      backgroundColor: 'var(--surface-color)',
-                      color: 'var(--text-primary)',
-                      width: '80px'
-                    }}
-                  />
-                  <span>{t.daily.quizRangeTo}</span>
-                  <input 
-                    type="number" 
-                    min="1" 
-                    max={words.length}
-                    value={quizOptRangeEnd}
-                    onChange={(e) => setQuizOptRangeEnd(e.target.value)}
-                    style={{
-                      padding: '8px 12px',
-                      borderRadius: '6px',
-                      border: '1px solid var(--border-color)',
-                      backgroundColor: 'var(--surface-color)',
-                      color: 'var(--text-primary)',
-                      width: '80px'
-                    }}
-                  />
-                  <span style={{ fontSize: '0.9rem', color: 'var(--text-secondary)' }}>
-                    {t.daily.quizRangeMax(words.length)}
-                  </span>
-                </div>
-              )}
-            </label>
+                  {quizOptType === 'random' && (
+                    <div style={{ paddingLeft: '28px' }}>
+                      <input 
+                        type="number" 
+                        min="1" 
+                        max={words.length}
+                        value={quizOptRandomCount}
+                        onChange={(e) => setQuizOptRandomCount(e.target.value)}
+                        style={{
+                          padding: '8px 12px',
+                          borderRadius: '6px',
+                          border: '1px solid var(--border-color)',
+                          backgroundColor: 'var(--surface-color)',
+                          color: 'var(--text-primary)',
+                          width: '100px'
+                        }}
+                      />
+                      <span style={{ marginLeft: '10px', fontSize: '0.9rem', color: 'var(--text-secondary)' }}>
+                        {t.daily.words || 'từ'} {t.daily.quizRangeMax(words.length)}
+                      </span>
+                    </div>
+                  )}
+                </label>
+
+                {/* Option: Range */}
+                <label style={{ 
+                  display: 'flex', 
+                  flexDirection: 'column',
+                  gap: '12px', 
+                  padding: '15px', 
+                  borderRadius: '10px', 
+                  border: `1px solid ${quizOptType === 'range' ? 'var(--accent-color)' : 'var(--border-color)'}`,
+                  backgroundColor: quizOptType === 'range' ? 'rgba(239,68,68,0.04)' : 'transparent',
+                  cursor: 'pointer'
+                }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                    <input 
+                      type="radio" 
+                      name="quizOptType" 
+                      value="range" 
+                      checked={quizOptType === 'range'} 
+                      onChange={() => setQuizOptType('range')} 
+                    />
+                    <div>
+                      <strong>{t.daily.quizOptRange}</strong>
+                      <div style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', marginTop: '2px' }}>
+                        {t.daily.quizOptRangeDesc}
+                      </div>
+                    </div>
+                  </div>
+                  {quizOptType === 'range' && (
+                    <div style={{ paddingLeft: '28px', display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
+                      <span>{t.daily.quizRangeFrom}</span>
+                      <input 
+                        type="number" 
+                        min="1" 
+                        max={words.length}
+                        value={quizOptRangeStart}
+                        onChange={(e) => setQuizOptRangeStart(e.target.value)}
+                        style={{
+                          padding: '8px 12px',
+                          borderRadius: '6px',
+                          border: '1px solid var(--border-color)',
+                          backgroundColor: 'var(--surface-color)',
+                          color: 'var(--text-primary)',
+                          width: '80px'
+                        }}
+                      />
+                      <span>{t.daily.quizRangeTo}</span>
+                      <input 
+                        type="number" 
+                        min="1" 
+                        max={words.length}
+                        value={quizOptRangeEnd}
+                        onChange={(e) => setQuizOptRangeEnd(e.target.value)}
+                        style={{
+                          padding: '8px 12px',
+                          borderRadius: '6px',
+                          border: '1px solid var(--border-color)',
+                          backgroundColor: 'var(--surface-color)',
+                          color: 'var(--text-primary)',
+                          width: '80px'
+                        }}
+                      />
+                      <span style={{ fontSize: '0.9rem', color: 'var(--text-secondary)' }}>
+                        {t.daily.quizRangeMax(words.length)}
+                      </span>
+                    </div>
+                  )}
+                </label>
+              </>
+            )}
           </div>
 
           <button 
             className="btn btn-primary" 
             style={{ padding: '14px', fontSize: '1.1rem', width: '100%' }}
-            onClick={handleConfirmStartQuiz}
+            onClick={level === 'LEARNED_REVIEW' ? handleStartLearnedQuiz : handleConfirmStartQuiz}
           >
             {t.daily.quizStartBtn}
           </button>
