@@ -1,130 +1,192 @@
-import React, { useState, useEffect } from 'react';
-import { vocabApi } from '../services/api';
-import { Play, Loader, Sparkles } from 'lucide-react';
+import React from 'react';
+import { Sparkles, Play, BookOpen, Globe, Users, Video, ShieldCheck } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
-import ExcelImport from '../components/ExcelImport';
+import '../styles/HomePage.css';
 
-const HomePage = ({ startStudy, user, streak, onLoginClick, onLogout }) => {
+const serviceItems = [
+  {
+    icon: BookOpen,
+    title: 'ONLINE',
+    description: 'Tiếng Nhật online cho người bận rộn.',
+  },
+  {
+    icon: Globe,
+    title: 'OFFLINE',
+    description: 'Lớp học trực tiếp cùng Top Sensei.',
+  },
+  {
+    icon: Video,
+    title: 'TRỰC TUYẾN',
+    description: 'Giáo viên qua Zoom, học tại nhà.',
+  },
+  {
+    icon: Users,
+    title: 'KAIWA',
+    description: 'Tự tin giao tiếp dù ngữ pháp còn yếu.',
+  },
+];
+
+const differenceItems = [
+  {
+    icon: ShieldCheck,
+    title: 'Sự đa dạng - cập nhật nhu cầu',
+    description: 'SIRO NIHONGO đổi mới chương trình liên tục phù hợp người Việt và mục tiêu JLPT.',
+  },
+  {
+    icon: Sparkles,
+    title: 'Lộ trình nhanh - mạnh - chuẩn',
+    description: 'Lộ trình dễ tiếp nhận, ôn tập nhịp nhàng, chuẩn đề thi.',
+  },
+  {
+    icon: Play,
+    title: 'Đội ngũ trợ giảng',
+    description: 'Trợ giảng theo sát từng bước học viên ngoài giờ học.',
+  },
+  {
+    icon: BookOpen,
+    title: 'Đội ngũ giáo viên',
+    description: 'Giáo viên N2-N1 giàu kinh nghiệm thực chiến.',
+  },
+];
+
+const HomePage = ({ startStudy, user, streak, onLoginClick, onDailyClick }) => {
   const { t } = useLanguage();
-  const [stats, setStats] = useState(null);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchStats = async () => {
-      try {
-        const data = await vocabApi.getStats();
-        setStats(data);
-      } catch (error) {
-        console.error("Failed to load stats", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchStats();
-  }, []);
-
-  if (loading) {
-    return (
-      <div className="flex-center" style={{ height: '70vh', flexDirection: 'column', gap: '20px' }}>
-        <Loader size={40} className="animate-spin" style={{ color: 'var(--accent-color)' }} />
-        <p style={{ color: 'var(--text-secondary)' }}>{t.home.loading}</p>
-      </div>
-    );
-  }
-
-  const levelColors = {
-    "N5": "#3b82f6",
-    "N4": "#10b981",
-    "N3": "#f59e0b",
-    "N2": "#ef4444",
-    "N1": "#8b5cf6",
-    "TU_LAY": "#ec4899",
-    "TRO_TU": "#06b6d4"
-  };
 
   return (
-    <div className="container animate-fade-in" style={{ padding: '40px 20px' }}>
-      {/* Streak / Login Banner */}
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '16px', marginBottom: '24px', padding: '18px 22px', borderRadius: '18px', background: 'linear-gradient(135deg, rgba(239, 68, 68, 0.14), rgba(14, 165, 233, 0.12))', border: '1px solid var(--border-color)' }}>
-        <div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '6px', color: 'var(--accent-color)' }}>
-            <Sparkles size={18} />
-            <strong>{t.home.streakTitle}</strong>
+    <div className="home-page">
+      <section className="home-top-banner">
+        <div className="container home-banner-inner">
+          <div className="home-banner-copy">
+            <span className="home-badge">SIRO NIHONGO</span>
+            <h1>{t.home.heroMainTitle || 'SIRO NIHONGO - Học tiếng Nhật đỉnh cao'}</h1>
+            <p className="home-subtitle">
+              {t.home.heroDescription || 'Học tiếng Nhật hiệu quả, tự tin chinh phục JLPT với phương pháp hiện đại và bài học ngắn gọn mỗi ngày.'}
+            </p>
+
+            <div className="home-actions">
+              <button
+                className="btn btn-primary btn-xl"
+                onClick={user ? onDailyClick : onLoginClick}
+              >
+                {user ? t.home.dailyStudy : 'HỌC NGAY'}
+              </button>
+              {!user && (
+                <button className="btn btn-secondary btn-xl" onClick={onLoginClick}>
+                  {t.auth.loginTitle}
+                </button>
+              )}
+            </div>
+
+            <div className="hero-pill-grid">
+              <div className="hero-pill">15’ mỗi ngày đỗ JLPT</div>
+              <div className="hero-pill">Lộ trình nhanh - mạnh - chuẩn</div>
+              <div className="hero-pill">Giáo viên N1, chuyên sâu</div>
+            </div>
+
+            <p className="home-hero-meta">
+              {user ? t.home.streakMsg(user.username, streak || 0) : t.home.loginPrompt}
+            </p>
           </div>
-          {user ? (
-            <p style={{ margin: 0, color: 'var(--text-secondary)' }}>
-              {t.home.streakMsg(user.username, streak || 0)}
-            </p>
-          ) : (
-            <p style={{ margin: 0, color: 'var(--text-secondary)' }}>
-              {t.home.loginPrompt}
-            </p>
-          )}
+
+          <div className="home-banner-visual">
+            <div className="home-banner-slider">
+              <div className="slide slide-1" />
+              <div className="slide slide-2" />
+              <div className="slide slide-3" />
+              <div className="slide-overlay">
+                <span className="slide-chip">SIRO NIHONGO</span>
+                <h3>{t.home.slideTitle}</h3>
+                <p>{t.home.slideText}</p>
+              </div>
+            </div>
+            <div className="hero-slider-controls">
+              <span className="control active" />
+              <span className="control" />
+              <span className="control" />
+            </div>
+          </div>
         </div>
+      </section>
 
-        {user ? (
-          <button className="btn btn-secondary" onClick={onLogout}>
-            {t.home.logout}
-          </button>
-        ) : (
-          <button className="btn btn-primary" onClick={onLoginClick}>
-            {t.auth?.loginTitle || 'Đăng nhập'}
-          </button>
-        )}
-      </div>
+      <section className="home-category-section container">
+        <div className="category-intro">
+          <p className="section-label">Dành cho bạn</p>
+          <h2>Những lộ trình phù hợp mọi phong cách học</h2>
+        </div>
+        <div className="category-grid">
+          {serviceItems.map((item) => {
+            const Icon = item.icon;
+            return (
+              <div key={item.title} className="service-card">
+                <div className="service-icon">
+                  <Icon size={22} />
+                </div>
+                <h3>{item.title}</h3>
+                <p>{item.description}</p>
+              </div>
+            );
+          })}
+        </div>
+      </section>
 
-      <ExcelImport onImportSuccess={() => window.location.reload()} />
-
-      {/* Hero Section */}
-      <div style={{ textAlign: 'center', marginBottom: '60px' }}>
-        <h1 style={{ fontSize: '3rem', marginBottom: '15px' }}>
-          {t.home.heroTitle} <span style={{ color: 'var(--accent-color)' }}>NihongoCards</span>
-        </h1>
-        <p style={{ fontSize: '1.2rem', color: 'var(--text-secondary)', maxWidth: '600px', margin: '0 auto' }}>
-          {t.home.heroSub}
-        </p>
-      </div>
-
-      {/* Level Selection */}
-      <h2 style={{ fontSize: '1.8rem', marginBottom: '20px', borderBottom: '1px solid var(--border-color)', paddingBottom: '10px' }}>
-        {t.home.studyByLevel}
-      </h2>
-
-      <div className="grid grid-cols-3">
-        {stats && stats.levels && Object.entries(stats.levels).map(([level, count]) => (
-          <div key={level} className="card" style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
-            <div className="flex-between">
-              <h3 style={{ fontSize: '1.5rem', color: levelColors[level] || 'var(--text-primary)' }}>
-                {t.home.levelLabels[level] || level}
-              </h3>
-              <span style={{ backgroundColor: 'var(--surface-hover)', padding: '4px 10px', borderRadius: '12px', fontSize: '0.9rem' }}>
-                {count} {t.home.words}
-              </span>
-            </div>
-
-            <p style={{ color: 'var(--text-secondary)', flex: 1 }}>
-              {t.home.levelDesc(t.home.levelLabels[level] || level)}
+      <section className="home-difference-section container">
+        <div className="difference-grid">
+          <div className="difference-copy">
+            <p className="section-label">SIRO NIHONGO khác biệt</p>
+            <h2>SIRO NIHONGO là SỰ KHÁC BIỆT</h2>
+            <p>
+              Giải pháp học tiếng Nhật toàn diện với nội dung cập nhật, lộ trình rõ ràng và trợ giảng tận tâm.
             </p>
-
-            <div style={{ display: 'flex', gap: '10px', marginTop: '10px' }}>
-              <button
-                className="btn btn-primary"
-                style={{ flex: 1, padding: '10px 5px', fontSize: '0.9rem' }}
-                onClick={() => startStudy(level, 'daily')}
-              >
-                {t.home.dailyStudy}
-              </button>
-              <button
-                className="btn btn-secondary"
-                style={{ flex: 1, padding: '10px 5px', fontSize: '0.9rem' }}
-                onClick={() => startStudy(level, 'flashcard')}
-              >
-                {t.home.flashcard}
-              </button>
+            <div className="difference-stats">
+              <div>
+                <strong>Học hiệu quả</strong>
+                <span>Lộ trình được tối ưu cho người bận rộn.</span>
+              </div>
+              <div>
+                <strong>Giáo viên chuyên sâu</strong>
+                <span>Đội ngũ hướng dẫn trình độ cao, phương pháp thực chiến.</span>
+              </div>
+              <div>
+                <strong>Hỗ trợ 24/7</strong>
+                <span>Trợ giảng đồng hành cùng học viên mọi lúc.</span>
+              </div>
             </div>
           </div>
-        ))}
-      </div>
+
+          <div className="difference-cards">
+            {differenceItems.map((item) => {
+              const Icon = item.icon;
+              return (
+                <div key={item.title} className="difference-card">
+                  <div className="difference-card-top">
+                    <Icon size={20} />
+                    <h3>{item.title}</h3>
+                  </div>
+                  <p>{item.description}</p>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      <section className="home-feature-section container">
+        <h2>{t.home.featuresTitle}</h2>
+        <div className="home-feature-grid">
+          <div className="feature-card">
+            <h3>{t.home.guestFeature1}</h3>
+            <p>{t.home.featureDesc1}</p>
+          </div>
+          <div className="feature-card">
+            <h3>{t.home.guestFeature2}</h3>
+            <p>{t.home.featureDesc2}</p>
+          </div>
+          <div className="feature-card">
+            <h3>{t.home.guestFeature3}</h3>
+            <p>{t.home.featureDesc3}</p>
+          </div>
+        </div>
+      </section>
     </div>
   );
 };

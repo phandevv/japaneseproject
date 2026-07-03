@@ -4,33 +4,57 @@ import FlashcardCard from '../components/FlashcardCard';
 import { ArrowLeft, ArrowRight, Shuffle, Loader, CornerUpLeft } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
 
-const FlashcardPage = ({ level, goBack }) => {
+const levelColors = {
+  N5: '#3b82f6',
+  N4: '#10b981',
+  N3: '#f59e0b',
+  N2: '#ef4444',
+  N1: '#8b5cf6',
+  TU_LAY: '#ec4899',
+  TRO_TU: '#06b6d4',
+};
+
+const FlashcardPage = ({ level: initialLevel, stats, goBack }) => {
   const { t } = useLanguage();
+  const [activeLevel, setActiveLevel] = useState(initialLevel);
   const [words, setWords] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [flipped, setFlipped] = useState(false);
 
+  useEffect(() => {
+    setActiveLevel(initialLevel);
+  }, [initialLevel]);
+
   const fetchWords = useCallback(async () => {
+    if (!activeLevel) return;
     setLoading(true);
     try {
-      const data = await vocabApi.getRandomByLevel(level, 50);
+      const data = await vocabApi.getRandomByLevel(activeLevel, 50);
       setWords(data);
       setCurrentIndex(0);
       setFlipped(false);
     } catch (error) {
       console.error("Failed to fetch words", error);
+      setWords([]);
     } finally {
       setLoading(false);
     }
-  }, [level]);
+  }, [activeLevel]);
 
   useEffect(() => {
     fetchWords();
   }, [fetchWords]);
 
+  useEffect(() => {
+    if (currentIndex !== null) {
+      setFlipped(false);
+    }
+  }, [currentIndex]);
+
   // Keyboard navigation
   useEffect(() => {
+    if (words.length === 0) return;
     const handleKeyDown = (e) => {
       if (e.key === ' ') {
         e.preventDefault();
@@ -53,17 +77,65 @@ const FlashcardPage = ({ level, goBack }) => {
 
   const handleNext = () => {
     if (currentIndex < words.length - 1) {
-      setCurrentIndex(prev => prev + 1);
       setFlipped(false);
+      setCurrentIndex(prev => prev + 1);
     }
   };
 
   const handlePrev = () => {
     if (currentIndex > 0) {
-      setCurrentIndex(prev => prev - 1);
       setFlipped(false);
+      setCurrentIndex(prev => prev - 1);
     }
   };
+
+  const handleBack = () => {
+    if (!initialLevel && activeLevel) {
+      setActiveLevel(null);
+      setWords([]);
+    } else {
+      goBack();
+    }
+  };
+
+  if (!activeLevel) {
+    return (
+      <div className="container animate-fade-in" style={{ padding: '40px 20px' }}>
+        <div style={{ textAlign: 'center', marginBottom: '40px' }}>
+          <h1 style={{ fontSize: '2.5rem', marginBottom: '15px' }}>{t.flashcard.selectLevelTitle}</h1>
+          <p style={{ color: 'var(--text-secondary)' }}>{t.flashcard.selectLevelSubtitle}</p>
+        </div>
+
+        <div className="grid grid-cols-3 home-level-grid">
+          {stats && stats.levels &&
+            Object.entries(stats.levels).map(([lvl, count]) => (
+              <div 
+                key={lvl} 
+                className="card home-level-card" 
+                style={{ cursor: 'pointer', display: 'flex', flexDirection: 'column', height: '100%', minHeight: '220px' }} 
+                onClick={() => setActiveLevel(lvl)}
+              >
+                <div className="home-level-card-title">
+                  <div>
+                    <p className="home-level-badge" style={{ backgroundColor: `${levelColors[lvl]}22`, color: levelColors[lvl] }}>
+                      {t.home.levelLabels[lvl] || lvl}
+                    </p>
+                    <h3 style={{ marginTop: '10px' }}>{t.home.levelLabels[lvl] || lvl}</h3>
+                  </div>
+                  <span>{count} {t.home.words}</span>
+                </div>
+                <p style={{ margin: '15px 0' }}>{t.home.levelDescriptions?.[lvl] || t.home.levelDesc(t.home.levelLabels[lvl] || lvl)}</p>
+                <div style={{ marginTop: 'auto', display: 'flex', justifyContent: 'flex-end' }}>
+                  <button className="btn btn-primary" style={{ padding: '8px 16px', fontSize: '0.9rem' }}>
+                    {t.flashcard.startPractice}
+                  </button>
+                </div>
+              </div>
+            ))}
+        </div>
+      </div>
+    );
+  }
 
   if (loading) {
     return (
@@ -78,7 +150,9 @@ const FlashcardPage = ({ level, goBack }) => {
     return (
       <div className="container flex-center" style={{ height: '70vh', flexDirection: 'column', gap: '20px' }}>
         <h2>{t.flashcard.noWords}</h2>
-        <button className="btn btn-primary" onClick={goBack}>{t.flashcard.backDashboard}</button>
+        <button className="btn btn-primary" onClick={handleBack}>
+          {!initialLevel ? t.flashcard.backSelection : t.flashcard.backDashboard}
+        </button>
       </div>
     );
   }
@@ -91,13 +165,13 @@ const FlashcardPage = ({ level, goBack }) => {
 
       {/* Header */}
       <div className="flex-between" style={{ marginBottom: '30px' }}>
-        <button className="btn btn-secondary" style={{ padding: '8px 15px' }} onClick={goBack}>
-          <CornerUpLeft size={18} /> {t.flashcard.backDashboard}
+        <button className="btn btn-secondary" style={{ padding: '8px 15px' }} onClick={handleBack}>
+          <CornerUpLeft size={18} /> {(!initialLevel && activeLevel) ? t.flashcard.backSelection : t.flashcard.backDashboard}
         </button>
 
         <div style={{ textAlign: 'center' }}>
           <h2 style={{ fontSize: '1.5rem', marginBottom: '5px' }}>
-            {t.flashcard.level}: <span style={{ color: 'var(--accent-color)' }}>{level}</span>
+            {t.flashcard.level}: <span style={{ color: 'var(--accent-color)' }}>{t.home.levelLabels[activeLevel] || activeLevel}</span>
           </h2>
         </div>
 
@@ -120,6 +194,7 @@ const FlashcardPage = ({ level, goBack }) => {
       {/* Flashcard Area */}
       <div style={{ minHeight: '450px', display: 'flex', alignItems: 'center' }}>
         <FlashcardCard
+          key={currentWord?.id}
           word={currentWord}
           flipped={flipped}
           onFlip={() => setFlipped(!flipped)}

@@ -3,7 +3,7 @@ import { useAuth } from '../context/AuthContext';
 import { useLanguage } from '../context/LanguageContext';
 import { User, Lock, ArrowRight, BookOpen, AlertCircle } from 'lucide-react';
 
-const AuthPage = ({ onCancel }) => {
+const AuthPage = ({ onCancel, onSuccess }) => {
   const { t } = useLanguage();
   const { login, register } = useAuth();
   
@@ -36,7 +36,11 @@ const AuthPage = ({ onCancel }) => {
       if (isLogin) {
         const res = await login(username, password);
         if (res.success) {
-          if (onCancel) onCancel(); // Close modal or go back
+          if (onSuccess) {
+            onSuccess();
+          } else if (onCancel) {
+            onCancel();
+          }
         } else {
           setError(res.error);
         }
