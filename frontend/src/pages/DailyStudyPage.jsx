@@ -420,6 +420,58 @@ const DailyStudyPage = ({ level, stats, goBack }) => {
     }
   };
 
+  if (!currentLevel) {
+    return (
+      <div className="container animate-fade-in" style={{ padding: '40px 20px', maxWidth: '800px', margin: '40px auto', textAlign: 'center' }}>
+        <h1 style={{ fontSize: '2.2rem', marginBottom: '10px', fontWeight: 800 }}>Học Hàng Ngày</h1>
+        <p style={{ color: 'var(--text-secondary)', marginBottom: '40px' }}>
+          Vui lòng chọn cấp độ JLPT hoặc chủ đề bạn muốn rèn luyện hàng ngày.
+        </p>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '20px' }}>
+          {Object.keys(levelColors).map(lvl => (
+            <div 
+              key={lvl} 
+              onClick={() => {
+                setCurrentLevel(lvl);
+              }}
+              className="card"
+              style={{
+                padding: '30px 20px',
+                cursor: 'pointer',
+                border: `1.5px solid rgba(255,255,255,0.06)`,
+                borderTop: `4px solid ${levelColors[lvl]}`,
+                transition: 'all 0.25s',
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                gap: '10px',
+                borderRadius: '16px',
+                background: 'linear-gradient(145deg, #1b2642, #0f1a2e)',
+              }}
+              onMouseEnter={e => {
+                e.currentTarget.style.transform = 'translateY(-4px)';
+                e.currentTarget.style.boxShadow = '0 12px 30px rgba(0,0,0,0.3)';
+                e.currentTarget.style.borderColor = levelColors[lvl];
+              }}
+              onMouseLeave={e => {
+                e.currentTarget.style.transform = 'none';
+                e.currentTarget.style.boxShadow = 'none';
+                e.currentTarget.style.borderColor = 'rgba(255,255,255,0.06)';
+              }}
+            >
+              <span style={{ fontSize: '2rem', fontWeight: 900, color: levelColors[lvl] }}>
+                {lvl === 'TU_LAY' ? 'Từ láy' : lvl === 'TRO_TU' ? 'Trợ từ' : lvl}
+              </span>
+              <span style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>
+                {stats?.levels?.[lvl] || 0} từ vựng
+              </span>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
   if (loadingSetting) {
     return (
       <div className="flex-center" style={{ height: '70vh', flexDirection: 'column', gap: '20px' }}>
