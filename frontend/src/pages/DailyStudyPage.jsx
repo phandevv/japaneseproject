@@ -619,7 +619,7 @@ const DailyStudyPage = ({ level, stats, goBack }) => {
   if (phase === 3) {
     if (quizStatus === 'finished') {
       return (
-        <div className="container flex-center animate-fade-in" style={{ height: '70vh', flexDirection: 'column', gap: '30px' }}>
+        <div className="container flex-center animate-fade-in" style={{ minHeight: '70vh', flexDirection: 'column', gap: '30px', padding: '40px 20px' }}>
           <h1 style={{ fontSize: '3rem', color: score === originalQuizLength ? 'var(--success-color)' : 'var(--text-primary)' }}>
             {t.daily.quizDone}
           </h1>
@@ -632,6 +632,37 @@ const DailyStudyPage = ({ level, stats, goBack }) => {
               {score === originalQuizLength ? t.daily.perfectMsg : t.daily.goodMsg}
             </p>
           </div>
+
+          {mistakes.length > 0 && (
+            <div style={{ width: '100%', maxWidth: '600px', marginTop: '10px', marginBottom: '10px' }}>
+              <h3 style={{ marginBottom: '12px', fontSize: '1.2rem', color: 'var(--accent-color)', textAlign: 'center' }}>
+                Các từ đã trả lời sai cần ôn lại:
+              </h3>
+              <div className="card" style={{ padding: '0px', overflow: 'hidden' }}>
+                <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', fontSize: '0.9rem' }}>
+                  <thead style={{ backgroundColor: 'var(--surface-hover)', color: 'var(--text-secondary)' }}>
+                    <tr>
+                      <th style={{ padding: '10px 15px' }}>Từ vựng</th>
+                      <th style={{ padding: '10px 15px' }}>Cách đọc</th>
+                      <th style={{ padding: '10px 15px' }}>Hán Việt</th>
+                      <th style={{ padding: '10px 15px' }}>Ý nghĩa</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {mistakes.map(word => (
+                      <tr key={word.id} style={{ borderBottom: '1px solid var(--border-color)' }}>
+                        <td className="jp-text" style={{ padding: '10px 15px', fontWeight: 700 }}>{word.kanji || '-'}</td>
+                        <td className="jp-text" style={{ padding: '10px 15px', color: 'var(--accent-color)' }}>{word.hiragana}</td>
+                        <td style={{ padding: '10px 15px', color: 'var(--text-secondary)', fontWeight: 500 }}>{word.hanViet || '-'}</td>
+                        <td style={{ padding: '10px 15px' }}>{word.meaning}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          )}
+
           <div className="flex-center" style={{ gap: '20px' }}>
             <button className="btn btn-secondary" onClick={() => setPhase(2)}>
               <BookOpen size={18} /> {t.daily.reviewAgain}
@@ -733,6 +764,11 @@ const DailyStudyPage = ({ level, stats, goBack }) => {
                   <p style={{ marginTop: '6px', fontSize: '1.05rem', color: 'var(--text-primary)' }}>
                     <strong>Nghĩa:</strong> {currentWord.meaning}
                   </p>
+                  {currentWord.hanViet && (
+                    <p style={{ marginTop: '4px', fontSize: '0.95rem', color: 'var(--text-secondary)' }}>
+                      <strong>Hán Việt:</strong> 【{currentWord.hanViet}】
+                    </p>
+                  )}
                 </div>
               </div>
               <button className="btn btn-primary" onClick={nextQuestion} autoFocus>
@@ -762,6 +798,11 @@ const DailyStudyPage = ({ level, stats, goBack }) => {
                   <p style={{ marginTop: '6px', fontSize: '1.05rem', color: 'var(--text-primary)' }}>
                     <strong>Nghĩa:</strong> {currentWord.meaning}
                   </p>
+                  {currentWord.hanViet && (
+                    <p style={{ marginTop: '4px', fontSize: '0.95rem', color: 'var(--text-secondary)' }}>
+                      <strong>Hán Việt:</strong> 【{currentWord.hanViet}】
+                    </p>
+                  )}
                 </div>
               </div>
               <button className="btn btn-primary" onClick={nextQuestion} autoFocus>
