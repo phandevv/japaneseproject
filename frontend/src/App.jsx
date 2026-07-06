@@ -34,10 +34,25 @@ const updateStreakForToday = (currentUser) => {
 
 function App() {
   const { user: authUser, logout: authLogout, isAuthenticated } = useAuth();
-  const [currentPage, setCurrentPage] = useState('home');
-  const [selectedLevel, setSelectedLevel] = useState(null);
+  const [currentPage, setCurrentPage] = useState(() => localStorage.getItem('nihongo-currentPage') || 'home');
+  const [selectedLevel, setSelectedLevel] = useState(() => {
+    const val = localStorage.getItem('nihongo-selectedLevel');
+    return val === 'null' ? null : val;
+  });
   const [stats, setStats] = useState(null);
   const [showStudySection, setShowStudySection] = useState(false);
+
+  useEffect(() => {
+    localStorage.setItem('nihongo-currentPage', currentPage);
+  }, [currentPage]);
+
+  useEffect(() => {
+    if (selectedLevel !== null) {
+      localStorage.setItem('nihongo-selectedLevel', selectedLevel);
+    } else {
+      localStorage.removeItem('nihongo-selectedLevel');
+    }
+  }, [selectedLevel]);
 
   // Streak state associated with the active user (username or 'guest')
   const [userStreakData, setUserStreakData] = useState(null);

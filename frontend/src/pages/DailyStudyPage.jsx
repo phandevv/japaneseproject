@@ -84,6 +84,56 @@ const DailyStudyPage = ({ level, stats, goBack }) => {
     setCurrentLevel(level);
   }, [level]);
 
+  // Restore quiz session from localStorage if available
+  useEffect(() => {
+    const saved = localStorage.getItem('nihongo-active-quiz');
+    if (saved) {
+      try {
+        const session = JSON.parse(saved);
+        if (session.level === currentLevel && session.phase === 3) {
+          setPhase(session.phase);
+          setSelectedDay(session.selectedDay);
+          setQuizWords(session.quizWords);
+          setOriginalQuizLength(session.originalQuizLength);
+          setFailedWordIds(new Set(session.failedWordIds));
+          setSeenWordIds(new Set(session.seenWordIds));
+          setQuizIndex(session.quizIndex);
+          setScore(session.score);
+          setMistakes(session.mistakes || []);
+          setQuizQuestionType(session.quizQuestionType);
+          setShowHiraganaHint(session.showHiraganaHint || false);
+          setQuizStatus('idle');
+          setUserInput('');
+        }
+      } catch (e) {
+        console.error("Failed to restore quiz session:", e);
+      }
+    }
+  }, [currentLevel]);
+
+  // Persist quiz state to localStorage
+  useEffect(() => {
+    if (phase === 3 && quizStatus !== 'finished') {
+      const quizSession = {
+        level: currentLevel,
+        selectedDay,
+        phase,
+        quizWords,
+        originalQuizLength,
+        failedWordIds: Array.from(failedWordIds),
+        seenWordIds: Array.from(seenWordIds),
+        quizIndex,
+        score,
+        mistakes,
+        quizQuestionType,
+        showHiraganaHint
+      };
+      localStorage.setItem('nihongo-active-quiz', JSON.stringify(quizSession));
+    } else if (phase !== 3 || quizStatus === 'finished') {
+      localStorage.removeItem('nihongo-active-quiz');
+    }
+  }, [phase, currentLevel, selectedDay, quizWords, originalQuizLength, failedWordIds, seenWordIds, quizIndex, score, mistakes, quizQuestionType, showHiraganaHint, quizStatus]);
+
   useEffect(() => {
     const loadSettings = async () => {
       if (!currentLevel) return;
