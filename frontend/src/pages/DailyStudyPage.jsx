@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { vocabApi, userSettingsApi, srsApi, analyticsApi } from '../services/api';
-import { CornerUpLeft, BookOpen, CheckCircle, XCircle, ArrowRight, Loader, Play, ChevronRight, Settings, Download, Volume2, Eye, EyeOff } from 'lucide-react';
+import { CornerUpLeft, BookOpen, CheckCircle, XCircle, ArrowRight, Loader, Play, ChevronRight, Settings, Download, Volume2, Eye, EyeOff, RotateCcw, RefreshCw } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
 import { useAuth } from '../context/AuthContext';
 import KanjiDetailModal from '../components/KanjiDetailModal';
@@ -36,6 +36,7 @@ const DailyStudyPage = ({ level, stats, goBack }) => {
 
   // Quiz config & running states
   const [quizWords, setQuizWords] = useState([]);
+  const [initialQuizWords, setInitialQuizWords] = useState([]);
   const [originalQuizLength, setOriginalQuizLength] = useState(0);
   const [failedWordIds, setFailedWordIds] = useState(new Set());
   
@@ -94,6 +95,7 @@ const DailyStudyPage = ({ level, stats, goBack }) => {
           setPhase(session.phase);
           setSelectedDay(session.selectedDay);
           setQuizWords(session.quizWords);
+          setInitialQuizWords(session.initialQuizWords || []);
           setOriginalQuizLength(session.originalQuizLength);
           setFailedWordIds(new Set(session.failedWordIds));
           setSeenWordIds(new Set(session.seenWordIds));
@@ -119,6 +121,7 @@ const DailyStudyPage = ({ level, stats, goBack }) => {
         selectedDay,
         phase,
         quizWords,
+        initialQuizWords,
         originalQuizLength,
         failedWordIds: Array.from(failedWordIds),
         seenWordIds: Array.from(seenWordIds),
@@ -132,7 +135,7 @@ const DailyStudyPage = ({ level, stats, goBack }) => {
     } else if (phase !== 3 || quizStatus === 'finished') {
       localStorage.removeItem('nihongo-active-quiz');
     }
-  }, [phase, currentLevel, selectedDay, quizWords, originalQuizLength, failedWordIds, seenWordIds, quizIndex, score, mistakes, quizQuestionType, showHiraganaHint, quizStatus]);
+  }, [phase, currentLevel, selectedDay, quizWords, initialQuizWords, originalQuizLength, failedWordIds, seenWordIds, quizIndex, score, mistakes, quizQuestionType, showHiraganaHint, quizStatus]);
 
   useEffect(() => {
     const loadSettings = async () => {
@@ -248,6 +251,7 @@ const DailyStudyPage = ({ level, stats, goBack }) => {
     const shuffledSelected = shuffleArray(selected);
     
     setQuizWords(shuffledSelected);
+    setInitialQuizWords(shuffledSelected);
     setOriginalQuizLength(shuffledSelected.length);
     setFailedWordIds(new Set());
     setSeenWordIds(new Set());
@@ -276,6 +280,7 @@ const DailyStudyPage = ({ level, stats, goBack }) => {
       }
       const shuffled = shuffleArray(data);
       setQuizWords(shuffled);
+      setInitialQuizWords(shuffled);
       setOriginalQuizLength(shuffled.length);
       setFailedWordIds(new Set());
       setSeenWordIds(new Set());
@@ -291,6 +296,21 @@ const DailyStudyPage = ({ level, stats, goBack }) => {
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleRedoQuiz = () => {
+    if (initialQuizWords.length === 0) return;
+    const reshuffled = shuffleArray(initialQuizWords);
+    setQuizWords(reshuffled);
+    setOriginalQuizLength(reshuffled.length);
+    setFailedWordIds(new Set());
+    setSeenWordIds(new Set());
+    setQuizIndex(0);
+    setScore(0);
+    setUserInput('');
+    setQuizStatus('idle');
+    setMistakes([]);
+    setPhase(3);
   };
 
   const checkAnswer = (e) => {
@@ -714,6 +734,9 @@ const DailyStudyPage = ({ level, stats, goBack }) => {
           )}
 
           <div className="flex-center" style={{ gap: '20px' }}>
+            <button className="btn btn-secondary" onClick={handleRedoQuiz}>
+              <RefreshCw size={18} /> Làm lại Quiz
+            </button>
             <button className="btn btn-secondary" onClick={() => setPhase(2)}>
               <BookOpen size={18} /> {t.daily.reviewAgain}
             </button>
