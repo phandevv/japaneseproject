@@ -45,6 +45,7 @@ const DailyStudyPage = ({ level, stats, goBack }) => {
   const [score, setScore] = useState(0);
   const [mistakes, setMistakes] = useState([]);
   const [quizQuestionType, setQuizQuestionType] = useState('vi-to-ja'); // 'vi-to-ja' or 'ja-to-vi'
+  const [showHiraganaHint, setShowHiraganaHint] = useState(false);
 
   // Quiz setup form states
   const [quizOptType, setQuizOptType] = useState('all'); // all, random, range
@@ -641,6 +642,20 @@ const DailyStudyPage = ({ level, stats, goBack }) => {
             <div className="progress-fill" style={{ width: `${((quizIndex) / quizWords.length) * 100}%` }}></div>
           </div>
 
+          {quizQuestionType === 'ja-to-vi' && (
+            <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '15px' }}>
+              <label style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer', fontSize: '0.85rem', color: 'var(--text-secondary)' }}>
+                <input 
+                  type="checkbox" 
+                  checked={showHiraganaHint} 
+                  onChange={(e) => setShowHiraganaHint(e.target.checked)} 
+                  style={{ width: '14px', height: '14px', cursor: 'pointer' }}
+                />
+                Hiện cách đọc (Hiragana)
+              </label>
+            </div>
+          )}
+
           <div className="card" style={{ padding: '40px', textAlign: 'center', marginBottom: '30px' }}>
             <p style={{ color: 'var(--text-secondary)', marginBottom: '15px' }}>
               {quizQuestionType === 'vi-to-ja' ? t.daily.quizPrompt : 'Hãy điền nghĩa Tiếng Việt của từ sau:'}
@@ -648,7 +663,7 @@ const DailyStudyPage = ({ level, stats, goBack }) => {
             <h2 className={quizQuestionType === 'ja-to-vi' ? 'jp-text' : ''} style={{ fontSize: quizQuestionType === 'ja-to-vi' ? '2.8rem' : '2.2rem', marginBottom: '20px', color: 'var(--text-primary)' }}>
               {quizQuestionType === 'vi-to-ja' ? currentWord.meaning : (currentWord.kanji || currentWord.hiragana)}
             </h2>
-            {quizQuestionType === 'ja-to-vi' && currentWord.kanji && (
+            {quizQuestionType === 'ja-to-vi' && currentWord.kanji && showHiraganaHint && (
               <p style={{ color: 'var(--accent-color)', fontSize: '1.2rem', marginBottom: '10px' }}>({currentWord.hiragana})</p>
             )}
             {quizQuestionType === 'vi-to-ja' && currentWord.hanViet && (
@@ -784,6 +799,21 @@ const DailyStudyPage = ({ level, stats, goBack }) => {
               </button>
             </div>
           </div>
+
+          {quizQuestionType === 'ja-to-vi' && (
+            <div style={{ marginBottom: '24px', paddingBottom: '20px', borderBottom: '1px solid var(--border-color)', display: 'flex', alignItems: 'center', gap: '10px' }}>
+              <input 
+                type="checkbox" 
+                id="showHiraganaHint" 
+                checked={showHiraganaHint} 
+                onChange={(e) => setShowHiraganaHint(e.target.checked)} 
+                style={{ width: '18px', height: '18px', cursor: 'pointer' }}
+              />
+              <label htmlFor="showHiraganaHint" style={{ fontWeight: 600, cursor: 'pointer', fontSize: '0.95rem' }}>
+                Hiển thị cách đọc Hiragana (Furigana) kèm Kanji
+              </label>
+            </div>
+          )}
 
           {quizSetupError && (
             <div style={{ 
