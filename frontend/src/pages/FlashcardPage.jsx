@@ -23,6 +23,7 @@ const FlashcardPage = ({ level: initialLevel, isSrs = false, stats, goBack }) =>
   const [currentIndex, setCurrentIndex] = useState(0);
   const [loading, setLoading] = useState(false);
   const [flipped, setFlipped] = useState(false);
+  const [seenWordIds, setSeenWordIds] = useState(new Set());
 
   useEffect(() => {
     setActiveLevel(initialLevel);
@@ -41,6 +42,7 @@ const FlashcardPage = ({ level: initialLevel, isSrs = false, stats, goBack }) =>
       setWords(data);
       setCurrentIndex(0);
       setFlipped(false);
+      setSeenWordIds(new Set());
     } catch (error) {
       console.error("Failed to fetch words", error);
       setWords([]);
@@ -100,11 +102,20 @@ const FlashcardPage = ({ level: initialLevel, isSrs = false, stats, goBack }) =>
     if (words.length === 0) return;
     const currentWord = words[currentIndex];
 
+    const isNew = !seenWordIds.has(currentWord.id);
+    if (isNew) {
+      setSeenWordIds(prev => {
+        const next = new Set(prev);
+        next.add(currentWord.id);
+        return next;
+      });
+    }
+
     if (isAuthenticated) {
       try {
         await srsApi.reviewWord(currentWord.id, quality);
-        // Log study session: 1 word studied, 1 correct if quality is Good/Easy, total questions 1
-        await analyticsApi.logSession(1, quality >= 3 ? 1 : 0, 1);
+        // Log study session: 1 word studied if new, 1 correct if quality is Good/Easy, total questions 1
+        await analyticsApi.logSession(isNew ? 1 : 0, quality >= 3 ? 1 : 0, 1);
       } catch (error) {
         console.error("Failed to save SRS review:", error);
       }

@@ -46,6 +46,7 @@ const DailyStudyPage = ({ level, stats, goBack }) => {
   const [mistakes, setMistakes] = useState([]);
   const [quizQuestionType, setQuizQuestionType] = useState('vi-to-ja'); // 'vi-to-ja' or 'ja-to-vi'
   const [showHiraganaHint, setShowHiraganaHint] = useState(false);
+  const [seenWordIds, setSeenWordIds] = useState(new Set());
 
   // Quiz setup form states
   const [quizOptType, setQuizOptType] = useState('all'); // all, random, range
@@ -199,6 +200,7 @@ const DailyStudyPage = ({ level, stats, goBack }) => {
     setQuizWords(shuffledSelected);
     setOriginalQuizLength(shuffledSelected.length);
     setFailedWordIds(new Set());
+    setSeenWordIds(new Set());
     setQuizIndex(0);
     setScore(0);
     setUserInput('');
@@ -226,6 +228,7 @@ const DailyStudyPage = ({ level, stats, goBack }) => {
       setQuizWords(shuffled);
       setOriginalQuizLength(shuffled.length);
       setFailedWordIds(new Set());
+      setSeenWordIds(new Set());
       setQuizIndex(0);
       setScore(0);
       setUserInput('');
@@ -258,6 +261,15 @@ const DailyStudyPage = ({ level, stats, goBack }) => {
       isCorrect = matchVietnameseAnswer(userInput, currentWord.meaning || '');
     }
 
+    const isNewWord = !seenWordIds.has(currentWord.id);
+    if (isNewWord) {
+      setSeenWordIds(prev => {
+        const next = new Set(prev);
+        next.add(currentWord.id);
+        return next;
+      });
+    }
+
     if (isCorrect) {
       setQuizStatus('correct');
       if (!failedWordIds.has(currentWord.id)) {
@@ -265,7 +277,12 @@ const DailyStudyPage = ({ level, stats, goBack }) => {
         // Correct on first try: add to studied count & learned list (SRS) in background
         if (isAuthenticated) {
           srsApi.reviewWord(currentWord.id, 3).catch(console.error);
-          analyticsApi.logSession(1, 1, 1).catch(console.error);
+          analyticsApi.logSession(isNewWord ? 1 : 0, 1, 1).catch(console.error);
+        }
+      } else {
+        // Correct on retry: count attempt but 0 new words and 0 correct (since correct is first-try only for stats)
+        if (isAuthenticated) {
+          analyticsApi.logSession(0, 0, 1).catch(console.error);
         }
       }
       speakWord(currentWord);
@@ -284,7 +301,7 @@ const DailyStudyPage = ({ level, stats, goBack }) => {
       // Failed: mark in SRS as Again in background
       if (isAuthenticated) {
         srsApi.reviewWord(currentWord.id, 1).catch(console.error);
-        analyticsApi.logSession(1, 0, 1).catch(console.error);
+        analyticsApi.logSession(isNewWord ? 1 : 0, 0, 1).catch(console.error);
       }
 
       const remainingCount = quizWords.length - (quizIndex + 1);
