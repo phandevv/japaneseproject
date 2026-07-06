@@ -8,7 +8,7 @@ import { useLanguage } from '../context/LanguageContext';
 const DRAW_MS         = 1200;
 const BETWEEN_CHAR_MS = 1200;
 const DASH_MAX        = 600;
-const CANVAS_SIZE     = 320;   // px – writing practice canvas
+const CANVAS_SIZE     = 400;   // px – writing practice canvas
 
 /* ─────────────────────────────────────────────
    Helpers
@@ -245,7 +245,15 @@ const KanjiPracticeCanvas = ({ word, onBack }) => {
   const fgRef  = useRef(null);   // user drawing layer
   const isDrawing = useRef(false);
   const [showHint, setShowHint] = useState(false);
-  const [strokes, setStrokes]   = useState(0);  // count user strokes for "有" indicator
+  const [strokes, setStrokes]   = useState(0);  // count user strokes
+
+  // Stroke data tracking states
+  const userStrokes = useRef([]);
+  const currentStroke = useRef({ x: [], y: [], t: [] });
+  const startTime = useRef(null);
+  const [checking, setChecking] = useState(false);
+  const [recResult, setRecResult] = useState(null); // 'correct' | 'incorrect' | null
+  const [candidates, setCandidates] = useState([]);
 
   /* Draw grid on background canvas */
   const drawBg = useCallback(() => {
@@ -291,6 +299,11 @@ const KanjiPracticeCanvas = ({ word, onBack }) => {
     const ctx = fgRef.current?.getContext('2d');
     if (ctx) ctx.clearRect(0, 0, CANVAS_SIZE, CANVAS_SIZE);
     setStrokes(0);
+    userStrokes.current = [];
+    currentStroke.current = { x: [], y: [], t: [] };
+    startTime.current = null;
+    setRecResult(null);
+    setCandidates([]);
   };
 
   /* Pointer position relative to canvas (supports touch + mouse) */
@@ -312,6 +325,15 @@ const KanjiPracticeCanvas = ({ word, onBack }) => {
     ctx.beginPath();
     ctx.moveTo(pt.x, pt.y);
     setStrokes(s => s + 1);
+
+    if (!startTime.current) {
+      startTime.current = Date.now();
+    }
+    currentStroke.current = {
+      x: [Math.round(pt.x)],
+      y: [Math.round(pt.y)],
+      t: [Date.now() - startTime.current]
+    };
   };
 
   const onMove = (e) => {
@@ -325,9 +347,78 @@ const KanjiPracticeCanvas = ({ word, onBack }) => {
     ctx.lineCap     = 'round';
     ctx.lineJoin    = 'round';
     ctx.stroke();
+
+    if (currentStroke.current) {
+      currentStroke.current.x.push(Math.round(pt.x));
+      currentStroke.current.y.push(Math.round(pt.y));
+      currentStroke.current.t.push(Date.now() - startTime.current);
+    }
   };
 
-  const onEnd = (e) => { e.preventDefault(); isDrawing.current = false; };
+  const onEnd = (e) => {
+    e.preventDefault();
+    if (isDrawing.current) {
+      isDrawing.current = false;
+      if (currentStroke.current && currentStroke.current.x.length > 0) {
+        userStrokes.current.push([
+          currentStroke.current.x,
+          currentStroke.current.y,
+          currentStroke.current.t
+        ]);
+      }
+    }
+  };
+
+  const checkHandwriting = async () => {
+    if (userStrokes.current.length === 0) return;
+    setChecking(true);
+    setRecResult(null);
+    setCandidates([]);
+    
+    try {
+      const requestBody = {
+        options: 'enable_pre_space',
+        requests: [
+          {
+            writing_guide: {
+              writing_area_width: CANVAS_SIZE,
+              writing_area_height: CANVAS_SIZE
+            },
+            ink: userStrokes.current,
+            language: 'ja'
+          }
+        ]
+      };
+
+      const response = await fetch('https://inputtools.google.com/request?itc=ja-t-i0-handwriting&app=translate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(requestBody)
+      });
+
+      if (!response.ok) throw new Error('API request failed');
+
+      const data = await response.json();
+      if (data[0] === 'SUCCESS') {
+        const cands = data[1][0][1] || [];
+        setCandidates(cands.slice(0, 10)); // Top 10 candidates
+        
+        const target = word.kanji || word.hiragana || '';
+        const cleanTarget = target.trim();
+        
+        // Match with some error tolerance (matches if cleanTarget is in the candidates list)
+        const isMatched = cands.some(cand => cand.trim() === cleanTarget);
+        setRecResult(isMatched ? 'correct' : 'incorrect');
+      } else {
+        throw new Error('API returned failure status');
+      }
+    } catch (err) {
+      console.error('Handwriting check error:', err);
+      alert('Không thể kết nối dịch vụ nhận diện. Vui lòng thử lại!');
+    } finally {
+      setChecking(false);
+    }
+  };
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 18 }}>
@@ -381,6 +472,18 @@ const KanjiPracticeCanvas = ({ word, onBack }) => {
 
       {/* Controls */}
       <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', justifyContent: 'center' }}>
+        {/* Check button */}
+        <button onClick={checkHandwriting} disabled={checking || strokes === 0} style={{
+          display: 'flex', alignItems: 'center', gap: 5,
+          padding: '7px 16px', borderRadius: 20, fontSize: '0.78rem', fontWeight: 'bold',
+          background: 'var(--accent-color)', border: 'none',
+          color: 'white', cursor: (checking || strokes === 0) ? 'default' : 'pointer', transition: 'all 0.2s',
+          opacity: (checking || strokes === 0) ? 0.5 : 1,
+          boxShadow: (checking || strokes === 0) ? 'none' : '0 4px 12px rgba(239, 68, 68, 0.3)',
+        }}>
+          {checking ? 'Đang kiểm tra...' : 'Kiểm tra'}
+        </button>
+
         {/* Hint */}
         <button onClick={() => setShowHint(h => !h)} style={{
           display: 'flex', alignItems: 'center', gap: 5,
@@ -420,6 +523,38 @@ const KanjiPracticeCanvas = ({ word, onBack }) => {
           <RotateCcw size={13} /> Quay lại
         </button>
       </div>
+
+      {/* Recognition Result Banner */}
+      {recResult && (
+        <div style={{
+          width: '100%',
+          maxWidth: CANVAS_SIZE,
+          padding: '12px 16px',
+          borderRadius: 12,
+          border: `1px solid ${recResult === 'correct' ? 'var(--success-color)' : 'rgba(239,68,68,0.4)'}`,
+          backgroundColor: recResult === 'correct' ? 'rgba(16,185,129,0.08)' : 'rgba(239,68,68,0.08)',
+          textAlign: 'center',
+          marginTop: 5,
+          animation: 'slideIn 0.2s ease forwards',
+        }}>
+          {recResult === 'correct' ? (
+            <span style={{ color: 'var(--success-color)', fontWeight: 'bold', fontSize: '0.9rem' }}>
+              ✓ Viết chính xác! Bạn viết rất tốt. 🎉
+            </span>
+          ) : (
+            <div>
+              <span style={{ color: 'var(--accent-color)', fontWeight: 'bold', fontSize: '0.9rem', display: 'block', marginBottom: 6 }}>
+                ✗ Chưa đúng lắm, hãy thử viết lại nhé!
+              </span>
+              {candidates.length > 0 && (
+                <div style={{ fontSize: '0.75rem', color: 'var(--text-secondary)' }}>
+                  Gợi ý nhận diện: <strong style={{ color: 'var(--text-primary)', fontSize: '0.85rem' }}>{candidates.slice(0, 5).join(', ')}</strong>
+                </div>
+              )}
+            </div>
+          )}
+        </div>
+      )}
 
       {/* Answer reveal */}
       <div style={{ fontSize: '0.7rem', color: 'rgba(255,255,255,0.22)', textAlign: 'center' }}>
@@ -542,7 +677,7 @@ const KanjiDetailModal = ({ words, initialIndex, onClose }) => {
         animation: !flipping && !slideDir ? slideAnim : undefined,
         margin: '0 auto',
         width: '100%',
-        maxWidth: side === 'back' ? 520 : maxCardWidth,
+        maxWidth: side === 'back' ? 580 : maxCardWidth,
         // Remove 94vw/94vh limits because it's no longer a modal, it's a normal page block
         background: 'linear-gradient(145deg, #1b2642, #0f1a2e)',
         border: '1px solid rgba(255,255,255,0.07)',
