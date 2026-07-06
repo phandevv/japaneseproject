@@ -5,8 +5,8 @@ import { useLanguage } from '../context/LanguageContext';
 /* ─────────────────────────────────────────────
    Constants
    ───────────────────────────────────────────── */
-const DRAW_MS         = 600;
-const BETWEEN_CHAR_MS = 800;
+const DRAW_MS         = 1200;
+const BETWEEN_CHAR_MS = 1200;
 const DASH_MAX        = 600;
 const CANVAS_SIZE     = 320;   // px – writing practice canvas
 
@@ -150,6 +150,14 @@ const StrokeOrderDisplay = ({ kanji }) => {
     timerRef.current = setTimeout(() => { queueIdxRef.current = 0; setQueueIdx(0); setAnimKey(k => k + 1); }, 80);
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
+  const stopAnimation = useCallback(() => {
+    if (timerRef.current) clearTimeout(timerRef.current);
+    queueIdxRef.current = -1;
+    setQueueIdx(-1);
+    setDoneTotal(0);
+    setAnimating(false);
+  }, []);
+
   const handleStrokeEnd = useCallback((e) => {
     if (e.animationName !== 'drawKanjiStroke') return;
     const idx = queueIdxRef.current;
@@ -200,14 +208,26 @@ const StrokeOrderDisplay = ({ kanji }) => {
           {queue.length > 0 && (
             <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginTop: 4 }}>
               <span style={{ fontSize: '0.75rem', color: 'var(--text-secondary)' }}>{doneTotal}/{queue.length} 画</span>
-              <button onClick={runAnimation} disabled={animating} style={{
-                display: 'flex', alignItems: 'center', gap: 6, padding: '5px 13px', borderRadius: 20, fontSize: '0.75rem',
-                background: animating ? 'rgba(255,255,255,0.04)' : 'rgba(239,68,68,0.14)', border: '1px solid rgba(239,68,68,0.3)',
-                color: animating ? 'var(--text-secondary)' : 'var(--accent-color)', cursor: animating ? 'default' : 'pointer', transition: 'all 0.2s',
-              }}>
-                <RefreshCw size={11} style={{ animation: animating ? 'spin 0.8s linear infinite' : 'none' }} />
-                アニメーション
-              </button>
+              <div style={{ display: 'flex', gap: 8 }}>
+                <button onClick={runAnimation} disabled={animating} style={{
+                  display: 'flex', alignItems: 'center', gap: 6, padding: '5px 13px', borderRadius: 20, fontSize: '0.75rem',
+                  background: animating ? 'rgba(255,255,255,0.04)' : 'rgba(239,68,68,0.14)', border: '1px solid rgba(239,68,68,0.3)',
+                  color: animating ? 'var(--text-secondary)' : 'var(--accent-color)', cursor: animating ? 'default' : 'pointer', transition: 'all 0.2s',
+                }}>
+                  <RefreshCw size={11} style={{ animation: animating ? 'spin 0.8s linear infinite' : 'none' }} />
+                  {animating ? 'Đang vẽ...' : 'Vẽ lại'}
+                </button>
+                {animating && (
+                  <button onClick={stopAnimation} style={{
+                    display: 'flex', alignItems: 'center', gap: 6, padding: '5px 13px', borderRadius: 20, fontSize: '0.75rem',
+                    background: 'rgba(239,68,68,0.14)', border: '1px solid rgba(239,68,68,0.3)',
+                    color: 'var(--accent-color)', cursor: 'pointer', transition: 'all 0.2s',
+                  }}>
+                    <X size={11} />
+                    Dừng
+                  </button>
+                )}
+              </div>
             </div>
           )}
         </>
