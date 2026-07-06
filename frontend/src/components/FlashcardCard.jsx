@@ -6,12 +6,27 @@ const FlashcardCard = ({ word, flipped, onFlip, onRateWord }) => {
   const { t } = useLanguage();
 
   useEffect(() => {
+    if (!word || typeof window === 'undefined' || !window.speechSynthesis) return;
+
+    const textToSpeak = word.hiragana || word.kanji || '';
+    if (!textToSpeak) return;
+
+    window.speechSynthesis.cancel();
+    const timer = setTimeout(() => {
+      const utterance = new SpeechSynthesisUtterance(textToSpeak);
+      utterance.lang = 'ja-JP';
+      utterance.rate = 0.95;
+      utterance.pitch = 1;
+      window.speechSynthesis.speak(utterance);
+    }, 100);
+
     return () => {
+      clearTimeout(timer);
       if (typeof window !== 'undefined' && window.speechSynthesis) {
         window.speechSynthesis.cancel();
       }
     };
-  }, []);
+  }, [word]);
 
   const handleFlip = () => {
     if (onFlip) {
