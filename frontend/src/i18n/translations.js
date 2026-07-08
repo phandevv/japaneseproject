@@ -224,6 +224,7 @@ export const translations = {
     nav: {
       home: 'Home',
       search: 'Search',
+      dailyStudy: 'Daily Study',
       flashcard: 'Flashcard',
       jlpt: 'JLPT',
       slogan: 'Learn faster, remember longer',

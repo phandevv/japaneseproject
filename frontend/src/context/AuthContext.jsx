@@ -24,6 +24,7 @@ export const AuthProvider = ({ children }) => {
       setToken(data.token);
       setUser({ username: data.username });
       localStorage.setItem('token', data.token);
+      localStorage.setItem('refreshToken', data.refreshToken);
       localStorage.setItem('username', data.username);
       return { success: true };
     } catch (error) {
@@ -51,6 +52,7 @@ export const AuthProvider = ({ children }) => {
     setToken(null);
     setUser(null);
     localStorage.removeItem('token');
+    localStorage.removeItem('refreshToken');
     localStorage.removeItem('username');
   };
 

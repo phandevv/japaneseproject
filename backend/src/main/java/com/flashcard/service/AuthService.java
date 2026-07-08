@@ -27,7 +27,8 @@ public class AuthService {
     private String jwtSecret;
 
     private static final String ISSUER = "JapaneseProject";
-    private static final long EXPIRATION_MS = 7L * 24 * 60 * 60 * 1000; // 7 days
+    private static final long ACCESS_EXPIRATION_MS = 15 * 60 * 1000; // 15 minutes
+    private static final long REFRESH_EXPIRATION_MS = 7L * 24 * 60 * 60 * 1000; // 7 days
 
     public AuthService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
@@ -46,7 +47,7 @@ public class AuthService {
         return userRepository.save(user);
     }
 
-    public String login(String username, String password) {
+    public java.util.Map<String, String> login(String username, String password) {
         if (username == null || password == null) {
             throw new IllegalArgumentException("Username and password cannot be empty");
         }
@@ -54,15 +55,42 @@ public class AuthService {
         if (userOpt.isEmpty() || !passwordEncoder.matches(password, userOpt.get().getPassword())) {
             throw new IllegalArgumentException("Invalid username or password");
         }
-        return generateToken(userOpt.get());
+        User user = userOpt.get();
+        String accessToken = generateToken(user, ACCESS_EXPIRATION_MS, "access");
+        String refreshToken = generateToken(user, REFRESH_EXPIRATION_MS, "refresh");
+        return java.util.Map.of("token", accessToken, "refreshToken", refreshToken);
     }
 
-    private String generateToken(User user) {
+    public String refreshAccessToken(String refreshToken) {
+        try {
+            Algorithm algorithm = Algorithm.HMAC256(jwtSecret);
+            com.auth0.jwt.interfaces.JWTVerifier verifier = JWT.require(algorithm).withIssuer(ISSUER).build();
+            com.auth0.jwt.interfaces.DecodedJWT jwt = verifier.verify(refreshToken);
+            
+            String type = jwt.getClaim("type").asString();
+            if (!"refresh".equals(type)) {
+                throw new IllegalArgumentException("Invalid token type");
+            }
+            
+            Long userId = jwt.getClaim("userId").asLong();
+            
+            // Check if user still exists
+            User user = userRepository.findById(userId)
+                    .orElseThrow(() -> new IllegalArgumentException("User not found"));
+                    
+            return generateToken(user, ACCESS_EXPIRATION_MS, "access");
+        } catch (Exception e) {
+            throw new IllegalArgumentException("Invalid or expired refresh token: " + e.getMessage());
+        }
+    }
+
+    private String generateToken(User user, long expirationMs, String type) {
         return JWT.create()
                 .withIssuer(ISSUER)
                 .withClaim("userId", user.getId())
                 .withClaim("username", user.getUsername())
-                .withExpiresAt(new Date(System.currentTimeMillis() + EXPIRATION_MS))
+                .withClaim("type", type)
+                .withExpiresAt(new Date(System.currentTimeMillis() + expirationMs))
                 .sign(Algorithm.HMAC256(jwtSecret));
     }
 }

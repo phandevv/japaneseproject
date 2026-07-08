@@ -60,15 +60,17 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             Algorithm algorithm = Algorithm.HMAC256(jwtSecret);
             JWTVerifier verifier = JWT.require(algorithm).withIssuer(ISSUER).build();
             DecodedJWT jwt = verifier.verify(token);
-            Long userId = jwt.getClaim("userId").asLong();
-
-            if (userId != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-                userRepository.findById(userId).ifPresent(user -> {
-                    var authToken = new UsernamePasswordAuthenticationToken(
-                            user, null, Collections.emptyList());
-                    authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                    SecurityContextHolder.getContext().setAuthentication(authToken);
-                });
+            String type = jwt.getClaim("type").asString();
+            if (type == null || "access".equals(type)) {
+                Long userId = jwt.getClaim("userId").asLong();
+                if (userId != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+                    userRepository.findById(userId).ifPresent(user -> {
+                        var authToken = new UsernamePasswordAuthenticationToken(
+                                user, null, Collections.emptyList());
+                        authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                        SecurityContextHolder.getContext().setAuthentication(authToken);
+                    });
+                }
             }
         } catch (JWTVerificationException ignored) {
             // Invalid / expired token — SecurityContext stays empty,

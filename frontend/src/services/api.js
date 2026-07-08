@@ -18,13 +18,69 @@ axios.interceptors.request.use(config => {
   return Promise.reject(error);
 });
 
-// Intercept authentication errors (401/403) to automatically clear stale session data and log out
+let isRefreshing = false;
+let failedQueue = [];
+
+const processQueue = (error, token = null) => {
+  failedQueue.forEach(prom => {
+    if (error) {
+      prom.reject(error);
+    } else {
+      prom.resolve(token);
+    }
+  });
+  failedQueue = [];
+};
+
+// Intercept authentication errors (401/403) to automatically refresh access token or log out
 axios.interceptors.response.use(response => {
   return response;
 }, error => {
-  if (error.response && (error.response.status === 401 || error.response.status === 403)) {
-    const token = localStorage.getItem('token');
-    if (token) {
+  const originalRequest = error.config;
+  
+  if (error.response && (error.response.status === 401 || error.response.status === 403) && !originalRequest._retry) {
+    if (isRefreshing) {
+      return new Promise((resolve, reject) => {
+        failedQueue.push({ resolve, reject });
+      })
+      .then(token => {
+        originalRequest.headers['Authorization'] = 'Bearer ' + token;
+        return axios(originalRequest);
+      })
+      .catch(err => {
+        return Promise.reject(err);
+      });
+    }
+
+    originalRequest._retry = true;
+    isRefreshing = true;
+
+    const refreshToken = localStorage.getItem('refreshToken');
+    if (refreshToken) {
+      return new Promise((resolve, reject) => {
+        axios.post(`${API_BASE_URL}/auth/refresh`, { refreshToken })
+          .then(({ data }) => {
+            localStorage.setItem('token', data.token);
+            axios.defaults.headers.common['Authorization'] = 'Bearer ' + data.token;
+            originalRequest.headers['Authorization'] = 'Bearer ' + data.token;
+            processQueue(null, data.token);
+            resolve(axios(originalRequest));
+          })
+          .catch((err) => {
+            processQueue(err, null);
+            localStorage.removeItem('token');
+            localStorage.removeItem('refreshToken');
+            localStorage.removeItem('username');
+            if (typeof window !== 'undefined') {
+              window.location.reload();
+            }
+            reject(err);
+          })
+          .then(() => {
+            isRefreshing = false;
+          });
+      });
+    } else {
       localStorage.removeItem('token');
       localStorage.removeItem('username');
       if (typeof window !== 'undefined') {

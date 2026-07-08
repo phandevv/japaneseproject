@@ -4,7 +4,6 @@ import com.flashcard.model.User;
 import com.flashcard.model.StudySession;
 import com.flashcard.repository.StudySessionRepository;
 import com.flashcard.repository.WordReviewRepository;
-import com.flashcard.repository.LeaderboardProjection;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

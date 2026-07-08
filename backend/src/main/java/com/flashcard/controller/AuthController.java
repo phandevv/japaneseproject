@@ -36,15 +36,32 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody Map<String, String> request) {
         try {
-            String token = authService.login(request.get("username"), request.get("password"));
+            Map<String, String> tokens = authService.login(request.get("username"), request.get("password"));
             return ResponseEntity.ok(Map.of(
-                "token", token,
+                "token", tokens.get("token"),
+                "refreshToken", tokens.get("refreshToken"),
                 "username", request.get("username").trim()
             ));
         } catch (IllegalArgumentException e) {
             return ResponseEntity.status(401).body(Map.of("error", e.getMessage()));
         } catch (Exception e) {
             return ResponseEntity.internalServerError().body(Map.of("error", "Login failed: " + e.getMessage()));
+        }
+    }
+
+    @PostMapping("/refresh")
+    public ResponseEntity<?> refresh(@RequestBody Map<String, String> request) {
+        try {
+            String refreshToken = request.get("refreshToken");
+            if (refreshToken == null || refreshToken.isBlank()) {
+                return ResponseEntity.badRequest().body(Map.of("error", "Refresh token is required"));
+            }
+            String newAccessToken = authService.refreshAccessToken(refreshToken);
+            return ResponseEntity.ok(Map.of("token", newAccessToken));
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(401).body(Map.of("error", e.getMessage()));
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body(Map.of("error", "Token refresh failed: " + e.getMessage()));
         }
     }
 
