@@ -1,0 +1,2 @@
+ALTER TABLE word_reviews ADD COLUMN last_reviewed_at TIMESTAMP NULL DEFAULT NULL;
+ALTER TABLE word_reviews ADD COLUMN last_rating INT NULL DEFAULT NULL;

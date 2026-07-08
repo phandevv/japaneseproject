@@ -5,6 +5,8 @@ import com.flashcard.model.Vocabulary;
 import com.flashcard.model.WordReview;
 import com.flashcard.repository.VocabularyRepository;
 import com.flashcard.repository.WordReviewRepository;
+import com.flashcard.model.StudySession;
+import com.flashcard.repository.StudySessionRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,10 +21,14 @@ public class SrsService {
 
     private final WordReviewRepository reviewRepository;
     private final VocabularyRepository vocabularyRepository;
+    private final StudySessionRepository sessionRepository;
 
-    public SrsService(WordReviewRepository reviewRepository, VocabularyRepository vocabularyRepository) {
+    public SrsService(WordReviewRepository reviewRepository,
+                      VocabularyRepository vocabularyRepository,
+                      StudySessionRepository sessionRepository) {
         this.reviewRepository = reviewRepository;
         this.vocabularyRepository = vocabularyRepository;
+        this.sessionRepository = sessionRepository;
     }
 
     /**
@@ -115,7 +121,26 @@ public class SrsService {
                 : Instant.now().plus(intervalDays, ChronoUnit.DAYS);
         review.setNextReview(nextReview);
 
-        return reviewRepository.save(review);
+        // Set tracking fields
+        review.setLastReviewedAt(Instant.now());
+        review.setLastRating(quality);
+
+        WordReview savedReview = reviewRepository.save(review);
+
+        // Sync wordsStudied count for today's StudySession
+        java.time.ZoneId zone = java.time.ZoneId.of("Asia/Ho_Chi_Minh");
+        java.time.ZonedDateTime nowZoned = java.time.ZonedDateTime.now(zone);
+        java.time.Instant start = nowZoned.toLocalDate().atStartOfDay(zone).toInstant();
+        java.time.Instant end = nowZoned.toLocalDate().plusDays(1).atStartOfDay(zone).toInstant();
+
+        long uniqueCount = reviewRepository.countUniqueReviewedToday(user, start, end);
+
+        StudySession session = sessionRepository.findByUserAndStudyDate(user, nowZoned.toLocalDate())
+                .orElseGet(() -> new StudySession(user, nowZoned.toLocalDate()));
+        session.setWordsStudied((int) uniqueCount);
+        sessionRepository.save(session);
+
+        return savedReview;
     }
 
     /**

@@ -34,6 +34,12 @@ public class WordReview {
     @Column(name = "next_review", nullable = false)
     private Instant nextReview = Instant.now();
 
+    @Column(name = "last_reviewed_at")
+    private Instant lastReviewedAt;
+
+    @Column(name = "last_rating")
+    private Integer lastRating;
+
     public WordReview() {}
 
     public WordReview(User user, Vocabulary vocabulary) {
@@ -61,4 +67,10 @@ public class WordReview {
 
     public Instant getNextReview() { return nextReview; }
     public void setNextReview(Instant nextReview) { this.nextReview = nextReview; }
+
+    public Instant getLastReviewedAt() { return lastReviewedAt; }
+    public void setLastReviewedAt(Instant lastReviewedAt) { this.lastReviewedAt = lastReviewedAt; }
+
+    public Integer getLastRating() { return lastRating; }
+    public void setLastRating(Integer lastRating) { this.lastRating = lastRating; }
 }

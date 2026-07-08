@@ -18,10 +18,13 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
+import com.flashcard.repository.StudySessionRepository;
+
 class SrsServiceTest {
 
     private WordReviewRepository reviewRepository;
     private VocabularyRepository vocabularyRepository;
+    private StudySessionRepository sessionRepository;
     private SrsService srsService;
     private User testUser;
     private Vocabulary testVocabulary;
@@ -30,7 +33,8 @@ class SrsServiceTest {
     void setUp() {
         reviewRepository = Mockito.mock(WordReviewRepository.class);
         vocabularyRepository = Mockito.mock(VocabularyRepository.class);
-        srsService = new SrsService(reviewRepository, vocabularyRepository);
+        sessionRepository = Mockito.mock(StudySessionRepository.class);
+        srsService = new SrsService(reviewRepository, vocabularyRepository, sessionRepository);
 
         testUser = new User();
         testUser.setId(1L);
@@ -39,6 +43,12 @@ class SrsServiceTest {
         testVocabulary = new Vocabulary();
         testVocabulary.setId(10L);
         testVocabulary.setKanji("日本語");
+
+        // Global mocks for sessionRepository
+        when(sessionRepository.findByUserAndStudyDate(any(User.class), any(java.time.LocalDate.class)))
+                .thenReturn(Optional.empty());
+        when(sessionRepository.save(any(com.flashcard.model.StudySession.class)))
+                .thenAnswer(invocation -> invocation.getArgument(0));
     }
 
     @Test

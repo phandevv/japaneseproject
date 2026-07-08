@@ -45,9 +45,15 @@ public class AnalyticsService {
         StudySession session = sessionRepository.findByUserAndStudyDate(user, date)
                 .orElseGet(() -> new StudySession(user, date));
 
-        session.setWordsStudied(session.getWordsStudied() + wordsStudied);
         session.setCorrectAnswers(session.getCorrectAnswers() + correctAnswers);
         session.setTotalQuestions(session.getTotalQuestions() + totalQuestions);
+
+        // Calculate unique words studied today with quality >= 3 (Good or Easy)
+        java.time.ZoneId zone = java.time.ZoneId.of("Asia/Ho_Chi_Minh");
+        java.time.Instant start = date.atStartOfDay(zone).toInstant();
+        java.time.Instant end = date.plusDays(1).atStartOfDay(zone).toInstant();
+        long uniqueCount = reviewRepository.countUniqueReviewedToday(user, start, end);
+        session.setWordsStudied((int) uniqueCount);
 
         return sessionRepository.save(session);
     }
