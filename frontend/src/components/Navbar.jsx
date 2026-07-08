@@ -113,14 +113,23 @@ const Navbar = ({ setCurrentPage, onLoginClick, user, onLogout, onProfileClick }
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  fontSize: '1.2rem',
+                  fontSize: '1.1rem',
                   fontWeight: 'bold',
-                  boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+                  boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
+                  overflow: 'hidden'
                 }}>
-                  {user.avatar ? user.avatar : user.username[0].toUpperCase()}
+                  {user.avatar && user.avatar.startsWith('data:image') ? (
+                    <img 
+                      src={user.avatar} 
+                      alt="avatar" 
+                      style={{ width: '100%', height: '100%', objectFit: 'cover' }} 
+                    />
+                  ) : (
+                    user.avatar ? user.avatar : (user.displayName ? user.displayName[0] : user.username[0]).toUpperCase()
+                  )}
                 </div>
                 <span style={{ fontWeight: 500, color: 'var(--text-primary)', fontSize: '0.9rem' }}>
-                  {user.username}
+                  {user.displayName ? user.displayName : user.username}
                 </span>
               </div>
               <button className="btn btn-logout" onClick={onLogout}>{t.home.logout}</button>

@@ -42,6 +42,10 @@ public class AuthController {
                 "token", tokens.get("token"),
                 "refreshToken", tokens.get("refreshToken"),
                 "username", user.getUsername(),
+                "displayName", user.getDisplayName() != null ? user.getDisplayName() : "",
+                "address", user.getAddress() != null ? user.getAddress() : "",
+                "phone", user.getPhone() != null ? user.getPhone() : "",
+                "occupation", user.getOccupation() != null ? user.getOccupation() : "",
                 "avatar", user.getAvatar() != null ? user.getAvatar() : ""
             ));
         } catch (IllegalArgumentException e) {
@@ -80,6 +84,10 @@ public class AuthController {
         return ResponseEntity.ok(Map.of(
             "username", user.getUsername(),
             "id", user.getId(),
+            "displayName", user.getDisplayName() != null ? user.getDisplayName() : "",
+            "address", user.getAddress() != null ? user.getAddress() : "",
+            "phone", user.getPhone() != null ? user.getPhone() : "",
+            "occupation", user.getOccupation() != null ? user.getOccupation() : "",
             "avatar", user.getAvatar() != null ? user.getAvatar() : ""
         ));
     }
@@ -90,10 +98,19 @@ public class AuthController {
                                            @RequestBody Map<String, String> request) {
         if (user == null) return ResponseEntity.status(401).body(Map.of("error", "Unauthorized"));
         try {
+            String displayName = request.get("displayName");
+            String address = request.get("address");
+            String phone = request.get("phone");
+            String occupation = request.get("occupation");
             String avatar = request.get("avatar");
-            User updated = authService.updateAvatar(user, avatar);
+            
+            User updated = authService.updateProfile(user, displayName, address, phone, occupation, avatar);
             return ResponseEntity.ok(Map.of(
                 "message", "Profile updated successfully",
+                "displayName", updated.getDisplayName() != null ? updated.getDisplayName() : "",
+                "address", updated.getAddress() != null ? updated.getAddress() : "",
+                "phone", updated.getPhone() != null ? updated.getPhone() : "",
+                "occupation", updated.getOccupation() != null ? updated.getOccupation() : "",
                 "avatar", updated.getAvatar() != null ? updated.getAvatar() : ""
             ));
         } catch (IllegalArgumentException e) {

@@ -104,8 +104,8 @@ export const authApi = {
     const response = await axios.post(`${API_BASE_URL}/auth/logout`);
     return response.data;
   },
-  updateProfile: async (avatar) => {
-    const response = await axios.put(`${API_BASE_URL}/auth/profile`, { avatar });
+  updateProfile: async (profileData) => {
+    const response = await axios.put(`${API_BASE_URL}/auth/profile`, profileData);
     return response.data;
   }
 };

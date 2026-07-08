@@ -412,9 +412,18 @@ const HomePage = ({ startStudy, streak, onLoginClick, onLogout, onAdminClick, on
                                 alignItems: 'center',
                                 justifyContent: 'center',
                                 fontSize: '1.1rem',
-                                fontWeight: 'bold'
+                                fontWeight: 'bold',
+                                overflow: 'hidden'
                               }}>
-                                {item.avatar ? item.avatar : item.username[0].toUpperCase()}
+                                {item.avatar && item.avatar.startsWith('data:image') ? (
+                                  <img 
+                                    src={item.avatar} 
+                                    alt="avatar" 
+                                    style={{ width: '100%', height: '100%', objectFit: 'cover' }} 
+                                  />
+                                ) : (
+                                  item.avatar ? item.avatar : item.username[0].toUpperCase()
+                                )}
                               </div>
 
                               <span style={{ fontWeight: index === 0 ? 600 : 500, color: 'var(--text-primary)' }}>
@@ -469,9 +478,18 @@ const HomePage = ({ startStudy, streak, onLoginClick, onLogout, onAdminClick, on
                                 alignItems: 'center',
                                 justifyContent: 'center',
                                 fontSize: '1.1rem',
-                                fontWeight: 'bold'
+                                fontWeight: 'bold',
+                                overflow: 'hidden'
                               }}>
-                                {item.avatar ? item.avatar : item.username[0].toUpperCase()}
+                                {item.avatar && item.avatar.startsWith('data:image') ? (
+                                  <img 
+                                    src={item.avatar} 
+                                    alt="avatar" 
+                                    style={{ width: '100%', height: '100%', objectFit: 'cover' }} 
+                                  />
+                                ) : (
+                                  item.avatar ? item.avatar : item.username[0].toUpperCase()
+                                )}
                               </div>
 
                               <span style={{ fontWeight: index === 0 ? 600 : 500, color: 'var(--text-primary)' }}>
