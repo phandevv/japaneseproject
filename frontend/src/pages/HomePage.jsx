@@ -281,7 +281,9 @@ const HomePage = ({ startStudy, user, streak, onLoginClick, onLogout, onAdminCli
                   </div>
                   <div>
                     <div style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>Đang online</div>
-                    <div style={{ fontSize: '1.8rem', fontWeight: 700, color: 'var(--text-primary)' }}>{dashboardData.onlineCount || 1}</div>
+                    <div style={{ fontSize: '1.8rem', fontWeight: 700, color: 'var(--text-primary)' }}>
+                      {dashboardData.onlineCount || 1}/{dashboardData.totalUsers || 1}
+                    </div>
                   </div>
                 </div>
               </div>
