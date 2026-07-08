@@ -148,16 +148,16 @@ const HomePage = ({ startStudy, streak, onLoginClick, onLogout, onAdminClick, on
 
     // Colors mapping helper
     const getCellColor = (words) => {
-      if (words === 0) return 'rgba(128, 128, 128, 0.15)';
-      if (words <= 5) return 'rgba(239, 68, 68, 0.25)';
-      if (words <= 15) return 'rgba(239, 68, 68, 0.5)';
-      if (words <= 30) return 'rgba(239, 68, 68, 0.75)';
-      return 'var(--accent-color)';
+      if (words === 0) return 'var(--surface-hover)';
+      if (words <= 5) return '#0e4429';
+      if (words <= 15) return '#006d32';
+      if (words <= 30) return '#26a641';
+      return '#39d353';
     };
 
     // Row headers (Sun, Mon, Tue, Wed, Thu, Fri, Sat)
     // We only label Mon, Wed, Fri to match GitHub style
-    const rowLabels = ['', 'T2', '', 'T4', '', 'T6', ''];
+    const rowLabels = ['', 'Mon', '', 'Wed', '', 'Fri', ''];
 
     // Month headers
     // We want to find the columns where each month starts
@@ -170,7 +170,7 @@ const HomePage = ({ startStudy, streak, onLoginClick, onLogout, onAdminClick, on
         const cellDate = cells[cellIndex].date;
         const currentMonth = cellDate.getMonth();
         if (currentMonth !== lastMonth) {
-          const monthNames = ['T1', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'T8', 'T9', 'T10', 'T11', 'T12'];
+          const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
           monthLabels.push({ colIndex: col, name: monthNames[currentMonth] });
           lastMonth = currentMonth;
         }
@@ -227,7 +227,7 @@ const HomePage = ({ startStudy, streak, onLoginClick, onLogout, onAdminClick, on
                     key={idx} 
                     style={{ 
                       position: 'absolute', 
-                      left: `${m.colIndex * 13}px`,
+                      left: `${m.colIndex * 15}px`,
                       whiteSpace: 'nowrap'
                     }}
                   >
@@ -274,13 +274,13 @@ const HomePage = ({ startStudy, streak, onLoginClick, onLogout, onAdminClick, on
 
         {/* Legend bottom row */}
         <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', gap: '6px', marginTop: '12px', fontSize: '0.75rem', color: 'var(--text-secondary)' }}>
-          <span>Ít</span>
-          <div style={{ width: '10px', height: '10px', borderRadius: '1.5px', backgroundColor: 'rgba(128, 128, 128, 0.15)' }} />
-          <div style={{ width: '10px', height: '10px', borderRadius: '1.5px', backgroundColor: 'rgba(239, 68, 68, 0.25)' }} />
-          <div style={{ width: '10px', height: '10px', borderRadius: '1.5px', backgroundColor: 'rgba(239, 68, 68, 0.5)' }} />
-          <div style={{ width: '10px', height: '10px', borderRadius: '1.5px', backgroundColor: 'rgba(239, 68, 68, 0.75)' }} />
-          <div style={{ width: '10px', height: '10px', borderRadius: '1.5px', backgroundColor: 'var(--accent-color)' }} />
-          <span>Nhiều</span>
+          <span>Less</span>
+          <div style={{ width: '10px', height: '10px', borderRadius: '1.5px', backgroundColor: 'var(--surface-hover)' }} />
+          <div style={{ width: '10px', height: '10px', borderRadius: '1.5px', backgroundColor: '#0e4429' }} />
+          <div style={{ width: '10px', height: '10px', borderRadius: '1.5px', backgroundColor: '#006d32' }} />
+          <div style={{ width: '10px', height: '10px', borderRadius: '1.5px', backgroundColor: '#26a641' }} />
+          <div style={{ width: '10px', height: '10px', borderRadius: '1.5px', backgroundColor: '#39d353' }} />
+          <span>More</span>
         </div>
       </div>
     );
@@ -688,37 +688,6 @@ const HomePage = ({ startStudy, streak, onLoginClick, onLogout, onAdminClick, on
               </div>
             </div>
           )}
-
-          {/* Level Selection Section */}
-          <h2 style={{ fontSize: '1.8rem', marginBottom: '20px', borderBottom: '1px solid var(--border-color)', paddingBottom: '10px', marginTop: '40px' }}>
-            {t.home.studyByLevel}
-          </h2>
-
-          <div className="grid grid-cols-3">
-            {stats && stats.levels && Object.entries(stats.levels).map(([level, count]) => (
-              <div key={level} className="card" style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
-                <div className="flex-between">
-                  <h3 style={{ fontSize: '1.5rem', color: levelColors[level] || 'var(--text-primary)' }}>
-                    {t.home.levelLabels[level] || level}
-                  </h3>
-                  <span style={{ backgroundColor: 'var(--surface-hover)', padding: '4px 10px', borderRadius: '12px', fontSize: '0.9rem' }}>
-                    {count} {t.home.words}
-                  </span>
-                </div>
-                <p style={{ color: 'var(--text-secondary)', flex: 1 }}>
-                  {t.home.levelDesc(t.home.levelLabels[level] || level)}
-                </p>
-                <div style={{ display: 'flex', gap: '10px' }}>
-                  <button className="btn btn-primary" style={{ flex: 1 }} onClick={() => startStudy(level, 'flashcard')}>
-                    Flashcard
-                  </button>
-                  <button className="btn btn-secondary" style={{ flex: 1 }} onClick={() => startStudy(level, 'daily')}>
-                    Daily Study
-                  </button>
-                </div>
-              </div>
-            ))}
-          </div>
         </div>
       ) : (
         // Brand Landing Page for Logged-Out Users

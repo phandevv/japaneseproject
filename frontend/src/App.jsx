@@ -140,6 +140,10 @@ function App() {
               setSelectedLevel(null);
               setCurrentPage('home');
             }}
+            onDailyStudy={(lvl) => {
+              setSelectedLevel(lvl);
+              setCurrentPage('daily');
+            }}
           />
         );
       case 'srs-review':

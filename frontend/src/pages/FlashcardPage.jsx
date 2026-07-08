@@ -15,7 +15,7 @@ const levelColors = {
   TRO_TU: '#06b6d4',
 };
 
-const FlashcardPage = ({ level: initialLevel, isSrs = false, stats, goBack }) => {
+const FlashcardPage = ({ level: initialLevel, isSrs = false, stats, goBack, onDailyStudy }) => {
   const { t } = useLanguage();
   const { isAuthenticated } = useAuth();
   const [activeLevel, setActiveLevel] = useState(initialLevel);
@@ -147,7 +147,7 @@ const FlashcardPage = ({ level: initialLevel, isSrs = false, stats, goBack }) =>
           <p style={{ color: 'var(--text-secondary)' }}>{t.flashcard.selectLevelSubtitle}</p>
         </div>
 
-        <div className="grid grid-cols-3 home-level-grid">
+          <div className="grid grid-cols-3 home-level-grid">
           {stats && stats.levels &&
             Object.entries(stats.levels).map(([lvl, count]) => (
               <div 
@@ -166,10 +166,23 @@ const FlashcardPage = ({ level: initialLevel, isSrs = false, stats, goBack }) =>
                   <span>{count} {t.home.words}</span>
                 </div>
                 <p style={{ margin: '15px 0' }}>{t.home.levelDescriptions?.[lvl] || t.home.levelDesc(t.home.levelLabels[lvl] || lvl)}</p>
-                <div style={{ marginTop: 'auto', display: 'flex', justifyContent: 'flex-end' }}>
-                  <button className="btn btn-primary" style={{ padding: '8px 16px', fontSize: '0.9rem' }}>
+                <div style={{ marginTop: 'auto', display: 'flex', gap: '8px' }} onClick={e => e.stopPropagation()}>
+                  <button 
+                    className="btn btn-primary" 
+                    style={{ flex: 1, padding: '8px 12px', fontSize: '0.85rem' }}
+                    onClick={() => setActiveLevel(lvl)}
+                  >
                     {t.flashcard.startPractice}
                   </button>
+                  {onDailyStudy && (
+                    <button 
+                      className="btn btn-secondary" 
+                      style={{ flex: 1, padding: '8px 12px', fontSize: '0.85rem' }}
+                      onClick={() => onDailyStudy(lvl)}
+                    >
+                      📅 Học hàng ngày
+                    </button>
+                  )}
                 </div>
               </div>
             ))}
