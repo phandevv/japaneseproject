@@ -77,18 +77,23 @@ public class SrsService {
         int repetitions = review.getRepetitions();
         int intervalDays;
 
-        if (q >= 3) { // Success response
+        if (quality >= 3) { // Good or Easy (success response for learning)
             if (repetitions == 0) {
                 intervalDays = 1;
             } else if (repetitions == 1) {
                 intervalDays = 6;
             } else {
-                intervalDays = (int) Math.round(review.getIntervalDays() * easeFactor);
+                int prevInterval = review.getIntervalDays();
+                if (prevInterval <= 0) {
+                    intervalDays = 1;
+                } else {
+                    intervalDays = (int) Math.round(prevInterval * easeFactor);
+                }
             }
             repetitions++;
-        } else { // Fail response
+        } else { // Forgot (1) or Hard (2) (not learned)
             repetitions = 0;
-            intervalDays = 1;
+            intervalDays = 0;
         }
 
         // Adjust Ease Factor (EF)
@@ -103,7 +108,11 @@ public class SrsService {
         review.setIntervalDays(intervalDays);
 
         // Schedule next review date
-        Instant nextReview = Instant.now().plus(intervalDays, ChronoUnit.DAYS);
+        // If intervalDays is 0, it is due immediately (Instant.now())
+        // Otherwise, schedule by days
+        Instant nextReview = (intervalDays == 0)
+                ? Instant.now()
+                : Instant.now().plus(intervalDays, ChronoUnit.DAYS);
         review.setNextReview(nextReview);
 
         return reviewRepository.save(review);
