@@ -133,6 +133,7 @@ public class AnalyticsService {
                 .map(u -> {
                     Map<String, Object> map = new java.util.HashMap<>();
                     map.put("username", u.getUsername());
+                    map.put("avatar", u.getAvatar());
                     map.put("streak", calculateStreak(u));
                     return map;
                 })

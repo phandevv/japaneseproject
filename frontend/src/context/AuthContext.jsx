@@ -11,9 +11,10 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     const savedToken = localStorage.getItem('token');
     const savedUsername = localStorage.getItem('username');
+    const savedAvatar = localStorage.getItem('avatar');
     if (savedToken && savedUsername) {
       setToken(savedToken);
-      setUser({ username: savedUsername });
+      setUser({ username: savedUsername, avatar: savedAvatar || "" });
     }
     setLoading(false);
   }, []);
@@ -22,10 +23,11 @@ export const AuthProvider = ({ children }) => {
     try {
       const data = await authApi.login(username, password);
       setToken(data.token);
-      setUser({ username: data.username });
+      setUser({ username: data.username, avatar: data.avatar || "" });
       localStorage.setItem('token', data.token);
       localStorage.setItem('refreshToken', data.refreshToken);
       localStorage.setItem('username', data.username);
+      localStorage.setItem('avatar', data.avatar || "");
       return { success: true };
     } catch (error) {
       const errorMsg = error.response?.data?.error || "Login failed";
@@ -43,6 +45,11 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  const updateAvatarState = (newAvatar) => {
+    setUser(prev => prev ? { ...prev, avatar: newAvatar } : null);
+    localStorage.setItem('avatar', newAvatar);
+  };
+
   const logout = async () => {
     try {
       await authApi.logout();
@@ -54,10 +61,11 @@ export const AuthProvider = ({ children }) => {
     localStorage.removeItem('token');
     localStorage.removeItem('refreshToken');
     localStorage.removeItem('username');
+    localStorage.removeItem('avatar');
   };
 
   return (
-    <AuthContext.Provider value={{ user, token, login, register, logout, loading, isAuthenticated: !!token }}>
+    <AuthContext.Provider value={{ user, token, login, register, logout, loading, isAuthenticated: !!token, updateAvatar: updateAvatarState }}>
       {children}
     </AuthContext.Provider>
   );

@@ -93,4 +93,16 @@ public class AuthService {
                 .withExpiresAt(new Date(System.currentTimeMillis() + expirationMs))
                 .sign(Algorithm.HMAC256(jwtSecret));
     }
+
+    public User getUserByUsername(String username) {
+        return userRepository.findByUsername(username).orElse(null);
+    }
+
+    @Transactional
+    public User updateAvatar(User user, String avatar) {
+        User existingUser = userRepository.findById(user.getId())
+                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+        existingUser.setAvatar(avatar);
+        return userRepository.save(existingUser);
+    }
 }

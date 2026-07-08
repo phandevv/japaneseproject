@@ -4,7 +4,7 @@ import { useLanguage } from '../context/LanguageContext';
 import { vocabApi } from '../services/api';
 import '../styles/Navbar.css';
 
-const Navbar = ({ setCurrentPage, onLoginClick, user, onLogout }) => {
+const Navbar = ({ setCurrentPage, onLoginClick, user, onLogout, onProfileClick }) => {
   const { lang, toggleLang, t } = useLanguage();
   const fileInputRef = useRef(null);
   const [importing, setImporting] = useState(false);
@@ -89,7 +89,42 @@ const Navbar = ({ setCurrentPage, onLoginClick, user, onLogout }) => {
             {lang === 'vi' ? 'EN' : 'VI'}
           </button>
           {user ? (
-            <button className="btn btn-logout" onClick={onLogout}>{t.home.logout}</button>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+              <div 
+                className="navbar-user" 
+                onClick={onProfileClick}
+                style={{ 
+                  display: 'flex', 
+                  alignItems: 'center', 
+                  gap: '8px', 
+                  cursor: 'pointer',
+                  padding: '4px 8px',
+                  borderRadius: '8px',
+                  transition: 'background-color 0.2s',
+                  backgroundColor: 'var(--surface-hover)'
+                }}
+              >
+                <div style={{
+                  width: '28px',
+                  height: '28px',
+                  borderRadius: '50%',
+                  backgroundColor: 'var(--accent-color)',
+                  color: '#fff',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  fontSize: '1.2rem',
+                  fontWeight: 'bold',
+                  boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+                }}>
+                  {user.avatar ? user.avatar : user.username[0].toUpperCase()}
+                </div>
+                <span style={{ fontWeight: 500, color: 'var(--text-primary)', fontSize: '0.9rem' }}>
+                  {user.username}
+                </span>
+              </div>
+              <button className="btn btn-logout" onClick={onLogout}>{t.home.logout}</button>
+            </div>
           ) : (
             <button className="btn btn-login" onClick={onLoginClick}>{t.auth.loginTitle}</button>
           )}

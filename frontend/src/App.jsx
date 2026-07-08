@@ -4,6 +4,7 @@ import Footer from './components/Footer';
 import HomePage from './pages/HomePage';
 import FlashcardPage from './pages/FlashcardPage';
 import SearchPage from './pages/SearchPage';
+import ProfileModal from './components/ProfileModal';
 import DailyStudyPage from './pages/DailyStudyPage';
 import AuthPage from './pages/AuthPage';
 import VocabAdminPage from './pages/VocabAdminPage';
@@ -41,6 +42,7 @@ function App() {
   });
   const [stats, setStats] = useState(null);
   const [showStudySection, setShowStudySection] = useState(false);
+  const [showProfileModal, setShowProfileModal] = useState(false);
 
   useEffect(() => {
     localStorage.setItem('nihongo-currentPage', currentPage);
@@ -165,11 +167,13 @@ function App() {
         onLoginClick={() => setCurrentPage('auth')}
         user={isAuthenticated ? authUser : null}
         onLogout={handleLogout}
+        onProfileClick={() => setShowProfileModal(true)}
       />
       <main style={{ flex: 1 }}>
         {renderPage()}
       </main>
       <Footer />
+      {showProfileModal && <ProfileModal onClose={() => setShowProfileModal(false)} />}
     </div>
   );
 }

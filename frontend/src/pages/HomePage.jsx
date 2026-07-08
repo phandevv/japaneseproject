@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { vocabApi, analyticsApi } from '../services/api';
 import { Sparkles, Play, BookOpen, Globe, Users, Video, ShieldCheck, Loader, Brain, Flame, CheckCircle2, BarChart2, ShieldAlert, Trophy, Snowflake } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
+import { useAuth } from '../context/AuthContext';
 import '../styles/HomePage.css';
 
 const serviceItems = [
@@ -50,8 +51,9 @@ const differenceItems = [
   },
 ];
 
-const HomePage = ({ startStudy, user, streak, onLoginClick, onLogout, onAdminClick, onDailyClick }) => {
+const HomePage = ({ startStudy, streak, onLoginClick, onLogout, onAdminClick, onDailyClick }) => {
   const { t } = useLanguage();
+  const { user } = useAuth();
   const [stats, setStats] = useState(null);
   const [dashboardData, setDashboardData] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -399,8 +401,24 @@ const HomePage = ({ startStudy, user, streak, onLoginClick, onLogout, onAdminCli
                               }}>
                                 {index + 1}
                               </span>
+                              
+                              <div style={{
+                                width: '28px',
+                                height: '28px',
+                                borderRadius: '50%',
+                                backgroundColor: 'var(--surface-hover)',
+                                border: '1.5px solid var(--border-color)',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                fontSize: '1.1rem',
+                                fontWeight: 'bold'
+                              }}>
+                                {item.avatar ? item.avatar : item.username[0].toUpperCase()}
+                              </div>
+
                               <span style={{ fontWeight: index === 0 ? 600 : 500, color: 'var(--text-primary)' }}>
-                                {item.username} {item.username === user.username && <span style={{ fontSize: '0.75rem', color: 'var(--accent-color)', marginLeft: '4px' }}>(Bạn)</span>}
+                                {item.username} {user && item.username === user.username && <span style={{ fontSize: '0.75rem', color: 'var(--accent-color)', marginLeft: '4px' }}>(Bạn)</span>}
                               </span>
                             </div>
                             <span style={{ fontWeight: 'bold', color: 'var(--success-color)' }}>
@@ -440,8 +458,24 @@ const HomePage = ({ startStudy, user, streak, onLoginClick, onLogout, onAdminCli
                               }}>
                                 {index + 1}
                               </span>
+                              
+                              <div style={{
+                                width: '28px',
+                                height: '28px',
+                                borderRadius: '50%',
+                                backgroundColor: 'var(--surface-hover)',
+                                border: '1.5px solid var(--border-color)',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                fontSize: '1.1rem',
+                                fontWeight: 'bold'
+                              }}>
+                                {item.avatar ? item.avatar : item.username[0].toUpperCase()}
+                              </div>
+
                               <span style={{ fontWeight: index === 0 ? 600 : 500, color: 'var(--text-primary)' }}>
-                                {item.username} {item.username === user.username && <span style={{ fontSize: '0.75rem', color: 'var(--accent-color)', marginLeft: '4px' }}>(Bạn)</span>}
+                                {item.username} {user && item.username === user.username && <span style={{ fontSize: '0.75rem', color: 'var(--accent-color)', marginLeft: '4px' }}>(Bạn)</span>}
                               </span>
                             </div>
                             <span style={{ fontWeight: 'bold', color: 'var(--success-color)' }}>

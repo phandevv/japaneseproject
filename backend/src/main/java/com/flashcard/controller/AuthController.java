@@ -37,10 +37,12 @@ public class AuthController {
     public ResponseEntity<?> login(@RequestBody Map<String, String> request) {
         try {
             Map<String, String> tokens = authService.login(request.get("username"), request.get("password"));
+            User user = authService.getUserByUsername(request.get("username").trim());
             return ResponseEntity.ok(Map.of(
                 "token", tokens.get("token"),
                 "refreshToken", tokens.get("refreshToken"),
-                "username", request.get("username").trim()
+                "username", user.getUsername(),
+                "avatar", user.getAvatar() != null ? user.getAvatar() : ""
             ));
         } catch (IllegalArgumentException e) {
             return ResponseEntity.status(401).body(Map.of("error", e.getMessage()));
@@ -75,6 +77,29 @@ public class AuthController {
     @GetMapping("/me")
     public ResponseEntity<?> me(@AuthenticationPrincipal User user) {
         if (user == null) return ResponseEntity.status(401).body(Map.of("error", "Unauthorized"));
-        return ResponseEntity.ok(Map.of("username", user.getUsername(), "id", user.getId()));
+        return ResponseEntity.ok(Map.of(
+            "username", user.getUsername(),
+            "id", user.getId(),
+            "avatar", user.getAvatar() != null ? user.getAvatar() : ""
+        ));
+    }
+
+    /** Update authenticated user profile settings */
+    @PutMapping("/profile")
+    public ResponseEntity<?> updateProfile(@AuthenticationPrincipal User user,
+                                           @RequestBody Map<String, String> request) {
+        if (user == null) return ResponseEntity.status(401).body(Map.of("error", "Unauthorized"));
+        try {
+            String avatar = request.get("avatar");
+            User updated = authService.updateAvatar(user, avatar);
+            return ResponseEntity.ok(Map.of(
+                "message", "Profile updated successfully",
+                "avatar", updated.getAvatar() != null ? updated.getAvatar() : ""
+            ));
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body(Map.of("error", "Failed to update profile: " + e.getMessage()));
+        }
     }
 }
