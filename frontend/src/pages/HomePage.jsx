@@ -418,10 +418,10 @@ const HomePage = ({ startStudy, streak, onLoginClick, onLogout, onAdminClick, on
                 </div>
               </div>
 
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '20px', marginTop: '24px' }}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '24px', marginTop: '24px' }}>
                 {renderActivityGraph()}
 
-                <div className="card" style={{ padding: '24px', display: 'flex', flexDirection: 'column', height: '100%' }}>
+                <div className="card" style={{ padding: '24px', display: 'flex', flexDirection: 'column', maxWidth: '650px', width: '100%', margin: '0 auto' }}>
                   <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '20px', flexWrap: 'wrap', gap: '10px' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                       <Trophy size={20} color="var(--accent-color)" />
@@ -483,7 +483,7 @@ const HomePage = ({ startStudy, streak, onLoginClick, onLogout, onAdminClick, on
                     </div>
                   </div>
                   
-                  <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                  <div style={{ maxHeight: '320px', overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: '10px', paddingRight: '6px' }} className="custom-scrollbar">
                     {leaderboardType === 'words' ? (
                       (!dashboardData.leaderboard || dashboardData.leaderboard.length === 0) ? (
                         <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--text-secondary)', fontSize: '0.9rem' }}>
