@@ -48,6 +48,31 @@ const DailyStudyPage = ({ level, stats, goBack }) => {
   const [quizQuestionType, setQuizQuestionType] = useState('vi-to-ja'); // 'vi-to-ja' or 'ja-to-vi'
   const [showHiraganaHint, setShowHiraganaHint] = useState(false);
   const [seenWordIds, setSeenWordIds] = useState(new Set());
+  
+  // Timer & Spaced Repetition (SRS) States
+  const [elapsedSeconds, setElapsedSeconds] = useState(0);
+  const [questionStartTime, setQuestionStartTime] = useState(Date.now());
+  const [lastAssignedQuality, setLastAssignedQuality] = useState(null);
+  const [lastElapsedSeconds, setLastElapsedSeconds] = useState(null);
+
+  useEffect(() => {
+    if (phase === 3 && quizStatus === 'idle') {
+      setQuestionStartTime(Date.now());
+      setElapsedSeconds(0);
+      
+      const interval = setInterval(() => {
+        setElapsedSeconds(prev => {
+          if (prev >= 30) {
+            clearInterval(interval);
+            return 30; // Capped at 30 seconds for hanging/idle case
+          }
+          return prev + 1;
+        });
+      }, 1000);
+
+      return () => clearInterval(interval);
+    }
+  }, [phase, quizIndex, quizStatus]);
 
   // Quiz setup form states
   const [quizOptType, setQuizOptType] = useState('all'); // all, random, range
@@ -340,13 +365,31 @@ const DailyStudyPage = ({ level, stats, goBack }) => {
       });
     }
 
+    // Spaced repetition calculation:
+    // Determine response time
+    const finalElapsed = Math.min(30, (Date.now() - questionStartTime) / 1000);
+    let quality = 1; // Forgot
+    if (isCorrect) {
+      if (finalElapsed <= 3) {
+        quality = 4; // Easy
+      } else if (finalElapsed <= 8) {
+        quality = 3; // Good
+      } else {
+        quality = 2; // Hard
+      }
+    } else {
+      quality = 1; // Forgot
+    }
+    setLastAssignedQuality(quality);
+    setLastElapsedSeconds(finalElapsed);
+
     if (isCorrect) {
       setQuizStatus('correct');
       if (!failedWordIds.has(currentWord.id)) {
         setScore(s => s + 1);
         // Correct on first try: add to studied count & learned list (SRS) in background
         if (isAuthenticated) {
-          srsApi.reviewWord(currentWord.id, 3).catch(console.error);
+          srsApi.reviewWord(currentWord.id, quality).catch(console.error);
           analyticsApi.logSession(isNewWord ? 1 : 0, 1, 1).catch(console.error);
         }
       } else {
@@ -808,6 +851,16 @@ const DailyStudyPage = ({ level, stats, goBack }) => {
 
           <div className="flex-between" style={{ marginBottom: '20px', color: 'var(--text-secondary)' }}>
             <span>{t.daily.question} {quizIndex + 1} / {quizWords.length}</span>
+            <div style={{ 
+              display: 'flex', 
+              alignItems: 'center', 
+              gap: '6px', 
+              color: elapsedSeconds >= 20 ? 'var(--accent-color)' : elapsedSeconds >= 10 ? 'var(--warning-color)' : 'var(--text-secondary)',
+              fontWeight: elapsedSeconds >= 10 ? 600 : 500,
+              transition: 'color 0.3s ease'
+            }}>
+              ⏱️ {elapsedSeconds}s {elapsedSeconds >= 30 && <span style={{ fontSize: '0.75rem' }}>(Treo máy)</span>}
+            </div>
             <span>{t.daily.score}: {score}</span>
           </div>
 
@@ -874,7 +927,19 @@ const DailyStudyPage = ({ level, stats, goBack }) => {
               <div className="flex-center" style={{ gap: '15px' }}>
                 <CheckCircle size={32} color="var(--success-color)" />
                 <div>
-                  <h3 style={{ color: 'var(--success-color)' }}>{t.daily.correct}</h3>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <h3 style={{ color: 'var(--success-color)' }}>{t.daily.correct}</h3>
+                    <span style={{ 
+                      fontSize: '0.75rem', 
+                      padding: '2px 8px', 
+                      borderRadius: '8px', 
+                      fontWeight: 600,
+                      backgroundColor: lastAssignedQuality === 4 ? 'rgba(16, 185, 129, 0.2)' : lastAssignedQuality === 3 ? 'rgba(59, 130, 246, 0.2)' : 'rgba(245, 158, 11, 0.2)',
+                      color: lastAssignedQuality === 4 ? '#10b981' : lastAssignedQuality === 3 ? '#3b82f6' : '#f59e0b'
+                    }}>
+                      {lastAssignedQuality === 4 ? 'Easy' : lastAssignedQuality === 3 ? 'Good' : 'Hard'} ({lastElapsedSeconds?.toFixed(1)}s)
+                    </span>
+                  </div>
                   <p className="jp-text" style={{ fontSize: '1.2rem', marginTop: '5px', display: 'flex', alignItems: 'center', gap: '8px' }}>
                     {currentWord.kanji && <span>{currentWord.kanji} </span>}
                     <span style={{ color: 'var(--text-secondary)' }}>({currentWord.hiragana})</span>
@@ -907,7 +972,19 @@ const DailyStudyPage = ({ level, stats, goBack }) => {
               <div className="flex-center" style={{ gap: '15px' }}>
                 <XCircle size={32} color="var(--accent-color)" />
                 <div>
-                  <h3 style={{ color: 'var(--accent-color)' }}>{t.daily.incorrect}</h3>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <h3 style={{ color: 'var(--accent-color)' }}>{t.daily.incorrect}</h3>
+                    <span style={{ 
+                      fontSize: '0.75rem', 
+                      padding: '2px 8px', 
+                      borderRadius: '8px', 
+                      fontWeight: 600,
+                      backgroundColor: 'rgba(239, 68, 68, 0.2)',
+                      color: '#ef4444'
+                    }}>
+                      Forgot ({lastElapsedSeconds?.toFixed(1)}s)
+                    </span>
+                  </div>
                   <p style={{ marginTop: '5px' }}>{t.daily.correctAnswerIs}</p>
                   <p className="jp-text" style={{ fontSize: '1.2rem', marginTop: '5px', display: 'flex', alignItems: 'center', gap: '8px' }}>
                     {currentWord.kanji && <span style={{ color: 'var(--success-color)' }}>{currentWord.kanji} </span>}

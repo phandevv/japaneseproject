@@ -117,7 +117,7 @@ const FlashcardCard = ({ word, flipped, onFlip, onRateWord }) => {
           {onRateWord && (
             <div style={{ display: 'flex', gap: '8px', marginTop: '20px', width: '100%', justifyContent: 'center' }} onClick={e => e.stopPropagation()}>
               <button className="btn" style={{ backgroundColor: 'rgba(239, 68, 68, 0.2)', color: '#ef4444', borderColor: '#ef4444', border: '1px solid', flex: 1, padding: '8px 4px', fontSize: '0.85rem', cursor: 'pointer' }} onClick={() => onRateWord(1)}>
-                Again
+                Forgot
               </button>
               <button className="btn" style={{ backgroundColor: 'rgba(245, 158, 11, 0.2)', color: '#f59e0b', borderColor: '#f59e0b', border: '1px solid', flex: 1, padding: '8px 4px', fontSize: '0.85rem', cursor: 'pointer' }} onClick={() => onRateWord(2)}>
                 Hard
