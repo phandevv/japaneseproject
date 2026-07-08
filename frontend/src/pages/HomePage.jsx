@@ -347,7 +347,24 @@ const HomePage = ({ startStudy, streak, onLoginClick, onLogout, onAdminClick, on
                           transition: 'all 0.2s ease'
                         }}
                       >
-                        Số từ học
+                        Hôm nay
+                      </button>
+                      <button 
+                        onClick={() => setLeaderboardType('learned')}
+                        style={{
+                          border: 'none',
+                          backgroundColor: leaderboardType === 'learned' ? 'var(--card-bg)' : 'transparent',
+                          color: leaderboardType === 'learned' ? 'var(--text-primary)' : 'var(--text-secondary)',
+                          padding: '6px 12px',
+                          borderRadius: '10px',
+                          fontSize: '0.8rem',
+                          fontWeight: 600,
+                          cursor: 'pointer',
+                          boxShadow: leaderboardType === 'learned' ? '0 2px 4px rgba(0,0,0,0.1)' : 'none',
+                          transition: 'all 0.2s ease'
+                        }}
+                      >
+                        Tổng học
                       </button>
                       <button 
                         onClick={() => setLeaderboardType('streak')}
@@ -364,7 +381,7 @@ const HomePage = ({ startStudy, streak, onLoginClick, onLogout, onAdminClick, on
                           transition: 'all 0.2s ease'
                         }}
                       >
-                        Chuỗi ngày (Streak)
+                        Chuỗi ngày
                       </button>
                     </div>
                   </div>
@@ -432,6 +449,72 @@ const HomePage = ({ startStudy, streak, onLoginClick, onLogout, onAdminClick, on
                             </div>
                             <span style={{ fontWeight: 'bold', color: 'var(--success-color)' }}>
                               {item.wordsStudied || 0} từ
+                            </span>
+                          </div>
+                        ))
+                      )
+                    ) : leaderboardType === 'learned' ? (
+                      (!dashboardData.learnedLeaderboard || dashboardData.learnedLeaderboard.length === 0) ? (
+                        <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--text-secondary)', fontSize: '0.9rem' }}>
+                          Chưa có dữ liệu học tập.
+                        </div>
+                      ) : (
+                        dashboardData.learnedLeaderboard.map((item, index) => (
+                          <div key={index} style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'space-between',
+                            padding: '12px 16px',
+                            borderRadius: '12px',
+                            backgroundColor: index === 0 ? 'rgba(245, 158, 11, 0.1)' : 'var(--surface-hover)',
+                            border: index === 0 ? '1px solid rgba(245, 158, 11, 0.3)' : '1px solid transparent',
+                          }}>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                              <span style={{
+                                width: '24px',
+                                height: '24px',
+                                borderRadius: '50%',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                fontSize: '0.85rem',
+                                fontWeight: 'bold',
+                                backgroundColor: index === 0 ? '#f59e0b' : index === 1 ? '#cbd5e1' : index === 2 ? '#b45309' : 'rgba(255,255,255,0.08)',
+                                color: index < 3 ? '#1e293b' : 'var(--text-secondary)'
+                              }}>
+                                {index + 1}
+                              </span>
+                              
+                              <div style={{
+                                width: '28px',
+                                height: '28px',
+                                borderRadius: '50%',
+                                backgroundColor: 'var(--surface-hover)',
+                                border: '1.5px solid var(--border-color)',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                fontSize: '1.1rem',
+                                fontWeight: 'bold',
+                                overflow: 'hidden'
+                              }}>
+                                {item.avatar && item.avatar.startsWith('data:image') ? (
+                                  <img 
+                                    src={item.avatar} 
+                                    alt="avatar" 
+                                    style={{ width: '100%', height: '100%', objectFit: 'cover' }} 
+                                  />
+                                ) : (
+                                  item.avatar ? item.avatar : item.username[0].toUpperCase()
+                                )}
+                              </div>
+
+                              <span style={{ fontWeight: index === 0 ? 600 : 500, color: 'var(--text-primary)' }}>
+                                {item.username} {user && item.username === user.username && <span style={{ fontSize: '0.75rem', color: 'var(--accent-color)', marginLeft: '4px' }}>(Bạn)</span>}
+                              </span>
+                            </div>
+                            <span style={{ fontWeight: 'bold', color: 'var(--success-color)' }}>
+                              {item.learnedCount || 0} từ
                             </span>
                           </div>
                         ))

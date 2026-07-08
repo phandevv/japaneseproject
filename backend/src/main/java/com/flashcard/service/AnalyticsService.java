@@ -127,6 +127,7 @@ public class AnalyticsService {
         stats.put("onlineCount", onlineUserService.getOnlineCount());
         stats.put("totalUsers", userRepository.count());
         stats.put("leaderboard", sessionRepository.getLeaderboardForDate(today, PageRequest.of(0, 10)));
+        stats.put("learnedLeaderboard", reviewRepository.getLearnedLeaderboard(PageRequest.of(0, 10)));
 
         // Calculate streak leaderboard
         List<Map<String, Object>> streakLeaderboard = userRepository.findAll().stream()

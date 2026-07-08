@@ -24,6 +24,12 @@ public interface WordReviewRepository extends JpaRepository<WordReview, Long> {
     @Query("SELECT COUNT(wr) FROM WordReview wr WHERE wr.user = :user AND wr.intervalDays > 0")
     long countLearnedWords(@Param("user") User user);
 
+    @Query("SELECT wr.user.username as username, wr.user.avatar as avatar, COUNT(wr) as learnedCount " +
+           "FROM WordReview wr WHERE wr.intervalDays > 0 " +
+           "GROUP BY wr.user.username, wr.user.avatar " +
+           "ORDER BY COUNT(wr) DESC")
+    List<java.util.Map<String, Object>> getLearnedLeaderboard(org.springframework.data.domain.Pageable pageable);
+
     @Query("SELECT wr FROM WordReview wr JOIN FETCH wr.vocabulary WHERE wr.user = :user AND wr.intervalDays > 0")
     List<WordReview> findAllLearnedByUser(@Param("user") User user);
 }
