@@ -76,6 +76,8 @@ const HomePage = ({ startStudy, user, streak, onLoginClick, onLogout, onAdminCli
     fetchData();
   }, [user]);
 
+  const [leaderboardType, setLeaderboardType] = useState('words'); // 'words' or 'streak'
+
   const handleActivateFreeze = async () => {
     try {
       await analyticsApi.activateStreakFreeze();
@@ -117,7 +119,7 @@ const HomePage = ({ startStudy, user, streak, onLoginClick, onLogout, onAdminCli
 
     const dates = [];
     const today = new Date();
-    for (let i = 29; i >= 0; i--) {
+    for (let i = 6; i >= 0; i--) {
       const d = new Date();
       d.setDate(today.getDate() - i);
       const year = d.getFullYear();
@@ -137,7 +139,7 @@ const HomePage = ({ startStudy, user, streak, onLoginClick, onLogout, onAdminCli
       <div className="card" style={{ padding: '24px', height: '100%' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '20px' }}>
           <BarChart2 size={20} color="var(--accent-color)" />
-          <h3 style={{ fontSize: '1.2rem', margin: 0 }}>Lịch sử học tập 30 ngày qua</h3>
+          <h3 style={{ fontSize: '1.2rem', margin: 0 }}>Lịch sử học tập 7 ngày qua</h3>
         </div>
         
         <div style={{ 
@@ -319,51 +321,133 @@ const HomePage = ({ startStudy, user, streak, onLoginClick, onLogout, onAdminCli
                 {renderActivityGraph()}
 
                 <div className="card" style={{ padding: '24px', display: 'flex', flexDirection: 'column', height: '100%' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '20px' }}>
-                    <Trophy size={20} color="var(--accent-color)" />
-                    <h3 style={{ fontSize: '1.2rem', margin: 0 }}>Bảng xếp hạng hôm nay</h3>
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '20px', flexWrap: 'wrap', gap: '10px' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                      <Trophy size={20} color="var(--accent-color)" />
+                      <h3 style={{ fontSize: '1.2rem', margin: 0 }}>Bảng xếp hạng</h3>
+                    </div>
+                    
+                    <div style={{ display: 'flex', backgroundColor: 'var(--surface-hover)', borderRadius: '12px', padding: '2px' }}>
+                      <button 
+                        onClick={() => setLeaderboardType('words')}
+                        style={{
+                          border: 'none',
+                          backgroundColor: leaderboardType === 'words' ? 'var(--card-bg)' : 'transparent',
+                          color: leaderboardType === 'words' ? 'var(--text-primary)' : 'var(--text-secondary)',
+                          padding: '6px 12px',
+                          borderRadius: '10px',
+                          fontSize: '0.8rem',
+                          fontWeight: 600,
+                          cursor: 'pointer',
+                          boxShadow: leaderboardType === 'words' ? '0 2px 4px rgba(0,0,0,0.1)' : 'none',
+                          transition: 'all 0.2s ease'
+                        }}
+                      >
+                        Số từ học
+                      </button>
+                      <button 
+                        onClick={() => setLeaderboardType('streak')}
+                        style={{
+                          border: 'none',
+                          backgroundColor: leaderboardType === 'streak' ? 'var(--card-bg)' : 'transparent',
+                          color: leaderboardType === 'streak' ? 'var(--text-primary)' : 'var(--text-secondary)',
+                          padding: '6px 12px',
+                          borderRadius: '10px',
+                          fontSize: '0.8rem',
+                          fontWeight: 600,
+                          cursor: 'pointer',
+                          boxShadow: leaderboardType === 'streak' ? '0 2px 4px rgba(0,0,0,0.1)' : 'none',
+                          transition: 'all 0.2s ease'
+                        }}
+                      >
+                        Chuỗi ngày (Streak)
+                      </button>
+                    </div>
                   </div>
                   
                   <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                    {(!dashboardData.leaderboard || dashboardData.leaderboard.length === 0) ? (
-                      <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--text-secondary)', fontSize: '0.9rem' }}>
-                        Chưa có hoạt động học tập nào hôm nay.
-                      </div>
-                    ) : (
-                      dashboardData.leaderboard.map((item, index) => (
-                        <div key={index} style={{
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'space-between',
-                          padding: '12px 16px',
-                          borderRadius: '12px',
-                          backgroundColor: index === 0 ? 'rgba(245, 158, 11, 0.1)' : 'var(--surface-hover)',
-                          border: index === 0 ? '1px solid rgba(245, 158, 11, 0.3)' : '1px solid transparent',
-                        }}>
-                          <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                            <span style={{
-                              width: '24px',
-                              height: '24px',
-                              borderRadius: '50%',
-                              display: 'flex',
-                              alignItems: 'center',
-                              justifyContent: 'center',
-                              fontSize: '0.85rem',
-                              fontWeight: 'bold',
-                              backgroundColor: index === 0 ? '#f59e0b' : index === 1 ? '#cbd5e1' : index === 2 ? '#b45309' : 'rgba(255,255,255,0.08)',
-                              color: index < 3 ? '#1e293b' : 'var(--text-secondary)'
-                            }}>
-                              {index + 1}
-                            </span>
-                            <span style={{ fontWeight: index === 0 ? 600 : 500, color: 'var(--text-primary)' }}>
-                              {item.username} {item.username === user.username && <span style={{ fontSize: '0.75rem', color: 'var(--accent-color)', marginLeft: '4px' }}>(Bạn)</span>}
+                    {leaderboardType === 'words' ? (
+                      (!dashboardData.leaderboard || dashboardData.leaderboard.length === 0) ? (
+                        <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--text-secondary)', fontSize: '0.9rem' }}>
+                          Chưa có hoạt động học tập nào hôm nay.
+                        </div>
+                      ) : (
+                        dashboardData.leaderboard.map((item, index) => (
+                          <div key={index} style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'space-between',
+                            padding: '12px 16px',
+                            borderRadius: '12px',
+                            backgroundColor: index === 0 ? 'rgba(245, 158, 11, 0.1)' : 'var(--surface-hover)',
+                            border: index === 0 ? '1px solid rgba(245, 158, 11, 0.3)' : '1px solid transparent',
+                          }}>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                              <span style={{
+                                width: '24px',
+                                height: '24px',
+                                borderRadius: '50%',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                fontSize: '0.85rem',
+                                fontWeight: 'bold',
+                                backgroundColor: index === 0 ? '#f59e0b' : index === 1 ? '#cbd5e1' : index === 2 ? '#b45309' : 'rgba(255,255,255,0.08)',
+                                color: index < 3 ? '#1e293b' : 'var(--text-secondary)'
+                              }}>
+                                {index + 1}
+                              </span>
+                              <span style={{ fontWeight: index === 0 ? 600 : 500, color: 'var(--text-primary)' }}>
+                                {item.username} {item.username === user.username && <span style={{ fontSize: '0.75rem', color: 'var(--accent-color)', marginLeft: '4px' }}>(Bạn)</span>}
+                              </span>
+                            </div>
+                            <span style={{ fontWeight: 'bold', color: 'var(--success-color)' }}>
+                              {item.wordsStudied || 0} từ
                             </span>
                           </div>
-                          <span style={{ fontWeight: 'bold', color: 'var(--success-color)' }}>
-                            {item.wordsStudied} từ
-                          </span>
+                        ))
+                      )
+                    ) : (
+                      (!dashboardData.streakLeaderboard || dashboardData.streakLeaderboard.length === 0) ? (
+                        <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--text-secondary)', fontSize: '0.9rem' }}>
+                          Chưa có dữ liệu chuỗi ngày.
                         </div>
-                      ))
+                      ) : (
+                        dashboardData.streakLeaderboard.map((item, index) => (
+                          <div key={index} style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'space-between',
+                            padding: '12px 16px',
+                            borderRadius: '12px',
+                            backgroundColor: index === 0 ? 'rgba(245, 158, 11, 0.1)' : 'var(--surface-hover)',
+                            border: index === 0 ? '1px solid rgba(245, 158, 11, 0.3)' : '1px solid transparent',
+                          }}>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                              <span style={{
+                                width: '24px',
+                                height: '24px',
+                                borderRadius: '50%',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                fontSize: '0.85rem',
+                                fontWeight: 'bold',
+                                backgroundColor: index === 0 ? '#f59e0b' : index === 1 ? '#cbd5e1' : index === 2 ? '#b45309' : 'rgba(255,255,255,0.08)',
+                                color: index < 3 ? '#1e293b' : 'var(--text-secondary)'
+                              }}>
+                                {index + 1}
+                              </span>
+                              <span style={{ fontWeight: index === 0 ? 600 : 500, color: 'var(--text-primary)' }}>
+                                {item.username} {item.username === user.username && <span style={{ fontSize: '0.75rem', color: 'var(--accent-color)', marginLeft: '4px' }}>(Bạn)</span>}
+                              </span>
+                            </div>
+                            <span style={{ fontWeight: 'bold', color: 'var(--success-color)' }}>
+                              {item.streak || 0} ngày
+                            </span>
+                          </div>
+                        ))
+                      )
                     )}
                   </div>
                 </div>

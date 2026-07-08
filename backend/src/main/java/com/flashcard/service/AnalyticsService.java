@@ -4,6 +4,7 @@ import com.flashcard.model.User;
 import com.flashcard.model.StudySession;
 import com.flashcard.repository.StudySessionRepository;
 import com.flashcard.repository.WordReviewRepository;
+import com.flashcard.repository.UserRepository;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,15 +23,18 @@ public class AnalyticsService {
     private final WordReviewRepository reviewRepository;
     private final SrsService srsService;
     private final OnlineUserService onlineUserService;
+    private final UserRepository userRepository;
 
     public AnalyticsService(StudySessionRepository sessionRepository,
                             WordReviewRepository reviewRepository,
                             SrsService srsService,
-                            OnlineUserService onlineUserService) {
+                            OnlineUserService onlineUserService,
+                            UserRepository userRepository) {
         this.sessionRepository = sessionRepository;
         this.reviewRepository = reviewRepository;
         this.srsService = srsService;
         this.onlineUserService = onlineUserService;
+        this.userRepository = userRepository;
     }
 
     /**
@@ -123,8 +127,21 @@ public class AnalyticsService {
         stats.put("onlineCount", onlineUserService.getOnlineCount());
         stats.put("leaderboard", sessionRepository.getLeaderboardForDate(today, PageRequest.of(0, 10)));
 
-        // Fetch last 30 days of study history in Vietnam timezone
-        LocalDate startDate = today.minusDays(29);
+        // Calculate streak leaderboard
+        List<Map<String, Object>> streakLeaderboard = userRepository.findAll().stream()
+                .map(u -> {
+                    Map<String, Object> map = new java.util.HashMap<>();
+                    map.put("username", u.getUsername());
+                    map.put("streak", calculateStreak(u));
+                    return map;
+                })
+                .sorted((m1, m2) -> Integer.compare((int) m2.get("streak"), (int) m1.get("streak")))
+                .limit(10)
+                .toList();
+        stats.put("streakLeaderboard", streakLeaderboard);
+
+        // Fetch last 7 days of study history in Vietnam timezone
+        LocalDate startDate = today.minusDays(6);
         List<StudySession> recentSessions = sessionRepository.findByUserAndStudyDateBetweenOrderByStudyDateAsc(user, startDate, today);
         
         stats.put("history", recentSessions);
