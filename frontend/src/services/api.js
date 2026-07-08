@@ -163,11 +163,22 @@ export const analyticsApi = {
     return response.data;
   },
   logSession: async (wordsStudied, correctAnswers, totalQuestions) => {
+    const d = new Date();
+    const year = d.getFullYear();
+    const month = String(d.getMonth() + 1).padStart(2, '0');
+    const dateVal = String(d.getDate()).padStart(2, '0');
+    const localDateStr = `${year}-${month}-${dateVal}`;
+
     const response = await axios.post(`${API_BASE_URL}/analytics/session`, {
       wordsStudied,
       correctAnswers,
-      totalQuestions
+      totalQuestions,
+      date: localDateStr
     });
+    return response.data;
+  },
+  activateStreakFreeze: async () => {
+    const response = await axios.post(`${API_BASE_URL}/analytics/streak-freeze`);
     return response.data;
   }
 };

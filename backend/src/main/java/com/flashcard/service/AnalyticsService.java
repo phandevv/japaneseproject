@@ -4,6 +4,8 @@ import com.flashcard.model.User;
 import com.flashcard.model.StudySession;
 import com.flashcard.repository.StudySessionRepository;
 import com.flashcard.repository.WordReviewRepository;
+import com.flashcard.repository.LeaderboardProjection;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,23 +22,25 @@ public class AnalyticsService {
     private final StudySessionRepository sessionRepository;
     private final WordReviewRepository reviewRepository;
     private final SrsService srsService;
+    private final OnlineUserService onlineUserService;
 
     public AnalyticsService(StudySessionRepository sessionRepository,
                             WordReviewRepository reviewRepository,
-                            SrsService srsService) {
+                            SrsService srsService,
+                            OnlineUserService onlineUserService) {
         this.sessionRepository = sessionRepository;
         this.reviewRepository = reviewRepository;
         this.srsService = srsService;
+        this.onlineUserService = onlineUserService;
     }
 
     /**
-     * Record or update study session statistics for today
+     * Record or update study session statistics for a specific local date
      */
     @Transactional
-    public StudySession recordSession(User user, int wordsStudied, int correctAnswers, int totalQuestions) {
-        LocalDate today = LocalDate.now(ZoneId.systemDefault());
-        StudySession session = sessionRepository.findByUserAndStudyDate(user, today)
-                .orElseGet(() -> new StudySession(user, today));
+    public StudySession recordSession(User user, int wordsStudied, int correctAnswers, int totalQuestions, LocalDate date) {
+        StudySession session = sessionRepository.findByUserAndStudyDate(user, date)
+                .orElseGet(() -> new StudySession(user, date));
 
         session.setWordsStudied(session.getWordsStudied() + wordsStudied);
         session.setCorrectAnswers(session.getCorrectAnswers() + correctAnswers);
@@ -46,7 +50,7 @@ public class AnalyticsService {
     }
 
     /**
-     * Calculate study streak based on study history logs in database
+     * Calculate study streak based on active study sessions in Vietnam timezone
      */
     @Transactional(readOnly = true)
     public int calculateStreak(User user) {
@@ -55,12 +59,21 @@ public class AnalyticsService {
             return 0;
         }
 
-        LocalDate today = LocalDate.now(ZoneId.systemDefault());
+        // Filter sessions to only those where they actually studied or activated streak freeze
+        List<StudySession> activeSessions = sessions.stream()
+                .filter(s -> s.getWordsStudied() > 0 || s.getTotalQuestions() > 0 || s.isStreakFrozen())
+                .toList();
+
+        if (activeSessions.isEmpty()) {
+            return 0;
+        }
+
+        LocalDate today = LocalDate.now(ZoneId.of("Asia/Ho_Chi_Minh"));
         LocalDate expectedDate = today;
         int streak = 0;
 
-        // Check if the most recent session is today or yesterday. If older, streak is 0.
-        LocalDate mostRecentDate = sessions.get(0).getStudyDate();
+        // Check if the most recent active session is today or yesterday. If older, streak is 0.
+        LocalDate mostRecentDate = activeSessions.get(0).getStudyDate();
         if (!mostRecentDate.equals(today) && !mostRecentDate.equals(today.minusDays(1))) {
             return 0;
         }
@@ -69,14 +82,11 @@ public class AnalyticsService {
             expectedDate = today.minusDays(1);
         }
 
-        for (StudySession session : sessions) {
+        for (StudySession session : activeSessions) {
             LocalDate date = session.getStudyDate();
             if (date.equals(expectedDate)) {
-                // User studied on this day, increment streak and expect previous day
-                if (session.getWordsStudied() > 0 || session.getTotalQuestions() > 0) {
-                    streak++;
-                    expectedDate = expectedDate.minusDays(1);
-                }
+                streak++;
+                expectedDate = expectedDate.minusDays(1);
             } else if (date.isBefore(expectedDate)) {
                 // Gap detected — streak broken
                 break;
@@ -87,7 +97,7 @@ public class AnalyticsService {
     }
 
     /**
-     * Get dashboard stats aggregate
+     * Get dashboard stats aggregate including leaderboard, online count, and freeze status
      */
     @Transactional(readOnly = true)
     public Map<String, Object> getDashboardStats(User user) {
@@ -97,23 +107,42 @@ public class AnalyticsService {
         long learnedCount = reviewRepository.countLearnedWords(user);
         int currentStreak = calculateStreak(user);
 
-        LocalDate today = LocalDate.now(java.time.ZoneId.systemDefault());
+        LocalDate today = LocalDate.now(ZoneId.of("Asia/Ho_Chi_Minh"));
         int wordsStudiedToday = sessionRepository.findByUserAndStudyDate(user, today)
                 .map(StudySession::getWordsStudied)
                 .orElse(0);
+
+        boolean streakFrozenToday = sessionRepository.findByUserAndStudyDate(user, today)
+                .map(StudySession::isStreakFrozen)
+                .orElse(false);
 
         stats.put("dueCount", dueCount);
         stats.put("learnedCount", learnedCount);
         stats.put("wordsStudiedToday", wordsStudiedToday);
         stats.put("streak", currentStreak);
+        stats.put("streakFrozenToday", streakFrozenToday);
+        stats.put("onlineCount", onlineUserService.getOnlineCount());
+        stats.put("leaderboard", sessionRepository.getLeaderboardForDate(today, PageRequest.of(0, 10)));
 
-        // Fetch last 30 days of study history
-        LocalDate endDate = LocalDate.now(ZoneId.systemDefault());
-        LocalDate startDate = endDate.minusDays(29);
-        List<StudySession> recentSessions = sessionRepository.findByUserAndStudyDateBetweenOrderByStudyDateAsc(user, startDate, endDate);
+        // Fetch last 30 days of study history in Vietnam timezone
+        LocalDate startDate = today.minusDays(29);
+        List<StudySession> recentSessions = sessionRepository.findByUserAndStudyDateBetweenOrderByStudyDateAsc(user, startDate, today);
         
         stats.put("history", recentSessions);
 
         return stats;
+    }
+
+    /**
+     * Activate streak freeze for today to shield streak from breaking
+     */
+    @Transactional
+    public StudySession activateStreakFreeze(User user) {
+        LocalDate today = LocalDate.now(ZoneId.of("Asia/Ho_Chi_Minh"));
+        StudySession session = sessionRepository.findByUserAndStudyDate(user, today)
+                .orElseGet(() -> new StudySession(user, today));
+
+        session.setStreakFrozen(true);
+        return sessionRepository.save(session);
     }
 }

@@ -47,17 +47,40 @@ public class AnalyticsController {
         Number correctAnswers = (Number) body.getOrDefault("correctAnswers", 0);
         Number totalQuestions = (Number) body.getOrDefault("totalQuestions", 0);
 
+        String dateStr = (String) body.get("date");
+        java.time.LocalDate date = (dateStr != null) 
+                ? java.time.LocalDate.parse(dateStr) 
+                : java.time.LocalDate.now(java.time.ZoneId.of("Asia/Ho_Chi_Minh"));
+
         StudySession session = analyticsService.recordSession(
                 user,
                 wordsStudied.intValue(),
                 correctAnswers.intValue(),
-                totalQuestions.intValue()
+                totalQuestions.intValue(),
+                date
         );
 
         return ResponseEntity.ok(Map.of(
             "message", "Session recorded",
             "date", session.getStudyDate().toString(),
             "wordsStudied", session.getWordsStudied()
+        ));
+    }
+
+    /**
+     * Activate streak freeze shield for today
+     * POST /api/analytics/streak-freeze
+     */
+    @PostMapping("/streak-freeze")
+    public ResponseEntity<?> activateStreakFreeze(@AuthenticationPrincipal User user) {
+        if (user == null) {
+            return ResponseEntity.status(401).body(Map.of("error", "Unauthorized"));
+        }
+        StudySession session = analyticsService.activateStreakFreeze(user);
+        return ResponseEntity.ok(Map.of(
+            "message", "Streak frozen for today",
+            "date", session.getStudyDate().toString(),
+            "streakFrozen", session.isStreakFrozen()
         ));
     }
 }

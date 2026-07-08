@@ -2,6 +2,7 @@ package com.flashcard.model;
 
 import jakarta.persistence.*;
 import java.time.LocalDate;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 @Entity
 @Table(name = "study_sessions", uniqueConstraints = {
@@ -19,6 +20,7 @@ public class StudySession {
     private User user;
 
     @Column(name = "study_date", nullable = false)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate studyDate;
 
     @Column(name = "words_studied", nullable = false)
@@ -29,6 +31,9 @@ public class StudySession {
 
     @Column(name = "total_questions", nullable = false)
     private int totalQuestions = 0;
+
+    @Column(name = "streak_frozen", nullable = false)
+    private boolean streakFrozen = false;
 
     public StudySession() {}
 
@@ -54,4 +59,7 @@ public class StudySession {
 
     public int getTotalQuestions() { return totalQuestions; }
     public void setTotalQuestions(int totalQuestions) { this.totalQuestions = totalQuestions; }
+
+    public boolean isStreakFrozen() { return streakFrozen; }
+    public void setStreakFrozen(boolean streakFrozen) { this.streakFrozen = streakFrozen; }
 }

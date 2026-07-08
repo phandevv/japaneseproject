@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { vocabApi, analyticsApi } from '../services/api';
-import { Sparkles, Play, BookOpen, Globe, Users, Video, ShieldCheck, Loader, Brain, Flame, CheckCircle2, BarChart2, ShieldAlert } from 'lucide-react';
+import { Sparkles, Play, BookOpen, Globe, Users, Video, ShieldCheck, Loader, Brain, Flame, CheckCircle2, BarChart2, ShieldAlert, Trophy, Snowflake } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
 import '../styles/HomePage.css';
 
@@ -76,6 +76,18 @@ const HomePage = ({ startStudy, user, streak, onLoginClick, onLogout, onAdminCli
     fetchData();
   }, [user]);
 
+  const handleActivateFreeze = async () => {
+    try {
+      await analyticsApi.activateStreakFreeze();
+      const dash = await analyticsApi.getDashboard();
+      setDashboardData(dash);
+      alert("Đã kích hoạt Khiên Băng bảo vệ chuỗi học hôm nay! ❄️");
+    } catch (e) {
+      console.error(e);
+      alert("Không thể kích hoạt giữ chuỗi. Vui lòng thử lại!");
+    }
+  };
+
   if (loading) {
     return (
       <div className="flex-center" style={{ height: '70vh', flexDirection: 'column', gap: '20px' }}>
@@ -108,7 +120,10 @@ const HomePage = ({ startStudy, user, streak, onLoginClick, onLogout, onAdminCli
     for (let i = 29; i >= 0; i--) {
       const d = new Date();
       d.setDate(today.getDate() - i);
-      const dateString = d.toISOString().split('T')[0];
+      const year = d.getFullYear();
+      const month = String(d.getMonth() + 1).padStart(2, '0');
+      const dateVal = String(d.getDate()).padStart(2, '0');
+      const dateString = `${year}-${month}-${dateVal}`;
       dates.push({
         dateStr: dateString,
         label: `${d.getDate()}/${d.getMonth() + 1}`,
@@ -119,7 +134,7 @@ const HomePage = ({ startStudy, user, streak, onLoginClick, onLogout, onAdminCli
     const maxWords = Math.max(...dates.map(d => d.words), 10);
 
     return (
-      <div className="card" style={{ marginTop: '24px', padding: '24px' }}>
+      <div className="card" style={{ padding: '24px', height: '100%' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '20px' }}>
           <BarChart2 size={20} color="var(--accent-color)" />
           <h3 style={{ fontSize: '1.2rem', margin: 0 }}>Lịch sử học tập 30 ngày qua</h3>
@@ -188,7 +203,31 @@ const HomePage = ({ startStudy, user, streak, onLoginClick, onLogout, onAdminCli
                 {t.home.streakMsg(user.username, dashboardData?.streak !== undefined ? dashboardData.streak : (streak || 0))}
               </p>
             </div>
-            <div style={{ display: 'flex', gap: '10px' }}>
+            <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
+              {dashboardData?.streakFrozenToday ? (
+                <div style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '6px',
+                  padding: '8px 16px',
+                  borderRadius: '12px',
+                  backgroundColor: 'rgba(6, 182, 212, 0.15)',
+                  border: '1px solid rgba(6, 182, 212, 0.4)',
+                  color: '#06b6d4',
+                  fontSize: '0.85rem',
+                  fontWeight: 600
+                }}>
+                  <Snowflake size={15} /> Đang giữ chuỗi ❄️
+                </div>
+              ) : (
+                <button 
+                  className="btn btn-secondary" 
+                  style={{ display: 'flex', alignItems: 'center', gap: '6px', borderColor: 'rgba(59, 130, 246, 0.4)', color: '#3b82f6' }}
+                  onClick={handleActivateFreeze}
+                >
+                  <Snowflake size={16} /> Giữ chuỗi
+                </button>
+              )}
               {isAdmin && (
                 <button className="btn btn-secondary" style={{ borderColor: 'var(--warning-color)', color: 'var(--warning-color)' }} onClick={onAdminClick}>
                   <ShieldAlert size={18} /> Quản lý từ vựng
@@ -203,7 +242,7 @@ const HomePage = ({ startStudy, user, streak, onLoginClick, onLogout, onAdminCli
           {/* SRS Dashboard for Logged-In Users */}
           {dashboardData && (
             <div style={{ marginBottom: '32px' }}>
-              <div className="grid grid-cols-3" style={{ gap: '16px' }}>
+              <div className="grid grid-cols-4" style={{ gap: '16px' }}>
                 <div className="card" style={{ display: 'flex', alignItems: 'center', gap: '16px', padding: '20px' }}>
                   <div style={{ padding: '12px', borderRadius: '12px', backgroundColor: 'rgba(239, 68, 68, 0.15)', color: 'var(--accent-color)' }}>
                     <Brain size={24} />
@@ -231,6 +270,16 @@ const HomePage = ({ startStudy, user, streak, onLoginClick, onLogout, onAdminCli
                   <div>
                     <div style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>Tổng số từ đã học</div>
                     <div style={{ fontSize: '1.8rem', fontWeight: 700, color: 'var(--text-primary)' }}>{dashboardData.learnedCount}</div>
+                  </div>
+                </div>
+
+                <div className="card" style={{ display: 'flex', alignItems: 'center', gap: '16px', padding: '20px' }}>
+                  <div style={{ padding: '12px', borderRadius: '12px', backgroundColor: 'rgba(6, 182, 212, 0.15)', color: '#06b6d4' }}>
+                    <Users size={24} />
+                  </div>
+                  <div>
+                    <div style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>Đang online</div>
+                    <div style={{ fontSize: '1.8rem', fontWeight: 700, color: 'var(--text-primary)' }}>{dashboardData.onlineCount || 1}</div>
                   </div>
                 </div>
               </div>
@@ -266,7 +315,59 @@ const HomePage = ({ startStudy, user, streak, onLoginClick, onLogout, onAdminCli
                 </div>
               </div>
 
-              {renderActivityGraph()}
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '20px', marginTop: '24px' }}>
+                {renderActivityGraph()}
+
+                <div className="card" style={{ padding: '24px', display: 'flex', flexDirection: 'column', height: '100%' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '20px' }}>
+                    <Trophy size={20} color="var(--accent-color)" />
+                    <h3 style={{ fontSize: '1.2rem', margin: 0 }}>Bảng xếp hạng hôm nay</h3>
+                  </div>
+                  
+                  <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                    {(!dashboardData.leaderboard || dashboardData.leaderboard.length === 0) ? (
+                      <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--text-secondary)', fontSize: '0.9rem' }}>
+                        Chưa có hoạt động học tập nào hôm nay.
+                      </div>
+                    ) : (
+                      dashboardData.leaderboard.map((item, index) => (
+                        <div key={index} style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'space-between',
+                          padding: '12px 16px',
+                          borderRadius: '12px',
+                          backgroundColor: index === 0 ? 'rgba(245, 158, 11, 0.1)' : 'var(--surface-hover)',
+                          border: index === 0 ? '1px solid rgba(245, 158, 11, 0.3)' : '1px solid transparent',
+                        }}>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                            <span style={{
+                              width: '24px',
+                              height: '24px',
+                              borderRadius: '50%',
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'center',
+                              fontSize: '0.85rem',
+                              fontWeight: 'bold',
+                              backgroundColor: index === 0 ? '#f59e0b' : index === 1 ? '#cbd5e1' : index === 2 ? '#b45309' : 'rgba(255,255,255,0.08)',
+                              color: index < 3 ? '#1e293b' : 'var(--text-secondary)'
+                            }}>
+                              {index + 1}
+                            </span>
+                            <span style={{ fontWeight: index === 0 ? 600 : 500, color: 'var(--text-primary)' }}>
+                              {item.username} {item.username === user.username && <span style={{ fontSize: '0.75rem', color: 'var(--accent-color)', marginLeft: '4px' }}>(Bạn)</span>}
+                            </span>
+                          </div>
+                          <span style={{ fontWeight: 'bold', color: 'var(--success-color)' }}>
+                            {item.wordsStudied} từ
+                          </span>
+                        </div>
+                      ))
+                    )}
+                  </div>
+                </div>
+              </div>
             </div>
           )}
 

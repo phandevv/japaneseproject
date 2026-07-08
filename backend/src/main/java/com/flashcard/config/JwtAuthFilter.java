@@ -6,6 +6,8 @@ import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.auth0.jwt.interfaces.JWTVerifier;
 import com.flashcard.repository.UserRepository;
+import com.flashcard.service.OnlineUserService;
+import com.flashcard.model.User;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -34,9 +36,11 @@ public class JwtAuthFilter extends OncePerRequestFilter {
     private static final String ISSUER = "JapaneseProject";
 
     private final UserRepository userRepository;
+    private final OnlineUserService onlineUserService;
 
-    public JwtAuthFilter(UserRepository userRepository) {
+    public JwtAuthFilter(UserRepository userRepository, OnlineUserService onlineUserService) {
         this.userRepository = userRepository;
+        this.onlineUserService = onlineUserService;
     }
 
     @Override
@@ -70,6 +74,16 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             // Invalid / expired token — SecurityContext stays empty,
             // Spring Security returns 401 automatically for protected routes
         }
+
+        // Determine client identifier for online status tracking
+        String identifier = null;
+        var auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth != null && auth.getPrincipal() instanceof User) {
+            identifier = ((User) auth.getPrincipal()).getUsername();
+        } else {
+            identifier = request.getRemoteAddr();
+        }
+        onlineUserService.clientSeen(identifier);
 
         filterChain.doFilter(request, response);
     }
