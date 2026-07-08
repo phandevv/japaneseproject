@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { vocabApi, analyticsApi } from '../services/api';
-import { Sparkles, Play, BookOpen, Globe, Users, Video, ShieldCheck, Loader, Brain, Flame, CheckCircle2, BarChart2, ShieldAlert, Trophy, Snowflake } from 'lucide-react';
+import { Sparkles, Play, BookOpen, Globe, Users, Video, ShieldCheck, Loader, Brain, Flame, CheckCircle2, BarChart2, ShieldAlert, Trophy, Snowflake, Calendar } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
 import { useAuth } from '../context/AuthContext';
 import '../styles/HomePage.css';
@@ -115,75 +115,172 @@ const HomePage = ({ startStudy, streak, onLoginClick, onLogout, onAdminClick, on
     if (!dashboardData || !dashboardData.history) return null;
 
     const historyMap = {};
+    let totalWordsYear = 0;
     dashboardData.history.forEach(session => {
       historyMap[session.studyDate] = session.wordsStudied;
+      totalWordsYear += session.wordsStudied;
     });
 
-    const dates = [];
+    // Generate grid cells for 53 weeks ending on current Saturday
     const today = new Date();
-    for (let i = 6; i >= 0; i--) {
-      const d = new Date();
-      d.setDate(today.getDate() - i);
-      const year = d.getFullYear();
-      const month = String(d.getMonth() + 1).padStart(2, '0');
-      const dateVal = String(d.getDate()).padStart(2, '0');
+    const endOfWeek = new Date(today);
+    const daysUntilSaturday = 6 - today.getDay();
+    endOfWeek.setDate(today.getDate() + daysUntilSaturday);
+
+    const cells = [];
+    const startDay = new Date(endOfWeek);
+    startDay.setDate(endOfWeek.getDate() - 370);
+
+    for (let i = 0; i <= 370; i++) {
+      const current = new Date(startDay);
+      current.setDate(startDay.getDate() + i);
+      const year = current.getFullYear();
+      const month = String(current.getMonth() + 1).padStart(2, '0');
+      const dateVal = String(current.getDate()).padStart(2, '0');
       const dateString = `${year}-${month}-${dateVal}`;
-      dates.push({
+      
+      cells.push({
+        date: current,
         dateStr: dateString,
-        label: `${d.getDate()}/${d.getMonth() + 1}`,
         words: historyMap[dateString] || 0
       });
     }
 
-    const maxWords = Math.max(...dates.map(d => d.words), 10);
+    // Colors mapping helper
+    const getCellColor = (words) => {
+      if (words === 0) return 'rgba(128, 128, 128, 0.15)';
+      if (words <= 5) return 'rgba(239, 68, 68, 0.25)';
+      if (words <= 15) return 'rgba(239, 68, 68, 0.5)';
+      if (words <= 30) return 'rgba(239, 68, 68, 0.75)';
+      return 'var(--accent-color)';
+    };
+
+    // Row headers (Sun, Mon, Tue, Wed, Thu, Fri, Sat)
+    // We only label Mon, Wed, Fri to match GitHub style
+    const rowLabels = ['', 'T2', '', 'T4', '', 'T6', ''];
+
+    // Month headers
+    // We want to find the columns where each month starts
+    const monthLabels = [];
+    let lastMonth = -1;
+    for (let col = 0; col < 53; col++) {
+      // Look at the first cell of the column
+      const cellIndex = col * 7;
+      if (cellIndex < cells.length) {
+        const cellDate = cells[cellIndex].date;
+        const currentMonth = cellDate.getMonth();
+        if (currentMonth !== lastMonth) {
+          const monthNames = ['T1', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'T8', 'T9', 'T10', 'T11', 'T12'];
+          monthLabels.push({ colIndex: col, name: monthNames[currentMonth] });
+          lastMonth = currentMonth;
+        }
+      }
+    }
 
     return (
-      <div className="card" style={{ padding: '24px', height: '100%' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '20px' }}>
-          <BarChart2 size={20} color="var(--accent-color)" />
-          <h3 style={{ fontSize: '1.2rem', margin: 0 }}>Lịch sử học tập 7 ngày qua</h3>
+      <div className="card" style={{ padding: '24px', width: '100%', boxSizing: 'border-box' }}>
+        <div className="flex-between" style={{ marginBottom: '20px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <Calendar size={20} color="var(--accent-color)" />
+            <h3 style={{ fontSize: '1.2rem', margin: 0 }}>Lịch sử học tập (365 ngày qua)</h3>
+          </div>
+          <span style={{ fontSize: '0.9rem', color: 'var(--text-secondary)' }}>
+            Tổng cộng: <strong style={{ color: 'var(--text-primary)' }}>{totalWordsYear}</strong> từ đã học
+          </span>
         </div>
-        
-        <div style={{ 
-          display: 'flex', 
-          alignItems: 'flex-end', 
-          justifyContent: 'space-between', 
-          height: '150px', 
-          paddingBottom: '20px',
-          borderBottom: '1px solid var(--border-color)',
-          overflowX: 'auto',
-          gap: '4px'
-        }}>
-          {dates.map((d, index) => {
-            const pct = (d.words / maxWords) * 100;
-            return (
-              <div key={index} style={{ 
-                display: 'flex', 
-                flexDirection: 'column', 
-                alignItems: 'center', 
-                flex: 1, 
-                minWidth: '16px' 
+
+        {/* Scrollable Container for GitHub Heatmap */}
+        <div style={{ overflowX: 'auto', width: '100%', paddingBottom: '10px' }} className="custom-scrollbar">
+          <div style={{ display: 'flex', gap: '8px', minWidth: '700px', padding: '10px 0' }}>
+            
+            {/* Weekdays Labels */}
+            <div style={{ 
+              display: 'grid', 
+              gridTemplateRows: 'repeat(7, 12px)', 
+              gridGap: '3px', 
+              paddingTop: '20px', 
+              width: '24px', 
+              fontSize: '0.7rem', 
+              color: 'var(--text-secondary)',
+              alignItems: 'center'
+            }}>
+              {rowLabels.map((lbl, idx) => (
+                <div key={idx} style={{ height: '12px', display: 'flex', alignItems: 'center' }}>
+                  {lbl}
+                </div>
+              ))}
+            </div>
+
+            {/* Calendar Grid + Month Headers Column */}
+            <div style={{ display: 'flex', flexDirection: 'column', flex: 1 }}>
+              
+              {/* Month Labels row */}
+              <div style={{ 
+                position: 'relative', 
+                height: '20px', 
+                fontSize: '0.75rem', 
+                color: 'var(--text-secondary)',
+                marginBottom: '4px'
               }}>
-                <div 
-                  title={`${d.dateStr}: Học ${d.words} từ`}
-                  style={{ 
-                    width: '100%', 
-                    height: `${Math.max(pct, 4)}%`, 
-                    backgroundColor: d.words > 0 ? 'var(--accent-color)' : 'var(--border-color)', 
-                    borderRadius: '3px 3px 0 0',
-                    transition: 'all 0.3s ease',
-                    opacity: d.words > 0 ? 0.85 : 0.3,
-                    cursor: 'pointer'
-                  }}
-                  onMouseEnter={e => e.target.style.opacity = 1}
-                  onMouseLeave={e => e.target.style.opacity = d.words > 0 ? 0.85 : 0.3}
-                />
-                <span style={{ fontSize: '0.65rem', color: 'var(--text-secondary)', marginTop: '6px', transform: 'rotate(-45deg)', whiteSpace: 'nowrap' }}>
-                  {d.label}
-                </span>
+                {monthLabels.map((m, idx) => (
+                  <span 
+                    key={idx} 
+                    style={{ 
+                      position: 'absolute', 
+                      left: `${m.colIndex * 13}px`,
+                      whiteSpace: 'nowrap'
+                    }}
+                  >
+                    {m.name}
+                  </span>
+                ))}
               </div>
-            );
-          })}
+
+              {/* Heatmap Grid */}
+              <div style={{ 
+                display: 'grid', 
+                gridTemplateRows: 'repeat(7, 12px)', 
+                gridAutoFlow: 'column', 
+                gridGap: '3px',
+                width: 'fit-content'
+              }}>
+                {cells.map((cell, idx) => (
+                  <div
+                    key={idx}
+                    title={`${cell.dateStr}: Học ${cell.words} từ`}
+                    style={{
+                      width: '12px',
+                      height: '12px',
+                      borderRadius: '2px',
+                      backgroundColor: getCellColor(cell.words),
+                      cursor: 'pointer',
+                      transition: 'transform 0.1s ease',
+                    }}
+                    onMouseEnter={e => {
+                      e.target.style.transform = 'scale(1.25)';
+                      e.target.style.zIndex = '1';
+                    }}
+                    onMouseLeave={e => {
+                      e.target.style.transform = 'scale(1)';
+                      e.target.style.zIndex = '0';
+                    }}
+                  />
+                ))}
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        {/* Legend bottom row */}
+        <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', gap: '6px', marginTop: '12px', fontSize: '0.75rem', color: 'var(--text-secondary)' }}>
+          <span>Ít</span>
+          <div style={{ width: '10px', height: '10px', borderRadius: '1.5px', backgroundColor: 'rgba(128, 128, 128, 0.15)' }} />
+          <div style={{ width: '10px', height: '10px', borderRadius: '1.5px', backgroundColor: 'rgba(239, 68, 68, 0.25)' }} />
+          <div style={{ width: '10px', height: '10px', borderRadius: '1.5px', backgroundColor: 'rgba(239, 68, 68, 0.5)' }} />
+          <div style={{ width: '10px', height: '10px', borderRadius: '1.5px', backgroundColor: 'rgba(239, 68, 68, 0.75)' }} />
+          <div style={{ width: '10px', height: '10px', borderRadius: '1.5px', backgroundColor: 'var(--accent-color)' }} />
+          <span>Nhiều</span>
         </div>
       </div>
     );

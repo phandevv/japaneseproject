@@ -143,8 +143,8 @@ public class AnalyticsService {
                 .toList();
         stats.put("streakLeaderboard", streakLeaderboard);
 
-        // Fetch last 7 days of study history in Vietnam timezone
-        LocalDate startDate = today.minusDays(6);
+        // Fetch last 365 days of study history in Vietnam timezone
+        LocalDate startDate = today.minusDays(364);
         List<StudySession> recentSessions = sessionRepository.findByUserAndStudyDateBetweenOrderByStudyDateAsc(user, startDate, today);
         
         stats.put("history", recentSessions);
