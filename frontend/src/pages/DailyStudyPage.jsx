@@ -851,6 +851,12 @@ const DailyStudyPage = ({ level, stats, goBack }) => {
   // Phase 3: Quiz Mode
   if (phase === 3) {
     if (quizStatus === 'finished') {
+      const totalQ = originalQuizLength || quizWords?.length || 1;
+      const passPercent = (score / totalQ) * 100;
+      const goodOrEasyCount = Object.values(firstAttemptQualities).filter(q => q >= 3).length;
+      const goodPercent = (goodOrEasyCount / totalQ) * 100;
+      const isCompletedNow = passPercent > 90 && goodPercent > 80;
+
       return (
         <div className="container flex-center animate-fade-in" style={{ minHeight: '70vh', flexDirection: 'column', gap: '30px', padding: '40px 20px' }}>
           <h1 style={{ fontSize: '3rem', color: score === originalQuizLength ? 'var(--success-color)' : 'var(--text-primary)' }}>
@@ -864,6 +870,29 @@ const DailyStudyPage = ({ level, stats, goBack }) => {
             <p style={{ color: 'var(--text-secondary)', marginTop: '10px' }}>
               {score === originalQuizLength ? t.daily.perfectMsg : t.daily.goodMsg}
             </p>
+          </div>
+
+          <div style={{
+            display: 'flex',
+            gap: '15px',
+            width: '100%',
+            maxWidth: '600px',
+            justifyContent: 'center',
+            margin: '0',
+            flexWrap: 'wrap'
+          }}>
+            <div className="card" style={{ flex: 1, minWidth: '140px', padding: '16px 20px', textAlign: 'center', display: 'flex', flexDirection: 'column', gap: '6px' }}>
+              <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', fontWeight: 600 }}>TỶ LỆ ĐÚNG</span>
+              <span style={{ fontSize: '1.8rem', fontWeight: 800, color: passPercent >= 90 ? 'var(--success-color)' : 'var(--text-primary)' }}>
+                {passPercent.toFixed(0)}%
+              </span>
+            </div>
+            <div className="card" style={{ flex: 1, minWidth: '140px', padding: '16px 20px', textAlign: 'center', display: 'flex', flexDirection: 'column', gap: '6px' }}>
+              <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', fontWeight: 600 }}>MỨC ĐỘ GOOD/EASY</span>
+              <span style={{ fontSize: '1.8rem', fontWeight: 800, color: goodPercent >= 80 ? 'var(--success-color)' : 'var(--text-primary)' }}>
+                {goodPercent.toFixed(0)}%
+              </span>
+            </div>
           </div>
 
           {level !== 'LEARNED_REVIEW' && quizOptType === 'all' && (
