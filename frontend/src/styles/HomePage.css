@@ -615,4 +615,19 @@
   min-width: 220px;
 }
 
+/* Dashboard Grid - Side-by-Side on Desktop */
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+}
+
+@media (min-width: 992px) {
+  .dashboard-grid {
+    grid-template-columns: 1.7fr 1.3fr;
+    align-items: start;
+  }
+}
+
+
 

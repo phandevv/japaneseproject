@@ -404,24 +404,29 @@ const HomePage = ({ startStudy, streak, onLoginClick, onLogout, onAdminClick, on
                       : 'Luyện tập ngắt quãng giúp bạn ghi nhớ từ vựng lâu hơn gấp 5 lần.'}
                   </p>
                 </div>
-                <div style={{ display: 'flex', gap: '10px' }}>
+                <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
                   {dashboardData.dueCount > 0 && (
                     <button className="btn btn-primary" onClick={() => startStudy(null, 'srs-review')}>
-                      <Brain size={18} /> Học Flashcard ({dashboardData.dueCount})
+                      <Brain size={18} /> Học Flashcard cần ôn ({dashboardData.dueCount})
                     </button>
                   )}
                   {dashboardData.learnedCount > 0 && (
-                    <button className="btn btn-secondary" onClick={() => startStudy('LEARNED_REVIEW', 'daily')}>
-                      <Play size={18} /> Làm Quiz ôn tập (Đã học)
-                    </button>
+                    <>
+                      <button className="btn btn-secondary" onClick={() => startStudy(null, 'srs-learned')}>
+                        <Brain size={18} /> Học Flashcard đã học ({dashboardData.learnedCount})
+                      </button>
+                      <button className="btn btn-secondary" onClick={() => startStudy('LEARNED_REVIEW', 'daily')}>
+                        <Play size={18} /> Làm Quiz ôn tập (Đã học)
+                      </button>
+                    </>
                   )}
                 </div>
               </div>
 
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '24px', marginTop: '24px' }}>
+              <div className="dashboard-grid">
                 {renderActivityGraph()}
 
-                <div className="card" style={{ padding: '24px', display: 'flex', flexDirection: 'column', maxWidth: '650px', width: '100%', margin: '0 auto' }}>
+                <div className="card" style={{ padding: '24px', display: 'flex', flexDirection: 'column', height: '100%' }}>
                   <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '20px', flexWrap: 'wrap', gap: '10px' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                       <Trophy size={20} color="var(--accent-color)" />

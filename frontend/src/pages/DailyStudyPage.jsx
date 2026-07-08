@@ -962,12 +962,20 @@ const DailyStudyPage = ({ level, stats, goBack }) => {
             <button className="btn btn-secondary" onClick={handleRedoQuiz}>
               <RefreshCw size={18} /> Làm lại Quiz
             </button>
-            <button className="btn btn-secondary" onClick={() => setPhase(2)}>
-              <BookOpen size={18} /> {t.daily.reviewAgain}
-            </button>
-            <button className="btn btn-primary" onClick={() => setPhase(1)}>
-              <ArrowRight size={18} /> {t.daily.nextDay}
-            </button>
+            {level === 'LEARNED_REVIEW' ? (
+              <button className="btn btn-primary" onClick={goBack}>
+                <CornerUpLeft size={18} /> Quay lại Trang chủ
+              </button>
+            ) : (
+              <>
+                <button className="btn btn-secondary" onClick={() => setPhase(2)}>
+                  <BookOpen size={18} /> {t.daily.reviewAgain}
+                </button>
+                <button className="btn btn-primary" onClick={() => setPhase(1)}>
+                  <ArrowRight size={18} /> {t.daily.nextDay}
+                </button>
+              </>
+            )}
           </div>
         </div>
       );

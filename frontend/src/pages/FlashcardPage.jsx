@@ -15,7 +15,7 @@ const levelColors = {
   TRO_TU: '#06b6d4',
 };
 
-const FlashcardPage = ({ level: initialLevel, isSrs = false, stats, goBack, onDailyStudy }) => {
+const FlashcardPage = ({ level: initialLevel, isSrs = false, stats, goBack, onDailyStudy, isLearnedStudy = false }) => {
   const { t } = useLanguage();
   const { isAuthenticated } = useAuth();
   const [activeLevel, setActiveLevel] = useState(initialLevel);
@@ -30,12 +30,14 @@ const FlashcardPage = ({ level: initialLevel, isSrs = false, stats, goBack, onDa
   }, [initialLevel]);
 
   const fetchWords = useCallback(async () => {
-    if (!isSrs && !activeLevel) return;
+    if (!isSrs && !isLearnedStudy && !activeLevel) return;
     setLoading(true);
     try {
       let data = [];
       if (isSrs) {
         data = await srsApi.getDueWords();
+      } else if (isLearnedStudy) {
+        data = await srsApi.getRandomLearnedWords(50);
       } else {
         data = await vocabApi.getRandomByLevel(activeLevel, 50);
       }
@@ -49,7 +51,7 @@ const FlashcardPage = ({ level: initialLevel, isSrs = false, stats, goBack, onDa
     } finally {
       setLoading(false);
     }
-  }, [activeLevel, isSrs]);
+  }, [activeLevel, isSrs, isLearnedStudy]);
 
   useEffect(() => {
     fetchWords();
@@ -202,9 +204,15 @@ const FlashcardPage = ({ level: initialLevel, isSrs = false, stats, goBack, onDa
   if (words.length === 0) {
     return (
       <div className="container flex-center" style={{ height: '70vh', flexDirection: 'column', gap: '20px' }}>
-      <h2>{isSrs ? "Bạn không có từ nào đến hạn ôn tập hôm nay! 🎉" : t.flashcard.noWords}</h2>
+      <h2>
+        {isSrs 
+          ? "Bạn không có từ nào đến hạn ôn tập hôm nay! 🎉" 
+          : isLearnedStudy 
+            ? "Bạn chưa có từ đã học nào để học flashcard! Hãy hoàn thành bài học trước." 
+            : t.flashcard.noWords}
+      </h2>
       <button className="btn btn-primary" onClick={handleBack}>
-        {isSrs ? t.flashcard.backDashboard : (!initialLevel ? t.flashcard.backSelection : t.flashcard.backDashboard)}
+        {isSrs || isLearnedStudy ? t.flashcard.backDashboard : (!initialLevel ? t.flashcard.backSelection : t.flashcard.backDashboard)}
       </button>
       </div>
     );

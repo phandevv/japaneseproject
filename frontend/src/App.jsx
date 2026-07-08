@@ -148,6 +148,8 @@ function App() {
         );
       case 'srs-review':
         return <FlashcardPage level="SRS" isSrs={true} goBack={() => setCurrentPage('home')} />;
+      case 'srs-learned':
+        return <FlashcardPage level="LEARNED" isLearnedStudy={true} goBack={() => setCurrentPage('home')} />;
       case 'daily':
         return <DailyStudyPage level={selectedLevel} stats={stats} goBack={() => setCurrentPage('home')} />;
       case 'admin-vocab':

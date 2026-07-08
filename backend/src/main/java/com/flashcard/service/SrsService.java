@@ -97,9 +97,13 @@ public class SrsService {
                 }
             }
             repetitions++;
-        } else { // Forgot (1) or Hard (2) (not learned)
+        } else { // Forgot (1) or Hard (2) (not learned or failed review)
             repetitions = 0;
-            intervalDays = 0;
+            if (review.getIntervalDays() > 0) {
+                intervalDays = 1; // Keep it as learned (interval 1 day)
+            } else {
+                intervalDays = 0; // Not learned yet
+            }
         }
 
         // Adjust Ease Factor (EF)
