@@ -22,12 +22,16 @@ public class UserSetting {
     @Column(name = "words_per_day", nullable = false)
     private Integer wordsPerDay;
 
+    @Column(name = "completed_days", length = 1000)
+    private String completedDays = "";
+
     public UserSetting() {}
 
     public UserSetting(User user, String level, Integer wordsPerDay) {
         this.user = user;
         this.level = level;
         this.wordsPerDay = wordsPerDay;
+        this.completedDays = "";
     }
 
     public Long getId() { return id; }
@@ -38,4 +42,6 @@ public class UserSetting {
     public void setLevel(String level) { this.level = level; }
     public Integer getWordsPerDay() { return wordsPerDay; }
     public void setWordsPerDay(Integer wordsPerDay) { this.wordsPerDay = wordsPerDay; }
+    public String getCompletedDays() { return completedDays; }
+    public void setCompletedDays(String completedDays) { this.completedDays = completedDays; }
 }

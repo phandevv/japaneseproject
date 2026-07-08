@@ -38,4 +38,26 @@ public class UserSettingService {
         }
         return settingRepository.save(setting);
     }
+
+    @Transactional(readOnly = true)
+    public UserSetting getSettingEntity(User user, String level) {
+        return settingRepository.findByUserAndLevel(user, level).orElse(null);
+    }
+
+    @Transactional
+    public UserSetting markDayCompleted(User user, String level, int day) {
+        UserSetting setting = settingRepository.findByUserAndLevel(user, level)
+                .orElseGet(() -> new UserSetting(user, level, 20));
+        String days = setting.getCompletedDays();
+        if (days == null) {
+            days = "";
+        }
+        java.util.Set<String> daySet = new java.util.HashSet<>();
+        if (!days.isBlank()) {
+            daySet.addAll(java.util.Arrays.asList(days.split(",")));
+        }
+        daySet.add(String.valueOf(day));
+        setting.setCompletedDays(String.join(",", daySet));
+        return settingRepository.save(setting);
+    }
 }

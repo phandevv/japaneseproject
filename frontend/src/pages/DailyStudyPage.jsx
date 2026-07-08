@@ -54,6 +54,8 @@ const DailyStudyPage = ({ level, stats, goBack }) => {
   const [questionStartTime, setQuestionStartTime] = useState(Date.now());
   const [lastAssignedQuality, setLastAssignedQuality] = useState(null);
   const [lastElapsedSeconds, setLastElapsedSeconds] = useState(null);
+  const [completedDays, setCompletedDays] = useState(new Set());
+  const [firstAttemptQualities, setFirstAttemptQualities] = useState({});
 
   useEffect(() => {
     if (phase === 3 && quizStatus === 'idle') {
@@ -175,14 +177,28 @@ const DailyStudyPage = ({ level, stats, goBack }) => {
         }
         if (isAuthenticated) {
           const setting = await userSettingsApi.getSetting(currentLevel);
-          if (setting && setting.wordsPerDay) {
-            setWordsPerDay(setting.wordsPerDay);
+          if (setting) {
+            if (setting.wordsPerDay) {
+              setWordsPerDay(setting.wordsPerDay);
+            }
+            if (setting.completedDays) {
+              const days = setting.completedDays.split(',').map(Number).filter(Boolean);
+              setCompletedDays(new Set(days));
+            } else {
+              setCompletedDays(new Set());
+            }
             setPhase(1);
           } else {
             setPhase(0);
           }
         } else {
           const savedWpd = localStorage.getItem(`wordsPerDay_${currentLevel}`) || localStorage.getItem('wordsPerDay');
+          const savedCompleted = localStorage.getItem(`completedDays_${currentLevel}`);
+          if (savedCompleted) {
+            setCompletedDays(new Set(savedCompleted.split(',').map(Number).filter(Boolean)));
+          } else {
+            setCompletedDays(new Set());
+          }
           if (savedWpd) {
             setWordsPerDay(parseInt(savedWpd, 10));
             setPhase(1);
@@ -285,6 +301,7 @@ const DailyStudyPage = ({ level, stats, goBack }) => {
     setUserInput('');
     setQuizStatus('idle');
     setMistakes([]);
+    setFirstAttemptQualities({});
     
     setPhase(3);
   };
@@ -314,6 +331,7 @@ const DailyStudyPage = ({ level, stats, goBack }) => {
       setUserInput('');
       setQuizStatus('idle');
       setMistakes([]);
+      setFirstAttemptQualities({});
       setPhase(3);
     } catch (error) {
       console.error("Failed to load learned words for quiz", error);
@@ -335,6 +353,7 @@ const DailyStudyPage = ({ level, stats, goBack }) => {
     setUserInput('');
     setQuizStatus('idle');
     setMistakes([]);
+    setFirstAttemptQualities({});
     setPhase(3);
   };
 
@@ -382,6 +401,14 @@ const DailyStudyPage = ({ level, stats, goBack }) => {
     }
     setLastAssignedQuality(quality);
     setLastElapsedSeconds(finalElapsed);
+
+    // Track first-attempt quality
+    if (!failedWordIds.has(currentWord.id)) {
+      setFirstAttemptQualities(prev => ({
+        ...prev,
+        [currentWord.id]: quality
+      }));
+    }
 
     if (isCorrect) {
       setQuizStatus('correct');
@@ -439,6 +466,30 @@ const DailyStudyPage = ({ level, stats, goBack }) => {
       setQuizStatus('idle');
     } else {
       setQuizStatus('finished');
+      
+      // Calculate completion criteria for the daily study day
+      if (level !== 'LEARNED_REVIEW' && quizOptType === 'all') {
+        const passPercent = (score / originalQuizLength) * 100;
+        
+        // Count how many first-attempt qualities are >= 3 (Good or Easy)
+        const goodOrEasyCount = Object.values(firstAttemptQualities).filter(q => q >= 3).length;
+        const goodPercent = (goodOrEasyCount / originalQuizLength) * 100;
+        
+        if (passPercent > 90 && goodPercent > 80) {
+          setCompletedDays(prev => {
+            const next = new Set(prev);
+            next.add(selectedDay);
+            
+            // Persist
+            if (isAuthenticated) {
+              userSettingsApi.markDayCompleted(currentLevel, selectedDay).catch(console.error);
+            } else {
+              localStorage.setItem(`completedDays_${currentLevel}`, Array.from(next).join(','));
+            }
+            return next;
+          });
+        }
+      }
     }
   };
 
@@ -608,17 +659,34 @@ const DailyStudyPage = ({ level, stats, goBack }) => {
         </div>
 
         <div className="grid grid-cols-4" style={{ gap: '15px' }}>
-          {Array.from({ length: totalDays }, (_, i) => i + 1).map(day => (
-            <button
-              key={day}
-              className="card flex-center"
-              style={{ padding: '20px', cursor: 'pointer', flexDirection: 'column', gap: '10px' }}
-              onClick={() => fetchWordsForDay(day)}
-            >
-              <h3 style={{ fontSize: '1.2rem' }}>{t.daily.day} {day}</h3>
-              <p style={{ fontSize: '0.9rem', color: 'var(--text-secondary)' }}>{t.daily.wordsPerDay(getWordCountForDay(day))}</p>
-            </button>
-          ))}
+          {Array.from({ length: totalDays }, (_, i) => i + 1).map(day => {
+            const isDone = completedDays.has(day);
+            return (
+              <button
+                key={day}
+                className="card flex-center"
+                style={{ 
+                  padding: '20px', 
+                  cursor: 'pointer', 
+                  flexDirection: 'column', 
+                  gap: '10px',
+                  backgroundColor: isDone ? 'rgba(16, 185, 129, 0.1)' : 'var(--surface-color)',
+                  borderColor: isDone ? 'var(--success-color)' : 'var(--border-color)',
+                  borderWidth: '1.5px',
+                  borderStyle: 'solid',
+                  transition: 'all 0.2s ease'
+                }}
+                onClick={() => fetchWordsForDay(day)}
+              >
+                <h3 style={{ fontSize: '1.2rem', color: isDone ? 'var(--success-color)' : 'var(--text-primary)' }}>
+                  {t.daily.day} {day} {isDone && '✓'}
+                </h3>
+                <p style={{ fontSize: '0.9rem', color: isDone ? 'rgba(16, 185, 129, 0.85)' : 'var(--text-secondary)' }}>
+                  {isDone ? 'Hoàn thành 🎉' : t.daily.wordsPerDay(getWordCountForDay(day))}
+                </p>
+              </button>
+            );
+          })}
         </div>
       </div>
     );
@@ -797,6 +865,39 @@ const DailyStudyPage = ({ level, stats, goBack }) => {
               {score === originalQuizLength ? t.daily.perfectMsg : t.daily.goodMsg}
             </p>
           </div>
+
+          {level !== 'LEARNED_REVIEW' && quizOptType === 'all' && (
+            <div style={{
+              padding: '16px 24px',
+              borderRadius: '14px',
+              backgroundColor: isCompletedNow ? 'rgba(16, 185, 129, 0.12)' : 'rgba(239, 68, 68, 0.08)',
+              border: isCompletedNow ? '1.5px solid var(--success-color)' : '1.5px solid var(--accent-color)',
+              color: isCompletedNow ? '#10b981' : '#ef4444',
+              fontSize: '1rem',
+              fontWeight: 500,
+              textAlign: 'center',
+              width: '100%',
+              maxWidth: '600px',
+              boxSizing: 'border-box',
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '6px'
+            }}>
+              {isCompletedNow ? (
+                <>
+                  <span style={{ fontSize: '1.2rem', fontWeight: 'bold' }}>🎉 Đạt tiêu chuẩn hoàn thành!</span>
+                  <span>Ngày học thứ {selectedDay} đã được đánh dấu là hoàn thành xuất sắc.</span>
+                </>
+              ) : (
+                <>
+                  <span style={{ fontSize: '1.1rem', fontWeight: 'bold' }}>⚠️ Chưa đạt tiêu chuẩn hoàn thành ngày</span>
+                  <span style={{ fontSize: '0.9rem', color: 'var(--text-secondary)' }}>
+                    Tiêu chuẩn hoàn thành: Tỷ lệ đúng <strong>&gt; 90%</strong> (Bạn đạt: <strong>{passPercent.toFixed(0)}%</strong>) và Tỷ lệ phản xạ Good/Easy <strong>&gt; 80%</strong> (Bạn đạt: <strong>{goodPercent.toFixed(0)}%</strong>).
+                  </span>
+                </>
+              )}
+            </div>
+          )}
 
           {mistakes.length > 0 && (
             <div style={{ width: '100%', maxWidth: '600px', marginTop: '10px', marginBottom: '10px' }}>
