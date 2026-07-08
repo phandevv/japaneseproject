@@ -284,9 +284,17 @@ const ProfileModal = ({ onClose }) => {
                 boxSizing: 'border-box'
               }}
             >
-              <option value="">-- Chọn Tỉnh / Thành phố --</option>
+              <option value="" style={{ backgroundColor: 'var(--card-bg)', color: 'var(--text-primary)' }}>
+                -- Chọn Tỉnh / Thành phố --
+              </option>
               {VIETNAM_PROVINCES.map((prov, idx) => (
-                <option key={idx} value={prov}>{prov}</option>
+                <option 
+                  key={idx} 
+                  value={prov} 
+                  style={{ backgroundColor: 'var(--card-bg)', color: 'var(--text-primary)' }}
+                >
+                  {prov}
+                </option>
               ))}
             </select>
           </div>
