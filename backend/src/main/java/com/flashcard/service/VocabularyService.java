@@ -2,10 +2,15 @@ package com.flashcard.service;
 
 import com.flashcard.model.Vocabulary;
 import com.flashcard.repository.VocabularyRepository;
+import jakarta.persistence.EntityManager;
+import org.hibernate.search.mapper.orm.Search;
+import org.hibernate.search.mapper.orm.session.SearchSession;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -14,9 +19,11 @@ import java.util.stream.Collectors;
 public class VocabularyService {
 
     private final VocabularyRepository repository;
+    private final EntityManager entityManager;
 
-    public VocabularyService(VocabularyRepository repository) {
+    public VocabularyService(VocabularyRepository repository, EntityManager entityManager) {
         this.repository = repository;
+        this.entityManager = entityManager;
     }
 
     public Page<Vocabulary> getAll(Pageable pageable) {
@@ -43,8 +50,73 @@ public class VocabularyService {
         return repository.findRandom(PageRequest.of(0, count));
     }
 
+    public Optional<Vocabulary> getById(Long id) {
+        return repository.findById(id);
+    }
+
+    public Vocabulary save(Vocabulary vocabulary) {
+        return repository.save(vocabulary);
+    }
+
+    public void deleteById(Long id) {
+        repository.deleteById(id);
+    }
+
+    /**
+     * Full-text search using Hibernate Search (Lucene embedded).
+     * Supports: kanji, hiragana, romaji, han_viet (Hán Việt), meaning (tiếng Việt).
+     * Features: wildcard prefix, fuzzy (1 char typo), multi-field simultaneous search.
+     * Falls back to SQL LIKE if Hibernate Search index is not ready.
+     */
+    @Transactional(readOnly = true)
     public Page<Vocabulary> search(String keyword, Pageable pageable) {
-        return repository.searchByKeyword(keyword, pageable);
+        if (keyword == null || keyword.isBlank()) {
+            return repository.findAll(pageable);
+        }
+
+        try {
+            SearchSession searchSession = Search.session(entityManager);
+            String lowerKeyword = keyword.trim().toLowerCase();
+
+            long totalHits = searchSession.search(Vocabulary.class)
+                .where(f -> f.bool(b -> {
+                    b.should(f.wildcard()
+                        .fields("kanji", "hiragana", "romaji", "meaning", "hanViet")
+                        .matching("*" + lowerKeyword + "*"));
+                    b.should(f.match()
+                        .fields("kanji", "hiragana", "romaji", "meaning", "hanViet")
+                        .matching(lowerKeyword)
+                        .fuzzy(1));
+                    b.should(f.match()
+                        .fields("kanji", "hiragana", "romaji")
+                        .matching(lowerKeyword)
+                        .boost(3.0f));
+                }))
+                .fetchTotalHitCount();
+
+            List<Vocabulary> hits = searchSession.search(Vocabulary.class)
+                .where(f -> f.bool(b -> {
+                    b.should(f.wildcard()
+                        .fields("kanji", "hiragana", "romaji", "meaning", "hanViet")
+                        .matching("*" + lowerKeyword + "*"));
+                    b.should(f.match()
+                        .fields("kanji", "hiragana", "romaji", "meaning", "hanViet")
+                        .matching(lowerKeyword)
+                        .fuzzy(1));
+                    b.should(f.match()
+                        .fields("kanji", "hiragana", "romaji")
+                        .matching(lowerKeyword)
+                        .boost(3.0f));
+                }))
+                .sort(f -> f.score())
+                .fetchHits(pageable.getPageSize());
+
+            return new PageImpl<>(hits, pageable, totalHits);
+
+        } catch (Exception e) {
+            // Fallback to SQL LIKE if Lucene index is not ready yet
+            return repository.searchByKeyword(keyword.trim(), pageable);
+        }
     }
 
     public Map<String, Object> getStats() {
@@ -79,23 +151,6 @@ public class VocabularyService {
 
         stats.put("total", total);
         stats.put("levels", levelCounts);
-        stats.put("wordTypes", repository.findDistinctWordTypes());
         return stats;
-    }
-
-    public long count() {
-        return repository.count();
-    }
-
-    public Vocabulary save(Vocabulary vocabulary) {
-        return repository.save(vocabulary);
-    }
-
-    public void deleteById(Long id) {
-        repository.deleteById(id);
-    }
-
-    public Optional<Vocabulary> getById(Long id) {
-        return repository.findById(id);
     }
 }

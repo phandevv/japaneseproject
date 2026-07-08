@@ -1,8 +1,12 @@
 package com.flashcard.model;
 
 import jakarta.persistence.*;
+import org.hibernate.search.mapper.pojo.mapping.definition.annotation.FullTextField;
+import org.hibernate.search.mapper.pojo.mapping.definition.annotation.Indexed;
+import org.hibernate.search.mapper.pojo.mapping.definition.annotation.KeywordField;
 
 @Entity
+@Indexed
 @Table(name = "vocabulary")
 public class Vocabulary {
 
@@ -10,21 +14,31 @@ public class Vocabulary {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @FullTextField(analyzer = "default")
     @Column(name = "kanji", length = 1000)
     private String kanji;
 
+    @FullTextField(analyzer = "default")
     @Column(name = "hiragana", length = 1000)
     private String hiragana;
 
+    @FullTextField(analyzer = "default")
+    @Column(name = "romaji", length = 1000)
+    private String romaji;
+
+    @FullTextField(analyzer = "default")
     @Column(name = "han_viet", length = 1000)
     private String hanViet;
 
+    @FullTextField(analyzer = "default")
     @Column(name = "meaning", columnDefinition = "TEXT")
     private String meaning;
 
+    @KeywordField
     @Column(name = "word_type")
     private String wordType;
 
+    @KeywordField
     @Column(name = "level")
     private String level;
 
@@ -52,6 +66,9 @@ public class Vocabulary {
 
     public String getHiragana() { return hiragana; }
     public void setHiragana(String hiragana) { this.hiragana = hiragana; }
+
+    public String getRomaji() { return romaji; }
+    public void setRomaji(String romaji) { this.romaji = romaji; }
 
     public String getHanViet() { return hanViet; }
     public void setHanViet(String hanViet) { this.hanViet = hanViet; }
