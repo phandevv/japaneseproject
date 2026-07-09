@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { vocabApi, srsApi, analyticsApi, userSettingsApi } from '../services/api';
 import FlashcardCard from '../components/FlashcardCard';
-import { ArrowLeft, ArrowRight, Shuffle, Loader, CornerUpLeft } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Shuffle, Loader, CornerUpLeft, Settings } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
 import { useAuth } from '../context/AuthContext';
 
@@ -30,10 +30,33 @@ const FlashcardPage = ({ level: initialLevel, isSrs = false, stats, goBack, onDa
   const [wordsPerDay, setWordsPerDay] = useState(20);
   const [completedDays, setCompletedDays] = useState(new Set());
   const [loadingSettings, setLoadingSettings] = useState(false);
+  const [phase, setPhase] = useState(1); // 0: Settings, 1: Day selection, 2: Study
+  const [customInput, setCustomInput] = useState('');
 
   useEffect(() => {
     setActiveLevel(initialLevel);
   }, [initialLevel]);
+
+  const handleSaveSettings = async (value) => {
+    const val = parseInt(value, 10);
+    if (!val || val <= 0) return;
+    
+    setLoadingSettings(true);
+    try {
+      if (isAuthenticated) {
+        await userSettingsApi.saveSetting(activeLevel, val);
+      } else {
+        localStorage.setItem(`wordsPerDay_${activeLevel}`, val.toString());
+        localStorage.setItem('wordsPerDay', val.toString());
+      }
+      setWordsPerDay(val);
+      setPhase(1);
+    } catch (error) {
+      console.error("Failed to save settings in FlashcardPage:", error);
+    } finally {
+      setLoadingSettings(false);
+    }
+  };
 
   // Load level settings (words per day & completed days)
   useEffect(() => {
@@ -74,6 +97,8 @@ const FlashcardPage = ({ level: initialLevel, isSrs = false, stats, goBack, onDa
       }
     };
     loadSettings();
+    setSelectedDay(null);
+    setPhase(1);
   }, [activeLevel, isAuthenticated]);
 
   // Fetch words for immediate SRS or Learned study
@@ -215,8 +240,11 @@ const FlashcardPage = ({ level: initialLevel, isSrs = false, stats, goBack, onDa
   };
 
   const handleBack = () => {
-    if (selectedDay !== null) {
+    if (phase === 0) {
+      setPhase(1);
+    } else if (selectedDay !== null) {
       setSelectedDay(null);
+      setPhase(1);
       setWords([]);
     } else if (!initialLevel && activeLevel) {
       setActiveLevel(null);
@@ -286,8 +314,71 @@ const FlashcardPage = ({ level: initialLevel, isSrs = false, stats, goBack, onDa
     );
   }
 
+  // Phase 0: Settings View
+  if (activeLevel && !isSrs && !isLearnedStudy && phase === 0) {
+    return (
+      <div className="container animate-fade-in" style={{ padding: '20px', maxWidth: '600px', margin: '40px auto' }}>
+        <button className="btn btn-secondary" onClick={() => setPhase(1)} style={{ marginBottom: '20px' }}>
+          <CornerUpLeft size={18} /> Quay lại
+        </button>
+        <div className="card" style={{ padding: '40px', textAlign: 'center' }}>
+          <h2 style={{ marginBottom: '10px' }}>Cấu hình học tập</h2>
+          <p style={{ color: 'var(--text-secondary)', marginBottom: '30px' }}>Số từ vựng học mỗi ngày:</p>
+          
+          <div className="flex-center" style={{ gap: '15px', flexWrap: 'wrap', marginBottom: '25px' }}>
+            {[10, 20, 30, 50].map(num => (
+              <button 
+                key={num}
+                className="btn"
+                style={{ 
+                  backgroundColor: wordsPerDay === num ? 'var(--accent-color)' : 'var(--surface-hover)',
+                  color: wordsPerDay === num ? 'white' : 'var(--text-primary)',
+                  fontSize: '1.2rem',
+                  padding: '12px 24px'
+                }}
+                onClick={() => setWordsPerDay(num)}
+              >
+                {num}
+              </button>
+            ))}
+          </div>
+
+          <div style={{ marginBottom: '30px', display: 'flex', justifyContent: 'center' }}>
+            <input 
+              type="number"
+              placeholder="Nhập số từ khác"
+              value={customInput}
+              onChange={(e) => {
+                setCustomInput(e.target.value);
+                const val = parseInt(e.target.value, 10);
+                if (val > 0) setWordsPerDay(val);
+              }}
+              style={{
+                padding: '12px',
+                borderRadius: '8px',
+                border: '1px solid var(--border-color)',
+                backgroundColor: 'var(--surface-color)',
+                color: 'var(--text-primary)',
+                width: '200px',
+                textAlign: 'center'
+              }}
+            />
+          </div>
+
+          <button 
+            className="btn btn-primary" 
+            style={{ padding: '14px 40px', fontSize: '1.1rem', width: '100%' }}
+            onClick={() => handleSaveSettings(wordsPerDay)}
+          >
+            Lưu cài đặt
+          </button>
+        </div>
+      </div>
+    );
+  }
+
   // Day Selection Screen (Skip for SRS and Learned Study modes)
-  if (activeLevel && !isSrs && !isLearnedStudy && selectedDay === null) {
+  if (activeLevel && !isSrs && !isLearnedStudy && selectedDay === null && phase === 1) {
     if (loadingSettings) {
       return (
         <div className="flex-center" style={{ height: '70vh', flexDirection: 'column', gap: '20px' }}>
@@ -320,7 +411,9 @@ const FlashcardPage = ({ level: initialLevel, isSrs = false, stats, goBack, onDa
             <CornerUpLeft size={18} /> {t.flashcard.backSelection || "Quay lại chọn cấp độ"}
           </button>
           <h2>Học Flashcard - <span style={{ color: 'var(--accent-color)' }}>{t.home.levelLabels[activeLevel] || activeLevel}</span></h2>
-          <div style={{ width: '100px' }}></div>
+          <button className="btn btn-secondary" onClick={() => setPhase(0)}>
+            <Settings size={18} /> Thay đổi cài đặt
+          </button>
         </div>
 
         <div style={{ textAlign: 'center', marginBottom: '30px' }}>
