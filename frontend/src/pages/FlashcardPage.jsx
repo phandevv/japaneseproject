@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { vocabApi, srsApi, analyticsApi } from '../services/api';
+import { vocabApi, srsApi, analyticsApi, userSettingsApi } from '../services/api';
 import FlashcardCard from '../components/FlashcardCard';
 import { ArrowLeft, ArrowRight, Shuffle, Loader, CornerUpLeft } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
@@ -25,12 +25,60 @@ const FlashcardPage = ({ level: initialLevel, isSrs = false, stats, goBack, onDa
   const [flipped, setFlipped] = useState(false);
   const [seenWordIds, setSeenWordIds] = useState(new Set());
 
+  // Day Selection States
+  const [selectedDay, setSelectedDay] = useState(null);
+  const [wordsPerDay, setWordsPerDay] = useState(20);
+  const [completedDays, setCompletedDays] = useState(new Set());
+  const [loadingSettings, setLoadingSettings] = useState(false);
+
   useEffect(() => {
     setActiveLevel(initialLevel);
   }, [initialLevel]);
 
-  const fetchWords = useCallback(async () => {
-    if (!isSrs && !isLearnedStudy && !activeLevel) return;
+  // Load level settings (words per day & completed days)
+  useEffect(() => {
+    const loadSettings = async () => {
+      if (!activeLevel) return;
+      setLoadingSettings(true);
+      try {
+        if (isAuthenticated) {
+          const setting = await userSettingsApi.getSetting(activeLevel);
+          if (setting && setting.wordsPerDay) {
+            setWordsPerDay(setting.wordsPerDay);
+          }
+          if (setting && setting.completedDays) {
+            const days = setting.completedDays.split(',')
+              .filter(d => d.trim().length > 0)
+              .map(d => parseInt(d, 10));
+            setCompletedDays(new Set(days));
+          } else {
+            setCompletedDays(new Set());
+          }
+        } else {
+          const savedWpd = localStorage.getItem(`wordsPerDay_${activeLevel}`) || localStorage.getItem('wordsPerDay');
+          const savedCompleted = localStorage.getItem(`completedDays_${activeLevel}`);
+          if (savedCompleted) {
+            const days = savedCompleted.split(',').map(d => parseInt(d, 10));
+            setCompletedDays(new Set(days));
+          } else {
+            setCompletedDays(new Set());
+          }
+          if (savedWpd) {
+            setWordsPerDay(parseInt(savedWpd, 10));
+          }
+        }
+      } catch (error) {
+        console.error("Failed to load settings in FlashcardPage:", error);
+      } finally {
+        setLoadingSettings(false);
+      }
+    };
+    loadSettings();
+  }, [activeLevel, isAuthenticated]);
+
+  // Fetch words for immediate SRS or Learned study
+  const fetchSrsOrLearnedWords = useCallback(async () => {
+    if (!isSrs && !isLearnedStudy) return;
     setLoading(true);
     try {
       let data = [];
@@ -38,24 +86,58 @@ const FlashcardPage = ({ level: initialLevel, isSrs = false, stats, goBack, onDa
         data = await srsApi.getDueWords();
       } else if (isLearnedStudy) {
         data = await srsApi.getRandomLearnedWords(50);
-      } else {
-        data = await vocabApi.getRandomByLevel(activeLevel, 50);
       }
       setWords(data);
       setCurrentIndex(0);
       setFlipped(false);
       setSeenWordIds(new Set());
     } catch (error) {
-      console.error("Failed to fetch words", error);
+      console.error("Failed to fetch srs/learned words:", error);
       setWords([]);
     } finally {
       setLoading(false);
     }
-  }, [activeLevel, isSrs, isLearnedStudy]);
+  }, [isSrs, isLearnedStudy]);
 
   useEffect(() => {
-    fetchWords();
-  }, [fetchWords]);
+    if (isSrs || isLearnedStudy) {
+      fetchSrsOrLearnedWords();
+    }
+  }, [isSrs, isLearnedStudy, fetchSrsOrLearnedWords]);
+
+  // Fetch words for specific day of selected level
+  const fetchWordsForDay = useCallback(async (day) => {
+    if (!activeLevel) return;
+    setLoading(true);
+    try {
+      const totalWords = stats?.levels?.[activeLevel] || 0;
+      const totalDays = Math.max(1, Math.floor(totalWords / wordsPerDay));
+      let data = [];
+      if (day === totalDays && totalWords > totalDays * wordsPerDay) {
+        let currentDayPage = day - 1;
+        while (true) {
+          const paginated = await vocabApi.getByLevelPaginated(activeLevel, currentDayPage, wordsPerDay);
+          if (!paginated || !paginated.content || paginated.content.length === 0) break;
+          data = [...data, ...paginated.content];
+          if (paginated.last) break;
+          currentDayPage++;
+        }
+      } else {
+        const paginated = await vocabApi.getByLevelPaginated(activeLevel, day - 1, wordsPerDay);
+        data = paginated.content || [];
+      }
+      setWords(data);
+      setSelectedDay(day);
+      setCurrentIndex(0);
+      setFlipped(false);
+      setSeenWordIds(new Set());
+    } catch (error) {
+      console.error("Failed to fetch words for day:", error);
+      setWords([]);
+    } finally {
+      setLoading(false);
+    }
+  }, [activeLevel, wordsPerDay, stats]);
 
   useEffect(() => {
     if (currentIndex !== null) {
@@ -133,7 +215,10 @@ const FlashcardPage = ({ level: initialLevel, isSrs = false, stats, goBack, onDa
   };
 
   const handleBack = () => {
-    if (!initialLevel && activeLevel) {
+    if (selectedDay !== null) {
+      setSelectedDay(null);
+      setWords([]);
+    } else if (!initialLevel && activeLevel) {
       setActiveLevel(null);
       setWords([]);
     } else {
@@ -201,6 +286,84 @@ const FlashcardPage = ({ level: initialLevel, isSrs = false, stats, goBack, onDa
     );
   }
 
+  // Day Selection Screen (Skip for SRS and Learned Study modes)
+  if (activeLevel && !isSrs && !isLearnedStudy && selectedDay === null) {
+    if (loadingSettings) {
+      return (
+        <div className="flex-center" style={{ height: '70vh', flexDirection: 'column', gap: '20px' }}>
+          <Loader size={40} className="animate-spin" style={{ color: 'var(--accent-color)' }} />
+          <p>Loading settings...</p>
+        </div>
+      );
+    }
+
+    const totalWords = stats?.levels?.[activeLevel] || 0;
+    const totalDays = Math.max(1, Math.floor(totalWords / wordsPerDay));
+
+    const getWordCountForDay = (day) => {
+      if (day === totalDays) {
+        return Math.max(0, totalWords - ((totalDays - 1) * wordsPerDay));
+      }
+      return wordsPerDay;
+    };
+
+    return (
+      <div className="container animate-fade-in" style={{ padding: '20px', maxWidth: '1000px' }}>
+        <div className="flex-between" style={{ marginBottom: '30px' }}>
+          <button className="btn btn-secondary" onClick={() => {
+            if (!initialLevel) {
+              setActiveLevel(null);
+            } else {
+              goBack();
+            }
+          }}>
+            <CornerUpLeft size={18} /> {t.flashcard.backSelection || "Quay lại chọn cấp độ"}
+          </button>
+          <h2>Học Flashcard - <span style={{ color: 'var(--accent-color)' }}>{t.home.levelLabels[activeLevel] || activeLevel}</span></h2>
+          <div style={{ width: '100px' }}></div>
+        </div>
+
+        <div style={{ textAlign: 'center', marginBottom: '30px' }}>
+          <p style={{ color: 'var(--text-secondary)' }}>
+            Chọn ngày học để bắt đầu luyện tập Flashcard. Mỗi ngày gồm {wordsPerDay} từ.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-4" style={{ gap: '15px' }}>
+          {Array.from({ length: totalDays }, (_, i) => i + 1).map(day => {
+            const isDone = completedDays.has(day);
+            return (
+              <button
+                key={day}
+                className="card flex-center"
+                style={{ 
+                  padding: '20px', 
+                  cursor: 'pointer', 
+                  flexDirection: 'column', 
+                  gap: '10px',
+                  backgroundColor: isDone ? 'rgba(16, 185, 129, 0.1)' : 'var(--surface-color)',
+                  borderColor: isDone ? 'var(--success-color)' : 'var(--border-color)',
+                  borderWidth: '1.5px',
+                  borderStyle: 'solid',
+                  transition: 'all 0.2s ease'
+                }}
+                onClick={() => fetchWordsForDay(day)}
+              >
+                <h3 style={{ fontSize: '1.2rem', color: isDone ? 'var(--success-color)' : 'var(--text-primary)' }}>
+                  Ngày {day} {isDone && '✓'}
+                </h3>
+                <p style={{ fontSize: '0.9rem', color: isDone ? 'rgba(16, 185, 129, 0.85)' : 'var(--text-secondary)' }}>
+                  {getWordCountForDay(day)} từ
+                </p>
+              </button>
+            );
+          })}
+        </div>
+      </div>
+    );
+  }
+
+
   if (words.length === 0) {
     return (
       <div className="container flex-center" style={{ height: '70vh', flexDirection: 'column', gap: '20px' }}>
@@ -227,19 +390,19 @@ const FlashcardPage = ({ level: initialLevel, isSrs = false, stats, goBack, onDa
       {/* Header */}
       <div className="flex-between" style={{ marginBottom: '30px' }}>
         <button className="btn btn-secondary" style={{ padding: '8px 15px' }} onClick={handleBack}>
-          <CornerUpLeft size={18} /> {(!initialLevel && activeLevel) ? t.flashcard.backSelection : t.flashcard.backDashboard}
+          <CornerUpLeft size={18} /> {selectedDay !== null ? "Chọn ngày khác" : ((!initialLevel && activeLevel) ? t.flashcard.backSelection : t.flashcard.backDashboard)}
         </button>
 
         <div style={{ textAlign: 'center' }}>
           <h2 style={{ fontSize: '1.5rem', marginBottom: '5px' }}>
-            {isSrs ? "Ôn tập SRS" : `${t.flashcard.level}: `}
-            {!isSrs && <span style={{ color: 'var(--accent-color)' }}>{t.home.levelLabels[activeLevel] || activeLevel}</span>}
+            {isSrs ? "Ôn tập SRS" : isLearnedStudy ? "Flashcard từ đã học" : `${t.flashcard.level}: `}
+            {!isSrs && !isLearnedStudy && <span style={{ color: 'var(--accent-color)' }}>{t.home.levelLabels[activeLevel] || activeLevel} (Ngày {selectedDay})</span>}
           </h2>
         </div>
 
-        {!isSrs ? (
-          <button className="btn btn-secondary" style={{ padding: '8px 15px' }} onClick={fetchWords}>
-            <Shuffle size={18} /> {t.flashcard.shuffleNew}
+        {!isSrs && !isLearnedStudy ? (
+          <button className="btn btn-secondary" style={{ padding: '8px 15px' }} onClick={() => fetchWordsForDay(selectedDay)}>
+            <Shuffle size={18} /> Trộn / Tải lại
           </button>
         ) : (
           <div style={{ width: '100px' }}></div>
