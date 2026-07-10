@@ -37,3 +37,17 @@ npm install
 npm run dev
 ```
 *Giao diện học tập sẽ chạy tại địa chỉ: `http://localhost:5173`*
+
+### 🐳 3. Khởi động bằng Docker Compose (Đầy đủ BE, FE, MySQL)
+Để khởi động toàn bộ môi trường học tập local trong Docker (bao gồm MySQL database, Java Spring Boot backend, và Vite frontend):
+```bash
+# Khởi động các container (build lại nếu có thay đổi code)
+docker compose -f docker-compose.local.yml up --build -d
+
+# Dừng các container
+docker compose -f docker-compose.local.yml down
+```
+* Giao diện học tập: `http://localhost`
+* API Backend: `http://localhost:8080`
+* MySQL Database: `localhost:3306` (User: `root`, Password: `root`, DB: `flashcard`)
+
