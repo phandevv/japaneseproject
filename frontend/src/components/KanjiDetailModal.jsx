@@ -755,7 +755,7 @@ const KanjiDetailModal = ({ words, initialIndex, onClose }) => {
             <div style={{ textAlign: 'center', marginBottom: 18 }}>
               <div key={`k-${currentIndex}`} style={{
                 fontFamily: 'var(--font-jp)',
-                fontSize: kanjiCount > 3 ? 'clamp(34px,8vw,58px)' : kanjiCount > 1 ? 'clamp(50px,11vw,78px)' : 'clamp(58px,13vw,98px)',
+                fontSize: kanjiCount > 3 ? 'clamp(44px,10vw,72px)' : kanjiCount > 1 ? 'clamp(64px,13vw,94px)' : 'clamp(78px,16vw,128px)',
                 fontWeight: 900, lineHeight: 1, marginBottom: 10,
                 color: 'var(--text-primary)',
                 animation: 'kanjiPop 0.4s cubic-bezier(0.34,1.56,0.64,1) forwards',

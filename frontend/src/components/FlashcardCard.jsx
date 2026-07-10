@@ -77,11 +77,11 @@ const FlashcardCard = ({ word, flipped, onFlip, onRateWord }) => {
         {/* Front side (Japanese) */}
         <div className="flashcard-face flashcard-front">
           {word.kanji ? (
-            <h2 className="jp-text" style={{ fontSize: '5rem', marginBottom: '1rem', color: 'var(--text-primary)' }}>
+            <h2 className="jp-text" style={{ fontSize: '7rem', marginBottom: '1rem', color: 'var(--text-primary)', transition: 'font-size 0.2s' }}>
               {word.kanji}
             </h2>
           ) : (
-            <p className="jp-text" style={{ fontSize: '4rem', color: 'var(--text-primary)' }}>
+            <p className="jp-text" style={{ fontSize: '5.5rem', color: 'var(--text-primary)', transition: 'font-size 0.2s' }}>
               {word.hiragana}
             </p>
           )}
@@ -105,7 +105,7 @@ const FlashcardCard = ({ word, flipped, onFlip, onRateWord }) => {
         {/* Back side (Meaning) */}
         <div className="flashcard-face flashcard-back" style={{ display: 'flex', flexDirection: 'column', height: '100%', padding: '25px 20px 20px 20px', boxSizing: 'border-box' }}>
           
-          <div style={{ flex: 1, overflowY: 'auto', width: '100%', paddingRight: '5px', marginBottom: '10px', textAlign: 'center' }}>
+          <div className="hide-scrollbar" style={{ flex: 1, overflowY: 'auto', width: '100%', paddingRight: '5px', marginBottom: '10px', textAlign: 'center' }}>
             {word.kanji && word.hiragana && (
               <h2 className="jp-text" style={{ fontSize: '3rem', marginBottom: '1rem', color: 'var(--accent-color)' }}>
                 {word.hiragana}
