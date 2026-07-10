@@ -68,7 +68,7 @@ public class DeepSeekEnrichmentService {
 
             // Construct payload compatible with DeepSeek chat model
             Map<String, Object> requestBodyMap = Map.of(
-                "model", "deepseek-chat",
+                "model", "deepseek-v4-flash",
                 "response_format", Map.of("type", "json_object"),
                 "messages", new Object[]{
                     Map.of("role", "system", "content", "Bạn là một trợ lý thông thái phản hồi duy nhất định dạng JSON."),
@@ -78,7 +78,7 @@ public class DeepSeekEnrichmentService {
             String requestBody = objectMapper.writeValueAsString(requestBodyMap);
 
             HttpRequest request = HttpRequest.newBuilder()
-                    .uri(URI.create("https://api.deepseek.com/v1/chat/completions"))
+                    .uri(URI.create("https://api.deepseek.com/chat/completions"))
                     .header("Content-Type", "application/json")
                     .header("Authorization", "Bearer " + apiKey)
                     .POST(HttpRequest.BodyPublishers.ofString(requestBody))
