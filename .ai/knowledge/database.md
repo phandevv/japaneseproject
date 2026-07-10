@@ -33,6 +33,10 @@ erDiagram
         varchar han_viet
         varchar word_type
         varchar level
+        text kanji_words
+        text sample_sentence
+        text sample_translation
+        text sample_reading
     }
 
     USER_SETTINGS {

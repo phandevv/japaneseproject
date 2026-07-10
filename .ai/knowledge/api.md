@@ -99,6 +99,12 @@ Tài liệu này đặc tả toàn bộ danh sách REST API endpoints được x
 * **Phản hồi thành công (200 OK)**:
   Danh sách mảng từ vựng trùng khớp (tối đa 50 từ).
 
+### C. Làm giàu dữ liệu từ vựng qua DeepSeek
+* **Endpoint**: `POST /api/vocab/{id}/enrich`
+* **Xác thực**: Yêu cầu Token (vì gọi AI tốn chi phí và tránh bị spam)
+* **Phản hồi thành công (200 OK)**:
+  Trả về thực thể `Vocabulary` sau khi đã được làm giàu các trường dữ liệu ví dụ và từ Kanji liên quan.
+
 ---
 
 ## 3. Module Ôn Luyện Giãn Cách (SRS) - `SrsController`

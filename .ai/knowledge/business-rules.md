@@ -43,3 +43,13 @@ $$EF' = EF + (0.1 - (5 - q) \times (0.08 + (5 - q) \times 0.02))$$
   * Các ngày thường: Lấy từ vựng ở Trang = `day - 1` với kích thước `wordsPerDay`.
   * Ngày cuối cùng: Lấy từ trang `day - 1` đến trang cuối cùng để gom hết từ dư.
 * **Cơ chế đồng bộ**: Số từ mỗi ngày cấu hình bên Daily Study sẽ tự động đồng bộ sang màn hình chọn ngày của Flashcards.
+
+---
+
+## 4. Quy tắc làm giàu dữ liệu tự động (Lazy-Loading AI Enrichment)
+
+* **Thời điểm kích hoạt**: Khi người dùng xem thẻ Flashcard, xem chi tiết từ ở màn hình học hàng ngày, hoặc xem giải thích đáp án sau khi làm Quiz, frontend sẽ kiểm tra xem từ đó đã có câu ví dụ (`sampleSentence`) chưa.
+* **Cơ chế Lazy-Loading**:
+  * Nếu **Đã có**: Hiển thị ngay lập tức từ local cache/database.
+  * Nếu **Chưa có**: Gửi request `POST /api/vocab/{id}/enrich` lên backend. Backend sẽ gọi DeepSeek API để lấy 1 câu ví dụ (cùng cách đọc & nghĩa) và tối đa 3 từ khác chứa Kanji của từ đó, lưu vào database rồi trả về cho frontend hiển thị.
+* **Mục đích**: Tiết kiệm chi phí token DeepSeek API, giảm thiểu blocking tải danh sách từ vựng ban đầu, và tự động tích lũy kho dữ liệu ví dụ phong phú theo thời gian học thực tế.
