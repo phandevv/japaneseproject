@@ -7,10 +7,13 @@ Tài liệu này tổng hợp toàn bộ kiến thức hiện tại của dự �
 ## 🗂️ Mục lục
 1. [Tổng Quan Hệ Thống](#1-tổng-quan-hệ-thống)
 2. [Chi Tiết Công Nghệ (Tech Stack)](#2-chi-tiết-công-nghệ-tech-stack)
-3. [Thuật Toán Cốt Lõi & Nghiệp Vụ](#3-thuật-toán-cốt-lõi--nghiệp-vụ)
-4. [Môi Trường Phát Triển & Kiểm Thử Cục Bộ (Local)](#4-môi-trường-phát-triển--kiểm-thử-cục-bộ-local)
-5. [Quy Trình Triển Khai Lên Production (AWS CI/CD)](#5-quy-trình-triển-khai-lên-production-aws-cicd)
-6. [Đánh Giá Ưu Điểm & Nhược Điểm](#6-đánh-giá-ưu-điểm--nhược-điểm)
+3. [Cấu Trúc Thư Mục & Phân Lớp (Directory Structure)](#3-cấu-trúc-thư-mục--phân-lớp-directory-structure)
+4. [Lược Đồ Cơ Sở Dữ Liệu (Database Schema)](#4-lược-đồ-cơ-sở-dữ-liệu-database-schema)
+5. [Thuật Toán Cốt Lõi & Nghiệp Vụ](#5-thuật-toán-cốt-lõi--nghiệp-vụ)
+6. [Môi Trường Phát Triển & Kiểm Thử Cục Bộ (Local)](#6-môi-trường-phát-triển--kiểm-thử-cục-bộ-local)
+7. [Quy Trình Triển Khai Lên Production (AWS CI/CD)](#7-quy-trình-triển-khai-lên-production-aws-cicd)
+8. [Danh Sách Các Endpoint API REST](#8-danh-sách-các-endpoint-api-rest)
+9. [Đánh Giá Ưu Điểm & Nhược Điểm](#9-đánh-giá-ưu-điểm--nhược-điểm)
 
 ---
 
@@ -27,7 +30,7 @@ Hệ thống được thiết kế theo mô hình **Client-Server** phân tách 
 ## 2. Chi Tiết Công Nghệ (Tech Stack)
 
 ### Backend (Spring Boot)
-* **Ngôn ngữ & Runtime**: Java 21, Spring Boot 3.x.
+* **Ngôn ngữ & Runtime**: Java 21, Spring Boot 3.5.x.
 * **Security & Auth**: Spring Security cấu hình Stateless, xác thực qua **JWT Bearer Token**.
 * **Database Access**: Spring Data JPA kết hợp Hibernate.
 * **Database Migrations**: **Flyway** quản lý phiên bản cơ sở dữ liệu (`backend/src/main/resources/db/migration/`).
@@ -47,7 +50,68 @@ Hệ thống được thiết kế theo mô hình **Client-Server** phân tách 
 
 ---
 
-## 3. Thuật Toán Cốt Lõi & Nghiệp Vụ
+## 3. Cấu Trúc Thư Mục & Phân Lớp (Directory Structure)
+
+### Backend Packages (`com.flashcard.*`)
+Cấu trúc phân lớp chuẩn của Spring Boot:
+* **`config`**: Các cấu hình hệ thống bao gồm bảo mật, nạp dữ liệu mẫu, và chỉ mục Hibernate Search.
+  * `JwtAuthFilter.java`: Bộ lọc JWT chặn các request, trích xuất Token và gán Authentication.
+  * `SecurityConfig.java`: Cấu hình phân quyền Spring Security, CORS động, và Actuator endpoints.
+  * `SearchIndexer.java`: Thực hiện nạp chỉ mục Lucene khi ứng dụng khởi động.
+  * `ExcelDataLoader.java`: Tự động đọc dữ liệu từ tệp Excel mẫu để điền từ vựng vào DB khi khởi chạy lần đầu.
+* **`controller`**: Cung cấp các RESTful API endpoints.
+  * `AuthController.java`: Đăng ký, đăng nhập, lấy thông tin cá nhân.
+  * `VocabularyController.java`: Tìm kiếm, quản lý, phân trang từ vựng.
+  * `SrsController.java`: Ôn luyện, đánh giá thẻ ghi nhớ, lấy các từ đến hạn ôn tập.
+  * `UserSettingController.java`: Cấu hình số từ học mỗi ngày của người dùng.
+  * `AnalyticsController.java`: Thống kê tần suất học tập dưới dạng lưới commit và bảng xếp hạng.
+  * `ImportController.java`: Admin import từ vựng qua file Excel.
+* **`model`**: Định nghĩa các Entity JPA.
+  * `User.java`: Bảng `users` (tên đăng nhập, mật khẩu mã hóa BCrypt, vai trò).
+  * `Vocabulary.java`: Bảng `vocabulary` (từ vựng Kanji, Hiragana, Romaji, Hán Việt, từ loại, cấp độ, nghĩa).
+  * `UserSetting.java`: Bảng `user_settings` (số lượng từ học mỗi ngày, các ngày đã hoàn thành).
+  * `WordReview.java`: Bảng `word_reviews` (trạng thái ôn luyện SRS, Ease Factor, chu kỳ lặp lại, ngày ôn tập tiếp theo).
+  * `StudySession.java`: Bảng `study_sessions` (lịch sử học tập phục vụ tính toán lưới commit).
+* **`repository`**: Tương tác với Database bằng Spring Data JPA.
+* **`service`**: Chứa toàn bộ Logic nghiệp vụ của hệ thống (Auth, SRS, Analytics, Excel Import).
+
+### Frontend Structure (`frontend/src/*`)
+* **`components`**: Các thành phần tái sử dụng.
+  * `FlashcardCard.jsx`: Thẻ ghi nhớ 2 mặt (lật mặt khi nhấn, phát âm thủ công qua SpeechSynthesis).
+  * `KanjiDetailModal.jsx`: Modal tra cứu chi tiết hán tự gồm bộ thủ, âm On/Kun, nghĩa và từ ghép đi kèm.
+  * `Navbar.jsx` / `Footer.jsx` / `ProfileModal.jsx`.
+* **`context`**: Quản lý State toàn cục.
+  * `AuthContext.jsx`: Cung cấp trạng thái đăng nhập, phương thức login/logout và lưu trữ Token.
+  * `LanguageContext.jsx`: Cấu hình đa ngôn ngữ (Tiếng Việt và Tiếng Anh).
+* **`pages`**: Các trang chức năng của ứng dụng.
+  * `HomePage.jsx`: Dashboard chính, bảng xếp hạng điểm số và lưới lịch sử học tập 30 ngày.
+  * `DailyStudyPage.jsx`: Chế độ học hàng ngày theo bài học và bài kiểm tra trắc nghiệm/tự luận.
+  * `FlashcardPage.jsx`: Chế độ ôn tập qua Flashcards hỗ trợ lọc theo ngày và SRS.
+  * `SearchPage.jsx`: Tìm kiếm từ vựng thời gian thực qua Kanji, Kana, Romaji hoặc nghĩa tiếng Việt.
+  * `VocabAdminPage.jsx`: Trang quản lý từ điển dành riêng cho tài khoản admin.
+  * `AuthPage.jsx`: Trang đăng nhập và đăng ký.
+* **`services/api.js`**: Cấu hình Axios Client kết nối backend, tích hợp tự động Token và Base URL động.
+
+---
+
+## 4. Lược Đồ Cơ Cơ Sở Dữ Liệu (Database Schema)
+
+Cấu trúc cơ sở dữ liệu bao gồm các bảng chính được thiết kế chuẩn hóa và theo dõi qua các tệp migration của Flyway:
+
+1. **`users`**: Lưu trữ thông tin tài khoản người dùng.
+   * `id` (Primary Key), `username` (Unique), `password` (BCrypt), `role`, `avatar`, `created_at`.
+2. **`vocabulary`**: Danh mục từ điển gốc.
+   * `id` (Primary Key), `kanji`, `hiragana`, `romaji`, `meaning`, `han_viet`, `word_type`, `level`.
+3. **`user_settings`**: Cấu hình tiến trình học tập của từng người dùng.
+   * `id` (Primary Key), `user_id` (Foreign Key -> `users.id`), `level`, `words_per_day`, `completed_days`.
+4. **`word_reviews`**: Theo dõi trạng thái học tập giãn cách (SRS) cho từng từ của người dùng.
+   * `id` (Primary Key), `user_id` (Foreign Key -> `users.id`), `vocab_id` (Foreign Key -> `vocabulary.id`), `next_review` (DateTime), `ease_factor` (Double), `interval_days` (Int), `repetition` (Int), `is_learned` (Boolean).
+5. **`study_sessions`**: Ghi nhận lịch sử làm bài để vẽ biểu đồ commit.
+   * `id` (Primary Key), `user_id` (Foreign Key -> `users.id`), `study_date` (Date), `words_studied` (Int), `correct_answers` (Int), `total_questions` (Int).
+
+---
+
+## 5. Thuật Toán Cốt Lõi & Nghiệp Vụ
 
 ### 1. Thuật Toán Học Tập Giãn Cách (SM-2)
 Hệ thống sử dụng thuật toán **SuperMemo-2 (SM-2)** để lập lịch ôn tập từ vựng cho từng người dùng:
@@ -82,7 +146,7 @@ Sử dụng tìm kiếm mờ (Fuzzy matching) để xử lý sai sót gõ phím 
 
 ---
 
-## 4. Môi Trường Phát Triển & Kiểm Thử Cục Bộ (Local)
+## 6. Môi Trường Phát Triển & Kiểm Thử Cục Bộ (Local)
 
 Dự án cung cấp 2 phương pháp khởi chạy ở máy local:
 
@@ -117,7 +181,7 @@ docker compose -f docker-compose.local.yml down
 
 ---
 
-## 5. Quy Trình Triển Khai Lên Production (AWS CI/CD)
+## 7. Quy Trình Triển Khai Lên Production (AWS CI/CD)
 
 Luồng triển khai lên AWS được thực hiện hoàn toàn tự động thông qua **GitLab CI/CD**:
 
@@ -148,7 +212,31 @@ graph TD
 
 ---
 
-## 6. Đánh Giá Ưu Điểm & Nhược Điểm
+## 8. Danh Sách Các Endpoint API REST
+
+Dưới đây là một số API RESTful chính được công bố trên backend (cần gửi kèm header `Authorization: Bearer <token>` ngoại trừ Auth):
+
+* **Xác thực (`/api/auth/*`)**:
+  * `POST /api/auth/register`: Đăng ký tài khoản mới.
+  * `POST /api/auth/login`: Đăng nhập, nhận về Token và thông tin User.
+  * `GET /api/auth/me`: Lấy thông tin cá nhân hiện tại.
+* **Cấu hình học tập (`/api/settings/*`)**:
+  * `GET /api/settings/{level}`: Lấy cấu hình `wordsPerDay` và danh sách ngày hoàn thành của cấp độ tương ứng.
+  * `POST /api/settings/{level}?wordsPerDay={count}`: Cập nhật số từ học mỗi ngày của cấp độ.
+  * `POST /api/settings/{level}/complete-day?day={day}`: Đánh dấu ngày học đó đã hoàn thành.
+* **Học tập và ôn tập SRS (`/api/srs/*`)**:
+  * `GET /api/srs/due`: Lấy danh sách các từ vựng đến hạn ôn tập hôm nay.
+  * `POST /api/srs/review?vocabId={id}&quality={quality}`: Gửi kết quả đánh giá (1-4) của từ vựng để thuật toán SM-2 lập lịch ôn tập.
+  * `GET /api/srs/learned-stats`: Lấy thống kê số từ đã học toàn thời gian (`learnedCount`) và số từ đã học hôm nay (`learnedToday`).
+  * `GET /api/srs/random-learned?limit={limit}`: Lấy ngẫu nhiên danh sách các từ đã học để phục vụ ôn tập Flashcard.
+* **Từ vựng (`/api/vocab/*`)**:
+  * `GET /api/vocab/level/{level}?page={page}&size={size}`: Lấy danh sách từ vựng phân trang theo cấp độ.
+  * `GET /api/vocab/search?query={text}`: Tìm kiếm từ vựng theo Kanji, Kana, Romaji hoặc nghĩa tiếng Việt.
+  * `POST /api/vocab/import`: Admin upload file Excel để import thêm từ vựng mới.
+
+---
+
+## 9. Đánh Giá Ưu Điểm & Nhược Điểm
 
 ### Ưu Điểm (Pros)
 * **Bảo mật và Hiệu Năng**: Hệ thống Stateless sử dụng JWT không lưu session trên RAM. Giới hạn yêu cầu bằng Bucket4j chặn Brute-force hiệu quả.
