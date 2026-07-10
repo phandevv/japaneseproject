@@ -145,10 +145,64 @@ h1, h2, h3, h4, h5, h6 {
 .flashcard-container {
   perspective: 1000px;
   width: 100%;
-  max-width: 600px;
-  height: 400px;
+  max-width: 800px;
+  height: 450px;
   margin: 0 auto;
   cursor: pointer;
+}
+
+.flashcard-back-content {
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+  padding: 30px 25px;
+  box-sizing: border-box;
+  gap: 24px;
+  align-items: stretch;
+}
+
+.flashcard-back-left {
+  flex: 1 1 45%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border-right: 1px solid rgba(255, 255, 255, 0.08);
+  padding-right: 20px;
+}
+
+.flashcard-back-right {
+  flex: 1 1 55%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 15px;
+}
+
+@media (max-width: 768px) {
+  .grid-cols-3, .grid-cols-4 { grid-template-columns: repeat(2, 1fr); }
+  .flashcard-container { height: 420px; max-width: 100%; }
+}
+
+@media (max-width: 600px) {
+  .flashcard-back-content {
+    flex-direction: column;
+    padding: 20px 15px;
+    gap: 15px;
+  }
+  .flashcard-back-left {
+    border-right: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    padding-right: 0;
+    padding-bottom: 15px;
+  }
+  .flashcard-back-right {
+    gap: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .grid-cols-2 { grid-template-columns: 1fr; }
+  .flashcard-container { height: 380px; }
 }
 
 .flashcard {
@@ -242,12 +296,10 @@ h1, h2, h3, h4, h5, h6 {
 
 @media (max-width: 768px) {
   .grid-cols-3, .grid-cols-4 { grid-template-columns: repeat(2, 1fr); }
-  .flashcard-container { height: 350px; }
 }
 
 @media (max-width: 480px) {
   .grid-cols-2 { grid-template-columns: 1fr; }
-  .flashcard-container { height: 300px; }
 }
 
 /* Custom Scrollbars */

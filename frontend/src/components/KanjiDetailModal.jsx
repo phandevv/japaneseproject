@@ -660,7 +660,7 @@ const KanjiDetailModal = ({ words, initialIndex, onClose }) => {
 
   const kanjiCount = word.kanji ? extractKanjiChars(word.kanji).length : 0;
   // Increase maxWidth based on kanji count to allow horizontal expansion
-  const maxCardWidth = kanjiCount >= 5 ? 960 : kanjiCount === 4 ? 860 : kanjiCount === 3 ? 740 : 600;
+  const maxCardWidth = kanjiCount >= 5 ? 980 : kanjiCount === 4 ? 880 : kanjiCount === 3 ? 820 : 780;
 
   /* Card transform: slide animation (front/back navigation) + flip */
   const slideAnim = slideDir === 'right'
@@ -712,12 +712,12 @@ const KanjiDetailModal = ({ words, initialIndex, onClose }) => {
         animation: !flipping && !slideDir ? slideAnim : undefined,
         margin: '0 auto',
         width: '100%',
-        maxWidth: side === 'back' ? 580 : maxCardWidth,
+        maxWidth: maxCardWidth,
         // Remove 94vw/94vh limits because it's no longer a modal, it's a normal page block
         background: 'linear-gradient(145deg, #1b2642, #0f1a2e)',
         border: '1px solid rgba(255,255,255,0.07)',
         borderRadius: 24,
-        padding: side === 'back' ? '36px 30px 28px' : '38px 30px 28px',
+        padding: '38px 30px 28px',
         boxShadow: '0 28px 70px rgba(0,0,0,0.65), 0 0 0 1px rgba(239,68,68,0.07)',
         boxSizing: 'border-box',
         position: 'relative',
@@ -793,7 +793,7 @@ const KanjiDetailModal = ({ words, initialIndex, onClose }) => {
 
             {/* Meaning + stroke boards */}
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: 24, alignItems: 'flex-start', justifyContent: 'center' }}>
-              <div style={{ flex: '1 1 200px', minWidth: 200 }}>
+              <div style={{ flex: '1 1 300px', minWidth: 260 }}>
                 <div style={{ marginBottom: 14 }}>
                   <div style={{ fontSize: '0.62rem', textTransform: 'uppercase', letterSpacing: '0.12em', color: 'var(--text-secondary)', marginBottom: 6 }}>Nghĩa</div>
                   <div style={{ fontSize: '1.15rem', fontWeight: 600, color: 'var(--success-color)', lineHeight: 1.45, overflowWrap: 'break-word' }}>{word.meaning}</div>
