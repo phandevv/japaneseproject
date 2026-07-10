@@ -2,6 +2,7 @@ package com.flashcard.controller;
 
 import com.flashcard.model.Vocabulary;
 import com.flashcard.service.VocabularyService;
+import com.flashcard.service.DeepSeekEnrichmentService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -16,9 +17,11 @@ import java.util.Map;
 public class VocabularyController {
 
     private final VocabularyService service;
+    private final DeepSeekEnrichmentService enrichmentService;
 
-    public VocabularyController(VocabularyService service) {
+    public VocabularyController(VocabularyService service, DeepSeekEnrichmentService enrichmentService) {
         this.service = service;
+        this.enrichmentService = enrichmentService;
     }
 
     /**
@@ -128,6 +131,22 @@ public class VocabularyController {
         return service.getById(id).map(existing -> {
             service.deleteById(id);
             return ResponseEntity.ok(Map.of("success", true, "message", "Vocabulary deleted successfully"));
+        }).orElse(ResponseEntity.notFound().build());
+    }
+
+    /**
+     * Enrich vocabulary word (Kanji-words and sample sentence using DeepSeek)
+     * POST /api/vocab/{id}/enrich
+     */
+    @PostMapping("/{id}/enrich")
+    public ResponseEntity<?> enrich(@PathVariable Long id) {
+        return service.getById(id).map(existing -> {
+            // Only query DeepSeek if it hasn't been enriched yet (i.e. sampleSentence is empty/null)
+            if (existing.getSampleSentence() == null || existing.getSampleSentence().isBlank()) {
+                Vocabulary enriched = enrichmentService.enrichVocabulary(existing);
+                return ResponseEntity.ok(enriched);
+            }
+            return ResponseEntity.ok(existing);
         }).orElse(ResponseEntity.notFound().build());
     }
 }

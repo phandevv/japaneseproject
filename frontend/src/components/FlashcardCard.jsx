@@ -1,15 +1,49 @@
 import React, { useState, useEffect } from 'react';
 import { Volume2 } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
+import { vocabApi } from '../services/api';
 
 const FlashcardCard = ({ word, flipped, onFlip, onRateWord }) => {
   const { t } = useLanguage();
+  const [enriched, setEnriched] = useState(null);
+  const [loadingEnrich, setLoadingEnrich] = useState(false);
 
   useEffect(() => {
     return () => {
       if (typeof window !== 'undefined' && window.speechSynthesis) {
         window.speechSynthesis.cancel();
       }
+    };
+  }, [word]);
+
+  useEffect(() => {
+    if (!word) return;
+
+    if (word.sampleSentence) {
+      setEnriched(word);
+      return;
+    }
+
+    setEnriched(null);
+    setLoadingEnrich(true);
+
+    let active = true;
+    vocabApi.enrich(word.id)
+      .then(data => {
+        if (active) {
+          setEnriched(data);
+          setLoadingEnrich(false);
+        }
+      })
+      .catch(err => {
+        console.error("Failed to lazy load enrichment details:", err);
+        if (active) {
+          setLoadingEnrich(false);
+        }
+      });
+
+    return () => {
+      active = false;
     };
   }, [word]);
 
@@ -69,38 +103,112 @@ const FlashcardCard = ({ word, flipped, onFlip, onRateWord }) => {
         </div>
 
         {/* Back side (Meaning) */}
-        <div className="flashcard-face flashcard-back">
-          {word.kanji && word.hiragana && (
-            <h2 className="jp-text" style={{ fontSize: '3rem', marginBottom: '1rem', color: 'var(--accent-color)' }}>
-              {word.hiragana}
-            </h2>
-          )}
+        <div className="flashcard-face flashcard-back" style={{ display: 'flex', flexDirection: 'column', height: '100%', padding: '25px 20px 20px 20px', boxSizing: 'border-box' }}>
           
-          <h3 style={{ fontSize: '2.5rem', marginBottom: '1.5rem', textAlign: 'center', color: 'var(--success-color)' }}>
-            {word.meaning || "N/A"}
-          </h3>
-          
-          {word.hanViet && (
-            <p style={{ fontSize: '1.5rem', color: 'var(--text-secondary)', marginBottom: '1rem' }}>
-              【{word.hanViet}】
-            </p>
-          )}
-          
-          {word.wordType && (
-            <p style={{ 
-              marginTop: '1rem', 
-              padding: '4px 12px', 
-              backgroundColor: 'rgba(255,255,255,0.1)', 
-              borderRadius: '4px',
-              color: 'var(--text-secondary)'
-            }}>
-              {word.wordType}
-            </p>
-          )}
+          <div style={{ flex: 1, overflowY: 'auto', width: '100%', paddingRight: '5px', marginBottom: '10px', textAlign: 'center' }}>
+            {word.kanji && word.hiragana && (
+              <h2 className="jp-text" style={{ fontSize: '3rem', marginBottom: '1rem', color: 'var(--accent-color)' }}>
+                {word.hiragana}
+              </h2>
+            )}
+            
+            <h3 style={{ fontSize: '2.5rem', marginBottom: '1rem', textAlign: 'center', color: 'var(--success-color)' }}>
+              {word.meaning || "N/A"}
+            </h3>
+            
+            {word.hanViet && (
+              <p style={{ fontSize: '1.5rem', color: 'var(--text-secondary)', marginBottom: '0.8rem' }}>
+                【{word.hanViet}】
+              </p>
+            )}
+            
+            {word.wordType && (
+              <span style={{ 
+                display: 'inline-block',
+                padding: '4px 12px', 
+                backgroundColor: 'rgba(255,255,255,0.08)', 
+                borderRadius: '4px',
+                color: 'var(--text-secondary)',
+                fontSize: '0.9rem',
+                marginBottom: '15px'
+              }}>
+                {word.wordType}
+              </span>
+            )}
 
-          {/* Rate buttons for logged-in user in flashcard mode */}
+            {/* AI Rich Data Section */}
+            {loadingEnrich && (
+              <div style={{ 
+                marginTop: '15px', 
+                color: 'var(--text-secondary)', 
+                fontSize: '0.85rem', 
+                fontStyle: 'italic',
+                padding: '10px',
+                backgroundColor: 'rgba(255,255,255,0.03)',
+                borderRadius: '6px'
+              }}>
+                Đang gọi AI làm giàu dữ liệu ví dụ & Kanji liên quan...
+              </div>
+            )}
+
+            {enriched && enriched.sampleSentence && (
+              <div style={{ 
+                marginTop: '15px', 
+                padding: '12px 16px', 
+                width: '100%', 
+                textAlign: 'left', 
+                backgroundColor: 'rgba(255,255,255,0.04)', 
+                borderRadius: '8px',
+                borderLeft: '4px solid var(--accent-color)'
+              }}>
+                <h4 style={{ color: 'var(--accent-color)', marginBottom: '6px', fontSize: '0.95rem', fontWeight: '600' }}>Câu ví dụ:</h4>
+                <p style={{ fontSize: '1.25rem', fontWeight: 'bold', color: 'var(--text-primary)', marginBottom: '4px', lineHeight: '1.4' }}>{enriched.sampleSentence}</p>
+                <p style={{ fontSize: '0.9rem', color: 'var(--text-secondary)', marginBottom: '6px', fontStyle: 'italic' }}>{enriched.sampleReading}</p>
+                <p style={{ fontSize: '0.95rem', color: 'var(--success-color)', fontWeight: '500' }}>{enriched.sampleTranslation}</p>
+              </div>
+            )}
+
+            {(() => {
+              let relatedWords = [];
+              if (enriched && enriched.kanjiWords) {
+                try {
+                  relatedWords = typeof enriched.kanjiWords === 'string' 
+                    ? JSON.parse(enriched.kanjiWords) 
+                    : enriched.kanjiWords;
+                } catch (e) {
+                  console.error("Failed to parse kanjiWords JSON:", e);
+                }
+              }
+              if (relatedWords && relatedWords.length > 0) {
+                return (
+                  <div style={{ 
+                    marginTop: '12px', 
+                    padding: '12px 16px', 
+                    width: '100%', 
+                    textAlign: 'left', 
+                    backgroundColor: 'rgba(255,255,255,0.04)', 
+                    borderRadius: '8px',
+                    borderLeft: '4px solid var(--success-color)'
+                  }}>
+                    <h4 style={{ color: 'var(--success-color)', marginBottom: '8px', fontSize: '0.95rem', fontWeight: '600' }}>Kanji liên quan:</h4>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                      {relatedWords.map((item, idx) => (
+                        <div key={idx} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '0.9rem', borderBottom: idx < relatedWords.length - 1 ? '1px dashed rgba(255,255,255,0.05)' : 'none', paddingBottom: idx < relatedWords.length - 1 ? '6px' : '0' }}>
+                          <span style={{ fontWeight: 'bold', color: 'var(--text-primary)' }}>{item.word} ({item.reading})</span>
+                          <span style={{ color: 'var(--text-secondary)', fontSize: '0.85rem' }}>{item.meaning}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                );
+              }
+              return null;
+            })()}
+          </div>
+
+          {/* Rate buttons for logged-in user in flashcard mode (fixed at bottom) */}
           {onRateWord && (
-            <div style={{ display: 'flex', gap: '8px', marginTop: '20px', width: '100%', justifyContent: 'center' }} onClick={e => e.stopPropagation()}>
+            <div style={{ display: 'flex', gap: '8px', marginTop: 'auto', width: '100%', justifyContent: 'center', paddingTop: '10px', borderTop: '1px solid var(--border-color)' }} onClick={e => e.stopPropagation()}>
               <button className="btn" style={{ backgroundColor: 'rgba(239, 68, 68, 0.2)', color: '#ef4444', borderColor: '#ef4444', border: '1px solid', flex: 1, padding: '8px 4px', fontSize: '0.85rem', cursor: 'pointer' }} onClick={() => onRateWord(1)}>
                 Forgot
               </button>

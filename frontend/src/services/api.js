@@ -203,6 +203,12 @@ export const vocabApi = {
   delete: async (id) => {
     const response = await axios.delete(`${API_BASE_URL}/vocab/${id}`);
     return response.data;
+  },
+
+  // Enrich vocabulary word (lazy load examples and related Kanji words)
+  enrich: async (id) => {
+    const response = await axios.post(`${API_BASE_URL}/vocab/${id}/enrich`);
+    return response.data;
   }
 };
 

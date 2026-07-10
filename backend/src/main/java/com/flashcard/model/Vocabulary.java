@@ -82,6 +82,30 @@ public class Vocabulary {
     public String getLevel() { return level; }
     public void setLevel(String level) { this.level = level; }
 
+    @Column(name = "kanji_words", columnDefinition = "TEXT")
+    private String kanjiWords;
+
+    @Column(name = "sample_sentence", columnDefinition = "TEXT")
+    private String sampleSentence;
+
+    @Column(name = "sample_translation", columnDefinition = "TEXT")
+    private String sampleTranslation;
+
+    @Column(name = "sample_reading", columnDefinition = "TEXT")
+    private String sampleReading;
+
     public String getCategory() { return category; }
     public void setCategory(String category) { this.category = category; }
+
+    public String getKanjiWords() { return kanjiWords; }
+    public void setKanjiWords(String kanjiWords) { this.kanjiWords = kanjiWords; }
+
+    public String getSampleSentence() { return sampleSentence; }
+    public void setSampleSentence(String sampleSentence) { this.sampleSentence = sampleSentence; }
+
+    public String getSampleTranslation() { return sampleTranslation; }
+    public void setSampleTranslation(String sampleTranslation) { this.sampleTranslation = sampleTranslation; }
+
+    public String getSampleReading() { return sampleReading; }
+    public void setSampleReading(String sampleReading) { this.sampleReading = sampleReading; }
 }

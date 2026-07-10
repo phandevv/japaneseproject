@@ -48,6 +48,47 @@ const DailyStudyPage = ({ level, stats, goBack }) => {
   const [quizQuestionType, setQuizQuestionType] = useState('vi-to-ja'); // 'vi-to-ja' or 'ja-to-vi'
   const [showHiraganaHint, setShowHiraganaHint] = useState(false);
   const [seenWordIds, setSeenWordIds] = useState(new Set());
+
+  // Quiz Word Enrichment
+  const [quizWordEnriched, setQuizWordEnriched] = useState(null);
+  const [loadingQuizEnrich, setLoadingQuizEnrich] = useState(false);
+
+  useEffect(() => {
+    const currentWord = quizWords[quizIndex];
+    if (phase !== 3 || !currentWord) {
+      setQuizWordEnriched(null);
+      return;
+    }
+
+    if (currentWord.sampleSentence) {
+      setQuizWordEnriched(currentWord);
+      return;
+    }
+
+    setQuizWordEnriched(null);
+    setLoadingQuizEnrich(true);
+
+    let active = true;
+    vocabApi.enrich(currentWord.id)
+      .then(data => {
+        if (active) {
+          setQuizWordEnriched(data);
+          setLoadingQuizEnrich(false);
+          // Update the word inside quizWords list so we cache it
+          setQuizWords(prev => prev.map(w => w.id === data.id ? data : w));
+        }
+      })
+      .catch(err => {
+        console.error("Failed to enrich quiz word:", err);
+        if (active) {
+          setLoadingQuizEnrich(false);
+        }
+      });
+
+    return () => {
+      active = false;
+    };
+  }, [phase, quizIndex, quizWords]);
   
   // Timer & Spaced Repetition (SRS) States
   const [elapsedSeconds, setElapsedSeconds] = useState(0);
@@ -1097,6 +1138,49 @@ const DailyStudyPage = ({ level, stats, goBack }) => {
                       <strong>Hán Việt:</strong> 【{currentWord.hanViet}】
                     </p>
                   )}
+
+                  {/* AI Rich Data for Quiz review */}
+                  {loadingQuizEnrich && (
+                    <div style={{ marginTop: '10px', fontSize: '0.85rem', color: 'var(--text-secondary)', fontStyle: 'italic' }}>
+                      Đang tải câu ví dụ & Kanji liên quan...
+                    </div>
+                  )}
+
+                  {quizWordEnriched && quizWordEnriched.sampleSentence && (
+                    <div style={{ marginTop: '12px', padding: '10px 12px', backgroundColor: 'rgba(255,255,255,0.05)', borderRadius: '6px', textAlign: 'left', fontSize: '0.9rem' }}>
+                      <span style={{ color: 'var(--accent-color)', fontWeight: 'bold', display: 'block', marginBottom: '4px', fontSize: '0.8rem' }}>Câu ví dụ:</span>
+                      <span style={{ fontWeight: 'bold', color: 'var(--text-primary)', display: 'block', fontSize: '1rem', lineHeight: '1.3' }}>{quizWordEnriched.sampleSentence}</span>
+                      <span style={{ color: 'var(--text-secondary)', fontSize: '0.8rem', display: 'block', marginBottom: '2px', fontStyle: 'italic' }}>{quizWordEnriched.sampleReading}</span>
+                      <span style={{ color: 'var(--success-color)' }}>{quizWordEnriched.sampleTranslation}</span>
+                    </div>
+                  )}
+
+                  {(() => {
+                    let relatedWords = [];
+                    if (quizWordEnriched && quizWordEnriched.kanjiWords) {
+                      try {
+                        relatedWords = typeof quizWordEnriched.kanjiWords === 'string' 
+                          ? JSON.parse(quizWordEnriched.kanjiWords) 
+                          : quizWordEnriched.kanjiWords;
+                      } catch (e) {}
+                    }
+                    if (relatedWords && relatedWords.length > 0) {
+                      return (
+                        <div style={{ marginTop: '10px', padding: '10px 12px', backgroundColor: 'rgba(255,255,255,0.05)', borderRadius: '6px', textAlign: 'left', fontSize: '0.85rem' }}>
+                          <span style={{ color: 'var(--success-color)', fontWeight: 'bold', display: 'block', marginBottom: '6px', fontSize: '0.8rem' }}>Kanji liên quan:</span>
+                          <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                            {relatedWords.map((item, idx) => (
+                              <div key={idx} style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.8rem' }}>
+                                <span style={{ color: 'var(--text-primary)', fontWeight: '500' }}>{item.word} ({item.reading})</span>
+                                <span style={{ color: 'var(--text-secondary)' }}>{item.meaning}</span>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      );
+                    }
+                    return null;
+                  })()}
                 </div>
               </div>
               <button className="btn btn-primary" onClick={nextQuestion} autoFocus>
@@ -1143,6 +1227,49 @@ const DailyStudyPage = ({ level, stats, goBack }) => {
                       <strong>Hán Việt:</strong> 【{currentWord.hanViet}】
                     </p>
                   )}
+
+                  {/* AI Rich Data for Quiz review */}
+                  {loadingQuizEnrich && (
+                    <div style={{ marginTop: '10px', fontSize: '0.85rem', color: 'var(--text-secondary)', fontStyle: 'italic' }}>
+                      Đang tải câu ví dụ & Kanji liên quan...
+                    </div>
+                  )}
+
+                  {quizWordEnriched && quizWordEnriched.sampleSentence && (
+                    <div style={{ marginTop: '12px', padding: '10px 12px', backgroundColor: 'rgba(255,255,255,0.05)', borderRadius: '6px', textAlign: 'left', fontSize: '0.9rem' }}>
+                      <span style={{ color: 'var(--accent-color)', fontWeight: 'bold', display: 'block', marginBottom: '4px', fontSize: '0.8rem' }}>Câu ví dụ:</span>
+                      <span style={{ fontWeight: 'bold', color: 'var(--text-primary)', display: 'block', fontSize: '1rem', lineHeight: '1.3' }}>{quizWordEnriched.sampleSentence}</span>
+                      <span style={{ color: 'var(--text-secondary)', fontSize: '0.8rem', display: 'block', marginBottom: '2px', fontStyle: 'italic' }}>{quizWordEnriched.sampleReading}</span>
+                      <span style={{ color: 'var(--success-color)' }}>{quizWordEnriched.sampleTranslation}</span>
+                    </div>
+                  )}
+
+                  {(() => {
+                    let relatedWords = [];
+                    if (quizWordEnriched && quizWordEnriched.kanjiWords) {
+                      try {
+                        relatedWords = typeof quizWordEnriched.kanjiWords === 'string' 
+                          ? JSON.parse(quizWordEnriched.kanjiWords) 
+                          : quizWordEnriched.kanjiWords;
+                      } catch (e) {}
+                    }
+                    if (relatedWords && relatedWords.length > 0) {
+                      return (
+                        <div style={{ marginTop: '10px', padding: '10px 12px', backgroundColor: 'rgba(255,255,255,0.05)', borderRadius: '6px', textAlign: 'left', fontSize: '0.85rem' }}>
+                          <span style={{ color: 'var(--success-color)', fontWeight: 'bold', display: 'block', marginBottom: '6px', fontSize: '0.8rem' }}>Kanji liên quan:</span>
+                          <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                            {relatedWords.map((item, idx) => (
+                              <div key={idx} style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.8rem' }}>
+                                <span style={{ color: 'var(--text-primary)', fontWeight: '500' }}>{item.word} ({item.reading})</span>
+                                <span style={{ color: 'var(--text-secondary)' }}>{item.meaning}</span>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      );
+                    }
+                    return null;
+                  })()}
                 </div>
               </div>
               <button className="btn btn-primary" onClick={nextQuestion} autoFocus>

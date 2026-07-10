@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { X, ChevronLeft, ChevronRight, Volume2, RefreshCw, PenLine, Eraser, Eye, EyeOff, RotateCcw } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
+import { vocabApi } from '../services/api';
 
 /* ─────────────────────────────────────────────
    Constants
@@ -580,8 +581,42 @@ const KanjiDetailModal = ({ words, initialIndex, onClose }) => {
   const overlayRef = useRef(null);
   const word = words[currentIndex];
 
+  const [enriched, setEnriched] = useState(null);
+  const [loadingEnrich, setLoadingEnrich] = useState(false);
+
   // Reset to front when navigating words
   useEffect(() => { setSide('front'); }, [currentIndex]);
+
+  useEffect(() => {
+    if (!word) return;
+
+    if (word.sampleSentence) {
+      setEnriched(word);
+      return;
+    }
+
+    setEnriched(null);
+    setLoadingEnrich(true);
+
+    let active = true;
+    vocabApi.enrich(word.id)
+      .then(data => {
+        if (active) {
+          setEnriched(data);
+          setLoadingEnrich(false);
+        }
+      })
+      .catch(err => {
+        console.error("Failed to lazy load enrichment details:", err);
+        if (active) {
+          setLoadingEnrich(false);
+        }
+      });
+
+    return () => {
+      active = false;
+    };
+  }, [word]);
 
   /* Flip animation: scaleX collapse → switch content → expand */
   const flipTo = useCallback((target) => {
@@ -769,6 +804,78 @@ const KanjiDetailModal = ({ words, initialIndex, onClose }) => {
                     <div style={{ fontSize: '1rem', fontWeight: 500, color: 'rgba(248,250,252,0.75)', overflowWrap: 'break-word' }}>【{word.hanViet}】</div>
                   </div>
                 )}
+
+                {/* AI Rich Data Section */}
+                {loadingEnrich && (
+                  <div style={{ 
+                    marginTop: '12px', 
+                    color: 'var(--text-secondary)', 
+                    fontSize: '0.75rem', 
+                    fontStyle: 'italic',
+                    padding: '8px',
+                    backgroundColor: 'rgba(255,255,255,0.03)',
+                    borderRadius: '6px',
+                    textAlign: 'left'
+                  }}>
+                    Đang gọi AI làm giàu dữ liệu ví dụ & Kanji...
+                  </div>
+                )}
+
+                {enriched && enriched.sampleSentence && (
+                  <div style={{ 
+                    marginTop: '12px', 
+                    padding: '10px 12px', 
+                    width: '100%', 
+                    textAlign: 'left', 
+                    backgroundColor: 'rgba(255,255,255,0.03)', 
+                    borderRadius: '8px',
+                    borderLeft: '3px solid var(--accent-color)',
+                    boxSizing: 'border-box'
+                  }}>
+                    <h4 style={{ color: 'var(--accent-color)', marginBottom: '4px', fontSize: '0.8rem', fontWeight: '600' }}>Câu ví dụ:</h4>
+                    <p style={{ fontSize: '1.05rem', fontWeight: 'bold', color: 'var(--text-primary)', marginBottom: '2px', lineHeight: '1.35' }}>{enriched.sampleSentence}</p>
+                    <p style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', marginBottom: '4px', fontStyle: 'italic' }}>{enriched.sampleReading}</p>
+                    <p style={{ fontSize: '0.85rem', color: 'var(--success-color)', fontWeight: '500' }}>{enriched.sampleTranslation}</p>
+                  </div>
+                )}
+
+                {(() => {
+                  let relatedWords = [];
+                  if (enriched && enriched.kanjiWords) {
+                    try {
+                      relatedWords = typeof enriched.kanjiWords === 'string' 
+                        ? JSON.parse(enriched.kanjiWords) 
+                        : enriched.kanjiWords;
+                    } catch (e) {
+                      console.error("Failed to parse kanjiWords JSON:", e);
+                    }
+                  }
+                  if (relatedWords && relatedWords.length > 0) {
+                    return (
+                      <div style={{ 
+                        marginTop: '10px', 
+                        padding: '10px 12px', 
+                        width: '100%', 
+                        textAlign: 'left', 
+                        backgroundColor: 'rgba(255,255,255,0.03)', 
+                        borderRadius: '8px',
+                        borderLeft: '3px solid var(--success-color)',
+                        boxSizing: 'border-box'
+                      }}>
+                        <h4 style={{ color: 'var(--success-color)', marginBottom: '6px', fontSize: '0.8rem', fontWeight: '600' }}>Kanji liên quan:</h4>
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                          {relatedWords.map((item, idx) => (
+                            <div key={idx} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '0.8rem', borderBottom: idx < relatedWords.length - 1 ? '1px dashed rgba(255,255,255,0.05)' : 'none', paddingBottom: idx < relatedWords.length - 1 ? '4px' : '0' }}>
+                              <span style={{ fontWeight: 'bold', color: 'var(--text-primary)' }}>{item.word} ({item.reading})</span>
+                              <span style={{ color: 'var(--text-secondary)', fontSize: '0.75rem' }}>{item.meaning}</span>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    );
+                  }
+                  return null;
+                })()}
               </div>
               {word.kanji && (
                 <div style={{ flexShrink: 0 }}>
