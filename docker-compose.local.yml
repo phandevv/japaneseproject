@@ -37,6 +37,7 @@ services:
       - DB_DIALECT=org.hibernate.dialect.MySQLDialect
       - JWT_SECRET=DEVELOPMENT_JWT_SECRET_KEY_FOR_LOCAL_TESTING
       - CORS_ORIGINS=http://localhost,http://localhost:80,http://localhost:5173,http://localhost:3000
+      - DEEPSEEK_API_KEY=${DEEPSEEK_API_KEY}
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:8080/actuator/health"]
