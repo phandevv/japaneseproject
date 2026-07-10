@@ -660,7 +660,7 @@ const KanjiDetailModal = ({ words, initialIndex, onClose }) => {
 
   const kanjiCount = word.kanji ? extractKanjiChars(word.kanji).length : 0;
   // Increase maxWidth based on kanji count to allow horizontal expansion
-  const maxCardWidth = kanjiCount >= 5 ? 980 : kanjiCount === 4 ? 880 : kanjiCount === 3 ? 820 : 780;
+  const maxCardWidth = kanjiCount >= 5 ? 1200 : kanjiCount === 4 ? 1100 : kanjiCount === 3 ? 1050 : 1000;
 
   /* Card transform: slide animation (front/back navigation) + flip */
   const slideAnim = slideDir === 'right'
@@ -685,9 +685,9 @@ const KanjiDetailModal = ({ words, initialIndex, onClose }) => {
         width: '100%',
         minHeight: 'calc(100vh - 80px)', // Account for navbar if any
         display: 'flex',
-        alignItems: 'center',
+        alignItems: 'flex-start',
         justifyContent: 'center',
-        padding: '20px 10px',
+        padding: '16px 4px',
         animation: 'overlayIn 0.3s ease forwards',
       }}
     >
@@ -717,7 +717,7 @@ const KanjiDetailModal = ({ words, initialIndex, onClose }) => {
         background: 'linear-gradient(145deg, #1b2642, #0f1a2e)',
         border: '1px solid rgba(255,255,255,0.07)',
         borderRadius: 24,
-        padding: '38px 30px 28px',
+        padding: '28px 24px 22px',
         boxShadow: '0 28px 70px rgba(0,0,0,0.65), 0 0 0 1px rgba(239,68,68,0.07)',
         boxSizing: 'border-box',
         position: 'relative',
@@ -792,8 +792,8 @@ const KanjiDetailModal = ({ words, initialIndex, onClose }) => {
             <div style={{ height: 1, background: 'rgba(255,255,255,0.06)', marginBottom: 18 }} />
 
             {/* Meaning + stroke boards */}
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 24, alignItems: 'flex-start', justifyContent: 'center' }}>
-              <div style={{ flex: '1 1 300px', minWidth: 260 }}>
+            <div style={{ display: 'flex', flexWrap: 'nowrap', gap: 20, alignItems: 'flex-start', justifyContent: 'flex-start' }}>
+              <div style={{ flex: '1 1 auto', minWidth: 0, overflow: 'hidden' }}>
                 <div style={{ marginBottom: 14 }}>
                   <div style={{ fontSize: '0.62rem', textTransform: 'uppercase', letterSpacing: '0.12em', color: 'var(--text-secondary)', marginBottom: 6 }}>Nghĩa</div>
                   <div style={{ fontSize: '1.15rem', fontWeight: 600, color: 'var(--success-color)', lineHeight: 1.45, overflowWrap: 'break-word' }}>{word.meaning}</div>
@@ -878,7 +878,7 @@ const KanjiDetailModal = ({ words, initialIndex, onClose }) => {
                 })()}
               </div>
               {word.kanji && (
-                <div style={{ flexShrink: 0 }}>
+                <div style={{ flexShrink: 0, maxWidth: '45%' }}>
                   <StrokeOrderDisplay key={`sod-${currentIndex}`} kanji={word.kanji} />
                 </div>
               )}
