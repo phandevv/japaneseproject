@@ -64,8 +64,8 @@ deploy_aws:
 
       echo "Found EC2 Instance ID: $INSTANCE_ID"
 
-      # Build the redeploy command (injects DEEPSEEK_API_KEY from GitLab CI/CD dynamically)
-      COMMAND="cd /home/ec2-user/app && aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com && docker-compose pull && DEEPSEEK_API_KEY=\"$DEEPSEEK_API_KEY\" docker-compose --env-file .env up -d --remove-orphans"
+      # Build the redeploy command (injects DEEPSEEK_API_KEY from GitLab CI/CD dynamically with single quotes to avoid breaking JSON)
+      COMMAND="cd /home/ec2-user/app && aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com && docker-compose pull && DEEPSEEK_API_KEY='$DEEPSEEK_API_KEY' docker-compose --env-file .env up -d --remove-orphans"
 
       aws ssm send-command \
         --document-name "AWS-RunShellScript" \
