@@ -57,7 +57,7 @@ gitGraph
    cd /home/ec2-user/app
    aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com
    docker-compose pull
-   docker-compose --env-file .env up -d --remove-orphans
+   DEEPSEEK_API_KEY="$DEEPSEEK_API_KEY" docker-compose --env-file .env up -d --remove-orphans
    ```
 4. SSM Agent trên EC2 nhận lệnh, kéo image mới từ ECR về, tắt container cũ và bật container mới mà không làm mất thời gian kết nối.
 
@@ -71,3 +71,4 @@ Các biến môi trường bắt buộc cần được thiết lập trong **Git
 * **`AWS_REGION`**: Khu vực AWS chứa dịch vụ của bạn (ví dụ: `ap-southeast-1`).
 * **`AWS_ACCESS_KEY_ID`**: Khóa truy cập IAM User có quyền truy cập ECR và gửi lệnh SSM.
 * **`AWS_SECRET_ACCESS_KEY`**: Khóa bí mật IAM User tương ứng.
+* **`DEEPSEEK_API_KEY`**: Khóa API của dịch vụ DeepSeek để phục vụ tính năng tự động làm giàu từ vựng khi deploy.
