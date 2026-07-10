@@ -64,8 +64,8 @@ deploy_aws:
 
       echo "Found EC2 Instance ID: $INSTANCE_ID"
 
-      # Build the redeploy command (cleans and appends DEEPSEEK_API_KEY to host's .env file)
-      COMMAND="cd /home/ec2-user/app && aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com && touch .env && sed -i '/^DEEPSEEK_API_KEY=/d' .env && echo 'DEEPSEEK_API_KEY='$DEEPSEEK_API_KEY >> .env && docker-compose pull && docker-compose --env-file .env up -d --remove-orphans"
+      # Build the redeploy command (update .env with secrets and pull latest images)
+      COMMAND="cd /home/ec2-user/app && aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com && touch .env && sed -i '/^DEEPSEEK_API_KEY=/d' .env && echo 'DEEPSEEK_API_KEY='$DEEPSEEK_API_KEY >> .env && sed -i '/^CORS_ORIGINS=/d' .env && echo 'CORS_ORIGINS=https://phandeptrai.id.vn' >> .env && docker-compose pull && docker-compose --env-file .env up -d --remove-orphans"
 
       aws ssm send-command \
         --document-name "AWS-RunShellScript" \
