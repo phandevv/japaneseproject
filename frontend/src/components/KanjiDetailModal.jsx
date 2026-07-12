@@ -577,6 +577,7 @@ const KanjiDetailModal = ({ words, initialIndex, onClose }) => {
   // Card flip state: 'front' | 'back'
   const [side, setSide]       = useState('front');
   const [flipping, setFlipping] = useState(false);
+  const [showSampleHint, setShowSampleHint] = useState(false);
 
   const overlayRef = useRef(null);
   const word = words[currentIndex];
@@ -585,7 +586,10 @@ const KanjiDetailModal = ({ words, initialIndex, onClose }) => {
   const [loadingEnrich, setLoadingEnrich] = useState(false);
 
   // Reset to front when navigating words
-  useEffect(() => { setSide('front'); }, [currentIndex]);
+  useEffect(() => { 
+    setSide('front'); 
+    setShowSampleHint(false);
+  }, [currentIndex]);
 
   useEffect(() => {
     if (!word) return;
@@ -833,9 +837,33 @@ const KanjiDetailModal = ({ words, initialIndex, onClose }) => {
                     boxSizing: 'border-box'
                   }}>
                     <h4 style={{ color: 'var(--accent-color)', marginBottom: '4px', fontSize: '0.8rem', fontWeight: '600' }}>Câu ví dụ:</h4>
-                    <p style={{ fontSize: '1.05rem', fontWeight: 'bold', color: 'var(--text-primary)', marginBottom: '2px', lineHeight: '1.35' }}>{enriched.sampleSentence}</p>
-                    <p style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', marginBottom: '4px', fontStyle: 'italic' }}>{enriched.sampleReading}</p>
-                    <p style={{ fontSize: '0.85rem', color: 'var(--success-color)', fontWeight: '500' }}>{enriched.sampleTranslation}</p>
+                    <p style={{ fontSize: '1.05rem', fontWeight: 'bold', color: 'var(--text-primary)', marginBottom: '4px', lineHeight: '1.35' }}>{enriched.sampleSentence}</p>
+                    {showSampleHint ? (
+                      <>
+                        <p style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', marginBottom: '4px', fontStyle: 'italic' }}>{enriched.sampleReading}</p>
+                        <p style={{ fontSize: '0.85rem', color: 'var(--success-color)', fontWeight: '500' }}>{enriched.sampleTranslation}</p>
+                      </>
+                    ) : (
+                      <button 
+                        onClick={() => setShowSampleHint(true)}
+                        style={{
+                          marginTop: '4px',
+                          background: 'rgba(255,255,255,0.06)',
+                          border: '1px solid rgba(255,255,255,0.1)',
+                          color: 'var(--text-secondary)',
+                          borderRadius: '4px',
+                          padding: '4px 10px',
+                          fontSize: '0.75rem',
+                          cursor: 'pointer',
+                          transition: 'all 0.2s',
+                          fontFamily: 'inherit'
+                        }}
+                        onMouseEnter={e => e.currentTarget.style.background = 'rgba(255,255,255,0.12)'}
+                        onMouseLeave={e => e.currentTarget.style.background = 'rgba(255,255,255,0.06)'}
+                      >
+                        Hiện cách đọc & nghĩa
+                      </button>
+                    )}
                   </div>
                 )}
 

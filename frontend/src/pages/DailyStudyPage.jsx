@@ -52,9 +52,11 @@ const DailyStudyPage = ({ level, stats, goBack }) => {
   // Quiz Word Enrichment
   const [quizWordEnriched, setQuizWordEnriched] = useState(null);
   const [loadingQuizEnrich, setLoadingQuizEnrich] = useState(false);
+  const [showSampleHint, setShowSampleHint] = useState(false);
 
   useEffect(() => {
     const currentWord = quizWords[quizIndex];
+    setShowSampleHint(false);
     if (phase !== 3 || !currentWord) {
       setQuizWordEnriched(null);
       return;
@@ -1154,9 +1156,32 @@ const DailyStudyPage = ({ level, stats, goBack }) => {
                   {quizWordEnriched && quizWordEnriched.sampleSentence && (
                     <div style={{ padding: '10px 12px', backgroundColor: 'rgba(255,255,255,0.05)', borderRadius: '6px', textAlign: 'left', fontSize: '0.9rem', marginBottom: '8px' }}>
                       <span style={{ color: 'var(--accent-color)', fontWeight: 'bold', display: 'block', marginBottom: '4px', fontSize: '0.8rem' }}>Câu ví dụ:</span>
-                      <span style={{ fontWeight: 'bold', color: 'var(--text-primary)', display: 'block', fontSize: '1rem', lineHeight: '1.3' }}>{quizWordEnriched.sampleSentence}</span>
-                      <span style={{ color: 'var(--text-secondary)', fontSize: '0.8rem', display: 'block', marginBottom: '2px', fontStyle: 'italic' }}>{quizWordEnriched.sampleReading}</span>
-                      <span style={{ color: 'var(--success-color)' }}>{quizWordEnriched.sampleTranslation}</span>
+                      <span style={{ fontWeight: 'bold', color: 'var(--text-primary)', display: 'block', fontSize: '1rem', lineHeight: '1.3', marginBottom: showSampleHint ? '2px' : '6px' }}>{quizWordEnriched.sampleSentence}</span>
+                      {showSampleHint ? (
+                        <>
+                          <span style={{ color: 'var(--text-secondary)', fontSize: '0.8rem', display: 'block', marginBottom: '2px', fontStyle: 'italic' }}>{quizWordEnriched.sampleReading}</span>
+                          <span style={{ color: 'var(--success-color)' }}>{quizWordEnriched.sampleTranslation}</span>
+                        </>
+                      ) : (
+                        <button 
+                          onClick={() => setShowSampleHint(true)}
+                          style={{
+                            background: 'rgba(255,255,255,0.06)',
+                            border: '1px solid rgba(255,255,255,0.1)',
+                            color: 'var(--text-secondary)',
+                            borderRadius: '4px',
+                            padding: '3px 8px',
+                            fontSize: '0.75rem',
+                            cursor: 'pointer',
+                            transition: 'all 0.2s',
+                            fontFamily: 'inherit'
+                          }}
+                          onMouseEnter={e => e.currentTarget.style.background = 'rgba(255,255,255,0.12)'}
+                          onMouseLeave={e => e.currentTarget.style.background = 'rgba(255,255,255,0.06)'}
+                        >
+                          Hiện cách đọc & nghĩa
+                        </button>
+                      )}
                     </div>
                   )}
 
@@ -1251,9 +1276,32 @@ const DailyStudyPage = ({ level, stats, goBack }) => {
                   {quizWordEnriched && quizWordEnriched.sampleSentence && (
                     <div style={{ padding: '10px 12px', backgroundColor: 'rgba(255,255,255,0.05)', borderRadius: '6px', textAlign: 'left', fontSize: '0.9rem', marginBottom: '8px' }}>
                       <span style={{ color: 'var(--accent-color)', fontWeight: 'bold', display: 'block', marginBottom: '4px', fontSize: '0.8rem' }}>Câu ví dụ:</span>
-                      <span style={{ fontWeight: 'bold', color: 'var(--text-primary)', display: 'block', fontSize: '1rem', lineHeight: '1.3' }}>{quizWordEnriched.sampleSentence}</span>
-                      <span style={{ color: 'var(--text-secondary)', fontSize: '0.8rem', display: 'block', marginBottom: '2px', fontStyle: 'italic' }}>{quizWordEnriched.sampleReading}</span>
-                      <span style={{ color: 'var(--success-color)' }}>{quizWordEnriched.sampleTranslation}</span>
+                      <span style={{ fontWeight: 'bold', color: 'var(--text-primary)', display: 'block', fontSize: '1rem', lineHeight: '1.3', marginBottom: showSampleHint ? '2px' : '6px' }}>{quizWordEnriched.sampleSentence}</span>
+                      {showSampleHint ? (
+                        <>
+                          <span style={{ color: 'var(--text-secondary)', fontSize: '0.8rem', display: 'block', marginBottom: '2px', fontStyle: 'italic' }}>{quizWordEnriched.sampleReading}</span>
+                          <span style={{ color: 'var(--success-color)' }}>{quizWordEnriched.sampleTranslation}</span>
+                        </>
+                      ) : (
+                        <button 
+                          onClick={() => setShowSampleHint(true)}
+                          style={{
+                            background: 'rgba(255,255,255,0.06)',
+                            border: '1px solid rgba(255,255,255,0.1)',
+                            color: 'var(--text-secondary)',
+                            borderRadius: '4px',
+                            padding: '3px 8px',
+                            fontSize: '0.75rem',
+                            cursor: 'pointer',
+                            transition: 'all 0.2s',
+                            fontFamily: 'inherit'
+                          }}
+                          onMouseEnter={e => e.currentTarget.style.background = 'rgba(255,255,255,0.12)'}
+                          onMouseLeave={e => e.currentTarget.style.background = 'rgba(255,255,255,0.06)'}
+                        >
+                          Hiện cách đọc & nghĩa
+                        </button>
+                      )}
                     </div>
                   )}
 
