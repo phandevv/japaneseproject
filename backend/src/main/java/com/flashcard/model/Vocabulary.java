@@ -1,5 +1,6 @@
 package com.flashcard.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import org.hibernate.search.mapper.pojo.mapping.definition.annotation.FullTextField;
 import org.hibernate.search.mapper.pojo.mapping.definition.annotation.Indexed;
@@ -8,6 +9,7 @@ import org.hibernate.search.mapper.pojo.mapping.definition.annotation.KeywordFie
 @Entity
 @Indexed
 @Table(name = "vocabulary")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Vocabulary {
 
     @Id
