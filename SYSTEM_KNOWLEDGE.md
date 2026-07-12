@@ -194,7 +194,10 @@ graph TD
     subgraph AWS Cloud
         EC2 -->|Docker Compose Pull| ECR
         EC2 -->|Connects via VPC Security Groups| RDS[AWS RDS MySQL Database]
-        Nginx[Nginx Reverse Proxy] -->|Forwards Port 80 to 8080| EC2
+    subgraph AWS Cloud
+        EC2 -->|Docker Compose Pull| ECR
+        EC2 -->|Connects via VPC Security Groups| RDS[AWS RDS MySQL Database]
+        Nginx[Nginx Reverse Proxy on Host] -->|HTTPS 443 proxy to local ports| EC2
     end
 ```
 
@@ -207,8 +210,18 @@ graph TD
    * Gửi lệnh triển khai từ xa thông qua **AWS Systems Manager (SSM) Agent** chạy trên EC2:
      * Truy cập thư mục `/home/ec2-user/app`.
      * Đăng nhập ECR, thực hiện kéo (`docker-compose pull`) các Image mới nhất.
+     * Cập nhật động biến môi trường `DEEPSEEK_API_KEY` và `CORS_ORIGINS=https://phandeptrai.id.vn` vào file `.env`.
      * Khởi động lại container bằng tệp sản xuất: `docker-compose --env-file .env up -d --remove-orphans`.
    * Nhờ sử dụng SSM Agent, cổng SSH (port 22) trên EC2 hoàn toàn có thể đóng lại, giúp hệ thống an toàn trước các cuộc tấn công quét cổng SSH.
+
+### Cấu hình HTTPS và Nginx Reverse Proxy
+Hệ thống sử dụng **Nginx được cài đặt trực tiếp trên Host EC2** để quản lý lưu lượng và chứng chỉ SSL:
+* **HTTPS**: Sử dụng chứng chỉ SSL Let's Encrypt cấp miễn phí cho tên miền `phandeptrai.id.vn`, tự động gia hạn 12h/lần qua systemd timer.
+* **HTTP Redirect**: Tự động chuyển tiếp toàn bộ yêu cầu HTTP (cổng 80) và truy cập bằng địa chỉ IP trực tiếp (`http://100.53.226.133`) về tên miền chính thức `https://phandeptrai.id.vn`.
+* **Cổng Chuyển Tiếp**:
+  * Frontend React: được map sang cổng `3000:80` để Nginx proxy pass nội bộ từ cổng 443.
+  * Backend API: proxy pass nội bộ sang cổng `8080`.
+* **Tránh Trình Duyệt Cache Stale JS**: Cấu hình Header `Cache-Control` đặc biệt của Nginx không cho phép trình duyệt cache tệp `index.html`, từ đó luôn cập nhật các asset JS/CSS mới nhất sau mỗi đợt deploy.
 
 ---
 
@@ -233,18 +246,18 @@ Dưới đây là một số API RESTful chính được công bố trên backen
   * `GET /api/vocab/level/{level}?page={page}&size={size}`: Lấy danh sách từ vựng phân trang theo cấp độ.
   * `GET /api/vocab/search?query={text}`: Tìm kiếm từ vựng theo Kanji, Kana, Romaji hoặc nghĩa tiếng Việt.
   * `POST /api/vocab/import`: Admin upload file Excel để import thêm từ vựng mới.
-  * `POST /api/vocab/{id}/enrich`: Gọi DeepSeek AI để làm giàu ví dụ và từ liên quan Kanji cho từ vựng (lazy-loading).
+  * `POST /api/vocab/{id}/enrich`: Gọi DeepSeek AI để làm giàu ví dụ và từ liên quan Kanji cho từ vựng. Câu ví dụ được tạo tự động tương ứng với cấp độ ngữ pháp JLPT (N5 -> N1) của từ đó.
 
 ---
 
 ## 9. Đánh Giá Ưu Điểm & Nhược Điểm
 
 ### Ưu Điểm (Pros)
-* **Bảo mật và Hiệu Năng**: Hệ thống Stateless sử dụng JWT không lưu session trên RAM. Giới hạn yêu cầu bằng Bucket4j chặn Brute-force hiệu quả.
+* **Bảo mật và Hiệu Năng**: Hệ thống Stateless sử dụng JWT không lưu session trên RAM. Giới hạn yêu cầu bằng Bucket4j chặn Brute-force hiệu quả. HTTPS/SSL được chứng thực hoàn thiện, CORS cấu hình chặt chẽ.
 * **Tốc độ Triển Khai**: Quá trình CI/CD hoàn toàn tự động hóa. Đẩy code lên nhánh `main` sẽ cập nhật trực tiếp lên AWS chỉ sau chưa đầy 1 phút.
 * **Tách biệt Dữ liệu**: Ứng dụng chạy trên container EC2 tách rời khỏi AWS RDS MySQL, đảm bảo nâng cấp hoặc xóa container ứng dụng không bao giờ làm mất dữ liệu người dùng.
 
 ### Nhược Điểm & Hướng Khắc Phục (Cons & Roadmap)
 * **Từ đồng nghĩa tĩnh (Static Thesaurus)**: Hiện tại, danh sách từ đồng nghĩa tiếng Việt đang lưu ở mảng tĩnh frontend. Cần chuyển về lưu trong database (bảng `synonyms`) để admin quản lý trực tiếp qua giao diện admin.
-* **Giao thức HTTP thường**: Hệ thống truy cập trực tiếp qua IP EC2 và chưa được cấu hình tên miền SSL. Cần trỏ tên miền (domain) về EC2 và tích hợp **Certbot / Let's Encrypt** trên Nginx để chạy HTTPS an toàn.
 * **Tính năng Thu Phí (SaaS Billing)**: Hệ thống chưa phân quyền gói dịch vụ. Hướng đi tiếp theo là tích hợp các cổng thanh toán trực tuyến (PayOS, Momo, Stripe) để giới hạn số từ học mỗi ngày đối với gói Free.
+
