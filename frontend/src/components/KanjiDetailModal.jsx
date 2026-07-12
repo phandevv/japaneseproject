@@ -46,26 +46,26 @@ const KanjiBoard = ({ strokes, doneCount, currentIdx, animKey, size, isActive, o
   return (
     <div style={{
       width: box, height: box,
-      background: 'rgba(255,255,255,0.04)', borderRadius: 14,
-      border: `1px solid ${isActive ? 'rgba(239,68,68,0.35)' : 'rgba(255,255,255,0.08)'}`,
+      background: 'var(--surface-hover)', borderRadius: 14,
+      border: `1px solid ${isActive ? 'var(--accent-color)' : 'var(--border-color)'}`,
       display: 'flex', alignItems: 'center', justifyContent: 'center',
       position: 'relative', overflow: 'hidden', flexShrink: 0,
       transition: 'border-color 0.3s',
     }}>
-      <svg width={box} height={box} style={{ position: 'absolute', inset: 0, opacity: 0.1, pointerEvents: 'none' }}>
-        <line x1={box/2} y1="0"    x2={box/2} y2={box}   stroke="white" strokeWidth="1"   strokeDasharray="4 4" />
-        <line x1="0"     y1={box/2} x2={box}   y2={box/2} stroke="white" strokeWidth="1"   strokeDasharray="4 4" />
-        <line x1="0"     y1="0"    x2={box}    y2={box}   stroke="white" strokeWidth="0.5" strokeDasharray="3 6" />
-        <line x1={box}   y1="0"    x2="0"      y2={box}   stroke="white" strokeWidth="0.5" strokeDasharray="3 6" />
+      <svg width={box} height={box} style={{ position: 'absolute', inset: 0, opacity: 0.25, pointerEvents: 'none' }}>
+        <line x1={box/2} y1="0"    x2={box/2} y2={box}   stroke="var(--text-secondary)" strokeWidth="1"   strokeDasharray="4 4" />
+        <line x1="0"     y1={box/2} x2={box}   y2={box/2} stroke="var(--text-secondary)" strokeWidth="1"   strokeDasharray="4 4" />
+        <line x1="0"     y1="0"    x2={box}    y2={box}   stroke="var(--text-secondary)" strokeWidth="0.5" strokeDasharray="3 6" />
+        <line x1={box}   y1="0"    x2="0"      y2={box}   stroke="var(--text-secondary)" strokeWidth="0.5" strokeDasharray="3 6" />
       </svg>
       {total > 0 ? (
         <svg viewBox="0 0 109 109" width={size} height={size} style={{ position: 'relative', zIndex: 1 }}>
           {strokes.map((d, i) => (
-            <path key={`g${i}`} d={d} fill="none" stroke="rgba(255,255,255,0.08)"
+            <path key={`g${i}`} d={d} fill="none" stroke="var(--border-color)"
               strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
           ))}
           {strokes.slice(0, whiteUpTo).map((d, i) => (
-            <path key={`w${i}`} d={d} fill="none" stroke="rgba(248,250,252,0.88)"
+            <path key={`w${i}`} d={d} fill="none" stroke="var(--text-primary)"
               strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round" />
           ))}
           {showAnim && (
@@ -502,11 +502,11 @@ const KanjiPracticeCanvas = ({ word, onBack }) => {
         <button onClick={clearCanvas} style={{
           display: 'flex', alignItems: 'center', gap: 5,
           padding: '7px 14px', borderRadius: 20, fontSize: '0.78rem',
-          background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.12)',
+          background: 'var(--surface-color)', border: '1px solid var(--border-color)',
           color: 'var(--text-secondary)', cursor: 'pointer', transition: 'all 0.2s',
         }}
-          onMouseEnter={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.12)'; e.currentTarget.style.color = 'white'; }}
-          onMouseLeave={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.06)'; e.currentTarget.style.color = 'var(--text-secondary)'; }}
+          onMouseEnter={e => { e.currentTarget.style.background = 'var(--surface-hover)'; e.currentTarget.style.color = 'var(--text-primary)'; }}
+          onMouseLeave={e => { e.currentTarget.style.background = 'var(--surface-color)'; e.currentTarget.style.color = 'var(--text-secondary)'; }}
         >
           <Eraser size={13} /> Xóa
         </button>
@@ -515,11 +515,11 @@ const KanjiPracticeCanvas = ({ word, onBack }) => {
         <button onClick={onBack} style={{
           display: 'flex', alignItems: 'center', gap: 5,
           padding: '7px 14px', borderRadius: 20, fontSize: '0.78rem',
-          background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.12)',
+          background: 'var(--surface-color)', border: '1px solid var(--border-color)',
           color: 'var(--text-secondary)', cursor: 'pointer', transition: 'all 0.2s',
         }}
-          onMouseEnter={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.12)'; e.currentTarget.style.color = 'white'; }}
-          onMouseLeave={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.06)'; e.currentTarget.style.color = 'var(--text-secondary)'; }}
+          onMouseEnter={e => { e.currentTarget.style.background = 'var(--surface-hover)'; e.currentTarget.style.color = 'var(--text-primary)'; }}
+          onMouseLeave={e => { e.currentTarget.style.background = 'var(--surface-color)'; e.currentTarget.style.color = 'var(--text-secondary)'; }}
         >
           <RotateCcw size={13} /> Quay lại
         </button>
@@ -558,7 +558,7 @@ const KanjiPracticeCanvas = ({ word, onBack }) => {
       )}
 
       {/* Answer reveal */}
-      <div style={{ fontSize: '0.7rem', color: 'rgba(255,255,255,0.22)', textAlign: 'center' }}>
+      <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)', textAlign: 'center' }}>
         Vẽ kanji vào khung · Hint hiển thị kanji mờ làm mẫu
       </div>
     </div>
@@ -717,12 +717,11 @@ const KanjiDetailModal = ({ words, initialIndex, onClose }) => {
         margin: '0 auto',
         width: '100%',
         maxWidth: maxCardWidth,
-        // Remove 94vw/94vh limits because it's no longer a modal, it's a normal page block
-        background: 'linear-gradient(145deg, #1b2642, #0f1a2e)',
-        border: '1px solid rgba(255,255,255,0.07)',
+        background: 'var(--surface-color)',
+        border: '1px solid var(--border-color)',
         borderRadius: 24,
         padding: '28px 24px 22px',
-        boxShadow: '0 28px 70px rgba(0,0,0,0.65), 0 0 0 1px rgba(239,68,68,0.07)',
+        boxShadow: 'var(--shadow-xl)',
         boxSizing: 'border-box',
         position: 'relative',
       }}>
@@ -731,12 +730,12 @@ const KanjiDetailModal = ({ words, initialIndex, onClose }) => {
         <button onClick={onClose} style={{
           position: 'absolute', top: 14, right: 14,
           width: 34, height: 34, borderRadius: '50%', border: 'none',
-          background: 'rgba(255,255,255,0.08)', color: 'var(--text-secondary)',
+          background: 'var(--surface-hover)', color: 'var(--text-secondary)',
           display: 'flex', alignItems: 'center', justifyContent: 'center',
           cursor: 'pointer', transition: 'all 0.2s',
         }}
-          onMouseEnter={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.16)'; e.currentTarget.style.color = '#fff'; }}
-          onMouseLeave={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.08)'; e.currentTarget.style.color = 'var(--text-secondary)'; }}
+          onMouseEnter={e => { e.currentTarget.style.background = 'var(--border-color)'; e.currentTarget.style.color = 'var(--text-primary)'; }}
+          onMouseLeave={e => { e.currentTarget.style.background = 'var(--surface-hover)'; e.currentTarget.style.color = 'var(--text-secondary)'; }}
         >
           <X size={17} />
         </button>
@@ -749,7 +748,7 @@ const KanjiDetailModal = ({ words, initialIndex, onClose }) => {
               {words.map((_, i) => (
                 <div key={i} onClick={() => !isSliding && setCurrentIndex(i)} style={{
                   width: i === currentIndex ? 20 : 6, height: 6, borderRadius: 3,
-                  background: i === currentIndex ? 'var(--accent-color)' : 'rgba(255,255,255,0.14)',
+                  background: i === currentIndex ? 'var(--accent-color)' : 'var(--border-color)',
                   transition: 'all 0.3s', cursor: 'pointer', flexShrink: 0,
                 }} />
               ))}
@@ -776,7 +775,7 @@ const KanjiDetailModal = ({ words, initialIndex, onClose }) => {
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, marginTop: 5, flexWrap: 'wrap' }}>
                 <span className="level-badge">{word.level}</span>
                 {word.wordType && (
-                  <span style={{ fontSize: '0.75rem', padding: '3px 10px', borderRadius: 20, background: 'rgba(255,255,255,0.06)', color: 'var(--text-secondary)', border: '1px solid rgba(255,255,255,0.1)' }}>
+                  <span style={{ fontSize: '0.75rem', padding: '3px 10px', borderRadius: 20, background: 'var(--surface-hover)', color: 'var(--text-secondary)', border: '1px solid var(--border-color)' }}>
                     {word.wordType}
                   </span>
                 )}
@@ -805,7 +804,7 @@ const KanjiDetailModal = ({ words, initialIndex, onClose }) => {
                 {word.hanViet && (
                   <div>
                     <div style={{ fontSize: '0.62rem', textTransform: 'uppercase', letterSpacing: '0.12em', color: 'var(--text-secondary)', marginBottom: 6 }}>Hán Việt</div>
-                    <div style={{ fontSize: '1rem', fontWeight: 500, color: 'rgba(248,250,252,0.75)', overflowWrap: 'break-word' }}>【{word.hanViet}】</div>
+                    <div style={{ fontSize: '1rem', fontWeight: 500, color: 'var(--text-primary)', overflowWrap: 'break-word' }}>【{word.hanViet}】</div>
                   </div>
                 )}
 
@@ -817,7 +816,7 @@ const KanjiDetailModal = ({ words, initialIndex, onClose }) => {
                     fontSize: '0.75rem', 
                     fontStyle: 'italic',
                     padding: '8px',
-                    backgroundColor: 'rgba(255,255,255,0.03)',
+                    backgroundColor: 'var(--surface-hover)',
                     borderRadius: '6px',
                     textAlign: 'left'
                   }}>
@@ -831,7 +830,7 @@ const KanjiDetailModal = ({ words, initialIndex, onClose }) => {
                     padding: '10px 12px', 
                     width: '100%', 
                     textAlign: 'left', 
-                    backgroundColor: 'rgba(255,255,255,0.03)', 
+                    backgroundColor: 'var(--surface-hover)', 
                     borderRadius: '8px',
                     borderLeft: '3px solid var(--accent-color)',
                     boxSizing: 'border-box'
@@ -848,8 +847,8 @@ const KanjiDetailModal = ({ words, initialIndex, onClose }) => {
                         onClick={() => setShowSampleHint(true)}
                         style={{
                           marginTop: '4px',
-                          background: 'rgba(255,255,255,0.06)',
-                          border: '1px solid rgba(255,255,255,0.1)',
+                          background: 'var(--surface-color)',
+                          border: '1px solid var(--border-color)',
                           color: 'var(--text-secondary)',
                           borderRadius: '4px',
                           padding: '4px 10px',
@@ -858,8 +857,8 @@ const KanjiDetailModal = ({ words, initialIndex, onClose }) => {
                           transition: 'all 0.2s',
                           fontFamily: 'inherit'
                         }}
-                        onMouseEnter={e => e.currentTarget.style.background = 'rgba(255,255,255,0.12)'}
-                        onMouseLeave={e => e.currentTarget.style.background = 'rgba(255,255,255,0.06)'}
+                        onMouseEnter={e => e.currentTarget.style.background = 'var(--surface-hover)'}
+                        onMouseLeave={e => e.currentTarget.style.background = 'var(--surface-color)'}
                       >
                         Hiện cách đọc & nghĩa
                       </button>
@@ -885,7 +884,7 @@ const KanjiDetailModal = ({ words, initialIndex, onClose }) => {
                         padding: '10px 12px', 
                         width: '100%', 
                         textAlign: 'left', 
-                        backgroundColor: 'rgba(255,255,255,0.03)', 
+                        backgroundColor: 'var(--surface-hover)', 
                         borderRadius: '8px',
                         borderLeft: '3px solid var(--success-color)',
                         boxSizing: 'border-box'
@@ -893,7 +892,7 @@ const KanjiDetailModal = ({ words, initialIndex, onClose }) => {
                         <h4 style={{ color: 'var(--success-color)', marginBottom: '6px', fontSize: '0.8rem', fontWeight: '600' }}>Kanji liên quan:</h4>
                         <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
                           {relatedWords.map((item, idx) => (
-                            <div key={idx} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '0.8rem', borderBottom: idx < relatedWords.length - 1 ? '1px dashed rgba(255,255,255,0.05)' : 'none', paddingBottom: idx < relatedWords.length - 1 ? '4px' : '0' }}>
+                            <div key={idx} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '0.8rem', borderBottom: idx < relatedWords.length - 1 ? '1px dashed var(--border-color)' : 'none', paddingBottom: idx < relatedWords.length - 1 ? '4px' : '0' }}>
                               <span style={{ fontWeight: 'bold', color: 'var(--text-primary)' }}>{item.word} ({item.reading})</span>
                               <span style={{ color: 'var(--text-secondary)', fontSize: '0.75rem' }}>{item.meaning}</span>
                             </div>
@@ -919,15 +918,15 @@ const KanjiDetailModal = ({ words, initialIndex, onClose }) => {
                 style={{
                   display: 'flex', alignItems: 'center', gap: 8,
                   padding: '10px 28px', borderRadius: 50, fontSize: '0.9rem', fontWeight: 700,
-                  background: 'linear-gradient(135deg, rgba(239,68,68,0.18), rgba(239,68,68,0.08))',
-                  border: '1.5px solid rgba(239,68,68,0.4)',
+                  background: 'var(--accent-light)',
+                  border: '1.5px solid rgba(37,99,235,0.4)',
                   color: 'var(--accent-color)', cursor: 'pointer',
                   transition: 'all 0.25s',
-                  boxShadow: '0 4px 16px rgba(239,68,68,0.15)',
+                  boxShadow: '0 2px 8px rgba(37,99,235,0.15)',
                   letterSpacing: '0.02em',
                 }}
-                onMouseEnter={e => { e.currentTarget.style.background = 'linear-gradient(135deg, rgba(239,68,68,0.28), rgba(239,68,68,0.15))'; e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 8px 24px rgba(239,68,68,0.25)'; }}
-                onMouseLeave={e => { e.currentTarget.style.background = 'linear-gradient(135deg, rgba(239,68,68,0.18), rgba(239,68,68,0.08))'; e.currentTarget.style.transform = 'none'; e.currentTarget.style.boxShadow = '0 4px 16px rgba(239,68,68,0.15)'; }}
+                onMouseEnter={e => { e.currentTarget.style.background = 'var(--surface-hover)'; e.currentTarget.style.transform = 'translateY(-2px)'; }}
+                onMouseLeave={e => { e.currentTarget.style.background = 'var(--accent-light)'; e.currentTarget.style.transform = 'none'; }}
               >
                 <PenLine size={16} /> 練習する
               </button>
@@ -937,33 +936,32 @@ const KanjiDetailModal = ({ words, initialIndex, onClose }) => {
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: 20, gap: 8 }}>
               <button onClick={goPrev} disabled={currentIndex === 0 || isSliding} style={{
                 display: 'flex', alignItems: 'center', gap: 6, padding: '8px 16px', borderRadius: 12, fontSize: '0.85rem', fontWeight: 600,
-                background: currentIndex === 0 ? 'rgba(255,255,255,0.02)' : 'rgba(255,255,255,0.07)',
-                border: '1px solid rgba(255,255,255,0.1)',
-                color: currentIndex === 0 ? 'rgba(255,255,255,0.2)' : 'var(--text-primary)',
+                background: 'var(--surface-color)',
+                border: '1px solid var(--border-color)',
+                color: currentIndex === 0 ? 'var(--text-muted)' : 'var(--text-primary)',
                 cursor: currentIndex === 0 ? 'not-allowed' : 'pointer', transition: 'all 0.2s', flexShrink: 0,
               }}
-                onMouseEnter={e => { if (currentIndex > 0) e.currentTarget.style.background = 'rgba(255,255,255,0.13)'; }}
-                onMouseLeave={e => { if (currentIndex > 0) e.currentTarget.style.background = 'rgba(255,255,255,0.07)'; }}
+                onMouseEnter={e => { if (currentIndex > 0) e.currentTarget.style.background = 'var(--surface-hover)'; }}
+                onMouseLeave={e => { if (currentIndex > 0) e.currentTarget.style.background = 'var(--surface-color)'; }}
               >
                 <ChevronLeft size={16} /> Trước
               </button>
               <span style={{ fontSize: '0.82rem', color: 'var(--text-secondary)', flexShrink: 0 }}>{currentIndex + 1} / {words.length}</span>
               <button onClick={goNext} disabled={currentIndex === words.length - 1 || isSliding} style={{
                 display: 'flex', alignItems: 'center', gap: 6, padding: '8px 16px', borderRadius: 12, fontSize: '0.85rem', fontWeight: 600,
-                background: currentIndex === words.length - 1 ? 'rgba(255,255,255,0.02)' : 'var(--accent-color)',
-                border: 'none',
-                color: currentIndex === words.length - 1 ? 'rgba(255,255,255,0.2)' : 'white',
+                background: currentIndex === words.length - 1 ? 'var(--surface-hover)' : 'var(--accent-color)',
+                border: currentIndex === words.length - 1 ? '1px solid var(--border-color)' : 'none',
+                color: currentIndex === words.length - 1 ? 'var(--text-muted)' : 'white',
                 cursor: currentIndex === words.length - 1 ? 'not-allowed' : 'pointer',
-                boxShadow: currentIndex !== words.length - 1 ? '0 4px 12px rgba(239,68,68,0.4)' : 'none',
                 transition: 'all 0.2s', flexShrink: 0,
               }}
-                onMouseEnter={e => { if (currentIndex < words.length - 1) { e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 6px 18px rgba(239,68,68,0.5)'; } }}
-                onMouseLeave={e => { e.currentTarget.style.transform = 'none'; e.currentTarget.style.boxShadow = currentIndex !== words.length - 1 ? '0 4px 12px rgba(239,68,68,0.4)' : 'none'; }}
+                onMouseEnter={e => { if (currentIndex < words.length - 1) { e.currentTarget.style.background = 'var(--accent-hover)'; } }}
+                onMouseLeave={e => { if (currentIndex < words.length - 1) { e.currentTarget.style.background = 'var(--accent-color)'; } }}
               >
                 Tiếp <ChevronRight size={16} />
               </button>
             </div>
-            <div style={{ textAlign: 'center', marginTop: 12, fontSize: '0.65rem', color: 'rgba(255,255,255,0.16)' }}>
+            <div style={{ textAlign: 'center', marginTop: 12, fontSize: '0.65rem', color: 'var(--text-muted)' }}>
               ← → để chuyển · Esc để đóng · 練習する để viết
             </div>
           </>

@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import Navbar from './components/Navbar';
-import Footer from './components/Footer';
+import Sidebar from './components/Sidebar';
 import HomePage from './pages/HomePage';
 import FlashcardPage from './pages/FlashcardPage';
 import SearchPage from './pages/SearchPage';
@@ -162,10 +161,11 @@ function App() {
   };
 
   return (
-    <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
-      <Navbar
-        setCurrentPage={(page) => {
-          if (page === 'flashcard' || page === 'daily') {
+    <div className="app-layout">
+      <Sidebar
+        currentPage={currentPage}
+        setCurrentPage={(page, resetLevel) => {
+          if (resetLevel || page === 'flashcard' || page === 'daily') {
             setSelectedLevel(null);
           }
           setCurrentPage(page);
@@ -175,10 +175,9 @@ function App() {
         onLogout={handleLogout}
         onProfileClick={() => setShowProfileModal(true)}
       />
-      <main style={{ flex: 1 }}>
+      <main className="app-main">
         {renderPage()}
       </main>
-      <Footer />
       {showProfileModal && <ProfileModal onClose={() => setShowProfileModal(false)} />}
     </div>
   );

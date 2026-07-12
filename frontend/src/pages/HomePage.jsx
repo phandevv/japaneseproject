@@ -148,11 +148,11 @@ const HomePage = ({ startStudy, streak, onLoginClick, onLogout, onAdminClick, on
 
     // Colors mapping helper
     const getCellColor = (words) => {
-      if (words === 0) return 'var(--surface-hover)';
-      if (words <= 5) return '#0e4429';
-      if (words <= 15) return '#006d32';
-      if (words <= 30) return '#26a641';
-      return '#39d353';
+      if (words === 0) return 'var(--border-color)';
+      if (words <= 5) return '#bfdbfe';
+      if (words <= 15) return '#60a5fa';
+      if (words <= 30) return '#2563eb';
+      return '#1d4ed8';
     };
 
     // Row headers (Sun, Mon, Tue, Wed, Thu, Fri, Sat)
@@ -292,131 +292,84 @@ const HomePage = ({ startStudy, streak, onLoginClick, onLogout, onAdminClick, on
     <div className="home-page">
       {user ? (
         // Logged-in Dashboard Workspace
-        <div className="container animate-fade-in" style={{ padding: '40px 20px' }}>
-          {/* Streak / Login Banner */}
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '16px', marginBottom: '24px', padding: '18px 22px', borderRadius: '18px', background: 'linear-gradient(135deg, rgba(239, 68, 68, 0.14), rgba(14, 165, 233, 0.12))', border: '1px solid var(--border-color)' }}>
-            <div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '6px', color: 'var(--accent-color)' }}>
-                <Sparkles size={18} />
-                <strong>{t.home.streakTitle}</strong>
-              </div>
-              <p style={{ margin: 0, color: 'var(--text-secondary)' }}>
-                {t.home.streakMsg(user.username, dashboardData?.streak !== undefined ? dashboardData.streak : (streak || 0))}
-              </p>
-            </div>
-            <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
-              {dashboardData?.streakFrozenToday ? (
-                <div style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '6px',
-                  padding: '8px 16px',
-                  borderRadius: '12px',
-                  backgroundColor: 'rgba(6, 182, 212, 0.15)',
-                  border: '1px solid rgba(6, 182, 212, 0.4)',
-                  color: '#06b6d4',
-                  fontSize: '0.85rem',
-                  fontWeight: 600
-                }}>
-                  <Snowflake size={15} /> Đang giữ chuỗi ❄️
+        <div className="dashboard-wrapper animate-fade-in">
+          {/* Streak Banner */}
+          <div className="streak-banner">
+            <div className="streak-info">
+              <span className="streak-fire">🔥</span>
+              <div>
+                <div className="streak-title">{t.home.streakTitle}</div>
+                <div className="streak-sub">
+                  {t.home.streakMsg(user.displayName || user.username, dashboardData?.streak !== undefined ? dashboardData.streak : (streak || 0))}
                 </div>
+              </div>
+            </div>
+            <div className="streak-actions">
+              {dashboardData?.streakFrozenToday ? (
+                <span className="streak-freeze-btn" style={{ background: 'rgba(6,182,212,0.2)', borderColor: 'rgba(6,182,212,0.5)' }}>
+                  <Snowflake size={14} /> Đang giữ chuỗi ❄️
+                </span>
               ) : (
-                <button 
-                  className="btn btn-secondary" 
-                  style={{ display: 'flex', alignItems: 'center', gap: '6px', borderColor: 'rgba(59, 130, 246, 0.4)', color: '#3b82f6' }}
-                  onClick={handleActivateFreeze}
-                >
-                  <Snowflake size={16} /> Giữ chuỗi
+                <button className="streak-freeze-btn" onClick={handleActivateFreeze}>
+                  <Snowflake size={14} /> Giữ chuỗi
                 </button>
               )}
-              {isAdmin && (
-                <button className="btn btn-secondary" style={{ borderColor: 'var(--warning-color)', color: 'var(--warning-color)' }} onClick={onAdminClick}>
-                  <ShieldAlert size={18} /> Quản lý từ vựng
-                </button>
-              )}
-              <button className="btn btn-secondary" onClick={onLogout}>
-                {t.home.logout}
-              </button>
             </div>
           </div>
 
           {/* SRS Dashboard for Logged-In Users */}
           {dashboardData && (
-            <div style={{ marginBottom: '32px' }}>
-              <div className="grid grid-cols-4" style={{ gap: '16px' }}>
-                <div className="card" style={{ display: 'flex', alignItems: 'center', gap: '16px', padding: '20px' }}>
-                  <div style={{ padding: '12px', borderRadius: '12px', backgroundColor: 'rgba(239, 68, 68, 0.15)', color: 'var(--accent-color)' }}>
-                    <Brain size={24} />
-                  </div>
-                  <div>
-                    <div style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>Cần ôn hôm nay</div>
-                    <div style={{ fontSize: '1.8rem', fontWeight: 700, color: 'var(--text-primary)' }}>{dashboardData.dueCount}</div>
-                  </div>
-                </div>
-                
-                <div className="card" style={{ display: 'flex', alignItems: 'center', gap: '16px', padding: '20px' }}>
-                  <div style={{ padding: '12px', borderRadius: '12px', backgroundColor: 'rgba(59, 130, 246, 0.15)', color: '#3b82f6' }}>
-                    <Play size={24} />
-                  </div>
-                  <div>
-                    <div style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>Đã học hôm nay</div>
-                    <div style={{ fontSize: '1.8rem', fontWeight: 700, color: 'var(--text-primary)' }}>{dashboardData.wordsStudiedToday || 0}</div>
+            <div style={{ marginBottom: '24px' }}>
+              {/* Stats Grid */}
+              <div className="stats-grid">
+                <div className="stat-card-inner">
+                  <div className="stat-card-icon" style={{ background: 'rgba(37,99,235,0.1)', color: 'var(--accent-color)' }}><Brain size={20} /></div>
+                  <div className="stat-card-text">
+                    <div className="stat-name">Cần ôn hôm nay</div>
+                    <div className="stat-number">{dashboardData.dueCount}</div>
                   </div>
                 </div>
-
-                <div className="card" style={{ display: 'flex', alignItems: 'center', gap: '16px', padding: '20px' }}>
-                  <div style={{ padding: '12px', borderRadius: '12px', backgroundColor: 'rgba(16, 185, 129, 0.15)', color: 'var(--success-color)' }}>
-                    <CheckCircle2 size={24} />
-                  </div>
-                  <div>
-                    <div style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>Tổng số từ đã học</div>
-                    <div style={{ fontSize: '1.8rem', fontWeight: 700, color: 'var(--text-primary)' }}>{dashboardData.learnedCount}</div>
+                <div className="stat-card-inner">
+                  <div className="stat-card-icon" style={{ background: 'rgba(16,185,129,0.1)', color: 'var(--success-color)' }}><Play size={20} /></div>
+                  <div className="stat-card-text">
+                    <div className="stat-name">Đã học hôm nay</div>
+                    <div className="stat-number">{dashboardData.wordsStudiedToday || 0}</div>
                   </div>
                 </div>
-
-                <div className="card" style={{ display: 'flex', alignItems: 'center', gap: '16px', padding: '20px' }}>
-                  <div style={{ padding: '12px', borderRadius: '12px', backgroundColor: 'rgba(6, 182, 212, 0.15)', color: '#06b6d4' }}>
-                    <Users size={24} />
+                <div className="stat-card-inner">
+                  <div className="stat-card-icon" style={{ background: 'rgba(16,185,129,0.1)', color: 'var(--success-color)' }}><CheckCircle2 size={20} /></div>
+                  <div className="stat-card-text">
+                    <div className="stat-name">Tổng đã học</div>
+                    <div className="stat-number">{dashboardData.learnedCount}</div>
                   </div>
-                  <div>
-                    <div style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>Đang online</div>
-                    <div style={{ fontSize: '1.8rem', fontWeight: 700, color: 'var(--text-primary)' }}>
-                      {dashboardData.onlineCount || 1}/{dashboardData.totalUsers || 1}
-                    </div>
+                </div>
+                <div className="stat-card-inner">
+                  <div className="stat-card-icon" style={{ background: 'rgba(6,182,212,0.1)', color: '#06b6d4' }}><Users size={20} /></div>
+                  <div className="stat-card-text">
+                    <div className="stat-name">Đang online</div>
+                    <div className="stat-number">{dashboardData.onlineCount || 1}/{dashboardData.totalUsers || 1}</div>
                   </div>
                 </div>
               </div>
 
-              <div className="card" style={{ 
-                marginTop: '16px', 
-                padding: '18px 24px', 
-                display: 'flex', 
-                justifyContent: 'space-between', 
-                alignItems: 'center',
-                backgroundColor: 'rgba(239, 68, 68, 0.08)',
-                borderColor: 'rgba(239, 68, 68, 0.3)'
-              }}>
-                <div>
-                  <h4 style={{ margin: 0, fontSize: '1.1rem' }}>Hệ thống Ôn tập Ngắt quãng (SRS)</h4>
-                  <p style={{ margin: '4px 0 0 0', color: 'var(--text-secondary)', fontSize: '0.9rem' }}>
-                    {dashboardData.dueCount > 0 
-                      ? `Bạn có ${dashboardData.dueCount} từ cần ôn tập. Hãy luyện tập để không bị quên!` 
-                      : 'Luyện tập ngắt quãng giúp bạn ghi nhớ từ vựng lâu hơn gấp 5 lần.'}
-                  </p>
+              <div className="srs-banner">
+                <div className="srs-banner-text">
+                  <h4>Hệ thống Ôn tập Ngắt quãng (SRS)</h4>
+                  <p>{dashboardData.dueCount > 0 ? `Bạn có ${dashboardData.dueCount} từ cần ôn tập hôm nay.` : 'Luyện tập ngắt quãng giúp bạn ghi nhớ từ vựng lâu hơn gấp 5 lần.'}</p>
                 </div>
-                <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
+                <div className="srs-actions">
                   {dashboardData.dueCount > 0 && (
                     <button className="btn btn-primary" onClick={() => startStudy(null, 'srs-review')}>
-                      <Brain size={18} /> Học Flashcard cần ôn ({dashboardData.dueCount})
+                      <Brain size={16} /> Ôn Flashcard ({dashboardData.dueCount})
                     </button>
                   )}
                   {dashboardData.learnedCount > 0 && (
                     <>
                       <button className="btn btn-secondary" onClick={() => startStudy(null, 'srs-learned')}>
-                        <Brain size={18} /> Học Flashcard đã học ({dashboardData.learnedCount})
+                        <Brain size={16} /> Đã học ({dashboardData.learnedCount})
                       </button>
-                      <button className="btn btn-secondary" onClick={() => startStudy('LEARNED_REVIEW', 'daily')}>
-                        <Play size={18} /> Làm Quiz ôn tập (Đã học)
+                      <button className="btn btn-ghost" onClick={() => startStudy('LEARNED_REVIEW', 'daily')}>
+                        <Play size={16} /> Quiz ôn tập
                       </button>
                     </>
                   )}
@@ -433,58 +386,19 @@ const HomePage = ({ startStudy, streak, onLoginClick, onLogout, onAdminClick, on
                       <h3 style={{ fontSize: '1.2rem', margin: 0 }}>Bảng xếp hạng</h3>
                     </div>
                     
-                    <div style={{ display: 'flex', backgroundColor: 'var(--surface-hover)', borderRadius: '12px', padding: '2px' }}>
-                      <button 
+              <div style={{ display: 'flex', backgroundColor: 'var(--surface-hover)', borderRadius: '8px', padding: '3px', gap: '2px' }}>
+                      <button
                         onClick={() => setLeaderboardType('words')}
-                        style={{
-                          border: 'none',
-                          backgroundColor: leaderboardType === 'words' ? 'var(--card-bg)' : 'transparent',
-                          color: leaderboardType === 'words' ? 'var(--text-primary)' : 'var(--text-secondary)',
-                          padding: '6px 12px',
-                          borderRadius: '10px',
-                          fontSize: '0.8rem',
-                          fontWeight: 600,
-                          cursor: 'pointer',
-                          boxShadow: leaderboardType === 'words' ? '0 2px 4px rgba(0,0,0,0.1)' : 'none',
-                          transition: 'all 0.2s ease'
-                        }}
-                      >
-                        Hôm nay
-                      </button>
-                      <button 
+                        className={`lb-tab${leaderboardType === 'words' ? ' active' : ''}`}
+                      >Hôm nay</button>
+                      <button
                         onClick={() => setLeaderboardType('learned')}
-                        style={{
-                          border: 'none',
-                          backgroundColor: leaderboardType === 'learned' ? 'var(--card-bg)' : 'transparent',
-                          color: leaderboardType === 'learned' ? 'var(--text-primary)' : 'var(--text-secondary)',
-                          padding: '6px 12px',
-                          borderRadius: '10px',
-                          fontSize: '0.8rem',
-                          fontWeight: 600,
-                          cursor: 'pointer',
-                          boxShadow: leaderboardType === 'learned' ? '0 2px 4px rgba(0,0,0,0.1)' : 'none',
-                          transition: 'all 0.2s ease'
-                        }}
-                      >
-                        Tổng học
-                      </button>
-                      <button 
+                        className={`lb-tab${leaderboardType === 'learned' ? ' active' : ''}`}
+                      >Tổng học</button>
+                      <button
                         onClick={() => setLeaderboardType('streak')}
-                        style={{
-                          border: 'none',
-                          backgroundColor: leaderboardType === 'streak' ? 'var(--card-bg)' : 'transparent',
-                          color: leaderboardType === 'streak' ? 'var(--text-primary)' : 'var(--text-secondary)',
-                          padding: '6px 12px',
-                          borderRadius: '10px',
-                          fontSize: '0.8rem',
-                          fontWeight: 600,
-                          cursor: 'pointer',
-                          boxShadow: leaderboardType === 'streak' ? '0 2px 4px rgba(0,0,0,0.1)' : 'none',
-                          transition: 'all 0.2s ease'
-                        }}
-                      >
-                        Chuỗi ngày
-                      </button>
+                        className={`lb-tab${leaderboardType === 'streak' ? ' active' : ''}`}
+                      >Chuỗi ngày</button>
                     </div>
                   </div>
                   
@@ -695,139 +609,42 @@ const HomePage = ({ startStudy, streak, onLoginClick, onLogout, onAdminClick, on
           )}
         </div>
       ) : (
-        // Brand Landing Page for Logged-Out Users
-        <div className="animate-fade-in">
-          <section className="home-top-banner">
-            <div className="container home-banner-inner" style={{ padding: 0 }}>
-              <div className="home-banner-copy">
-                <span className="home-badge">SIRO NIHONGO</span>
-                <h1>{t.home.heroMainTitle || 'SIRO NIHONGO - Học tiếng Nhật đỉnh cao'}</h1>
-                <p className="home-subtitle">
-                  {t.home.heroDescription || 'Học tiếng Nhật hiệu quả, tự tin chinh phục JLPT với phương pháp hiện đại và bài học ngắn gọn mỗi ngày.'}
-                </p>
-
-                <div className="home-actions">
-                  <button
-                    className="btn btn-primary btn-xl"
-                    onClick={onLoginClick}
-                  >
-                    HỌC NGAY
-                  </button>
-                  <button className="btn btn-secondary btn-xl" onClick={onLoginClick}>
-                    {t.auth.loginTitle}
-                  </button>
-                </div>
-
-                <div className="hero-pill-grid">
-                  <div className="hero-pill">15’ mỗi ngày đỗ JLPT</div>
-                  <div className="hero-pill">Lộ trình nhanh - mạnh - chuẩn</div>
-                  <div className="hero-pill">Giáo viên N1, chuyên sâu</div>
-                </div>
-
-                <p className="home-hero-meta">
-                  {t.home.loginPrompt}
-                </p>
-              </div>
-
-              <div className="home-banner-visual">
-                <div className="home-banner-slider">
-                  <div className="slide slide-1" />
-                  <div className="slide slide-2" />
-                  <div className="slide slide-3" />
-                  <div className="slide-overlay">
-                    <span className="slide-chip">SIRO NIHONGO</span>
-                    <h3>{t.home.slideTitle}</h3>
-                    <p>{t.home.slideText}</p>
-                  </div>
-                </div>
-                <div className="hero-slider-controls">
-                  <span className="control active" />
-                  <span className="control" />
-                  <span className="control" />
-                </div>
-              </div>
+        // Landing page for guest
+        <div className="landing-wrapper animate-fade-in">
+          <div className="landing-hero">
+            <div className="landing-badge">SIRO NIHONGO</div>
+            <h1 className="landing-title">Học Tiếng Nhật<br />Thông Minh Cùng SIRO</h1>
+            <p className="landing-sub">
+              Phương pháp lập lại ngắt quãng và Flashcard sinh động. Chinh phục JLPT N5 - N1.
+            </p>
+            <div className="landing-cta">
+              <button className="btn btn-primary btn-xl" onClick={onLoginClick}>HỌC NGAY</button>
+              <button className="btn btn-secondary btn-xl" onClick={onLoginClick}>{t.auth.loginTitle}</button>
             </div>
-          </section>
-
-          <section className="home-category-section container" style={{ padding: '40px 0' }}>
-            <div className="category-intro">
-              <p className="section-label">Dành cho bạn</p>
-              <h2>Những lộ trình phù hợp mọi phong cách học</h2>
+            <div className="landing-pills">
+              <span className="landing-pill">15' mỗi ngày đỗ JLPT</span>
+              <span className="landing-pill">Lộ trình nhanh - mạnh - chuẩn</span>
+              <span className="landing-pill">Giáo viên N1</span>
             </div>
-            <div className="category-grid">
-              {serviceItems.map((item) => {
-                const Icon = item.icon;
-                return (
-                  <div key={item.title} className="service-card">
-                    <div className="service-icon">
-                      <Icon size={22} />
-                    </div>
-                    <h3>{item.title}</h3>
-                    <p>{item.description}</p>
-                  </div>
-                );
-              })}
-            </div>
-          </section>
+          </div>
 
-          <section className="home-difference-section container" style={{ padding: '40px 0' }}>
-            <div className="difference-grid">
-              <div className="difference-copy">
-                <p className="section-label">SIRO NIHONGO khác biệt</p>
-                <h2>SIRO NIHONGO là SỰ KHÁC BIỆT</h2>
-                <p>
-                  Giải pháp học tiếng Nhật toàn diện với nội dung cập nhật, lộ trình rõ ràng và trợ giảng tận tâm.
-                </p>
-                <div className="difference-stats">
-                  <div>
-                    <strong>Học hiệu quả</strong>
-                    <span>Lộ trình được tối ưu cho người bận rộn.</span>
-                  </div>
-                  <div>
-                    <strong>Giáo viên chuyên sâu</strong>
-                    <span>Đội ngũ hướng dẫn trình độ cao, phương pháp thực chiến.</span>
-                  </div>
-                  <div>
-                    <strong>Hỗ trợ 24/7</strong>
-                    <span>Trợ giảng đồng hành cùng học viên mọi lúc.</span>
-                  </div>
+          <div className="service-grid">
+            {serviceItems.map((item) => {
+              const Icon = item.icon;
+              return (
+                <div key={item.title} className="service-card-item">
+                  <div className="service-icon-wrap"><Icon size={20} /></div>
+                  <h3>{item.title}</h3>
+                  <p>{item.description}</p>
                 </div>
-              </div>
+              );
+            })}
+          </div>
 
-              <div className="difference-cards">
-                {differenceItems.map((item) => {
-                  const Icon = item.icon;
-                  return (
-                    <div key={item.title} className="difference-card">
-                      <div className="difference-card-top">
-                        <Icon size={20} />
-                        <h3>{item.title}</h3>
-                      </div>
-                      <p>{item.description}</p>
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-          </section>
-
-          <section className="home-feature-section container" style={{ padding: '40px 0' }}>
-            <h2>{t.home.featuresTitle}</h2>
-            <div className="home-feature-grid">
-              <div className="feature-card">
-                <h3>{t.home.guestFeature1}</h3>
-                <p>{t.home.featureDesc1}</p>
-              </div>
-              <div className="feature-card">
-                <h3>{t.home.guestFeature2}</h3>
-                <p>{t.home.featureDesc2}</p>
-              </div>
-              <div className="feature-card">
-                <h3>{t.home.guestFeature3}</h3>
-                <p>{t.home.featureDesc3}</p>
-              </div>
-            </div>
-          </section>
+          <div style={{ textAlign: 'center', padding: '20px 0 40px' }}>
+            <h2 style={{ fontSize: '1.3rem', marginBottom: '8px' }}>{t.home.featuresTitle || 'Khám phá lộ trình học tập phù hợp của bạn'}</h2>
+            <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>Học trọn vẹn, Tiếng Nhật Thông Minh đơn cùng SIRO</p>
+          </div>
         </div>
       )}
     </div>

@@ -70,7 +70,7 @@ const AuthPage = ({ onCancel, onSuccess }) => {
             width: '60px', 
             height: '60px', 
             borderRadius: '16px', 
-            backgroundColor: 'rgba(239, 68, 68, 0.1)', 
+            backgroundColor: 'var(--accent-light)', 
             color: 'var(--accent-color)',
             margin: '0 auto 15px'
           }}>
@@ -83,14 +83,15 @@ const AuthPage = ({ onCancel, onSuccess }) => {
 
         {error && (
           <div className="flex-center" style={{ 
-            backgroundColor: 'rgba(239, 68, 68, 0.1)', 
-            color: 'var(--accent-color)', 
+            backgroundColor: 'var(--danger-light)', 
+            color: 'var(--danger-color)', 
             padding: '12px', 
             borderRadius: '8px', 
             marginBottom: '20px', 
             gap: '8px',
             fontSize: '0.9rem',
-            fontWeight: 500
+            fontWeight: 500,
+            border: '1px solid rgba(239, 68, 68, 0.2)'
           }}>
             <AlertCircle size={16} style={{ flexShrink: 0 }} />
             <span>{error}</span>
@@ -99,14 +100,15 @@ const AuthPage = ({ onCancel, onSuccess }) => {
 
         {success && (
           <div className="flex-center" style={{ 
-            backgroundColor: 'rgba(16, 185, 129, 0.1)', 
+            backgroundColor: 'var(--success-light)', 
             color: 'var(--success-color)', 
             padding: '12px', 
             borderRadius: '8px', 
             marginBottom: '20px', 
             gap: '8px',
             fontSize: '0.9rem',
-            fontWeight: 500
+            fontWeight: 500,
+            border: '1px solid rgba(16, 185, 129, 0.2)'
           }}>
             <AlertCircle size={16} style={{ flexShrink: 0 }} />
             <span>{success}</span>

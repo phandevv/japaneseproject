@@ -575,7 +575,7 @@ const DailyStudyPage = ({ level, stats, goBack }) => {
               style={{
                 padding: '30px 20px',
                 cursor: 'pointer',
-                border: `1.5px solid rgba(255,255,255,0.06)`,
+                border: `1.5px solid var(--border-color)`,
                 borderTop: `4px solid ${levelColors[lvl]}`,
                 transition: 'all 0.25s',
                 display: 'flex',
@@ -583,17 +583,17 @@ const DailyStudyPage = ({ level, stats, goBack }) => {
                 alignItems: 'center',
                 gap: '10px',
                 borderRadius: '16px',
-                background: 'linear-gradient(145deg, #1b2642, #0f1a2e)',
+                background: 'var(--surface-color)',
               }}
               onMouseEnter={e => {
                 e.currentTarget.style.transform = 'translateY(-4px)';
-                e.currentTarget.style.boxShadow = '0 12px 30px rgba(0,0,0,0.3)';
+                e.currentTarget.style.boxShadow = 'var(--shadow-md)';
                 e.currentTarget.style.borderColor = levelColors[lvl];
               }}
               onMouseLeave={e => {
                 e.currentTarget.style.transform = 'none';
                 e.currentTarget.style.boxShadow = 'none';
-                e.currentTarget.style.borderColor = 'rgba(255,255,255,0.06)';
+                e.currentTarget.style.borderColor = 'var(--border-color)';
               }}
             >
               <span style={{ fontSize: '2rem', fontWeight: 900, color: levelColors[lvl] }}>
@@ -844,7 +844,7 @@ const DailyStudyPage = ({ level, stats, goBack }) => {
                     cursor: 'pointer',
                     transition: 'background 0.15s ease',
                   }}
-                  onMouseEnter={e => e.currentTarget.style.background = 'rgba(239,68,68,0.06)'}
+                  onMouseEnter={e => e.currentTarget.style.background = 'var(--surface-hover)'}
                   onMouseLeave={e => e.currentTarget.style.background = 'transparent'}
                 >
                   <td style={{ padding: '15px 20px', color: 'var(--text-secondary)' }}>{index + 1}</td>
@@ -1104,7 +1104,7 @@ const DailyStudyPage = ({ level, stats, goBack }) => {
           )}
 
           {quizStatus === 'correct' && (
-            <div className="card animate-fade-in" style={{ backgroundColor: 'rgba(16, 185, 129, 0.1)', borderColor: 'var(--success-color)', padding: '24px' }}>
+            <div className="card animate-fade-in" style={{ backgroundColor: 'var(--success-light)', borderColor: 'var(--success-color)', padding: '24px' }}>
               <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', gap: '24px', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: '20px' }}>
                 {/* Left Column: Word Info */}
                 <div style={{ flex: '1 1 350px', display: 'flex', gap: '15px', alignItems: 'flex-start' }}>
@@ -1117,8 +1117,9 @@ const DailyStudyPage = ({ level, stats, goBack }) => {
                         padding: '2px 8px', 
                         borderRadius: '8px', 
                         fontWeight: 600,
-                        backgroundColor: lastAssignedQuality === 4 ? 'rgba(16, 185, 129, 0.2)' : lastAssignedQuality === 3 ? 'rgba(59, 130, 246, 0.2)' : 'rgba(245, 158, 11, 0.2)',
-                        color: lastAssignedQuality === 4 ? '#10b981' : lastAssignedQuality === 3 ? '#3b82f6' : '#f59e0b'
+                        backgroundColor: lastAssignedQuality === 4 ? 'var(--success-light)' : lastAssignedQuality === 3 ? 'var(--accent-light)' : 'var(--warning-light)',
+                        color: lastAssignedQuality === 4 ? 'var(--success-color)' : lastAssignedQuality === 3 ? 'var(--accent-color)' : 'var(--warning-color)',
+                        border: '1px solid rgba(0,0,0,0.05)'
                       }}>
                         {lastAssignedQuality === 4 ? 'Easy' : lastAssignedQuality === 3 ? 'Good' : 'Hard'} ({lastElapsedSeconds?.toFixed(1)}s)
                       </span>
@@ -1154,7 +1155,7 @@ const DailyStudyPage = ({ level, stats, goBack }) => {
                   )}
 
                   {quizWordEnriched && quizWordEnriched.sampleSentence && (
-                    <div style={{ padding: '10px 12px', backgroundColor: 'rgba(255,255,255,0.05)', borderRadius: '6px', textAlign: 'left', fontSize: '0.9rem', marginBottom: '8px' }}>
+                    <div style={{ padding: '10px 12px', backgroundColor: 'var(--surface-hover)', borderRadius: '6px', textAlign: 'left', fontSize: '0.9rem', marginBottom: '8px', border: '1px solid var(--border-color)' }}>
                       <span style={{ color: 'var(--accent-color)', fontWeight: 'bold', display: 'block', marginBottom: '4px', fontSize: '0.8rem' }}>Câu ví dụ:</span>
                       <span style={{ fontWeight: 'bold', color: 'var(--text-primary)', display: 'block', fontSize: '1rem', lineHeight: '1.3', marginBottom: showSampleHint ? '2px' : '6px' }}>{quizWordEnriched.sampleSentence}</span>
                       {showSampleHint ? (
@@ -1166,8 +1167,8 @@ const DailyStudyPage = ({ level, stats, goBack }) => {
                         <button 
                           onClick={() => setShowSampleHint(true)}
                           style={{
-                            background: 'rgba(255,255,255,0.06)',
-                            border: '1px solid rgba(255,255,255,0.1)',
+                            background: 'var(--surface-color)',
+                            border: '1px solid var(--border-color)',
                             color: 'var(--text-secondary)',
                             borderRadius: '4px',
                             padding: '3px 8px',
@@ -1176,8 +1177,8 @@ const DailyStudyPage = ({ level, stats, goBack }) => {
                             transition: 'all 0.2s',
                             fontFamily: 'inherit'
                           }}
-                          onMouseEnter={e => e.currentTarget.style.background = 'rgba(255,255,255,0.12)'}
-                          onMouseLeave={e => e.currentTarget.style.background = 'rgba(255,255,255,0.06)'}
+                          onMouseEnter={e => e.currentTarget.style.background = 'var(--surface-hover)'}
+                          onMouseLeave={e => e.currentTarget.style.background = 'var(--surface-color)'}
                         >
                           Hiện cách đọc & nghĩa
                         </button>
@@ -1196,7 +1197,7 @@ const DailyStudyPage = ({ level, stats, goBack }) => {
                     }
                     if (relatedWords && relatedWords.length > 0) {
                       return (
-                        <div style={{ padding: '10px 12px', backgroundColor: 'rgba(255,255,255,0.05)', borderRadius: '6px', textAlign: 'left', fontSize: '0.85rem' }}>
+                        <div style={{ padding: '10px 12px', backgroundColor: 'var(--surface-hover)', borderRadius: '6px', textAlign: 'left', fontSize: '0.85rem', border: '1px solid var(--border-color)' }}>
                           <span style={{ color: 'var(--success-color)', fontWeight: 'bold', display: 'block', marginBottom: '6px', fontSize: '0.8rem' }}>Kanji liên quan:</span>
                           <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
                             {relatedWords.map((item, idx) => (
@@ -1214,7 +1215,7 @@ const DailyStudyPage = ({ level, stats, goBack }) => {
                 </div>
               </div>
 
-              <div style={{ display: 'flex', justifyContent: 'flex-end', borderTop: '1px solid rgba(255,255,255,0.08)', paddingTop: '14px' }}>
+              <div style={{ display: 'flex', justifyContent: 'flex-end', borderTop: '1px solid var(--border-color)', paddingTop: '14px' }}>
                 <button className="btn btn-primary" onClick={nextQuestion} autoFocus style={{ padding: '10px 24px' }}>
                   {t.daily.nextBtn} <ArrowRight size={18} />
                 </button>
@@ -1223,21 +1224,22 @@ const DailyStudyPage = ({ level, stats, goBack }) => {
           )}
 
           {quizStatus === 'incorrect' && (
-            <div className="card animate-fade-in" style={{ backgroundColor: 'rgba(239, 68, 68, 0.1)', borderColor: 'var(--accent-color)', padding: '24px' }}>
+            <div className="card animate-fade-in" style={{ backgroundColor: 'var(--danger-light)', borderColor: 'var(--danger-color)', padding: '24px' }}>
               <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', gap: '24px', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: '20px' }}>
                 {/* Left Column: Word Info */}
                 <div style={{ flex: '1 1 350px', display: 'flex', gap: '15px', alignItems: 'flex-start' }}>
-                  <XCircle size={32} color="var(--accent-color)" style={{ flexShrink: 0, marginTop: '2px' }} />
+                  <XCircle size={32} color="var(--danger-color)" style={{ flexShrink: 0, marginTop: '2px' }} />
                   <div style={{ textAlign: 'left' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                      <h3 style={{ color: 'var(--accent-color)', margin: 0 }}>{t.daily.incorrect}</h3>
+                      <h3 style={{ color: 'var(--danger-color)', margin: 0 }}>{t.daily.incorrect}</h3>
                       <span style={{ 
                         fontSize: '0.75rem', 
                         padding: '2px 8px', 
                         borderRadius: '8px', 
                         fontWeight: 600,
-                        backgroundColor: 'rgba(239, 68, 68, 0.2)',
-                        color: '#ef4444'
+                        backgroundColor: 'var(--danger-light)',
+                        color: 'var(--danger-color)',
+                        border: '1px solid rgba(0,0,0,0.05)'
                       }}>
                         Forgot ({lastElapsedSeconds?.toFixed(1)}s)
                       </span>
@@ -1274,7 +1276,7 @@ const DailyStudyPage = ({ level, stats, goBack }) => {
                   )}
 
                   {quizWordEnriched && quizWordEnriched.sampleSentence && (
-                    <div style={{ padding: '10px 12px', backgroundColor: 'rgba(255,255,255,0.05)', borderRadius: '6px', textAlign: 'left', fontSize: '0.9rem', marginBottom: '8px' }}>
+                    <div style={{ padding: '10px 12px', backgroundColor: 'var(--surface-hover)', borderRadius: '6px', textAlign: 'left', fontSize: '0.9rem', marginBottom: '8px', border: '1px solid var(--border-color)' }}>
                       <span style={{ color: 'var(--accent-color)', fontWeight: 'bold', display: 'block', marginBottom: '4px', fontSize: '0.8rem' }}>Câu ví dụ:</span>
                       <span style={{ fontWeight: 'bold', color: 'var(--text-primary)', display: 'block', fontSize: '1rem', lineHeight: '1.3', marginBottom: showSampleHint ? '2px' : '6px' }}>{quizWordEnriched.sampleSentence}</span>
                       {showSampleHint ? (
@@ -1286,8 +1288,8 @@ const DailyStudyPage = ({ level, stats, goBack }) => {
                         <button 
                           onClick={() => setShowSampleHint(true)}
                           style={{
-                            background: 'rgba(255,255,255,0.06)',
-                            border: '1px solid rgba(255,255,255,0.1)',
+                            background: 'var(--surface-color)',
+                            border: '1px solid var(--border-color)',
                             color: 'var(--text-secondary)',
                             borderRadius: '4px',
                             padding: '3px 8px',
@@ -1296,8 +1298,8 @@ const DailyStudyPage = ({ level, stats, goBack }) => {
                             transition: 'all 0.2s',
                             fontFamily: 'inherit'
                           }}
-                          onMouseEnter={e => e.currentTarget.style.background = 'rgba(255,255,255,0.12)'}
-                          onMouseLeave={e => e.currentTarget.style.background = 'rgba(255,255,255,0.06)'}
+                          onMouseEnter={e => e.currentTarget.style.background = 'var(--surface-hover)'}
+                          onMouseLeave={e => e.currentTarget.style.background = 'var(--surface-color)'}
                         >
                           Hiện cách đọc & nghĩa
                         </button>
@@ -1316,7 +1318,7 @@ const DailyStudyPage = ({ level, stats, goBack }) => {
                     }
                     if (relatedWords && relatedWords.length > 0) {
                       return (
-                        <div style={{ padding: '10px 12px', backgroundColor: 'rgba(255,255,255,0.05)', borderRadius: '6px', textAlign: 'left', fontSize: '0.85rem' }}>
+                        <div style={{ padding: '10px 12px', backgroundColor: 'var(--surface-hover)', borderRadius: '6px', textAlign: 'left', fontSize: '0.85rem', border: '1px solid var(--border-color)' }}>
                           <span style={{ color: 'var(--success-color)', fontWeight: 'bold', display: 'block', marginBottom: '6px', fontSize: '0.8rem' }}>Kanji liên quan:</span>
                           <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
                             {relatedWords.map((item, idx) => (
@@ -1334,7 +1336,7 @@ const DailyStudyPage = ({ level, stats, goBack }) => {
                 </div>
               </div>
 
-              <div style={{ display: 'flex', justifyContent: 'flex-end', borderTop: '1px solid rgba(255,255,255,0.08)', paddingTop: '14px' }}>
+              <div style={{ display: 'flex', justifyContent: 'flex-end', borderTop: '1px solid var(--border-color)', paddingTop: '14px' }}>
                 <button className="btn btn-primary" onClick={nextQuestion} autoFocus style={{ padding: '10px 24px' }}>
                   {t.daily.continueBtn} <ArrowRight size={18} />
                 </button>
