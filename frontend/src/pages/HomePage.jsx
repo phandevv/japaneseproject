@@ -191,7 +191,7 @@ const HomePage = ({ startStudy, streak, onLoginClick, onLogout, onAdminClick, on
 
         {/* Scrollable Container for GitHub Heatmap */}
         <div style={{ overflowX: 'auto', width: '100%', paddingBottom: '10px' }} className="custom-scrollbar">
-          <div style={{ display: 'flex', gap: '8px', minWidth: '700px', padding: '10px 0' }}>
+          <div style={{ display: 'flex', gap: '8px', minWidth: '830px', padding: '10px 0' }}>
             
             {/* Weekdays Labels */}
             <div style={{ 

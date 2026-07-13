@@ -1,4 +1,4 @@
-﻿/* ============================================================
+/* ============================================================
    HomePage.css — Light Theme
    ============================================================ */
 
@@ -106,7 +106,7 @@
 /* ---- DASHBOARD CONTENT GRID ---- */
 .dashboard-grid {
   display: grid;
-  grid-template-columns: 1fr 360px;
+  grid-template-columns: minmax(0, 1fr) 360px;
   gap: 20px;
   align-items: start;
 }
