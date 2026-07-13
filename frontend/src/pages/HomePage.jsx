@@ -275,11 +275,11 @@ const HomePage = ({ startStudy, streak, onLoginClick, onLogout, onAdminClick, on
         {/* Legend bottom row */}
         <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', gap: '6px', marginTop: '12px', fontSize: '0.75rem', color: 'var(--text-secondary)' }}>
           <span>Less</span>
-          <div style={{ width: '10px', height: '10px', borderRadius: '1.5px', backgroundColor: 'var(--surface-hover)' }} />
-          <div style={{ width: '10px', height: '10px', borderRadius: '1.5px', backgroundColor: '#0e4429' }} />
-          <div style={{ width: '10px', height: '10px', borderRadius: '1.5px', backgroundColor: '#006d32' }} />
-          <div style={{ width: '10px', height: '10px', borderRadius: '1.5px', backgroundColor: '#26a641' }} />
-          <div style={{ width: '10px', height: '10px', borderRadius: '1.5px', backgroundColor: '#39d353' }} />
+          <div style={{ width: '10px', height: '10px', borderRadius: '1.5px', backgroundColor: 'var(--border-color)' }} />
+          <div style={{ width: '10px', height: '10px', borderRadius: '1.5px', backgroundColor: '#bfdbfe' }} />
+          <div style={{ width: '10px', height: '10px', borderRadius: '1.5px', backgroundColor: '#60a5fa' }} />
+          <div style={{ width: '10px', height: '10px', borderRadius: '1.5px', backgroundColor: '#2563eb' }} />
+          <div style={{ width: '10px', height: '10px', borderRadius: '1.5px', backgroundColor: '#1d4ed8' }} />
           <span>More</span>
         </div>
       </div>
