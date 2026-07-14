@@ -13,9 +13,13 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.time.Duration;
 import java.util.Map;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Service
 public class DeepSeekEnrichmentService {
+
+    private static final Logger log = LoggerFactory.getLogger(DeepSeekEnrichmentService.class);
 
     private final VocabularyRepository vocabularyRepository;
     private final ObjectMapper objectMapper;
@@ -38,7 +42,7 @@ public class DeepSeekEnrichmentService {
         }
 
         if (apiKey == null || apiKey.trim().isEmpty()) {
-            System.err.println("WARNING: DEEPSEEK_API_KEY is not set. Skipping enrichment.");
+            log.warn("DEEPSEEK_API_KEY is not set. Skipping enrichment.");
             return vocab;
         }
 
@@ -75,7 +79,7 @@ public class DeepSeekEnrichmentService {
 
             // Construct payload compatible with DeepSeek chat model
             Map<String, Object> requestBodyMap = Map.of(
-                "model", "deepseek-v4-flash",
+                "model", "deepseek-chat",
                 "response_format", Map.of("type", "json_object"),
                 "messages", new Object[]{
                     Map.of("role", "system", "content", "Bạn là một trợ lý thông thái phản hồi duy nhất định dạng JSON."),
@@ -118,12 +122,11 @@ public class DeepSeekEnrichmentService {
 
                 return vocabularyRepository.save(vocab);
             } else {
-                System.err.println("DeepSeek API responded with error status: " + response.statusCode() + ", body: " + response.body());
+                log.error("DeepSeek API responded with error status: {}, body: {}", response.statusCode(), response.body());
             }
 
         } catch (Exception e) {
-            System.err.println("Failed to enrich vocabulary from DeepSeek API: " + e.getMessage());
-            e.printStackTrace();
+            log.error("Failed to enrich vocabulary from DeepSeek API: {}", e.getMessage());
         }
 
         return vocab;
