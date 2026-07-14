@@ -1,5 +1,5 @@
 import React, { useRef, useState } from "react";
-import { Home, Search, BookOpen, Layers, LogOut, LogIn, Upload, Loader, User, Settings, ShieldCheck, MessageSquare, Cpu } from "lucide-react";
+import { Home, Search, BookOpen, Layers, LogOut, LogIn, Upload, Loader, User, Settings, ShieldCheck, MessageSquare, Cpu, Database } from "lucide-react";
 import { useLanguage } from "../context/LanguageContext";
 import { vocabApi } from "../services/api";
 
