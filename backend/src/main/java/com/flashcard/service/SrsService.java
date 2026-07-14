@@ -162,4 +162,12 @@ public class SrsService {
                 .map(WordReview::getVocabulary)
                 .collect(Collectors.toList());
     }
+
+    /**
+     * Get full list of all word reviews in SRS for the user
+     */
+    @Transactional(readOnly = true)
+    public List<WordReview> getFullSrsList(User user) {
+        return reviewRepository.findAllByUserFetchVocabulary(user);
+    }
 }

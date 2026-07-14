@@ -33,6 +33,10 @@ public interface WordReviewRepository extends JpaRepository<WordReview, Long> {
     @Query("SELECT wr FROM WordReview wr JOIN FETCH wr.vocabulary WHERE wr.user = :user AND wr.intervalDays > 0")
     List<WordReview> findAllLearnedByUser(@Param("user") User user);
 
+    @Query("SELECT wr FROM WordReview wr JOIN FETCH wr.vocabulary WHERE wr.user = :user")
+    List<WordReview> findAllByUserFetchVocabulary(@Param("user") User user);
+
+
     @Query("SELECT COUNT(wr) FROM WordReview wr WHERE wr.user = :user " +
            "AND wr.lastReviewedAt >= :start " +
            "AND wr.lastReviewedAt < :end " +

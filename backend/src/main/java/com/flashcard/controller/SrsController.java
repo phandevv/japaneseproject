@@ -76,4 +76,16 @@ public class SrsController {
         }
         return ResponseEntity.ok(srsService.getRandomLearnedVocabulary(user, count));
     }
+
+    /**
+     * Get full list of all word reviews in SRS for the authenticated user
+     * GET /api/srs/list
+     */
+    @GetMapping("/list")
+    public ResponseEntity<?> getFullSrsList(@AuthenticationPrincipal User user) {
+        if (user == null) {
+            return ResponseEntity.status(401).body(Map.of("error", "Unauthorized"));
+        }
+        return ResponseEntity.ok(srsService.getFullSrsList(user));
+    }
 }

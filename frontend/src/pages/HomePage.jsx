@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { vocabApi, analyticsApi } from '../services/api';
-import { Sparkles, Play, BookOpen, Globe, Users, Video, ShieldCheck, Loader, Brain, Flame, CheckCircle2, BarChart2, ShieldAlert, Trophy, Snowflake, Calendar } from 'lucide-react';
+import { Sparkles, Play, BookOpen, Globe, Users, Video, ShieldCheck, Loader, Brain, Flame, CheckCircle2, BarChart2, ShieldAlert, Trophy, Snowflake, Calendar, List } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
 import { useAuth } from '../context/AuthContext';
 import '../styles/HomePage.css';
@@ -417,6 +417,9 @@ const HomePage = ({ startStudy, streak, onLoginClick, onLogout, onAdminClick, on
                       </button>
                       <button className="btn btn-secondary" onClick={() => startStudy('LEARNED_REVIEW', 'daily')}>
                         <Play size={18} /> Làm Quiz ôn tập (Đã học)
+                      </button>
+                      <button className="btn btn-secondary" onClick={() => startStudy(null, 'srs-list')} style={{ borderColor: 'var(--accent-color)', color: 'var(--accent-color)' }}>
+                        <List size={18} /> Xem danh sách SRS ({dashboardData.learnedCount})
                       </button>
                     </>
                   )}

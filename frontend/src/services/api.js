@@ -224,6 +224,10 @@ export const srsApi = {
   getRandomLearnedWords: async (count = 20) => {
     const response = await axios.get(`${API_BASE_URL}/srs/learned/random?count=${count}`);
     return response.data;
+  },
+  getSrsList: async () => {
+    const response = await axios.get(`${API_BASE_URL}/srs/list`);
+    return response.data;
   }
 };
 
