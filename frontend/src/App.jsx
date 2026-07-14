@@ -8,6 +8,8 @@ import DailyStudyPage from './pages/DailyStudyPage';
 import AuthPage from './pages/AuthPage';
 import VocabAdminPage from './pages/VocabAdminPage';
 import { useAuth } from './context/AuthContext';
+import PomodoroTimer from './components/PomodoroTimer';
+import SrsListPage from './pages/SrsListPage';
 
 const getTodayKey = () => new Date().toISOString().slice(0, 10);
 
@@ -149,6 +151,8 @@ function App() {
         return <FlashcardPage level="SRS" isSrs={true} goBack={() => setCurrentPage('home')} />;
       case 'srs-learned':
         return <FlashcardPage level="LEARNED" isLearnedStudy={true} goBack={() => setCurrentPage('home')} />;
+      case 'srs-list':
+        return <SrsListPage goBack={() => setCurrentPage('home')} />;
       case 'daily':
         return <DailyStudyPage level={selectedLevel} stats={stats} goBack={() => setCurrentPage('home')} />;
       case 'admin-vocab':
@@ -179,6 +183,7 @@ function App() {
         {renderPage()}
       </main>
       {showProfileModal && <ProfileModal onClose={() => setShowProfileModal(false)} />}
+      <PomodoroTimer />
     </div>
   );
 }

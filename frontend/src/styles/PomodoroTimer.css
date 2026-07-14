@@ -1,0 +1,673 @@
+/* Pomodoro FAB (Floating Action Button) */
+.pomodoro-fab {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--accent-color), #0284c7);
+  color: white;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 20px rgba(56, 189, 248, 0.4), inset 0 2px 4px rgba(255, 255, 255, 0.2);
+  cursor: pointer;
+  z-index: 999;
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.pomodoro-fab:hover {
+  transform: scale(1.1) rotate(15deg);
+  box-shadow: 0 6px 24px rgba(56, 189, 248, 0.6);
+}
+
+.pomodoro-fab:active {
+  transform: scale(0.95);
+}
+
+.pomodoro-fab.active {
+  background: linear-gradient(135deg, #ef4444, #b91c1c);
+  box-shadow: 0 4px 20px rgba(239, 68, 68, 0.4);
+}
+
+/* Badge for active countdown on FAB */
+.pomodoro-badge {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  background-color: #ef4444;
+  color: white;
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 10px;
+  border: 2px solid var(--bg-color);
+  animation: pulse 2s infinite;
+}
+
+/* Main Panel (Widget) */
+.pomodoro-panel {
+  position: fixed;
+  bottom: 92px;
+  right: 24px;
+  width: 360px;
+  background: rgba(17, 37, 55, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--border-color);
+  border-radius: 20px;
+  box-shadow: var(--shadow-lg), 0 10px 30px rgba(0, 0, 0, 0.3), 0 0 20px rgba(56, 189, 248, 0.1);
+  z-index: 998;
+  overflow: hidden;
+  font-family: var(--font-ui);
+  display: flex;
+  flex-direction: column;
+  transform-origin: bottom right;
+  animation: panelOpen 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes panelOpen {
+  from {
+    opacity: 0;
+    transform: scale(0.85) translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.pomodoro-header {
+  padding: 16px 20px 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.pomodoro-header h3 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.pomodoro-header .btn-close {
+  background: transparent;
+  border: none;
+  color: var(--text-secondary);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  border-radius: 50%;
+  transition: all 0.2s;
+}
+
+.pomodoro-header .btn-close:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--text-primary);
+}
+
+/* Tabs Navigation */
+.pomodoro-tabs {
+  display: flex;
+  padding: 8px 20px;
+  gap: 6px;
+  background: rgba(0, 0, 0, 0.15);
+}
+
+.pomodoro-tab-btn {
+  flex: 1;
+  padding: 8px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  border: none;
+  background: transparent;
+  color: var(--text-secondary);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: center;
+}
+
+.pomodoro-tab-btn:hover {
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--text-primary);
+}
+
+.pomodoro-tab-btn.active {
+  background: var(--surface-hover);
+  color: var(--accent-color);
+  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.05);
+}
+
+/* Panel Body Content */
+.pomodoro-content {
+  padding: 20px;
+  min-height: 280px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* Timer Tab Styling */
+.timer-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.phase-label {
+  font-size: 0.9rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 4px 12px;
+  border-radius: 12px;
+  transition: all 0.3s;
+}
+
+.phase-label.work {
+  background: rgba(56, 189, 248, 0.12);
+  color: var(--accent-color);
+  border: 1px solid rgba(56, 189, 248, 0.2);
+}
+
+.phase-label.short-break {
+  background: rgba(74, 222, 128, 0.12);
+  color: var(--success-color);
+  border: 1px solid rgba(74, 222, 128, 0.2);
+}
+
+.phase-label.long-break {
+  background: rgba(251, 191, 36, 0.12);
+  color: var(--warning-color);
+  border: 1px solid rgba(251, 191, 36, 0.2);
+}
+
+/* Circular Timer Progress */
+.timer-ring-wrapper {
+  position: relative;
+  width: 180px;
+  height: 180px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.timer-ring-svg {
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+}
+
+.timer-ring-bg {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.05);
+  stroke-width: 8;
+}
+
+.timer-ring-fill {
+  fill: none;
+  stroke-width: 8;
+  stroke-linecap: round;
+  transition: stroke-dashoffset 0.3s ease;
+}
+
+.timer-ring-fill.work {
+  stroke: var(--accent-color);
+  filter: drop-shadow(0 0 4px rgba(56, 189, 248, 0.4));
+}
+
+.timer-ring-fill.short-break {
+  stroke: var(--success-color);
+  filter: drop-shadow(0 0 4px rgba(74, 222, 128, 0.4));
+}
+
+.timer-ring-fill.long-break {
+  stroke: var(--warning-color);
+  filter: drop-shadow(0 0 4px rgba(251, 191, 36, 0.4));
+}
+
+.timer-time-display {
+  position: absolute;
+  font-family: var(--font-jp);
+  font-weight: 700;
+  font-size: 2.2rem;
+  color: var(--text-primary);
+  font-variant-numeric: tabular-nums;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Control Buttons */
+.timer-controls {
+  display: flex;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.btn-ctrl {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1px solid var(--border-color);
+  background: var(--surface-color);
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-ctrl:hover {
+  background: var(--surface-hover);
+  transform: translateY(-2px);
+}
+
+.btn-ctrl.btn-play-pause {
+  background: var(--accent-color);
+  border-color: var(--accent-color);
+  color: white;
+  width: 52px;
+  height: 52px;
+  box-shadow: 0 4px 12px rgba(56, 189, 248, 0.3);
+}
+
+.btn-ctrl.btn-play-pause:hover {
+  background: var(--accent-hover);
+  border-color: var(--accent-hover);
+  box-shadow: 0 6px 16px rgba(34, 197, 94, 0.4);
+}
+
+/* Cycles Indicator */
+.cycles-indicator {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  justify-content: center;
+  margin-top: 4px;
+}
+
+.cycle-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.15);
+  transition: all 0.3s;
+}
+
+.cycle-dot.completed {
+  background: var(--accent-color);
+  box-shadow: 0 0 6px var(--accent-color);
+}
+
+.cycle-dot.active {
+  background: var(--warning-color);
+  transform: scale(1.2);
+}
+
+/* Settings Tab Styling */
+.settings-form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.setting-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.setting-row label {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.setting-input-wrapper {
+  display: flex;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 4px 8px;
+  width: 120px;
+  transition: border-color 0.2s;
+}
+
+.setting-input-wrapper:focus-within {
+  border-color: var(--accent-color);
+}
+
+.setting-input-wrapper input {
+  width: 100%;
+  border: none;
+  background: transparent;
+  color: var(--text-primary);
+  font-weight: 600;
+  text-align: right;
+  padding: 4px;
+  font-size: 0.95rem;
+}
+
+.setting-input-wrapper input:focus {
+  outline: none;
+}
+
+.setting-input-wrapper span {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  margin-left: 4px;
+}
+
+/* Checkbox container */
+.setting-checkbox-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  user-select: none;
+  margin-top: 4px;
+}
+
+.setting-checkbox-row input[type="checkbox"] {
+  display: none;
+}
+
+.custom-checkbox {
+  width: 20px;
+  height: 20px;
+  border-radius: 6px;
+  border: 1px solid var(--border-color);
+  background: rgba(0, 0, 0, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: transparent;
+  transition: all 0.2s;
+}
+
+.setting-checkbox-row input[type="checkbox"]:checked + .custom-checkbox {
+  background: var(--accent-color);
+  border-color: var(--accent-color);
+  color: white;
+}
+
+.setting-checkbox-row span {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+
+/* Form Actions */
+.settings-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.btn-settings-cancel {
+  flex: 1;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
+  padding: 10px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-settings-cancel:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.btn-settings-save {
+  flex: 1;
+  background: linear-gradient(135deg, var(--accent-color), #0284c7);
+  border: none;
+  color: white;
+  padding: 10px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(56, 189, 248, 0.2);
+  transition: all 0.2s;
+}
+
+.btn-settings-save:hover {
+  background: var(--accent-hover);
+  transform: translateY(-1px);
+}
+
+/* Stats Tab Styling */
+.stats-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.stat-box {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.stat-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  background: rgba(56, 189, 248, 0.1);
+  color: var(--accent-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.stat-box.cycles-box .stat-icon {
+  background: rgba(251, 191, 36, 0.1);
+  color: var(--warning-color);
+}
+
+.stat-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.stat-label {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+}
+
+.stat-value {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-top: 2px;
+}
+
+.btn-stats-clear {
+  width: 100%;
+  background: transparent;
+  border: 1px dashed var(--border-color);
+  color: var(--text-secondary);
+  padding: 8px;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-stats-clear:hover {
+  border-color: #ef4444;
+  color: #ef4444;
+  background: rgba(239, 68, 68, 0.05);
+}
+
+/* Full Screen Alert Overlay */
+.pomodoro-alert-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(7, 25, 35, 0.85);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: fadeIn 0.3s ease;
+}
+
+.pomodoro-alert-card {
+  width: 90%;
+  max-width: 420px;
+  background: rgba(17, 37, 55, 0.95);
+  border: 1px solid var(--border-color);
+  border-radius: 24px;
+  padding: 32px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), 0 0 30px rgba(56, 189, 248, 0.2);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  animation: alertCardScale 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+@keyframes alertCardScale {
+  from {
+    opacity: 0;
+    transform: scale(0.8) translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.alert-illustration-wrapper {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 4px;
+}
+
+.alert-illustration-wrapper.work-done {
+  background: rgba(74, 222, 128, 0.12);
+  color: var(--success-color);
+  border: 2px solid rgba(74, 222, 128, 0.2);
+  animation: ringAlert 1.5s infinite;
+}
+
+.alert-illustration-wrapper.break-done {
+  background: rgba(56, 189, 248, 0.12);
+  color: var(--accent-color);
+  border: 2px solid rgba(56, 189, 248, 0.2);
+  animation: ringAlert 1.5s infinite;
+}
+
+@keyframes ringAlert {
+  0% {
+    box-shadow: 0 0 0 0 rgba(74, 222, 128, 0.4);
+  }
+  70% {
+    box-shadow: 0 0 0 15px rgba(74, 222, 128, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(74, 222, 128, 0);
+  }
+}
+
+.pomodoro-alert-card h2 {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.pomodoro-alert-card p {
+  font-size: 1rem;
+  color: var(--text-secondary);
+  margin: 0;
+  line-height: 1.5;
+}
+
+.btn-alert-dismiss {
+  width: 100%;
+  padding: 12px;
+  font-size: 1.05rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, var(--accent-color), #0284c7);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(56, 189, 248, 0.3);
+  transition: all 0.2s;
+}
+
+.btn-alert-dismiss:hover {
+  background: var(--accent-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(34, 197, 94, 0.4);
+}
+
+.btn-alert-dismiss:active {
+  transform: translateY(0);
+}
+
+/* Pulse animation for timer details */
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Responsiveness */
+@media (max-width: 480px) {
+  .pomodoro-panel {
+    bottom: 0;
+    right: 0;
+    width: 100vw;
+    height: auto;
+    max-height: 80vh;
+    border-radius: 24px 24px 0 0;
+    border-bottom: none;
+    border-left: none;
+    border-right: none;
+  }
+  
+  .pomodoro-fab {
+    bottom: 16px;
+    right: 16px;
+  }
+}

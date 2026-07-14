@@ -35,7 +35,6 @@ build_images:
   only:
     - main
     - master
-    - merge_requests
 
 deploy_aws:
   stage: deploy
