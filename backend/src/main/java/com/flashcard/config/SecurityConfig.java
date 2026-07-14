@@ -88,8 +88,9 @@ public class SecurityConfig {
                 .requestMatchers(HttpMethod.GET, "/api/feedbacks").hasRole("ADMIN")
                 .requestMatchers(HttpMethod.PUT, "/api/feedbacks/*/status").hasRole("ADMIN")
                 
-                // ── AI Chat (Authenticated users only) ──────────────────────
+                // ── AI Chat & Knowledge Base (Authenticated users only) ──────────────────────
                 .requestMatchers(HttpMethod.POST, "/api/chat").authenticated()
+                .requestMatchers("/api/knowledge/**").authenticated()
                 
                 // ── Everything else requires valid JWT ──────────────────────
                 .anyRequest().authenticated()

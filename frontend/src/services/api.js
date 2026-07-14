@@ -295,3 +295,37 @@ export const chatApi = {
   }
 };
 
+export const knowledgeApi = {
+  /**
+   * Normalize and enrich any raw input from the user.
+   * @param {string} input - The raw text (e.g. Romaji, Kanji, meaning)
+   */
+  collect: async (input) => {
+    const response = await axios.post(`${API_BASE_URL}/knowledge/collect`, { input });
+    return response.data;
+  },
+  /**
+   * Save the finalized enriched knowledge card.
+   * @param {string} type - 'vocabulary' or 'grammar'
+   * @param {Object} data - The enriched JSON data
+   */
+  save: async (type, data) => {
+    const response = await axios.post(`${API_BASE_URL}/knowledge/save`, { type, data });
+    return response.data;
+  },
+  /**
+   * Generate customized Japanese reading material based on user's personal corpus.
+   */
+  generateReading: async () => {
+    const response = await axios.post(`${API_BASE_URL}/knowledge/corpus/generate-reading`);
+    return response.data;
+  },
+  /**
+   * Generate customized Japanese conversational dialogue based on user's personal corpus.
+   */
+  generateConversation: async () => {
+    const response = await axios.post(`${API_BASE_URL}/knowledge/corpus/generate-conversation`);
+    return response.data;
+  }
+};
+

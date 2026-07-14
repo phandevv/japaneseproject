@@ -15,6 +15,10 @@ public interface VocabularyRepository extends JpaRepository<Vocabulary, Long> {
 
     List<Vocabulary> findByLevel(String level);
 
+    java.util.Optional<Vocabulary> findFirstByKanji(String kanji);
+    
+    java.util.Optional<Vocabulary> findFirstByHiragana(String hiragana);
+
     Page<Vocabulary> findByLevel(String level, Pageable pageable);
 
     List<Vocabulary> findByLevelAndWordType(String level, String wordType);

@@ -110,4 +110,47 @@ public class Vocabulary {
 
     public String getSampleReading() { return sampleReading; }
     public void setSampleReading(String sampleReading) { this.sampleReading = sampleReading; }
+
+    // New AI Enrichment fields
+    @Column(name = "pitch_accent")
+    private String pitchAccent;
+
+    @Column(name = "synonyms", columnDefinition = "TEXT")
+    private String synonyms;
+
+    @Column(name = "antonyms", columnDefinition = "TEXT")
+    private String antonyms;
+
+    @Column(name = "common_mistakes", columnDefinition = "TEXT")
+    private String commonMistakes;
+
+    @Column(name = "collocations", columnDefinition = "TEXT")
+    private String collocations;
+
+    @Column(name = "mnemonic", columnDefinition = "TEXT")
+    private String mnemonic;
+
+    @Column(name = "conversation_examples", columnDefinition = "TEXT")
+    private String conversationExamples;
+
+    public String getPitchAccent() { return pitchAccent; }
+    public void setPitchAccent(String pitchAccent) { this.pitchAccent = pitchAccent; }
+
+    public String getSynonyms() { return synonyms; }
+    public void setSynonyms(String synonyms) { this.synonyms = synonyms; }
+
+    public String getAntonyms() { return antonyms; }
+    public void setAntonyms(String antonyms) { this.antonyms = antonyms; }
+
+    public String getCommonMistakes() { return commonMistakes; }
+    public void setCommonMistakes(String commonMistakes) { this.commonMistakes = commonMistakes; }
+
+    public String getCollocations() { return collocations; }
+    public void setCollocations(String collocations) { this.collocations = collocations; }
+
+    public String getMnemonic() { return mnemonic; }
+    public void setMnemonic(String mnemonic) { this.mnemonic = mnemonic; }
+
+    public String getConversationExamples() { return conversationExamples; }
+    public void setConversationExamples(String conversationExamples) { this.conversationExamples = conversationExamples; }
 }

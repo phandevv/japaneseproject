@@ -82,3 +82,17 @@ Tài liệu này chi tiết hóa các module nghiệp vụ lớn trong dự án 
   * Đọc file excel sử dụng thư viện **Apache POI**.
   * Phân tích các cột: Kanji, Hiragana, Romaji, Hán Việt, Từ loại, Cấp độ, Nghĩa.
   * Tự động lọc trùng và ghi nhận vào bảng `vocabulary`.
+
+---
+
+## 7. Module Personal Knowledge Base (AI Personal Knowledge Base Module)
+* **Mục tiêu**: Chuẩn hóa Romaji, Kana, chữ Kanji viết sai, hoặc nghĩa tiếng Việt về từ gốc. Làm giàu từ vựng & cấu trúc ngữ pháp thành các "Knowledge Cards" đầy đủ thông tin (pitch accent, mnemonic, collocations, ví dụ, hội thoại) kết hợp Obsidian + Notion + Anki. Lập lịch ôn tập SRS cho ngữ pháp và sinh bài đọc hiểu, hội thoại cá nhân hóa (Personal Corpus) chỉ dùng các từ vựng người dùng đã học.
+* **Lớp tham gia**:
+  * Controller: `KnowledgeController`, `ChatController`
+  * Service: `KnowledgeService`, `GrammarSrsService`, `PersonalCorpusService`, `ChatService`
+  * Repository: `GrammarCardRepository`, `GrammarReviewRepository`, `KnowledgeVersionRepository`, `WordReviewRepository`
+  * Entity: `GrammarCard`, `GrammarReview`, `KnowledgeVersion`, `Vocabulary`
+* **Cơ chế bảo vệ & Cấu hình**:
+  * **Bulkhead Pattern**: Giới hạn tối đa 50 concurrent requests đồng thời tại các AI Services (`KnowledgeService`, `PersonalCorpusService`, `ChatService`, `DeepSeekEnrichmentService`) để bảo vệ tài nguyên máy chủ.
+  * **AI Tutor Context**: Chatbot tự động đọc kho tri thức cá nhân của học viên để điều phối nội dung câu trả lời phù hợp với vốn từ của học viên.
+

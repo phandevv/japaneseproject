@@ -14,6 +14,7 @@ import FeedbackModal from './components/FeedbackModal';
 import FeedbackAdminPage from './pages/FeedbackAdminPage';
 import AiEnrichmentAdminPage from './pages/AiEnrichmentAdminPage';
 import AIChatWidget from './components/AIChatWidget';
+import KnowledgeBasePage from './pages/KnowledgeBasePage';
 
 const getTodayKey = () => new Date().toISOString().slice(0, 10);
 
@@ -168,6 +169,8 @@ function App() {
         return <AiEnrichmentAdminPage goBack={() => setCurrentPage('home')} />;
       case 'search':
         return <SearchPage />;
+      case 'knowledge':
+        return <KnowledgeBasePage />;
       default:
         return <HomePage startStudy={startStudy} />;
     }

@@ -2,6 +2,11 @@ package com.flashcard.service;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.flashcard.model.User;
+import com.flashcard.model.WordReview;
+import com.flashcard.model.GrammarReview;
+import com.flashcard.repository.WordReviewRepository;
+import com.flashcard.repository.GrammarReviewRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +22,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Semaphore;
+import java.util.stream.Collectors;
 
 @Service
 public class ChatService {
@@ -36,15 +42,21 @@ public class ChatService {
         "Nếu câu hỏi ngoài phạm vi, từ chối lịch sự. " +
         "Dùng định dạng rõ ràng: Kanji (ふりがな) - nghĩa.";
 
-    // Bulkhead: limit concurrent chat requests to 3
-    private final Semaphore bulkheadSemaphore = new Semaphore(3);
+    // Bulkhead: limit concurrent chat requests to 50
+    private final Semaphore bulkheadSemaphore = new Semaphore(50);
 
     private final ObjectMapper objectMapper;
     private final HttpClient httpClient;
+    private final WordReviewRepository wordReviewRepository;
+    private final GrammarReviewRepository grammarReviewRepository;
 
     @Autowired
-    public ChatService(ObjectMapper objectMapper) {
+    public ChatService(ObjectMapper objectMapper,
+                       WordReviewRepository wordReviewRepository,
+                       GrammarReviewRepository grammarReviewRepository) {
         this.objectMapper = objectMapper;
+        this.wordReviewRepository = wordReviewRepository;
+        this.grammarReviewRepository = grammarReviewRepository;
         this.httpClient = HttpClient.newBuilder()
                 .connectTimeout(Duration.ofSeconds(10))
                 .build();
@@ -53,11 +65,12 @@ public class ChatService {
     /**
      * Send a chat message to DeepSeek AI and return the response.
      *
+     * @param user      The authenticated user (can be null for guest)
      * @param history   The conversation history (alternating user/assistant messages, limited to last MAX_HISTORY_TURNS)
      * @param userMessage The new user message
      * @return CompletableFuture containing the assistant's reply text
      */
-    public CompletableFuture<String> chat(List<Map<String, String>> history, String userMessage) {
+    public CompletableFuture<String> chat(User user, List<Map<String, String>> history, String userMessage) {
         if (!bulkheadSemaphore.tryAcquire()) {
             return CompletableFuture.completedFuture(
                 "⚠️ Hệ thống AI đang bận. Vui lòng thử lại sau vài giây!"
@@ -78,9 +91,37 @@ public class ChatService {
         }
 
         try {
+            // Build dynamic system prompt incorporating user's personal corpus (already learned items)
+            StringBuilder dynamicSystemPrompt = new StringBuilder(SYSTEM_PROMPT);
+            if (user != null) {
+                // Fetch up to 20 learned words
+                List<WordReview> learnedWords = wordReviewRepository.findAllLearnedByUser(user);
+                List<String> words = learnedWords.stream()
+                        .map(wr -> wr.getVocabulary().getKanji() != null && !wr.getVocabulary().getKanji().isEmpty()
+                                ? wr.getVocabulary().getKanji()
+                                : wr.getVocabulary().getHiragana())
+                        .limit(20)
+                        .collect(Collectors.toList());
+
+                // Fetch up to 8 learned grammar cards
+                List<GrammarReview> learnedGrammars = grammarReviewRepository.findByUserIdAndIsLearned(user.getId(), true);
+                List<String> grammars = learnedGrammars.stream()
+                        .map(gr -> gr.getGrammarCard().getGrammar())
+                        .limit(8)
+                        .collect(Collectors.toList());
+
+                if (!words.isEmpty() || !grammars.isEmpty()) {
+                    dynamicSystemPrompt.append("\n\nHọc viên hiện tại đã biết các từ vựng này: ");
+                    dynamicSystemPrompt.append(words.isEmpty() ? "(trống)" : String.join(", ", words));
+                    dynamicSystemPrompt.append("\nNgữ pháp đã biết: ");
+                    dynamicSystemPrompt.append(grammars.isEmpty() ? "(trống)" : String.join(", ", grammars));
+                    dynamicSystemPrompt.append("\nKhi giải thích ngữ pháp, dịch thuật hoặc đưa ra câu ví dụ mẫu, hãy cố gắng liên hệ và sử dụng các từ vựng/ngữ pháp mà học viên đã học này để tối đa hóa cá nhân hóa học tập.");
+                }
+            }
+
             // Build message list: system + trimmed history + new user message
             List<Map<String, Object>> messages = new ArrayList<>();
-            messages.add(Map.of("role", "system", "content", SYSTEM_PROMPT));
+            messages.add(Map.of("role", "system", "content", dynamicSystemPrompt.toString()));
 
             // Keep at most MAX_HISTORY_TURNS * 2 messages (user + assistant pairs)
             int historyStart = Math.max(0, history.size() - MAX_HISTORY_TURNS * 2);

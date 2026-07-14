@@ -32,6 +32,7 @@ const Sidebar = ({ currentPage, setCurrentPage, onLoginClick, user, onLogout, on
     { key: "search",    icon: <Search size={17} />,   label: "Tìm kiếm" },
     { key: "daily",     icon: <BookOpen size={17} />, label: "Học hàng ngày" },
     { key: "flashcard", icon: <Layers size={17} />,   label: "Flashcard" },
+    { key: "knowledge", icon: <Database size={17} />, label: "Kho tri thức AI" },
   ];
 
   const displayName = user?.displayName || user?.username || "";

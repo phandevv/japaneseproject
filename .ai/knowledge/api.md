@@ -154,3 +154,121 @@ Tài liệu này đặc tả toàn bộ danh sách REST API endpoints được x
 ### C. Đánh dấu ngày hoàn thành bài học
 * **Endpoint**: `POST /api/settings/{level}/complete-day?day={day}`
 * **Xác thực**: Yêu cầu Token
+
+---
+
+## 5. Module Personal Knowledge Base - `KnowledgeController`
+
+### A. Chuẩn hóa và làm giàu đầu vào bất kỳ (Normalize & Enrich)
+* **Endpoint**: `POST /api/knowledge/collect`
+* **Xác thực**: Yêu cầu Token
+* **Request Body**:
+  ```json
+  {
+    "input": "hazukashii"
+  }
+  ```
+* **Phản hồi thành công (200 OK)**:
+  ```json
+  {
+    "type": "vocabulary",
+    "normalizedInput": "恥ずかしい",
+    "existsInDb": true,
+    "enrichmentData": {
+      "word": "恥ずかしい",
+      "reading": "はずかしい",
+      "meaning": "xấu hổ, e thẹn",
+      "pitchAccent": "4",
+      "mnemonic": "Bộ Tâm (忄) đứng bên chữ Nhĩ (耳) nghĩa là nghe thấy điều xấu hổ thì đỏ tai ấm lòng...",
+      "synonyms": "[\"気恥ずかしい\"]",
+      "antonyms": "[\"誇らしい\"]",
+      "collocations": "[\"恥ずかしい思いをする\"]",
+      "exampleSentences": "[{\"ja\":\"間違えて恥ずかしい。\",\"reading\":\"まちがえてはずかしい。\",\"vi\":\"Tôi làm sai nên thấy xấu hổ.\"}]"
+    }
+  }
+  ```
+
+### B. Lưu thẻ kiến thức (Save Knowledge Card)
+* **Endpoint**: `POST /api/knowledge/save`
+* **Xác thực**: Yêu cầu Token
+* **Request Body**:
+  ```json
+  {
+    "type": "vocabulary",
+    "data": {
+      "word": "恥ずかしい",
+      "reading": "はずかしい",
+      "meaning": "xấu hổ",
+      "...": "..."
+    }
+  }
+  ```
+* **Phản hồi thành công (200 OK)**:
+  ```json
+  {
+    "status": "success",
+    "id": 15,
+    "type": "vocabulary"
+  }
+  ```
+
+### C. Lấy số lượng cấu trúc ngữ pháp đến hạn ôn tập
+* **Endpoint**: `GET /api/knowledge/grammar/due-count`
+* **Xác thực**: Yêu cầu Token
+* **Phản hồi thành công (200 OK)**:
+  ```json
+  {
+    "dueCount": 5
+  }
+  ```
+
+### D. Lấy danh sách cấu trúc ngữ pháp cần ôn tập
+* **Endpoint**: `GET /api/knowledge/grammar/due-list`
+* **Xác thực**: Yêu cầu Token
+* **Phản hồi thành công (200 OK)**: Mảng chứa các đối tượng `GrammarCard` đến hạn.
+
+### E. Gửi đánh giá ôn tập Ngữ pháp
+* **Endpoint**: `POST /api/knowledge/grammar/review`
+* **Xác thực**: Yêu cầu Token
+* **Request Body**:
+  ```json
+  {
+    "grammarId": 12,
+    "quality": 3
+  }
+  ```
+* **Phản hồi thành công (200 OK)**: Trả về đối tượng `GrammarReview` sau khi đã áp dụng SM-2 tái lập lịch.
+
+### F. Kiến tạo bài đọc hiểu cá nhân hóa (Personal Corpus Reading)
+* **Endpoint**: `POST /api/knowledge/corpus/generate-reading`
+* **Xác thực**: Yêu cầu Token
+* **Phản hồi thành công (200 OK)**:
+  ```json
+  {
+    "title": "...",
+    "titleReading": "...",
+    "passage": "...",
+    "passageReading": "...",
+    "translation": "...",
+    "quiz": {
+      "question": "...",
+      "options": ["A", "B", "C", "D"],
+      "answer": "A",
+      "explanation": "..."
+    }
+  }
+  ```
+
+### G. Kiến tạo hội thoại đàm thoại cá nhân hóa (Personal Corpus Conversation)
+* **Endpoint**: `POST /api/knowledge/corpus/generate-conversation`
+* **Xác thực**: Yêu cầu Token
+* **Phản hồi thành công (200 OK)**:
+  ```json
+  {
+    "scenario": "...",
+    "dialogues": [
+      { "speaker": "A", "ja": "...", "reading": "...", "vi": "..." }
+    ]
+  }
+  ```
+

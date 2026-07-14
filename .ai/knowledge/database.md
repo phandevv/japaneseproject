@@ -13,7 +13,9 @@ erDiagram
     USERS ||--o| USER_SETTINGS : "has setting"
     USERS ||--o{ WORD_REVIEWS : "performs review"
     USERS ||--o{ STUDY_SESSIONS : "logs activity"
+    USERS ||--o{ GRAMMAR_REVIEWS : "performs review"
     VOCABULARY ||--o{ WORD_REVIEWS : "reviewed"
+    GRAMMAR_CARDS ||--o{ GRAMMAR_REVIEWS : "reviewed"
 
     USERS {
         bigint id PK
@@ -37,6 +39,51 @@ erDiagram
         text sample_sentence
         text sample_translation
         text sample_reading
+        varchar pitch_accent
+        text synonyms
+        text antonyms
+        text common_mistakes
+        text collocations
+        text mnemonic
+        text conversation_examples
+    }
+
+    GRAMMAR_CARDS {
+        bigint id PK
+        varchar grammar
+        varchar meaning
+        text formation
+        text usage_desc
+        text difference
+        text similar_grammar
+        text common_mistakes
+        text examples
+        text quizzes
+        text reading_passage
+        varchar jlpt
+        datetime created_at
+        datetime updated_at
+    }
+
+    GRAMMAR_REVIEWS {
+        bigint id PK
+        bigint user_id FK
+        bigint grammar_card_id FK
+        datetime next_review
+        double ease_factor
+        int interval_days
+        int repetitions
+        boolean is_learned
+    }
+
+    KNOWLEDGE_VERSIONS {
+        bigint id PK
+        varchar entity_type
+        bigint entity_id
+        int version
+        text old_data
+        varchar updated_by
+        datetime created_at
     }
 
     USER_SETTINGS {
@@ -80,6 +127,7 @@ Cơ sở dữ liệu được khởi tạo và nâng cấp thông qua Flyway t�
 * **`V4__add_completed_days.sql`**: Thêm cột `completed_days` (kiểu TEXT) trong `user_settings` để lưu danh sách các ngày đã hoàn thành của từng cấp độ học.
 * **`V5__add_romaji.sql`**: Thêm cột `romaji` trong bảng `vocabulary` để lưu phiên âm Latin, hỗ trợ gõ tìm kiếm Romaji.
 * **`V6__add_word_review_tracking.sql`**: Thêm cột `is_learned` (Boolean) vào bảng `word_reviews` để theo dõi chính xác trạng thái từ đã học của học viên, phục vụ quy tắc bảo toàn từ đã học khi ôn tập fail.
+* **`V12__ai_knowledge_base.sql`**: Bổ sung các cột dữ liệu làm giàu vào bảng `vocabulary` và tạo các bảng mới `grammar_cards`, `grammar_reviews`, `knowledge_versions` hỗ trợ tính năng **AI Personal Japanese Knowledge Base** lưu trữ tri thức lâu dài, lập lịch ôn tập và kiểm soát lịch sử phiên bản.
 
 ---
 

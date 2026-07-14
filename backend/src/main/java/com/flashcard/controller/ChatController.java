@@ -1,9 +1,11 @@
 package com.flashcard.controller;
 
+import com.flashcard.model.User;
 import com.flashcard.service.ChatService;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
@@ -26,7 +28,9 @@ public class ChatController {
      * Returns: { "reply": "..." }
      */
     @PostMapping
-    public ResponseEntity<Map<String, String>> chat(@RequestBody ChatRequest body) {
+    public ResponseEntity<Map<String, String>> chat(
+            @AuthenticationPrincipal User user,
+            @RequestBody ChatRequest body) {
         // Validate message
         String message = body.message() != null ? body.message().trim() : "";
         if (message.isEmpty()) {
@@ -39,9 +43,9 @@ public class ChatController {
 
         List<Map<String, String>> history = body.history() != null ? body.history() : List.of();
         try {
-            String reply = chatService.chat(history, message).get();
+            String reply = chatService.chat(user, history, message).get();
             return ResponseEntity.ok(Map.of("reply", reply));
-        } catch (Exception e) {
+        } catch (java.util.concurrent.ExecutionException | InterruptedException e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(Map.of("error", "Lỗi xử lý yêu cầu AI: " + e.getMessage()));
         }

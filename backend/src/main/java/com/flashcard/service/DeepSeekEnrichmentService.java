@@ -25,8 +25,8 @@ public class DeepSeekEnrichmentService {
 
     private static final Logger log = LoggerFactory.getLogger(DeepSeekEnrichmentService.class);
 
-    // Bulkhead Pattern: limit concurrent AI requests to 5 to protect server resources
-    private final Semaphore bulkheadSemaphore = new Semaphore(5);
+    // Bulkhead Pattern: limit concurrent AI requests to 50 to protect server resources
+    private final Semaphore bulkheadSemaphore = new Semaphore(50);
 
     private final VocabularyRepository vocabularyRepository;
     private final ObjectMapper objectMapper;
@@ -43,7 +43,7 @@ public class DeepSeekEnrichmentService {
 
     public CompletableFuture<Vocabulary> enrichVocabulary(Vocabulary vocab) {
         if (!bulkheadSemaphore.tryAcquire()) {
-            log.warn("Bulkhead rejected AI request for vocabulary ID: {} because concurrent limit of 5 is exceeded.", vocab.getId());
+            log.warn("Bulkhead rejected AI request for vocabulary ID: {} because concurrent limit of 50 is exceeded.", vocab.getId());
             return CompletableFuture.failedFuture(new ResponseStatusException(
                 HttpStatus.TOO_MANY_REQUESTS,
                 "Hệ thống AI đang bận xử lý quá nhiều yêu cầu đồng thời. Vui lòng thử lại sau ít phút!"
