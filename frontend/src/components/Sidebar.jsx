@@ -1,5 +1,5 @@
 import React, { useRef, useState } from "react";
-import { Home, Search, BookOpen, Layers, LogOut, LogIn, Upload, Loader, User, Settings, ShieldCheck, MessageSquare } from "lucide-react";
+import { Home, Search, BookOpen, Layers, LogOut, LogIn, Upload, Loader, User, Settings, ShieldCheck, MessageSquare, Cpu } from "lucide-react";
 import { useLanguage } from "../context/LanguageContext";
 import { vocabApi } from "../services/api";
 
@@ -99,6 +99,13 @@ const Sidebar = ({ currentPage, setCurrentPage, onLoginClick, user, onLogout, on
             >
               <MessageSquare size={17} />
               <span>Quản lý góp ý</span>
+            </button>
+            <button
+              className={`sidebar-link${currentPage === "admin-ai" ? " active" : ""}`}
+              onClick={() => setCurrentPage("admin-ai")}
+            >
+              <Cpu size={17} />
+              <span>Làm giàu AI</span>
             </button>
             <button
               className="sidebar-link"

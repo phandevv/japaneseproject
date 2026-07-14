@@ -12,6 +12,7 @@ import PomodoroTimer from './components/PomodoroTimer';
 import SrsListPage from './pages/SrsListPage';
 import FeedbackModal from './components/FeedbackModal';
 import FeedbackAdminPage from './pages/FeedbackAdminPage';
+import AiEnrichmentAdminPage from './pages/AiEnrichmentAdminPage';
 
 const getTodayKey = () => new Date().toISOString().slice(0, 10);
 
@@ -162,6 +163,8 @@ function App() {
         return <VocabAdminPage goBack={() => setCurrentPage('home')} />;
       case 'admin-feedback':
         return <FeedbackAdminPage goBack={() => setCurrentPage('home')} />;
+      case 'admin-ai':
+        return <AiEnrichmentAdminPage goBack={() => setCurrentPage('home')} />;
       case 'search':
         return <SearchPage />;
       default:
