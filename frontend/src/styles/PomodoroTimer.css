@@ -53,12 +53,12 @@
   bottom: 92px;
   right: 24px;
   width: 360px;
-  background: rgba(17, 37, 55, 0.85);
+  background: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border: 1px solid var(--border-color);
   border-radius: 20px;
-  box-shadow: var(--shadow-lg), 0 10px 30px rgba(0, 0, 0, 0.3), 0 0 20px rgba(56, 189, 248, 0.1);
+  box-shadow: var(--shadow-lg), 0 10px 30px rgba(0, 0, 0, 0.08);
   z-index: 998;
   overflow: hidden;
   font-family: var(--font-ui);
@@ -120,7 +120,8 @@
   display: flex;
   padding: 8px 20px;
   gap: 6px;
-  background: rgba(0, 0, 0, 0.15);
+  background: var(--surface-hover);
+  border-bottom: 1px solid var(--border-color);
 }
 
 .pomodoro-tab-btn {
@@ -211,7 +212,7 @@
 
 .timer-ring-bg {
   fill: none;
-  stroke: rgba(255, 255, 255, 0.05);
+  stroke: var(--border-color);
   stroke-width: 8;
 }
 
@@ -303,7 +304,7 @@
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.15);
+  background: var(--border-color);
   transition: all 0.3s;
 }
 
@@ -339,7 +340,7 @@
 .setting-input-wrapper {
   display: flex;
   align-items: center;
-  background: rgba(0, 0, 0, 0.2);
+  background: var(--surface-hover);
   border: 1px solid var(--border-color);
   border-radius: 8px;
   padding: 4px 8px;
@@ -391,7 +392,7 @@
   height: 20px;
   border-radius: 6px;
   border: 1px solid var(--border-color);
-  background: rgba(0, 0, 0, 0.2);
+  background: var(--surface-hover);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -419,7 +420,7 @@
 
 .btn-settings-cancel {
   flex: 1;
-  background: rgba(255, 255, 255, 0.05);
+  background: var(--surface-color);
   border: 1px solid var(--border-color);
   color: var(--text-primary);
   padding: 10px;
@@ -431,7 +432,7 @@
 }
 
 .btn-settings-cancel:hover {
-  background: rgba(255, 255, 255, 0.1);
+  background: var(--surface-hover);
 }
 
 .btn-settings-save {
@@ -461,8 +462,8 @@
 }
 
 .stat-box {
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  background: var(--surface-hover);
+  border: 1px solid var(--border-color);
   border-radius: 12px;
   padding: 16px;
   display: flex;
@@ -529,9 +530,9 @@
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: rgba(7, 25, 35, 0.85);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
   z-index: 9999;
   display: flex;
   align-items: center;
@@ -542,11 +543,11 @@
 .pomodoro-alert-card {
   width: 90%;
   max-width: 420px;
-  background: rgba(17, 37, 55, 0.95);
+  background: var(--surface-color);
   border: 1px solid var(--border-color);
   border-radius: 24px;
   padding: 32px;
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), 0 0 30px rgba(56, 189, 248, 0.2);
+  box-shadow: var(--shadow-lg), 0 10px 30px rgba(0, 0, 0, 0.08);
   text-align: center;
   display: flex;
   flex-direction: column;
