@@ -603,11 +603,39 @@ const KanjiDetailModal = ({ words, initialIndex, onClose }) => {
     setLoadingEnrich(true);
 
     let active = true;
+    let pollInterval = null;
+
     vocabApi.enrich(word.id)
       .then(data => {
-        if (active) {
+        if (!active) return;
+        if (data.sampleSentence) {
+          // Mutate parent object to cache the enrichment
+          word.sampleSentence = data.sampleSentence;
+          word.sampleReading = data.sampleReading;
+          word.sampleTranslation = data.sampleTranslation;
+          word.kanjiWords = data.kanjiWords;
+
           setEnriched(data);
           setLoadingEnrich(false);
+        } else {
+          // Start polling every 1.5s until database is updated
+          pollInterval = setInterval(() => {
+            vocabApi.getById(word.id)
+              .then(pollData => {
+                if (!active) return;
+                if (pollData.sampleSentence) {
+                  word.sampleSentence = pollData.sampleSentence;
+                  word.sampleReading = pollData.sampleReading;
+                  word.sampleTranslation = pollData.sampleTranslation;
+                  word.kanjiWords = pollData.kanjiWords;
+
+                  setEnriched(pollData);
+                  setLoadingEnrich(false);
+                  clearInterval(pollInterval);
+                }
+              })
+              .catch(err => console.error("Failed to poll vocabulary details:", err));
+          }, 1500);
         }
       })
       .catch(err => {
@@ -619,6 +647,7 @@ const KanjiDetailModal = ({ words, initialIndex, onClose }) => {
 
     return () => {
       active = false;
+      if (pollInterval) clearInterval(pollInterval);
     };
   }, [word]);
 

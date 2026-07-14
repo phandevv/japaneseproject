@@ -71,13 +71,30 @@ const DailyStudyPage = ({ level, stats, goBack }) => {
     setLoadingQuizEnrich(true);
 
     let active = true;
+    let pollInterval = null;
+
     vocabApi.enrich(currentWord.id)
       .then(data => {
-        if (active) {
+        if (!active) return;
+        if (data.sampleSentence) {
           setQuizWordEnriched(data);
           setLoadingQuizEnrich(false);
-          // Update the word inside quizWords list so we cache it
           setQuizWords(prev => prev.map(w => w.id === data.id ? data : w));
+        } else {
+          // Poll every 1.5s until database is updated
+          pollInterval = setInterval(() => {
+            vocabApi.getById(currentWord.id)
+              .then(pollData => {
+                if (!active) return;
+                if (pollData.sampleSentence) {
+                  setQuizWordEnriched(pollData);
+                  setLoadingQuizEnrich(false);
+                  setQuizWords(prev => prev.map(w => w.id === pollData.id ? pollData : w));
+                  clearInterval(pollInterval);
+                }
+              })
+              .catch(err => console.error("Failed to poll vocabulary details:", err));
+          }, 1500);
         }
       })
       .catch(err => {
@@ -89,6 +106,7 @@ const DailyStudyPage = ({ level, stats, goBack }) => {
 
     return () => {
       active = false;
+      if (pollInterval) clearInterval(pollInterval);
     };
   }, [phase, quizIndex, quizWords]);
   

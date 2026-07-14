@@ -214,6 +214,12 @@ export const vocabApi = {
   enrich: async (id) => {
     const response = await axios.post(`${API_BASE_URL}/vocab/${id}/enrich`);
     return response.data;
+  },
+
+  // Get vocabulary by ID
+  getById: async (id) => {
+    const response = await axios.get(`${API_BASE_URL}/vocab/${id}`);
+    return response.data;
   }
 };
 

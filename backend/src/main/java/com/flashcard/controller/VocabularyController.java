@@ -127,6 +127,17 @@ public class VocabularyController {
     }
 
     /**
+     * Get vocabulary by ID
+     * GET /api/vocab/{id}
+     */
+    @GetMapping("/{id}")
+    public ResponseEntity<Vocabulary> getById(@PathVariable Long id) {
+        return service.getById(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
+
+    /**
      * Delete vocabulary word
      * DELETE /api/vocab/{id}
      */
@@ -140,20 +151,25 @@ public class VocabularyController {
 
     /**
      * Enrich vocabulary word (Kanji-words and sample sentence using DeepSeek)
+     * Triggered in background, returns immediately.
      * POST /api/vocab/{id}/enrich
      */
     @PostMapping("/{id}/enrich")
-    public CompletableFuture<ResponseEntity<?>> enrich(@PathVariable Long id) {
+    public ResponseEntity<?> enrich(@PathVariable Long id) {
         var existingOpt = service.getById(id);
         if (existingOpt.isEmpty()) {
-            return CompletableFuture.completedFuture(ResponseEntity.notFound().build());
+            return ResponseEntity.notFound().build();
         }
         Vocabulary existing = existingOpt.get();
         if (existing.getSampleSentence() != null && !existing.getSampleSentence().isBlank()) {
-            return CompletableFuture.completedFuture(ResponseEntity.ok(existing));
+            return ResponseEntity.ok(existing);
         }
-        return enrichmentService.enrichVocabulary(existing)
-                .thenApply(ResponseEntity::ok);
+        
+        // Trigger enrichment asynchronously in the background
+        enrichmentService.enrichVocabulary(existing);
+        
+        // Return existing immediately so the client does not wait/block
+        return ResponseEntity.ok(existing);
     }
 
     /**
