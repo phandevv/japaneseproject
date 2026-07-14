@@ -17,7 +17,8 @@ public interface WordReviewRepository extends JpaRepository<WordReview, Long> {
 
     Optional<WordReview> findByUserAndVocabulary(User user, Vocabulary vocabulary);
 
-    List<WordReview> findByUserAndNextReviewBefore(User user, Instant time);
+    @Query("SELECT wr FROM WordReview wr JOIN FETCH wr.vocabulary WHERE wr.user = :user AND wr.nextReview < :time")
+    List<WordReview> findByUserAndNextReviewBefore(@Param("user") User user, @Param("time") Instant time);
 
     long countByUserAndNextReviewBefore(User user, Instant time);
 

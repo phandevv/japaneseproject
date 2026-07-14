@@ -129,7 +129,7 @@ const FlashcardCard = ({ word, flipped, onFlip, onRateWord }) => {
                   <span style={{ 
                     display: 'inline-block',
                     padding: '4px 12px', 
-                    backgroundColor: 'rgba(255,255,255,0.08)', 
+                    backgroundColor: 'var(--surface-hover)', 
                     borderRadius: '4px',
                     color: 'var(--text-secondary)',
                     fontSize: '0.85rem'
@@ -142,16 +142,16 @@ const FlashcardCard = ({ word, flipped, onFlip, onRateWord }) => {
               {/* Rate buttons for logged-in user in flashcard mode */}
               {onRateWord && (
                 <div style={{ display: 'flex', gap: '6px', width: '100%', justifyContent: 'center', marginTop: '15px' }} onClick={e => e.stopPropagation()}>
-                  <button className="btn" style={{ backgroundColor: 'rgba(239, 68, 68, 0.2)', color: '#ef4444', borderColor: '#ef4444', border: '1px solid', flex: 1, padding: '8px 2px', fontSize: '0.8rem', cursor: 'pointer' }} onClick={() => onRateWord(1)}>
+                  <button className="btn" style={{ backgroundColor: 'var(--danger-light)', color: 'var(--danger-color)', borderColor: 'rgba(239, 68, 68, 0.3)', border: '1px solid', flex: 1, padding: '8px 2px', fontSize: '0.8rem', cursor: 'pointer' }} onClick={() => onRateWord(1)}>
                     Forgot
                   </button>
-                  <button className="btn" style={{ backgroundColor: 'rgba(245, 158, 11, 0.2)', color: '#f59e0b', borderColor: '#f59e0b', border: '1px solid', flex: 1, padding: '8px 2px', fontSize: '0.8rem', cursor: 'pointer' }} onClick={() => onRateWord(2)}>
+                  <button className="btn" style={{ backgroundColor: 'var(--warning-light)', color: 'var(--warning-color)', borderColor: 'rgba(245, 158, 11, 0.3)', border: '1px solid', flex: 1, padding: '8px 2px', fontSize: '0.8rem', cursor: 'pointer' }} onClick={() => onRateWord(2)}>
                     Hard
                   </button>
-                  <button className="btn" style={{ backgroundColor: 'rgba(59, 130, 246, 0.2)', color: '#3b82f6', borderColor: '#3b82f6', border: '1px solid', flex: 1, padding: '8px 2px', fontSize: '0.8rem', cursor: 'pointer' }} onClick={() => onRateWord(3)}>
+                  <button className="btn" style={{ backgroundColor: 'var(--accent-light)', color: 'var(--accent-color)', borderColor: 'rgba(37, 99, 235, 0.3)', border: '1px solid', flex: 1, padding: '8px 2px', fontSize: '0.8rem', cursor: 'pointer' }} onClick={() => onRateWord(3)}>
                     Good
                   </button>
-                  <button className="btn" style={{ backgroundColor: 'rgba(16, 185, 129, 0.2)', color: '#10b981', borderColor: '#10b981', border: '1px solid', flex: 1, padding: '8px 2px', fontSize: '0.8rem', cursor: 'pointer' }} onClick={() => onRateWord(4)}>
+                  <button className="btn" style={{ backgroundColor: 'var(--success-light)', color: 'var(--success-color)', borderColor: 'rgba(16, 185, 129, 0.3)', border: '1px solid', flex: 1, padding: '8px 2px', fontSize: '0.8rem', cursor: 'pointer' }} onClick={() => onRateWord(4)}>
                     Easy
                   </button>
                 </div>
@@ -177,7 +177,7 @@ const FlashcardCard = ({ word, flipped, onFlip, onRateWord }) => {
               {enriched && enriched.sampleSentence && (
                 <div style={{ 
                   padding: '14px 18px', 
-                  backgroundColor: 'rgba(255,255,255,0.04)', 
+                  backgroundColor: 'var(--surface-hover)', 
                   borderRadius: '8px',
                   borderLeft: '4px solid var(--accent-color)'
                 }}>
@@ -203,14 +203,14 @@ const FlashcardCard = ({ word, flipped, onFlip, onRateWord }) => {
                   return (
                     <div style={{ 
                       padding: '12px 18px', 
-                      backgroundColor: 'rgba(255,255,255,0.04)', 
+                      backgroundColor: 'var(--surface-hover)', 
                       borderRadius: '8px',
                       borderLeft: '4px solid var(--success-color)'
                     }}>
                       <h4 style={{ color: 'var(--success-color)', marginBottom: '6px', fontSize: '0.9rem', fontWeight: '600' }}>Kanji liên quan:</h4>
                       <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
                         {relatedWords.map((item, idx) => (
-                          <div key={idx} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '0.85rem', borderBottom: idx < relatedWords.length - 1 ? '1px dashed rgba(255,255,255,0.05)' : 'none', paddingBottom: idx < relatedWords.length - 1 ? '4px' : '0' }}>
+                          <div key={idx} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '0.85rem', borderBottom: idx < relatedWords.length - 1 ? '1px dashed var(--border-color)' : 'none', paddingBottom: idx < relatedWords.length - 1 ? '4px' : '0' }}>
                             <span style={{ fontWeight: 'bold', color: 'var(--text-primary)' }}>{item.word} ({item.reading})</span>
                             <span style={{ color: 'var(--text-secondary)', fontSize: '0.8rem' }}>{item.meaning}</span>
                           </div>

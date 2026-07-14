@@ -195,7 +195,7 @@ const ProfileModal = ({ onClose }) => {
                   padding: '10px 14px', 
                   borderRadius: '12px', 
                   border: '1px solid var(--border-color)', 
-                  backgroundColor: 'var(--card-bg)', 
+                  backgroundColor: 'var(--surface-color)', 
                   color: 'var(--text-primary)',
                   boxSizing: 'border-box'
                 }}
@@ -238,7 +238,7 @@ const ProfileModal = ({ onClose }) => {
                   padding: '10px 14px', 
                   borderRadius: '12px', 
                   border: '1px solid var(--border-color)', 
-                  backgroundColor: 'var(--card-bg)', 
+                  backgroundColor: 'var(--surface-color)', 
                   color: 'var(--text-primary)',
                   boxSizing: 'border-box'
                 }}
@@ -258,7 +258,7 @@ const ProfileModal = ({ onClose }) => {
                   padding: '10px 14px', 
                   borderRadius: '12px', 
                   border: '1px solid var(--border-color)', 
-                  backgroundColor: 'var(--card-bg)', 
+                  backgroundColor: 'var(--surface-color)', 
                   color: 'var(--text-primary)',
                   boxSizing: 'border-box'
                 }}
@@ -278,20 +278,20 @@ const ProfileModal = ({ onClose }) => {
                 padding: '10px 14px', 
                 borderRadius: '12px', 
                 border: '1px solid var(--border-color)', 
-                backgroundColor: 'var(--card-bg)', 
+                backgroundColor: 'var(--surface-color)', 
                 color: 'var(--text-primary)',
                 cursor: 'pointer',
                 boxSizing: 'border-box'
               }}
             >
-              <option value="" style={{ backgroundColor: 'var(--card-bg)', color: 'var(--text-primary)' }}>
+              <option value="" style={{ backgroundColor: 'var(--surface-color)', color: 'var(--text-primary)' }}>
                 -- Chọn Tỉnh / Thành phố --
               </option>
               {VIETNAM_PROVINCES.map((prov, idx) => (
                 <option 
                   key={idx} 
                   value={prov} 
-                  style={{ backgroundColor: 'var(--card-bg)', color: 'var(--text-primary)' }}
+                  style={{ backgroundColor: 'var(--surface-color)', color: 'var(--text-primary)' }}
                 >
                   {prov}
                 </option>
@@ -319,7 +319,7 @@ const ProfileModal = ({ onClose }) => {
                     padding: '6px 12px',
                     borderRadius: '10px',
                     border: selectedAvatar === av ? '2px solid var(--accent-color)' : '1px solid var(--border-color)',
-                    backgroundColor: selectedAvatar === av ? 'rgba(99, 102, 241, 0.1)' : 'var(--card-bg)',
+                    backgroundColor: selectedAvatar === av ? 'var(--accent-light)' : 'var(--surface-color)',
                     cursor: 'pointer',
                     transition: 'all 0.2s ease',
                     flexShrink: 0

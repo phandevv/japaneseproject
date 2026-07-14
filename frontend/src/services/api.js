@@ -1,8 +1,13 @@
 import axios from 'axios';
 
 const getApiBaseUrl = () => {
-  const host = typeof window !== 'undefined' ? window.location.hostname : '127.0.0.1';
-  return `http://${host}:8080/api`;
+  if (typeof window === 'undefined') return 'http://127.0.0.1:8080/api';
+  const { hostname, protocol } = window.location;
+  if (hostname === 'localhost' || hostname === '127.0.0.1') {
+    return 'http://localhost:8080/api';
+  }
+  // On production, use relative /api so it maps to the same protocol (HTTPS) and port via Nginx
+  return `${protocol}//${hostname}/api`;
 };
 
 const API_BASE_URL = getApiBaseUrl();

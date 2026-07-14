@@ -1,97 +1,75 @@
 #!/bin/bash
-# ==============================================================
-# setup-https.sh — Run this ONCE on your EC2 instance to install
-# NGINX + Let's Encrypt SSL for NihongoCards
-#
-# Usage:
-#   chmod +x setup-https.sh
-#   ./setup-https.sh phandeptrai.id.vn your@email.com
-# ==============================================================
+set -e
 
-DOMAIN=${1:?"Usage: $0 <domain> <email>"}
-EMAIL=${2:?"Usage: $0 <domain> <email>"}
+DOMAIN="phandeptrai.id.vn"
+EMAIL="vanphan190704@gmail.com"
+APP_DIR="/home/ec2-user/app"
 
-echo "🔧 Installing NGINX and Certbot..."
-sudo yum update -y
-sudo yum install -y nginx certbot python3-certbot-nginx
+echo "Step 1: Move Docker frontend from port 80 to 3000 first"
+cd "$APP_DIR"
+sed -i 's|- "80:80"|- "3000:80"|g' docker-compose.yml
+sed -i "s/- '80:80'/- '3000:80'/g" docker-compose.yml
+grep "3000" docker-compose.yml && echo "Port changed OK" || echo "WARNING: check docker-compose.yml manually"
+docker-compose up -d frontend
+echo "Waiting for frontend container to release port 80..."
+sleep 5
 
-echo "📝 Writing NGINX config for $DOMAIN (HTTP only first)..."
-sudo tee /etc/nginx/conf.d/nihongocards.conf > /dev/null <<EOF
+echo "Step 2: Configure nginx"
+rm -f /etc/nginx/conf.d/default.conf
+cat > /etc/nginx/conf.d/nihongocards.conf << 'NGINXEOF'
 server {
     listen 80;
-    server_name $DOMAIN www.$DOMAIN;
+    server_name phandeptrai.id.vn www.phandeptrai.id.vn;
 
-    # Let's Encrypt challenge — must be reachable before certbot runs
     location /.well-known/acme-challenge/ {
         root /var/www/certbot;
     }
 
     location / {
-        proxy_pass http://localhost:80;
-        proxy_set_header Host \$host;
-        proxy_set_header X-Real-IP \$remote_addr;
-        proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
-        proxy_set_header X-Forwarded-Proto \$scheme;
+        proxy_pass http://localhost:3000;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
     }
 
     location /api/ {
         proxy_pass http://localhost:8080;
-        proxy_set_header Host \$host;
-        proxy_set_header X-Real-IP \$remote_addr;
-        proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
-        proxy_set_header X-Forwarded-Proto \$scheme;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
         proxy_connect_timeout 30s;
         proxy_read_timeout 60s;
     }
 }
-EOF
+NGINXEOF
 
-# Remove default nginx site to avoid port conflict
-sudo rm -f /etc/nginx/conf.d/default.conf
+mkdir -p /var/www/certbot
+systemctl enable nginx
+systemctl restart nginx
+echo "nginx started OK"
 
-# Docker's frontend is bound to port 80 — nginx host needs a different port
-# We'll move docker frontend to port 3000 and have nginx serve port 80/443
-echo "🔄 Updating docker-compose to use port 3000 for frontend..."
-cd /home/ec2-user/app
-if [ -f docker-compose.yml ]; then
-    sed -i 's/"80:80"/"3000:80"/g' docker-compose.yml
-    docker-compose up -d frontend
-fi
+echo "Step 3: Test nginx config"
+nginx -t && echo "nginx config OK"
 
-# Update nginx config to use port 3000 for frontend proxy
-sudo sed -i 's|proxy_pass http://localhost:80;|proxy_pass http://localhost:3000;|g' /etc/nginx/conf.d/nihongocards.conf
-
-sudo mkdir -p /var/www/certbot
-sudo systemctl enable nginx
-sudo systemctl start nginx
-
-echo "🔐 Obtaining SSL certificate from Let's Encrypt..."
-sudo certbot --nginx \
+echo "Step 4: Run Certbot"
+certbot --nginx \
     -d "$DOMAIN" \
     --email "$EMAIL" \
     --agree-tos \
     --non-interactive \
     --redirect
+echo "certbot done"
 
-echo "🔄 Reloading NGINX with SSL config..."
-sudo systemctl reload nginx
-
-echo "🔄 Setting up auto-renewal cron (twice daily)..."
+echo "Step 5: Setup auto-renewal cron"
 (crontab -l 2>/dev/null; echo "0 */12 * * * certbot renew --quiet && systemctl reload nginx") | crontab -
+echo "cron set"
 
-# Update CORS in docker .env
-cd /home/ec2-user/app
-sed -i '/^CORS_ORIGINS=/d' .env
-echo "CORS_ORIGINS=https://$DOMAIN" >> .env
-docker-compose up -d backend
+echo "Step 6: Update CORS in .env"
+sed -i '/^CORS_ORIGINS=/d' "$APP_DIR/.env"
+echo "CORS_ORIGINS=https://$DOMAIN" >> "$APP_DIR/.env"
+docker-compose --env-file "$APP_DIR/.env" up -d backend
+echo "backend restarted with new CORS"
 
-echo ""
-echo "✅ HTTPS setup complete!"
-echo "   → https://$DOMAIN"
-echo ""
-echo "📋 Summary of changes:"
-echo "   - nginx installed on host (port 80/443)"
-echo "   - Docker frontend moved to port 3000 (internal)"
-echo "   - SSL cert from Let's Encrypt for $DOMAIN"
-echo "   - Auto-renewal every 12h via cron"
-echo "   - CORS_ORIGINS updated to https://$DOMAIN"
+echo "DONE: HTTPS is now active at https://$DOMAIN"
