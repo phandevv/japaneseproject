@@ -72,14 +72,16 @@ public class DeepSeekEnrichmentService {
                     "Yêu cầu về câu ví dụ:\n" +
                     "- Câu phải tự nhiên, minh họa rõ nghĩa và cách dùng của từ\n" +
                     "- Chọn mẫu ngữ pháp phù hợp nhất với từ này ở trình độ %s (không cần cứng nhắc một mẫu nào, hãy chọn mẫu giúp câu nghe tự nhiên nhất)\n" +
-                    "- Độ phức tạp tổng thể của câu tương đương trình độ %s\n\n" +
+                    "- Độ phức tạp tổng thể của câu tương đương trình độ %s\n" +
+                    "- Dịch nghĩa câu ví dụ (sampleTranslation) và nghĩa của các từ kanjiWords (meaning) BẮT BUỘC PHẢI DÙNG TIẾNG VIỆT.\n\n" +
+                    "LƯU Ý CỰC KỲ QUAN TRỌNG: Tuyệt đối không được dịch nghĩa hoặc giải thích bằng tiếng Trung Quốc hay tiếng Anh. Tất cả các trường giải nghĩa và dịch thuật đều phải được viết bằng tiếng Việt.\n\n" +
                     "Phản hồi chỉ dưới dạng JSON thuần túy (không markdown, không giải thích thêm):\n" +
                     "{\n" +
                     "  \"sampleSentence\": \"câu ví dụ tiếng Nhật\",\n" +
                     "  \"sampleReading\": \"cách đọc Hiragana của câu\",\n" +
-                    "  \"sampleTranslation\": \"dịch nghĩa tiếng Việt\",\n" +
+                    "  \"sampleTranslation\": \"dịch nghĩa tiếng Việt của câu\",\n" +
                     "  \"kanjiWords\": [\n" +
-                    "    { \"word\": \"từ khác chứa cùng Kanji (tối đa 3)\", \"reading\": \"cách đọc\", \"meaning\": \"nghĩa\" }\n" +
+                    "    { \"word\": \"từ khác chứa cùng Kanji (tối đa 3)\", \"reading\": \"cách đọc\", \"meaning\": \"nghĩa tiếng Việt của từ đó\" }\n" +
                     "  ]\n" +
                     "}",
                     vocab.getKanji() != null && !vocab.getKanji().isEmpty() ? vocab.getKanji() : vocab.getHiragana(),
@@ -96,7 +98,7 @@ public class DeepSeekEnrichmentService {
                     "model", "deepseek-chat",
                     "response_format", Map.of("type", "json_object"),
                     "messages", new Object[]{
-                        Map.of("role", "system", "content", "Bạn là một trợ lý thông thái phản hồi duy nhất định dạng JSON."),
+                        Map.of("role", "system", "content", "Bạn là một trợ lý chuyên gia tiếng Nhật. Bạn phản hồi duy nhất bằng định dạng JSON. Tất cả nội dung dịch nghĩa và giải thích nghĩa BẮT BUỘC phải viết bằng tiếng Việt (không được dùng tiếng Anh hay tiếng Trung Quốc)."),
                         Map.of("role", "user", "content", prompt)
                     }
                 );
