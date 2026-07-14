@@ -5,16 +5,20 @@ import com.flashcard.service.VocabularyService;
 import com.flashcard.service.DeepSeekEnrichmentService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CompletableFuture;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @RestController
 @RequestMapping("/api/vocab")
 public class VocabularyController {
+
+    private static final Logger log = LoggerFactory.getLogger(VocabularyController.class);
 
     private final VocabularyService service;
     private final DeepSeekEnrichmentService enrichmentService;
@@ -139,14 +143,51 @@ public class VocabularyController {
      * POST /api/vocab/{id}/enrich
      */
     @PostMapping("/{id}/enrich")
-    public ResponseEntity<?> enrich(@PathVariable Long id) {
-        return service.getById(id).map(existing -> {
-            // Only query DeepSeek if it hasn't been enriched yet (i.e. sampleSentence is empty/null)
-            if (existing.getSampleSentence() == null || existing.getSampleSentence().isBlank()) {
-                Vocabulary enriched = enrichmentService.enrichVocabulary(existing);
-                return ResponseEntity.ok(enriched);
+    public CompletableFuture<ResponseEntity<?>> enrich(@PathVariable Long id) {
+        var existingOpt = service.getById(id);
+        if (existingOpt.isEmpty()) {
+            return CompletableFuture.completedFuture(ResponseEntity.notFound().build());
+        }
+        Vocabulary existing = existingOpt.get();
+        if (existing.getSampleSentence() != null && !existing.getSampleSentence().isBlank()) {
+            return CompletableFuture.completedFuture(ResponseEntity.ok(existing));
+        }
+        return enrichmentService.enrichVocabulary(existing)
+                .thenApply(ResponseEntity::ok);
+    }
+
+    /**
+     * Trigger sequential batch enrichment for a level in the background
+     * POST /api/vocab/enrich/level/{level}
+     */
+    @PostMapping("/enrich/level/{level}")
+    public ResponseEntity<?> enrichLevel(@PathVariable String level) {
+        CompletableFuture.runAsync(() -> {
+            String targetLevel = level.toUpperCase();
+            log.info("Starting background batch enrichment for level {}", targetLevel);
+            List<Vocabulary> list = service.getByLevel(targetLevel);
+            
+            // Filter only unenriched words
+            List<Vocabulary> toEnrich = list.stream()
+                    .filter(v -> v.getSampleSentence() == null || v.getSampleSentence().isBlank())
+                    .collect(java.util.stream.Collectors.toList());
+            
+            log.info("Found {} unenriched words in level {}", toEnrich.size(), targetLevel);
+            
+            for (Vocabulary vocab : toEnrich) {
+                try {
+                    // Enrich word asynchronously and block this background runner thread to wait for it (sequential processing)
+                    enrichmentService.enrichVocabulary(vocab).get();
+                    
+                    // Add 1.5s delay between requests to prevent hitting DeepSeek rate limit/being blocked
+                    Thread.sleep(1500);
+                } catch (Exception e) {
+                    log.error("Error during sequential enrichment of vocab ID: {}: {}", vocab.getId(), e.getMessage());
+                }
             }
-            return ResponseEntity.ok(existing);
-        }).orElse(ResponseEntity.notFound().build());
+            log.info("Finished background batch enrichment for level {}", targetLevel);
+        });
+        
+        return ResponseEntity.ok(Map.of("message", "Tiến trình làm giàu từ vựng cho cấp độ " + level.toUpperCase() + " đã được khởi chạy trong nền!"));
     }
 }

@@ -18,6 +18,7 @@ import org.slf4j.LoggerFactory;
 import java.util.concurrent.Semaphore;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.http.HttpStatus;
+import java.util.concurrent.CompletableFuture;
 
 @Service
 public class DeepSeekEnrichmentService {
@@ -40,13 +41,13 @@ public class DeepSeekEnrichmentService {
                 .build();
     }
 
-    public Vocabulary enrichVocabulary(Vocabulary vocab) {
+    public CompletableFuture<Vocabulary> enrichVocabulary(Vocabulary vocab) {
         if (!bulkheadSemaphore.tryAcquire()) {
             log.warn("Bulkhead rejected AI request for vocabulary ID: {} because concurrent limit of 5 is exceeded.", vocab.getId());
-            throw new ResponseStatusException(
+            return CompletableFuture.failedFuture(new ResponseStatusException(
                 HttpStatus.TOO_MANY_REQUESTS,
                 "Hệ thống AI đang bận xử lý quá nhiều yêu cầu đồng thời. Vui lòng thử lại sau ít phút!"
-            );
+            ));
         }
         try {
             // Retrieve API key from environment variable
@@ -57,7 +58,8 @@ public class DeepSeekEnrichmentService {
 
             if (apiKey == null || apiKey.trim().isEmpty()) {
                 log.warn("DEEPSEEK_API_KEY is not set. Skipping enrichment.");
-                return vocab;
+                bulkheadSemaphore.release();
+                return CompletableFuture.completedFuture(vocab);
             }
 
             try {
@@ -111,42 +113,57 @@ public class DeepSeekEnrichmentService {
                         .timeout(Duration.ofSeconds(20))
                         .build();
 
-                HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+                return httpClient.sendAsync(request, HttpResponse.BodyHandlers.ofString())
+                        .thenApply(response -> {
+                            try {
+                                if (response.statusCode() == 200) {
+                                    JsonNode root = objectMapper.readTree(response.body());
+                                    String contentJson = root.path("choices").get(0).path("message").path("content").asText();
 
-                if (response.statusCode() == 200) {
-                    JsonNode root = objectMapper.readTree(response.body());
-                    String contentJson = root.path("choices").get(0).path("message").path("content").asText();
+                                    // Clean potential markdown enclosing tags
+                                    contentJson = cleanJsonContent(contentJson);
 
-                    // Clean potential markdown enclosing tags
-                    contentJson = cleanJsonContent(contentJson);
+                                    JsonNode contentNode = objectMapper.readTree(contentJson);
+                                    
+                                    String sampleSentence = contentNode.path("sampleSentence").asText();
+                                    String sampleReading = contentNode.path("sampleReading").asText();
+                                    String sampleTranslation = contentNode.path("sampleTranslation").asText();
+                                    
+                                    // Serialize kanjiWords back as JSON string for storage
+                                    JsonNode kanjiWordsNode = contentNode.path("kanjiWords");
+                                    String kanjiWordsJson = objectMapper.writeValueAsString(kanjiWordsNode);
 
-                    JsonNode contentNode = objectMapper.readTree(contentJson);
-                    
-                    String sampleSentence = contentNode.path("sampleSentence").asText();
-                    String sampleReading = contentNode.path("sampleReading").asText();
-                    String sampleTranslation = contentNode.path("sampleTranslation").asText();
-                    
-                    // Serialize kanjiWords back as JSON string for storage
-                    JsonNode kanjiWordsNode = contentNode.path("kanjiWords");
-                    String kanjiWordsJson = objectMapper.writeValueAsString(kanjiWordsNode);
+                                    vocab.setSampleSentence(sampleSentence);
+                                    vocab.setSampleReading(sampleReading);
+                                    vocab.setSampleTranslation(sampleTranslation);
+                                    vocab.setKanjiWords(kanjiWordsJson);
 
-                    vocab.setSampleSentence(sampleSentence);
-                    vocab.setSampleReading(sampleReading);
-                    vocab.setSampleTranslation(sampleTranslation);
-                    vocab.setKanjiWords(kanjiWordsJson);
-
-                    return vocabularyRepository.save(vocab);
-                } else {
-                    log.error("DeepSeek API responded with error status: {}, body: {}", response.statusCode(), response.body());
-                }
+                                    return vocabularyRepository.save(vocab);
+                                } else {
+                                    log.error("DeepSeek API responded with error status: {}, body: {}", response.statusCode(), response.body());
+                                }
+                            } catch (Exception e) {
+                                log.error("Failed to parse DeepSeek response: {}", e.getMessage());
+                            }
+                            return vocab;
+                        })
+                        .exceptionally(ex -> {
+                            log.error("Failed to enrich vocabulary from DeepSeek API: {}", ex.getMessage());
+                            return vocab;
+                        })
+                        .whenComplete((res, ex) -> {
+                            bulkheadSemaphore.release();
+                        });
 
             } catch (Exception e) {
-                log.error("Failed to enrich vocabulary from DeepSeek API: {}", e.getMessage());
+                log.error("Failed to build request: {}", e.getMessage());
+                bulkheadSemaphore.release();
+                return CompletableFuture.completedFuture(vocab);
             }
-
-            return vocab;
-        } finally {
+        } catch (Exception e) {
+            log.error("Outer error: {}", e.getMessage());
             bulkheadSemaphore.release();
+            return CompletableFuture.completedFuture(vocab);
         }
     }
 

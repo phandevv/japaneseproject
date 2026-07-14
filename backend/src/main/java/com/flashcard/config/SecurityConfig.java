@@ -75,6 +75,7 @@ public class SecurityConfig {
                 
                 // ── Vocabulary Management (Admin only) ───────────────────────
                 .requestMatchers(HttpMethod.POST, "/api/vocab").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.POST, "/api/vocab/enrich/level/**").hasRole("ADMIN")
                 .requestMatchers(HttpMethod.PUT, "/api/vocab/**").hasRole("ADMIN")
                 .requestMatchers(HttpMethod.DELETE, "/api/vocab/**").hasRole("ADMIN")
                 .requestMatchers("/api/import/**").hasRole("ADMIN")

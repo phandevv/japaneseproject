@@ -36,7 +36,7 @@ class DeepSeekEnrichmentServiceTest {
     @Test
     void testEnrichVocabularyWithoutApiKeySkipsEnrichment() {
         // Run test with API Key unset or empty
-        Vocabulary result = enrichmentService.enrichVocabulary(testVocabulary);
+        Vocabulary result = enrichmentService.enrichVocabulary(testVocabulary).join();
 
         // Should return the exact same vocabulary unmodified and skip DB save
         assertSame(testVocabulary, result);
