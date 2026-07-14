@@ -13,6 +13,7 @@ import SrsListPage from './pages/SrsListPage';
 import FeedbackModal from './components/FeedbackModal';
 import FeedbackAdminPage from './pages/FeedbackAdminPage';
 import AiEnrichmentAdminPage from './pages/AiEnrichmentAdminPage';
+import AIChatWidget from './components/AIChatWidget';
 
 const getTodayKey = () => new Date().toISOString().slice(0, 10);
 
@@ -200,6 +201,7 @@ function App() {
       </main>
       {showProfileModal && <ProfileModal onClose={() => setShowProfileModal(false)} />}
       {showFeedbackModal && <FeedbackModal onClose={() => setShowFeedbackModal(false)} />}
+      <AIChatWidget />
       <PomodoroTimer />
     </div>
   );

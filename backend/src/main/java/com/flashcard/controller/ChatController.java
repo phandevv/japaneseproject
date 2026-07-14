@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.CompletableFuture;
 
 @RestController
 @RequestMapping("/api/chat")
@@ -23,28 +22,29 @@ public class ChatController {
 
     /**
      * POST /api/chat
-     * Body: { "message": "...", "history": [{ "role": "user", "content": "..." }, { "role": "assistant", "content": "..." }, ...] }
+     * Body: { "message": "...", "history": [{ "role": "user", "content": "..." }, ...] }
      * Returns: { "reply": "..." }
      */
     @PostMapping
-    public CompletableFuture<ResponseEntity<Map<String, String>>> chat(@RequestBody ChatRequest body) {
+    public ResponseEntity<Map<String, String>> chat(@RequestBody ChatRequest body) {
         // Validate message
         String message = body.message() != null ? body.message().trim() : "";
         if (message.isEmpty()) {
-            return CompletableFuture.completedFuture(
-                ResponseEntity.badRequest().body(Map.of("error", "Tin nhắn không được để trống."))
-            );
+            return ResponseEntity.badRequest().body(Map.of("error", "Tin nhắn không được để trống."));
         }
         if (message.length() > ChatService.MAX_USER_MESSAGE_CHARS) {
-            return CompletableFuture.completedFuture(
-                ResponseEntity.status(HttpStatus.PAYLOAD_TOO_LARGE)
-                    .body(Map.of("error", "Tin nhắn quá dài. Tối đa " + ChatService.MAX_USER_MESSAGE_CHARS + " ký tự."))
-            );
+            return ResponseEntity.status(HttpStatus.PAYLOAD_TOO_LARGE)
+                    .body(Map.of("error", "Tin nhắn quá dài. Tối đa " + ChatService.MAX_USER_MESSAGE_CHARS + " ký tự."));
         }
 
         List<Map<String, String>> history = body.history() != null ? body.history() : List.of();
-        return chatService.chat(history, message)
-                .thenApply(reply -> ResponseEntity.ok(Map.of("reply", reply)));
+        try {
+            String reply = chatService.chat(history, message).get();
+            return ResponseEntity.ok(Map.of("reply", reply));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(Map.of("error", "Lỗi xử lý yêu cầu AI: " + e.getMessage()));
+        }
     }
 
     // Simple record for request body deserialization (no Lombok)
