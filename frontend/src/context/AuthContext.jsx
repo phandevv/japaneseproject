@@ -11,6 +11,7 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     const savedToken = localStorage.getItem('token');
     const savedUsername = localStorage.getItem('username');
+    const savedRole = localStorage.getItem('role');
     const savedDisplayName = localStorage.getItem('displayName');
     const savedAddress = localStorage.getItem('address');
     const savedPhone = localStorage.getItem('phone');
@@ -20,6 +21,7 @@ export const AuthProvider = ({ children }) => {
       setToken(savedToken);
       setUser({ 
         username: savedUsername,
+        role: savedRole || "USER",
         displayName: savedDisplayName || "",
         address: savedAddress || "",
         phone: savedPhone || "",
@@ -36,6 +38,7 @@ export const AuthProvider = ({ children }) => {
       setToken(data.token);
       setUser({ 
         username: data.username,
+        role: data.role || "USER",
         displayName: data.displayName || "",
         address: data.address || "",
         phone: data.phone || "",
@@ -45,6 +48,7 @@ export const AuthProvider = ({ children }) => {
       localStorage.setItem('token', data.token);
       localStorage.setItem('refreshToken', data.refreshToken);
       localStorage.setItem('username', data.username);
+      localStorage.setItem('role', data.role || "USER");
       localStorage.setItem('displayName', data.displayName || "");
       localStorage.setItem('address', data.address || "");
       localStorage.setItem('phone', data.phone || "");
@@ -85,6 +89,7 @@ export const AuthProvider = ({ children }) => {
     localStorage.removeItem('token');
     localStorage.removeItem('refreshToken');
     localStorage.removeItem('username');
+    localStorage.removeItem('role');
     localStorage.removeItem('displayName');
     localStorage.removeItem('address');
     localStorage.removeItem('phone');

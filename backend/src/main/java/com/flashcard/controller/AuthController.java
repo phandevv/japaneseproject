@@ -42,6 +42,7 @@ public class AuthController {
                 "token", tokens.get("token"),
                 "refreshToken", tokens.get("refreshToken"),
                 "username", user.getUsername(),
+                "role", user.getRole() != null ? user.getRole() : "USER",
                 "displayName", user.getDisplayName() != null ? user.getDisplayName() : "",
                 "address", user.getAddress() != null ? user.getAddress() : "",
                 "phone", user.getPhone() != null ? user.getPhone() : "",
@@ -84,6 +85,7 @@ public class AuthController {
         return ResponseEntity.ok(Map.of(
             "username", user.getUsername(),
             "id", user.getId(),
+            "role", user.getRole() != null ? user.getRole() : "USER",
             "displayName", user.getDisplayName() != null ? user.getDisplayName() : "",
             "address", user.getAddress() != null ? user.getAddress() : "",
             "phone", user.getPhone() != null ? user.getPhone() : "",

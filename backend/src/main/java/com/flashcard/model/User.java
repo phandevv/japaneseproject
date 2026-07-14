@@ -30,6 +30,9 @@ public class User {
     @Column(name = "occupation")
     private String occupation;
 
+    @Column(name = "role", nullable = false)
+    private String role = "USER";
+
     public User() {}
 
     public User(String username, String password) {
@@ -53,4 +56,6 @@ public class User {
     public void setPhone(String phone) { this.phone = phone; }
     public String getOccupation() { return occupation; }
     public void setOccupation(String occupation) { this.occupation = occupation; }
+    public String getRole() { return role; }
+    public void setRole(String role) { this.role = role; }
 }

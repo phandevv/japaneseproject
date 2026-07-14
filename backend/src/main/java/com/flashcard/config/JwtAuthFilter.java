@@ -20,7 +20,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
-import java.util.Collections;
+import java.util.List;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 /**
  * Runs once per request. If a valid JWT Bearer token is present,
@@ -65,8 +66,10 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                 Long userId = jwt.getClaim("userId").asLong();
                 if (userId != null && SecurityContextHolder.getContext().getAuthentication() == null) {
                     userRepository.findById(userId).ifPresent(user -> {
+                        String userRole = user.getRole() != null ? user.getRole().toUpperCase() : "USER";
+                        SimpleGrantedAuthority authority = new SimpleGrantedAuthority("ROLE_" + userRole);
                         var authToken = new UsernamePasswordAuthenticationToken(
-                                user, null, Collections.emptyList());
+                                user, null, List.of(authority));
                         authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                         SecurityContextHolder.getContext().setAuthentication(authToken);
                     });

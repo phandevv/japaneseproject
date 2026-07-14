@@ -23,6 +23,7 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.OncePerRequestFilter;
+import org.springframework.http.HttpMethod;
 
 import java.io.IOException;
 import java.time.Duration;
@@ -66,10 +67,21 @@ public class SecurityConfig {
             .authorizeHttpRequests(auth -> auth
                 // ── Public endpoints ────────────────────────────────────────
                 .requestMatchers("/api/auth/**").permitAll()
-                .requestMatchers("/api/vocab/**").permitAll()
-                .requestMatchers("/api/import/**").permitAll()
                 .requestMatchers("/actuator/health").permitAll()
                 .requestMatchers("/h2-console/**").permitAll()
+                
+                // ── AI Vocabulary Enrichment (Admin & VIP only) ─────────────
+                .requestMatchers(HttpMethod.POST, "/api/vocab/*/enrich").hasAnyRole("ADMIN", "VIP")
+                
+                // ── Vocabulary Management (Admin only) ───────────────────────
+                .requestMatchers(HttpMethod.POST, "/api/vocab").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.PUT, "/api/vocab/**").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.DELETE, "/api/vocab/**").hasRole("ADMIN")
+                .requestMatchers("/api/import/**").hasRole("ADMIN")
+                
+                // ── Vocabulary Reading (Public / Authenticated) ──────────────
+                .requestMatchers(HttpMethod.GET, "/api/vocab/**").permitAll()
+                
                 // ── Everything else requires valid JWT ──────────────────────
                 .anyRequest().authenticated()
             )

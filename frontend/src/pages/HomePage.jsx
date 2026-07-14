@@ -286,7 +286,7 @@ const HomePage = ({ startStudy, streak, onLoginClick, onLogout, onAdminClick, on
     );
   };
 
-  const isAdmin = user && user.username === 'admin';
+  const isAdmin = user && (user.username === 'admin' || user.role === 'ADMIN');
 
   return (
     <div className="home-page">

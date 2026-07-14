@@ -1,4 +1,4 @@
-﻿import React, { useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import { Home, Search, BookOpen, Layers, LogOut, LogIn, Upload, Loader, User, Settings, ShieldCheck } from "lucide-react";
 import { useLanguage } from "../context/LanguageContext";
 import { vocabApi } from "../services/api";
@@ -8,7 +8,7 @@ const Sidebar = ({ currentPage, setCurrentPage, onLoginClick, user, onLogout, on
   const fileInputRef = useRef(null);
   const [importing, setImporting] = useState(false);
 
-  const isAdmin = user && user.username === "admin";
+  const isAdmin = user && (user.username === "admin" || user.role === "ADMIN");
 
   const handleImportClick = () => fileInputRef.current?.click();
 
