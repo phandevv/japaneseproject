@@ -95,7 +95,7 @@ public class DeepSeekEnrichmentService {
 
                 // Construct payload compatible with DeepSeek chat model
                 Map<String, Object> requestBodyMap = Map.of(
-                    "model", "deepseek-chat",
+                    "model", "deepseek-v4-flash",
                     "response_format", Map.of("type", "json_object"),
                     "messages", new Object[]{
                         Map.of("role", "system", "content", "Bạn là một trợ lý chuyên gia tiếng Nhật. Bạn phản hồi duy nhất bằng định dạng JSON. Tất cả nội dung dịch nghĩa và giải thích nghĩa BẮT BUỘC phải viết bằng tiếng Việt (không được dùng tiếng Anh hay tiếng Trung Quốc)."),
