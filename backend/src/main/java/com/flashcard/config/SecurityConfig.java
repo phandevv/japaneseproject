@@ -123,21 +123,40 @@ public class SecurityConfig {
 
     // ─── Rate Limit Filter (Bucket4j token-bucket algorithm) ─────────────────
     //
-    //  10 tokens per IP per minute on auth endpoints.
-    //  Bucket4j is more accurate than the previous manual ScheduledExecutor reset.
+    //  Multi-bucket per IP strategy:
+    //  - General API: max 120 requests per minute.
+    //  - Auth API (Login/Register): max 10 requests per minute.
+    //  - AI Enrich API: max 5 requests per minute.
+
+    private static class UserBuckets {
+        final Bucket generalBucket;
+        final Bucket authBucket;
+        final Bucket enrichBucket;
+
+        UserBuckets(Bucket general, Bucket auth, Bucket enrich) {
+            this.generalBucket = general;
+            this.authBucket = auth;
+            this.enrichBucket = enrich;
+        }
+    }
 
     @Bean
     public OncePerRequestFilter rateLimitFilter() {
         return new OncePerRequestFilter() {
 
-            private final ConcurrentHashMap<String, Bucket> buckets = new ConcurrentHashMap<>();
+            private final ConcurrentHashMap<String, UserBuckets> ipBuckets = new ConcurrentHashMap<>();
 
-            private Bucket newBucket() {
-                Bandwidth limit = Bandwidth.builder()
-                        .capacity(10)
-                        .refillGreedy(10, Duration.ofMinutes(1))
+            private UserBuckets createUserBuckets() {
+                Bucket general = Bucket.builder()
+                        .addLimit(Bandwidth.builder().capacity(120).refillGreedy(120, Duration.ofMinutes(1)).build())
                         .build();
-                return Bucket.builder().addLimit(limit).build();
+                Bucket auth = Bucket.builder()
+                        .addLimit(Bandwidth.builder().capacity(10).refillGreedy(10, Duration.ofMinutes(1)).build())
+                        .build();
+                Bucket enrich = Bucket.builder()
+                        .addLimit(Bandwidth.builder().capacity(5).refillGreedy(5, Duration.ofMinutes(1)).build())
+                        .build();
+                return new UserBuckets(general, auth, enrich);
             }
 
             @Override
@@ -147,18 +166,43 @@ public class SecurityConfig {
                     throws ServletException, IOException {
 
                 String uri = request.getRequestURI();
-                if (uri.startsWith("/api/auth/login") || uri.startsWith("/api/auth/register")) {
+                
+                // Only rate limit API requests
+                if (uri.startsWith("/api/")) {
                     String ip = resolveClientIp(request);
-                    Bucket bucket = buckets.computeIfAbsent(ip, k -> newBucket());
+                    UserBuckets userBuckets = ipBuckets.computeIfAbsent(ip, k -> createUserBuckets());
 
-                    if (!bucket.tryConsume(1)) {
-                        response.setStatus(HttpStatus.TOO_MANY_REQUESTS.value());
-                        response.setContentType("application/json");
-                        response.getWriter().write("{\"error\":\"Too many requests. Please try again in a minute.\"}");
+                    // 1. Check General Rate Limit (All APIs)
+                    if (!userBuckets.generalBucket.tryConsume(1)) {
+                        sendErrorResponse(response, "Too many requests. General limit is 120 requests per minute.");
                         return;
                     }
+
+                    // 2. Check Brute-Force Auth Protection
+                    if (uri.startsWith("/api/auth/login") || uri.startsWith("/api/auth/register")) {
+                        if (!userBuckets.authBucket.tryConsume(1)) {
+                            sendErrorResponse(response, "Too many authentication requests. Limit is 10 requests per minute.");
+                            return;
+                        }
+                    }
+
+                    // 3. Check AI Enrichment Protection (Paid/Slow API)
+                    if (uri.endsWith("/enrich")) {
+                        if (!userBuckets.enrichBucket.tryConsume(1)) {
+                            sendErrorResponse(response, "Too many AI enrichment requests. Limit is 5 requests per minute.");
+                            return;
+                        }
+                    }
                 }
+
                 chain.doFilter(request, response);
+            }
+
+            private void sendErrorResponse(HttpServletResponse response, String message) throws IOException {
+                response.setStatus(HttpStatus.TOO_MANY_REQUESTS.value());
+                response.setContentType("application/json");
+                response.setCharacterEncoding("UTF-8");
+                response.getWriter().write(String.format("{\"error\":\"%s\"}", message));
             }
 
             private String resolveClientIp(HttpServletRequest req) {
