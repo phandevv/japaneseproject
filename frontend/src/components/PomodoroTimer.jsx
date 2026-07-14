@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { 
   Timer as TimerIcon, 
   Play, 
@@ -11,9 +11,12 @@ import {
   Coffee, 
   Check, 
   Trophy, 
-  Clock 
+  Clock,
+  Bot,
+  SendHorizonal
 } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
+import { chatApi } from '../services/api';
 import '../styles/PomodoroTimer.css';
 
 // Key templates for LocalStorage
@@ -81,6 +84,16 @@ export default function PomodoroTimer() {
     show: false,
     type: 'work-done', // 'work-done' | 'break-done'
   });
+
+  // Chat state
+  const MAX_CHAT_CHARS = 300;
+  const [chatMessages, setChatMessages] = useState([
+    { role: 'assistant', content: 'Xin chào! Tôi là trợ lý học tiếng Nhật AI. Bạn có thể hỏi tôi về dịch thuật, ngữ pháp, từ vựng hoặc văn hóa Nhật đản! 🇯🇵' }
+  ]);
+  const [chatInput, setChatInput] = useState('');
+  const [chatLoading, setChatLoading] = useState(false);
+  const chatEndRef = useRef(null);
+  const chatInputRef = useRef(null);
 
   // Refs for tracking timer
   const timerRef = useRef(null);
@@ -347,6 +360,40 @@ export default function PomodoroTimer() {
     }
   };
 
+  // Auto scroll chat to bottom when messages update
+  useEffect(() => {
+    if (activeTab === 'chat' && chatEndRef.current) {
+      chatEndRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, [chatMessages, chatLoading, activeTab]);
+
+  // Send chat message to DeepSeek
+  const handleChatSend = useCallback(async () => {
+    const trimmed = chatInput.trim();
+    if (!trimmed || chatLoading) return;
+
+    const userMsg = { role: 'user', content: trimmed };
+    // Keep only last 8 turns of history (16 messages)
+    const historyForApi = chatMessages
+      .filter(m => m.role === 'user' || m.role === 'assistant')
+      .slice(-16)
+      .map(m => ({ role: m.role, content: m.content }));
+
+    setChatMessages(prev => [...prev, userMsg]);
+    setChatInput('');
+    setChatLoading(true);
+
+    try {
+      const data = await chatApi.send(trimmed, historyForApi);
+      setChatMessages(prev => [...prev, { role: 'assistant', content: data.reply || 'Xin lỗi, không nhận được phản hồi.' }]);
+    } catch (err) {
+      const errMsg = err?.response?.data?.error || 'Lỗi kết nối tới AI. Vui lòng thử lại!';
+      setChatMessages(prev => [...prev, { role: 'assistant', content: '⚠️ ' + errMsg }]);
+    } finally {
+      setChatLoading(false);
+    }
+  }, [chatInput, chatLoading, chatMessages]);
+
   // Helper formatting mm:ss
   const formatTime = (seconds) => {
     const m = Math.floor(seconds / 60).toString().padStart(2, '0');
@@ -409,6 +456,12 @@ export default function PomodoroTimer() {
               {t.pomodoro.tabTimer}
             </button>
             <button 
+              className={`pomodoro-tab-btn ${activeTab === 'chat' ? 'active' : ''}`}
+              onClick={() => setActiveTab('chat')}
+            >
+              {t.pomodoro.tabChat}
+            </button>
+            <button 
               className={`pomodoro-tab-btn ${activeTab === 'settings' ? 'active' : ''}`}
               onClick={() => setActiveTab('settings')}
             >
@@ -423,6 +476,93 @@ export default function PomodoroTimer() {
           </div>
 
           <div className="pomodoro-content">
+            {/* Chat Tab */}
+            {activeTab === 'chat' && (
+              <div className="pomodoro-chat animate-fade-in">
+                <div className="chat-messages" ref={chatEndRef}>
+                  {chatMessages.map((msg, idx) => (
+                    <div key={idx} className={`chat-bubble ${msg.role === 'user' ? 'user' : 'assistant'}`}>
+                      {msg.role === 'assistant' && (
+                        <div className="chat-avatar"><Bot size={14} /></div>
+                      )}
+                      <div className="chat-text">{msg.content}</div>
+                    </div>
+                  ))}
+                  {chatLoading && (
+                    <div className="chat-bubble assistant">
+                      <div className="chat-avatar"><Bot size={14} /></div>
+                      <div className="chat-typing">
+                        <span></span><span></span><span></span>
+                      </div>
+                    </div>
+                  )}
+                  <div ref={chatEndRef} />
+                </div>
+
+                <div className="chat-input-area">
+                  <div className="chat-char-hint">
+                    <span className={chatInput.length > MAX_CHAT_CHARS * 0.9 ? 'warn' : ''}>
+                      {chatInput.length}/{MAX_CHAT_CHARS}
+                    </span>
+                    {chatMessages.length > 1 && (
+                      <button
+                        className="chat-clear-btn"
+                        onClick={() => setChatMessages([{ role: 'assistant', content: 'Xin chào! Tôi là trợ lý học tiếng Nhật AI. Hãy hỏi tôi bất cứ điều gì về tiếng Nhật! 🇯🇵' }])}
+                        title="Xóa lịch sử chat"
+                      >
+                        × Xoá chat
+                      </button>
+                    )}
+                  </div>
+                  <div className="chat-input-row">
+                    <textarea
+                      ref={chatInputRef}
+                      className="chat-input"
+                      placeholder="Hỏi về tiếng Nhật... (dịch, ngữ pháp, từ vựng)"
+                      value={chatInput}
+                      maxLength={MAX_CHAT_CHARS}
+                      rows={2}
+                      onChange={e => setChatInput(e.target.value)}
+                      onKeyDown={e => {
+                        if (e.key === 'Enter' && !e.shiftKey) {
+                          e.preventDefault();
+                          handleChatSend();
+                        }
+                      }}
+                      disabled={chatLoading}
+                    />
+                    <button
+                      className="chat-send-btn"
+                      onClick={handleChatSend}
+                      disabled={chatLoading || !chatInput.trim()}
+                      title="Gửi (Enter)"
+                    >
+                      <SendHorizonal size={18} />
+                    </button>
+                  </div>
+                  <div className="chat-topics">
+                    {[
+                      '📖 Dịch sang Việt',
+                      '📐 Giải thích ngữ pháp',
+                      '🎤 Cách phát âm',
+                      '📚 Từ vựng cùng chủ đề',
+                    ].map(topic => (
+                      <button
+                        key={topic}
+                        className="chat-topic-chip"
+                        onClick={() => {
+                          setChatInput(topic.replace(/^[^\s]+ /, ''));
+                          chatInputRef.current?.focus();
+                        }}
+                      >
+                        {topic}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            )}
+
             {/* Timer Tab */}
             {activeTab === 'timer' && (
               <div className="timer-container animate-fade-in">

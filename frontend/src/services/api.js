@@ -283,3 +283,15 @@ export const feedbackApi = {
   }
 };
 
+export const chatApi = {
+  /**
+   * Send a message to the Japanese AI tutor.
+   * @param {string} message - The user's message
+   * @param {Array} history  - Array of { role: 'user'|'assistant', content: string }
+   */
+  send: async (message, history = []) => {
+    const response = await axios.post(`${API_BASE_URL}/chat`, { message, history });
+    return response.data; // { reply: string }
+  }
+};
+
