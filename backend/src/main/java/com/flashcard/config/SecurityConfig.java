@@ -82,6 +82,11 @@ public class SecurityConfig {
                 // ── Vocabulary Reading (Public / Authenticated) ──────────────
                 .requestMatchers(HttpMethod.GET, "/api/vocab/**").permitAll()
                 
+                // ── Feedback/Error Reports (Submit: Authenticated, View/Update: Admin) ─────
+                .requestMatchers(HttpMethod.POST, "/api/feedbacks").authenticated()
+                .requestMatchers(HttpMethod.GET, "/api/feedbacks").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.PUT, "/api/feedbacks/*/status").hasRole("ADMIN")
+                
                 // ── Everything else requires valid JWT ──────────────────────
                 .anyRequest().authenticated()
             )

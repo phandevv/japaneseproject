@@ -10,6 +10,8 @@ import VocabAdminPage from './pages/VocabAdminPage';
 import { useAuth } from './context/AuthContext';
 import PomodoroTimer from './components/PomodoroTimer';
 import SrsListPage from './pages/SrsListPage';
+import FeedbackModal from './components/FeedbackModal';
+import FeedbackAdminPage from './pages/FeedbackAdminPage';
 
 const getTodayKey = () => new Date().toISOString().slice(0, 10);
 
@@ -44,6 +46,7 @@ function App() {
   const [stats, setStats] = useState(null);
   const [showStudySection, setShowStudySection] = useState(false);
   const [showProfileModal, setShowProfileModal] = useState(false);
+  const [showFeedbackModal, setShowFeedbackModal] = useState(false);
 
   useEffect(() => {
     localStorage.setItem('nihongo-currentPage', currentPage);
@@ -157,6 +160,8 @@ function App() {
         return <DailyStudyPage level={selectedLevel} stats={stats} goBack={() => setCurrentPage('home')} />;
       case 'admin-vocab':
         return <VocabAdminPage goBack={() => setCurrentPage('home')} />;
+      case 'admin-feedback':
+        return <FeedbackAdminPage goBack={() => setCurrentPage('home')} />;
       case 'search':
         return <SearchPage />;
       default:
@@ -178,11 +183,20 @@ function App() {
         user={isAuthenticated ? authUser : null}
         onLogout={handleLogout}
         onProfileClick={() => setShowProfileModal(true)}
+        onFeedbackClick={() => {
+          if (isAuthenticated) {
+            setShowFeedbackModal(true);
+          } else {
+            alert("Vui lòng đăng nhập để gửi góp ý & báo lỗi!");
+            setCurrentPage("auth");
+          }
+        }}
       />
       <main className="app-main">
         {renderPage()}
       </main>
       {showProfileModal && <ProfileModal onClose={() => setShowProfileModal(false)} />}
+      {showFeedbackModal && <FeedbackModal onClose={() => setShowFeedbackModal(false)} />}
       <PomodoroTimer />
     </div>
   );

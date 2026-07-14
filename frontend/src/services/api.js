@@ -262,3 +262,18 @@ export const analyticsApi = {
   }
 };
 
+export const feedbackApi = {
+  submit: async (title, content, type) => {
+    const response = await axios.post(`${API_BASE_URL}/feedbacks`, { title, content, type });
+    return response.data;
+  },
+  getAll: async (page = 0, size = 20) => {
+    const response = await axios.get(`${API_BASE_URL}/feedbacks?page=${page}&size=${size}`);
+    return response.data;
+  },
+  updateStatus: async (id, status) => {
+    const response = await axios.put(`${API_BASE_URL}/feedbacks/${id}/status`, { status });
+    return response.data;
+  }
+};
+

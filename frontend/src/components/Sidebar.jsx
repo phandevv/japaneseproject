@@ -1,9 +1,9 @@
 import React, { useRef, useState } from "react";
-import { Home, Search, BookOpen, Layers, LogOut, LogIn, Upload, Loader, User, Settings, ShieldCheck } from "lucide-react";
+import { Home, Search, BookOpen, Layers, LogOut, LogIn, Upload, Loader, User, Settings, ShieldCheck, MessageSquare } from "lucide-react";
 import { useLanguage } from "../context/LanguageContext";
 import { vocabApi } from "../services/api";
 
-const Sidebar = ({ currentPage, setCurrentPage, onLoginClick, user, onLogout, onProfileClick }) => {
+const Sidebar = ({ currentPage, setCurrentPage, onLoginClick, user, onLogout, onProfileClick, onFeedbackClick }) => {
   const { t } = useLanguage();
   const fileInputRef = useRef(null);
   const [importing, setImporting] = useState(false);
@@ -73,6 +73,15 @@ const Sidebar = ({ currentPage, setCurrentPage, onLoginClick, user, onLogout, on
             <span>{item.label}</span>
           </button>
         ))}
+        
+        <button
+          className="sidebar-link"
+          onClick={onFeedbackClick}
+          style={{ borderTop: "1px dashed rgba(255,255,255,0.08)", marginTop: "6px", paddingTop: "12px" }}
+        >
+          <MessageSquare size={17} />
+          <span>Góp ý & Báo lỗi</span>
+        </button>
 
         {isAdmin && (
           <>
@@ -83,6 +92,13 @@ const Sidebar = ({ currentPage, setCurrentPage, onLoginClick, user, onLogout, on
             >
               <ShieldCheck size={17} />
               <span>Quản lý từ vựng</span>
+            </button>
+            <button
+              className={`sidebar-link${currentPage === "admin-feedback" ? " active" : ""}`}
+              onClick={() => setCurrentPage("admin-feedback")}
+            >
+              <MessageSquare size={17} />
+              <span>Quản lý góp ý</span>
             </button>
             <button
               className="sidebar-link"
