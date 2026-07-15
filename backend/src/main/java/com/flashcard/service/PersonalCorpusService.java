@@ -103,7 +103,7 @@ public class PersonalCorpusService {
 
             Map<String, Object> requestBodyMap = Map.of(
                 "model", "deepseek-v4-flash",
-                "max_tokens", 800,
+                "max_tokens", 2048,
                 "response_format", Map.of("type", "json_object"),
                 "messages", new Object[]{
                     Map.of("role", "system", "content", "Bạn là trợ lý giảng dạy tiếng Nhật. Bạn chỉ phản hồi bằng định dạng JSON."),
@@ -178,7 +178,7 @@ public class PersonalCorpusService {
 
             Map<String, Object> requestBodyMap = Map.of(
                 "model", "deepseek-v4-flash",
-                "max_tokens", 800,
+                "max_tokens", 2048,
                 "response_format", Map.of("type", "json_object"),
                 "messages", new Object[]{
                     Map.of("role", "system", "content", "Bạn là trợ lý tạo hội thoại tiếng Nhật. Phản hồi dạng JSON."),
