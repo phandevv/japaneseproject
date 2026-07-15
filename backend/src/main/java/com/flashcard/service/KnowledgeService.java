@@ -5,9 +5,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.flashcard.model.GrammarCard;
 import com.flashcard.model.KnowledgeVersion;
 import com.flashcard.model.Vocabulary;
+import com.flashcard.model.User;
+import com.flashcard.model.WordReview;
+import com.flashcard.model.GrammarReview;
 import com.flashcard.repository.GrammarCardRepository;
 import com.flashcard.repository.KnowledgeVersionRepository;
 import com.flashcard.repository.VocabularyRepository;
+import com.flashcard.repository.WordReviewRepository;
+import com.flashcard.repository.GrammarReviewRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +28,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.Semaphore;
+import java.util.stream.Collectors;
 
 @Service
 public class KnowledgeService {
@@ -32,6 +38,8 @@ public class KnowledgeService {
     private final VocabularyRepository vocabularyRepository;
     private final GrammarCardRepository grammarCardRepository;
     private final KnowledgeVersionRepository knowledgeVersionRepository;
+    private final WordReviewRepository wordReviewRepository;
+    private final GrammarReviewRepository grammarReviewRepository;
     private final ObjectMapper objectMapper;
     private final HttpClient httpClient;
 
@@ -42,10 +50,14 @@ public class KnowledgeService {
     public KnowledgeService(VocabularyRepository vocabularyRepository,
                             GrammarCardRepository grammarCardRepository,
                             KnowledgeVersionRepository knowledgeVersionRepository,
+                            WordReviewRepository wordReviewRepository,
+                            GrammarReviewRepository grammarReviewRepository,
                             ObjectMapper objectMapper) {
         this.vocabularyRepository = vocabularyRepository;
         this.grammarCardRepository = grammarCardRepository;
         this.knowledgeVersionRepository = knowledgeVersionRepository;
+        this.wordReviewRepository = wordReviewRepository;
+        this.grammarReviewRepository = grammarReviewRepository;
         this.objectMapper = objectMapper;
         this.httpClient = HttpClient.newBuilder()
                 .connectTimeout(Duration.ofSeconds(15))
@@ -436,5 +448,45 @@ public class KnowledgeService {
             apiKey = System.getProperty("DEEPSEEK_API_KEY");
         }
         return (apiKey == null || apiKey.trim().isEmpty()) ? null : apiKey;
+    }
+
+    /**
+     * Get all vocabulary words saved by the user.
+     */
+    @Transactional(readOnly = true)
+    public List<Vocabulary> getSavedVocabulary(User user) {
+        return wordReviewRepository.findAllByUserFetchVocabulary(user).stream()
+                .map(WordReview::getVocabulary)
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * Get all grammar cards saved by the user.
+     */
+    @Transactional(readOnly = true)
+    public List<GrammarCard> getSavedGrammar(User user) {
+        return grammarReviewRepository.findByUserId(user.getId()).stream()
+                .map(GrammarReview::getGrammarCard)
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * Delete vocabulary review card (remove from personal knowledge base).
+     */
+    @Transactional
+    public void deleteSavedVocabulary(User user, Long vocabId) {
+        Vocabulary vocab = vocabularyRepository.findById(vocabId)
+                .orElseThrow(() -> new IllegalArgumentException("Từ vựng không tồn tại."));
+        wordReviewRepository.findByUserAndVocabulary(user, vocab)
+                .ifPresent(wordReviewRepository::delete);
+    }
+
+    /**
+     * Delete grammar review card (remove from personal knowledge base).
+     */
+    @Transactional
+    public void deleteSavedGrammar(User user, Long grammarId) {
+        grammarReviewRepository.findByUserIdAndGrammarCardId(user.getId(), grammarId)
+                .ifPresent(grammarReviewRepository::delete);
     }
 }

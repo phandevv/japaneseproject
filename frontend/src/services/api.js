@@ -326,6 +326,34 @@ export const knowledgeApi = {
   generateConversation: async () => {
     const response = await axios.post(`${API_BASE_URL}/knowledge/corpus/generate-conversation`);
     return response.data;
+  },
+  /**
+   * Get all vocabulary words saved by the user.
+   */
+  getSavedVocabulary: async () => {
+    const response = await axios.get(`${API_BASE_URL}/knowledge/saved/vocabulary`);
+    return response.data;
+  },
+  /**
+   * Get all grammar cards saved by the user.
+   */
+  getSavedGrammar: async () => {
+    const response = await axios.get(`${API_BASE_URL}/knowledge/saved/grammar`);
+    return response.data;
+  },
+  /**
+   * Delete vocabulary card from personal knowledge base.
+   */
+  deleteSavedVocabulary: async (id) => {
+    const response = await axios.delete(`${API_BASE_URL}/knowledge/saved/vocabulary/${id}`);
+    return response.data;
+  },
+  /**
+   * Delete grammar card from personal knowledge base.
+   */
+  deleteSavedGrammar: async (id) => {
+    const response = await axios.delete(`${API_BASE_URL}/knowledge/saved/grammar/${id}`);
+    return response.data;
   }
 };
 

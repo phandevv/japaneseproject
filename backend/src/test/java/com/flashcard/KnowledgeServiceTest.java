@@ -17,6 +17,8 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
+import com.flashcard.repository.WordReviewRepository;
+import com.flashcard.repository.GrammarReviewRepository;
 import static org.mockito.Mockito.*;
 
 class KnowledgeServiceTest {
@@ -24,6 +26,8 @@ class KnowledgeServiceTest {
     private VocabularyRepository vocabularyRepository;
     private GrammarCardRepository grammarCardRepository;
     private KnowledgeVersionRepository knowledgeVersionRepository;
+    private WordReviewRepository wordReviewRepository;
+    private GrammarReviewRepository grammarReviewRepository;
     private ObjectMapper objectMapper;
     private KnowledgeService knowledgeService;
 
@@ -32,12 +36,16 @@ class KnowledgeServiceTest {
         vocabularyRepository = Mockito.mock(VocabularyRepository.class);
         grammarCardRepository = Mockito.mock(GrammarCardRepository.class);
         knowledgeVersionRepository = Mockito.mock(KnowledgeVersionRepository.class);
+        wordReviewRepository = Mockito.mock(WordReviewRepository.class);
+        grammarReviewRepository = Mockito.mock(GrammarReviewRepository.class);
         objectMapper = new ObjectMapper();
 
         knowledgeService = new KnowledgeService(
                 vocabularyRepository,
                 grammarCardRepository,
                 knowledgeVersionRepository,
+                wordReviewRepository,
+                grammarReviewRepository,
                 objectMapper
         );
     }

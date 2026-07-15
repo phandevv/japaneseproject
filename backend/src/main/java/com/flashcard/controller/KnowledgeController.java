@@ -171,5 +171,53 @@ public class KnowledgeController {
         }
     }
 
+    /* ─── Saved Cards Retrieval & Deletion Endpoints ─── */
+
+    @GetMapping("/saved/vocabulary")
+    public ResponseEntity<?> getSavedVocabulary(@AuthenticationPrincipal User user) {
+        if (user == null) {
+            return ResponseEntity.status(401).body(Map.of("error", "Vui lòng đăng nhập!"));
+        }
+        return ResponseEntity.ok(knowledgeService.getSavedVocabulary(user));
+    }
+
+    @GetMapping("/saved/grammar")
+    public ResponseEntity<?> getSavedGrammar(@AuthenticationPrincipal User user) {
+        if (user == null) {
+            return ResponseEntity.status(401).body(Map.of("error", "Vui lòng đăng nhập!"));
+        }
+        return ResponseEntity.ok(knowledgeService.getSavedGrammar(user));
+    }
+
+    @DeleteMapping("/saved/vocabulary/{id}")
+    public ResponseEntity<?> deleteSavedVocabulary(
+            @AuthenticationPrincipal User user,
+            @PathVariable Long id) {
+        if (user == null) {
+            return ResponseEntity.status(401).body(Map.of("error", "Vui lòng đăng nhập!"));
+        }
+        try {
+            knowledgeService.deleteSavedVocabulary(user, id);
+            return ResponseEntity.ok(Map.of("status", "success", "message", "Đã xóa từ vựng khỏi kho tri thức cá nhân."));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
+        }
+    }
+
+    @DeleteMapping("/saved/grammar/{id}")
+    public ResponseEntity<?> deleteSavedGrammar(
+            @AuthenticationPrincipal User user,
+            @PathVariable Long id) {
+        if (user == null) {
+            return ResponseEntity.status(401).body(Map.of("error", "Vui lòng đăng nhập!"));
+        }
+        try {
+            knowledgeService.deleteSavedGrammar(user, id);
+            return ResponseEntity.ok(Map.of("status", "success", "message", "Đã xóa ngữ pháp khỏi kho tri thức cá nhân."));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
+        }
+    }
+
     public record SaveRequest(String type, Map<String, Object> data) {}
 }

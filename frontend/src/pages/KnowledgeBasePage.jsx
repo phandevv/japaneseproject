@@ -3,7 +3,7 @@ import {
   Sparkles, Plus, Database, Search, BookOpen, 
   HelpCircle, CheckCircle, RefreshCw, AlertCircle, 
   ChevronRight, Trash2, ArrowRight, FileText, Check,
-  MessageSquare, Eye, EyeOff, Award
+  MessageSquare, Eye, EyeOff, Award, FolderHeart, Calendar
 } from 'lucide-react';
 import { knowledgeApi } from '../services/api';
 import '../styles/KnowledgeBasePage.css';
@@ -11,7 +11,7 @@ import { useLanguage } from '../context/LanguageContext';
 
 export default function KnowledgeBasePage() {
   const { t } = useLanguage();
-  const [activeTab, setActiveTab] = useState('collect'); // 'collect' | 'reading' | 'conversation'
+  const [activeTab, setActiveTab] = useState('collect'); // 'collect' | 'reading' | 'conversation' | 'library'
   
   // Collect State
   const [inputText, setInputText] = useState('');
@@ -31,6 +31,14 @@ export default function KnowledgeBasePage() {
   // Conversation State
   const [convLoading, setConvLoading] = useState(false);
   const [convData, setConvData] = useState(null);
+
+  // Library/Saved Cards State
+  const [libraryLoading, setLibraryLoading] = useState(false);
+  const [libraryVocab, setLibraryVocab] = useState([]);
+  const [libraryGrammar, setLibraryGrammar] = useState([]);
+  const [librarySubTab, setLibrarySubTab] = useState('vocab'); // 'vocab' | 'grammar'
+  const [librarySearch, setLibrarySearch] = useState('');
+  const [selectedLibraryCard, setSelectedLibraryCard] = useState(null); // { type: 'vocab'|'grammar', data: Object }
 
   const handleCollect = async (e) => {
     if (e) e.preventDefault();
@@ -109,6 +117,76 @@ export default function KnowledgeBasePage() {
     }
   };
 
+  // Fetch Library Data
+  const loadLibraryData = async () => {
+    setLibraryLoading(true);
+    setError(null);
+    try {
+      const vocabData = await knowledgeApi.getSavedVocabulary();
+      const grammarData = await knowledgeApi.getSavedGrammar();
+      setLibraryVocab(vocabData);
+      setLibraryGrammar(grammarData);
+      
+      // Mặc định chọn item đầu tiên
+      if (librarySubTab === 'vocab' && vocabData.length > 0) {
+        setSelectedLibraryCard({ type: 'vocab', data: vocabData[0] });
+      } else if (librarySubTab === 'grammar' && grammarData.length > 0) {
+        setSelectedLibraryCard({ type: 'grammar', data: grammarData[0] });
+      } else {
+        setSelectedLibraryCard(null);
+      }
+    } catch (err) {
+      console.error(err);
+      setError(err?.response?.data?.error || err.message || 'Không thể tải thư viện tri thức.');
+    } finally {
+      setLibraryLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    if (activeTab === 'library') {
+      loadLibraryData();
+    }
+  }, [activeTab]);
+
+  const filteredLibraryItems = () => {
+    const query = librarySearch.toLowerCase().trim();
+    if (librarySubTab === 'vocab') {
+      return libraryVocab.filter(item => 
+        (item.word && item.word.toLowerCase().includes(query)) ||
+        (item.reading && item.reading.toLowerCase().includes(query)) ||
+        (item.meaning && item.meaning.toLowerCase().includes(query))
+      );
+    } else {
+      return libraryGrammar.filter(item => 
+        (item.grammar && item.grammar.toLowerCase().includes(query)) ||
+        (item.meaning && item.meaning.toLowerCase().includes(query))
+      );
+    }
+  };
+
+  const handleDeleteSavedCard = async (type, id, e) => {
+    if (e) e.stopPropagation();
+    if (!window.confirm("Bạn có chắc chắn muốn xóa thẻ tri thức này khỏi kho cá nhân?")) return;
+
+    try {
+      if (type === 'vocab') {
+        await knowledgeApi.deleteSavedVocabulary(id);
+        setLibraryVocab(prev => prev.filter(x => x.id !== id));
+      } else {
+        await knowledgeApi.deleteSavedGrammar(id);
+        setLibraryGrammar(prev => prev.filter(x => x.id !== id));
+      }
+
+      if (selectedLibraryCard?.data?.id === id && selectedLibraryCard?.type === type) {
+        setSelectedLibraryCard(null);
+      }
+    } catch (err) {
+      console.error(err);
+      setError('Xóa thẻ thất bại: ' + (err?.response?.data?.error || err.message));
+    }
+  };
+
   const parseJsonList = (val) => {
     if (!val) return [];
     if (Array.isArray(val)) return val;
@@ -139,6 +217,16 @@ export default function KnowledgeBasePage() {
           >
             <Sparkles size={15} />
             Làm giàu kiến thức
+          </button>
+          <button 
+            className={`kb-tab-btn ${activeTab === 'library' ? 'active' : ''}`}
+            onClick={() => {
+              setActiveTab('library');
+              setError(null);
+            }}
+          >
+            <FolderHeart size={15} />
+            Kho tri thức đã lưu
           </button>
           <button 
             className={`kb-tab-btn ${activeTab === 'reading' ? 'active' : ''}`}
@@ -312,7 +400,104 @@ export default function KnowledgeBasePage() {
           </div>
         )}
 
-        {/* TAB 2: PERSONAL READING */}
+        {/* TAB 2: LIBRARY / SAVED KNOWLEDGE CARDS */}
+        {activeTab === 'library' && (
+          <div className="kb-library-layout">
+            {/* Left sidebar: items list */}
+            <div className="kb-library-sidebar glass-panel">
+              <div className="library-search-wrapper">
+                <Search size={16} className="search-icon" />
+                <input 
+                  type="text" 
+                  placeholder="Tìm từ vựng, ngữ pháp..." 
+                  value={librarySearch}
+                  onChange={(e) => setLibrarySearch(e.target.value)}
+                  className="library-search-input"
+                />
+              </div>
+
+              <div className="library-subtabs">
+                <button
+                  className={`subtab-btn ${librarySubTab === 'vocab' ? 'active' : ''}`}
+                  onClick={() => setLibrarySubTab('vocab')}
+                >
+                  Từ vựng ({libraryVocab.length})
+                </button>
+                <button
+                  className={`subtab-btn ${librarySubTab === 'grammar' ? 'active' : ''}`}
+                  onClick={() => setLibrarySubTab('grammar')}
+                >
+                  Ngữ pháp ({libraryGrammar.length})
+                </button>
+              </div>
+
+              <div className="library-items-list">
+                {libraryLoading ? (
+                  <div className="library-loading">
+                    <RefreshCw className="animate-spin" size={20} />
+                    <span>Đang tải kho tri thức...</span>
+                  </div>
+                ) : filteredLibraryItems().length === 0 ? (
+                  <div className="library-empty">
+                    <span>Không tìm thấy thẻ nào.</span>
+                  </div>
+                ) : (
+                  filteredLibraryItems().map((item) => {
+                    const isSelected = selectedLibraryCard?.data?.id === item.id && selectedLibraryCard?.type === librarySubTab;
+                    return (
+                      <div 
+                        key={item.id}
+                        className={`library-item-card ${isSelected ? 'active' : ''}`}
+                        onClick={() => setSelectedLibraryCard({ type: librarySubTab, data: item })}
+                      >
+                        <div className="item-main-info">
+                          {librarySubTab === 'vocab' ? (
+                            <>
+                              <div className="item-title font-jp">{item.word}</div>
+                              <div className="item-sub-title">{item.reading}</div>
+                            </>
+                          ) : (
+                            <div className="item-title font-jp">{item.grammar}</div>
+                          )}
+                          <div className="item-meaning">{item.meaning}</div>
+                        </div>
+                        <button 
+                          className="btn-delete-card"
+                          onClick={(e) => handleDeleteSavedCard(librarySubTab, item.id, e)}
+                        >
+                          <Trash2 size={14} />
+                        </button>
+                      </div>
+                    );
+                  })
+                )}
+              </div>
+            </div>
+
+            {/* Right main area: Detail card */}
+            <div className="kb-library-main-panel">
+              {selectedLibraryCard ? (
+                <div className="library-detail-wrapper glass-panel animate-fade-in">
+                  <div className="knowledge-card-wrapper">
+                    {selectedLibraryCard.type === 'grammar' ? (
+                      <GrammarCardPreview data={selectedLibraryCard.data} parseList={parseJsonList} />
+                    ) : (
+                      <VocabularyCardPreview data={selectedLibraryCard.data} parseList={parseJsonList} />
+                    )}
+                  </div>
+                </div>
+              ) : (
+                <div className="library-detail-empty glass-panel">
+                  <Database size={48} className="empty-icon" />
+                  <h3>Chi tiết thẻ tri thức</h3>
+                  <p>Chọn một thẻ ở danh sách bên trái để xem chi tiết đầy đủ thông tin Obsidian + Anki style.</p>
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+
+        {/* TAB 3: PERSONAL READING */}
         {activeTab === 'reading' && (
           <div className="kb-reading-workspace glass-panel">
             <div className="workspace-header">
@@ -451,7 +636,7 @@ export default function KnowledgeBasePage() {
           </div>
         )}
 
-        {/* TAB 3: PERSONAL CONVERSATION */}
+        {/* TAB 4: PERSONAL CONVERSATION */}
         {activeTab === 'conversation' && (
           <div className="kb-conv-workspace glass-panel">
             <div className="workspace-header">
@@ -538,7 +723,7 @@ function VocabularyCardPreview({ data, parseList }) {
       </div>
 
       <div className="card-main-header">
-        <div className="card-primary-title">
+        <div className="card-primary-title font-jp">
           <ruby>
             {data.word} <rt>{data.reading}</rt>
           </ruby>
@@ -566,7 +751,7 @@ function VocabularyCardPreview({ data, parseList }) {
           <div className="kanji-words-list">
             {kanjiWords.map((k, idx) => (
               <div key={idx} className="kanji-word-item">
-                <span className="k-word">{k.word}</span>
+                <span className="k-word font-jp">{k.word}</span>
                 <span className="k-read">({k.reading})</span>
                 <span className="k-arrow"><ArrowRight size={12} /></span>
                 <span className="k-mean">{k.meaning}</span>
@@ -582,7 +767,7 @@ function VocabularyCardPreview({ data, parseList }) {
             <div>
               <h4>🟢 Đồng nghĩa (Synonyms)</h4>
               <div className="chips-list">
-                {synonyms.map(s => <span key={s} className="chip syn-chip">{s}</span>)}
+                {synonyms.map(s => <span key={s} className="chip syn-chip font-jp">{s}</span>)}
               </div>
             </div>
           )}
@@ -590,7 +775,7 @@ function VocabularyCardPreview({ data, parseList }) {
             <div>
               <h4>🔴 Trái nghĩa (Antonyms)</h4>
               <div className="chips-list">
-                {antonyms.map(a => <span key={a} className="chip ant-chip">{a}</span>)}
+                {antonyms.map(a => <span key={a} className="chip ant-chip font-jp">{a}</span>)}
               </div>
             </div>
           )}
@@ -624,7 +809,7 @@ function VocabularyCardPreview({ data, parseList }) {
           <div className="examples-list">
             {exampleSentences.map((ex, i) => (
               <div key={i} className="example-item">
-                <div className="example-ja">{ex.ja}</div>
+                <div className="example-ja font-jp">{ex.ja}</div>
                 <div className="example-reading">{ex.reading}</div>
                 <div className="example-vi">{ex.vi}</div>
               </div>
@@ -695,7 +880,7 @@ function GrammarCardPreview({ data, parseList }) {
           <div className="examples-list">
             {examples.map((ex, i) => (
               <div key={i} className="example-item">
-                <div className="example-ja">{ex.ja}</div>
+                <div className="example-ja font-jp">{ex.ja}</div>
                 <div className="example-reading">{ex.reading}</div>
                 <div className="example-vi">{ex.vi}</div>
               </div>
@@ -717,7 +902,7 @@ function GrammarCardPreview({ data, parseList }) {
         <div className="card-section relation-section">
           <h4>🆚 Cấu trúc tương tự</h4>
           <div className="chips-list">
-            {similarGrammar.map(s => <span key={s} className="chip syn-chip">{s}</span>)}
+            {similarGrammar.map(s => <span key={s} className="chip syn-chip font-jp">{s}</span>)}
           </div>
           {data.difference && (
             <div className="difference-box">
