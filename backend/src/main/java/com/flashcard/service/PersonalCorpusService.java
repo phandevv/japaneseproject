@@ -120,13 +120,13 @@ public class PersonalCorpusService {
 
             HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
             if (response.statusCode() != 200) {
-                throw new RuntimeException("API error status: " + response.statusCode());
+                throw new RuntimeException("API error status: " + response.statusCode() + ", body: " + response.body());
             }
 
             JsonNode root = objectMapper.readTree(response.body());
             String jsonContent = root.path("choices").get(0).path("message").path("content").asText();
 
-            return objectMapper.readValue(jsonContent, Map.class);
+            return cleanAndParseJson(jsonContent);
         } finally {
             bulkheadSemaphore.release();
         }
@@ -197,16 +197,36 @@ public class PersonalCorpusService {
 
             HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
             if (response.statusCode() != 200) {
-                throw new RuntimeException("API error status: " + response.statusCode());
+                throw new RuntimeException("API error status: " + response.statusCode() + ", body: " + response.body());
             }
 
             JsonNode root = objectMapper.readTree(response.body());
             String jsonContent = root.path("choices").get(0).path("message").path("content").asText();
 
-            return objectMapper.readValue(jsonContent, Map.class);
+            return cleanAndParseJson(jsonContent);
         } finally {
             bulkheadSemaphore.release();
         }
+    }
+
+    private Map<String, Object> cleanAndParseJson(String content) throws Exception {
+        if (content == null || content.trim().isEmpty()) {
+            throw new RuntimeException("AI phản hồi dữ liệu rỗng. Vui lòng thử lại!");
+        }
+        String cleaned = content.trim();
+        if (cleaned.startsWith("```json")) {
+            cleaned = cleaned.substring(7);
+        } else if (cleaned.startsWith("```")) {
+            cleaned = cleaned.substring(3);
+        }
+        if (cleaned.endsWith("```")) {
+            cleaned = cleaned.substring(0, cleaned.length() - 3);
+        }
+        cleaned = cleaned.trim();
+        if (cleaned.isEmpty()) {
+            throw new RuntimeException("Dữ liệu JSON rỗng sau khi giải mã.");
+        }
+        return objectMapper.readValue(cleaned, Map.class);
     }
 
     private String getApiKey() {
