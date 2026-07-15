@@ -1,15 +1,5 @@
 package com.flashcard.service;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.flashcard.model.GrammarReview;
-import com.flashcard.model.User;
-import com.flashcard.model.WordReview;
-import com.flashcard.repository.GrammarReviewRepository;
-import com.flashcard.repository.WordReviewRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
@@ -19,6 +9,17 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Semaphore;
 import java.util.stream.Collectors;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.flashcard.model.GrammarReview;
+import com.flashcard.model.User;
+import com.flashcard.model.WordReview;
+import com.flashcard.repository.GrammarReviewRepository;
+import com.flashcard.repository.WordReviewRepository;
 
 @Service
 public class PersonalCorpusService {
@@ -103,7 +104,7 @@ public class PersonalCorpusService {
 
             Map<String, Object> requestBodyMap = Map.of(
                 "model", "deepseek-v4-flash",
-                "max_tokens", 2048,
+                "max_tokens", 30000,
                 "response_format", Map.of("type", "json_object"),
                 "messages", new Object[]{
                     Map.of("role", "system", "content", "Bạn là trợ lý giảng dạy tiếng Nhật. Bạn chỉ phản hồi bằng định dạng JSON."),
@@ -178,7 +179,7 @@ public class PersonalCorpusService {
 
             Map<String, Object> requestBodyMap = Map.of(
                 "model", "deepseek-v4-flash",
-                "max_tokens", 2048,
+                "max_tokens", 30000,
                 "response_format", Map.of("type", "json_object"),
                 "messages", new Object[]{
                     Map.of("role", "system", "content", "Bạn là trợ lý tạo hội thoại tiếng Nhật. Phản hồi dạng JSON."),
