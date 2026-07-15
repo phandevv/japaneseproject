@@ -161,7 +161,14 @@ public class VocabularyController {
             return ResponseEntity.notFound().build();
         }
         Vocabulary existing = existingOpt.get();
-        if (existing.getSampleSentence() != null && !existing.getSampleSentence().isBlank()) {
+        // Check if word already has rich AI enrichment data
+        boolean alreadyEnriched = (existing.getPitchAccent() != null && !existing.getPitchAccent().isBlank())
+            || (existing.getWordType() != null && !existing.getWordType().isBlank())
+            || (existing.getMnemonic() != null && !existing.getMnemonic().isBlank())
+            || (existing.getSynonyms() != null && !existing.getSynonyms().isBlank())
+            || (existing.getAntonyms() != null && !existing.getAntonyms().isBlank())
+            || (existing.getExampleSentences() != null && !existing.getExampleSentences().isBlank());
+        if (alreadyEnriched) {
             return ResponseEntity.ok(existing);
         }
         

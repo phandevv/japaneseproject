@@ -116,10 +116,12 @@ public class KnowledgeService {
 
             JsonNode root = objectMapper.readTree(response.body());
             String jsonContent = root.path("choices").get(0).path("message").path("content").asText();
-            JsonNode contentNode = objectMapper.readTree(jsonContent);
 
-            String type = contentNode.path("type").asText("vocabulary");
-            String normalized = contentNode.path("normalized").asText(input);
+            // Use robust parsing with retry/repair
+            Map<String, Object> parsed = parseAiJsonResponse(jsonContent);
+
+            String type = parsed.getOrDefault("type", "vocabulary").toString();
+            String normalized = parsed.getOrDefault("normalized", input).toString();
 
             // Check if normalized item exists in DB
             boolean exists = false;
@@ -146,6 +148,69 @@ public class KnowledgeService {
             );
         } finally {
             bulkheadSemaphore.release();
+        }
+    }
+
+    /**
+     * Clean markdown code fences from AI JSON response.
+     */
+    private String cleanJsonContent(String content) {
+        if (content == null) return "{}";
+        content = content.trim();
+        if (content.startsWith("```json")) {
+            content = content.substring(7);
+        } else if (content.startsWith("```")) {
+            content = content.substring(3);
+        }
+        if (content.endsWith("```")) {
+            content = content.substring(0, content.length() - 3);
+        }
+        return content.trim();
+    }
+
+    /**
+     * Attempt to repair malformed JSON by removing CJK characters and other invalid chars
+     * that sometimes appear between JSON tokens in AI responses.
+     */
+    private String repairJson(String json) {
+        if (json == null || json.isEmpty()) return "{}";
+        // Remove CJK (Chinese/Japanese/Korean) characters that appear between "}" and "\""
+        // (i.e., between the end of an object and the start of the next key)
+        // These sometimes leak from AI-generated string values into JSON structure
+        json = json.replaceAll("\\}[\\u4e00-\\u9fff\\u3040-\\u309f\\u30a0-\\u30ff]+", "},");
+        // Same for between "]" and "\"" (end of array and start of next key)
+        json = json.replaceAll("\\][\\u4e00-\\u9fff\\u3040-\\u309f\\u30a0-\\u30ff]+", "],");
+        // Also handle between "}" and "{" (end of one object and start of another)
+        json = json.replaceAll("\\}[\\u4e00-\\u9fff\\u3040-\\u309f\\u30a0-\\u30ff]+\\{", "},{");
+        // Remove any null bytes or other control characters
+        json = json.replaceAll("\\p{Cc}", "");
+        // Collapse any double commas that may have been introduced
+        json = json.replaceAll(",,+", ",");
+        return json;
+    }
+
+    /**
+     * Parse JSON content from AI response with robust error handling.
+     */
+    @SuppressWarnings("unchecked")
+    private Map<String, Object> parseAiJsonResponse(String rawContent) throws Exception {
+        String cleaned = cleanJsonContent(rawContent);
+        try {
+            return objectMapper.readValue(cleaned, Map.class);
+        } catch (Exception e) {
+            log.warn("Failed to parse AI JSON response on first attempt: {}", e.getMessage());
+            log.warn("Raw AI content (first 500 chars): {}", 
+                cleaned.length() > 500 ? cleaned.substring(0, 500) + "..." : cleaned);
+            // Attempt repair
+            String repaired = repairJson(cleaned);
+            try {
+                return objectMapper.readValue(repaired, Map.class);
+            } catch (Exception e2) {
+                log.error("Failed to parse AI JSON response after repair attempt.");
+                log.error("Repaired content (first 500 chars): {}",
+                    repaired.length() > 500 ? repaired.substring(0, 500) + "..." : repaired);
+                throw new RuntimeException("AI phản hồi dữ liệu không đúng định dạng. Vui lòng thử lại!");
+            }
         }
     }
 
@@ -218,7 +283,7 @@ public class KnowledgeService {
             JsonNode root = objectMapper.readTree(response.body());
             String jsonContent = root.path("choices").get(0).path("message").path("content").asText();
 
-            return objectMapper.readValue(jsonContent, Map.class);
+            return parseAiJsonResponse(jsonContent);
         } finally {
             bulkheadSemaphore.release();
         }
@@ -288,7 +353,7 @@ public class KnowledgeService {
             JsonNode root = objectMapper.readTree(response.body());
             String jsonContent = root.path("choices").get(0).path("message").path("content").asText();
 
-            return objectMapper.readValue(jsonContent, Map.class);
+            return parseAiJsonResponse(jsonContent);
         } finally {
             bulkheadSemaphore.release();
         }

@@ -66,31 +66,40 @@ public class DeepSeekEnrichmentService {
                 String level = vocab.getLevel() != null ? vocab.getLevel().trim().toUpperCase() : "N3";
 
                 String prompt = String.format(
-                    "Bạn là một chuyên gia tiếng Nhật. Hãy tạo câu ví dụ và tìm các từ liên quan cho từ sau:\n" +
-                    "Từ: %s\n" +
+                    "Bạn là một chuyên gia biên soạn từ điển tiếng Nhật cao cấp. Hãy làm giàu thông tin cho từ vựng sau bằng tiếng Việt:\n" +
+                    "Từ: \"%s\"\n" +
                     "Cách đọc: %s\n" +
-                    "Nghĩa: %s\n" +
+                    "Nghĩa ban đầu: %s\n" +
                     "Cấp độ JLPT: %s\n\n" +
-                    "Yêu cầu về câu ví dụ:\n" +
-                    "- Câu phải tự nhiên, minh họa rõ nghĩa và cách dùng của từ\n" +
-                    "- Chọn mẫu ngữ pháp phù hợp nhất với từ này ở trình độ %s (không cần cứng nhắc một mẫu nào, hãy chọn mẫu giúp câu nghe tự nhiên nhất)\n" +
-                    "- Độ phức tạp tổng thể của câu tương đương trình độ %s\n" +
-                    "- Dịch nghĩa câu ví dụ (sampleTranslation) và nghĩa của các từ kanjiWords (meaning) BẮT BUỘC PHẢI DÙNG TIẾNG VIỆT.\n\n" +
-                    "LƯU Ý CỰC KỲ QUAN TRỌNG: Tuyệt đối không được dịch nghĩa hoặc giải thích bằng tiếng Trung Quốc hay tiếng Anh. Tất cả các trường giải nghĩa và dịch thuật đều phải được viết bằng tiếng Việt.\n\n" +
-                    "Phản hồi chỉ dưới dạng JSON thuần túy (không markdown, không giải thích thêm):\n" +
+                    "Yêu cầu dữ liệu cực kỳ chi tiết, chính xác, không dùng tiếng Trung hay tiếng Anh để giải nghĩa. Mọi giải thích, dịch ví dụ bắt buộc phải là tiếng Việt.\n" +
+                    "Hãy trả về JSON duy nhất, không markdown:\n" +
                     "{\n" +
-                    "  \"sampleSentence\": \"câu ví dụ tiếng Nhật\",\n" +
-                    "  \"sampleReading\": \"cách đọc Hiragana của câu\",\n" +
-                    "  \"sampleTranslation\": \"dịch nghĩa tiếng Việt của câu\",\n" +
+                    "  \"word\": \"từ kanji hoặc kana chính xác\",\n" +
+                    "  \"reading\": \"hiragana/katakana cách đọc\",\n" +
+                    "  \"meaning\": \"nghĩa tiếng Việt chính xác\",\n" +
+                    "  \"jlpt\": \"cấp độ JLPT từ N5 đến N1\",\n" +
+                    "  \"pitchAccent\": \"cách đánh trọng âm (ví dụ: しょくじ [0])\",\n" +
+                    "  \"wordType\": \"loại từ (noun, verb, i-adjective, na-adjective...)\",\n" +
                     "  \"kanjiWords\": [\n" +
-                    "    { \"word\": \"từ khác chứa cùng Kanji (tối đa 3)\", \"reading\": \"cách đọc\", \"meaning\": \"nghĩa tiếng Việt của từ đó\" }\n" +
+                    "     { \"word\": \"từ ghép chứa kanji này\", \"reading\": \"cách đọc\", \"meaning\": \"nghĩa tiếng Việt\" }\n" +
+                    "  ],\n" +
+                    "  \"synonyms\": [\"từ đồng nghĩa 1\", \"từ đồng nghĩa 2\"],\n" +
+                    "  \"antonyms\": [\"từ trái nghĩa 1\", \"từ trái nghĩa 2\"],\n" +
+                    "  \"commonMistakes\": [\n" +
+                    "     { \"error\": \"sai lầm phổ biến\", \"fix\": \"cách sửa\" }\n" +
+                    "  ],\n" +
+                    "  \"exampleSentences\": [\n" +
+                    "     { \"ja\": \"câu ví dụ tiếng Nhật\", \"reading\": \"hiragana câu ví dụ\", \"vi\": \"dịch nghĩa tiếng Việt\" }\n" +
+                    "  ],\n" +
+                    "  \"collocations\": [\"cụm từ hay đi kèm 1\", \"cụm từ hay đi kèm 2\"],\n" +
+                    "  \"mnemonic\": \"mẹo nhớ chữ hán hoặc từ này\",\n" +
+                    "  \"conversationExamples\": [\n" +
+                    "     { \"speakerA\": \"hội thoại người A\", \"speakerB\": \"hội thoại người B (phản hồi)\", \"translationA\": \"dịch nghĩa A\", \"translationB\": \"dịch nghĩa B\" }\n" +
                     "  ]\n" +
                     "}",
                     vocab.getKanji() != null && !vocab.getKanji().isEmpty() ? vocab.getKanji() : vocab.getHiragana(),
                     vocab.getHiragana(),
                     vocab.getMeaning(),
-                    level,
-                    level,
                     level
                 );
 
@@ -110,7 +119,7 @@ public class DeepSeekEnrichmentService {
                         .header("Content-Type", "application/json")
                         .header("Authorization", "Bearer " + apiKey)
                         .POST(HttpRequest.BodyPublishers.ofString(requestBody))
-                        .timeout(Duration.ofSeconds(20))
+                        .timeout(Duration.ofSeconds(25))
                         .build();
 
                 return httpClient.sendAsync(request, HttpResponse.BodyHandlers.ofString())
@@ -125,18 +134,28 @@ public class DeepSeekEnrichmentService {
 
                                     JsonNode contentNode = objectMapper.readTree(contentJson);
                                     
-                                    String sampleSentence = contentNode.path("sampleSentence").asText();
-                                    String sampleReading = contentNode.path("sampleReading").asText();
-                                    String sampleTranslation = contentNode.path("sampleTranslation").asText();
+                                    // Map simple fields
+                                    vocab.setPitchAccent(contentNode.path("pitchAccent").asText());
+                                    vocab.setWordType(contentNode.path("wordType").asText());
+                                    vocab.setMnemonic(contentNode.path("mnemonic").asText());
                                     
-                                    // Serialize kanjiWords back as JSON string for storage
-                                    JsonNode kanjiWordsNode = contentNode.path("kanjiWords");
-                                    String kanjiWordsJson = objectMapper.writeValueAsString(kanjiWordsNode);
+                                    // Map complex JSON array/object fields to string columns
+                                    vocab.setKanjiWords(objectMapper.writeValueAsString(contentNode.path("kanjiWords")));
+                                    vocab.setSynonyms(objectMapper.writeValueAsString(contentNode.path("synonyms")));
+                                    vocab.setAntonyms(objectMapper.writeValueAsString(contentNode.path("antonyms")));
+                                    vocab.setCommonMistakes(objectMapper.writeValueAsString(contentNode.path("commonMistakes")));
+                                    vocab.setCollocations(objectMapper.writeValueAsString(contentNode.path("collocations")));
+                                    vocab.setConversationExamples(objectMapper.writeValueAsString(contentNode.path("conversationExamples")));
+                                    vocab.setExampleSentences(objectMapper.writeValueAsString(contentNode.path("exampleSentences")));
 
-                                    vocab.setSampleSentence(sampleSentence);
-                                    vocab.setSampleReading(sampleReading);
-                                    vocab.setSampleTranslation(sampleTranslation);
-                                    vocab.setKanjiWords(kanjiWordsJson);
+                                    // Maintain backwards compatibility with older schema fields using first example
+                                    JsonNode exampleList = contentNode.path("exampleSentences");
+                                    if (exampleList.isArray() && exampleList.size() > 0) {
+                                        JsonNode firstEx = exampleList.get(0);
+                                        vocab.setSampleSentence(firstEx.path("ja").asText());
+                                        vocab.setSampleReading(firstEx.path("reading").asText());
+                                        vocab.setSampleTranslation(firstEx.path("vi").asText());
+                                    }
 
                                     return vocabularyRepository.save(vocab);
                                 } else {
