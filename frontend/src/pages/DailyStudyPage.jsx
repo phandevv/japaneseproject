@@ -4,6 +4,7 @@ import { CornerUpLeft, BookOpen, CheckCircle, XCircle, ArrowRight, Loader, Play,
 import { useLanguage } from '../context/LanguageContext';
 import { useAuth } from '../context/AuthContext';
 import KanjiDetailModal from '../components/KanjiDetailModal';
+import AiEnrichedTabbedView from '../components/AiEnrichedTabbedView';
 import * as XLSX from 'xlsx';
 
 const levelColors = {
@@ -49,20 +50,23 @@ const DailyStudyPage = ({ level, stats, goBack }) => {
   const [showHiraganaHint, setShowHiraganaHint] = useState(false);
   const [seenWordIds, setSeenWordIds] = useState(new Set());
 
+  // Helper to check if a word has rich AI enrichment data
+  const hasRichEnrichment = (w) => {
+    return w && (w.pitchAccent || w.wordType || w.mnemonic || w.synonyms || w.antonyms || w.kanjiWords || w.commonMistakes || w.exampleSentences || w.collocations || w.conversationExamples);
+  };
+
   // Quiz Word Enrichment
   const [quizWordEnriched, setQuizWordEnriched] = useState(null);
   const [loadingQuizEnrich, setLoadingQuizEnrich] = useState(false);
-  const [showSampleHint, setShowSampleHint] = useState(false);
 
   useEffect(() => {
     const currentWord = quizWords[quizIndex];
-    setShowSampleHint(false);
     if (phase !== 3 || !currentWord) {
       setQuizWordEnriched(null);
       return;
     }
 
-    if (currentWord.sampleSentence) {
+    if (hasRichEnrichment(currentWord)) {
       setQuizWordEnriched(currentWord);
       return;
     }
@@ -76,7 +80,7 @@ const DailyStudyPage = ({ level, stats, goBack }) => {
     vocabApi.enrich(currentWord.id)
       .then(data => {
         if (!active) return;
-        if (data.sampleSentence) {
+        if (hasRichEnrichment(data)) {
           setQuizWordEnriched(data);
           setLoadingQuizEnrich(false);
           setQuizWords(prev => prev.map(w => w.id === data.id ? data : w));
@@ -86,7 +90,7 @@ const DailyStudyPage = ({ level, stats, goBack }) => {
             vocabApi.getById(currentWord.id)
               .then(pollData => {
                 if (!active) return;
-                if (pollData.sampleSentence) {
+                if (hasRichEnrichment(pollData)) {
                   setQuizWordEnriched(pollData);
                   setLoadingQuizEnrich(false);
                   setQuizWords(prev => prev.map(w => w.id === pollData.id ? pollData : w));
@@ -1168,68 +1172,12 @@ const DailyStudyPage = ({ level, stats, goBack }) => {
                 <div style={{ flex: '1 1 350px', width: '100%' }}>
                   {loadingQuizEnrich && (
                     <div style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', fontStyle: 'italic', padding: '10px', textAlign: 'left' }}>
-                      Đang tải câu ví dụ & Kanji liên quan...
+                      Đang tải dữ liệu AI...
                     </div>
                   )}
-
-                  {quizWordEnriched && quizWordEnriched.sampleSentence && (
-                    <div style={{ padding: '10px 12px', backgroundColor: 'var(--surface-hover)', borderRadius: '6px', textAlign: 'left', fontSize: '0.9rem', marginBottom: '8px', border: '1px solid var(--border-color)' }}>
-                      <span style={{ color: 'var(--accent-color)', fontWeight: 'bold', display: 'block', marginBottom: '4px', fontSize: '0.8rem' }}>Câu ví dụ:</span>
-                      <span style={{ fontWeight: 'bold', color: 'var(--text-primary)', display: 'block', fontSize: '1rem', lineHeight: '1.3', marginBottom: showSampleHint ? '2px' : '6px' }}>{quizWordEnriched.sampleSentence}</span>
-                      {showSampleHint ? (
-                        <>
-                          <span style={{ color: 'var(--text-secondary)', fontSize: '0.8rem', display: 'block', marginBottom: '2px', fontStyle: 'italic' }}>{quizWordEnriched.sampleReading}</span>
-                          <span style={{ color: 'var(--success-color)' }}>{quizWordEnriched.sampleTranslation}</span>
-                        </>
-                      ) : (
-                        <button 
-                          onClick={() => setShowSampleHint(true)}
-                          style={{
-                            background: 'var(--surface-color)',
-                            border: '1px solid var(--border-color)',
-                            color: 'var(--text-secondary)',
-                            borderRadius: '4px',
-                            padding: '3px 8px',
-                            fontSize: '0.75rem',
-                            cursor: 'pointer',
-                            transition: 'all 0.2s',
-                            fontFamily: 'inherit'
-                          }}
-                          onMouseEnter={e => e.currentTarget.style.background = 'var(--surface-hover)'}
-                          onMouseLeave={e => e.currentTarget.style.background = 'var(--surface-color)'}
-                        >
-                          Hiện cách đọc & nghĩa
-                        </button>
-                      )}
-                    </div>
+                  {quizWordEnriched && (
+                    <AiEnrichedTabbedView data={quizWordEnriched} />
                   )}
-
-                  {(() => {
-                    let relatedWords = [];
-                    if (quizWordEnriched && quizWordEnriched.kanjiWords) {
-                      try {
-                        relatedWords = typeof quizWordEnriched.kanjiWords === 'string' 
-                          ? JSON.parse(quizWordEnriched.kanjiWords) 
-                          : quizWordEnriched.kanjiWords;
-                      } catch (e) {}
-                    }
-                    if (relatedWords && relatedWords.length > 0) {
-                      return (
-                        <div style={{ padding: '10px 12px', backgroundColor: 'var(--surface-hover)', borderRadius: '6px', textAlign: 'left', fontSize: '0.85rem', border: '1px solid var(--border-color)' }}>
-                          <span style={{ color: 'var(--success-color)', fontWeight: 'bold', display: 'block', marginBottom: '6px', fontSize: '0.8rem' }}>Kanji liên quan:</span>
-                          <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-                            {relatedWords.map((item, idx) => (
-                              <div key={idx} style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.8rem' }}>
-                                <span style={{ color: 'var(--text-primary)', fontWeight: '500' }}>{item.word} ({item.reading})</span>
-                                <span style={{ color: 'var(--text-secondary)' }}>{item.meaning}</span>
-                              </div>
-                            ))}
-                          </div>
-                        </div>
-                      );
-                    }
-                    return null;
-                  })()}
                 </div>
               </div>
 
@@ -1289,68 +1237,12 @@ const DailyStudyPage = ({ level, stats, goBack }) => {
                 <div style={{ flex: '1 1 350px', width: '100%' }}>
                   {loadingQuizEnrich && (
                     <div style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', fontStyle: 'italic', padding: '10px', textAlign: 'left' }}>
-                      Đang tải câu ví dụ & Kanji liên quan...
+                      Đang tải dữ liệu AI...
                     </div>
                   )}
-
-                  {quizWordEnriched && quizWordEnriched.sampleSentence && (
-                    <div style={{ padding: '10px 12px', backgroundColor: 'var(--surface-hover)', borderRadius: '6px', textAlign: 'left', fontSize: '0.9rem', marginBottom: '8px', border: '1px solid var(--border-color)' }}>
-                      <span style={{ color: 'var(--accent-color)', fontWeight: 'bold', display: 'block', marginBottom: '4px', fontSize: '0.8rem' }}>Câu ví dụ:</span>
-                      <span style={{ fontWeight: 'bold', color: 'var(--text-primary)', display: 'block', fontSize: '1rem', lineHeight: '1.3', marginBottom: showSampleHint ? '2px' : '6px' }}>{quizWordEnriched.sampleSentence}</span>
-                      {showSampleHint ? (
-                        <>
-                          <span style={{ color: 'var(--text-secondary)', fontSize: '0.8rem', display: 'block', marginBottom: '2px', fontStyle: 'italic' }}>{quizWordEnriched.sampleReading}</span>
-                          <span style={{ color: 'var(--success-color)' }}>{quizWordEnriched.sampleTranslation}</span>
-                        </>
-                      ) : (
-                        <button 
-                          onClick={() => setShowSampleHint(true)}
-                          style={{
-                            background: 'var(--surface-color)',
-                            border: '1px solid var(--border-color)',
-                            color: 'var(--text-secondary)',
-                            borderRadius: '4px',
-                            padding: '3px 8px',
-                            fontSize: '0.75rem',
-                            cursor: 'pointer',
-                            transition: 'all 0.2s',
-                            fontFamily: 'inherit'
-                          }}
-                          onMouseEnter={e => e.currentTarget.style.background = 'var(--surface-hover)'}
-                          onMouseLeave={e => e.currentTarget.style.background = 'var(--surface-color)'}
-                        >
-                          Hiện cách đọc & nghĩa
-                        </button>
-                      )}
-                    </div>
+                  {quizWordEnriched && (
+                    <AiEnrichedTabbedView data={quizWordEnriched} />
                   )}
-
-                  {(() => {
-                    let relatedWords = [];
-                    if (quizWordEnriched && quizWordEnriched.kanjiWords) {
-                      try {
-                        relatedWords = typeof quizWordEnriched.kanjiWords === 'string' 
-                          ? JSON.parse(quizWordEnriched.kanjiWords) 
-                          : quizWordEnriched.kanjiWords;
-                      } catch (e) {}
-                    }
-                    if (relatedWords && relatedWords.length > 0) {
-                      return (
-                        <div style={{ padding: '10px 12px', backgroundColor: 'var(--surface-hover)', borderRadius: '6px', textAlign: 'left', fontSize: '0.85rem', border: '1px solid var(--border-color)' }}>
-                          <span style={{ color: 'var(--success-color)', fontWeight: 'bold', display: 'block', marginBottom: '6px', fontSize: '0.8rem' }}>Kanji liên quan:</span>
-                          <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-                            {relatedWords.map((item, idx) => (
-                              <div key={idx} style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.8rem' }}>
-                                <span style={{ color: 'var(--text-primary)', fontWeight: '500' }}>{item.word} ({item.reading})</span>
-                                <span style={{ color: 'var(--text-secondary)' }}>{item.meaning}</span>
-                              </div>
-                            ))}
-                          </div>
-                        </div>
-                      );
-                    }
-                    return null;
-                  })()}
                 </div>
               </div>
 

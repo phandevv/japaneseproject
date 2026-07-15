@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Volume2 } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
 import { vocabApi } from '../services/api';
+import AiEnrichedTabbedView from './AiEnrichedTabbedView';
 
 const FlashcardCard = ({ word, flipped, onFlip, onRateWord }) => {
   const { t } = useLanguage();
@@ -16,10 +17,15 @@ const FlashcardCard = ({ word, flipped, onFlip, onRateWord }) => {
     };
   }, [word]);
 
+  // Check if word already has rich AI enrichment data (not just sampleSentence)
+  const hasRichEnrichment = (w) => {
+    return w && (w.pitchAccent || w.wordType || w.mnemonic || w.synonyms || w.antonyms || w.kanjiWords || w.commonMistakes || w.exampleSentences || w.collocations || w.conversationExamples);
+  };
+
   useEffect(() => {
     if (!word) return;
 
-    if (word.sampleSentence) {
+    if (hasRichEnrichment(word)) {
       setEnriched(word);
       return;
     }
@@ -33,12 +39,22 @@ const FlashcardCard = ({ word, flipped, onFlip, onRateWord }) => {
     vocabApi.enrich(word.id)
       .then(data => {
         if (!active) return;
-        if (data.sampleSentence) {
-          // Mutate parent object to cache the enrichment
+        if (hasRichEnrichment(data)) {
+          // Cache all enrichment fields on the parent word object
+          word.pitchAccent = data.pitchAccent;
+          word.wordType = data.wordType;
+          word.mnemonic = data.mnemonic;
+          word.kanjiWords = data.kanjiWords;
+          word.synonyms = data.synonyms;
+          word.antonyms = data.antonyms;
+          word.commonMistakes = data.commonMistakes;
+          word.exampleSentences = data.exampleSentences;
+          word.collocations = data.collocations;
+          word.conversationExamples = data.conversationExamples;
+          // Keep backward compatibility
           word.sampleSentence = data.sampleSentence;
           word.sampleReading = data.sampleReading;
           word.sampleTranslation = data.sampleTranslation;
-          word.kanjiWords = data.kanjiWords;
 
           setEnriched(data);
           setLoadingEnrich(false);
@@ -48,11 +64,20 @@ const FlashcardCard = ({ word, flipped, onFlip, onRateWord }) => {
             vocabApi.getById(word.id)
               .then(pollData => {
                 if (!active) return;
-                if (pollData.sampleSentence) {
+                if (hasRichEnrichment(pollData)) {
+                  word.pitchAccent = pollData.pitchAccent;
+                  word.wordType = pollData.wordType;
+                  word.mnemonic = pollData.mnemonic;
+                  word.kanjiWords = pollData.kanjiWords;
+                  word.synonyms = pollData.synonyms;
+                  word.antonyms = pollData.antonyms;
+                  word.commonMistakes = pollData.commonMistakes;
+                  word.exampleSentences = pollData.exampleSentences;
+                  word.collocations = pollData.collocations;
+                  word.conversationExamples = pollData.conversationExamples;
                   word.sampleSentence = pollData.sampleSentence;
                   word.sampleReading = pollData.sampleReading;
                   word.sampleTranslation = pollData.sampleTranslation;
-                  word.kanjiWords = pollData.kanjiWords;
 
                   setEnriched(pollData);
                   setLoadingEnrich(false);
@@ -199,57 +224,13 @@ const FlashcardCard = ({ word, flipped, onFlip, onRateWord }) => {
                   borderRadius: '6px',
                   textAlign: 'center'
                 }}>
-                  Đang gọi AI làm giàu dữ liệu ví dụ & Kanji...
+                  Đang tải dữ liệu AI (từ vựng, ví dụ, Kanji, mẹo nhớ...)...
                 </div>
               )}
 
-              {enriched && enriched.sampleSentence && (
-                <div style={{ 
-                  padding: '14px 18px', 
-                  backgroundColor: 'var(--surface-hover)', 
-                  borderRadius: '8px',
-                  borderLeft: '4px solid var(--accent-color)'
-                }}>
-                  <h4 style={{ color: 'var(--accent-color)', marginBottom: '4px', fontSize: '0.9rem', fontWeight: '600' }}>Câu ví dụ:</h4>
-                  <p style={{ fontSize: '1.25rem', fontWeight: 'bold', color: 'var(--text-primary)', marginBottom: '2px', lineHeight: '1.35' }}>{enriched.sampleSentence}</p>
-                  <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', marginBottom: '4px', fontStyle: 'italic' }}>{enriched.sampleReading}</p>
-                  <p style={{ fontSize: '0.95rem', color: 'var(--success-color)', fontWeight: '500' }}>{enriched.sampleTranslation}</p>
-                </div>
+              {enriched && (
+                <AiEnrichedTabbedView data={enriched} />
               )}
-
-              {(() => {
-                let relatedWords = [];
-                if (enriched && enriched.kanjiWords) {
-                  try {
-                    relatedWords = typeof enriched.kanjiWords === 'string' 
-                      ? JSON.parse(enriched.kanjiWords) 
-                      : enriched.kanjiWords;
-                  } catch (e) {
-                    console.error("Failed to parse kanjiWords JSON:", e);
-                  }
-                }
-                if (relatedWords && relatedWords.length > 0) {
-                  return (
-                    <div style={{ 
-                      padding: '12px 18px', 
-                      backgroundColor: 'var(--surface-hover)', 
-                      borderRadius: '8px',
-                      borderLeft: '4px solid var(--success-color)'
-                    }}>
-                      <h4 style={{ color: 'var(--success-color)', marginBottom: '6px', fontSize: '0.9rem', fontWeight: '600' }}>Kanji liên quan:</h4>
-                      <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
-                        {relatedWords.map((item, idx) => (
-                          <div key={idx} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '0.85rem', borderBottom: idx < relatedWords.length - 1 ? '1px dashed var(--border-color)' : 'none', paddingBottom: idx < relatedWords.length - 1 ? '4px' : '0' }}>
-                            <span style={{ fontWeight: 'bold', color: 'var(--text-primary)' }}>{item.word} ({item.reading})</span>
-                            <span style={{ color: 'var(--text-secondary)', fontSize: '0.8rem' }}>{item.meaning}</span>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  );
-                }
-                return null;
-              })()}
             </div>
 
           </div>
