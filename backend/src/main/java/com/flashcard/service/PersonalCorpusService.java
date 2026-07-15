@@ -123,9 +123,7 @@ public class PersonalCorpusService {
                 throw new RuntimeException("API error status: " + response.statusCode() + ", body: " + response.body());
             }
 
-            JsonNode root = objectMapper.readTree(response.body());
-            String jsonContent = root.path("choices").get(0).path("message").path("content").asText();
-
+            String jsonContent = extractJsonContent(response.body());
             return cleanAndParseJson(jsonContent);
         } finally {
             bulkheadSemaphore.release();
@@ -200,13 +198,41 @@ public class PersonalCorpusService {
                 throw new RuntimeException("API error status: " + response.statusCode() + ", body: " + response.body());
             }
 
-            JsonNode root = objectMapper.readTree(response.body());
-            String jsonContent = root.path("choices").get(0).path("message").path("content").asText();
-
+            String jsonContent = extractJsonContent(response.body());
             return cleanAndParseJson(jsonContent);
         } finally {
             bulkheadSemaphore.release();
         }
+    }
+
+    private String extractJsonContent(String responseBody) throws Exception {
+        if (responseBody == null || responseBody.trim().isEmpty()) {
+            throw new RuntimeException("AI phản hồi body trống rỗng.");
+        }
+        JsonNode root = objectMapper.readTree(responseBody);
+        
+        if (root.has("error")) {
+            JsonNode errorNode = root.path("error");
+            String errMsg = errorNode.has("message") ? errorNode.path("message").asText() : errorNode.toString();
+            throw new RuntimeException("DeepSeek API Error: " + errMsg);
+        }
+
+        JsonNode choices = root.path("choices");
+        if (choices.isMissingNode() || !choices.isArray() || choices.isEmpty()) {
+            throw new RuntimeException("AI phản hồi cấu trúc không hợp lệ. Response: " + responseBody);
+        }
+
+        JsonNode messageNode = choices.get(0).path("message");
+        if (messageNode.isMissingNode()) {
+            throw new RuntimeException("Thiếu thẻ message trong choices. Response: " + responseBody);
+        }
+
+        String content = messageNode.path("content").asText();
+        if (content == null || content.trim().isEmpty()) {
+            throw new RuntimeException("Nội dung text trả về từ AI bị rỗng. Response: " + responseBody);
+        }
+
+        return content;
     }
 
     private Map<String, Object> cleanAndParseJson(String content) throws Exception {
