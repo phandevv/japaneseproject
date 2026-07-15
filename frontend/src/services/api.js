@@ -357,3 +357,13 @@ export const knowledgeApi = {
   }
 };
 
+export const usersApi = {
+  getOnlineUsers: async () => {
+    const response = await axios.get(`${API_BASE_URL}/users/online`);
+    return response.data;
+  },
+  getUserProfile: async (username) => {
+    const response = await axios.get(`${API_BASE_URL}/users/${username}`);
+    return response.data;
+  }
+};

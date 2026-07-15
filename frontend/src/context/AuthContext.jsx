@@ -95,6 +95,7 @@ export const AuthProvider = ({ children }) => {
     localStorage.removeItem('phone');
     localStorage.removeItem('occupation');
     localStorage.removeItem('avatar');
+    sessionStorage.removeItem('streakModalShown');
   };
 
   return (

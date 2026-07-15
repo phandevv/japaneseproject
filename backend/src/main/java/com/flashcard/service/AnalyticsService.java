@@ -68,10 +68,8 @@ public class AnalyticsService {
             return 0;
         }
 
-        // Filter sessions to only those where they actually studied or activated streak freeze
-        List<StudySession> activeSessions = sessions.stream()
-                .filter(s -> s.getWordsStudied() > 0 || s.getTotalQuestions() > 0 || s.isStreakFrozen())
-                .toList();
+        // All sessions count towards streak (opening app creates a session)
+        List<StudySession> activeSessions = sessions;
 
         if (activeSessions.isEmpty()) {
             return 0;

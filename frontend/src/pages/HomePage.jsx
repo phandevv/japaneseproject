@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { vocabApi, analyticsApi } from '../services/api';
-import { Sparkles, Play, BookOpen, Globe, Users, Video, ShieldCheck, Loader, Brain, Flame, CheckCircle2, BarChart2, ShieldAlert, Trophy, Snowflake, Calendar, List } from 'lucide-react';
+import { Sparkles, Play, BookOpen, Globe, Users, Video, ShieldCheck, Loader, Brain, Flame, CheckCircle2, BarChart2, ShieldAlert, Trophy, Snowflake, Calendar, List, Check, Star } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
 import { useAuth } from '../context/AuthContext';
+import { OnlineUsersWidget } from '../components/OnlineUsersWidget';
+import { UserProfileModal } from '../components/UserProfileModal';
 import '../styles/HomePage.css';
 
 const serviceItems = [
@@ -57,6 +59,8 @@ const HomePage = ({ startStudy, streak, onLoginClick, onLogout, onAdminClick, on
   const [stats, setStats] = useState(null);
   const [dashboardData, setDashboardData] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [showStreakModal, setShowStreakModal] = useState(false);
+  const [selectedProfileUsername, setSelectedProfileUsername] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -68,6 +72,25 @@ const HomePage = ({ startStudy, streak, onLoginClick, onLogout, onAdminClick, on
         if (user) {
           const dash = await analyticsApi.getDashboard();
           setDashboardData(dash);
+          
+          // Show streak modal once per day or per new session (app open / login)
+          const todayStr = new Date().toLocaleDateString('vi-VN');
+          const lastShown = localStorage.getItem(`lastStreakDate_${user.username}`);
+          const sessionShown = sessionStorage.getItem('streakModalShown');
+          
+          if (lastShown !== todayStr || !sessionShown) {
+            try {
+              // Log an empty session to maintain streak just by opening the app
+              await analyticsApi.logSession({ wordsStudied: 0, correctAnswers: 0, totalQuestions: 0 });
+              const newDash = await analyticsApi.getDashboard();
+              setDashboardData(newDash);
+            } catch (e) {
+              console.error("Failed to log attendance session", e);
+            }
+            setShowStreakModal(true);
+            localStorage.setItem(`lastStreakDate_${user.username}`, todayStr);
+            sessionStorage.setItem('streakModalShown', 'true');
+          }
         }
       } catch (error) {
         console.error("Failed to load dashboard data", error);
@@ -288,34 +311,83 @@ const HomePage = ({ startStudy, streak, onLoginClick, onLogout, onAdminClick, on
 
   const isAdmin = user && (user.username === 'admin' || user.role === 'ADMIN');
 
+  const SakuraFlower = ({ size = '100%', filled = true, color = '#2dd4bf', className = '' }) => (
+    <svg width={size} height={size} viewBox="0 0 100 100" className={className} xmlns="http://www.w3.org/2000/svg">
+      <path d="M50,10 C60,0 75,5 80,15 C85,25 75,40 50,50 C75,40 95,45 95,60 C95,75 80,85 70,80 C60,75 50,50 50,50 C50,50 40,75 30,80 C20,85 5,75 5,60 C5,45 25,40 50,50 C25,40 15,25 20,15 C25,5 40,0 50,10 Z" 
+            fill={filled ? color : '#ccfbf1'} 
+            stroke={color} 
+            strokeWidth="3" />
+      {filled && <circle cx="50" cy="50" r="8" fill="#ffffff" opacity="0.4" />}
+    </svg>
+  );
+
+  const CoinIcon = ({ className = '', style = {} }) => (
+    <svg viewBox="0 0 100 100" className={className} style={style} xmlns="http://www.w3.org/2000/svg">
+      <circle cx="50" cy="50" r="45" fill="#fde047" stroke="#fbbf24" strokeWidth="6"/>
+      <circle cx="50" cy="50" r="32" fill="none" stroke="#fbbf24" strokeWidth="2" strokeDasharray="4 4"/>
+      <path d="M45,35 L45,65 M55,35 L55,65" stroke="#d97706" strokeWidth="4" strokeLinecap="round" />
+      <path d="M40,45 C40,40 50,35 60,40 C65,45 60,55 50,55 L40,55 C30,55 35,65 40,70 C50,75 60,70 60,65" stroke="#d97706" strokeWidth="4" strokeLinecap="round" fill="none"/>
+    </svg>
+  );
+
+  const getLast7DaysData = () => {
+    const days = [];
+    const historyMap = {};
+    if (dashboardData && dashboardData.history) {
+      dashboardData.history.forEach(session => {
+        historyMap[session.studyDate] = true;
+      });
+    }
+
+    const dayNames = ['CN', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7'];
+    const today = new Date();
+    for (let i = 6; i >= 0; i--) {
+      const d = new Date(today);
+      d.setDate(today.getDate() - i);
+      const dateStr = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+      const dayOfWeek = d.getDay();
+      days.push({
+        name: dayNames[dayOfWeek],
+        dateStr: dateStr,
+        completed: historyMap[dateStr] === true || i === 0,
+        isToday: i === 0
+      });
+    }
+    return days;
+  };
+
   return (
     <div className="home-page">
       {user ? (
         // Logged-in Dashboard Workspace
         <div className="dashboard-wrapper animate-fade-in">
           {/* Streak Banner */}
-          <div className="streak-banner">
-            <div className="streak-info">
-              <span className="streak-fire">🔥</span>
-              <div>
-                <div className="streak-title">{t.home.streakTitle}</div>
-                <div className="streak-sub">
-                  {t.home.streakMsg(user.displayName || user.username, dashboardData?.streak !== undefined ? dashboardData.streak : (streak || 0))}
-                </div>
+          <div className="streak-banner star-streak-banner">
+            <div className="star-streak-info">
+              <div className="star-streak-title">
+                <span className="streak-fire">🔥</span>
+                <span>{t.home.streakTitle} - {dashboardData?.streak !== undefined ? dashboardData.streak : (streak || 0)} ngày</span>
+              </div>
+              <div className="star-streak-row">
+                {getLast7DaysData().map((day, i) => (
+                  <div key={i} className="star-streak-item">
+                    <span className="star-day-name">{day.name}</span>
+                    {day.completed ? (
+                      <Star className="star-icon completed" size={32} fill="#fde047" color="#facc15" strokeWidth={1.5} />
+                    ) : (
+                      <Star className="star-icon" size={24} color="#94a3b8" strokeWidth={1.5} />
+                    )}
+                  </div>
+                ))}
               </div>
             </div>
-            <div className="streak-actions">
-              {dashboardData?.streakFrozenToday ? (
-                <span className="streak-freeze-btn" style={{ background: 'rgba(6,182,212,0.2)', borderColor: 'rgba(6,182,212,0.5)' }}>
-                  <Snowflake size={14} /> Đang giữ chuỗi ❄️
-                </span>
-              ) : (
-                <button className="streak-freeze-btn" onClick={handleActivateFreeze}>
-                  <Snowflake size={14} /> Giữ chuỗi
-                </button>
-              )}
-            </div>
           </div>
+          
+          <OnlineUsersWidget onUserClick={username => setSelectedProfileUsername(username)} />
+
+          {selectedProfileUsername && (
+            <UserProfileModal username={selectedProfileUsername} onClose={() => setSelectedProfileUsername(null)} />
+          )}
 
           {/* SRS Dashboard for Logged-In Users */}
           {dashboardData && (
@@ -647,6 +719,68 @@ const HomePage = ({ startStudy, streak, onLoginClick, onLogout, onAdminClick, on
           <div style={{ textAlign: 'center', padding: '20px 0 40px' }}>
             <h2 style={{ fontSize: '1.3rem', marginBottom: '8px' }}>{t.home.featuresTitle || 'Khám phá lộ trình học tập phù hợp của bạn'}</h2>
             <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>Học trọn vẹn, Tiếng Nhật Thông Minh đơn cùng SIRO</p>
+          </div>
+        </div>
+      )}
+
+      {/* Streak Modal overlay */}
+      {showStreakModal && (
+        <div className="streak-modal-overlay" onClick={() => setShowStreakModal(false)}>
+          <div className="streak-modal-content" onClick={e => e.stopPropagation()}>
+            <button className="streak-modal-close" onClick={() => setShowStreakModal(false)}>×</button>
+            <div className="streak-visual-container" style={{ margin: 0, boxShadow: 'none' }}>
+              <div className="streak-visual-header">
+                <div className="streak-flower-main">
+                  <SakuraFlower filled={true} size={80} />
+                </div>
+                <div className="streak-count-text">
+                  <span className="streak-number">{dashboardData?.streak !== undefined ? dashboardData.streak : (streak || 0)}</span>
+                  <span className="streak-label">
+                    <span>ngày</span>
+                    <span>streak !</span>
+                  </span>
+                </div>
+              </div>
+
+              <div className="streak-week-card">
+                <div className="streak-days-row">
+                  {getLast7DaysData().map((day, i) => (
+                    <div key={i} className="streak-day-col">
+                      <span className={`streak-day-name ${day.isToday ? 'is-today' : ''}`}>{day.name}</span>
+                      <div className="streak-day-flower">
+                        <SakuraFlower filled={day.completed} color={day.completed ? '#2dd4bf' : '#ccfbf1'} />
+                        {day.completed && <Check className="streak-day-check" size={20} strokeWidth={3.5} />}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+                <div className="streak-message">
+                  Chúc mừng! Bạn đã duy trì Day Streak thành công!
+                </div>
+              </div>
+
+              <div className="streak-footer">
+                <div className="streak-freeze-status">
+                  <div className="freeze-icon-wrap">
+                    <CoinIcon style={{ width: '36px', height: '36px' }} />
+                  </div>
+                  <span className="freeze-text">x1 lần</span>
+                </div>
+                
+                <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+                  <button className="btn-details" onClick={() => setShowStreakModal(false)}>Đóng</button>
+                  {dashboardData?.streakFrozenToday ? (
+                    <button className="modal-freeze-btn" style={{ opacity: 0.6, cursor: 'default' }}>
+                      Đang giữ chuỗi ❄️
+                    </button>
+                  ) : (
+                    <button className="modal-freeze-btn" onClick={handleActivateFreeze}>
+                      <Snowflake size={18} /> Giữ chuỗi
+                    </button>
+                  )}
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       )}
