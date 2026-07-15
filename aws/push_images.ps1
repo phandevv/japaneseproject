@@ -31,4 +31,32 @@ docker tag japaneseproject-frontend:latest "$RegistryUrl/japaneseproject-fronten
 Write-Host "Pushing Frontend Image to ECR..." -ForegroundColor Yellow
 docker push "$RegistryUrl/japaneseproject-frontend:latest"
 
-Write-Host "DOCKER IMAGES PUSHED SUCCESSFULLY!" -ForegroundColor Green
+# 3. Cấu hình ECR Lifecycle Policy để tự động giữ tối đa 10 images mới nhất
+Write-Host "Applying ECR Lifecycle Policy (Keep max 10 images)..." -ForegroundColor Yellow
+$PolicyJson = '{
+  "rules": [
+    {
+      "rulePriority": 1,
+      "description": "Keep only 10 most recent images",
+      "selection": {
+        "tagStatus": "any",
+        "countType": "imageCountMoreThan",
+        "countNumber": 10
+      },
+      "action": {
+        "type": "expire"
+      }
+    }
+  ]
+}'
+
+$PolicyPath = "$PSScriptRoot/ecr-policy.json"
+$PolicyPath = $PolicyPath.Replace('\', '/')
+$PolicyJson | Out-File -FilePath $PolicyPath -Encoding Ascii
+
+aws ecr put-lifecycle-policy --repository-name japaneseproject-backend --lifecycle-policy-text "file://$PolicyPath" --region $Region
+aws ecr put-lifecycle-policy --repository-name japaneseproject-frontend --lifecycle-policy-text "file://$PolicyPath" --region $Region
+
+Remove-Item -Path $PolicyPath -Force
+
+Write-Host "DOCKER IMAGES PUSHED SUCCESSFULLY & ECR POLICIES APPLIED!" -ForegroundColor Green
