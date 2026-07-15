@@ -8,9 +8,11 @@ import {
 import { knowledgeApi } from '../services/api';
 import '../styles/KnowledgeBasePage.css';
 import { useLanguage } from '../context/LanguageContext';
+import { useAuth } from '../context/AuthContext';
 
 export default function KnowledgeBasePage() {
   const { t } = useLanguage();
+  const { isAuthenticated } = useAuth();
   const [activeTab, setActiveTab] = useState('collect'); // 'collect' | 'reading' | 'conversation' | 'library'
   
   // Collect State
@@ -119,6 +121,7 @@ export default function KnowledgeBasePage() {
 
   // Fetch Library Data
   const loadLibraryData = async () => {
+    if (!isAuthenticated) return;
     setLibraryLoading(true);
     setError(null);
     try {
@@ -144,10 +147,10 @@ export default function KnowledgeBasePage() {
   };
 
   useEffect(() => {
-    if (activeTab === 'library') {
+    if (activeTab === 'library' && isAuthenticated) {
       loadLibraryData();
     }
-  }, [activeTab]);
+  }, [activeTab, isAuthenticated]);
 
   const filteredLibraryItems = () => {
     const query = librarySearch.toLowerCase().trim();
@@ -369,30 +372,43 @@ export default function KnowledgeBasePage() {
                   </div>
 
                   <div className="kb-preview-actions">
-                    <button
-                      className="btn-kb-save"
-                      onClick={handleSave}
-                      disabled={saveStatus === 'saving' || saveStatus === 'success'}
-                    >
-                      {saveStatus === 'saving' && (
-                        <>
-                          <RefreshCw className="animate-spin" size={16} />
-                          Đang lưu...
-                        </>
-                      )}
-                      {saveStatus === 'success' && (
-                        <>
-                          <Check size={16} />
-                          Đã lưu thành công!
-                        </>
-                      )}
-                      {!saveStatus && (
-                        <>
-                          <Plus size={16} />
-                          Lưu vào kho tri thức cá nhân
-                        </>
-                      )}
-                    </button>
+                    {!isAuthenticated ? (
+                      <button
+                        type="button"
+                        className="btn-kb-save disabled"
+                        disabled={true}
+                        title="Vui lòng đăng nhập để lưu thẻ kiến thức"
+                        style={{ opacity: 0.65, cursor: 'not-allowed', background: '#94a3b8', boxShadow: 'none' }}
+                      >
+                        <Plus size={16} />
+                        Đăng nhập để lưu vào kho cá nhân
+                      </button>
+                    ) : (
+                      <button
+                        className="btn-kb-save"
+                        onClick={handleSave}
+                        disabled={saveStatus === 'saving' || saveStatus === 'success'}
+                      >
+                        {saveStatus === 'saving' && (
+                          <>
+                            <RefreshCw className="animate-spin" size={16} />
+                            Đang lưu...
+                          </>
+                        )}
+                        {saveStatus === 'success' && (
+                          <>
+                            <Check size={16} />
+                            Đã lưu thành công!
+                          </>
+                        )}
+                        {!saveStatus && (
+                          <>
+                            <Plus size={16} />
+                            Lưu vào kho tri thức cá nhân
+                          </>
+                        )}
+                      </button>
+                    )}
                   </div>
                 </div>
               )}
@@ -402,303 +418,336 @@ export default function KnowledgeBasePage() {
 
         {/* TAB 2: LIBRARY / SAVED KNOWLEDGE CARDS */}
         {activeTab === 'library' && (
-          <div className="kb-library-layout">
-            {/* Left sidebar: items list */}
-            <div className="kb-library-sidebar glass-panel">
-              <div className="library-search-wrapper">
-                <Search size={16} className="search-icon" />
-                <input 
-                  type="text" 
-                  placeholder="Tìm từ vựng, ngữ pháp..." 
-                  value={librarySearch}
-                  onChange={(e) => setLibrarySearch(e.target.value)}
-                  className="library-search-input"
-                />
+          !isAuthenticated ? (
+            <div className="kb-auth-required glass-panel animate-fade-in">
+              <FolderHeart size={64} className="auth-required-icon" />
+              <h3>Kho tri thức cá nhân yêu cầu đăng nhập</h3>
+              <p>Vui lòng đăng nhập tài khoản của bạn để lưu trữ các thẻ từ vựng, ngữ pháp đã học và xây dựng kho tri thức cá nhân lâu dài.</p>
+              <div className="auth-required-tip">
+                💡 <em>Nhấn nút <strong>Đăng nhập / Đăng ký</strong> ở góc dưới bên trái thanh menu để tiếp tục.</em>
+              </div>
+            </div>
+          ) : (
+            <div className="kb-library-layout animate-fade-in">
+              {/* Left sidebar: items list */}
+              <div className="kb-library-sidebar glass-panel">
+                <div className="library-search-wrapper">
+                  <Search size={16} className="search-icon" />
+                  <input 
+                    type="text" 
+                    placeholder="Tìm từ vựng, ngữ pháp..." 
+                    value={librarySearch}
+                    onChange={(e) => setLibrarySearch(e.target.value)}
+                    className="library-search-input"
+                  />
+                </div>
+
+                <div className="library-subtabs">
+                  <button
+                    className={`subtab-btn ${librarySubTab === 'vocab' ? 'active' : ''}`}
+                    onClick={() => setLibrarySubTab('vocab')}
+                  >
+                    Từ vựng ({libraryVocab.length})
+                  </button>
+                  <button
+                    className={`subtab-btn ${librarySubTab === 'grammar' ? 'active' : ''}`}
+                    onClick={() => setLibrarySubTab('grammar')}
+                  >
+                    Ngữ pháp ({libraryGrammar.length})
+                  </button>
+                </div>
+
+                <div className="library-items-list">
+                  {libraryLoading ? (
+                    <div className="library-loading">
+                      <RefreshCw className="animate-spin" size={20} />
+                      <span>Đang tải kho tri thức...</span>
+                    </div>
+                  ) : filteredLibraryItems().length === 0 ? (
+                    <div className="library-empty">
+                      <span>Không tìm thấy thẻ nào.</span>
+                    </div>
+                  ) : (
+                    filteredLibraryItems().map((item) => {
+                      const isSelected = selectedLibraryCard?.data?.id === item.id && selectedLibraryCard?.type === librarySubTab;
+                      return (
+                        <div 
+                          key={item.id}
+                          className={`library-item-card ${isSelected ? 'active' : ''}`}
+                          onClick={() => setSelectedLibraryCard({ type: librarySubTab, data: item })}
+                        >
+                          <div className="item-main-info">
+                            {librarySubTab === 'vocab' ? (
+                              <>
+                                <div className="item-title font-jp">{item.word}</div>
+                                <div className="item-sub-title">{item.reading}</div>
+                              </>
+                            ) : (
+                              <div className="item-title font-jp">{item.grammar}</div>
+                            )}
+                            <div className="item-meaning">{item.meaning}</div>
+                          </div>
+                          <button 
+                            className="btn-delete-card"
+                            onClick={(e) => handleDeleteSavedCard(librarySubTab, item.id, e)}
+                          >
+                            <Trash2 size={14} />
+                          </button>
+                        </div>
+                      );
+                    })
+                  )}
+                </div>
               </div>
 
-              <div className="library-subtabs">
-                <button
-                  className={`subtab-btn ${librarySubTab === 'vocab' ? 'active' : ''}`}
-                  onClick={() => setLibrarySubTab('vocab')}
-                >
-                  Từ vựng ({libraryVocab.length})
-                </button>
-                <button
-                  className={`subtab-btn ${librarySubTab === 'grammar' ? 'active' : ''}`}
-                  onClick={() => setLibrarySubTab('grammar')}
-                >
-                  Ngữ pháp ({libraryGrammar.length})
-                </button>
-              </div>
-
-              <div className="library-items-list">
-                {libraryLoading ? (
-                  <div className="library-loading">
-                    <RefreshCw className="animate-spin" size={20} />
-                    <span>Đang tải kho tri thức...</span>
-                  </div>
-                ) : filteredLibraryItems().length === 0 ? (
-                  <div className="library-empty">
-                    <span>Không tìm thấy thẻ nào.</span>
+              {/* Right main area: Detail card */}
+              <div className="kb-library-main-panel">
+                {selectedLibraryCard ? (
+                  <div className="library-detail-wrapper glass-panel animate-fade-in">
+                    <div className="knowledge-card-wrapper">
+                      {selectedLibraryCard.type === 'grammar' ? (
+                        <GrammarCardPreview data={selectedLibraryCard.data} parseList={parseJsonList} />
+                      ) : (
+                        <VocabularyCardPreview data={selectedLibraryCard.data} parseList={parseJsonList} />
+                      )}
+                    </div>
                   </div>
                 ) : (
-                  filteredLibraryItems().map((item) => {
-                    const isSelected = selectedLibraryCard?.data?.id === item.id && selectedLibraryCard?.type === librarySubTab;
-                    return (
-                      <div 
-                        key={item.id}
-                        className={`library-item-card ${isSelected ? 'active' : ''}`}
-                        onClick={() => setSelectedLibraryCard({ type: librarySubTab, data: item })}
-                      >
-                        <div className="item-main-info">
-                          {librarySubTab === 'vocab' ? (
-                            <>
-                              <div className="item-title font-jp">{item.word}</div>
-                              <div className="item-sub-title">{item.reading}</div>
-                            </>
-                          ) : (
-                            <div className="item-title font-jp">{item.grammar}</div>
-                          )}
-                          <div className="item-meaning">{item.meaning}</div>
-                        </div>
-                        <button 
-                          className="btn-delete-card"
-                          onClick={(e) => handleDeleteSavedCard(librarySubTab, item.id, e)}
-                        >
-                          <Trash2 size={14} />
-                        </button>
-                      </div>
-                    );
-                  })
+                  <div className="library-detail-empty glass-panel">
+                    <Database size={48} className="empty-icon" />
+                    <h3>Chi tiết thẻ tri thức</h3>
+                    <p>Chọn một thẻ ở danh sách bên trái để xem chi tiết đầy đủ thông tin Obsidian + Anki style.</p>
+                  </div>
                 )}
               </div>
             </div>
-
-            {/* Right main area: Detail card */}
-            <div className="kb-library-main-panel">
-              {selectedLibraryCard ? (
-                <div className="library-detail-wrapper glass-panel animate-fade-in">
-                  <div className="knowledge-card-wrapper">
-                    {selectedLibraryCard.type === 'grammar' ? (
-                      <GrammarCardPreview data={selectedLibraryCard.data} parseList={parseJsonList} />
-                    ) : (
-                      <VocabularyCardPreview data={selectedLibraryCard.data} parseList={parseJsonList} />
-                    )}
-                  </div>
-                </div>
-              ) : (
-                <div className="library-detail-empty glass-panel">
-                  <Database size={48} className="empty-icon" />
-                  <h3>Chi tiết thẻ tri thức</h3>
-                  <p>Chọn một thẻ ở danh sách bên trái để xem chi tiết đầy đủ thông tin Obsidian + Anki style.</p>
-                </div>
-              )}
-            </div>
-          </div>
+          )
         )}
 
         {/* TAB 3: PERSONAL READING */}
         {activeTab === 'reading' && (
-          <div className="kb-reading-workspace glass-panel">
-            <div className="workspace-header">
-              <div>
-                <h2>Luyện đọc hiểu cá nhân hóa (Personal Corpus)</h2>
-                <p>AI biên soạn một đoạn văn tiếng Nhật độc quyền, ưu tiên tối đa sử dụng các từ vựng & ngữ pháp bạn đã lưu học trước đó.</p>
+          !isAuthenticated ? (
+            <div className="kb-auth-required glass-panel animate-fade-in">
+              <BookOpen size={64} className="auth-required-icon" />
+              <h3>Tính năng yêu cầu đăng nhập</h3>
+              <p>Hệ thống cần phân tích lịch sử học tập và kho từ vựng đã lưu của riêng bạn để biên soạn bài đọc hiểu cá nhân hóa (Personal Corpus).</p>
+              <div className="auth-required-tip">
+                💡 <em>Vui lòng đăng nhập tài khoản để trải nghiệm tính năng này.</em>
               </div>
-              <button 
-                className="btn-kb-generate" 
-                onClick={handleGenerateReading}
-                disabled={readingLoading}
-              >
-                {readingLoading ? (
-                  <>
-                    <RefreshCw className="animate-spin" size={16} />
-                    Đang kiến tạo bài đọc...
-                  </>
-                ) : (
-                  <>
-                    <Sparkles size={16} />
-                    Kiến tạo bài đọc mới
-                  </>
-                )}
-              </button>
             </div>
-
-            {readingLoading && (
-              <div className="kb-loading-box">
-                <div className="skeleton-line w-full animate-pulse" />
-                <div className="skeleton-line w-3/4 animate-pulse" />
-                <div className="skeleton-line w-5/6 animate-pulse" />
-                <p className="loading-sub">AI đang quét lịch sử học tập của bạn để xây dựng ngữ cảnh bài đọc...</p>
+          ) : (
+            <div className="kb-reading-workspace glass-panel animate-fade-in">
+              <div className="workspace-header">
+                <div>
+                  <h2>Luyện đọc hiểu cá nhân hóa (Personal Corpus)</h2>
+                  <p>AI biên soạn một đoạn văn tiếng Nhật độc quyền, ưu tiên tối đa sử dụng các từ vựng & ngữ pháp bạn đã lưu học trước đó.</p>
+                </div>
+                <button 
+                  className="btn-kb-generate" 
+                  onClick={handleGenerateReading}
+                  disabled={readingLoading}
+                >
+                  {readingLoading ? (
+                    <>
+                      <RefreshCw className="animate-spin" size={16} />
+                      Đang kiến tạo bài đọc...
+                    </>
+                  ) : (
+                    <>
+                      <Sparkles size={16} />
+                      Kiến tạo bài đọc mới
+                    </>
+                  )}
+                </button>
               </div>
-            )}
 
-            {!readingLoading && !readingData && (
-              <div className="workspace-empty-state">
-                <FileText size={48} className="empty-icon" />
-                <h3>Chưa có bài đọc</h3>
-                <p>Hãy nhấn nút "Kiến tạo bài đọc mới" bên trên để AI quét kho từ vựng và ngữ pháp đã thuộc của bạn và soạn bài đọc.</p>
-              </div>
-            )}
+              {readingLoading && (
+                <div className="kb-loading-box">
+                  <div className="skeleton-line w-full animate-pulse" />
+                  <div className="skeleton-line w-3/4 animate-pulse" />
+                  <div className="skeleton-line w-5/6 animate-pulse" />
+                  <p className="loading-sub">AI đang quét lịch sử học tập của bạn để xây dựng ngữ cảnh bài đọc...</p>
+                </div>
+              )}
 
-            {!readingLoading && readingData && (
-              <div className="reading-content-area animate-fade-in">
-                <div className="reading-passage-card">
-                  <div className="reading-card-header">
-                    <h3>
-                      <span className="reading-icon">📖</span>
-                      {showReadingKana ? readingData.titleReading : readingData.title}
-                    </h3>
-                    <div className="reading-controls">
-                      <button 
-                        className={`btn-control-chip ${showReadingKana ? 'active' : ''}`}
-                        onClick={() => setShowReadingKana(!showReadingKana)}
-                      >
-                        {showReadingKana ? 'Chữ Kanji' : 'Furigana'}
-                      </button>
-                      <button 
-                        className="btn-control-chip"
-                        onClick={() => setShowTranslation(!showTranslation)}
-                      >
-                        {showTranslation ? <EyeOff size={14} /> : <Eye size={14} />}
-                        {showTranslation ? 'Ẩn nghĩa' : 'Xem nghĩa'}
-                      </button>
+              {!readingLoading && !readingData && (
+                <div className="workspace-empty-state">
+                  <FileText size={48} className="empty-icon" />
+                  <h3>Chưa có bài đọc</h3>
+                  <p>Hãy nhấn nút "Kiến tạo bài đọc mới" bên trên để AI quét kho từ vựng và ngữ pháp đã thuộc của bạn và soạn bài đọc.</p>
+                </div>
+              )}
+
+              {!readingLoading && readingData && (
+                <div className="reading-content-area animate-fade-in">
+                  <div className="reading-passage-card">
+                    <div className="reading-card-header">
+                      <h3>
+                        <span className="reading-icon">📖</span>
+                        {showReadingKana ? readingData.titleReading : readingData.title}
+                      </h3>
+                      <div className="reading-controls">
+                        <button 
+                          className={`btn-control-chip ${showReadingKana ? 'active' : ''}`}
+                          onClick={() => setShowReadingKana(!showReadingKana)}
+                        >
+                          {showReadingKana ? 'Chữ Kanji' : 'Furigana'}
+                        </button>
+                        <button 
+                          className="btn-control-chip"
+                          onClick={() => setShowTranslation(!showTranslation)}
+                        >
+                          {showTranslation ? <EyeOff size={14} /> : <Eye size={14} />}
+                          {showTranslation ? 'Ẩn nghĩa' : 'Xem nghĩa'}
+                        </button>
+                      </div>
                     </div>
+
+                    <div className="reading-passage-text font-jp">
+                      {showReadingKana ? readingData.passageReading : readingData.passage}
+                    </div>
+
+                    {showTranslation && (
+                      <div className="reading-translation-box animate-fade-in">
+                        <h4>🇻🇳 Bản dịch tiếng Việt:</h4>
+                        <p>{readingData.translation}</p>
+                      </div>
+                    )}
                   </div>
 
-                  <div className="reading-passage-text font-jp">
-                    {showReadingKana ? readingData.passageReading : readingData.passage}
-                  </div>
+                  {/* Reading Quiz */}
+                  {readingData.quiz && (
+                    <div className="reading-quiz-card">
+                      <div className="quiz-header">
+                        <Award size={18} className="quiz-icon" />
+                        <h4>Kiểm tra đọc hiểu (Quiz)</h4>
+                      </div>
+                      <p className="quiz-question-text">{readingData.quiz.question}</p>
 
-                  {showTranslation && (
-                    <div className="reading-translation-box animate-fade-in">
-                      <h4>🇻🇳 Bản dịch tiếng Việt:</h4>
-                      <p>{readingData.translation}</p>
+                      <div className="quiz-options-grid">
+                        {readingData.quiz.options && readingData.quiz.options.map((opt, i) => (
+                          <button
+                            key={i}
+                            className={`quiz-option-btn ${selectedQuizOption === opt ? 'selected' : ''}`}
+                            onClick={() => {
+                              if (!quizChecked) setSelectedQuizOption(opt);
+                            }}
+                            disabled={quizChecked}
+                          >
+                            <span className="opt-letter">{String.fromCharCode(65 + i)}</span>
+                            {opt}
+                          </button>
+                        ))}
+                      </div>
+
+                      {!quizChecked && (
+                        <div className="quiz-check-row">
+                          <button
+                            className="btn-quiz-check"
+                            onClick={() => setQuizChecked(true)}
+                            disabled={!selectedQuizOption}
+                          >
+                            Kiểm tra đáp án
+                          </button>
+                        </div>
+                      )}
+
+                      {quizChecked && (
+                        <div className={`quiz-feedback-box animate-fade-in ${selectedQuizOption === readingData.quiz.answer ? 'correct' : 'incorrect'}`}>
+                          <div className="feedback-result">
+                            {selectedQuizOption === readingData.quiz.answer ? (
+                              <>🎉 Chính xác! Đáp án đúng là: <strong>{readingData.quiz.answer}</strong></>
+                            ) : (
+                              <>❌ Sai rồi! Đáp án đúng phải là: <strong>{readingData.quiz.answer}</strong></>
+                            )}
+                          </div>
+                          <p className="feedback-explanation">
+                            <strong>Giải thích:</strong> {readingData.quiz.explanation}
+                          </p>
+                        </div>
+                      )}
                     </div>
                   )}
                 </div>
-
-                {/* Reading Quiz */}
-                {readingData.quiz && (
-                  <div className="reading-quiz-card">
-                    <div className="quiz-header">
-                      <Award size={18} className="quiz-icon" />
-                      <h4>Kiểm tra đọc hiểu (Quiz)</h4>
-                    </div>
-                    <p className="quiz-question-text">{readingData.quiz.question}</p>
-
-                    <div className="quiz-options-grid">
-                      {readingData.quiz.options && readingData.quiz.options.map((opt, i) => (
-                        <button
-                          key={i}
-                          className={`quiz-option-btn ${selectedQuizOption === opt ? 'selected' : ''}`}
-                          onClick={() => {
-                            if (!quizChecked) setSelectedQuizOption(opt);
-                          }}
-                          disabled={quizChecked}
-                        >
-                          <span className="opt-letter">{String.fromCharCode(65 + i)}</span>
-                          {opt}
-                        </button>
-                      ))}
-                    </div>
-
-                    {!quizChecked && (
-                      <div className="quiz-check-row">
-                        <button
-                          className="btn-quiz-check"
-                          onClick={() => setQuizChecked(true)}
-                          disabled={!selectedQuizOption}
-                        >
-                          Kiểm tra đáp án
-                        </button>
-                      </div>
-                    )}
-
-                    {quizChecked && (
-                      <div className={`quiz-feedback-box animate-fade-in ${selectedQuizOption === readingData.quiz.answer ? 'correct' : 'incorrect'}`}>
-                        <div className="feedback-result">
-                          {selectedQuizOption === readingData.quiz.answer ? (
-                            <>🎉 Chính xác! Đáp án đúng là: <strong>{readingData.quiz.answer}</strong></>
-                          ) : (
-                            <>❌ Sai rồi! Đáp án đúng phải là: <strong>{readingData.quiz.answer}</strong></>
-                          )}
-                        </div>
-                        <p className="feedback-explanation">
-                          <strong>Giải thích:</strong> {readingData.quiz.explanation}
-                        </p>
-                      </div>
-                    )}
-                  </div>
-                )}
-              </div>
-            )}
-          </div>
+              )}
+            </div>
+          )
         )}
 
         {/* TAB 4: PERSONAL CONVERSATION */}
         {activeTab === 'conversation' && (
-          <div className="kb-conv-workspace glass-panel">
-            <div className="workspace-header">
-              <h2>Hội thoại ứng dụng thực tế</h2>
-              <button 
-                className="btn-kb-generate" 
-                onClick={handleGenerateConversation}
-                disabled={convLoading}
-              >
-                {convLoading ? (
-                  <>
-                    <RefreshCw className="animate-spin" size={16} />
-                    Đang tạo cuộc trò chuyện...
-                  </>
-                ) : (
-                  <>
-                    <Sparkles size={16} />
-                    Tạo hội thoại mới
-                  </>
-                )}
-              </button>
+          !isAuthenticated ? (
+            <div className="kb-auth-required glass-panel animate-fade-in">
+              <MessageSquare size={64} className="auth-required-icon" />
+              <h3>Tính năng yêu cầu đăng nhập</h3>
+              <p>Vui lòng đăng nhập để AI tạo ra các đoạn hội thoại đàm thoại thực tế dựa trên cấp độ học tập và vốn từ vựng của bạn.</p>
+              <div className="auth-required-tip">
+                💡 <em>Đăng nhập tài khoản để bắt đầu luyện hội thoại.</em>
+              </div>
             </div>
-
-            {convLoading && (
-              <div className="kb-loading-box">
-                <div className="skeleton-line w-full animate-pulse" />
-                <div className="skeleton-line w-5/6 animate-pulse" />
-                <p className="loading-sub">AI đang biên soạn hội thoại đàm thoại...</p>
+          ) : (
+            <div className="kb-conv-workspace glass-panel animate-fade-in">
+              <div className="workspace-header">
+                <h2>Hội thoại ứng dụng thực tế</h2>
+                <button 
+                  className="btn-kb-generate" 
+                  onClick={handleGenerateConversation}
+                  disabled={convLoading}
+                >
+                  {convLoading ? (
+                    <>
+                      <RefreshCw className="animate-spin" size={16} />
+                      Đang tạo cuộc trò chuyện...
+                    </>
+                  ) : (
+                    <>
+                      <Sparkles size={16} />
+                      Tạo hội thoại mới
+                    </>
+                  )}
+                </button>
               </div>
-            )}
 
-            {!convLoading && !convData && (
-              <div className="workspace-empty-state">
-                <MessageSquare size={48} className="empty-icon" />
-                <h3>Chưa có hội thoại</h3>
-                <p>Hãy nhấn nút "Tạo hội thoại mới" bên trên để bắt đầu đàm thoại.</p>
-              </div>
-            )}
-
-            {!convLoading && convData && (
-              <div className="conv-content-area animate-fade-in">
-                <div className="conv-scenario-box">
-                  <strong>📍 Bối cảnh:</strong> {convData.scenario}
+              {convLoading && (
+                <div className="kb-loading-box">
+                  <div className="skeleton-line w-full animate-pulse" />
+                  <div className="skeleton-line w-5/6 animate-pulse" />
+                  <p className="loading-sub">AI đang biên soạn hội thoại đàm thoại...</p>
                 </div>
+              )}
 
-                <div className="conv-dialogues-chat">
-                  {convData.dialogues && convData.dialogues.map((dialog, idx) => (
-                    <div key={idx} className={`conv-bubble-row ${dialog.speaker === 'A' ? 'left' : 'right'}`}>
-                      <div className="conv-speaker-avatar">
-                        {dialog.speaker}
-                      </div>
-                      <div className="conv-bubble-content">
-                        <div className="conv-text-ja font-jp">{dialog.ja}</div>
-                        <div className="conv-text-reading">{dialog.reading}</div>
-                        <div className="conv-text-vi">{dialog.vi}</div>
-                      </div>
-                    </div>
-                  ))}
+              {!convLoading && !convData && (
+                <div className="workspace-empty-state">
+                  <MessageSquare size={48} className="empty-icon" />
+                  <h3>Chưa có hội thoại</h3>
+                  <p>Hãy nhấn nút "Tạo hội thoại mới" bên trên để bắt đầu đàm thoại.</p>
                 </div>
-              </div>
-            )}
-          </div>
+              )}
+
+              {!convLoading && convData && (
+                <div className="conv-content-area animate-fade-in">
+                  <div className="conv-scenario-box">
+                    <strong>📍 Bối cảnh:</strong> {convData.scenario}
+                  </div>
+
+                  <div className="conv-dialogues-chat">
+                    {convData.dialogues && convData.dialogues.map((dialog, idx) => (
+                      <div key={idx} className={`conv-bubble-row ${dialog.speaker === 'A' ? 'left' : 'right'}`}>
+                        <div className="conv-speaker-avatar">
+                          {dialog.speaker}
+                        </div>
+                        <div className="conv-bubble-content">
+                          <div className="conv-text-ja font-jp">{dialog.ja}</div>
+                          <div className="conv-text-reading">{dialog.reading}</div>
+                          <div className="conv-text-vi">{dialog.vi}</div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+          )
         )}
       </div>
     </div>
