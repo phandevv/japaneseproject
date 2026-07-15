@@ -13,6 +13,7 @@ import com.flashcard.repository.KnowledgeVersionRepository;
 import com.flashcard.repository.VocabularyRepository;
 import com.flashcard.repository.WordReviewRepository;
 import com.flashcard.repository.GrammarReviewRepository;
+import com.flashcard.repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +41,7 @@ public class KnowledgeService {
     private final KnowledgeVersionRepository knowledgeVersionRepository;
     private final WordReviewRepository wordReviewRepository;
     private final GrammarReviewRepository grammarReviewRepository;
+    private final UserRepository userRepository;
     private final ObjectMapper objectMapper;
     private final HttpClient httpClient;
 
@@ -52,12 +54,14 @@ public class KnowledgeService {
                             KnowledgeVersionRepository knowledgeVersionRepository,
                             WordReviewRepository wordReviewRepository,
                             GrammarReviewRepository grammarReviewRepository,
+                            UserRepository userRepository,
                             ObjectMapper objectMapper) {
         this.vocabularyRepository = vocabularyRepository;
         this.grammarCardRepository = grammarCardRepository;
         this.knowledgeVersionRepository = knowledgeVersionRepository;
         this.wordReviewRepository = wordReviewRepository;
         this.grammarReviewRepository = grammarReviewRepository;
+        this.userRepository = userRepository;
         this.objectMapper = objectMapper;
         this.httpClient = HttpClient.newBuilder()
                 .connectTimeout(Duration.ofSeconds(15))
@@ -294,7 +298,8 @@ public class KnowledgeService {
      * Save Vocabulary card with Versioning and Auto Deduplication.
      */
     @Transactional
-    public Vocabulary saveVocabulary(Map<String, Object> data, String operator) throws Exception {
+    public Vocabulary saveVocabulary(Map<String, Object> data, User user) throws Exception {
+        String operator = user.getUsername();
         String word = (String) data.get("word");
         String reading = (String) data.get("reading");
         String meaning = (String) data.get("meaning");
@@ -375,14 +380,26 @@ public class KnowledgeService {
             vocab.setSampleTranslation(sampleTranslation);
         }
 
-        return vocabularyRepository.save(vocab);
+        Vocabulary savedVocab = vocabularyRepository.save(vocab);
+
+        // Check if WordReview link exists
+        User managedUser = userRepository.findById(user.getId())
+                .orElseThrow(() -> new IllegalArgumentException("Không tìm thấy người dùng."));
+        Optional<WordReview> existingReview = wordReviewRepository.findByUserAndVocabulary(managedUser, savedVocab);
+        if (existingReview.isEmpty()) {
+            WordReview newReview = new WordReview(managedUser, savedVocab);
+            wordReviewRepository.save(newReview);
+        }
+
+        return savedVocab;
     }
 
     /**
      * Save Grammar card with Versioning and Auto Deduplication.
      */
     @Transactional
-    public GrammarCard saveGrammar(Map<String, Object> data, String operator) throws Exception {
+    public GrammarCard saveGrammar(Map<String, Object> data, User user) throws Exception {
+        String operator = user.getUsername();
         String grammar = (String) data.get("grammar");
         String meaning = (String) data.get("meaning");
         String usageDesc = (String) data.get("usageDesc");
@@ -424,7 +441,18 @@ public class KnowledgeService {
             grammarCard.setQuizzes(quizzes);
         }
 
-        return grammarCardRepository.save(grammarCard);
+        GrammarCard savedGrammar = grammarCardRepository.save(grammarCard);
+
+        // Check if GrammarReview link exists
+        User managedUser = userRepository.findById(user.getId())
+                .orElseThrow(() -> new IllegalArgumentException("Không tìm thấy người dùng."));
+        Optional<GrammarReview> existingReview = grammarReviewRepository.findByUserIdAndGrammarCardId(managedUser.getId(), savedGrammar.getId());
+        if (existingReview.isEmpty()) {
+            GrammarReview newReview = new GrammarReview(managedUser, savedGrammar);
+            grammarReviewRepository.save(newReview);
+        }
+
+        return savedGrammar;
     }
 
     /**

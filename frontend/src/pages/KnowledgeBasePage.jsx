@@ -707,6 +707,8 @@ export default function KnowledgeBasePage() {
 
 /* ────────── VOCABULARY CARD PREVIEW COMPONENT ────────── */
 function VocabularyCardPreview({ data, parseList }) {
+  const [activeCardTab, setActiveCardTab] = useState('core');
+  
   const synonyms = parseList(data.synonyms);
   const antonyms = parseList(data.antonyms);
   const collocations = parseList(data.collocations);
@@ -738,117 +740,162 @@ function VocabularyCardPreview({ data, parseList }) {
         </div>
       </div>
 
-      <hr className="card-divider" />
+      {/* Card internal navigation tabs */}
+      <div className="card-nav-tabs">
+        <button 
+          type="button"
+          className={`card-nav-btn ${activeCardTab === 'core' ? 'active' : ''}`}
+          onClick={() => setActiveCardTab('core')}
+        >
+          <span className="tab-icon">📖</span> Cốt lõi & Ghi nhớ
+        </button>
+        <button 
+          type="button"
+          className={`card-nav-btn ${activeCardTab === 'context' ? 'active' : ''}`}
+          onClick={() => setActiveCardTab('context')}
+        >
+          <span className="tab-icon">📝</span> Ngữ cảnh & Ví dụ
+        </button>
+        <button 
+          type="button"
+          className={`card-nav-btn ${activeCardTab === 'practice' ? 'active' : ''}`}
+          onClick={() => setActiveCardTab('practice')}
+        >
+          <span className="tab-icon">✍️</span> Luyện tập & Lưu ý
+        </button>
+      </div>
 
-      {/* Grid Layout 2 cột tối ưu hóa không gian */}
-      <div className="card-grid-layout">
-        {/* Cột 1: Mẹo nhớ, từ ghép Kanji, Đồng/Trái nghĩa */}
-        <div className="card-grid-col">
-          {data.mnemonic && (
-            <div className="card-block-section mnemonic-block-modern">
-              <h4>💡 Mẹo nhớ từ (Mnemonic)</h4>
-              <p>{data.mnemonic}</p>
-            </div>
-          )}
-
-          {kanjiWords.length > 0 && (
-            <div className="card-block-section">
-              <h4>🔍 Các từ ghép liên quan</h4>
-              <div className="kanji-words-list">
-                {kanjiWords.map((k, idx) => (
-                  <div key={idx} className="kanji-word-item">
-                    <span className="k-word font-jp">{k.word}</span>
-                    <span className="k-read">({k.reading})</span>
-                    <span className="k-arrow"><ArrowRight size={12} /></span>
-                    <span className="k-mean">{k.meaning}</span>
-                  </div>
-                ))}
+      {/* Tab contents */}
+      <div className="card-tab-content-container">
+        {activeCardTab === 'core' && (
+          <div className="card-tab-content animate-fade-in">
+            {data.mnemonic && (
+              <div className="card-block-section mnemonic-block-modern">
+                <h4>💡 Mẹo nhớ từ (Mnemonic)</h4>
+                <p>{data.mnemonic}</p>
               </div>
-            </div>
-          )}
+            )}
 
-          {(synonyms.length > 0 || antonyms.length > 0) && (
-            <div className="card-block-section relation-section-modern">
-              {synonyms.length > 0 && (
-                <div style={{ marginBottom: 12 }}>
-                  <h4>🟢 Đồng nghĩa (Synonyms)</h4>
-                  <div className="chips-list">
-                    {synonyms.map(s => <span key={s} className="chip syn-chip font-jp">{s}</span>)}
-                  </div>
-                </div>
-              )}
-              {antonyms.length > 0 && (
-                <div>
-                  <h4>🔴 Trái nghĩa (Antonyms)</h4>
-                  <div className="chips-list">
-                    {antonyms.map(a => <span key={a} className="chip ant-chip font-jp">{a}</span>)}
-                  </div>
-                </div>
-              )}
-            </div>
-          )}
-        </div>
-
-        {/* Cột 2: Ví dụ, Cụm từ, Hội thoại, Lỗi sai */}
-        <div className="card-grid-col">
-          {exampleSentences.length > 0 && (
-            <div className="card-block-section">
-              <h4>📝 Câu ví dụ mẫu (Examples)</h4>
-              <div className="examples-list">
-                {exampleSentences.map((ex, i) => (
-                  <div key={i} className="example-item">
-                    <div className="example-ja font-jp">{ex.ja}</div>
-                    <div className="example-reading">{ex.reading}</div>
-                    <div className="example-vi">{ex.vi}</div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {collocations.length > 0 && (
-            <div className="card-block-section">
-              <h4>📚 Cụm từ hay dùng (Collocations)</h4>
-              <ul className="collocations-list-modern">
-                {collocations.map((c, i) => <li key={i}>{c}</li>)}
-              </ul>
-            </div>
-          )}
-
-          {conversations.length > 0 && (
-            <div className="card-block-section">
-              <h4>💬 Hội thoại ứng dụng thực tế</h4>
-              <div className="conversations-list">
-                {conversations.map((con, i) => (
-                  <div key={i} className="dialogue-block">
-                    <div className="dialogue-line">
-                      <strong>A:</strong> {con.speakerA}
-                      <div className="dialogue-translation">{con.translationA}</div>
+            {kanjiWords.length > 0 && (
+              <div className="card-block-section">
+                <h4>🔍 Các từ ghép liên quan</h4>
+                <div className="kanji-words-list">
+                  {kanjiWords.map((k, idx) => (
+                    <div key={idx} className="kanji-word-item">
+                      <span className="k-word font-jp">{k.word}</span>
+                      <span className="k-read">({k.reading})</span>
+                      <span className="k-arrow"><ArrowRight size={12} /></span>
+                      <span className="k-mean">{k.meaning}</span>
                     </div>
-                    <div className="dialogue-line">
-                      <strong>B:</strong> {con.speakerB}
-                      <div className="dialogue-translation">{con.translationB}</div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {(synonyms.length > 0 || antonyms.length > 0) && (
+              <div className="card-block-section relation-section-modern">
+                {synonyms.length > 0 && (
+                  <div style={{ marginBottom: 12 }}>
+                    <h4>🟢 Đồng nghĩa (Synonyms)</h4>
+                    <div className="chips-list">
+                      {synonyms.map(s => <span key={s} className="chip syn-chip font-jp">{s}</span>)}
                     </div>
                   </div>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {commonMistakes.length > 0 && (
-            <div className="card-block-section">
-              <h4>⚠️ Lỗi thường gặp (Common Mistakes)</h4>
-              <div className="mistakes-list-modern">
-                {commonMistakes.map((m, idx) => (
-                  <div key={idx} className="mistake-item">
-                    <div className="mistake-error">❌ {m.error}</div>
-                    <div className="mistake-fix">✅ {m.fix}</div>
+                )}
+                {antonyms.length > 0 && (
+                  <div>
+                    <h4>🔴 Trái nghĩa (Antonyms)</h4>
+                    <div className="chips-list">
+                      {antonyms.map(a => <span key={a} className="chip ant-chip font-jp">{a}</span>)}
+                    </div>
                   </div>
-                ))}
+                )}
               </div>
-            </div>
-          )}
-        </div>
+            )}
+            
+            {!data.mnemonic && kanjiWords.length === 0 && synonyms.length === 0 && antonyms.length === 0 && (
+              <div className="card-empty-tab-state">
+                Không có thêm thông tin cốt lõi nào khác.
+              </div>
+            )}
+          </div>
+        )}
+
+        {activeCardTab === 'context' && (
+          <div className="card-tab-content animate-fade-in">
+            {exampleSentences.length > 0 && (
+              <div className="card-block-section">
+                <h4>📝 Câu ví dụ mẫu (Examples)</h4>
+                <div className="examples-list">
+                  {exampleSentences.map((ex, i) => (
+                    <div key={i} className="example-item">
+                      <div className="example-ja font-jp">{ex.ja}</div>
+                      <div className="example-reading">{ex.reading}</div>
+                      <div className="example-vi">{ex.vi}</div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {collocations.length > 0 && (
+              <div className="card-block-section">
+                <h4>📚 Cụm từ hay dùng (Collocations)</h4>
+                <ul className="collocations-list-modern">
+                  {collocations.map((c, i) => <li key={i}>{c}</li>)}
+                </ul>
+              </div>
+            )}
+
+            {conversations.length > 0 && (
+              <div className="card-block-section">
+                <h4>💬 Hội thoại ứng dụng thực tế</h4>
+                <div className="conversations-list">
+                  {conversations.map((con, i) => (
+                    <div key={i} className="dialogue-block">
+                      <div className="dialogue-line">
+                        <strong>A:</strong> {con.speakerA}
+                        <div className="dialogue-translation">{con.translationA}</div>
+                      </div>
+                      <div className="dialogue-line">
+                        <strong>B:</strong> {con.speakerB}
+                        <div className="dialogue-translation">{con.translationB}</div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {exampleSentences.length === 0 && collocations.length === 0 && conversations.length === 0 && (
+              <div className="card-empty-tab-state">
+                Không tìm thấy câu ví dụ hoặc ngữ cảnh ứng dụng nào.
+              </div>
+            )}
+          </div>
+        )}
+
+        {activeCardTab === 'practice' && (
+          <div className="card-tab-content animate-fade-in">
+            {commonMistakes.length > 0 ? (
+              <div className="card-block-section">
+                <h4>⚠️ Lỗi thường gặp (Common Mistakes)</h4>
+                <div className="mistakes-list-modern">
+                  {commonMistakes.map((m, idx) => (
+                    <div key={idx} className="mistake-item">
+                      <div className="mistake-error">❌ {m.error}</div>
+                      <div className="mistake-fix">✅ {m.fix}</div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ) : (
+              <div className="card-empty-tab-state">
+                ✨ Tuyệt vời! Không có lỗi sai phổ biến nào được ghi nhận cho từ vựng này.
+              </div>
+            )}
+          </div>
+        )}
       </div>
     </div>
   );
@@ -856,6 +903,8 @@ function VocabularyCardPreview({ data, parseList }) {
 
 /* ────────── GRAMMAR CARD PREVIEW COMPONENT ────────── */
 function GrammarCardPreview({ data, parseList }) {
+  const [activeCardTab, setActiveCardTab] = useState('core');
+
   const similarGrammar = parseList(data.similarGrammar);
   const commonMistakes = parseList(data.commonMistakes);
   const examples = parseList(data.examples);
@@ -877,98 +926,139 @@ function GrammarCardPreview({ data, parseList }) {
         </div>
       </div>
 
-      <hr className="card-divider" />
+      {/* Card internal navigation tabs */}
+      <div className="card-nav-tabs">
+        <button 
+          type="button"
+          className={`card-nav-btn ${activeCardTab === 'core' ? 'active' : ''}`}
+          onClick={() => setActiveCardTab('core')}
+        >
+          <span className="tab-icon">📖</span> Cấu trúc & Cách dùng
+        </button>
+        <button 
+          type="button"
+          className={`card-nav-btn ${activeCardTab === 'context' ? 'active' : ''}`}
+          onClick={() => setActiveCardTab('context')}
+        >
+          <span className="tab-icon">📝</span> Ngữ cảnh & Ví dụ
+        </button>
+        <button 
+          type="button"
+          className={`card-nav-btn ${activeCardTab === 'practice' ? 'active' : ''}`}
+          onClick={() => setActiveCardTab('practice')}
+        >
+          <span className="tab-icon">✍️</span> Luyện tập & Tránh lỗi
+        </button>
+      </div>
 
-      {/* Grid Layout 2 cột */}
-      <div className="card-grid-layout">
-        {/* Cột 1: Cách dùng, so sánh, đoạn văn */}
-        <div className="card-grid-col">
-          <div className="card-block-section formation-section">
-            <h4>📐 Cách kết hợp cấu trúc (Formation)</h4>
-            <div className="formation-box font-jp">{data.formation}</div>
-            {data.usageDesc && (
-              <div className="usage-desc">
-                <strong>Mô tả cách dùng:</strong> {data.usageDesc}
-              </div>
-            )}
-          </div>
-
-          {data.readingPassage && (
-            <div className="card-block-section">
-              <h4>📖 Đoạn văn đọc hiểu ứng dụng</h4>
-              <div className="reading-passage-box">
-                <p>{data.readingPassage}</p>
-              </div>
-            </div>
-          )}
-
-          {similarGrammar.length > 0 && (
-            <div className="card-block-section">
-              <h4>🆚 Cấu trúc tương tự</h4>
-              <div className="chips-list">
-                {similarGrammar.map(s => <span key={s} className="chip syn-chip font-jp">{s}</span>)}
-              </div>
-              {data.difference && (
-                <div className="difference-box">
-                  <strong>Phân biệt & điểm khác biệt:</strong>
-                  <p>{data.difference}</p>
+      {/* Tab contents */}
+      <div className="card-tab-content-container">
+        {activeCardTab === 'core' && (
+          <div className="card-tab-content animate-fade-in">
+            <div className="card-block-section formation-section">
+              <h4>📐 Cách kết hợp cấu trúc (Formation)</h4>
+              <div className="formation-box font-jp">{data.formation}</div>
+              {data.usageDesc && (
+                <div className="usage-desc">
+                  <strong>Mô tả cách dùng:</strong> {data.usageDesc}
                 </div>
               )}
             </div>
-          )}
-        </div>
 
-        {/* Cột 2: Ví dụ, Quizzes, Lỗi sai */}
-        <div className="card-grid-col">
-          {examples.length > 0 && (
-            <div className="card-block-section">
-              <h4>📝 Câu ví dụ mẫu (Examples)</h4>
-              <div className="examples-list">
-                {examples.map((ex, i) => (
-                  <div key={i} className="example-item">
-                    <div className="example-ja font-jp">{ex.ja}</div>
-                    <div className="example-reading">{ex.reading}</div>
-                    <div className="example-vi">{ex.vi}</div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {quizzes.length > 0 && (
-            <div className="card-block-section">
-              <h4>✍️ Bài kiểm tra nhanh (Quick Quiz)</h4>
-              {quizzes.map((q, idx) => (
-                <div key={idx} className="quiz-preview-item">
-                  <div className="quiz-question">Q: {q.question}</div>
-                  <div className="quiz-options-list">
-                    {q.options && q.options.map((opt, i) => (
-                      <span key={i} className="quiz-opt-chip">{opt}</span>
-                    ))}
-                  </div>
-                  <div className="quiz-ans-exp">
-                    <span>🔑 Đáp án đúng: <strong>{q.answer}</strong></span>
-                    <p>💡 {q.explanation}</p>
-                  </div>
+            {similarGrammar.length > 0 && (
+              <div className="card-block-section">
+                <h4>🆚 Cấu trúc tương tự</h4>
+                <div className="chips-list">
+                  {similarGrammar.map(s => <span key={s} className="chip syn-chip font-jp">{s}</span>)}
                 </div>
-              ))}
-            </div>
-          )}
+                {data.difference && (
+                  <div className="difference-box">
+                    <strong>Phân biệt & điểm khác biệt:</strong>
+                    <p>{data.difference}</p>
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
+        )}
 
-          {commonMistakes.length > 0 && (
-            <div className="card-block-section">
-              <h4>⚠️ Lỗi thường gặp (Common Mistakes)</h4>
-              <div className="mistakes-list-modern">
-                {commonMistakes.map((m, idx) => (
-                  <div key={idx} className="mistake-item">
-                    <div className="mistake-error">❌ {m.error}</div>
-                    <div className="mistake-fix">✅ {m.fix}</div>
+        {activeCardTab === 'context' && (
+          <div className="card-tab-content animate-fade-in">
+            {examples.length > 0 && (
+              <div className="card-block-section">
+                <h4>📝 Câu ví dụ mẫu (Examples)</h4>
+                <div className="examples-list">
+                  {examples.map((ex, i) => (
+                    <div key={i} className="example-item">
+                      <div className="example-ja font-jp">{ex.ja}</div>
+                      <div className="example-reading">{ex.reading}</div>
+                      <div className="example-vi">{ex.vi}</div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {data.readingPassage && (
+              <div className="card-block-section">
+                <h4>📖 Đoạn văn đọc hiểu ứng dụng</h4>
+                <div className="reading-passage-box">
+                  <p>{data.readingPassage}</p>
+                </div>
+              </div>
+            )}
+
+            {examples.length === 0 && !data.readingPassage && (
+              <div className="card-empty-tab-state">
+                Không tìm thấy câu ví dụ hoặc đoạn văn đọc hiểu nào.
+              </div>
+            )}
+          </div>
+        )}
+
+        {activeCardTab === 'practice' && (
+          <div className="card-tab-content animate-fade-in">
+            {quizzes.length > 0 && (
+              <div className="card-block-section">
+                <h4>✍️ Bài kiểm tra nhanh (Quick Quiz)</h4>
+                {quizzes.map((q, idx) => (
+                  <div key={idx} className="quiz-preview-item">
+                    <div className="quiz-question">Q: {q.question}</div>
+                    <div className="quiz-options-list">
+                      {q.options && q.options.map((opt, i) => (
+                        <span key={i} className="quiz-opt-chip">{opt}</span>
+                      ))}
+                    </div>
+                    <div className="quiz-ans-exp">
+                      <span>🔑 Đáp án đúng: <strong>{q.answer}</strong></span>
+                      <p>💡 {q.explanation}</p>
+                    </div>
                   </div>
                 ))}
               </div>
-            </div>
-          )}
-        </div>
+            )}
+
+            {commonMistakes.length > 0 && (
+              <div className="card-block-section">
+                <h4>⚠️ Lỗi thường gặp (Common Mistakes)</h4>
+                <div className="mistakes-list-modern">
+                  {commonMistakes.map((m, idx) => (
+                    <div key={idx} className="mistake-item">
+                      <div className="mistake-error">❌ {m.error}</div>
+                      <div className="mistake-fix">✅ {m.fix}</div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {quizzes.length === 0 && commonMistakes.length === 0 && (
+              <div className="card-empty-tab-state">
+                ✨ Tuyệt vời! Không có lỗi sai phổ biến hoặc bài test nhanh nào được lưu ở đây.
+              </div>
+            )}
+          </div>
+        )}
       </div>
     </div>
   );

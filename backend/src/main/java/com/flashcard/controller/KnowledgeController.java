@@ -1,6 +1,8 @@
 package com.flashcard.controller;
 
 import com.flashcard.model.User;
+import com.flashcard.model.Vocabulary;
+import com.flashcard.model.GrammarCard;
 import com.flashcard.service.KnowledgeService;
 import com.flashcard.service.GrammarSrsService;
 import com.flashcard.service.PersonalCorpusService;
@@ -89,16 +91,15 @@ public class KnowledgeController {
         }
 
         try {
-            String operator = user.getUsername();
             if ("grammar".equalsIgnoreCase(type)) {
-                var saved = knowledgeService.saveGrammar(data, operator);
+                GrammarCard saved = knowledgeService.saveGrammar(data, user);
                 return ResponseEntity.ok(Map.of(
                     "status", "success",
                     "id", saved.getId(),
                     "type", "grammar"
                 ));
             } else {
-                var saved = knowledgeService.saveVocabulary(data, operator);
+                Vocabulary saved = knowledgeService.saveVocabulary(data, user);
                 return ResponseEntity.ok(Map.of(
                     "status", "success",
                     "id", saved.getId(),
