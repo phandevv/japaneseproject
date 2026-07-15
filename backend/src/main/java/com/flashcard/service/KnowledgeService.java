@@ -496,7 +496,7 @@ public class KnowledgeService {
      */
     @Transactional(readOnly = true)
     public List<GrammarCard> getSavedGrammar(User user) {
-        return grammarReviewRepository.findByUserId(user.getId()).stream()
+        return grammarReviewRepository.findByUserIdFetchGrammarCard(user.getId()).stream()
                 .map(GrammarReview::getGrammarCard)
                 .collect(Collectors.toList());
     }
