@@ -367,3 +367,5 @@ export const usersApi = {
     return response.data;
   }
 };
+
+export const api = axios;

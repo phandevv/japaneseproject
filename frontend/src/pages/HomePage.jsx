@@ -451,6 +451,18 @@ const HomePage = ({ startStudy, streak, onLoginClick, onLogout, onAdminClick, on
                 </div>
               </div>
 
+              <div className="srs-banner tutor-banner" style={{ marginTop: '20px', background: 'linear-gradient(135deg, rgba(99,102,241,0.15) 0%, rgba(168,85,247,0.15) 100%)', borderColor: 'var(--accent-color)' }}>
+                <div className="srs-banner-text">
+                  <h4 style={{ color: 'var(--accent-color)' }}>🤖 Gia sư Đóng vai Hội thoại AI (Visible & Invisible 2-Layer AI)</h4>
+                  <p>Trò chuyện tiếng Nhật trực tiếp theo thời gian thực với Giáo viên AI bản xứ. Phân tích lỗi sai, gợi ý học tập và mini quiz tự động.</p>
+                </div>
+                <div className="srs-actions">
+                  <button className="btn btn-primary" onClick={() => startStudy(null, 'conversation-tutor')} style={{ background: 'var(--accent-color)', borderColor: 'var(--accent-color)' }}>
+                    <Users size={16} /> Bắt đầu Kaiwa
+                  </button>
+                </div>
+              </div>
+
               <div className="dashboard-grid">
                 {renderActivityGraph()}
 

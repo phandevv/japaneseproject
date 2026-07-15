@@ -15,6 +15,7 @@ import FeedbackAdminPage from './pages/FeedbackAdminPage';
 import AiEnrichmentAdminPage from './pages/AiEnrichmentAdminPage';
 import AIChatWidget from './components/AIChatWidget';
 import KnowledgeBasePage from './pages/KnowledgeBasePage';
+import ConversationTutorPage from './pages/ConversationTutorPage';
 
 const getTodayKey = () => new Date().toISOString().slice(0, 10);
 
@@ -171,6 +172,12 @@ function App() {
         return <SearchPage />;
       case 'knowledge':
         return <KnowledgeBasePage />;
+      case 'conversation-tutor':
+        return isAuthenticated ? (
+          <ConversationTutorPage goBack={() => setCurrentPage('home')} />
+        ) : (
+          <AuthPage onCancel={() => setCurrentPage('home')} onSuccess={handleLoginSuccess} />
+        );
       default:
         return <HomePage startStudy={startStudy} />;
     }

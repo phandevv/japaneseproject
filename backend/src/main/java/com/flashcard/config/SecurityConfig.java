@@ -69,6 +69,7 @@ public class SecurityConfig {
                 .requestMatchers("/api/auth/**").permitAll()
                 .requestMatchers("/actuator/health").permitAll()
                 .requestMatchers("/h2-console/**").permitAll()
+                .requestMatchers("/ws/conversation/**").permitAll()
                 
                 // ── AI Vocabulary Enrichment (Admin & VIP only) ─────────────
                 .requestMatchers(HttpMethod.POST, "/api/vocab/*/enrich").hasAnyRole("ADMIN", "VIP")

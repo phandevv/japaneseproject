@@ -14,6 +14,11 @@ erDiagram
     USERS ||--o{ WORD_REVIEWS : "performs review"
     USERS ||--o{ STUDY_SESSIONS : "logs activity"
     USERS ||--o{ GRAMMAR_REVIEWS : "performs review"
+    USERS ||--o{ CONVERSATIONS : "starts"
+    USERS ||--o| SPEAKING_STATISTICS : "has"
+    CONVERSATIONS ||--o{ CONVERSATION_MESSAGES : "contains"
+    CONVERSATIONS ||--o{ CONVERSATION_CORRECTIONS : "identifies"
+    CONVERSATIONS ||--o| REVIEW_RECOMMENDATIONS : "generates"
     VOCABULARY ||--o{ WORD_REVIEWS : "reviewed"
     GRAMMAR_CARDS ||--o{ GRAMMAR_REVIEWS : "reviewed"
 
@@ -23,6 +28,57 @@ erDiagram
         varchar password
         varchar role
         varchar avatar
+        datetime created_at
+    }
+
+    CONVERSATIONS {
+        bigint id PK
+        bigint user_id FK
+        varchar scenario
+        varchar jlpt_level
+        datetime start_time
+        datetime end_time
+        varchar status
+    }
+
+    CONVERSATION_MESSAGES {
+        bigint id PK
+        bigint conversation_id FK
+        varchar sender
+        text text_content
+        text analysis_content
+        datetime timestamp
+    }
+
+    CONVERSATION_CORRECTIONS {
+        bigint id PK
+        bigint conversation_id FK
+        bigint message_id FK
+        text original_text
+        text corrected_text
+        text explanation
+        varchar type
+        datetime created_at
+    }
+
+    SPEAKING_STATISTICS {
+        bigint id PK
+        bigint user_id FK
+        int total_sessions
+        int total_messages
+        double avg_duration
+        double avg_grammar_score
+        double avg_vocab_score
+        double avg_naturalness_score
+        datetime last_active
+    }
+
+    REVIEW_RECOMMENDATIONS {
+        bigint id PK
+        bigint conversation_id FK
+        text recommended_vocab
+        text recommended_grammar
+        text exercise_quiz
         datetime created_at
     }
 
@@ -128,6 +184,7 @@ Cơ sở dữ liệu được khởi tạo và nâng cấp thông qua Flyway t�
 * **`V5__add_romaji.sql`**: Thêm cột `romaji` trong bảng `vocabulary` để lưu phiên âm Latin, hỗ trợ gõ tìm kiếm Romaji.
 * **`V6__add_word_review_tracking.sql`**: Thêm cột `is_learned` (Boolean) vào bảng `word_reviews` để theo dõi chính xác trạng thái từ đã học của học viên, phục vụ quy tắc bảo toàn từ đã học khi ôn tập fail.
 * **`V12__ai_knowledge_base.sql`**: Bổ sung các cột dữ liệu làm giàu vào bảng `vocabulary` và tạo các bảng mới `grammar_cards`, `grammar_reviews`, `knowledge_versions` hỗ trợ tính năng **AI Personal Japanese Knowledge Base** lưu trữ tri thức lâu dài, lập lịch ôn tập và kiểm soát lịch sử phiên bản.
+* **`V14__ai_conversation_tutor.sql`**: Khởi tạo cấu trúc bảng lưu trữ các cuộc hội thoại (`conversations`), tin nhắn hội thoại (`conversation_messages`), phân tích lỗi sai (`conversation_corrections`), thống kê nói (`speaking_statistics`), và đề xuất ôn tập/mini-quiz (`review_recommendations`) hỗ trợ module **Gia sư Đóng vai Hội thoại AI**.
 
 ---
 

@@ -272,3 +272,106 @@ Tài liệu này đặc tả toàn bộ danh sách REST API endpoints được x
   }
   ```
 
+---
+
+## 7. Module Gia sư Đóng vai Hội thoại AI (AI Japanese Conversation Tutor)
+
+### A. Giao diện WebSocket thời gian thực (WebSocket Endpoint)
+* **Endpoint**: `ws://localhost:8080/ws/conversation` hoặc `wss://[domain]/ws/conversation`
+* **Xác thực**: Gửi token JWT thông qua payload handshake.
+* **Bản tin Client gửi lên**:
+  * Khởi động phiên học:
+    ```json
+    { "type": "CONNECT_SESSION", "token": "JWT_TOKEN", "scenario": "Cafe", "jlpt": "N3" }
+    ```
+  * Gửi thoại:
+    ```json
+    { "type": "SEND_TEXT", "text": "Konnichiwa" }
+    ```
+  * Kết thúc học:
+    ```json
+    { "type": "END_SESSION" }
+    ```
+* **Bản tin Server trả về**:
+  * Kết nối thành công:
+    ```json
+    { "type": "SESSION_CONNECTED", "conversationId": 1, "scenario": "Cafe", "jlpt": "N3" }
+    ```
+  * AI đang suy nghĩ:
+    ```json
+    { "type": "AI_THINKING" }
+    ```
+  * Luồng phân đoạn text AI (Stream chunk):
+    ```json
+    { "type": "STREAM_TEXT_CHUNK", "text": "こんにちは", "isFinal": false }
+    ```
+  * AI nói xong:
+    ```json
+    { "type": "AI_SPEAKING" }
+    ```
+  * Kết thúc phiên thành công:
+    ```json
+    { "type": "SESSION_COMPLETED", "conversationId": 1 }
+    ```
+
+### B. REST APIs bổ trợ - `ConversationController`
+
+#### 1. Lấy lịch sử phiên hội thoại
+* **Endpoint**: `GET /api/conversations/history`
+* **Xác thực**: Yêu cầu Token
+* **Phản hồi thành công (200 OK)**: Danh sách các phiên hội thoại (`Conversation[]`).
+
+#### 2. Lấy chi tiết phiên hội thoại
+* **Endpoint**: `GET /api/conversations/{id}`
+* **Xác thực**: Yêu cầu Token
+* **Phản hồi thành công (200 OK)**: Đối tượng `Conversation`.
+
+#### 3. Lấy tin nhắn của phiên hội thoại (chứa Layer 2 Analysis)
+* **Endpoint**: `GET /api/conversations/{id}/messages`
+* **Xác thực**: Yêu cầu Token
+* **Phản hồi thành công (200 OK)**: Danh sách `ConversationMessage[]` kèm metadata ẩn.
+
+#### 4. Lấy danh sách sửa lỗi hội thoại
+* **Endpoint**: `GET /api/conversations/{id}/corrections`
+* **Xác thực**: Yêu cầu Token
+* **Phản hồi thành công (200 OK)**: Danh sách `ConversationCorrection[]`.
+
+#### 5. Lấy báo cáo tổng kết (End-of-Session Report)
+* **Endpoint**: `GET /api/conversations/{id}/report`
+* **Xác thực**: Yêu cầu Token
+* **Phản hồi thành công (200 OK)**: Báo cáo `ReviewRecommendation` chứa tóm tắt, điểm số KPI, từ vựng & ngữ pháp trích xuất, bài tập quiz trắc nghiệm.
+
+#### 6. Lấy thống kê nói tổng quan của học viên
+* **Endpoint**: `GET /api/conversations/stats`
+* **Xác thực**: Yêu cầu Token
+* **Phản hồi thành công (200 OK)**: Đối tượng `SpeakingStatistics`.
+
+#### 7. Lưu từ vựng trích xuất vào CSDL cá nhân (Knowledge Extraction)
+* **Endpoint**: `POST /api/conversations/knowledge/save-vocab`
+* **Xác thực**: Yêu cầu Token
+* **Request Body**:
+  ```json
+  {
+    "kanji": "言葉",
+    "hiragana": "ことば",
+    "meaning": "Từ vựng, từ ngữ",
+    "level": "N3"
+  }
+  ```
+* **Phản hồi thành công (200 OK)**: `{"message": "Đã lưu từ vựng vào Thư viện cá nhân thành công!"}`
+
+#### 8. Lưu ngữ pháp trích xuất vào CSDL cá nhân (Knowledge Extraction)
+* **Endpoint**: `POST /api/conversations/knowledge/save-grammar`
+* **Xác thực**: Yêu cầu Token
+* **Request Body**:
+  ```json
+  {
+    "grammar": "~はずだ",
+    "meaning": "Chắc chắn là...",
+    "usageDesc": "Ví dụ: 彼は今日来るはずだ。",
+    "jlpt": "N3"
+  }
+  ```
+* **Phản hồi thành công (200 OK)**: `{"message": "Đã lưu ngữ pháp vào Thư viện cá nhân thành công!"}`
+
+
