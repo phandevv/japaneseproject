@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { X, ChevronLeft, ChevronRight, Volume2, RefreshCw, PenLine, Eraser, Eye, EyeOff, RotateCcw } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
 import { vocabApi } from '../services/api';
+import AiEnrichedTabbedView from './AiEnrichedTabbedView';
 
 /* ─────────────────────────────────────────────
    Constants
@@ -847,91 +848,15 @@ const KanjiDetailModal = ({ words, initialIndex, onClose }) => {
                     padding: '8px',
                     backgroundColor: 'var(--surface-hover)',
                     borderRadius: '6px',
-                    textAlign: 'left'
+                    textAlign: 'center'
                   }}>
                     Đang gọi AI làm giàu dữ liệu ví dụ & Kanji...
                   </div>
                 )}
 
-                {enriched && enriched.sampleSentence && (
-                  <div style={{ 
-                    marginTop: '12px', 
-                    padding: '10px 12px', 
-                    width: '100%', 
-                    textAlign: 'left', 
-                    backgroundColor: 'var(--surface-hover)', 
-                    borderRadius: '8px',
-                    borderLeft: '3px solid var(--accent-color)',
-                    boxSizing: 'border-box'
-                  }}>
-                    <h4 style={{ color: 'var(--accent-color)', marginBottom: '4px', fontSize: '0.8rem', fontWeight: '600' }}>Câu ví dụ:</h4>
-                    <p style={{ fontSize: '1.05rem', fontWeight: 'bold', color: 'var(--text-primary)', marginBottom: '4px', lineHeight: '1.35' }}>{enriched.sampleSentence}</p>
-                    {showSampleHint ? (
-                      <>
-                        <p style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', marginBottom: '4px', fontStyle: 'italic' }}>{enriched.sampleReading}</p>
-                        <p style={{ fontSize: '0.85rem', color: 'var(--success-color)', fontWeight: '500' }}>{enriched.sampleTranslation}</p>
-                      </>
-                    ) : (
-                      <button 
-                        onClick={() => setShowSampleHint(true)}
-                        style={{
-                          marginTop: '4px',
-                          background: 'var(--surface-color)',
-                          border: '1px solid var(--border-color)',
-                          color: 'var(--text-secondary)',
-                          borderRadius: '4px',
-                          padding: '4px 10px',
-                          fontSize: '0.75rem',
-                          cursor: 'pointer',
-                          transition: 'all 0.2s',
-                          fontFamily: 'inherit'
-                        }}
-                        onMouseEnter={e => e.currentTarget.style.background = 'var(--surface-hover)'}
-                        onMouseLeave={e => e.currentTarget.style.background = 'var(--surface-color)'}
-                      >
-                        Hiện cách đọc & nghĩa
-                      </button>
-                    )}
-                  </div>
+                {enriched && (
+                  <AiEnrichedTabbedView data={enriched} />
                 )}
-
-                {(() => {
-                  let relatedWords = [];
-                  if (enriched && enriched.kanjiWords) {
-                    try {
-                      relatedWords = typeof enriched.kanjiWords === 'string' 
-                        ? JSON.parse(enriched.kanjiWords) 
-                        : enriched.kanjiWords;
-                    } catch (e) {
-                      console.error("Failed to parse kanjiWords JSON:", e);
-                    }
-                  }
-                  if (relatedWords && relatedWords.length > 0) {
-                    return (
-                      <div style={{ 
-                        marginTop: '10px', 
-                        padding: '10px 12px', 
-                        width: '100%', 
-                        textAlign: 'left', 
-                        backgroundColor: 'var(--surface-hover)', 
-                        borderRadius: '8px',
-                        borderLeft: '3px solid var(--success-color)',
-                        boxSizing: 'border-box'
-                      }}>
-                        <h4 style={{ color: 'var(--success-color)', marginBottom: '6px', fontSize: '0.8rem', fontWeight: '600' }}>Kanji liên quan:</h4>
-                        <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
-                          {relatedWords.map((item, idx) => (
-                            <div key={idx} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '0.8rem', borderBottom: idx < relatedWords.length - 1 ? '1px dashed var(--border-color)' : 'none', paddingBottom: idx < relatedWords.length - 1 ? '4px' : '0' }}>
-                              <span style={{ fontWeight: 'bold', color: 'var(--text-primary)' }}>{item.word} ({item.reading})</span>
-                              <span style={{ color: 'var(--text-secondary)', fontSize: '0.75rem' }}>{item.meaning}</span>
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                    );
-                  }
-                  return null;
-                })()}
               </div>
               {word.kanji && (
                 <div style={{ flexShrink: 0, maxWidth: '45%' }}>
