@@ -133,6 +133,9 @@ public class Vocabulary {
     @Column(name = "conversation_examples", columnDefinition = "TEXT")
     private String conversationExamples;
 
+    @Column(name = "example_sentences", columnDefinition = "TEXT")
+    private String exampleSentences;
+
     public String getPitchAccent() { return pitchAccent; }
     public void setPitchAccent(String pitchAccent) { this.pitchAccent = pitchAccent; }
 
@@ -153,4 +156,7 @@ public class Vocabulary {
 
     public String getConversationExamples() { return conversationExamples; }
     public void setConversationExamples(String conversationExamples) { this.conversationExamples = conversationExamples; }
+
+    public String getExampleSentences() { return exampleSentences; }
+    public void setExampleSentences(String exampleSentences) { this.exampleSentences = exampleSentences; }
 }

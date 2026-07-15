@@ -312,6 +312,7 @@ public class KnowledgeService {
         String commonMistakes = objectMapper.writeValueAsString(data.get("commonMistakes"));
         String collocations = objectMapper.writeValueAsString(data.get("collocations"));
         String conversationExamples = objectMapper.writeValueAsString(data.get("conversationExamples"));
+        String exampleSentencesJson = objectMapper.writeValueAsString(data.get("exampleSentences"));
 
         // Extract sample sentences (take the first one as primary sample sentence)
         String sampleSentence = "";
@@ -349,6 +350,7 @@ public class KnowledgeService {
             vocab.setCommonMistakes(commonMistakes);
             vocab.setCollocations(collocations);
             vocab.setConversationExamples(conversationExamples);
+            vocab.setExampleSentences(exampleSentencesJson);
             vocab.setSampleSentence(sampleSentence);
             vocab.setSampleReading(sampleReading);
             vocab.setSampleTranslation(sampleTranslation);
@@ -367,6 +369,7 @@ public class KnowledgeService {
             vocab.setCommonMistakes(commonMistakes);
             vocab.setCollocations(collocations);
             vocab.setConversationExamples(conversationExamples);
+            vocab.setExampleSentences(exampleSentencesJson);
             vocab.setSampleSentence(sampleSentence);
             vocab.setSampleReading(sampleReading);
             vocab.setSampleTranslation(sampleTranslation);

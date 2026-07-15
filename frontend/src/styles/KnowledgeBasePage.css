@@ -1350,3 +1350,122 @@
   max-width: 320px;
 }
 
+/* Modern Grid Card Layout */
+.card-grid-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  align-items: start;
+  margin-top: 20px;
+}
+
+@media (max-width: 768px) {
+  .card-grid-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+.card-grid-col {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.card-block-section {
+  background: var(--surface-color);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-xl);
+  padding: 18px;
+  box-shadow: var(--shadow-sm);
+}
+
+.card-block-section h4 {
+  font-size: 0.82rem;
+  font-weight: 800;
+  color: var(--text-secondary);
+  margin-bottom: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-bottom: 1.5px solid var(--border-color);
+  padding-bottom: 6px;
+}
+
+.mnemonic-block-modern {
+  background: var(--warning-light);
+  border: 1px solid rgba(245, 158, 11, 0.15);
+  border-radius: var(--radius-xl);
+  padding: 18px;
+}
+
+.mnemonic-block-modern h4 {
+  color: #d97706;
+  border-bottom: 1px dashed rgba(245, 158, 11, 0.25);
+  padding-bottom: 6px;
+  margin-bottom: 12px;
+  font-size: 0.82rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.mnemonic-block-modern p {
+  font-size: 0.86rem;
+  line-height: 1.55;
+  color: var(--text-primary);
+}
+
+.collocations-list-modern {
+  padding-left: 18px;
+  font-size: 0.85rem;
+  line-height: 1.6;
+  color: var(--text-primary);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.collocations-list-modern li {
+  list-style-type: square;
+}
+
+.mistakes-list-modern {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.vocabulary-card-modern, .grammar-card-modern {
+  background: transparent;
+  padding: 0;
+  border: none;
+  box-shadow: none;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.card-top-panel {
+  background: var(--surface-color);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-xl);
+  padding: 20px;
+  box-shadow: var(--shadow-sm);
+}
+
+/* Adjust split-pane library right panel height */
+.library-detail-wrapper {
+  overflow-y: auto;
+  max-height: 80vh;
+  padding-right: 6px;
+}
+
+.library-detail-wrapper::-webkit-scrollbar {
+  width: 5px;
+}
+
+.library-detail-wrapper::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+  border-radius: 4px;
+}
+
+
