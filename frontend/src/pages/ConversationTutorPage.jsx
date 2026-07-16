@@ -84,8 +84,11 @@ export default function ConversationTutorPage({ goBack }) {
       };
 
       rec.onerror = (e) => {
-        // Only log serious errors, ignore 'aborted' as it happens naturally during switching
-        if (e.error !== 'aborted') {
+        // Handle no-speech error gracefully with friendly UI notification
+        if (e.error === 'no-speech') {
+          console.warn("Speech recognition: no speech detected.");
+          setSubtitle("Thầy chưa nghe rõ, bạn nói lại chút nhé! 👂");
+        } else if (e.error !== 'aborted') {
           console.error("Speech recognition error:", e);
         }
         setIsRecording(false);
