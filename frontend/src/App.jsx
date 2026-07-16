@@ -43,6 +43,7 @@ const updateStreakForToday = (currentUser) => {
 function App() {
   const { user: authUser, logout: authLogout, isAuthenticated } = useAuth();
   const [currentPage, setCurrentPage] = useState(() => localStorage.getItem('nihongo-currentPage') || 'home');
+  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(() => localStorage.getItem('nihongo-sidebarCollapsed') === 'true');
   const [selectedLevel, setSelectedLevel] = useState(() => {
     const val = localStorage.getItem('nihongo-selectedLevel');
     return val === 'null' ? null : val;
@@ -55,6 +56,10 @@ function App() {
   useEffect(() => {
     localStorage.setItem('nihongo-currentPage', currentPage);
   }, [currentPage]);
+
+  useEffect(() => {
+    localStorage.setItem('nihongo-sidebarCollapsed', isSidebarCollapsed);
+  }, [isSidebarCollapsed]);
 
   useEffect(() => {
     if (selectedLevel !== null) {
@@ -184,8 +189,10 @@ function App() {
   };
 
   return (
-    <div className="app-layout">
+    <div className={`app-layout ${isSidebarCollapsed ? 'sidebar-collapsed' : ''}`}>
       <Sidebar
+        isCollapsed={isSidebarCollapsed}
+        onToggleCollapse={() => setIsSidebarCollapsed(!isSidebarCollapsed)}
         currentPage={currentPage}
         setCurrentPage={(page, resetLevel) => {
           if (resetLevel || page === 'flashcard' || page === 'daily') {
