@@ -1,4 +1,4 @@
-import { BookOpen, ChevronLeft, ChevronRight, Cpu, Database, Home, Layers, Loader, LogIn, LogOut, MessageSquare, Palette, Search, ShieldCheck, Upload } from "lucide-react";
+import { BookOpen, ChevronLeft, ChevronRight, Cpu, Database, Home, Layers, Loader, LogIn, LogOut, MessageSquare, Palette, Search, ShieldCheck, Upload, LifeBuoy } from "lucide-react";
 import { useRef, useState } from "react";
 import { useLanguage } from "../context/LanguageContext";
 import { useTheme } from "../context/ThemeContext";
@@ -113,6 +113,13 @@ const Sidebar = ({ isCollapsed, onToggleCollapse, currentPage, setCurrentPage, o
         >
           <MessageSquare size={17} />
           <span>Gia sư AI</span>
+        </button>
+        <button
+          className="sidebar-link"
+          onClick={onFeedbackClick}
+        >
+          <LifeBuoy size={17} />
+          <span>Góp ý & Báo lỗi</span>
         </button>
 
         {isAdmin && (
