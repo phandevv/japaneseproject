@@ -77,6 +77,7 @@ public class DeepSeekEnrichmentService {
                     "  \"word\": \"từ kanji hoặc kana chính xác\",\n" +
                     "  \"reading\": \"hiragana/katakana cách đọc\",\n" +
                     "  \"meaning\": \"nghĩa tiếng Việt chính xác\",\n" +
+                    "  \"hanViet\": \"âm Hán Việt (nếu có, viết hoa, ví dụ: THỰC SỰ)\",\n" +
                     "  \"jlpt\": \"cấp độ JLPT từ N5 đến N1\",\n" +
                     "  \"pitchAccent\": \"cách đánh trọng âm (ví dụ: しょくじ [0])\",\n" +
                     "  \"wordType\": \"loại từ (noun, verb, i-adjective, na-adjective...)\",\n" +
@@ -92,7 +93,7 @@ public class DeepSeekEnrichmentService {
                     "     { \"ja\": \"câu ví dụ tiếng Nhật\", \"reading\": \"hiragana câu ví dụ\", \"vi\": \"dịch nghĩa tiếng Việt\" }\n" +
                     "  ],\n" +
                     "  \"collocations\": [\"cụm từ hay đi kèm 1\", \"cụm từ hay đi kèm 2\"],\n" +
-                    "  \"mnemonic\": \"mẹo nhớ chữ hán hoặc từ này\",\n" +
+                    "  \"mnemonic\": \"mẹo nhớ chữ Hán hoặc từ vựng này. Hãy đưa ra mẹo nhớ cực kỳ sáng tạo, dễ nhớ, có thể dùng chiết tự các bộ thủ chữ Hán (kanji breakdown) hoặc liên tưởng âm thanh/hình ảnh thú vị, tránh giải thích khô khan.\",\n" +
                     "  \"conversationExamples\": [\n" +
                     "     { \"speakerA\": \"hội thoại người A\", \"speakerB\": \"hội thoại người B (phản hồi)\", \"translationA\": \"dịch nghĩa A\", \"translationB\": \"dịch nghĩa B\" }\n" +
                     "  ]\n" +
@@ -138,6 +139,10 @@ public class DeepSeekEnrichmentService {
                                     vocab.setPitchAccent(contentNode.path("pitchAccent").asText());
                                     vocab.setWordType(contentNode.path("wordType").asText());
                                     vocab.setMnemonic(contentNode.path("mnemonic").asText());
+                                    
+                                    if (contentNode.has("hanViet") && !contentNode.path("hanViet").isNull()) {
+                                        vocab.setHanViet(contentNode.path("hanViet").asText());
+                                    }
                                     
                                     // Map complex JSON array/object fields to string columns
                                     vocab.setKanjiWords(objectMapper.writeValueAsString(contentNode.path("kanjiWords")));

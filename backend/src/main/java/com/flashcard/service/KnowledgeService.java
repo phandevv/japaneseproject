@@ -236,6 +236,7 @@ public class KnowledgeService {
                 "  \"word\": \"từ kanji hoặc kana chính xác\",\n" +
                 "  \"reading\": \"hiragana/katakana cách đọc\",\n" +
                 "  \"meaning\": \"nghĩa tiếng Việt chính xác\",\n" +
+                "  \"hanViet\": \"âm Hán Việt (nếu có, viết hoa, ví dụ: THỰC SỰ)\",\n" +
                 "  \"jlpt\": \"cấp độ JLPT từ N5 đến N1\",\n" +
                 "  \"pitchAccent\": \"cách đánh trọng âm (ví dụ: しょくじ [0])\",\n" +
                 "  \"wordType\": \"loại từ (noun, verb, i-adjective, na-adjective...)\",\n" +
@@ -251,7 +252,7 @@ public class KnowledgeService {
                 "     { \"ja\": \"câu ví dụ tiếng Nhật\", \"reading\": \"hiragana câu ví dụ\", \"vi\": \"dịch nghĩa tiếng Việt\" }\n" +
                 "  ],\n" +
                 "  \"collocations\": [\"cụm từ hay đi kèm 1\", \"cụm từ hay đi kèm 2\"],\n" +
-                "  \"mnemonic\": \"mẹo nhớ chữ hán hoặc từ này\",\n" +
+                "  \"mnemonic\": \"mẹo nhớ chữ Hán hoặc từ vựng này. Hãy đưa ra mẹo nhớ cực kỳ sáng tạo, dễ nhớ, có thể dùng chiết tự các bộ thủ chữ Hán (kanji breakdown) hoặc liên tưởng âm thanh/hình ảnh thú vị, tránh giải thích khô khan.\",\n" +
                 "  \"conversationExamples\": [\n" +
                 "     { \"speakerA\": \"hội thoại người A\", \"speakerB\": \"hội thoại người B (phản hồi)\", \"translationA\": \"dịch nghĩa A\", \"translationB\": \"dịch nghĩa B\" }\n" +
                 "  ]\n" +
@@ -368,6 +369,7 @@ public class KnowledgeService {
         String word = (String) data.get("word");
         String reading = (String) data.get("reading");
         String meaning = (String) data.get("meaning");
+        String hanViet = (String) data.get("hanViet");
         String jlpt = (String) data.get("jlpt");
         String wordType = (String) data.get("wordType");
 
@@ -410,6 +412,7 @@ public class KnowledgeService {
 
             // Update fields
             vocab.setMeaning(meaning);
+            vocab.setHanViet(hanViet);
             vocab.setLevel(jlpt);
             vocab.setWordType(wordType);
             vocab.setPitchAccent(pitchAccent);
@@ -429,6 +432,7 @@ public class KnowledgeService {
             vocab.setKanji(word);
             vocab.setHiragana(reading);
             vocab.setMeaning(meaning);
+            vocab.setHanViet(hanViet);
             vocab.setLevel(jlpt);
             vocab.setWordType(wordType);
             vocab.setPitchAccent(pitchAccent);
