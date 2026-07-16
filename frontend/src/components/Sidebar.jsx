@@ -4,9 +4,13 @@ import { useLanguage } from "../context/LanguageContext";
 import { useTheme } from "../context/ThemeContext";
 import { vocabApi } from "../services/api";
 
-const Sidebar = ({ isCollapsed, onToggleCollapse, currentPage, setCurrentPage, onLoginClick, user, onLogout, onProfileClick, onFeedbackClick }) => {
+import { useAuth } from "../context/AuthContext";
+
+const Sidebar = ({ isCollapsed, onToggleCollapse, currentPage, setCurrentPage, onLoginClick, user: propUser, onLogout, onProfileClick, onFeedbackClick }) => {
   const { t } = useLanguage();
   const { theme, changeTheme } = useTheme();
+  const { user: contextUser } = useAuth();
+  const user = propUser || contextUser;
   const fileInputRef = useRef(null);
   const [importing, setImporting] = useState(false);
 

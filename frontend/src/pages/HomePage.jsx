@@ -57,7 +57,7 @@ const differenceItems = [
 const HomePage = ({ user: propUser, startStudy, streak, onLoginClick, onLogout, onAdminClick, onDailyClick, isAuthView, onAuthSuccess, onAuthCancel, forceLanding }) => {
   const { t } = useLanguage();
   const { user: contextUser } = useAuth();
-  const user = propUser !== undefined ? propUser : contextUser;
+  const user = propUser || contextUser;
   const [stats, setStats] = useState(null);
   const [dashboardData, setDashboardData] = useState(null);
   const [loading, setLoading] = useState(true);

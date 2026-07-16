@@ -99,7 +99,7 @@ export const translations = {
       link2: 'Tính năng',
       link3: 'Hỏi đáp',
       link4: 'Liên hệ',
-      copy: '© 2026 NihongoCards. Tất cả quyền được bảo lưu.',
+      copy: '© 2026 SIRO NIHONGO. Tất cả quyền được bảo lưu.',
     },
 
     // FlashcardPage
@@ -351,7 +351,7 @@ export const translations = {
       link2: 'Features',
       link3: 'FAQ',
       link4: 'Contact',
-      copy: '© 2026 NihongoCards. All rights reserved.',
+      copy: '© 2026 SIRO NIHONGO. All rights reserved.',
     },
 
     // FlashcardPage
