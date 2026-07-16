@@ -1,47 +1,45 @@
 import React, { useRef, useState } from "react";
-import { Home, Search, BookOpen, Layers, LogOut, LogIn, Upload, Loader, User, Settings, ShieldCheck, MessageSquare, Cpu, Database, ChevronLeft, ChevronRight } from "lucide-react";
+import { Home, Search, BookOpen, Layers, LogOut, LogIn, Upload, Loader, ShieldCheck, MessageSquare, Cpu, Database, ChevronLeft, ChevronRight, Palette } from "lucide-react";
 import { useLanguage } from "../context/LanguageContext";
 import { vocabApi } from "../services/api";
+import { useTheme } from "../context/ThemeContext";
 
 const Sidebar = ({ isCollapsed, onToggleCollapse, currentPage, setCurrentPage, onLoginClick, user, onLogout, onProfileClick, onFeedbackClick }) => {
   const { t } = useLanguage();
+  const { theme, changeTheme } = useTheme();
   const fileInputRef = useRef(null);
   const [importing, setImporting] = useState(false);
 
-  const isAdmin = user && (user.username === "admin" || user.role === "ADMIN");
+  const isAdmin = user && (user.username === "admin" || user.role === "ADMIN" || user.roles?.includes("ADMIN") || user.roles?.includes("ROLE_ADMIN"));
 
-  const handleImportClick = () => fileInputRef.current?.click();
-
-  const handleFileChange = async (e) => {
-    if (e.target.files && e.target.files.length > 0) {
-      setImporting(true);
-      try {
-        await vocabApi.importExcel(e.target.files[0]);
-        alert("Nhập Excel thành công!");
-        window.location.reload();
-      } catch (err) {
-        alert("Nhập Excel thất bại: " + (err.response?.data?.message || err.message));
-      } finally {
-        setImporting(false);
-      }
+  const handleImportClick = () => {
+    if (fileInputRef.current) {
+      fileInputRef.current.click();
     }
   };
 
-  const navItems = [
-    { key: "home",      icon: <Home size={17} />,     label: "Trang chủ" },
-    { key: "search",    icon: <Search size={17} />,   label: "Tìm kiếm" },
-    { key: "daily",     icon: <BookOpen size={17} />, label: "Học hàng ngày" },
-    { key: "flashcard", icon: <Layers size={17} />,   label: "Flashcard" },
-    { key: "conversation-tutor", icon: <MessageSquare size={17} />, label: "Gia sư hội thoại AI" },
-    { key: "knowledge", icon: <Database size={17} />, label: "Kho tri thức AI" },
-  ];
+  const handleFileChange = async (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setImporting(true);
+    try {
+      await vocabApi.importExcel(file);
+      alert("Nhập Excel thành công!");
+      window.location.reload();
+    } catch (err) {
+      console.error(err);
+      alert("Nhập Excel thất bại: " + (err.response?.data?.message || err.message));
+    } finally {
+      setImporting(false);
+    }
+  };
 
-  const displayName = user?.displayName || user?.username || "";
+  const displayName = user?.displayName || user?.username || "Learner";
   const avatarContent = user?.avatar
-    ? user.avatar.startsWith("data:image")
-      ? <img src={user.avatar} alt="avatar" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
-      : user.avatar
-    : displayName?.[0]?.toUpperCase() || "?";
+    ? (user.avatar.startsWith("data:image") 
+        ? <img src={user.avatar} alt="avatar" style={{ width: "100%", height: "100%", objectFit: "cover", borderRadius: "50%" }} />
+        : user.avatar)
+    : displayName.substring(0, 2).toUpperCase();
 
   return (
     <aside className="app-sidebar">
@@ -50,11 +48,12 @@ const Sidebar = ({ isCollapsed, onToggleCollapse, currentPage, setCurrentPage, o
         <div className="sidebar-logo" onClick={() => setCurrentPage("home")}>
           <div className="sidebar-logo-icon">S</div>
           <div className="sidebar-logo-text">
-            <h1>SIRO NIHONGO</h1>
+            <h1>NihongoCards</h1>
             <span>Học tiếng Nhật thông minh</span>
           </div>
         </div>
         <button 
+          type="button"
           onClick={onToggleCollapse}
           className="sidebar-toggle-btn"
         >
@@ -64,36 +63,57 @@ const Sidebar = ({ isCollapsed, onToggleCollapse, currentPage, setCurrentPage, o
 
       {/* Nav */}
       <nav className="sidebar-nav">
-        <span className="sidebar-section-label">Menu</span>
-        {navItems.map((item) => (
-          <button
-            key={item.key}
-            className={`sidebar-link${currentPage === item.key ? " active" : ""}`}
-            onClick={() => {
-              if (item.key === "flashcard" || item.key === "daily") {
-                setCurrentPage(item.key, true); // signal reset level
-              } else {
-                setCurrentPage(item.key);
-              }
-            }}
-          >
-            {item.icon}
-            <span>{item.label}</span>
-          </button>
-        ))}
-        
+        <div className="sidebar-section-label">General</div>
         <button
-          className="sidebar-link"
-          onClick={onFeedbackClick}
-          style={{ borderTop: "1px dashed rgba(255,255,255,0.08)", marginTop: "6px", paddingTop: "12px" }}
+          className={`sidebar-link${currentPage === "home" ? " active" : ""}`}
+          onClick={() => setCurrentPage("home")}
+        >
+          <Home size={17} />
+          <span>Trang chủ</span>
+        </button>
+        <button
+          className={`sidebar-link${currentPage === "search" ? " active" : ""}`}
+          onClick={() => setCurrentPage("search")}
+        >
+          <Search size={17} />
+          <span>Tra cứu từ điển</span>
+        </button>
+        <button
+          className={`sidebar-link${currentPage === "daily" ? " active" : ""}`}
+          onClick={() => {
+            setCurrentPage("daily", true);
+          }}
+        >
+          <BookOpen size={17} />
+          <span>Học hàng ngày</span>
+        </button>
+        <button
+          className={`sidebar-link${currentPage === "flashcard" ? " active" : ""}`}
+          onClick={() => {
+            setCurrentPage("flashcard", true);
+          }}
+        >
+          <Layers size={17} />
+          <span>Thẻ ghi nhớ (SRS)</span>
+        </button>
+        <button
+          className={`sidebar-link${currentPage === "knowledge" ? " active" : ""}`}
+          onClick={() => setCurrentPage("knowledge")}
+        >
+          <Database size={17} />
+          <span>Kho tri thức AI</span>
+        </button>
+        <button
+          className={`sidebar-link${currentPage === "conversation-tutor" ? " active" : ""}`}
+          onClick={() => setCurrentPage("conversation-tutor")}
         >
           <MessageSquare size={17} />
-          <span>Góp ý & Báo lỗi</span>
+          <span>Gia sư AI</span>
         </button>
 
         {isAdmin && (
           <>
-            <span className="sidebar-section-label" style={{ marginTop: 8 }}>Admin</span>
+            <div className="sidebar-section-label">Admin Control</div>
             <button
               className={`sidebar-link${currentPage === "admin-vocab" ? " active" : ""}`}
               onClick={() => setCurrentPage("admin-vocab")}
@@ -134,6 +154,55 @@ const Sidebar = ({ isCollapsed, onToggleCollapse, currentPage, setCurrentPage, o
           </>
         )}
       </nav>
+
+      {/* Theme Selector */}
+      <div className="sidebar-theme-selector" style={{ padding: '12px 16px', borderTop: '1px solid rgba(255,255,255,0.08)' }}>
+        {isCollapsed ? (
+          <button 
+            type="button"
+            className="sidebar-btn" 
+            title="Đổi giao diện" 
+            onClick={() => {
+              const themes = ['light', 'dark', 'sepia', 'sakura'];
+              const nextIdx = (themes.indexOf(theme) + 1) % themes.length;
+              changeTheme(themes[nextIdx]);
+            }}
+            style={{ padding: '10px', justifyContent: 'center', width: '100%', border: 'none', background: 'transparent', cursor: 'pointer', color: 'var(--sidebar-icon)' }}
+          >
+            <Palette size={16} />
+          </button>
+        ) : (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+            <span style={{ fontSize: '0.68rem', color: 'var(--sidebar-text)', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Giao diện</span>
+            <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+              <button 
+                type="button"
+                onClick={() => changeTheme('light')} 
+                style={{ width: '18px', height: '18px', borderRadius: '50%', backgroundColor: '#ffffff', border: theme === 'light' ? '2px solid var(--accent-color)' : '1px solid rgba(255,255,255,0.2)', cursor: 'pointer', padding: 0 }}
+                title="Sáng"
+              />
+              <button 
+                type="button"
+                onClick={() => changeTheme('dark')} 
+                style={{ width: '18px', height: '18px', borderRadius: '50%', backgroundColor: '#0f172a', border: theme === 'dark' ? '2px solid #ffffff' : '1px solid rgba(255,255,255,0.2)', cursor: 'pointer', padding: 0 }}
+                title="Tối"
+              />
+              <button 
+                type="button"
+                onClick={() => changeTheme('sepia')} 
+                style={{ width: '18px', height: '18px', borderRadius: '50%', backgroundColor: '#f4ecd8', border: theme === 'sepia' ? '2px solid var(--accent-color)' : '1px solid rgba(255,255,255,0.2)', cursor: 'pointer', padding: 0 }}
+                title="Hoài cổ"
+              />
+              <button 
+                type="button"
+                onClick={() => changeTheme('sakura')} 
+                style={{ width: '18px', height: '18px', borderRadius: '50%', backgroundColor: '#fff0f3', border: theme === 'sakura' ? '2px solid var(--accent-color)' : '1px solid rgba(255,255,255,0.2)', cursor: 'pointer', padding: 0 }}
+                title="Hoa anh đào"
+              />
+            </div>
+          </div>
+        )}
+      </div>
 
       {/* User / Login */}
       <div className="sidebar-footer">

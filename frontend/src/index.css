@@ -46,6 +46,99 @@
   --radius-xl: 20px;
 }
 
+/* ============================================================
+   DARK THEME
+   ============================================================ */
+[data-theme='dark'] {
+  --bg-color: #0f172a;
+  --surface-color: #1e293b;
+  --surface-hover: #334155;
+  --border-color: #334155;
+
+  --sidebar-bg: #090d16;
+  --sidebar-active: #1d314f;
+  --sidebar-text: #94a3b8;
+  --sidebar-text-active: #ffffff;
+  --sidebar-icon: #64748b;
+
+  --text-primary: #f8fafc;
+  --text-secondary: #cbd5e1;
+  --text-muted: #64748b;
+
+  --accent-color: #3b82f6;
+  --accent-light: rgba(59, 130, 246, 0.15);
+  --accent-hover: #60a5fa;
+
+  --success-color: #10b981;
+  --success-light: rgba(16, 185, 129, 0.15);
+  --warning-color: #fbbf24;
+  --warning-light: rgba(251, 191, 36, 0.15);
+  --danger-color: #f87171;
+  --danger-light: rgba(248, 113, 113, 0.15);
+}
+
+/* ============================================================
+   SEPIA THEME
+   ============================================================ */
+[data-theme='sepia'] {
+  --bg-color: #f4ecd8;
+  --surface-color: #fdf6e3;
+  --surface-hover: #eee8d5;
+  --border-color: #e4dbbf;
+
+  --sidebar-bg: #433422;
+  --sidebar-active: #5c4730;
+  --sidebar-text: #b9a997;
+  --sidebar-text-active: #fdf6e3;
+  --sidebar-icon: #8b7964;
+
+  --text-primary: #5b4636;
+  --text-secondary: #826c59;
+  --text-muted: #a38f7d;
+
+  --accent-color: #b58900;
+  --accent-light: #f7eed2;
+  --accent-hover: #cb4b16;
+
+  --success-color: #859900;
+  --success-light: #ebf1d5;
+  --warning-color: #cb4b16;
+  --warning-light: #fbebe3;
+  --danger-color: #d33682;
+  --danger-light: #fbe5f0;
+}
+
+/* ============================================================
+   SAKURA THEME
+   ============================================================ */
+[data-theme='sakura'] {
+  --bg-color: #fff0f3;
+  --surface-color: #ffffff;
+  --surface-hover: #ffe3e8;
+  --border-color: #ffccd5;
+
+  --sidebar-bg: #590d22;
+  --sidebar-active: #800f2f;
+  --sidebar-text: #ffccd5;
+  --sidebar-text-active: #ffffff;
+  --sidebar-icon: #c9184a;
+
+  --text-primary: #4a0d1b;
+  --text-secondary: #8c2f39;
+  --text-muted: #c97d8b;
+
+  --accent-color: #ff4d6d;
+  --accent-light: #fff0f3;
+  --accent-hover: #ff758f;
+
+  --success-color: #2ec4b6;
+  --success-light: #e6f9f8;
+  --warning-color: #ff9f1c;
+  --warning-light: #fff5e6;
+  --danger-color: #e63946;
+  --danger-light: #ffebeb;
+}
+
 /* ============================================================ RESET */
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
