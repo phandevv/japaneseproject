@@ -98,7 +98,7 @@ const Sidebar = ({ isCollapsed, onToggleCollapse, currentPage, setCurrentPage, o
           }}
         >
           <Layers size={17} />
-          <span>Thẻ ghi nhớ (SRS)</span>
+          <span>Thẻ ghi nhớ</span>
         </button>
         <button
           className={`sidebar-link${currentPage === "knowledge" ? " active" : ""}`}

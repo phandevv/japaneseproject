@@ -16,8 +16,8 @@
   border-radius: 20px;
   padding: 40px;
   box-shadow: var(--shadow-xl);
-  max-width: 600px;
-  margin: 60px auto;
+  max-width: 850px;
+  width: 100%;
   text-align: center;
   backdrop-filter: blur(10px);
 }

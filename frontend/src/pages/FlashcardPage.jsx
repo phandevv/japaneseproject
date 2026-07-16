@@ -4,6 +4,8 @@ import FlashcardCard from '../components/FlashcardCard';
 import { ArrowLeft, ArrowRight, Shuffle, Loader, CornerUpLeft, Settings } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
 import { useAuth } from '../context/AuthContext';
+import MascotCorners from '../components/MascotCorners';
+import SakuraPetals from '../components/SakuraPetals';
 
 const levelColors = {
   N5: '#3b82f6',
@@ -257,6 +259,8 @@ const FlashcardPage = ({ level: initialLevel, isSrs = false, stats, goBack, onDa
   if (!activeLevel && !isSrs) {
     return (
       <div className="container animate-fade-in" style={{ padding: '40px 20px' }}>
+        <MascotCorners />
+        <SakuraPetals />
         <div style={{ textAlign: 'center', marginBottom: '40px' }}>
           <h1 style={{ fontSize: '2.5rem', marginBottom: '15px' }}>{t.flashcard.selectLevelTitle}</h1>
           <p style={{ color: 'var(--text-secondary)' }}>{t.flashcard.selectLevelSubtitle}</p>
@@ -479,6 +483,8 @@ const FlashcardPage = ({ level: initialLevel, isSrs = false, stats, goBack, onDa
 
   return (
     <div className="container animate-fade-in" style={{ padding: '20px', maxWidth: '800px' }}>
+      <MascotCorners />
+      <SakuraPetals />
 
       {/* Header */}
       <div className="flex-between" style={{ marginBottom: '30px' }}>

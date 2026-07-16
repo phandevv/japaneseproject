@@ -5,6 +5,8 @@ import { useLanguage } from '../context/LanguageContext';
 import { useAuth } from '../context/AuthContext';
 import KanjiDetailModal from '../components/KanjiDetailModal';
 import AiEnrichedTabbedView from '../components/AiEnrichedTabbedView';
+import MascotCorners from '../components/MascotCorners';
+import SakuraPetals from '../components/SakuraPetals';
 import * as XLSX from 'xlsx';
 
 const levelColors = {
@@ -582,6 +584,8 @@ const DailyStudyPage = ({ level, stats, goBack }) => {
   if (!currentLevel) {
     return (
       <div className="container animate-fade-in" style={{ padding: '40px 20px', maxWidth: '800px', margin: '40px auto', textAlign: 'center' }}>
+        <MascotCorners />
+        <SakuraPetals />
         <h1 style={{ fontSize: '2.2rem', marginBottom: '10px', fontWeight: 800 }}>Học Hàng Ngày</h1>
         <p style={{ color: 'var(--text-secondary)', marginBottom: '40px' }}>
           Vui lòng chọn cấp độ JLPT hoặc chủ đề bạn muốn rèn luyện hàng ngày.

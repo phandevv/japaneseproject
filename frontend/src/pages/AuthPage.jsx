@@ -64,7 +64,7 @@ const AuthPage = ({ onCancel, onSuccess }) => {
 
   return (
     <div 
-      className="flex-center animate-fade-in" 
+      className="flex-center animate-fade-in force-light-theme" 
       style={{ 
         flex: 1,
         padding: '40px 20px',

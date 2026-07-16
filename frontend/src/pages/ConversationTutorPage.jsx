@@ -4,6 +4,8 @@ import { useLanguage } from '../context/LanguageContext';
 import { useAuth } from '../context/AuthContext';
 import { api } from '../services/api';
 import ConversationReport from '../components/ConversationReport';
+import MascotCorners from '../components/MascotCorners';
+import SakuraPetals from '../components/SakuraPetals';
 import '../styles/ConversationTutorPage.css';
 
 const SCENARIOS = [
@@ -326,10 +328,9 @@ export default function ConversationTutorPage({ goBack }) {
 
   if (step === 'setup') {
     return (
-      <div className="tutor-container">
-        <button className="btn btn-secondary" onClick={goBack} style={{ alignSelf: 'flex-start', marginBottom: '20px', display: 'flex', alignItems: 'center', gap: '6px' }}>
-          <CornerUpLeft size={16} /> Quay lại Trang chủ
-        </button>
+      <div className="tutor-container animate-fade-in" style={{ position: 'relative', zIndex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+        <MascotCorners />
+        <SakuraPetals />
 
         <div className="tutor-setup-card">
           <h1 style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', marginBottom: '10px' }}>
@@ -367,10 +368,10 @@ export default function ConversationTutorPage({ goBack }) {
           </div>
 
           <div style={{ textAlign: 'left', marginBottom: '35px' }}>
-            <label style={{ fontSize: '0.9rem', color: 'var(--text-secondary)', display: 'block', marginBottom: '8px', fontWeight: '600' }}>
+            <label style={{ fontSize: '1rem', color: 'var(--text-secondary)', display: 'block', marginBottom: '12px', fontWeight: '600' }}>
               2. Chọn Kịch bản đóng vai (Scenario)
             </label>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', maxHeight: '250px', overflowY: 'auto', paddingRight: '4px' }} className="hide-scrollbar">
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '15px', maxHeight: '350px', overflowY: 'auto', paddingRight: '4px' }} className="hide-scrollbar">
               {SCENARIOS.map(sc => (
                 <div
                   key={sc.id}
@@ -410,9 +411,12 @@ export default function ConversationTutorPage({ goBack }) {
 
   // Active session screen
   return (
-    <div className="tutor-container">
+    <div className="tutor-container animate-fade-in" style={{ position: 'relative', zIndex: 1 }}>
+      <MascotCorners />
+      <SakuraPetals />
+      
       {/* Top Header bar */}
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px', borderBottom: '1px solid var(--border-color)', paddingBottom: '12px' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px', borderBottom: '1px solid var(--border-color)', paddingBottom: '12px', position: 'relative', zIndex: 5 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
           <span style={{ fontWeight: '700', fontSize: '1.1rem' }}>🗣️ Gia sư AI ({scenario})</span>
           <span className="level-badge">{jlpt}</span>

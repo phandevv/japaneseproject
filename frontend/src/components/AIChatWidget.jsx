@@ -93,7 +93,7 @@ export default function AIChatWidget() {
         title="Trợ lý AI học tiếng Nhật"
         aria-label="Mở chat AI"
       >
-        {isOpen ? <X size={22} /> : <Bot size={22} />}
+        <img src="/assets/siro_ai_logo.png" alt="SIRO AI" style={{ width: 68, height: 68, objectFit: 'contain' }} />
         {loading && <span className="ai-fab-ring" />}
       </button>
 
@@ -103,12 +103,12 @@ export default function AIChatWidget() {
           {/* Header */}
           <div className="ai-chat-header">
             <div className="ai-chat-header-info">
-              <div className="ai-chat-avatar-sm">
-                <Bot size={16} />
+              <div className="ai-chat-avatar-sm" style={{ overflow: 'hidden' }}>
+                <img src="/assets/siro_ai_logo.png" alt="SIRO AI" style={{ width: 22, height: 22, objectFit: 'cover' }} />
               </div>
               <div>
                 <div className="ai-chat-title">
-                  AI Nhật ngữ
+                  SIRO AI
                   <Sparkles size={12} className="ai-chat-sparkle" />
                 </div>
                 <div className="ai-chat-subtitle">

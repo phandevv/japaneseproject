@@ -3,7 +3,7 @@
 /* ============================================================
    DESIGN TOKENS — Light Theme
    ============================================================ */
-:root {
+:root, [data-theme='light'], .force-light-theme {
   --bg-color: #f0f4f8;
   --surface-color: #ffffff;
   --surface-hover: #f1f5f9;

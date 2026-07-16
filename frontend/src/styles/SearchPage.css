@@ -1,0 +1,415 @@
+/* ============================================================
+   SEARCH PAGE — Premium Japanese Dictionary Styling
+   ============================================================ */
+
+.search-page {
+  position: relative;
+  padding: 0 20px 60px 20px;
+  min-height: 100vh;
+  overflow: hidden;
+}
+
+/* ── Sakura petals background ── */
+@keyframes search-sakura-fall {
+  0%   { transform: translateY(-10vh) rotate(0deg); opacity: 1; }
+  100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+}
+@keyframes search-sakura-sway {
+  0%, 100% { margin-left: 0; }
+  25%      { margin-left: 30px; }
+  75%      { margin-left: -30px; }
+}
+
+.search-sakura-petal {
+  position: fixed;
+  top: -20px;
+  pointer-events: none;
+  z-index: 0;
+  animation: search-sakura-fall linear infinite, search-sakura-sway ease-in-out infinite;
+  opacity: 0.45;
+}
+
+/* ── Hero header ── */
+.search-hero {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  padding: 48px 20px 32px;
+  margin-bottom: 8px;
+}
+
+.search-hero-title {
+  font-size: 2.6rem;
+  font-weight: 900;
+  color: var(--text-primary);
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+
+.search-hero-title .search-icon-deco {
+  font-size: 2rem;
+}
+
+.search-hero-subtitle {
+  color: var(--text-secondary);
+  font-size: 1.05rem;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+/* ── Corner Mascots ── */
+.search-mascot-corner {
+  position: fixed;
+  top: 20px;
+  height: 140px;
+  object-fit: contain;
+  z-index: 2;
+  filter: drop-shadow(0 6px 16px rgba(0, 0, 0, 0.12));
+  animation: search-mascot-float 3s ease-in-out infinite;
+  pointer-events: none;
+  opacity: 0.85;
+  transition: opacity 0.3s;
+}
+
+.search-mascot-corner:hover {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.search-mascot-left {
+  left: calc(var(--sidebar-width, 220px) + 20px);
+  animation-delay: 0s;
+}
+
+.search-mascot-right {
+  right: 20px;
+  animation-delay: 1.5s;
+}
+
+@keyframes search-mascot-float {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-8px); }
+}
+
+/* ── Search bar ── */
+.search-bar-wrapper {
+  position: relative;
+  z-index: 1;
+  max-width: 640px;
+  margin: 0 auto 40px;
+}
+
+.search-bar-inner {
+  position: relative;
+  background: var(--surface-color);
+  border-radius: 16px;
+  border: 2px solid var(--border-color);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  overflow: hidden;
+}
+
+.search-bar-inner:focus-within {
+  border-color: var(--accent-color);
+  box-shadow: 0 8px 32px rgba(37, 99, 235, 0.12), 0 0 0 4px rgba(37, 99, 235, 0.06);
+}
+
+.search-bar-input {
+  width: 100%;
+  padding: 18px 120px 18px 52px;
+  border: none;
+  background: transparent;
+  color: var(--text-primary);
+  font-size: 1.1rem;
+  font-family: var(--font-ui);
+  outline: none;
+}
+
+.search-bar-input::placeholder {
+  color: var(--text-muted);
+}
+
+.search-bar-icon {
+  position: absolute;
+  left: 18px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-muted);
+  transition: color 0.2s;
+}
+
+.search-bar-inner:focus-within .search-bar-icon {
+  color: var(--accent-color);
+}
+
+.search-bar-btn {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  padding: 10px 24px;
+  border-radius: 12px;
+  border: none;
+  background: linear-gradient(135deg, var(--accent-color), var(--accent-hover));
+  color: #fff;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: transform 0.15s, box-shadow 0.15s;
+  box-shadow: 0 2px 8px rgba(37, 99, 235, 0.3);
+}
+
+.search-bar-btn:hover {
+  transform: translateY(-50%) scale(1.03);
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.4);
+}
+
+.search-bar-btn:active {
+  transform: translateY(-50%) scale(0.98);
+}
+
+/* ── Results area ── */
+.search-results-area {
+  position: relative;
+  z-index: 1;
+  max-width: 840px;
+  margin: 0 auto;
+}
+
+.search-results-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  padding: 0 4px;
+}
+
+.search-results-count {
+  color: var(--text-secondary);
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+/* ── Result card ── */
+.search-result-card {
+  display: flex;
+  gap: 24px;
+  align-items: stretch;
+  padding: 20px 24px;
+  border-radius: 14px;
+  background: var(--surface-color);
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.2s ease, box-shadow 0.25s ease, border-color 0.25s;
+  position: relative;
+  overflow: hidden;
+}
+
+.search-result-card::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  background: linear-gradient(180deg, var(--accent-color), rgba(37, 99, 235, 0.3));
+  border-radius: 4px 0 0 4px;
+  opacity: 0;
+  transition: opacity 0.25s;
+}
+
+.search-result-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  border-color: var(--accent-color);
+}
+
+.search-result-card:hover::before {
+  opacity: 1;
+}
+
+/* ── Kanji section ── */
+.search-kanji-section {
+  flex: 0 0 140px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding-right: 24px;
+  border-right: 1px solid var(--border-color);
+}
+
+.search-kanji-main {
+  font-size: 2.2rem;
+  font-weight: 900;
+  font-family: var(--font-jp);
+  color: var(--text-primary);
+  line-height: 1.2;
+  margin-bottom: 4px;
+}
+
+.search-kanji-reading {
+  font-family: var(--font-jp);
+  color: var(--accent-color);
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+/* ── Info section ── */
+.search-info-section {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 8px;
+}
+
+.search-meaning {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.search-meta-row {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.search-level-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  background: linear-gradient(135deg, var(--accent-color), var(--accent-hover));
+  color: #fff;
+}
+
+.search-hanviet {
+  font-size: 0.88rem;
+  color: var(--text-secondary);
+  font-style: italic;
+}
+
+.search-wordtype {
+  font-size: 0.82rem;
+  padding: 4px 10px;
+  background: var(--surface-hover);
+  border-radius: 6px;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+/* ── Pagination ── */
+.search-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 36px;
+  padding: 12px 0;
+}
+
+.search-pagination .btn-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--border-color);
+  background: var(--surface-color);
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.search-pagination .btn-icon:hover:not(:disabled) {
+  background: var(--accent-color);
+  color: #fff;
+  border-color: var(--accent-color);
+}
+
+.search-pagination .btn-icon:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.search-pagination-text {
+  font-weight: 600;
+  color: var(--text-secondary);
+  font-size: 0.92rem;
+}
+
+/* ── Empty state ── */
+.search-empty-state {
+  text-align: center;
+  padding: 60px 20px;
+  border-radius: 16px;
+  background: var(--surface-color);
+  border: 1px dashed var(--border-color);
+}
+
+.search-empty-state img {
+  height: 100px;
+  margin-bottom: 16px;
+  opacity: 0.7;
+  filter: grayscale(0.3);
+}
+
+.search-empty-state p {
+  color: var(--text-muted);
+  font-size: 1rem;
+}
+
+/* ── Loading ── */
+.search-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 60px 20px;
+}
+
+.search-loading span {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+/* ── Responsive ── */
+@media (max-width: 640px) {
+  .search-hero-title {
+    font-size: 1.8rem;
+  }
+  
+  .search-result-card {
+    flex-direction: column;
+    gap: 12px;
+    padding: 16px;
+  }
+
+  .search-kanji-section {
+    flex: none;
+    border-right: none;
+    border-bottom: 1px solid var(--border-color);
+    padding-right: 0;
+    padding-bottom: 12px;
+  }
+
+  .search-mascot-img {
+    height: 80px;
+  }
+
+  .search-mascot-corner {
+    height: 80px;
+    bottom: 10px;
+    opacity: 0.5;
+  }
+}
