@@ -139,8 +139,12 @@ const HomePage = ({ user: propUser, startStudy, streak, onLoginClick, onLogout, 
 
   const renderActivityGraph = () => {
     if (!dashboardData || !dashboardData.history) return null;
-
-    const hist = dashboardData.history;
+    const histMap = {};
+    if (Array.isArray(dashboardData.history)) {
+      dashboardData.history.forEach(session => {
+        histMap[session.studyDate] = session;
+      });
+    }
     const now = new Date();
     const cells = [];
 
@@ -153,12 +157,13 @@ const HomePage = ({ user: propUser, startStudy, streak, onLoginClick, onLogout, 
       const dateVal = String(current.getDate()).padStart(2, '0');
       const dateString = `${year}-${month}-${dateVal}`;
 
+      const session = histMap[dateString];
       cells.push({
         date: current,
         dateStr: dateString,
-        wordsLearned: hist[dateString]?.wordsLearned || 0,
-        wordsReviewed: hist[dateString]?.wordsReviewed || 0,
-        duration: hist[dateString]?.durationMinutes || 0
+        wordsLearned: session?.wordsStudied || 0,
+        wordsReviewed: session?.streakFrozen ? 1 : 0,
+        duration: session?.wordsStudied || (session?.streakFrozen ? 1 : 0)
       });
     }
 
@@ -338,9 +343,10 @@ const HomePage = ({ user: propUser, startStudy, streak, onLoginClick, onLogout, 
   const getLast7DaysData = () => {
     const days = [];
     const historyMap = {};
-    if (dashboardData && dashboardData.history) {
-      Object.keys(dashboardData.history).forEach(dateStr => {
-        if (dashboardData.history[dateStr].wordsLearned > 0 || dashboardData.history[dateStr].wordsReviewed > 0) {
+    if (dashboardData && Array.isArray(dashboardData.history)) {
+      dashboardData.history.forEach(session => {
+        const dateStr = session.studyDate; // YYYY-MM-DD
+        if (session.wordsStudied > 0 || session.streakFrozen) {
           historyMap[dateStr] = true;
         }
       });
