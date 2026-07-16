@@ -398,10 +398,19 @@ public class KnowledgeService {
             sampleTranslation = (String) firstEx.get("vi");
         }
 
-        // Deduplication Check
-        Optional<Vocabulary> existing = vocabularyRepository.findFirstByKanji(word);
-        if (existing.isEmpty()) {
-            existing = vocabularyRepository.findFirstByHiragana(word);
+        // Deduplication Check (Smart matching by Kanji and Hiragana columns to avoid double insert)
+        Optional<Vocabulary> existing = Optional.empty();
+        if (word != null && !word.trim().isEmpty()) {
+            existing = vocabularyRepository.findFirstByKanji(word.trim());
+            if (existing.isEmpty()) {
+                existing = vocabularyRepository.findFirstByHiragana(word.trim());
+            }
+        }
+        if (existing.isEmpty() && reading != null && !reading.trim().isEmpty()) {
+            existing = vocabularyRepository.findFirstByHiragana(reading.trim());
+            if (existing.isEmpty()) {
+                existing = vocabularyRepository.findFirstByKanji(reading.trim());
+            }
         }
 
         Vocabulary vocab;
