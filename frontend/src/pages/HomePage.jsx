@@ -144,7 +144,7 @@ const HomePage = ({ user: propUser, startStudy, streak, onLoginClick, onLogout, 
     const now = new Date();
     const cells = [];
 
-    // Create matrix logic ...
+    // Create 28 real days of history (from 27 days ago to today)
     for (let i = 27; i >= 0; i--) {
       const current = new Date(now);
       current.setDate(now.getDate() - i);
@@ -162,9 +162,26 @@ const HomePage = ({ user: propUser, startStudy, streak, onLoginClick, onLogout, 
       });
     }
 
-    const weeks = [];
-    for (let i = 0; i < cells.length; i += 7) {
-      weeks.push(cells.slice(i, i + 7));
+    // Align grid by weekday (Monday to Sunday)
+    const startDate = cells[0].date;
+    const startDay = startDate.getDay(); // 0 = Sunday, 1 = Monday, ..., 6 = Saturday
+    const startDayOfWeek = startDay === 0 ? 7 : startDay;
+    const paddingStartCount = startDayOfWeek - 1; // Empty slots at the start of the first week
+
+    const allGridCells = [];
+    for (let i = 0; i < paddingStartCount; i++) {
+      allGridCells.push({ isEmpty: true });
+    }
+
+    allGridCells.push(...cells);
+
+    const totalCells = allGridCells.length;
+    const remainder = totalCells % 7;
+    if (remainder > 0) {
+      const paddingEndCount = 7 - remainder;
+      for (let i = 0; i < paddingEndCount; i++) {
+        allGridCells.push({ isEmpty: true });
+      }
     }
 
     const getIntensityColor = (duration) => {
@@ -175,16 +192,19 @@ const HomePage = ({ user: propUser, startStudy, streak, onLoginClick, onLogout, 
       return '#059669';
     };
 
+    // Calculate month labels dynamically on filled columns without overlap
     const monthLabels = [];
     let lastMonth = -1;
-    cells.forEach((c, idx) => {
+    allGridCells.forEach((c, idx) => {
+      if (c.isEmpty) return;
       const colIndex = Math.floor(idx / 7);
       const m = c.date.getMonth();
-      if (m !== lastMonth && colIndex > 0) {
-        monthLabels.push({ label: `T${m + 1}`, colIndex });
-        lastMonth = m;
-      } else if (lastMonth === -1) {
-        monthLabels.push({ label: `T${m + 1}`, colIndex });
+      if (m !== lastMonth) {
+        const exist = monthLabels.find(l => l.label === `T${m + 1}`);
+        const lastAdded = monthLabels[monthLabels.length - 1];
+        if (!exist && (!lastAdded || colIndex - lastAdded.colIndex >= 2)) {
+          monthLabels.push({ label: `T${m + 1}`, colIndex });
+        }
         lastMonth = m;
       }
     });
@@ -249,24 +269,34 @@ const HomePage = ({ user: propUser, startStudy, streak, onLoginClick, onLogout, 
                 gridGap: '3px',
                 width: 'fit-content'
               }}>
-                {weeks.map((week, wIdx) => (
-                  <React.Fragment key={wIdx}>
-                    {week.map((day, dIdx) => (
+                {allGridCells.map((day, idx) => {
+                  if (day.isEmpty) {
+                    return (
                       <div
-                        key={dIdx}
-                        title={`${day.dateStr}: Học ${day.duration} phút (${day.wordsLearned} từ mới, ${day.wordsReviewed} ôn tập)`}
+                        key={idx}
                         style={{
                           width: '12px',
                           height: '12px',
-                          backgroundColor: getIntensityColor(day.duration),
-                          borderRadius: '2px',
-                          cursor: 'pointer',
-                          gridRow: day.date.getDay() === 0 ? 7 : day.date.getDay() // Sunday = 7
+                          backgroundColor: 'transparent',
+                          borderRadius: '2px'
                         }}
                       />
-                    ))}
-                  </React.Fragment>
-                ))}
+                    );
+                  }
+                  return (
+                    <div
+                      key={idx}
+                      title={`${day.dateStr}: Học ${day.duration} phút (${day.wordsLearned} từ mới, ${day.wordsReviewed} ôn tập)`}
+                      style={{
+                        width: '12px',
+                        height: '12px',
+                        backgroundColor: getIntensityColor(day.duration),
+                        borderRadius: '2px',
+                        cursor: 'pointer'
+                      }}
+                    />
+                  );
+                })}
               </div>
             </div>
 
