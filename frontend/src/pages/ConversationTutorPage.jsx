@@ -43,6 +43,7 @@ export default function ConversationTutorPage({ goBack }) {
   const ttsActiveRef = useRef(false);
   const transcriptEndRef = useRef(null);
   const subtitleRef = useRef('');
+  const pingIntervalRef = useRef(null);
 
   // Create refs to avoid closure issues with speech recognition callbacks
   const modeRef = useRef(mode);
@@ -63,6 +64,17 @@ export default function ConversationTutorPage({ goBack }) {
       transcriptEndRef.current.scrollIntoView({ behavior: 'smooth' });
     }
   }, [transcript, subtitle]);
+
+  useEffect(() => {
+    return () => {
+      if (wsRef.current) {
+        wsRef.current.close();
+      }
+      if (pingIntervalRef.current) {
+        clearInterval(pingIntervalRef.current);
+      }
+    };
+  }, []);
 
   // Web Speech API - Speech Recognition Setup (Run once on mount)
   useEffect(() => {
@@ -174,6 +186,13 @@ export default function ConversationTutorPage({ goBack }) {
         jlpt: jlpt
       };
       socket.send(JSON.stringify(initMsg));
+
+      // Start heartbeat ping every 25 seconds to keep connection alive
+      pingIntervalRef.current = setInterval(() => {
+        if (socket.readyState === WebSocket.OPEN) {
+          socket.send(JSON.stringify({ type: 'PING' }));
+        }
+      }, 25000);
     };
 
     socket.onmessage = (event) => {
@@ -188,6 +207,10 @@ export default function ConversationTutorPage({ goBack }) {
     socket.onclose = () => {
       setWsConnected(false);
       logMessage("SYSTEM", "Mất kết nối với gia sư!");
+      if (pingIntervalRef.current) {
+        clearInterval(pingIntervalRef.current);
+        pingIntervalRef.current = null;
+      }
     };
 
     socket.onerror = (err) => {

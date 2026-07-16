@@ -64,6 +64,9 @@ public class ConversationWebSocketHandler extends TextWebSocketHandler {
                 case "END_SESSION":
                     handleEndSession(session);
                     break;
+                case "PING":
+                    handlePing(session);
+                    break;
                 default:
                     sendError(session, "Unknown message type: " + type);
             }
@@ -71,6 +74,12 @@ public class ConversationWebSocketHandler extends TextWebSocketHandler {
             log.error("Error processing WebSocket message in session {}", session.getId(), e);
             sendError(session, "Failed to process message: " + e.getMessage());
         }
+    }
+
+    private void handlePing(WebSocketSession session) throws IOException {
+        Map<String, Object> response = new HashMap<>();
+        response.put("type", "PONG");
+        session.sendMessage(new TextMessage(objectMapper.writeValueAsString(response)));
     }
 
     private void handleConnect(WebSocketSession session, JsonNode root) throws IOException {
