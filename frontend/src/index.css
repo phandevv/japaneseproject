@@ -604,3 +604,40 @@ input, textarea, select { font-family: var(--font-ui); color: var(--text-primary
   .flashcard-back-content { flex-direction: column; padding: 18px 14px; gap: 14px; }
   .flashcard-back-left { border-right: none; border-bottom: 1px solid var(--border-color); padding-right: 0; padding-bottom: 14px; }
 }
+
+/* Kanji Detail Modal Overlay - Custom Responsive Positioning to respect Sidebar width */
+.kanji-detail-overlay {
+  position: fixed !important;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 240px; /* Aligns with active expanded sidebar */
+  z-index: 999;
+  background: rgba(10, 15, 30, 0.72);
+  backdrop-filter: blur(5px);
+  overflow-y: auto;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 40px 24px;
+  box-sizing: border-box;
+  transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.app-layout.sidebar-collapsed .kanji-detail-overlay {
+  left: 60px; /* Aligns with collapsed sidebar */
+}
+
+@media (max-width: 768px) {
+  .kanji-detail-overlay {
+    left: 60px;
+    padding: 20px 12px;
+  }
+}
+
+@media (max-width: 600px) {
+  .kanji-detail-overlay {
+    left: 0;
+    padding: 16px 8px;
+  }
+}

@@ -1477,6 +1477,13 @@
   margin-top: 12px;
   margin-bottom: 12px;
   overflow-x: auto;
+  overflow-y: hidden; /* Prevent vertical scrollbar */
+  scrollbar-width: none; /* Hide scrollbar for Firefox */
+  -ms-overflow-style: none; /* Hide scrollbar for IE/Edge */
+}
+
+.card-nav-tabs::-webkit-scrollbar {
+  display: none; /* Hide scrollbar for Chrome/Safari */
 }
 
 .card-nav-btn {

@@ -740,14 +740,9 @@ const KanjiDetailModal = ({ words, initialIndex, onClose }) => {
        overlay scrolls on tiny screens while keeping centering intact. */
     <div
       ref={overlayRef}
+      className="kanji-detail-overlay"
       onClick={e => { if (e.target === overlayRef.current) onClose(); }}
       style={{
-        width: '100%',
-        minHeight: 'calc(100vh - 80px)', // Account for navbar if any
-        display: 'flex',
-        alignItems: 'flex-start',
-        justifyContent: 'center',
-        padding: '16px 4px',
         animation: 'overlayIn 0.3s ease forwards',
       }}
     >
