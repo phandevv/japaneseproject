@@ -333,7 +333,7 @@ const HomePage = ({ user: propUser, startStudy, streak, onLoginClick, onLogout, 
     return days;
   };
 
-return (
+  return (
   <div className="home-page">
     {(user && !isAuthView && !forceLanding) ? (
       // Logged-in Dashboard Workspace
@@ -1070,7 +1070,7 @@ return (
                     Đang giữ chuỗi ❄️
                   </button>
                 ) : (
-                  <button className="modal-freeze-btn" onClick={handleActivateFreeze}>
+                  <button className="modal-freeze-btn" onClick={handleUseFreeze}>
                     <Snowflake size={18} /> Giữ chuỗi
                   </button>
                 )}

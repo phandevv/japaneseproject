@@ -1,8 +1,8 @@
-import React, { useRef, useState } from "react";
-import { Home, Search, BookOpen, Layers, LogOut, LogIn, Upload, Loader, ShieldCheck, MessageSquare, Cpu, Database, ChevronLeft, ChevronRight, Palette } from "lucide-react";
+import { BookOpen, ChevronLeft, ChevronRight, Cpu, Database, Home, Layers, Loader, LogIn, LogOut, MessageSquare, Palette, Search, ShieldCheck, Upload } from "lucide-react";
+import { useRef, useState } from "react";
 import { useLanguage } from "../context/LanguageContext";
-import { vocabApi } from "../services/api";
 import { useTheme } from "../context/ThemeContext";
+import { vocabApi } from "../services/api";
 
 const Sidebar = ({ isCollapsed, onToggleCollapse, currentPage, setCurrentPage, onLoginClick, user, onLogout, onProfileClick, onFeedbackClick }) => {
   const { t } = useLanguage();
@@ -48,7 +48,7 @@ const Sidebar = ({ isCollapsed, onToggleCollapse, currentPage, setCurrentPage, o
         <div className="sidebar-logo" onClick={() => setCurrentPage(user ? "home" : "landing")}>
           <div className="sidebar-logo-icon" style={{ background:'transparent', padding:0, overflow:'hidden' }}><img src="/assets/siro_logo.png" alt="Siro" style={{ width:'100%', height:'100%', objectFit:'contain' }} /></div>
           <div className="sidebar-logo-text">
-            <h1>NihongoCards</h1>
+            <h1>SIRO NIHONGO</h1>
             <span>Học tiếng Nhật thông minh</span>
           </div>
         </div>
