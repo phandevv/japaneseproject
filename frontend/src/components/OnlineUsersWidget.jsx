@@ -26,47 +26,83 @@ export const OnlineUsersWidget = ({ onUserClick }) => {
 
   if (loading) return null;
 
+  const displayedUsers = onlineUsers.slice(0, 5);
+  const remainingCount = onlineUsers.length - 5;
+
   return (
     <div style={{ background: 'var(--surface-color)', borderRadius: 16, border: '1px solid var(--border-color)', padding: 20, marginTop: 24, boxShadow: 'var(--shadow-sm)' }}>
       <h3 style={{ margin: '0 0 16px 0', fontSize: '1.1rem', color: 'var(--text-primary)', display: 'flex', alignItems: 'center', gap: 8 }}>
         <span style={{ width: 10, height: 10, borderRadius: '50%', background: '#22c55e', display: 'inline-block' }}></span>
         Đang trực tuyến ({onlineUsers.length})
       </h3>
-      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12 }}>
+      <div 
+        style={{ display: 'flex', alignItems: 'center' }}
+        title={onlineUsers.length > 0 ? `Đang trực tuyến: ${onlineUsers.map(u => u.displayName || u.username).join(', ')}` : ''}
+      >
         {onlineUsers.length === 0 ? (
           <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem', margin: 0 }}>Không có ai đang online.</p>
         ) : (
-          onlineUsers.map(u => (
-            <div 
-              key={u.username} 
-              onClick={() => onUserClick(u.username)}
-              style={{ 
-                display: 'flex', 
-                alignItems: 'center', 
-                gap: 8, 
-                padding: '6px 12px', 
-                background: 'var(--surface-hover)', 
-                borderRadius: 20, 
-                border: '1px solid var(--border-color)',
-                cursor: 'pointer',
-                transition: 'all 0.2s'
-              }}
-              onMouseEnter={e => e.currentTarget.style.background = 'var(--border-color)'}
-              onMouseLeave={e => e.currentTarget.style.background = 'var(--surface-hover)'}
-              title={u.displayName || u.username}
-            >
-              {u.avatar ? (
-                <img src={u.avatar} alt="avatar" style={{ width: 24, height: 24, borderRadius: '50%', objectFit: 'cover' }} />
-              ) : (
-                <div style={{ width: 24, height: 24, borderRadius: '50%', background: 'var(--border-color)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--text-secondary)' }}>
-                  <UserIcon size={14} />
+          <>
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+              {displayedUsers.map((u, index) => (
+                <div 
+                  key={u.username}
+                  onClick={() => onUserClick(u.username)}
+                  style={{
+                    position: 'relative',
+                    marginLeft: index === 0 ? 0 : -10,
+                    zIndex: 5 - index,
+                    cursor: 'pointer',
+                    transition: 'transform 0.2s, z-index 0.2s',
+                    borderRadius: '50%',
+                    border: '2px solid var(--surface-color)',
+                    boxShadow: 'var(--shadow-sm)'
+                  }}
+                  onMouseEnter={e => {
+                    e.currentTarget.style.transform = 'translateY(-4px)';
+                    e.currentTarget.style.zIndex = 10;
+                  }}
+                  onMouseLeave={e => {
+                    e.currentTarget.style.transform = 'translateY(0)';
+                    e.currentTarget.style.zIndex = 5 - index;
+                  }}
+                  title={u.displayName || u.username}
+                >
+                  {u.avatar ? (
+                    <img src={u.avatar} alt="avatar" style={{ width: 32, height: 32, borderRadius: '50%', objectFit: 'cover' }} />
+                  ) : (
+                    <div style={{ width: 32, height: 32, borderRadius: '50%', background: 'var(--border-color)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--text-secondary)' }}>
+                      <UserIcon size={16} />
+                    </div>
+                  )}
                 </div>
-              )}
-              <span style={{ fontSize: '0.9rem', fontWeight: 600, color: 'var(--text-primary)' }}>
-                {u.displayName || u.username}
-              </span>
+              ))}
             </div>
-          ))
+            {remainingCount > 0 && (
+              <div 
+                style={{
+                  width: 32,
+                  height: 32,
+                  borderRadius: '50%',
+                  background: 'var(--border-color)',
+                  border: '2px solid var(--surface-color)',
+                  color: 'var(--text-primary)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  fontSize: '0.8rem',
+                  fontWeight: '700',
+                  marginLeft: -10,
+                  zIndex: 0,
+                  boxShadow: 'var(--shadow-sm)',
+                  cursor: 'help'
+                }}
+                title={`Và ${remainingCount} người khác: ${onlineUsers.slice(5).map(u => u.displayName || u.username).join(', ')}`}
+              >
+                +{remainingCount}
+              </div>
+            )}
+          </>
         )}
       </div>
     </div>
