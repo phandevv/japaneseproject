@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 240" width="200" height="240">
+  <!-- Fox body silhouette -->
+  <g fill="#1a1a2e">
+    <!-- Left ear -->
+    <polygon points="60,85 75,30 95,80"/>
+    <!-- Right ear -->
+    <polygon points="105,80 125,30 140,85"/>
+    <!-- Inner left ear -->
+    <polygon points="68,78 78,42 90,78" fill="#ffffff"/>
+    <!-- Inner right ear -->
+    <polygon points="110,78 122,42 132,78" fill="#ffffff"/>
+    <!-- Head -->
+    <ellipse cx="100" cy="95" rx="45" ry="35"/>
+    <!-- Face details - eyes -->
+    <ellipse cx="85" cy="90" rx="5" ry="6" fill="#ffffff"/>
+    <ellipse cx="115" cy="90" rx="5" ry="6" fill="#ffffff"/>
+    <circle cx="86" cy="91" r="3" fill="#1a1a2e"/>
+    <circle cx="116" cy="91" r="3" fill="#1a1a2e"/>
+    <!-- Nose -->
+    <ellipse cx="100" cy="100" rx="4" ry="3" fill="#ffffff"/>
+    <!-- Mouth -->
+    <path d="M96,103 Q100,108 104,103" stroke="#ffffff" stroke-width="1.5" fill="none"/>
+    <!-- Body -->
+    <ellipse cx="100" cy="145" rx="35" ry="40"/>
+    <!-- Scarf -->
+    <path d="M65,120 Q100,135 135,120 Q130,128 100,132 Q70,128 65,120Z" fill="#2d3a5f"/>
+    <path d="M90,132 L85,155 Q90,158 95,152Z" fill="#2d3a5f"/>
+    <!-- Left arm -->
+    <ellipse cx="72" cy="145" rx="12" ry="20" transform="rotate(-10,72,145)"/>
+    <!-- Right arm -->
+    <ellipse cx="128" cy="145" rx="12" ry="20" transform="rotate(10,128,145)"/>
+    <!-- Tail - curling to right -->
+    <path d="M130,155 Q165,140 170,110 Q175,90 160,85 Q150,83 148,95 Q145,115 125,130" fill="#1a1a2e" stroke="#1a1a2e" stroke-width="2"/>
+    <!-- Tail tip white -->
+    <path d="M160,85 Q170,82 168,92 Q165,98 158,95 Q155,90 160,85Z" fill="#ffffff"/>
+    <!-- Belly -->
+    <ellipse cx="100" cy="150" rx="20" ry="25" fill="#f5f5f5"/>
+    <!-- Feet -->
+    <ellipse cx="85" cy="182" rx="12" ry="6"/>
+    <ellipse cx="115" cy="182" rx="12" ry="6"/>
+  </g>
+  <!-- Text -->
+  <text x="100" y="210" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="bold" fill="#1a1a2e" letter-spacing="2">SIRO</text>
+  <text x="100" y="232" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="bold" fill="#1a1a2e" letter-spacing="3">NIHONGO</text>
+</svg>

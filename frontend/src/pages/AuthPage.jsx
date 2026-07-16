@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useLanguage } from '../context/LanguageContext';
-import { User, Lock, ArrowRight, BookOpen, AlertCircle } from 'lucide-react';
+import { User, Lock, ArrowRight, AlertCircle } from 'lucide-react';
 
 const AuthPage = ({ onCancel, onSuccess }) => {
   const { t } = useLanguage();
@@ -22,12 +22,12 @@ const AuthPage = ({ onCancel, onSuccess }) => {
     setSuccess('');
     
     if (!username.trim() || !password.trim()) {
-      setError(isLogin ? 'Vui lòng nhập tài khoản và mật khẩu' : 'Fields cannot be empty');
+      setError(isLogin ? 'Vui lòng nhập tài khoản và mật khẩu' : 'Các trường không được để trống');
       return;
     }
 
     if (!isLogin && password !== confirmPassword) {
-      setError(t.auth?.passwordsNotMatch || 'Passwords do not match');
+      setError(t.auth?.passwordsNotMatch || 'Mật khẩu không khớp');
       return;
     }
 
@@ -47,7 +47,7 @@ const AuthPage = ({ onCancel, onSuccess }) => {
       } else {
         const res = await register(username, password);
         if (res.success) {
-          setSuccess(t.auth?.successRegister || 'Registered successfully! Please log in.');
+          setSuccess(t.auth?.successRegister || 'Đăng ký thành công! Vui lòng đăng nhập.');
           setIsLogin(true);
           setPassword('');
           setConfirmPassword('');
@@ -56,168 +56,274 @@ const AuthPage = ({ onCancel, onSuccess }) => {
         }
       }
     } catch (err) {
-      setError('An unexpected error occurred');
+      setError('Đã xảy ra lỗi không xác định');
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="flex-center animate-fade-in" style={{ minHeight: '80vh', padding: '20px' }}>
-      <div className="card" style={{ width: '100%', maxWidth: '420px', padding: '40px', boxShadow: '0 8px 30px rgba(0,0,0,0.12)' }}>
-        <div style={{ textAlign: 'center', marginBottom: '30px' }}>
-          <div className="flex-center" style={{ 
-            width: '60px', 
-            height: '60px', 
-            borderRadius: '16px', 
-            backgroundColor: 'var(--accent-light)', 
-            color: 'var(--accent-color)',
-            margin: '0 auto 15px'
-          }}>
-            <BookOpen size={30} />
+    <div 
+      className="flex-center animate-fade-in" 
+      style={{ 
+        flex: 1,
+        padding: '40px 20px',
+        background: 'transparent',
+        position: 'relative',
+        zIndex: 1,
+        width: '100%'
+      }}
+    >
+      <div 
+        className="card" 
+        style={{ 
+          display: 'flex',
+          flexDirection: 'row',
+          width: '100%', 
+          maxWidth: '900px', 
+          padding: 0, 
+          overflow: 'hidden',
+          boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.5)',
+          border: 'none',
+          backgroundColor: 'var(--surface-color)'
+        }}
+      >
+        {/* Left Side: Mascot */}
+        <div className="auth-mascot-container" style={{ 
+          flex: '1', 
+          display: 'flex', 
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          backgroundColor: 'var(--surface-color)', // match card background
+          padding: '40px',
+          position: 'relative',
+          borderRight: '1px solid var(--border-color)'
+        }}>
+          <div style={{ textAlign: 'center', marginBottom: '10px', zIndex: 2 }}>
+            <h1 style={{ fontSize: '2rem', fontWeight: 900, marginBottom: '8px', color: 'var(--accent-color)' }}>SIRO NIHONGO</h1>
+            <p style={{ fontSize: '1rem', color: 'var(--text-secondary)' }}>Học tiếng Nhật cùng Siro</p>
           </div>
-          <h2 style={{ fontSize: '1.8rem', fontWeight: 800 }}>
-            {isLogin ? (t.auth?.loginTitle || 'Đăng nhập') : (t.auth?.registerTitle || 'Đăng ký')}
-          </h2>
+          <img 
+            src="/assets/mascot_siro_white.png" 
+            alt="Mascot Siro" 
+            style={{ 
+              maxWidth: '100%', 
+              height: 'auto', 
+              maxHeight: '380px',
+              objectFit: 'contain',
+              mixBlendMode: 'multiply', // Removes the white background of the image to make it look transparent
+              zIndex: 2,
+              animation: 'float 3s ease-in-out infinite'
+            }} 
+          />
+          {/* Add a keyframes style tag just for the float animation */}
+          <style>{`
+            @keyframes float {
+              0% { transform: translateY(0px); }
+              50% { transform: translateY(-10px); }
+              100% { transform: translateY(0px); }
+            }
+            @media (max-width: 768px) {
+              .auth-mascot-container { display: none !important; }
+            }
+          `}</style>
         </div>
 
-        {error && (
-          <div className="flex-center" style={{ 
-            backgroundColor: 'var(--danger-light)', 
-            color: 'var(--danger-color)', 
-            padding: '12px', 
-            borderRadius: '8px', 
-            marginBottom: '20px', 
-            gap: '8px',
-            fontSize: '0.9rem',
-            fontWeight: 500,
-            border: '1px solid rgba(239, 68, 68, 0.2)'
-          }}>
-            <AlertCircle size={16} style={{ flexShrink: 0 }} />
-            <span>{error}</span>
-          </div>
-        )}
-
-        {success && (
-          <div className="flex-center" style={{ 
-            backgroundColor: 'var(--success-light)', 
-            color: 'var(--success-color)', 
-            padding: '12px', 
-            borderRadius: '8px', 
-            marginBottom: '20px', 
-            gap: '8px',
-            fontSize: '0.9rem',
-            fontWeight: 500,
-            border: '1px solid rgba(16, 185, 129, 0.2)'
-          }}>
-            <AlertCircle size={16} style={{ flexShrink: 0 }} />
-            <span>{success}</span>
-          </div>
-        )}
-
-        <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-          <div style={{ position: 'relative' }}>
-            <User size={18} style={{ position: 'absolute', left: '14px', top: '15px', color: 'var(--text-secondary)' }} />
-            <input 
-              type="text" 
-              placeholder={t.auth?.username || 'Tên đăng nhập'}
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              style={{
-                width: '100%',
-                padding: '14px 14px 14px 42px',
-                borderRadius: '10px',
-                border: '1px solid var(--border-color)',
-                backgroundColor: 'var(--surface-color)',
-                color: 'var(--text-primary)',
-              }}
-            />
+        {/* Right Side: Form */}
+        <div style={{ flex: '1', padding: '50px 40px', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+          <div style={{ marginBottom: '30px' }}>
+            <h2 style={{ fontSize: '1.8rem', fontWeight: 800, color: 'var(--text-primary)', marginBottom: '8px' }}>
+              {isLogin ? 'Chào mừng trở lại!' : 'Tạo tài khoản mới'}
+            </h2>
+            <p style={{ color: 'var(--text-secondary)' }}>
+              {isLogin ? 'Vui lòng đăng nhập để tiếp tục học.' : 'Đăng ký miễn phí để bắt đầu học tiếng Nhật.'}
+            </p>
           </div>
 
-          <div style={{ position: 'relative' }}>
-            <Lock size={18} style={{ position: 'absolute', left: '14px', top: '15px', color: 'var(--text-secondary)' }} />
-            <input 
-              type="password" 
-              placeholder={t.auth?.password || 'Mật khẩu'}
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              style={{
-                width: '100%',
-                padding: '14px 14px 14px 42px',
-                borderRadius: '10px',
-                border: '1px solid var(--border-color)',
-                backgroundColor: 'var(--surface-color)',
-                color: 'var(--text-primary)',
-              }}
-            />
-          </div>
-
-          {!isLogin && (
-            <div style={{ position: 'relative' }}>
-              <Lock size={18} style={{ position: 'absolute', left: '14px', top: '15px', color: 'var(--text-secondary)' }} />
-              <input 
-                type="password" 
-                placeholder={t.auth?.confirmPassword || 'Xác nhận mật khẩu'}
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
-                style={{
-                  width: '100%',
-                  padding: '14px 14px 14px 42px',
-                  borderRadius: '10px',
-                  border: '1px solid var(--border-color)',
-                  backgroundColor: 'var(--surface-color)',
-                  color: 'var(--text-primary)',
-                }}
-              />
+          {error && (
+            <div className="flex-center animate-fade-in" style={{ 
+              backgroundColor: 'var(--danger-light)', 
+              color: 'var(--danger-color)', 
+              padding: '12px 16px', 
+              borderRadius: '10px', 
+              marginBottom: '24px', 
+              gap: '10px',
+              fontSize: '0.9rem',
+              fontWeight: 500,
+              border: '1px solid rgba(239, 68, 68, 0.2)',
+              justifyContent: 'flex-start'
+            }}>
+              <AlertCircle size={18} style={{ flexShrink: 0 }} />
+              <span>{error}</span>
             </div>
           )}
 
-          <button 
-            type="submit" 
-            disabled={loading}
-            className="btn btn-primary flex-center" 
-            style={{ padding: '14px', fontSize: '1rem', gap: '8px', cursor: 'pointer' }}
-          >
-            {loading ? '...' : (isLogin ? (t.auth?.loginBtn || 'Đăng nhập') : (t.auth?.registerBtn || 'Đăng ký'))}
-            {!loading && <ArrowRight size={16} />}
-          </button>
-        </form>
+          {success && (
+            <div className="flex-center animate-fade-in" style={{ 
+              backgroundColor: 'var(--success-light)', 
+              color: 'var(--success-color)', 
+              padding: '12px 16px', 
+              borderRadius: '10px', 
+              marginBottom: '24px', 
+              gap: '10px',
+              fontSize: '0.9rem',
+              fontWeight: 500,
+              border: '1px solid rgba(16, 185, 129, 0.2)',
+              justifyContent: 'flex-start'
+            }}>
+              <AlertCircle size={18} style={{ flexShrink: 0 }} />
+              <span>{success}</span>
+            </div>
+          )}
 
-        <div style={{ marginTop: '25px', textAlign: 'center', display: 'flex', flexDirection: 'column', gap: '12px' }}>
-          <button 
-            type="button"
-            onClick={() => {
-              setIsLogin(!isLogin);
-              setError('');
-              setSuccess('');
-            }}
-            style={{ 
-              background: 'none', 
-              border: 'none', 
-              color: 'var(--accent-color)', 
-              fontWeight: 600, 
-              cursor: 'pointer',
-              fontSize: '0.9rem'
-            }}
-          >
-            {isLogin ? (t.auth?.toggleToRegister || 'Chưa có tài khoản? Đăng ký') : (t.auth?.toggleToLogin || 'Đã có tài khoản? Đăng nhập')}
-          </button>
+          <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+            <div style={{ position: 'relative' }}>
+              <User size={18} style={{ position: 'absolute', left: '16px', top: '16px', color: 'var(--text-secondary)' }} />
+              <input 
+                type="text" 
+                placeholder={t.auth?.username || 'Tên đăng nhập'}
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                style={{
+                  width: '100%',
+                  padding: '15px 15px 15px 46px',
+                  borderRadius: '12px',
+                  border: '1px solid var(--border-color)',
+                  backgroundColor: 'var(--surface-color)',
+                  color: 'var(--text-primary)',
+                  fontSize: '0.95rem',
+                  transition: 'all 0.2s ease',
+                  outline: 'none'
+                }}
+                onFocus={(e) => { e.target.style.borderColor = 'var(--accent-color)'; e.target.style.boxShadow = '0 0 0 3px rgba(37,99,235,0.1)'; }}
+                onBlur={(e) => { e.target.style.borderColor = 'var(--border-color)'; e.target.style.boxShadow = 'none'; }}
+              />
+            </div>
 
-          {onCancel && (
+            <div style={{ position: 'relative' }}>
+              <Lock size={18} style={{ position: 'absolute', left: '16px', top: '16px', color: 'var(--text-secondary)' }} />
+              <input 
+                type="password" 
+                placeholder={t.auth?.password || 'Mật khẩu'}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                style={{
+                  width: '100%',
+                  padding: '15px 15px 15px 46px',
+                  borderRadius: '12px',
+                  border: '1px solid var(--border-color)',
+                  backgroundColor: 'var(--surface-color)',
+                  color: 'var(--text-primary)',
+                  fontSize: '0.95rem',
+                  transition: 'all 0.2s ease',
+                  outline: 'none'
+                }}
+                onFocus={(e) => { e.target.style.borderColor = 'var(--accent-color)'; e.target.style.boxShadow = '0 0 0 3px rgba(37,99,235,0.1)'; }}
+                onBlur={(e) => { e.target.style.borderColor = 'var(--border-color)'; e.target.style.boxShadow = 'none'; }}
+              />
+            </div>
+
+            {!isLogin && (
+              <div className="animate-fade-in" style={{ position: 'relative' }}>
+                <Lock size={18} style={{ position: 'absolute', left: '16px', top: '16px', color: 'var(--text-secondary)' }} />
+                <input 
+                  type="password" 
+                  placeholder={t.auth?.confirmPassword || 'Xác nhận mật khẩu'}
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  style={{
+                    width: '100%',
+                    padding: '15px 15px 15px 46px',
+                    borderRadius: '12px',
+                    border: '1px solid var(--border-color)',
+                    backgroundColor: 'var(--surface-color)',
+                    color: 'var(--text-primary)',
+                    fontSize: '0.95rem',
+                    transition: 'all 0.2s ease',
+                    outline: 'none'
+                  }}
+                  onFocus={(e) => { e.target.style.borderColor = 'var(--accent-color)'; e.target.style.boxShadow = '0 0 0 3px rgba(37,99,235,0.1)'; }}
+                  onBlur={(e) => { e.target.style.borderColor = 'var(--border-color)'; e.target.style.boxShadow = 'none'; }}
+                />
+              </div>
+            )}
+
+            <button 
+              type="submit" 
+              disabled={loading}
+              className="btn btn-primary flex-center" 
+              style={{ 
+                padding: '15px', 
+                fontSize: '1.05rem', 
+                fontWeight: 700,
+                gap: '8px', 
+                cursor: 'pointer',
+                borderRadius: '12px',
+                marginTop: '10px'
+              }}
+            >
+              {loading ? 'Đang xử lý...' : (isLogin ? (t.auth?.loginBtn || 'Đăng nhập') : (t.auth?.registerBtn || 'Đăng ký'))}
+              {!loading && <ArrowRight size={18} />}
+            </button>
+          </form>
+
+          <div style={{ marginTop: '30px', textAlign: 'center', display: 'flex', flexDirection: 'column', gap: '16px' }}>
+            <div style={{ height: '1px', backgroundColor: 'var(--border-color)', position: 'relative' }}>
+              <span style={{ 
+                position: 'absolute', 
+                top: '-10px', 
+                left: '50%', 
+                transform: 'translateX(-50%)', 
+                backgroundColor: 'var(--surface-color)', 
+                padding: '0 10px',
+                color: 'var(--text-muted)',
+                fontSize: '0.85rem'
+              }}>hoặc</span>
+            </div>
+
             <button 
               type="button"
-              onClick={onCancel}
+              onClick={() => {
+                setIsLogin(!isLogin);
+                setError('');
+                setSuccess('');
+              }}
               style={{ 
                 background: 'none', 
                 border: 'none', 
-                color: 'var(--text-secondary)', 
+                color: 'var(--accent-color)', 
+                fontWeight: 600, 
                 cursor: 'pointer',
-                fontSize: '0.85rem'
+                fontSize: '0.95rem',
+                transition: 'color 0.2s'
               }}
+              onMouseOver={(e) => e.target.style.color = 'var(--accent-hover)'}
+              onMouseOut={(e) => e.target.style.color = 'var(--accent-color)'}
             >
-              {t.auth?.guestMode || 'Học với tư cách Khách'}
+              {isLogin ? (t.auth?.toggleToRegister || 'Chưa có tài khoản? Đăng ký ngay') : (t.auth?.toggleToLogin || 'Đã có tài khoản? Đăng nhập')}
             </button>
-          )}
+
+            {onCancel && (
+              <button 
+                type="button"
+                onClick={onCancel}
+                style={{ 
+                  background: 'none', 
+                  border: 'none', 
+                  color: 'var(--text-secondary)', 
+                  cursor: 'pointer',
+                  fontSize: '0.9rem',
+                  fontWeight: 500,
+                  transition: 'color 0.2s'
+                }}
+                onMouseOver={(e) => e.target.style.color = 'var(--text-primary)'}
+                onMouseOut={(e) => e.target.style.color = 'var(--text-secondary)'}
+              >
+                {t.auth?.guestMode || 'Học thử với tư cách Khách'}
+              </button>
+            )}
+          </div>
         </div>
       </div>
     </div>
@@ -225,3 +331,4 @@ const AuthPage = ({ onCancel, onSuccess }) => {
 };
 
 export default AuthPage;
+
