@@ -45,7 +45,7 @@ const Sidebar = ({ isCollapsed, onToggleCollapse, currentPage, setCurrentPage, o
     <aside className="app-sidebar">
       {/* Logo */}
       <div className="sidebar-header" style={{ position: 'relative' }}>
-        <div className="sidebar-logo" onClick={() => setCurrentPage("landing")}>
+        <div className="sidebar-logo" onClick={() => setCurrentPage(user ? "home" : "landing")}>
           <div className="sidebar-logo-icon" style={{ background:'transparent', padding:0, overflow:'hidden' }}><img src="/assets/siro_logo.png" alt="Siro" style={{ width:'100%', height:'100%', objectFit:'contain' }} /></div>
           <div className="sidebar-logo-text">
             <h1>NihongoCards</h1>

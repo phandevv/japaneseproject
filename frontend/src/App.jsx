@@ -88,6 +88,13 @@ function App() {
     }
   }, [activeUsername, streakStorageKey]);
 
+  // Redirect logged-in users away from guest pages
+  useEffect(() => {
+    if (isAuthenticated && (currentPage === 'landing' || currentPage === 'auth')) {
+      setCurrentPage('home');
+    }
+  }, [isAuthenticated, currentPage]);
+
   // Fetch stats once at app level
   useEffect(() => {
     import('./services/api').then(({ vocabApi }) => {
@@ -222,7 +229,7 @@ function App() {
           <AuthPage onCancel={() => setCurrentPage('home')} onSuccess={handleLoginSuccess} />
         );
       default:
-        return <HomePage startStudy={startStudy} />;
+        return <HomePage startStudy={startStudy} user={isAuthenticated ? authUser : null} />;
     }
   };
 
