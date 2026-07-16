@@ -18,8 +18,8 @@
   justify-content: space-between;
   flex-wrap: wrap;
   gap: 20px;
-  background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-  border: 1px solid #334155;
+  background: linear-gradient(135deg, var(--sidebar-bg) 0%, var(--sidebar-active) 100%);
+  border: 1px solid var(--border-color);
   border-radius: 16px;
   padding: 24px 32px;
   margin-bottom: 24px;
@@ -118,7 +118,8 @@
 .star-streak-banner {
   flex-direction: column !important;
   align-items: stretch !important;
-  background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 100%) !important;
+  background: linear-gradient(135deg, var(--sidebar-bg) 0%, var(--sidebar-active) 100%) !important;
+  border: 1px solid var(--border-color);
   border-radius: 12px;
   padding: 16px 20px;
 }
@@ -175,7 +176,8 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: #fff;
+  background-color: var(--surface-color);
+  border: 1px solid var(--border-color);
   border-radius: 16px;
   padding: 32px 24px;
   margin-bottom: 24px;
@@ -219,12 +221,12 @@
 }
 
 .streak-week-card {
-  border: 2px solid #2dd4bf;
+  border: 2px solid var(--accent-color);
   border-radius: 16px;
   padding: 24px;
   width: 100%;
   max-width: 540px;
-  background-color: #fff;
+  background-color: var(--surface-color);
   margin-bottom: 24px;
   position: relative;
 }
@@ -236,7 +238,7 @@
   left: -2px;
   right: -2px;
   height: 16px;
-  background-color: #2dd4bf;
+  background-color: var(--accent-color);
   z-index: -1;
   border-radius: 16px;
 }
@@ -261,7 +263,7 @@
 }
 
 .streak-day-name.is-today {
-  color: #2dd4bf;
+  color: var(--accent-color);
 }
 
 .streak-day-flower {
@@ -288,7 +290,7 @@
 .streak-message {
   text-align: center;
   font-weight: 700;
-  color: #2dd4bf;
+  color: var(--accent-color);
   font-size: 1.15rem;
 }
 
@@ -329,9 +331,9 @@
 }
 
 .btn-details {
-  border: 1.5px solid #2dd4bf;
+  border: 1.5px solid var(--accent-color);
   background: transparent;
-  color: #2dd4bf;
+  color: var(--accent-color);
   padding: 10px 20px;
   border-radius: 10px;
   font-weight: 700;
@@ -341,7 +343,7 @@
 }
 
 .btn-details:hover {
-  background: rgba(45,212,191,0.1);
+  background: var(--accent-light);
 }
 
 .streak-freeze-btn {
