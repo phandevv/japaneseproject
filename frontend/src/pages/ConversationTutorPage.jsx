@@ -210,8 +210,10 @@ export default function ConversationTutorPage({ goBack }) {
         break;
       case 'STREAM_TEXT_CHUNK':
         setAiState('speaking');
-        // If it's the first chunk of stream, reset subtitle
-        setSubtitle(prev => (prev === 'AI đang suy nghĩ...' || prev.startsWith('Chào mừng')) ? msg.text : prev + msg.text);
+        if (msg.text && msg.text !== 'null') {
+          // If it's the first chunk of stream, reset subtitle
+          setSubtitle(prev => (prev === 'AI đang suy nghĩ...' || prev.startsWith('Chào mừng')) ? msg.text : prev + msg.text);
+        }
         break;
       case 'AI_SPEAKING':
         setAiState('idle');

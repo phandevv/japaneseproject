@@ -128,32 +128,41 @@ public class ConversationManager {
 
         // Keep track of total streaming response to parse later
         final StringBuilder fullResponseBuilder = new StringBuilder();
-        // State engine to avoid sending [ANALYSIS] to user
-        final StringBuilder dialoguePart = new StringBuilder();
-        final StringBuilder analysisPart = new StringBuilder();
+        // Keep track of how many characters of dialogue have been sent to client
+        final int[] sentLength = {0};
+        final boolean[] analysisReached = {false};
         
         aiProvider.streamChat(promptMessages, chunk -> {
+            if (chunk == null || chunk.equals("null") || chunk.trim().isEmpty()) {
+                return;
+            }
+            
             fullResponseBuilder.append(chunk);
             String fullStr = fullResponseBuilder.toString();
             
             // Check if we reached the [ANALYSIS] section
             int analysisIndex = fullStr.indexOf("[ANALYSIS]");
-            if (analysisIndex == -1) {
-                // We are still in [DIALOGUE] section
-                String sendChunk = chunk;
-                // Avoid sending [DIALOGUE] header literal if it appears
-                if (dialoguePart.length() == 0 && chunk.trim().startsWith("[DIALOGUE]")) {
-                    sendChunk = chunk.replace("[DIALOGUE]", "").trim();
+            if (analysisIndex != -1) {
+                analysisReached[0] = true;
+                // Send any remaining dialogue before the [ANALYSIS] tag
+                if (analysisIndex > sentLength[0]) {
+                    String remainingDialogue = fullStr.substring(sentLength[0], analysisIndex);
+                    remainingDialogue = remainingDialogue.replace("[DIALOGUE]", "");
+                    if (!remainingDialogue.isEmpty()) {
+                        dialogueChunkConsumer.accept(remainingDialogue);
+                    }
+                    sentLength[0] = analysisIndex;
                 }
-                dialoguePart.append(sendChunk);
-                dialogueChunkConsumer.accept(sendChunk);
-            } else {
-                // We transitioned to [ANALYSIS] section
-                // We collect everything in the analysis part
-                int tagLength = "[ANALYSIS]".length();
-                String afterAnalysis = fullStr.substring(analysisIndex + tagLength);
-                analysisPart.setLength(0);
-                analysisPart.append(afterAnalysis);
+            } else if (!analysisReached[0]) {
+                // We are still in [DIALOGUE] section, but keep a safety buffer of 12 characters 
+                // to prevent leaking partial "[ANALYSIS]" tag (e.g. "[ANAL")
+                int safeLength = fullStr.length() - 12;
+                if (safeLength > sentLength[0]) {
+                    String safeChunk = fullStr.substring(sentLength[0], safeLength);
+                    safeChunk = safeChunk.replace("[DIALOGUE]", "");
+                    dialogueChunkConsumer.accept(safeChunk);
+                    sentLength[0] = safeLength;
+                }
             }
         }, error -> {
             log.error("AI response stream error in session {}", conversationId, error);
@@ -161,8 +170,32 @@ public class ConversationManager {
         }, () -> {
             // Processing complete
             try {
-                String finalDialogue = dialoguePart.toString().replace("[DIALOGUE]", "").trim();
-                String finalAnalysis = analysisPart.toString().trim();
+                String fullStr = fullResponseBuilder.toString();
+                String finalDialogue = "";
+                String finalAnalysis = "";
+                
+                int analysisIndex = fullStr.indexOf("[ANALYSIS]");
+                if (analysisIndex != -1) {
+                    finalDialogue = fullStr.substring(0, analysisIndex).replace("[DIALOGUE]", "").trim();
+                    finalAnalysis = fullStr.substring(analysisIndex + "[ANALYSIS]".length()).trim();
+                    
+                    // Send any remaining dialogue characters that were held back in buffer
+                    if (analysisIndex > sentLength[0]) {
+                        String remaining = fullStr.substring(sentLength[0], analysisIndex).replace("[DIALOGUE]", "");
+                        if (!remaining.isEmpty()) {
+                            dialogueChunkConsumer.accept(remaining);
+                        }
+                    }
+                } else {
+                    finalDialogue = fullStr.replace("[DIALOGUE]", "").trim();
+                    // Send all remaining dialogue in buffer
+                    if (fullStr.length() > sentLength[0]) {
+                        String remaining = fullStr.substring(sentLength[0]).replace("[DIALOGUE]", "");
+                        if (!remaining.isEmpty()) {
+                            dialogueChunkConsumer.accept(remaining);
+                        }
+                    }
+                }
 
                 // Save AI message and background analysis
                 saveAiResponse(conversation, finalDialogue, finalAnalysis);
