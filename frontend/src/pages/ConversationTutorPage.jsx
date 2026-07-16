@@ -134,7 +134,12 @@ export default function ConversationTutorPage({ goBack }) {
   const connectWebSocket = () => {
     const loc = window.location;
     const proto = loc.protocol === 'https:' ? 'wss:' : 'ws:';
-    const wsUrl = `${proto}//${loc.hostname}:8080/ws/conversation`;
+    let wsUrl;
+    if (loc.hostname === 'localhost' || loc.hostname === '127.0.0.1') {
+      wsUrl = `${proto}//${loc.hostname}:8080/ws/conversation`;
+    } else {
+      wsUrl = `${proto}//${loc.host}/ws/conversation`;
+    }
 
     const socket = new WebSocket(wsUrl);
     wsRef.current = socket;
