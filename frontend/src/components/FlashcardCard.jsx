@@ -213,7 +213,7 @@ const FlashcardCard = ({ word, flipped, onFlip, onRateWord }) => {
             </div>
 
             {/* Right Column: AI Rich Data Section */}
-            <div className="flashcard-back-right hide-scrollbar" style={{ overflowY: 'auto' }}>
+            <div className="flashcard-back-right hide-scrollbar" style={{ overflowY: 'auto' }} onClick={e => e.stopPropagation()}>
               {loadingEnrich && (
                 <div style={{ 
                   color: 'var(--text-secondary)', 

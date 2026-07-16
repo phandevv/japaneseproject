@@ -133,7 +133,22 @@ public class VocabularyController {
     @GetMapping("/{id}")
     public ResponseEntity<Vocabulary> getById(@PathVariable Long id) {
         return service.getById(id)
-                .map(ResponseEntity::ok)
+                .map(vocab -> {
+                    // Check if vocabulary is missing rich AI fields
+                    boolean needsEnrichment = vocab.getPitchAccent() == null || vocab.getPitchAccent().isBlank()
+                        || vocab.getMnemonic() == null || vocab.getMnemonic().isBlank()
+                        || vocab.getExampleSentences() == null || vocab.getExampleSentences().isBlank();
+                    
+                    if (needsEnrichment) {
+                        try {
+                            log.info("Vocabulary ID {} is missing rich AI data. Enriching synchronously...", id);
+                            vocab = enrichmentService.enrichVocabulary(vocab).get();
+                        } catch (Exception e) {
+                            log.error("Failed to enrich vocabulary synchronously for ID {}", id, e);
+                        }
+                    }
+                    return ResponseEntity.ok(vocab);
+                })
                 .orElse(ResponseEntity.notFound().build());
     }
 
