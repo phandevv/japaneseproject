@@ -34,9 +34,9 @@ const Navbar = ({ setCurrentPage, onLoginClick, user, onLogout, onProfileClick }
   return (
     <nav className="app-navbar">
       <div className="container navbar-inner">
-        <div className="navbar-brand" onClick={() => setCurrentPage('home')}>
-          <div className="navbar-logo">
-            <Sparkles size={22} />
+        <div className="navbar-brand" onClick={() => setCurrentPage('landing')}>
+          <div className="navbar-logo" style={{ background:'transparent', padding:0 }}>
+            <img src="/assets/siro_logo.png" alt="Siro" style={{ width:44, height:44, objectFit:'contain' }} />
           </div>
           <div>
             <h1>SIRO NIHONGO</h1>
@@ -45,7 +45,7 @@ const Navbar = ({ setCurrentPage, onLoginClick, user, onLogout, onProfileClick }
         </div>
 
         <div className="navbar-links">
-          <button className="nav-link" onClick={() => setCurrentPage('home')}>{t.nav.home}</button>
+          <button className="nav-link" onClick={() => setCurrentPage('landing')}>{t.nav.home}</button>
           <button className="nav-link" onClick={() => setCurrentPage('search')}>{t.nav.search}</button>
           <button className="nav-link" onClick={() => setCurrentPage('daily')}>{t.nav.dailyStudy}</button>
           <button className="nav-link" onClick={() => setCurrentPage('flashcard')}>{t.nav.flashcard}</button>
@@ -135,7 +135,7 @@ const Navbar = ({ setCurrentPage, onLoginClick, user, onLogout, onProfileClick }
               <button className="btn btn-logout" onClick={onLogout}>{t.home.logout}</button>
             </div>
           ) : (
-            <button className="btn btn-login" onClick={onLoginClick}>{t.auth.loginTitle}</button>
+            <button className="btn btn-login" onClick={onLoginClick} style={{ background: 'linear-gradient(135deg, #f59e0b, #d97706)', color: 'white', fontWeight: '800', border: 'none' }}>Học online</button>
           )}
         </div>
       </div>

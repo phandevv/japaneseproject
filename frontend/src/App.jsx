@@ -120,6 +120,34 @@ function App() {
 
   const renderPage = () => {
     switch (currentPage) {
+      case 'landing':
+        return (
+          <HomePage 
+            startStudy={startStudy} 
+            user={isAuthenticated ? authUser : null} 
+            streak={userStreakData?.streak || 0} 
+            forceLanding={true}
+            onLoginClick={() => {
+              if (isAuthenticated) {
+                setCurrentPage('home');
+                setShowStudySection(true);
+              } else {
+                setCurrentPage('auth');
+                setShowStudySection(false);
+              }
+            }}
+            onDailyClick={() => {
+              if (isAuthenticated) {
+                setSelectedLevel(null);
+                setCurrentPage('daily');
+              } else {
+                setCurrentPage('auth');
+              }
+            }}
+            onAdminClick={() => setCurrentPage('admin-vocab')}
+            showStudySection={showStudySection}
+          />
+        );
       case 'home':
         return (
           <HomePage 
@@ -143,7 +171,17 @@ function App() {
           />
         );
       case 'auth':
-        return <AuthPage onCancel={() => setCurrentPage('home')} onSuccess={handleLoginSuccess} />;
+        return (
+          <HomePage
+            startStudy={startStudy}
+            user={isAuthenticated ? authUser : null}
+            streak={userStreakData?.streak || 0}
+            isAuthView={true}
+            forceLanding={true}
+            onAuthCancel={() => setCurrentPage(isAuthenticated ? 'home' : 'landing')}
+            onAuthSuccess={handleLoginSuccess}
+          />
+        );
       case 'flashcard':
         return (
           <FlashcardPage
@@ -189,9 +227,10 @@ function App() {
   };
 
   return (
-    <div className={`app-layout ${isSidebarCollapsed ? 'sidebar-collapsed' : ''}`}>
-      <Sidebar
-        isCollapsed={isSidebarCollapsed}
+    <div className={`app-layout ${isSidebarCollapsed ? 'sidebar-collapsed' : ''} ${!isAuthenticated ? 'no-sidebar' : ''}`}>
+      {isAuthenticated && (
+        <Sidebar
+          isCollapsed={isSidebarCollapsed}
         onToggleCollapse={() => setIsSidebarCollapsed(!isSidebarCollapsed)}
         currentPage={currentPage}
         setCurrentPage={(page, resetLevel) => {
@@ -212,7 +251,8 @@ function App() {
             setCurrentPage("auth");
           }
         }}
-      />
+        />
+      )}
       <main className="app-main">
         {renderPage()}
       </main>

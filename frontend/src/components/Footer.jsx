@@ -9,9 +9,9 @@ const Footer = () => {
     <footer className="app-footer">
       <div className="container footer-inner">
         <div className="footer-brand">
-          <div className="footer-logo">S</div>
+          <div className="footer-logo" style={{ background:'transparent', padding:0, border:'none', overflow:'hidden' }}><img src="/assets/siro_logo.png" alt="Siro" style={{ width:'100%', height:'100%', objectFit:'contain' }} /></div>
           <div>
-            <h2>SIRO NIHONGO</h2>
+            <h2 style={{ fontFamily:"'Quicksand', sans-serif" }}>SIRO NIHONGO</h2>
             <p>{t.footer.tagline}</p>
           </div>
         </div>
