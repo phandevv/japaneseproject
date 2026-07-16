@@ -42,6 +42,7 @@ export default function ConversationTutorPage({ goBack }) {
   const recognitionRef = useRef(null);
   const ttsActiveRef = useRef(false);
   const transcriptEndRef = useRef(null);
+  const subtitleRef = useRef('');
 
   // Create refs to avoid closure issues with speech recognition callbacks
   const modeRef = useRef(mode);
@@ -201,26 +202,34 @@ export default function ConversationTutorPage({ goBack }) {
         setStep('active');
         setTranscript([]);
         setSubtitle('Chào mừng bạn đến buổi học! Bấm Mic hoặc gõ phím để nói chuyện.');
+        subtitleRef.current = '';
         // Play welcome speech contextually
         speakText("こんにちは！準備はいいですか？始めましょう。");
         break;
       case 'AI_THINKING':
         setAiState('thinking');
         setSubtitle('AI đang suy nghĩ...');
+        subtitleRef.current = '';
         break;
       case 'STREAM_TEXT_CHUNK':
         setAiState('speaking');
         if (msg.text && msg.text !== 'null') {
-          // If it's the first chunk of stream, reset subtitle
-          setSubtitle(prev => (prev === 'AI đang suy nghĩ...' || prev.startsWith('Chào mừng')) ? msg.text : prev + msg.text);
+          setSubtitle(prev => {
+            let nextText = (prev === 'AI đang suy nghĩ...' || prev.startsWith('Chào mừng')) ? msg.text : prev + msg.text;
+            nextText = nextText.replace("[DIALOGUE]", "").trim();
+            subtitleRef.current = nextText;
+            return nextText;
+          });
         }
         break;
       case 'AI_SPEAKING':
         setAiState('idle');
-        const completeSpeech = subtitle;
-        // Append response to transcript
-        logMessage("AI", completeSpeech);
-        speakText(completeSpeech);
+        const completeSpeech = subtitleRef.current.replace("[DIALOGUE]", "").trim();
+        if (completeSpeech) {
+          // Append response to transcript
+          logMessage("AI", completeSpeech);
+          speakText(completeSpeech);
+        }
         break;
       case 'SESSION_COMPLETED':
         setStep('report');
