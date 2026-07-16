@@ -361,9 +361,7 @@ const HomePage = ({ user: propUser, startStudy, streak, onLoginClick, onLogout, 
     if (dashboardData && Array.isArray(dashboardData.history)) {
       dashboardData.history.forEach(session => {
         const dateStr = session.studyDate; // YYYY-MM-DD
-        if (session.wordsStudied > 0 || session.streakFrozen) {
-          historyMap[dateStr] = true;
-        }
+        historyMap[dateStr] = true;
       });
     }
 
