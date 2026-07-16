@@ -43,7 +43,12 @@ axios.interceptors.response.use(response => {
 }, error => {
   const originalRequest = error.config;
   
-  if (error.response && (error.response.status === 401 || error.response.status === 403) && !originalRequest._retry) {
+  if (error.response && 
+      (error.response.status === 401 || error.response.status === 403) && 
+      !originalRequest._retry && 
+      originalRequest.url && 
+      !originalRequest.url.includes('/auth/refresh')
+  ) {
     if (isRefreshing) {
       return new Promise((resolve, reject) => {
         failedQueue.push({ resolve, reject });
@@ -68,6 +73,12 @@ axios.interceptors.response.use(response => {
             localStorage.setItem('token', data.token);
             axios.defaults.headers.common['Authorization'] = 'Bearer ' + data.token;
             originalRequest.headers['Authorization'] = 'Bearer ' + data.token;
+            
+            // Dispatch custom event to notify AuthContext to update token state
+            if (typeof window !== 'undefined') {
+              window.dispatchEvent(new Event('token-refreshed'));
+            }
+
             processQueue(null, data.token);
             resolve(axios(originalRequest));
           })
@@ -76,7 +87,9 @@ axios.interceptors.response.use(response => {
             localStorage.removeItem('token');
             localStorage.removeItem('refreshToken');
             localStorage.removeItem('username');
+            
             if (typeof window !== 'undefined') {
+              window.dispatchEvent(new Event('token-refreshed'));
               window.location.reload();
             }
             reject(err);
@@ -89,6 +102,7 @@ axios.interceptors.response.use(response => {
       localStorage.removeItem('token');
       localStorage.removeItem('username');
       if (typeof window !== 'undefined') {
+        window.dispatchEvent(new Event('token-refreshed'));
         window.location.reload();
       }
     }

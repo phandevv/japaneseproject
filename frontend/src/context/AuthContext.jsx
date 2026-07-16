@@ -32,6 +32,21 @@ export const AuthProvider = ({ children }) => {
     setLoading(false);
   }, []);
 
+  useEffect(() => {
+    const handleTokenRefresh = () => {
+      const newToken = localStorage.getItem('token');
+      setToken(newToken);
+    };
+    if (typeof window !== 'undefined') {
+      window.addEventListener('token-refreshed', handleTokenRefresh);
+    }
+    return () => {
+      if (typeof window !== 'undefined') {
+        window.removeEventListener('token-refreshed', handleTokenRefresh);
+      }
+    };
+  }, []);
+
   const login = async (username, password) => {
     try {
       const data = await authApi.login(username, password);

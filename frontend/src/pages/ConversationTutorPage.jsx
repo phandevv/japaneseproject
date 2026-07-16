@@ -183,7 +183,7 @@ export default function ConversationTutorPage({ goBack }) {
       // Send handshake message
       const initMsg = {
         type: 'CONNECT_SESSION',
-        token: token,
+        token: localStorage.getItem('token') || token,
         scenario: scenario,
         jlpt: jlpt
       };
