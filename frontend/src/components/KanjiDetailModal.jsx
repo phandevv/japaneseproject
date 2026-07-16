@@ -693,8 +693,8 @@ const KanjiDetailModal = ({ words, initialIndex, onClose }) => {
   };
 
   const kanjiCount = word.kanji ? extractKanjiChars(word.kanji).length : 0;
-  // Increase maxWidth based on kanji count to allow horizontal expansion
-  const maxCardWidth = kanjiCount >= 5 ? 1200 : kanjiCount === 4 ? 1100 : kanjiCount === 3 ? 1050 : 1000;
+  // Increase maxWidth based on kanji count to allow horizontal expansion (enlarged for 3-column layout)
+  const maxCardWidth = kanjiCount >= 5 ? 1400 : kanjiCount === 4 ? 1320 : kanjiCount === 3 ? 1280 : 1220;
 
   /* Card transform: slide animation (front/back navigation) + flip */
   const slideAnim = slideDir === 'right'
@@ -785,11 +785,11 @@ const KanjiDetailModal = ({ words, initialIndex, onClose }) => {
             </div>
 
             {/* Large kanji */}
-            <div style={{ textAlign: 'center', marginBottom: 18 }}>
+            <div style={{ textAlign: 'center', marginBottom: 12 }}>
               <div key={`k-${currentIndex}`} style={{
                 fontFamily: 'var(--font-jp)',
-                fontSize: kanjiCount > 3 ? 'clamp(44px,10vw,72px)' : kanjiCount > 1 ? 'clamp(64px,13vw,94px)' : 'clamp(78px,16vw,128px)',
-                fontWeight: 900, lineHeight: 1, marginBottom: 10,
+                fontSize: kanjiCount > 3 ? 'clamp(54px,12vw,84px)' : kanjiCount > 1 ? 'clamp(74px,15vw,108px)' : 'clamp(88px,18vw,144px)',
+                fontWeight: 900, lineHeight: 1, marginBottom: 8,
                 color: 'var(--text-primary)',
                 animation: 'kanjiPop 0.4s cubic-bezier(0.34,1.56,0.64,1) forwards',
                 animationDelay: '0.04s', opacity: 0, animationFillMode: 'forwards',
@@ -798,57 +798,86 @@ const KanjiDetailModal = ({ words, initialIndex, onClose }) => {
                 {word.kanji || word.hiragana}
               </div>
               {word.kanji && word.hiragana && (
-                <div style={{ fontFamily: 'var(--font-jp)', fontSize: '1.2rem', color: 'var(--accent-color)', marginBottom: 6, opacity: 0.9, letterSpacing: '0.06em' }}>
+                <div style={{ fontFamily: 'var(--font-jp)', fontSize: '1.4rem', color: 'var(--accent-color)', marginBottom: 6, opacity: 0.9, letterSpacing: '0.06em', fontWeight: 'bold' }}>
                   {word.hiragana}
                 </div>
               )}
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, marginTop: 5, flexWrap: 'wrap' }}>
-                <span className="level-badge">{word.level}</span>
-                {word.wordType && (
-                  <span style={{ fontSize: '0.75rem', padding: '3px 10px', borderRadius: 20, background: 'var(--surface-hover)', color: 'var(--text-secondary)', border: '1px solid var(--border-color)' }}>
-                    {word.wordType}
-                  </span>
-                )}
-                <button onClick={handleSpeak} style={{
-                  display: 'flex', alignItems: 'center', gap: 5, padding: '4px 11px', borderRadius: 20, fontSize: '0.75rem',
-                  background: 'rgba(239,68,68,0.1)', border: '1px solid rgba(239,68,68,0.25)',
-                  color: 'var(--accent-color)', cursor: 'pointer', transition: 'all 0.2s',
-                }}
-                  onMouseEnter={e => e.currentTarget.style.background = 'rgba(239,68,68,0.22)'}
-                  onMouseLeave={e => e.currentTarget.style.background = 'rgba(239,68,68,0.1)'}
-                >
-                  <Volume2 size={12} /> 発音
-                </button>
-              </div>
             </div>
 
-            <div style={{ height: 1, background: 'rgba(255,255,255,0.06)', marginBottom: 18 }} />
+            <div style={{ height: 1, background: 'var(--border-color)', marginBottom: 18 }} />
 
-            {/* Meaning + stroke boards */}
-            <div style={{ display: 'flex', flexWrap: 'nowrap', gap: 20, alignItems: 'flex-start', justifyContent: 'flex-start' }}>
-              <div style={{ flex: '1 1 auto', minWidth: 0, overflow: 'hidden' }}>
+            {/* 3 Columns Layout (Basic Info, Kanji Stroke Display, AI Rich Data) */}
+            <div style={{ 
+              display: 'flex', 
+              flexDirection: 'row', 
+              flexWrap: 'wrap', 
+              gap: '24px', 
+              alignItems: 'flex-start', 
+              justifyContent: 'space-between',
+              marginTop: '16px' 
+            }}>
+              {/* Column 1: Basic Info (25%) */}
+              <div style={{ flex: '1 1 240px', minWidth: '220px' }}>
                 <div style={{ marginBottom: 14 }}>
-                  <div style={{ fontSize: '0.62rem', textTransform: 'uppercase', letterSpacing: '0.12em', color: 'var(--text-secondary)', marginBottom: 6 }}>Nghĩa</div>
-                  <div style={{ fontSize: '1.15rem', fontWeight: 600, color: 'var(--success-color)', lineHeight: 1.45, overflowWrap: 'break-word' }}>{word.meaning}</div>
+                  <div style={{ fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.12em', color: 'var(--text-secondary)', marginBottom: 6, fontWeight: 'bold' }}>Ý nghĩa</div>
+                  <div style={{ fontSize: '1.4rem', fontWeight: 700, color: 'var(--success-color)', lineHeight: 1.3, overflowWrap: 'break-word' }}>{word.meaning}</div>
                 </div>
+                
                 {word.hanViet && (
-                  <div>
-                    <div style={{ fontSize: '0.62rem', textTransform: 'uppercase', letterSpacing: '0.12em', color: 'var(--text-secondary)', marginBottom: 6 }}>Hán Việt</div>
-                    <div style={{ fontSize: '1rem', fontWeight: 500, color: 'var(--text-primary)', overflowWrap: 'break-word' }}>【{word.hanViet}】</div>
+                  <div style={{ marginBottom: 14 }}>
+                    <div style={{ fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.12em', color: 'var(--text-secondary)', marginBottom: 6, fontWeight: 'bold' }}>Hán Việt</div>
+                    <div style={{ fontSize: '1.25rem', fontWeight: 600, color: 'var(--text-primary)', overflowWrap: 'break-word' }}>【{word.hanViet}】</div>
                   </div>
                 )}
 
-                {/* AI Rich Data Section */}
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginTop: '16px' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
+                    <span className="level-badge" style={{ fontSize: '0.85rem', padding: '4px 12px' }}>{word.level}</span>
+                    {word.wordType && (
+                      <span style={{ fontSize: '0.8rem', padding: '4px 12px', borderRadius: 20, background: 'var(--surface-hover)', color: 'var(--text-secondary)', border: '1px solid var(--border-color)' }}>
+                        {word.wordType}
+                      </span>
+                    )}
+                  </div>
+                  <button 
+                    onClick={handleSpeak} 
+                    style={{
+                      display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6, padding: '8px 16px', borderRadius: 20, fontSize: '0.8rem',
+                      background: 'rgba(239,68,68,0.1)', border: '1px solid rgba(239,68,68,0.25)',
+                      color: 'var(--accent-color)', cursor: 'pointer', transition: 'all 0.2s',
+                      fontWeight: 'bold', width: 'fit-content'
+                    }}
+                    onMouseEnter={e => e.currentTarget.style.background = 'rgba(239,68,68,0.22)'}
+                    onMouseLeave={e => e.currentTarget.style.background = 'rgba(239,68,68,0.1)'}
+                  >
+                    <Volume2 size={14} /> Phát âm
+                  </button>
+                </div>
+              </div>
+
+              {/* Column 2: Stroke Order Display (30%) */}
+              {word.kanji ? (
+                <div style={{ flex: '1 1 280px', minWidth: '260px', display: 'flex', justifyContent: 'center' }}>
+                  <StrokeOrderDisplay key={`sod-${currentIndex}`} kanji={word.kanji} />
+                </div>
+              ) : (
+                <div style={{ flex: '1 1 280px', minWidth: '260px', display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '120px', color: 'var(--text-muted)', fontSize: '0.85rem', fontStyle: 'italic' }}>
+                  Không có chữ Kanji để vẽ nét
+                </div>
+              )}
+
+              {/* Column 3: AI Rich Data (45%) */}
+              <div style={{ flex: '2 1 420px', minWidth: '340px' }}>
                 {loadingEnrich && (
                   <div style={{ 
-                    marginTop: '12px', 
                     color: 'var(--text-secondary)', 
                     fontSize: '0.75rem', 
                     fontStyle: 'italic',
-                    padding: '8px',
+                    padding: '12px',
                     backgroundColor: 'var(--surface-hover)',
-                    borderRadius: '6px',
-                    textAlign: 'center'
+                    borderRadius: '8px',
+                    textAlign: 'center',
+                    border: '1px dashed var(--border-color)'
                   }}>
                     Đang gọi AI làm giàu dữ liệu ví dụ & Kanji...
                   </div>
@@ -858,11 +887,6 @@ const KanjiDetailModal = ({ words, initialIndex, onClose }) => {
                   <AiEnrichedTabbedView data={enriched} />
                 )}
               </div>
-              {word.kanji && (
-                <div style={{ flexShrink: 0, maxWidth: '45%' }}>
-                  <StrokeOrderDisplay key={`sod-${currentIndex}`} kanji={word.kanji} />
-                </div>
-              )}
             </div>
 
             {/* ── Practice flip button ── */}

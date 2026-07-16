@@ -85,10 +85,10 @@ export default function AiEnrichedTabbedView({ data }) {
                 <h5 style={{ margin: '0 0 6px 0', fontSize: '0.85rem', color: 'var(--success-color)', fontWeight: '600' }}>🔍 Các từ ghép liên quan</h5>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
                   {kanjiWords.map((k, idx) => (
-                    <div key={idx} style={{ display: 'flex', alignItems: 'center', fontSize: '0.82rem', gap: '6px', borderBottom: '1px dashed var(--border-color)', paddingBottom: '4px' }}>
-                      <span className="font-jp" style={{ fontWeight: 'bold', color: 'var(--text-primary)' }}>{k.word}</span>
-                      <span style={{ color: 'var(--text-secondary)', fontSize: '0.78rem' }}>({k.reading})</span>
-                      <ArrowRight size={10} style={{ color: 'var(--text-muted)' }} />
+                    <div key={idx} style={{ display: 'flex', alignItems: 'center', fontSize: '0.9rem', gap: '8px', borderBottom: '1px dashed var(--border-color)', paddingBottom: '6px' }}>
+                      <span className="font-jp" style={{ fontWeight: 'bold', color: 'var(--text-primary)', fontSize: '1.15rem' }}>{k.word}</span>
+                      <span style={{ color: 'var(--text-secondary)', fontSize: '0.85rem' }}>({k.reading})</span>
+                      <ArrowRight size={12} style={{ color: 'var(--text-muted)' }} />
                       <span style={{ color: 'var(--text-secondary)' }}>{k.meaning}</span>
                     </div>
                   ))}
@@ -133,17 +133,17 @@ export default function AiEnrichedTabbedView({ data }) {
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
                   {exampleSentences.length > 0 ? (
                     exampleSentences.map((ex, i) => (
-                      <div key={i} style={{ padding: '8px 12px', background: 'var(--surface-hover)', borderRadius: '6px', borderLeft: '3px solid var(--accent-color)' }}>
-                        <div className="font-jp" style={{ fontWeight: 'bold', fontSize: '1rem', color: 'var(--text-primary)', marginBottom: '2px' }}>{ex.ja}</div>
-                        <div style={{ fontSize: '0.78rem', color: 'var(--text-secondary)', marginBottom: '2px', fontStyle: 'italic' }}>{ex.reading}</div>
-                        <div style={{ fontSize: '0.85rem', color: 'var(--success-color)', fontWeight: '500' }}>{ex.vi}</div>
+                      <div key={i} style={{ padding: '10px 14px', background: 'var(--surface-hover)', borderRadius: '6px', borderLeft: '3px solid var(--accent-color)' }}>
+                        <div className="font-jp" style={{ fontWeight: 'bold', fontSize: '1.35rem', color: 'var(--text-primary)', marginBottom: '4px', letterSpacing: '0.02em' }}>{ex.ja}</div>
+                        <div style={{ fontSize: '0.92rem', color: 'var(--text-secondary)', marginBottom: '4px', fontStyle: 'italic' }}>{ex.reading}</div>
+                        <div style={{ fontSize: '0.98rem', color: 'var(--success-color)', fontWeight: '500' }}>{ex.vi}</div>
                       </div>
                     ))
                   ) : (
-                    <div style={{ padding: '8px 12px', background: 'var(--surface-hover)', borderRadius: '6px', borderLeft: '3px solid var(--accent-color)' }}>
-                      <div className="font-jp" style={{ fontWeight: 'bold', fontSize: '1.05rem', color: 'var(--text-primary)', marginBottom: '2px' }}>{data.sampleSentence}</div>
-                      <div style={{ fontSize: '0.78rem', color: 'var(--text-secondary)', marginBottom: '2px', fontStyle: 'italic' }}>{data.sampleReading}</div>
-                      <div style={{ fontSize: '0.85rem', color: 'var(--success-color)', fontWeight: '500' }}>{data.sampleTranslation}</div>
+                    <div style={{ padding: '10px 14px', background: 'var(--surface-hover)', borderRadius: '6px', borderLeft: '3px solid var(--accent-color)' }}>
+                      <div className="font-jp" style={{ fontWeight: 'bold', fontSize: '1.35rem', color: 'var(--text-primary)', marginBottom: '4px', letterSpacing: '0.02em' }}>{data.sampleSentence}</div>
+                      <div style={{ fontSize: '0.92rem', color: 'var(--text-secondary)', marginBottom: '4px', fontStyle: 'italic' }}>{data.sampleReading}</div>
+                      <div style={{ fontSize: '0.98rem', color: 'var(--success-color)', fontWeight: '500' }}>{data.sampleTranslation}</div>
                     </div>
                   )}
                 </div>
