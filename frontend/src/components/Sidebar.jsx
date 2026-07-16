@@ -1,9 +1,9 @@
 import React, { useRef, useState } from "react";
-import { Home, Search, BookOpen, Layers, LogOut, LogIn, Upload, Loader, User, Settings, ShieldCheck, MessageSquare, Cpu, Database } from "lucide-react";
+import { Home, Search, BookOpen, Layers, LogOut, LogIn, Upload, Loader, User, Settings, ShieldCheck, MessageSquare, Cpu, Database, ChevronLeft, ChevronRight } from "lucide-react";
 import { useLanguage } from "../context/LanguageContext";
 import { vocabApi } from "../services/api";
 
-const Sidebar = ({ currentPage, setCurrentPage, onLoginClick, user, onLogout, onProfileClick, onFeedbackClick }) => {
+const Sidebar = ({ isCollapsed, onToggleCollapse, currentPage, setCurrentPage, onLoginClick, user, onLogout, onProfileClick, onFeedbackClick }) => {
   const { t } = useLanguage();
   const fileInputRef = useRef(null);
   const [importing, setImporting] = useState(false);
@@ -46,7 +46,7 @@ const Sidebar = ({ currentPage, setCurrentPage, onLoginClick, user, onLogout, on
   return (
     <aside className="app-sidebar">
       {/* Logo */}
-      <div className="sidebar-header">
+      <div className="sidebar-header" style={{ position: 'relative' }}>
         <div className="sidebar-logo" onClick={() => setCurrentPage("home")}>
           <div className="sidebar-logo-icon">S</div>
           <div className="sidebar-logo-text">
@@ -54,6 +54,12 @@ const Sidebar = ({ currentPage, setCurrentPage, onLoginClick, user, onLogout, on
             <span>Học tiếng Nhật thông minh</span>
           </div>
         </div>
+        <button 
+          onClick={onToggleCollapse}
+          className="sidebar-toggle-btn"
+        >
+          {isCollapsed ? <ChevronRight size={14} /> : <ChevronLeft size={14} />}
+        </button>
       </div>
 
       {/* Nav */}
