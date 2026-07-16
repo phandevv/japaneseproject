@@ -8,7 +8,7 @@ import DailyStudyPage from './pages/DailyStudyPage';
 import AuthPage from './pages/AuthPage';
 import VocabAdminPage from './pages/VocabAdminPage';
 import { useAuth } from './context/AuthContext';
-import PomodoroTimer from './components/PomodoroTimer';
+
 import SrsListPage from './pages/SrsListPage';
 import FeedbackModal from './components/FeedbackModal';
 import FeedbackAdminPage from './pages/FeedbackAdminPage';
@@ -266,7 +266,7 @@ function App() {
       {showProfileModal && <ProfileModal onClose={() => setShowProfileModal(false)} />}
       {showFeedbackModal && <FeedbackModal onClose={() => setShowFeedbackModal(false)} />}
       <AIChatWidget />
-      <PomodoroTimer />
+
     </div>
   );
 }

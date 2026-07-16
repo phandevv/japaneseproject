@@ -93,7 +93,7 @@ export default function AIChatWidget() {
         title="Trợ lý AI học tiếng Nhật"
         aria-label="Mở chat AI"
       >
-        <img src="/assets/siro_ai_logo.png" alt="SIRO AI" style={{ width: 68, height: 68, objectFit: 'contain' }} />
+        <img src="/assets/siro_ai_logo.png" alt="SIRO AI" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
         {loading && <span className="ai-fab-ring" />}
       </button>
 

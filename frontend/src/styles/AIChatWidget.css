@@ -6,10 +6,10 @@
 /* ── FAB Button ─────────────────────────────────────── */
 .ai-chat-fab {
   position: fixed;
-  bottom: 92px;   /* Above the Pomodoro FAB (56px height + 24px gap + 12px extra) */
+  bottom: 24px;   /* Lowered position since Pomodoro timer is removed */
   right: 24px;
-  width: 56px;
-  height: 56px;
+  width: 72px;    /* Increased size from 56px */
+  height: 72px;   /* Increased size from 56px */
   border-radius: 50%;
   background: transparent;
   color: white;
@@ -66,7 +66,7 @@
 /* ── Chat Panel ─────────────────────────────────────── */
 .ai-chat-panel {
   position: fixed;
-  bottom: 155px;  /* Just above the AI FAB */
+  bottom: 108px;  /* Just above the new AI FAB (24px bottom + 72px height + 12px gap) */
   right: 24px;
   width: 370px;
   max-height: 520px;
@@ -376,12 +376,14 @@
     right: 12px;
     left: 12px;
     width: auto;
-    bottom: 140px;
+    bottom: 90px;
     max-height: 60vh;
   }
 
   .ai-chat-fab {
     right: 16px;
-    bottom: 88px;
+    bottom: 16px;
+    width: 64px;
+    height: 64px;
   }
 }
