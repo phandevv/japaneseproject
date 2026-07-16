@@ -43,6 +43,19 @@ export default function ConversationTutorPage({ goBack }) {
   const ttsActiveRef = useRef(false);
   const transcriptEndRef = useRef(null);
 
+  // Create refs to avoid closure issues with speech recognition callbacks
+  const modeRef = useRef(mode);
+  const aiStateRef = useRef(aiState);
+  const stepRef = useRef(step);
+  const isRecordingRef = useRef(isRecording);
+
+  useEffect(() => {
+    modeRef.current = mode;
+    aiStateRef.current = aiState;
+    stepRef.current = step;
+    isRecordingRef.current = isRecording;
+  });
+
   useEffect(() => {
     // Scroll to bottom of chat transcript area
     if (transcriptEndRef.current) {
@@ -50,7 +63,7 @@ export default function ConversationTutorPage({ goBack }) {
     }
   }, [transcript, subtitle]);
 
-  // Web Speech API - Speech Recognition Setup
+  // Web Speech API - Speech Recognition Setup (Run once on mount)
   useEffect(() => {
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
     if (SpeechRecognition) {
@@ -71,7 +84,10 @@ export default function ConversationTutorPage({ goBack }) {
       };
 
       rec.onerror = (e) => {
-        console.error("Speech recognition error:", e);
+        // Only log serious errors, ignore 'aborted' as it happens naturally during switching
+        if (e.error !== 'aborted') {
+          console.error("Speech recognition error:", e);
+        }
         setIsRecording(false);
         setAiState('idle');
       };
@@ -79,9 +95,9 @@ export default function ConversationTutorPage({ goBack }) {
       rec.onend = () => {
         setIsRecording(false);
         // In continuous mode, restart listening if AI is not speaking/thinking
-        if (mode === 'continuous' && aiState === 'idle' && step === 'active') {
+        if (modeRef.current === 'continuous' && aiStateRef.current === 'idle' && stepRef.current === 'active') {
           setTimeout(() => {
-            if (!ttsActiveRef.current) {
+            if (!ttsActiveRef.current && stepRef.current === 'active' && aiStateRef.current === 'idle') {
               startListening();
             }
           }, 400);
@@ -101,23 +117,23 @@ export default function ConversationTutorPage({ goBack }) {
         window.speechSynthesis.cancel();
       }
     };
-  }, [mode, aiState, step]);
+  }, []); // Run once on mount
 
   const startListening = () => {
     if (window.speechSynthesis) {
       window.speechSynthesis.cancel(); // Stop any pending TTS voice
     }
-    if (recognitionRef.current && !isRecording) {
+    if (recognitionRef.current && !isRecordingRef.current) {
       try {
         recognitionRef.current.start();
       } catch (e) {
-        console.error(e);
+        console.error("Failed to start speech recognition:", e);
       }
     }
   };
 
   const stopListening = () => {
-    if (recognitionRef.current && isRecording) {
+    if (recognitionRef.current && isRecordingRef.current) {
       recognitionRef.current.stop();
     }
   };
