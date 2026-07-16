@@ -716,7 +716,9 @@ const KanjiDetailModal = ({ words, initialIndex, onClose }) => {
     window.speechSynthesis.speak(u);
   };
 
-  const kanjiCount = word.kanji ? extractKanjiChars(word.kanji).length : 0;
+  const kanjiChars = word.kanji ? extractKanjiChars(word.kanji) : [];
+  const hanVietParts = word.hanViet ? word.hanViet.toUpperCase().split(/\s+/) : [];
+  const kanjiCount = kanjiChars.length;
   // Increase maxWidth based on kanji count to allow horizontal expansion (enlarged for 3-column layout)
   const maxCardWidth = kanjiCount >= 5 ? 1400 : kanjiCount === 4 ? 1320 : kanjiCount === 3 ? 1280 : 1220;
 
