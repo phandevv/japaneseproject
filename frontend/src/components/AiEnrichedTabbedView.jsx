@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
 import { ArrowRight } from 'lucide-react';
+import { useState } from 'react';
 
 export default function AiEnrichedTabbedView({ data }) {
   const [activeCardTab, setActiveCardTab] = useState('core');
@@ -34,7 +34,7 @@ export default function AiEnrichedTabbedView({ data }) {
       {/* Mini header for context details */}
       <div style={{ padding: '10px 16px', borderBottom: '1px solid var(--border-color)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', backgroundColor: 'var(--surface-hover)' }}>
         <span style={{ fontSize: '0.82rem', color: 'var(--text-secondary)' }}>
-          🗣️ Trọng âm: <strong style={{ color: 'var(--accent-color)' }}>{data.pitchAccent || 'Chưa cập nhật'}</strong>
+          🗣️ Phiên âm: <strong style={{ color: 'var(--accent-color)' }}>{data.pitchAccent || 'Chưa cập nhật'}</strong>
         </span>
         <span style={{ fontSize: '0.75rem', padding: '2px 8px', borderRadius: '4px', backgroundColor: 'var(--accent-light)', color: 'var(--accent-color)', fontWeight: '600' }}>
           {data.wordType || 'Từ vựng'}

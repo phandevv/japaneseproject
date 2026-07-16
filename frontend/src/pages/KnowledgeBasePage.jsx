@@ -1,14 +1,26 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { 
-  Sparkles, Plus, Database, Search, BookOpen, 
-  HelpCircle, CheckCircle, RefreshCw, AlertCircle, 
-  ChevronRight, Trash2, ArrowRight, FileText, Check,
-  MessageSquare, Eye, EyeOff, Award, FolderHeart, Calendar
+import {
+  AlertCircle,
+  ArrowRight,
+  Award,
+  BookOpen,
+  Check,
+  CheckCircle,
+  Database,
+  Eye, EyeOff,
+  FileText,
+  FolderHeart,
+  MessageSquare,
+  Plus,
+  RefreshCw,
+  Search,
+  Sparkles,
+  Trash2
 } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { useAuth } from '../context/AuthContext';
+import { useLanguage } from '../context/LanguageContext';
 import { knowledgeApi } from '../services/api';
 import '../styles/KnowledgeBasePage.css';
-import { useLanguage } from '../context/LanguageContext';
-import { useAuth } from '../context/AuthContext';
 
 export default function KnowledgeBasePage() {
   const { t } = useLanguage();
@@ -775,13 +787,27 @@ function VocabularyCardPreview({ data, parseList }) {
           <span className="card-badge level-badge">{data.jlpt || 'JLPT'}</span>
         </div>
         <div className="card-main-header">
-          <div className="card-primary-title font-jp">
+          <div className="card-primary-title font-jp" style={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: '8px' }}>
             <ruby>
               {data.word} <rt>{data.reading}</rt>
             </ruby>
+            {data.hanViet && (
+              <span className="card-hanviet-badge" style={{ 
+                fontSize: '1rem', 
+                marginLeft: '10px', 
+                padding: '3px 8px', 
+                borderRadius: '4px', 
+                backgroundColor: 'rgba(245, 158, 11, 0.15)', 
+                color: 'var(--warning-color)', 
+                fontWeight: 'bold',
+                verticalAlign: 'middle'
+              }}>
+                【{data.hanViet}】
+              </span>
+            )}
           </div>
           <div className="card-pitch">
-            🗣️ Trọng âm: <span>{data.pitchAccent || 'Chưa cập nhật'}</span>
+            🗣️ Phiên âm: <span>{data.pitchAccent || 'Chưa cập nhật'}</span>
           </div>
           <div className="card-meaning-title">
             Ý nghĩa: <strong>{data.meaning}</strong>
