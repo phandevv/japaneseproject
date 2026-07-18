@@ -83,3 +83,5 @@ jobs:
             --parameters "commands=[\"$COMMAND\"]" \
             --comment "GitHub Actions Auto Redeploy - ${{ github.sha }}" \
             --region $AWS_REGION
+
+# Trigger CI/CD run after variables set
