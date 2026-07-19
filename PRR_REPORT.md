@@ -29,7 +29,7 @@ Hãy đánh dấu `[x]` vào các ô tương ứng sau khi hoàn thành từng h
   - Chỉ mục tìm kiếm/lập lịch SRS: `CREATE INDEX idx_word_reviews_user_next ON word_reviews(user_id, next_review);`
   - Chỉ mục thống kê hoạt động học: `CREATE INDEX idx_study_sessions_user_date ON study_sessions(user_id, study_date);`
 - [ ] **Khắc phục lỗi định tuyến Frontend (Router)**: Chuyển đổi cơ chế định tuyến từ dùng state trong [App.jsx](file:///c:/Users/bbqdd/Documents/_my/japaneseproject/frontend/src/App.jsx) sang sử dụng thư viện **React Router** để phục hồi hoạt động chuẩn của nút Back/Forward và hỗ trợ chia sẻ link trực tiếp (Deep Linking).
-- [ ] **Thêm Swap RAM cho EC2**: Cấu hình tệp Swap RAM dung lượng 2GB trên máy chủ EC2 `t3.micro` để hạn chế lỗi tràn bộ nhớ (Out of Memory) do Spring Boot và Lucene tiêu tốn RAM.
+- [x] **Thêm Swap RAM cho EC2**: Cấu hình tệp Swap RAM dung lượng 2GB trên máy chủ EC2 `t3.micro` để hạn chế lỗi tràn bộ nhớ (Out of Memory) do Spring Boot và Lucene tiêu tốn RAM.
 - [x] **Xác thực file upload**: Sửa API import Excel trong [ImportController.java](file:///c:/Users/bbqdd/Documents/_my/japaneseproject/backend/src/main/java/com/flashcard/controller/ImportController.java) để kiểm tra phần mở rộng tệp tin (chỉ cho phép `.xlsx`) và định dạng MIME type để phòng chống tấn công DoS/Zip Bomb.
 
 ### 🗓️ 3. Việc Cần Làm Tháng Này (MEDIUM - Tăng độ ổn định và SEO)

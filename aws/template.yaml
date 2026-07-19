@@ -103,6 +103,14 @@ Resources:
         Fn::Base64: !Sub |
           #!/bin/bash
           # Deploy v3 - Correct DB_URL variables and connection options
+          
+          # Configure 2GB Swap RAM to prevent OOM
+          fallocate -l 2G /swapfile || dd if=/dev/zero of=/swapfile bs=1M count=2048
+          chmod 600 /swapfile
+          mkswap /swapfile
+          swapon /swapfile
+          echo '/swapfile none swap sw 0 0' >> /etc/fstab
+
           # Basic environment setup
           dnf update -y
           dnf install -y docker
