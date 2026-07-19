@@ -21,7 +21,6 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.OncePerRequestFilter;
 import org.springframework.http.HttpMethod;
 
@@ -108,15 +107,16 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         return request -> {
-            String origin = request.getHeader("Origin");
             CorsConfiguration config = new CorsConfiguration();
             
-            // Dynamic Origin Reflection: automatically echo back the incoming request origin.
-            // Satisfies browser rules for credentials and accommodates any IP/domain change dynamically.
-            if (origin != null && !origin.isBlank()) {
-                config.setAllowedOrigins(List.of(origin));
+            if (allowedOriginsStr != null && !allowedOriginsStr.isBlank()) {
+                List<String> allowed = Arrays.stream(allowedOriginsStr.split(","))
+                        .map(String::trim)
+                        .filter(s -> !s.isEmpty())
+                        .toList();
+                config.setAllowedOrigins(allowed);
             } else {
-                config.setAllowedOrigins(List.of("*"));
+                config.setAllowedOrigins(List.of("https://phandeptrai.id.vn"));
             }
             
             config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));

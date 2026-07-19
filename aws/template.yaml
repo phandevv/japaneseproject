@@ -89,7 +89,7 @@ Resources:
         - !GetAtt DatabaseSecurityGroup.GroupId
       PubliclyAccessible: false
       StorageType: gp2
-      BackupRetentionPeriod: 0
+      BackupRetentionPeriod: 7
       MultiAZ: false
 
   WebServerInstance:
