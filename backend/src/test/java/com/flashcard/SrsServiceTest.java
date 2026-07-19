@@ -86,4 +86,24 @@ class SrsServiceTest {
         assertEquals(2, review2.getRepetitions());
         assertEquals(6, review2.getIntervalDays()); // 2nd repetition always defaults to 6 days in SM-2
     }
+
+    @Test
+    void testForgotLearnedWordPreservesLearnedStatus() {
+        when(vocabularyRepository.findById(10L)).thenReturn(Optional.of(testVocabulary));
+        when(reviewRepository.findByUserAndVocabulary(testUser, testVocabulary)).thenReturn(Optional.empty());
+        when(reviewRepository.save(any(WordReview.class))).thenAnswer(invocation -> invocation.getArgument(0));
+
+        // 1. First review, Good rating (quality = 3) -> rep=1, interval=1 (learned)
+        WordReview review1 = srsService.reviewWord(testUser, 10L, 3);
+        assertEquals(1, review1.getRepetitions());
+        assertEquals(1, review1.getIntervalDays());
+
+        // Mock return existing review state
+        when(reviewRepository.findByUserAndVocabulary(testUser, testVocabulary)).thenReturn(Optional.of(review1));
+
+        // 2. Second review, Forgot rating (quality = 1) -> should set repetitions to 0 but keep intervalDays = 1 (learned)
+        WordReview review2 = srsService.reviewWord(testUser, 10L, 1);
+        assertEquals(0, review2.getRepetitions());
+        assertEquals(1, review2.getIntervalDays()); // Preserves learned status (> 0)
+    }
 }
