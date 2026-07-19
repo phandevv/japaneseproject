@@ -9,7 +9,6 @@ Parameters:
   DBPassword:
     Type: String
     NoEcho: true
-    Default: JapaneseProject123!
     Description: Password for the RDS database (min 8 characters)
 
 Resources:

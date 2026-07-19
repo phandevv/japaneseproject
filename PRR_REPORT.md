@@ -22,7 +22,7 @@ Hãy đánh dấu `[x]` vào các ô tương ứng sau khi hoàn thành từng h
 - [x] **Sửa lỗi nghẽn luồng xử lý AI (REST Blocking)**: Sửa API `GET /api/vocab/{id}` trong [VocabularyController.java](file:///c:/Users/bbqdd/Documents/_my/japaneseproject/backend/src/main/java/com/flashcard/controller/VocabularyController.java). Trả về dữ liệu thô ngay lập tức nếu từ vựng chưa được làm giàu (enriched), không dùng `.get()` làm nghẽn servlet thread của Tomcat khi gọi DeepSeek API.
 - [x] **Kích hoạt chạy kiểm thử trong CI/CD**: Sửa tệp GitHub Actions [deploy.yml](file:///c:/Users/bbqdd/Documents/_my/japaneseproject/.github/workflows/deploy.yml) để chạy lệnh test (`mvn test`) trước khi đóng gói image.
 - [x] **Bật kiểm thử trong Dockerfile**: Sửa tệp [Dockerfile](file:///c:/Users/bbqdd/Documents/_my/japaneseproject/backend/Dockerfile) của backend, loại bỏ cờ `-DskipTests` ở bước build.
-- [ ] **Bảo mật mật khẩu database**: Gỡ bỏ mật khẩu mặc định hardcode của RDS (`Default: JapaneseProject123!`) trong tệp [template.yaml](file:///c:/Users/bbqdd/Documents/_my/japaneseproject/aws/template.yaml) và chuyển sang truyền tham số an toàn khi deploy CloudFormation stack.
+- [x] **Bảo mật mật khẩu database**: Gỡ bỏ mật khẩu mặc định hardcode của RDS (`Default: JapaneseProject123!`) trong tệp [template.yaml](file:///c:/Users/bbqdd/Documents/_my/japaneseproject/aws/template.yaml) và chuyển sang truyền tham số an toàn khi deploy CloudFormation stack.
 
 ### 📅 2. Việc Cần Làm Tuần Này (HIGH - Ưu tiên cao sau khi Release thử nghiệm)
 - [x] **Tạo chỉ mục (Database Indexes)**: Tạo file Flyway migration mới bổ sung chỉ mục tối ưu cho MySQL:
@@ -30,7 +30,7 @@ Hãy đánh dấu `[x]` vào các ô tương ứng sau khi hoàn thành từng h
   - Chỉ mục thống kê hoạt động học: `CREATE INDEX idx_study_sessions_user_date ON study_sessions(user_id, study_date);`
 - [ ] **Khắc phục lỗi định tuyến Frontend (Router)**: Chuyển đổi cơ chế định tuyến từ dùng state trong [App.jsx](file:///c:/Users/bbqdd/Documents/_my/japaneseproject/frontend/src/App.jsx) sang sử dụng thư viện **React Router** để phục hồi hoạt động chuẩn của nút Back/Forward và hỗ trợ chia sẻ link trực tiếp (Deep Linking).
 - [ ] **Thêm Swap RAM cho EC2**: Cấu hình tệp Swap RAM dung lượng 2GB trên máy chủ EC2 `t3.micro` để hạn chế lỗi tràn bộ nhớ (Out of Memory) do Spring Boot và Lucene tiêu tốn RAM.
-- [ ] **Xác thực file upload**: Sửa API import Excel trong [ImportController.java](file:///c:/Users/bbqdd/Documents/_my/japaneseproject/backend/src/main/java/com/flashcard/controller/ImportController.java) để kiểm tra phần mở rộng tệp tin (chỉ cho phép `.xlsx`) và định dạng MIME type để phòng chống tấn công DoS/Zip Bomb.
+- [x] **Xác thực file upload**: Sửa API import Excel trong [ImportController.java](file:///c:/Users/bbqdd/Documents/_my/japaneseproject/backend/src/main/java/com/flashcard/controller/ImportController.java) để kiểm tra phần mở rộng tệp tin (chỉ cho phép `.xlsx`) và định dạng MIME type để phòng chống tấn công DoS/Zip Bomb.
 
 ### 🗓️ 3. Việc Cần Làm Tháng Này (MEDIUM - Tăng độ ổn định và SEO)
 - [ ] **Tích hợp theo dõi lỗi tự động**: Cài đặt **Sentry** cho cả frontend React và backend Spring Boot để tự động bắt lỗi ngoại lệ trên môi trường production.
