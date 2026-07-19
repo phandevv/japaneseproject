@@ -140,12 +140,8 @@ public class VocabularyController {
                         || vocab.getExampleSentences() == null || vocab.getExampleSentences().isBlank();
                     
                     if (needsEnrichment) {
-                        try {
-                            log.info("Vocabulary ID {} is missing rich AI data. Enriching synchronously...", id);
-                            vocab = enrichmentService.enrichVocabulary(vocab).get();
-                        } catch (Exception e) {
-                            log.error("Failed to enrich vocabulary synchronously for ID {}", id, e);
-                        }
+                        log.info("Vocabulary ID {} is missing rich AI data. Triggering enrichment asynchronously...", id);
+                        enrichmentService.enrichVocabulary(vocab);
                     }
                     return ResponseEntity.ok(vocab);
                 })
