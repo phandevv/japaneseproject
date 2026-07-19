@@ -35,8 +35,8 @@ Hãy đánh dấu `[x]` vào các ô tương ứng sau khi hoàn thành từng h
 ### 🗓️ 3. Việc Cần Làm Tháng Này (MEDIUM - Tăng độ ổn định và SEO)
 - [ ] **Tích hợp theo dõi lỗi tự động**: Cài đặt **Sentry** cho cả frontend React và backend Spring Boot để tự động bắt lỗi ngoại lệ trên môi trường production.
 - [ ] **Tách chỉ mục Lucene nhúng để Scale-out**: Cấu hình Spring Boot và Hibernate Search kết nối sang cụm **AWS OpenSearch/Elasticsearch** độc lập để có thể scale ngang backend chạy nhiều container đồng thời.
-- [ ] **Bổ sung các file SEO cơ bản**: Tạo và bổ sung các file `robots.txt` và `sitemap.xml` vào thư mục `public` của frontend.
-- [ ] **Tích hợp Open Graph (OG) tags**: Dùng React Helmet để thay đổi động các thẻ meta title, description và Open Graph khi chia sẻ link từ vựng.
+- [x] **Bổ sung các file SEO cơ bản**: Tạo và bổ sung các file `robots.txt` và `sitemap.xml` vào thư mục `public` của frontend.
+- [x] **Tích hợp Open Graph (OG) tags**: Dùng React Helmet để thay đổi động các thẻ meta title, description và Open Graph khi chia sẻ link từ vựng.
 - [ ] **Blacklist cho Refresh Token**: Xây dựng cơ chế lưu vết hoặc lưu danh sách đen (Blacklist) của JWT Refresh Token trong cơ sở dữ liệu để cho phép quản trị viên thu hồi/vô hiệu hóa token bị lộ.
 
 ### 🚀 4. Việc Nên Làm Sau Khi Release (LOW - Tính năng bổ sung)
