@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://phandeptrai.id.vn/sitemap.xml

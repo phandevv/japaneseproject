@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import Sidebar from './components/Sidebar';
 import HomePage from './pages/HomePage';
 import FlashcardPage from './pages/FlashcardPage';
@@ -42,9 +43,11 @@ const updateStreakForToday = (currentUser) => {
 
 function App() {
   const { user: authUser, logout: authLogout, isAuthenticated } = useAuth();
-  const [currentPage, setCurrentPage] = useState(() => localStorage.getItem('nihongo-currentPage') || 'home');
+  const navigate = useNavigate();
+  const location = useLocation();
+
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(() => localStorage.getItem('nihongo-sidebarCollapsed') === 'true');
-  const [selectedLevel, setSelectedLevel] = useState(() => {
+  const [selectedLevelState, setSelectedLevelState] = useState(() => {
     const val = localStorage.getItem('nihongo-selectedLevel');
     return val === 'null' ? null : val;
   });
@@ -52,6 +55,55 @@ function App() {
   const [showStudySection, setShowStudySection] = useState(false);
   const [showProfileModal, setShowProfileModal] = useState(false);
   const [showFeedbackModal, setShowFeedbackModal] = useState(false);
+
+  // Extract level from pathname if it starts with /flashcard/ or /daily/
+  const flashcardMatch = location.pathname.match(/^\/flashcard\/(.+)$/);
+  const dailyMatch = location.pathname.match(/^\/daily\/(.+)$/);
+  const currentLevelFromPath = flashcardMatch ? flashcardMatch[1] : (dailyMatch ? dailyMatch[1] : null);
+  const selectedLevel = currentLevelFromPath || selectedLevelState;
+
+  const getPageFromPath = (path) => {
+    if (path === '/') return isAuthenticated ? 'home' : 'landing';
+    if (path === '/landing') return 'landing';
+    if (path === '/auth') return 'auth';
+    if (path.startsWith('/flashcard')) return 'flashcard';
+    if (path === '/srs-review') return 'srs-review';
+    if (path === '/srs-learned') return 'srs-learned';
+    if (path === '/srs-list') return 'srs-list';
+    if (path.startsWith('/daily')) return 'daily';
+    if (path === '/admin-vocab') return 'admin-vocab';
+    if (path === '/admin-feedback') return 'admin-feedback';
+    if (path === '/admin-ai') return 'admin-ai';
+    if (path === '/search') return 'search';
+    if (path === '/knowledge') return 'knowledge';
+    if (path === '/conversation-tutor') return 'conversation-tutor';
+    return 'home';
+  };
+
+  const currentPage = getPageFromPath(location.pathname);
+
+  const setCurrentPage = (page, resetLevel = false) => {
+    if (resetLevel) {
+      setSelectedLevelState(null);
+    }
+    switch (page) {
+      case 'landing': navigate('/landing'); break;
+      case 'home': navigate('/'); break;
+      case 'auth': navigate('/auth'); break;
+      case 'flashcard': navigate('/flashcard'); break;
+      case 'srs-review': navigate('/srs-review'); break;
+      case 'srs-learned': navigate('/srs-learned'); break;
+      case 'srs-list': navigate('/srs-list'); break;
+      case 'daily': navigate('/daily'); break;
+      case 'admin-vocab': navigate('/admin-vocab'); break;
+      case 'admin-feedback': navigate('/admin-feedback'); break;
+      case 'admin-ai': navigate('/admin-ai'); break;
+      case 'search': navigate('/search'); break;
+      case 'knowledge': navigate('/knowledge'); break;
+      case 'conversation-tutor': navigate('/conversation-tutor'); break;
+      default: navigate('/');
+    }
+  };
 
   useEffect(() => {
     localStorage.setItem('nihongo-currentPage', currentPage);
@@ -91,9 +143,9 @@ function App() {
   // Redirect logged-in users away from guest pages
   useEffect(() => {
     if (isAuthenticated && (currentPage === 'landing' || currentPage === 'auth')) {
-      setCurrentPage('home');
+      navigate('/');
     }
-  }, [isAuthenticated, currentPage]);
+  }, [isAuthenticated, currentPage, navigate]);
 
   // Fetch stats once at app level
   useEffect(() => {
@@ -104,18 +156,22 @@ function App() {
 
   const handleLogout = async () => {
     await authLogout();
-    setCurrentPage('home');
+    navigate('/');
     setShowStudySection(false);
   };
 
   const handleLoginSuccess = () => {
-    setCurrentPage('home');
+    navigate('/');
     setShowStudySection(true);
   };
 
   const startStudy = (level, mode = 'flashcard') => {
-    setSelectedLevel(level);
-    setCurrentPage(mode);
+    setSelectedLevelState(level);
+    if (level) {
+      navigate(`/${mode}/${level}`);
+    } else {
+      navigate(`/${mode}`);
+    }
     setShowStudySection(false);
 
     if (userStreakData) {
@@ -136,22 +192,22 @@ function App() {
             forceLanding={true}
             onLoginClick={() => {
               if (isAuthenticated) {
-                setCurrentPage('home');
+                navigate('/');
                 setShowStudySection(true);
               } else {
-                setCurrentPage('auth');
+                navigate('/auth');
                 setShowStudySection(false);
               }
             }}
             onDailyClick={() => {
               if (isAuthenticated) {
-                setSelectedLevel(null);
-                setCurrentPage('daily');
+                setSelectedLevelState(null);
+                navigate('/daily');
               } else {
-                setCurrentPage('auth');
+                navigate('/auth');
               }
             }}
-            onAdminClick={() => setCurrentPage('admin-vocab')}
+            onAdminClick={() => navigate('/admin-vocab')}
             showStudySection={showStudySection}
           />
         );
@@ -162,18 +218,18 @@ function App() {
             user={isAuthenticated ? authUser : null} 
             streak={userStreakData?.streak || 0} 
             onLoginClick={() => {
-              setCurrentPage('auth');
+              navigate('/auth');
               setShowStudySection(false);
             }}
             onDailyClick={() => {
               if (isAuthenticated) {
-                setSelectedLevel(null);
-                setCurrentPage('daily');
+                setSelectedLevelState(null);
+                navigate('/daily');
               } else {
-                setCurrentPage('auth');
+                navigate('/auth');
               }
             }}
-            onAdminClick={() => setCurrentPage('admin-vocab')}
+            onAdminClick={() => navigate('/admin-vocab')}
             showStudySection={showStudySection}
           />
         );
@@ -185,7 +241,7 @@ function App() {
             streak={userStreakData?.streak || 0}
             isAuthView={true}
             forceLanding={true}
-            onAuthCancel={() => setCurrentPage(isAuthenticated ? 'home' : 'landing')}
+            onAuthCancel={() => navigate(isAuthenticated ? '/' : '/landing')}
             onAuthSuccess={handleLoginSuccess}
           />
         );
@@ -195,43 +251,115 @@ function App() {
             level={selectedLevel}
             stats={stats}
             goBack={() => {
-              setSelectedLevel(null);
-              setCurrentPage('home');
+              setSelectedLevelState(null);
+              navigate('/');
             }}
             onDailyStudy={(lvl) => {
-              setSelectedLevel(lvl);
-              setCurrentPage('daily');
+              setSelectedLevelState(lvl);
+              navigate(`/daily/${lvl}`);
             }}
           />
         );
       case 'srs-review':
-        return <FlashcardPage level="SRS" isSrs={true} goBack={() => setCurrentPage('home')} />;
+        return <FlashcardPage level="SRS" isSrs={true} goBack={() => navigate('/')} />;
       case 'srs-learned':
-        return <FlashcardPage level="LEARNED" isLearnedStudy={true} goBack={() => setCurrentPage('home')} />;
+        return <FlashcardPage level="LEARNED" isLearnedStudy={true} goBack={() => navigate('/')} />;
       case 'srs-list':
-        return <SrsListPage goBack={() => setCurrentPage('home')} />;
+        return <SrsListPage goBack={() => navigate('/')} />;
       case 'daily':
-        return <DailyStudyPage level={selectedLevel} stats={stats} goBack={() => setCurrentPage('home')} />;
+        return <DailyStudyPage level={selectedLevel} stats={stats} goBack={() => navigate('/')} />;
       case 'admin-vocab':
-        return <VocabAdminPage goBack={() => setCurrentPage('home')} />;
+        return <VocabAdminPage goBack={() => navigate('/')} />;
       case 'admin-feedback':
-        return <FeedbackAdminPage goBack={() => setCurrentPage('home')} />;
+        return <FeedbackAdminPage goBack={() => navigate('/')} />;
       case 'admin-ai':
-        return <AiEnrichmentAdminPage goBack={() => setCurrentPage('home')} />;
+        return <AiEnrichmentAdminPage goBack={() => navigate('/')} />;
       case 'search':
         return <SearchPage />;
       case 'knowledge':
         return <KnowledgeBasePage />;
       case 'conversation-tutor':
         return isAuthenticated ? (
-          <ConversationTutorPage goBack={() => setCurrentPage('home')} />
+          <ConversationTutorPage goBack={() => navigate('/')} />
         ) : (
-          <AuthPage onCancel={() => setCurrentPage('home')} onSuccess={handleLoginSuccess} />
+          <AuthPage onCancel={() => navigate('/')} onSuccess={handleLoginSuccess} />
         );
       default:
         return <HomePage startStudy={startStudy} user={isAuthenticated ? authUser : null} />;
     }
   };
+
+  // Dynamic SEO Metadata and Open Graph tags
+  const getSeoMetadata = (page) => {
+    switch (page) {
+      case 'home':
+        return {
+          title: 'SIRO NIHONGO - Học Tiếng Nhật Thông Minh',
+          description: 'Học tiếng Nhật với phương pháp lặp lại ngắt quãng (SRS) và gia sư AI thông minh.',
+          ogImage: 'https://phandeptrai.id.vn/assets/siro_logo.png'
+        };
+      case 'search':
+        return {
+          title: 'Tra Cứu Từ Điển Nhật - Việt | SIRO NIHONGO',
+          description: 'Tra cứu từ vựng tiếng Nhật nhanh chóng với giải thích nghĩa, cách đọc Pitch Accent và ví dụ minh họa phong phú.',
+          ogImage: 'https://phandeptrai.id.vn/assets/siro_logo.png'
+        };
+      case 'daily':
+        return {
+          title: 'Học Từ Vựng Hàng Ngày | SIRO NIHONGO',
+          description: 'Luyện tập từ vựng tiếng Nhật N5 - N1 mỗi ngày với giáo trình chuẩn và thuật toán ghi nhớ thông minh.',
+          ogImage: 'https://phandeptrai.id.vn/assets/siro_logo.png'
+        };
+      case 'knowledge':
+        return {
+          title: 'Kho Tri Thức Học Tiếng Nhật | SIRO NIHONGO',
+          description: 'Tìm kiếm, tự ôn tập và khai thác kho ngữ pháp, hội thoại văn hóa Nhật Bản được trợ lý AI giải nghĩa sâu sắc.',
+          ogImage: 'https://phandeptrai.id.vn/assets/siro_logo.png'
+        };
+      case 'conversation-tutor':
+        return {
+          title: 'Hội Thoại Với Gia Sư AI | SIRO NIHONGO',
+          description: 'Luyện giao tiếp tiếng Nhật phản xạ tự nhiên như người bản xứ cùng trợ lý gia sư trí tuệ nhân tạo.',
+          ogImage: 'https://phandeptrai.id.vn/assets/siro_logo.png'
+        };
+      default:
+        return {
+          title: 'SIRO NIHONGO - Chinh Phục Tiếng Nhật Dễ Dàng',
+          description: 'Nền tảng học từ vựng JLPT hiệu quả hàng đầu qua thẻ ghi nhớ thông minh và hỗ trợ AI.',
+          ogImage: 'https://phandeptrai.id.vn/assets/siro_logo.png'
+        };
+    }
+  };
+
+  const seoMeta = getSeoMetadata(currentPage);
+
+  useEffect(() => {
+    if (seoMeta.title) {
+      document.title = seoMeta.title;
+    }
+    const updateMeta = (nameOrProperty, content) => {
+      if (!content) return;
+      let el = document.querySelector(`meta[name="${nameOrProperty}"]`) || 
+               document.querySelector(`meta[property="${nameOrProperty}"]`);
+      if (!el) {
+        el = document.createElement('meta');
+        if (nameOrProperty.startsWith('og:')) {
+          el.setAttribute('property', nameOrProperty);
+        } else {
+          el.setAttribute('name', nameOrProperty);
+        }
+        document.head.appendChild(el);
+      }
+      el.setAttribute('content', content);
+    };
+
+    updateMeta('description', seoMeta.description);
+    updateMeta('og:title', seoMeta.title);
+    updateMeta('og:description', seoMeta.description);
+    if (seoMeta.ogImage) {
+      updateMeta('og:image', seoMeta.ogImage);
+    }
+  }, [seoMeta]);
 
   return (
     <div className={`app-layout ${isSidebarCollapsed ? 'sidebar-collapsed' : ''} ${!isAuthenticated ? 'no-sidebar' : ''}`}>
@@ -242,11 +370,11 @@ function App() {
         currentPage={currentPage}
         setCurrentPage={(page, resetLevel) => {
           if (resetLevel || page === 'flashcard' || page === 'daily') {
-            setSelectedLevel(null);
+            setSelectedLevelState(null);
           }
           setCurrentPage(page);
         }}
-        onLoginClick={() => setCurrentPage('auth')}
+        onLoginClick={() => navigate('/auth')}
         user={isAuthenticated ? authUser : null}
         onLogout={handleLogout}
         onProfileClick={() => setShowProfileModal(true)}
@@ -255,7 +383,7 @@ function App() {
             setShowFeedbackModal(true);
           } else {
             alert("Vui lòng đăng nhập để gửi góp ý & báo lỗi!");
-            setCurrentPage("auth");
+            navigate('/auth');
           }
         }}
         />
