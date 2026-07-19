@@ -14,7 +14,6 @@ import java.time.ZoneId;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 @Service
 public class AnalyticsService {
@@ -24,17 +23,20 @@ public class AnalyticsService {
     private final SrsService srsService;
     private final OnlineUserService onlineUserService;
     private final UserRepository userRepository;
+    private final StudySessionHelper studySessionHelper;
 
     public AnalyticsService(StudySessionRepository sessionRepository,
                             WordReviewRepository reviewRepository,
                             SrsService srsService,
                             OnlineUserService onlineUserService,
-                            UserRepository userRepository) {
+                            UserRepository userRepository,
+                            StudySessionHelper studySessionHelper) {
         this.sessionRepository = sessionRepository;
         this.reviewRepository = reviewRepository;
         this.srsService = srsService;
         this.onlineUserService = onlineUserService;
         this.userRepository = userRepository;
+        this.studySessionHelper = studySessionHelper;
     }
 
     /**
@@ -42,20 +44,30 @@ public class AnalyticsService {
      */
     @Transactional
     public StudySession recordSession(User user, int wordsStudied, int correctAnswers, int totalQuestions, LocalDate date) {
-        StudySession session = sessionRepository.findByUserAndStudyDate(user, date)
-                .orElseGet(() -> new StudySession(user, date));
-
-        session.setCorrectAnswers(session.getCorrectAnswers() + correctAnswers);
-        session.setTotalQuestions(session.getTotalQuestions() + totalQuestions);
-
         // Calculate unique words studied today with quality >= 3 (Good or Easy)
         java.time.ZoneId zone = java.time.ZoneId.of("Asia/Ho_Chi_Minh");
         java.time.Instant start = date.atStartOfDay(zone).toInstant();
         java.time.Instant end = date.plusDays(1).atStartOfDay(zone).toInstant();
         long uniqueCount = reviewRepository.countUniqueReviewedToday(user, start, end);
-        session.setWordsStudied((int) uniqueCount);
 
-        return sessionRepository.save(session);
+        return updateStudySessionWithRetry(user, date, (int) uniqueCount, correctAnswers, totalQuestions, null);
+    }
+
+    private StudySession updateStudySessionWithRetry(User user, LocalDate date, int wordsStudied, Integer addCorrect, Integer addTotal, Boolean freeze) {
+        int maxRetries = 3;
+        for (int i = 0; i < maxRetries; i++) {
+            try {
+                return studySessionHelper.saveOrUpdateSessionWithNewTransaction(user, date, wordsStudied, addCorrect, addTotal, freeze);
+            } catch (org.springframework.dao.DataIntegrityViolationException e) {
+                if (i == maxRetries - 1) throw e;
+                try {
+                    Thread.sleep(50);
+                } catch (InterruptedException ie) {
+                    Thread.currentThread().interrupt();
+                }
+            }
+        }
+        return null;
     }
 
     /**
@@ -156,16 +168,16 @@ public class AnalyticsService {
         return stats;
     }
 
-    /**
-     * Activate streak freeze for today to shield streak from breaking
-     */
     @Transactional
     public StudySession activateStreakFreeze(User user) {
         LocalDate today = LocalDate.now(ZoneId.of("Asia/Ho_Chi_Minh"));
-        StudySession session = sessionRepository.findByUserAndStudyDate(user, today)
-                .orElseGet(() -> new StudySession(user, today));
+        
+        // Calculate unique words studied today
+        java.time.ZoneId zone = java.time.ZoneId.of("Asia/Ho_Chi_Minh");
+        java.time.Instant start = today.atStartOfDay(zone).toInstant();
+        java.time.Instant end = today.plusDays(1).atStartOfDay(zone).toInstant();
+        long uniqueCount = reviewRepository.countUniqueReviewedToday(user, start, end);
 
-        session.setStreakFrozen(true);
-        return sessionRepository.save(session);
+        return updateStudySessionWithRetry(user, today, (int) uniqueCount, null, null, true);
     }
 }

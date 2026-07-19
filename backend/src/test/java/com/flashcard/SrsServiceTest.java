@@ -10,14 +10,13 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-import java.time.Instant;
-import java.time.temporal.ChronoUnit;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
+import com.flashcard.service.StudySessionHelper;
 import com.flashcard.repository.StudySessionRepository;
 
 class SrsServiceTest {
@@ -25,6 +24,7 @@ class SrsServiceTest {
     private WordReviewRepository reviewRepository;
     private VocabularyRepository vocabularyRepository;
     private StudySessionRepository sessionRepository;
+    private StudySessionHelper studySessionHelper;
     private SrsService srsService;
     private User testUser;
     private Vocabulary testVocabulary;
@@ -34,7 +34,8 @@ class SrsServiceTest {
         reviewRepository = Mockito.mock(WordReviewRepository.class);
         vocabularyRepository = Mockito.mock(VocabularyRepository.class);
         sessionRepository = Mockito.mock(StudySessionRepository.class);
-        srsService = new SrsService(reviewRepository, vocabularyRepository, sessionRepository);
+        studySessionHelper = Mockito.mock(StudySessionHelper.class);
+        srsService = new SrsService(reviewRepository, vocabularyRepository, studySessionHelper);
 
         testUser = new User();
         testUser.setId(1L);

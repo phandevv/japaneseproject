@@ -25,7 +25,7 @@ Hãy đánh dấu `[x]` vào các ô tương ứng sau khi hoàn thành từng h
 - [ ] **Bảo mật mật khẩu database**: Gỡ bỏ mật khẩu mặc định hardcode của RDS (`Default: JapaneseProject123!`) trong tệp [template.yaml](file:///c:/Users/bbqdd/Documents/_my/japaneseproject/aws/template.yaml) và chuyển sang truyền tham số an toàn khi deploy CloudFormation stack.
 
 ### 📅 2. Việc Cần Làm Tuần Này (HIGH - Ưu tiên cao sau khi Release thử nghiệm)
-- [ ] **Tạo chỉ mục (Database Indexes)**: Tạo file Flyway migration mới bổ sung chỉ mục tối ưu cho MySQL:
+- [x] **Tạo chỉ mục (Database Indexes)**: Tạo file Flyway migration mới bổ sung chỉ mục tối ưu cho MySQL:
   - Chỉ mục tìm kiếm/lập lịch SRS: `CREATE INDEX idx_word_reviews_user_next ON word_reviews(user_id, next_review);`
   - Chỉ mục thống kê hoạt động học: `CREATE INDEX idx_study_sessions_user_date ON study_sessions(user_id, study_date);`
 - [ ] **Khắc phục lỗi định tuyến Frontend (Router)**: Chuyển đổi cơ chế định tuyến từ dùng state trong [App.jsx](file:///c:/Users/bbqdd/Documents/_my/japaneseproject/frontend/src/App.jsx) sang sử dụng thư viện **React Router** để phục hồi hoạt động chuẩn của nút Back/Forward và hỗ trợ chia sẻ link trực tiếp (Deep Linking).

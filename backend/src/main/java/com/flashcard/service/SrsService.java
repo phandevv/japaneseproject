@@ -5,15 +5,12 @@ import com.flashcard.model.Vocabulary;
 import com.flashcard.model.WordReview;
 import com.flashcard.repository.VocabularyRepository;
 import com.flashcard.repository.WordReviewRepository;
-import com.flashcard.model.StudySession;
-import com.flashcard.repository.StudySessionRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -21,14 +18,14 @@ public class SrsService {
 
     private final WordReviewRepository reviewRepository;
     private final VocabularyRepository vocabularyRepository;
-    private final StudySessionRepository sessionRepository;
+    private final StudySessionHelper studySessionHelper;
 
     public SrsService(WordReviewRepository reviewRepository,
                       VocabularyRepository vocabularyRepository,
-                      StudySessionRepository sessionRepository) {
+                      StudySessionHelper studySessionHelper) {
         this.reviewRepository = reviewRepository;
         this.vocabularyRepository = vocabularyRepository;
-        this.sessionRepository = sessionRepository;
+        this.studySessionHelper = studySessionHelper;
     }
 
     /**
@@ -139,12 +136,26 @@ public class SrsService {
 
         long uniqueCount = reviewRepository.countUniqueReviewedToday(user, start, end);
 
-        StudySession session = sessionRepository.findByUserAndStudyDate(user, nowZoned.toLocalDate())
-                .orElseGet(() -> new StudySession(user, nowZoned.toLocalDate()));
-        session.setWordsStudied((int) uniqueCount);
-        sessionRepository.save(session);
+        updateStudySessionWithRetry(user, nowZoned.toLocalDate(), (int) uniqueCount, null, null, null);
 
         return savedReview;
+    }
+
+    private void updateStudySessionWithRetry(User user, java.time.LocalDate date, int wordsStudied, Integer addCorrect, Integer addTotal, Boolean freeze) {
+        int maxRetries = 3;
+        for (int i = 0; i < maxRetries; i++) {
+            try {
+                studySessionHelper.saveOrUpdateSessionWithNewTransaction(user, date, wordsStudied, addCorrect, addTotal, freeze);
+                return;
+            } catch (org.springframework.dao.DataIntegrityViolationException e) {
+                if (i == maxRetries - 1) throw e;
+                try {
+                    Thread.sleep(50);
+                } catch (InterruptedException ie) {
+                    Thread.currentThread().interrupt();
+                }
+            }
+        }
     }
 
     /**
