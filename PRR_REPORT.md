@@ -33,7 +33,7 @@ Hãy đánh dấu `[x]` vào các ô tương ứng sau khi hoàn thành từng h
 - [x] **Xác thực file upload**: Sửa API import Excel trong [ImportController.java](file:///c:/Users/bbqdd/Documents/_my/japaneseproject/backend/src/main/java/com/flashcard/controller/ImportController.java) để kiểm tra phần mở rộng tệp tin (chỉ cho phép `.xlsx`) và định dạng MIME type để phòng chống tấn công DoS/Zip Bomb.
 
 ### 🗓️ 3. Việc Cần Làm Tháng Này (MEDIUM - Tăng độ ổn định và SEO)
-- [ ] **Tích hợp theo dõi lỗi tự động**: Cài đặt **Sentry** cho cả frontend React và backend Spring Boot để tự động bắt lỗi ngoại lệ trên môi trường production.
+- [x] **Tích hợp theo dõi lỗi tự động**: Cài đặt **Sentry** cho cả frontend React và backend Spring Boot để tự động bắt lỗi ngoại lệ trên môi trường production.
 - [ ] **Tách chỉ mục Lucene nhúng để Scale-out**: Cấu hình Spring Boot và Hibernate Search kết nối sang cụm **AWS OpenSearch/Elasticsearch** độc lập để có thể scale ngang backend chạy nhiều container đồng thời.
 - [x] **Bổ sung các file SEO cơ bản**: Tạo và bổ sung các file `robots.txt` và `sitemap.xml` vào thư mục `public` của frontend.
 - [x] **Tích hợp Open Graph (OG) tags**: Dùng React Helmet để thay đổi động các thẻ meta title, description và Open Graph khi chia sẻ link từ vựng.
