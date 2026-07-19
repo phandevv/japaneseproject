@@ -8,6 +8,8 @@ import org.hibernate.search.mapper.orm.session.SearchSession;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,6 +32,7 @@ public class VocabularyService {
         return repository.findAll(pageable);
     }
 
+    @Cacheable(value = "vocabulary-level", key = "#level.toUpperCase()")
     public List<Vocabulary> getByLevel(String level) {
         return repository.findByLevel(level.toUpperCase());
     }
@@ -50,14 +53,17 @@ public class VocabularyService {
         return repository.findRandom(PageRequest.of(0, count));
     }
 
+    @Cacheable(value = "vocabulary", key = "#id", unless = "#result == null || !#result.isPresent()")
     public Optional<Vocabulary> getById(Long id) {
         return repository.findById(id);
     }
 
+    @CacheEvict(value = {"vocabulary", "vocabulary-level"}, allEntries = true)
     public Vocabulary save(Vocabulary vocabulary) {
         return repository.save(vocabulary);
     }
 
+    @CacheEvict(value = {"vocabulary", "vocabulary-level"}, allEntries = true)
     public void deleteById(Long id) {
         repository.deleteById(id);
     }
