@@ -256,6 +256,13 @@ export const srsApi = {
   }
 };
 
+export const studyApi = {
+  getQueue: async (level = 'N5') => {
+    const response = await axios.get(`${API_BASE_URL}/study/queue?level=${level}`);
+    return response.data; // { queue, newWordsLimit, queueSize }
+  }
+};
+
 export const analyticsApi = {
   getDashboard: async () => {
     const response = await axios.get(`${API_BASE_URL}/analytics/dashboard`);

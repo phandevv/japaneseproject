@@ -9,4 +9,11 @@ public interface SpacedRepetitionAlgorithm {
      * based on the current state and the user's rating.
      */
     void calculateNextState(WordReview currentReview, ReviewRating rating);
+
+    /**
+     * Projects the resulting intervals (in days) for each possible rating
+     * without actually modifying the WordReview state.
+     * Returns a map of rating name to projected interval in days.
+     */
+    java.util.Map<String, Integer> getProjectedIntervals(WordReview currentReview);
 }

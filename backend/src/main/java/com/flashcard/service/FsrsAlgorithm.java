@@ -132,4 +132,29 @@ public class FsrsAlgorithm implements SpacedRepetitionAlgorithm {
                       (float) Math.exp(w[14] * 1);
         return Math.min(Math.max(nextS, 0.1f), 36500f);
     }
+
+    @Override
+    public java.util.Map<String, Integer> getProjectedIntervals(WordReview currentReview) {
+        java.util.Map<String, Integer> projections = new java.util.HashMap<>();
+        ReviewRating[] ratings = {ReviewRating.AGAIN, ReviewRating.HARD, ReviewRating.GOOD, ReviewRating.EASY};
+        
+        for (ReviewRating rating : ratings) {
+            // Clone the state
+            WordReview clone = new WordReview();
+            clone.setState(currentReview.getState());
+            clone.setDifficulty(currentReview.getDifficulty());
+            clone.setStability(currentReview.getStability());
+            clone.setIntervalDays(currentReview.getIntervalDays());
+            clone.setReviewCount(currentReview.getReviewCount());
+            clone.setConsecutiveCorrect(currentReview.getConsecutiveCorrect());
+            clone.setLastReviewedAt(currentReview.getLastReviewedAt());
+
+            calculateNextState(clone, rating);
+            
+            // FSRS "AGAIN" interval is usually 0 days (meaning <10 minutes).
+            projections.put(rating.name(), clone.getIntervalDays());
+        }
+        
+        return projections;
+    }
 }

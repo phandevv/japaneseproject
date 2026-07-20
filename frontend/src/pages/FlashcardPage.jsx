@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { vocabApi, srsApi, analyticsApi, userSettingsApi } from '../services/api';
+import { vocabApi, srsApi, analyticsApi, userSettingsApi, studyApi } from '../services/api';
 import FlashcardCard from '../components/FlashcardCard';
 import { ArrowLeft, ArrowRight, Shuffle, Loader, CornerUpLeft, Settings } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
@@ -110,7 +110,14 @@ const FlashcardPage = ({ level: initialLevel, isSrs = false, stats, goBack, onDa
     try {
       let data = [];
       if (isSrs) {
-        data = await srsApi.getDueWords();
+        // Use the new Gamified Priority Queue API for SRS
+        const response = await studyApi.getQueue(activeLevel || 'N5');
+        // Map WordReviewDto to what the UI expects (vocabulary + projections)
+        data = response.queue.map(item => ({
+          ...item.vocabulary,
+          projections: item.projectedIntervals,
+          wordReviewId: item.id
+        }));
       } else if (isLearnedStudy) {
         data = await srsApi.getRandomLearnedWords(50);
       }
@@ -124,7 +131,7 @@ const FlashcardPage = ({ level: initialLevel, isSrs = false, stats, goBack, onDa
     } finally {
       setLoading(false);
     }
-  }, [isSrs, isLearnedStudy]);
+  }, [isSrs, isLearnedStudy, activeLevel]);
 
   useEffect(() => {
     if (isSrs || isLearnedStudy) {
