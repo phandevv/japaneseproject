@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { api } from '../services/api';
+import { usersApi } from '../services/api';
 import { ArrowLeft, Loader, ChevronLeft, ChevronRight } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
@@ -25,7 +25,7 @@ const StudyStatsPage = () => {
   const fetchStats = async (r, t, p, s) => {
     setLoading(true);
     try {
-      const res = await api.studyHistoryDetails(r, t, p, s);
+      const res = await usersApi.studyHistoryDetails(r, t, p, s);
       setData(res);
     } catch (e) {
       console.error(e);
