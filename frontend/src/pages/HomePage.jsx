@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { vocabApi, analyticsApi } from '../services/api';
 import { Sparkles, Play, BookOpen, Globe, Users, Video, ShieldCheck, Loader, Brain, Flame, CheckCircle2, BarChart2, ShieldAlert, Trophy, Snowflake, Calendar, List, Check, Star, ArrowRight } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
@@ -58,8 +59,9 @@ const differenceItems = [
 
 const HomePage = ({ user: propUser, startStudy, streak, onLoginClick, onLogout, onAdminClick, onDailyClick, isAuthView, onAuthSuccess, onAuthCancel, forceLanding }) => {
   const { t } = useLanguage();
-  const { user: contextUser } = useAuth();
-  const user = propUser || contextUser;
+  const navigate = useNavigate();
+  const { user: authUser } = useAuth();
+  const user = propUser || authUser;
   const [stats, setStats] = useState(null);
   const [dashboardData, setDashboardData] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -426,30 +428,6 @@ const HomePage = ({ user: propUser, startStudy, streak, onLoginClick, onLogout, 
               <div className="dashboard-grid">
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
                   {renderActivityGraph()}
-                  
-                  <div style={{ display: 'flex', justifyContent: 'center', marginTop: '10px' }}>
-                    <button 
-                      onClick={() => navigate('/study-stats')}
-                      style={{
-                        padding: '12px 24px',
-                        background: 'var(--surface-color)',
-                        color: 'var(--text-primary)',
-                        border: '1px solid var(--border-color)',
-                        borderRadius: '24px',
-                        fontWeight: 600,
-                        cursor: 'pointer',
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '8px',
-                        transition: 'all 0.2s',
-                        boxShadow: 'var(--shadow-sm)'
-                      }}
-                      onMouseOver={(e) => e.currentTarget.style.borderColor = 'var(--accent-color)'}
-                      onMouseOut={(e) => e.currentTarget.style.borderColor = 'var(--border-color)'}
-                    >
-                      Xem chi tiết từ vựng đã ôn tập <ArrowRight size={16} />
-                    </button>
-                  </div>
 
                   {/* Compact Stats Row */}
                   <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap' }}>
@@ -474,6 +452,30 @@ const HomePage = ({ user: propUser, startStudy, streak, onLoginClick, onLogout, 
                         <div style={{ fontSize: '1.75rem', fontWeight: 800, lineHeight: 1, marginTop: '4px' }}>{dashboardData.learnedCount}</div>
                       </div>
                     </div>
+                  </div>
+
+                  <div style={{ display: 'flex', justifyContent: 'center', marginTop: '10px' }}>
+                    <button 
+                      onClick={() => navigate('/study-stats')}
+                      style={{
+                        padding: '12px 24px',
+                        background: 'var(--surface-color)',
+                        color: 'var(--text-primary)',
+                        border: '1px solid var(--border-color)',
+                        borderRadius: '24px',
+                        fontWeight: 600,
+                        cursor: 'pointer',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '8px',
+                        transition: 'all 0.2s',
+                        boxShadow: 'var(--shadow-sm)'
+                      }}
+                      onMouseOver={(e) => e.currentTarget.style.borderColor = 'var(--accent-color)'}
+                      onMouseOut={(e) => e.currentTarget.style.borderColor = 'var(--border-color)'}
+                    >
+                      Xem chi tiết từ vựng đã ôn tập <ArrowRight size={16} />
+                    </button>
                   </div>
 
                   {/* Promotional Banner */}
