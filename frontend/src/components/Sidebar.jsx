@@ -1,4 +1,4 @@
-import { BookOpen, ChevronLeft, ChevronRight, Cpu, Database, Home, Layers, Loader, LogIn, LogOut, MessageSquare, Palette, Search, ShieldCheck, Upload, LifeBuoy, Gamepad2 } from "lucide-react";
+import { BookOpen, ChevronLeft, ChevronRight, Cpu, Database, Home, Layers, Loader, LogIn, LogOut, MessageSquare, Palette, Search, ShieldCheck, Upload, LifeBuoy, Gamepad2, Sun, RefreshCw } from "lucide-react";
 import { useRef, useState } from "react";
 import { useLanguage } from "../context/LanguageContext";
 import { useTheme } from "../context/ThemeContext";
@@ -99,6 +99,22 @@ const Sidebar = ({ isCollapsed, onToggleCollapse, currentPage, setCurrentPage, o
         >
           <Layers size={17} />
           <span>Thẻ ghi nhớ</span>
+        </button>
+
+        <div className="sidebar-section-label" style={{ marginTop: '10px' }}>Ôn tập</div>
+        <button
+          className={`sidebar-link${currentPage === "review-morning" ? " active" : ""}`}
+          onClick={() => setCurrentPage("review-morning")}
+        >
+          <Sun size={17} />
+          <span>Ôn tập buổi sáng</span>
+        </button>
+        <button
+          className={`sidebar-link${currentPage === "review-today" ? " active" : ""}`}
+          onClick={() => setCurrentPage("review-today")}
+        >
+          <RefreshCw size={17} />
+          <span>Ôn lại hôm nay</span>
         </button>
         <button
           className={`sidebar-link${currentPage?.startsWith("game") ? " active" : ""}`}

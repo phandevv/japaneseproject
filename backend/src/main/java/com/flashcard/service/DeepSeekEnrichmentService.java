@@ -204,4 +204,100 @@ public class DeepSeekEnrichmentService {
         }
         return content.trim();
     }
+
+    // ──────────────────────────────────────────────────────────────────────────
+    // AI Translation Exercise Methods
+    // ──────────────────────────────────────────────────────────────────────────
+
+    /**
+     * Generate a Japanese sentence / paragraph that naturally contains the given vocabulary words.
+     * Returns: { "sentence": "...", "hint": "..." }
+     */
+    public Map<String, String> generateTranslationExercise(java.util.List<Vocabulary> vocabs) throws Exception {
+        String apiKey = getApiKey();
+        if (apiKey == null) {
+            return Map.of("sentence", "今日は良い天気ですね。", "hint", "Gợi ý: thời tiết hôm nay");
+        }
+
+        StringBuilder wordList = new StringBuilder();
+        for (Vocabulary v : vocabs) {
+            String word = v.getKanji() != null ? v.getKanji() : v.getHiragana();
+            wordList.append("- ").append(word).append(" (").append(v.getMeaning()).append(")\n");
+        }
+
+        String prompt = "Hãy tạo 1 câu hoặc đoạn văn tiếng Nhật ngắn (khoảng 15-30 chữ) " +
+                "có chứa các từ vựng sau một cách tự nhiên:\n" + wordList +
+                "\nTrả về JSON duy nhất không markdown:\n" +
+                "{\"sentence\": \"câu tiếng Nhật ở đây\", \"hint\": \"gợi ý ngữ cảnh ngắn bằng tiếng Việt\"}";
+
+        String responseBody = callDeepSeekRaw(apiKey, prompt);
+        JsonNode root = objectMapper.readTree(cleanJsonContent(responseBody));
+        return Map.of(
+            "sentence", root.path("sentence").asText("今日は良い天気ですね。"),
+            "hint", root.path("hint").asText("")
+        );
+    }
+
+    /**
+     * Grade a user's Vietnamese translation of a Japanese sentence.
+     * Returns: { "score": 8, "feedback": "...", "correctTranslation": "..." }
+     */
+    public Map<String, Object> gradeTranslation(String sentence, String userTranslation) throws Exception {
+        String apiKey = getApiKey();
+        if (apiKey == null) {
+            return Map.of("score", 7, "feedback", "Không thể kết nối AI để chấm điểm.", "correctTranslation", "(Chưa có)");
+        }
+
+        String prompt = "Bạn là giáo viên chấm dịch tiếng Nhật chuyên nghiệp.\n" +
+                "Câu tiếng Nhật: \"" + sentence + "\"\n" +
+                "Bản dịch của học viên: \"" + userTranslation + "\"\n\n" +
+                "Hãy chấm điểm từ 0-10, nhận xét chi tiết bằng tiếng Việt, và đưa ra bản dịch chuẩn.\n" +
+                "Trả về JSON duy nhất không markdown:\n" +
+                "{\"score\": 8, \"feedback\": \"nhận xét chi tiết\", \"correctTranslation\": \"bản dịch chuẩn\"}";
+
+        String responseBody = callDeepSeekRaw(apiKey, prompt);
+        JsonNode root = objectMapper.readTree(cleanJsonContent(responseBody));
+        return Map.of(
+            "score", root.path("score").asInt(5),
+            "feedback", root.path("feedback").asText("Không có nhận xét."),
+            "correctTranslation", root.path("correctTranslation").asText("")
+        );
+    }
+
+    private String getApiKey() {
+        String apiKey = System.getenv("DEEPSEEK_API_KEY");
+        if (apiKey == null || apiKey.trim().isEmpty()) {
+            apiKey = System.getProperty("DEEPSEEK_API_KEY");
+        }
+        if (apiKey == null || apiKey.trim().isEmpty()) {
+            log.warn("DEEPSEEK_API_KEY is not set. Returning fallback.");
+            return null;
+        }
+        return apiKey;
+    }
+
+    /** Synchronous DeepSeek call, returns the content string of first choice. */
+    private String callDeepSeekRaw(String apiKey, String userPrompt) throws Exception {
+        String requestBody = objectMapper.writeValueAsString(Map.of(
+            "model", "deepseek-chat",
+            "messages", java.util.List.of(Map.of("role", "user", "content", userPrompt)),
+            "max_tokens", 512,
+            "temperature", 0.7
+        ));
+
+        HttpRequest request = HttpRequest.newBuilder()
+            .uri(URI.create("https://api.deepseek.com/v1/chat/completions"))
+            .header("Content-Type", "application/json")
+            .header("Authorization", "Bearer " + apiKey)
+            .timeout(Duration.ofSeconds(30))
+            .POST(HttpRequest.BodyPublishers.ofString(requestBody))
+            .build();
+
+        HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+        if (response.statusCode() != 200) {
+            throw new RuntimeException("DeepSeek API error: " + response.statusCode());
+        }
+        JsonNode root = objectMapper.readTree(response.body());
+        return root.path("choices").get(0).path("message").path("content").asText();
+    }
 }

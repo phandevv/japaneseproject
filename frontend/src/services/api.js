@@ -253,6 +253,10 @@ export const srsApi = {
   getSrsList: async () => {
     const response = await axios.get(`${API_BASE_URL}/srs/list`);
     return response.data;
+  },
+  getTodayReviewed: async () => {
+    const response = await axios.get(`${API_BASE_URL}/study/today-reviewed`);
+    return response.data;
   }
 };
 

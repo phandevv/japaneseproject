@@ -92,7 +92,13 @@ public class SecurityConfig {
                 // ── AI Chat & Knowledge Base (Authenticated users only) ──────────────────────
                 .requestMatchers(HttpMethod.POST, "/api/chat").authenticated()
                 .requestMatchers("/api/knowledge/**").authenticated()
-                
+
+                // ── AI Exercise (Translation Practice + Grading) ─────────────────────────────
+                .requestMatchers("/api/ai/exercise/**").authenticated()
+
+                // ── Study Queue & Today Review ───────────────────────────────────────────────
+                .requestMatchers("/api/study/**").authenticated()
+
                 // ── Everything else requires valid JWT ──────────────────────
                 .anyRequest().authenticated()
             )

@@ -18,6 +18,7 @@ import AiEnrichmentAdminPage from './pages/AiEnrichmentAdminPage';
 import AIChatWidget from './components/AIChatWidget';
 import KnowledgeBasePage from './pages/KnowledgeBasePage';
 import ConversationTutorPage from './pages/ConversationTutorPage';
+import ReviewHubPage from './pages/ReviewHubPage';
 import GamesHubPage from './pages/GamesHubPage';
 import MemoryMatchGame from './pages/MemoryMatchGame';
 import FallingWordsGame from './pages/FallingWordsGame';
@@ -86,6 +87,8 @@ function App() {
     if (path.startsWith('/games/falling')) return 'game-falling';
 
     if (path === '/study-stats') return 'study-stats';
+    if (path === '/review/morning') return 'review-morning';
+    if (path === '/review/today') return 'review-today';
 
     return 'home';
   };
@@ -115,6 +118,8 @@ function App() {
       case 'game-memory': navigate('/games/memory'); break;
       case 'game-falling': navigate('/games/falling'); break;
 
+      case 'review-morning': navigate('/review/morning'); break;
+      case 'review-today': navigate('/review/today'); break;
       case 'study-stats': navigate('/study-stats'); break;
       default: navigate('/');
     }
@@ -305,6 +310,18 @@ function App() {
         return isAuthenticated ? <MemoryMatchGame /> : <AuthPage onCancel={() => navigate('/')} onSuccess={handleLoginSuccess} />;
       case 'game-falling':
         return isAuthenticated ? <FallingWordsGame /> : <AuthPage onCancel={() => navigate('/')} onSuccess={handleLoginSuccess} />;
+      case 'review-morning':
+        return isAuthenticated ? (
+          <ReviewHubPage mode="morning" goBack={() => navigate('/')} />
+        ) : (
+          <AuthPage onCancel={() => navigate('/')} onSuccess={handleLoginSuccess} />
+        );
+      case 'review-today':
+        return isAuthenticated ? (
+          <ReviewHubPage mode="today" goBack={() => navigate('/')} />
+        ) : (
+          <AuthPage onCancel={() => navigate('/')} onSuccess={handleLoginSuccess} />
+        );
       case 'study-stats':
         return isAuthenticated ? (
           <StudyStatsPage />
