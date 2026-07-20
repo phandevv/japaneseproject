@@ -71,7 +71,7 @@ public class SecurityConfig {
                 .requestMatchers("/ws/conversation", "/ws/conversation/**").permitAll()
                 
                 // ── AI Vocabulary Enrichment (Admin & VIP only) ─────────────
-                .requestMatchers(HttpMethod.POST, "/api/vocab/*/enrich").hasAnyRole("ADMIN", "VIP")
+                .requestMatchers(HttpMethod.POST, "/api/vocab/*/enrich").authenticated()
                 
                 // ── Vocabulary Management (Admin only) ───────────────────────
                 .requestMatchers(HttpMethod.POST, "/api/vocab").hasRole("ADMIN")
