@@ -689,6 +689,7 @@ const KanjiDetailModal = ({ words, initialIndex, onClose }) => {
   /* Keyboard navigation */
   useEffect(() => {
     const onKey = (e) => {
+      if (['INPUT', 'TEXTAREA', 'SELECT'].includes(e.target.tagName) || e.target.isContentEditable) return;
       if (e.key === 'Escape') onClose();
       if (e.key === 'ArrowRight' && side === 'front') goNext();
       if (e.key === 'ArrowLeft'  && side === 'front') goPrev();

@@ -176,6 +176,7 @@ const FlashcardPage = ({ level: initialLevel, isSrs = false, stats, goBack, onDa
   useEffect(() => {
     if (words.length === 0) return;
     const handleKeyDown = (e) => {
+      if (['INPUT', 'TEXTAREA', 'SELECT'].includes(e.target.tagName) || e.target.isContentEditable) return;
       if (e.key === ' ') {
         e.preventDefault();
         setFlipped(prev => !prev);
