@@ -65,4 +65,46 @@ public class UserController {
             return ResponseEntity.notFound().build();
         }
     }
+
+    @Autowired
+    private com.flashcard.repository.WordReviewRepository wordReviewRepository;
+
+    @GetMapping("/me/study-history-details")
+    public ResponseEntity<?> getStudyHistoryDetails(
+            @org.springframework.security.core.annotation.AuthenticationPrincipal User user,
+            @org.springframework.web.bind.annotation.RequestParam(defaultValue = "day") String range) {
+        
+        if (user == null) {
+            return ResponseEntity.status(401).body(Map.of("error", "Unauthorized"));
+        }
+
+        java.time.Instant start;
+        java.time.Instant end = java.time.Instant.now();
+        java.time.ZoneId zone = java.time.ZoneId.systemDefault();
+        java.time.ZonedDateTime now = java.time.ZonedDateTime.now(zone);
+
+        if ("week".equalsIgnoreCase(range)) {
+            start = now.with(java.time.temporal.TemporalAdjusters.previousOrSame(java.time.DayOfWeek.MONDAY))
+                       .truncatedTo(java.time.temporal.ChronoUnit.DAYS).toInstant();
+        } else if ("month".equalsIgnoreCase(range)) {
+            start = now.withDayOfMonth(1).truncatedTo(java.time.temporal.ChronoUnit.DAYS).toInstant();
+        } else { // default "day"
+            start = now.truncatedTo(java.time.temporal.ChronoUnit.DAYS).toInstant();
+        }
+
+        List<com.flashcard.model.WordReview> reviews = wordReviewRepository.findByUserAndLastReviewedAtBetween(user, start, end);
+        
+        List<Map<String, Object>> responseList = reviews.stream().map(wr -> {
+            Map<String, Object> map = new HashMap<>();
+            map.put("id", wr.getVocabulary().getId());
+            map.put("kanji", wr.getVocabulary().getKanji());
+            map.put("hiragana", wr.getVocabulary().getHiragana());
+            map.put("meaning", wr.getVocabulary().getMeaning());
+            map.put("lastRating", wr.getLastRating());
+            map.put("lastReviewedAt", wr.getLastReviewedAt());
+            return map;
+        }).collect(Collectors.toList());
+
+        return ResponseEntity.ok(responseList);
+    }
 }

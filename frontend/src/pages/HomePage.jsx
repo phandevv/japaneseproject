@@ -5,6 +5,7 @@ import { useLanguage } from '../context/LanguageContext';
 import { useAuth } from '../context/AuthContext';
 import { OnlineUsersWidget } from '../components/OnlineUsersWidget';
 import { UserProfileModal } from '../components/UserProfileModal';
+import StudyHistoryDetailsWidget from '../components/StudyHistoryDetailsWidget';
 import SakuraPetals from '../components/SakuraPetals';
 import AuthPage from './AuthPage';
 import '../styles/HomePage.css';
@@ -425,6 +426,7 @@ const HomePage = ({ user: propUser, startStudy, streak, onLoginClick, onLogout, 
               <div className="dashboard-grid">
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
                   {renderActivityGraph()}
+                  <StudyHistoryDetailsWidget />
 
                   {/* Compact Stats Row */}
                   <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap' }}>

@@ -379,6 +379,10 @@ export const usersApi = {
   getUserProfile: async (username) => {
     const response = await axios.get(`${API_BASE_URL}/users/${username}`);
     return response.data;
+  },
+  studyHistoryDetails: async (range) => {
+    const response = await axios.get(`${API_BASE_URL}/users/me/study-history-details?range=${range}`);
+    return response.data;
   }
 };
 

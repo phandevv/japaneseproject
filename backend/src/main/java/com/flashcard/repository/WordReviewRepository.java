@@ -45,4 +45,10 @@ public interface WordReviewRepository extends JpaRepository<WordReview, Long> {
     long countUniqueReviewedToday(@Param("user") User user,
                                   @Param("start") Instant start,
                                   @Param("end") Instant end);
+
+    @Query("SELECT wr FROM WordReview wr JOIN FETCH wr.vocabulary WHERE wr.user = :user " +
+           "AND wr.lastReviewedAt >= :start AND wr.lastReviewedAt <= :end")
+    List<WordReview> findByUserAndLastReviewedAtBetween(@Param("user") User user,
+                                                        @Param("start") Instant start,
+                                                        @Param("end") Instant end);
 }
