@@ -209,26 +209,30 @@ const FlashcardCard = ({ word, flipped, onFlip, onRateWord }) => {
               </div>
 
               {/* Rate buttons for logged-in user in flashcard mode */}
-              {onRateWord && (
-                <div style={{ display: 'flex', gap: '12px', width: '100%', justifyContent: 'center', marginTop: '20px' }} onClick={e => e.stopPropagation()}>
-                  <button className="glass-pill-btn glass-pill-forgot" onClick={() => onRateWord(1)} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '2px' }}>
-                    {word.projections && <span style={{fontSize: '0.75rem', opacity: 0.7}}>{word.projections.AGAIN === 0 ? '<10m' : word.projections.AGAIN + 'd'}</span>}
-                    <span>Forgot</span>
-                  </button>
-                  <button className="glass-pill-btn glass-pill-hard" onClick={() => onRateWord(2)} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '2px' }}>
-                    {word.projections && <span style={{fontSize: '0.75rem', opacity: 0.7}}>{word.projections.HARD === 0 ? '<10m' : word.projections.HARD + 'd'}</span>}
-                    <span>Hard</span>
-                  </button>
-                  <button className="glass-pill-btn glass-pill-good" onClick={() => onRateWord(3)} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '2px' }}>
-                    {word.projections && <span style={{fontSize: '0.75rem', opacity: 0.7}}>{word.projections.GOOD === 0 ? '<10m' : word.projections.GOOD + 'd'}</span>}
-                    <span>Good</span>
-                  </button>
-                  <button className="glass-pill-btn glass-pill-easy" onClick={() => onRateWord(4)} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '2px' }}>
-                    {word.projections && <span style={{fontSize: '0.75rem', opacity: 0.7}}>{word.projections.EASY === 0 ? '<10m' : word.projections.EASY + 'd'}</span>}
-                    <span>Easy</span>
-                  </button>
-                </div>
-              )}
+              {onRateWord && (() => {
+                // Fallback default FSRS projections for NEW cards (when studying in Daily Study mode)
+                const proj = word.projections || { AGAIN: 0, HARD: 0, GOOD: 1, EASY: 5 };
+                return (
+                  <div style={{ display: 'flex', gap: '12px', width: '100%', justifyContent: 'center', marginTop: '20px' }} onClick={e => e.stopPropagation()}>
+                    <button className="glass-pill-btn glass-pill-forgot" onClick={() => onRateWord(1)} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '2px' }}>
+                      <span style={{fontSize: '0.75rem', opacity: 0.7}}>{proj.AGAIN === 0 ? '<10m' : proj.AGAIN + 'd'}</span>
+                      <span>Forgot</span>
+                    </button>
+                    <button className="glass-pill-btn glass-pill-hard" onClick={() => onRateWord(2)} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '2px' }}>
+                      <span style={{fontSize: '0.75rem', opacity: 0.7}}>{proj.HARD === 0 ? '<10m' : proj.HARD + 'd'}</span>
+                      <span>Hard</span>
+                    </button>
+                    <button className="glass-pill-btn glass-pill-good" onClick={() => onRateWord(3)} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '2px' }}>
+                      <span style={{fontSize: '0.75rem', opacity: 0.7}}>{proj.GOOD === 0 ? '<10m' : proj.GOOD + 'd'}</span>
+                      <span>Good</span>
+                    </button>
+                    <button className="glass-pill-btn glass-pill-easy" onClick={() => onRateWord(4)} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '2px' }}>
+                      <span style={{fontSize: '0.75rem', opacity: 0.7}}>{proj.EASY === 0 ? '<10m' : proj.EASY + 'd'}</span>
+                      <span>Easy</span>
+                    </button>
+                  </div>
+                );
+              })()}
             </div>
 
             {/* Right Column: AI Rich Data Section */}
