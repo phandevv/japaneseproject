@@ -845,19 +845,26 @@ const KanjiDetailModal = ({ words, initialIndex, onClose }) => {
                     {word.level} Level
                   </span>
 
-                  {/* Reading (Hiragana) */}
-                  {word.kanji && word.hiragana && (
-                    <div style={{ 
-                      fontFamily: 'var(--font-jp)', 
-                      fontSize: '1.25rem', 
-                      color: 'var(--text-secondary)', 
-                      marginBottom: '4px', 
-                      opacity: 0.85,
-                      letterSpacing: '0.04em'
-                    }}>
-                      {word.hiragana}
-                    </div>
-                  )}
+                  {/* Reading (Hiragana) & Pronounce */}
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '4px' }}>
+                    {word.kanji && word.hiragana && (
+                      <div style={{ 
+                        fontFamily: 'var(--font-jp)', 
+                        fontSize: '1.25rem', 
+                        color: 'var(--text-secondary)', 
+                        opacity: 0.85,
+                        letterSpacing: '0.04em'
+                      }}>
+                        {word.hiragana}
+                      </div>
+                    )}
+                    <button onClick={handleSpeak} style={{
+                      background: 'rgba(239, 68, 68, 0.1)', border: 'none', cursor: 'pointer', borderRadius: '50%',
+                      color: 'var(--accent-color)', padding: '6px', display: 'flex', alignItems: 'center', transition: 'all 0.2s'
+                    }} title="Phát âm" onMouseEnter={e => e.currentTarget.style.background = 'rgba(239, 68, 68, 0.2)'} onMouseLeave={e => e.currentTarget.style.background = 'rgba(239, 68, 68, 0.1)'}>
+                      <Volume2 size={18} />
+                    </button>
+                  </div>
 
                   {/* Main Kanji Text */}
                   <div key={`k-${currentIndex}`} style={{

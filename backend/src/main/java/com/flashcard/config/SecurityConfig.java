@@ -160,7 +160,7 @@ public class SecurityConfig {
                         .addLimit(Bandwidth.builder().capacity(10).refillGreedy(10, Duration.ofMinutes(1)).build())
                         .build();
                 Bucket enrich = Bucket.builder()
-                        .addLimit(Bandwidth.builder().capacity(5).refillGreedy(5, Duration.ofMinutes(1)).build())
+                        .addLimit(Bandwidth.builder().capacity(60).refillGreedy(60, Duration.ofMinutes(1)).build())
                         .build();
                 return new UserBuckets(general, auth, enrich);
             }
@@ -195,7 +195,7 @@ public class SecurityConfig {
                     // 3. Check AI Enrichment Protection (Paid/Slow API)
                     if (uri.endsWith("/enrich")) {
                         if (!userBuckets.enrichBucket.tryConsume(1)) {
-                            sendErrorResponse(response, "Too many AI enrichment requests. Limit is 5 requests per minute.");
+                            sendErrorResponse(response, "Too many AI enrichment requests. Limit is 60 requests per minute.");
                             return;
                         }
                     }
