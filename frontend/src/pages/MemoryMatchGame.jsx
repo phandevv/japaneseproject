@@ -5,6 +5,7 @@ import { ArrowLeft, RefreshCw, Trophy, Clock, Play, Eye } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
 import { useAuth } from '../context/AuthContext';
 import PodiumLeaderboard from '../components/PodiumLeaderboard';
+import MascotLoader from '../components/MascotLoader';
 
 // Helper to spawn sakura particles
 const spawnSakura = (x, y, burst = false) => {
@@ -73,7 +74,11 @@ const MemoryMatchGame = () => {
     setLoading(true);
     setGameState('playing');
     try {
-      const words = await vocabApi.getRandomByLevel(selectedLevel, wordCount);
+      // Force 5 seconds minimum load time to show animation
+      const [words] = await Promise.all([
+        vocabApi.getRandomByLevel(selectedLevel, wordCount),
+        new Promise(resolve => setTimeout(resolve, 5000))
+      ]);
       
       const gameCards = [];
       words.forEach(word => {
@@ -326,7 +331,7 @@ const MemoryMatchGame = () => {
 
       {gameState === 'playing' && (
         loading ? (
-          <div style={{ margin: 'auto' }}>Đang tải dữ liệu...</div>
+          <div style={{ margin: 'auto' }}><MascotLoader message="Đang xáo bài..." /></div>
         ) : (
           <div className="animate-fade-in" style={{ 
             display: 'grid', 
