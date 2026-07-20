@@ -20,12 +20,19 @@ public class SrsService {
     private final VocabularyRepository vocabularyRepository;
     private final StudySessionHelper studySessionHelper;
 
+    private final SpacedRepetitionAlgorithm spacedRepetitionAlgorithm;
+    private final com.flashcard.repository.ReviewLogRepository reviewLogRepository;
+
     public SrsService(WordReviewRepository reviewRepository,
                       VocabularyRepository vocabularyRepository,
-                      StudySessionHelper studySessionHelper) {
+                      StudySessionHelper studySessionHelper,
+                      SpacedRepetitionAlgorithm spacedRepetitionAlgorithm,
+                      com.flashcard.repository.ReviewLogRepository reviewLogRepository) {
         this.reviewRepository = reviewRepository;
         this.vocabularyRepository = vocabularyRepository;
         this.studySessionHelper = studySessionHelper;
+        this.spacedRepetitionAlgorithm = spacedRepetitionAlgorithm;
+        this.reviewLogRepository = reviewLogRepository;
     }
 
     /**
@@ -48,7 +55,7 @@ public class SrsService {
     }
 
     /**
-     * Handle word rating submission and recalculate next review interval using SM-2
+     * Handle word rating submission and recalculate next review interval using FSRS
      * @param quality rating from user: 1 (Again), 2 (Hard), 3 (Good), 4 (Easy)
      */
     @Transactional
@@ -63,70 +70,27 @@ public class SrsService {
         WordReview review = reviewRepository.findByUserAndVocabulary(user, vocab)
                 .orElseGet(() -> new WordReview(user, vocab));
 
-        // Map 1-4 scale to SM-2 0-5 scale
-        // 1 (Again) -> q=0 or q=1 (let's use 1)
-        // 2 (Hard)  -> q=3
-        // 3 (Good)  -> q=4
-        // 4 (Easy)  -> q=5
-        int q = switch (quality) {
-            case 1 -> 1;
-            case 2 -> 3;
-            case 3 -> 4;
-            case 4 -> 5;
-            default -> 3;
-        };
+        com.flashcard.model.ReviewRating rating = com.flashcard.model.ReviewRating.fromValue(quality);
+        
+        com.flashcard.model.WordReviewState stateBefore = review.getState();
+        float difficultyBefore = review.getDifficulty();
+        float stabilityBefore = review.getStability();
 
-        double easeFactor = review.getEaseFactor();
-        int repetitions = review.getRepetitions();
-        int intervalDays;
-
-        if (quality >= 3) { // Good or Easy (success response for learning)
-            if (repetitions == 0) {
-                intervalDays = 1;
-            } else if (repetitions == 1) {
-                intervalDays = 6;
-            } else {
-                int prevInterval = review.getIntervalDays();
-                if (prevInterval <= 0) {
-                    intervalDays = 1;
-                } else {
-                    intervalDays = (int) Math.round(prevInterval * easeFactor);
-                }
-            }
-            repetitions++;
-        } else { // Forgot (1) or Hard (2) (not learned or failed review)
-            repetitions = 0;
-            if (review.getIntervalDays() > 0) {
-                intervalDays = 1; // Keep it as learned (interval 1 day)
-            } else {
-                intervalDays = 0; // Not learned yet
-            }
-        }
-
-        // Adjust Ease Factor (EF)
-        // EF' := EF + (0.1 - (5 - q) * (0.08 + (5 - q) * 0.02))
-        easeFactor = easeFactor + (0.1 - (5 - q) * (0.08 + (5 - q) * 0.02));
-        if (easeFactor < 1.3) {
-            easeFactor = 1.3;
-        }
-
-        review.setEaseFactor(easeFactor);
-        review.setRepetitions(repetitions);
-        review.setIntervalDays(intervalDays);
-
-        // Schedule next review date
-        // If intervalDays is 0, it is due immediately (Instant.now())
-        // Otherwise, schedule by days
-        Instant nextReview = (intervalDays == 0)
-                ? Instant.now()
-                : Instant.now().plus(intervalDays, ChronoUnit.DAYS);
-        review.setNextReview(nextReview);
-
-        // Set tracking fields
-        review.setLastReviewedAt(Instant.now());
-        review.setLastRating(quality);
+        spacedRepetitionAlgorithm.calculateNextState(review, rating);
 
         WordReview savedReview = reviewRepository.save(review);
+
+        // Create Review Log
+        com.flashcard.model.ReviewLog reviewLog = new com.flashcard.model.ReviewLog(savedReview, rating);
+        reviewLog.setStateBefore(stateBefore);
+        reviewLog.setStateAfter(savedReview.getState());
+        reviewLog.setDifficultyBefore(difficultyBefore);
+        reviewLog.setDifficultyAfter(savedReview.getDifficulty());
+        reviewLog.setStabilityBefore(stabilityBefore);
+        reviewLog.setStabilityAfter(savedReview.getStability());
+        // Assume shownAt and answeredAt logic will be provided in a DTO later, currently we just set defaults
+        reviewLog.setDurationMs(0); 
+        reviewLogRepository.save(reviewLog);
 
         // Sync wordsStudied count for today's StudySession
         java.time.ZoneId zone = java.time.ZoneId.of("Asia/Ho_Chi_Minh");

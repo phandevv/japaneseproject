@@ -70,7 +70,7 @@ export default function AiEnrichedTabbedView({ data }) {
       </div>
 
       {/* Content */}
-      <div style={{ padding: '14px 16px', height: '320px', overflowY: 'auto', textAlign: 'left' }} className="custom-scrollbar">
+      <div style={{ padding: '14px 16px', height: '480px', overflowY: 'auto', textAlign: 'left' }} className="custom-scrollbar">
         {activeCardTab === 'core' && (
           <div className="card-tab-content animate-fade-in" style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
             {data.mnemonic && (

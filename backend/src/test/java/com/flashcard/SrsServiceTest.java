@@ -29,13 +29,18 @@ class SrsServiceTest {
     private User testUser;
     private Vocabulary testVocabulary;
 
+    private com.flashcard.service.SpacedRepetitionAlgorithm spacedRepetitionAlgorithm;
+    private com.flashcard.repository.ReviewLogRepository reviewLogRepository;
+
     @BeforeEach
     void setUp() {
         reviewRepository = Mockito.mock(WordReviewRepository.class);
         vocabularyRepository = Mockito.mock(VocabularyRepository.class);
         sessionRepository = Mockito.mock(StudySessionRepository.class);
         studySessionHelper = Mockito.mock(StudySessionHelper.class);
-        srsService = new SrsService(reviewRepository, vocabularyRepository, studySessionHelper);
+        spacedRepetitionAlgorithm = Mockito.mock(com.flashcard.service.SpacedRepetitionAlgorithm.class);
+        reviewLogRepository = Mockito.mock(com.flashcard.repository.ReviewLogRepository.class);
+        srsService = new SrsService(reviewRepository, vocabularyRepository, studySessionHelper, spacedRepetitionAlgorithm, reviewLogRepository);
 
         testUser = new User();
         testUser.setId(1L);

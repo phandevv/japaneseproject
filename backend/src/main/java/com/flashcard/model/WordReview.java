@@ -25,6 +25,16 @@ public class WordReview {
     @JoinColumn(name = "vocabulary_id", nullable = false)
     private Vocabulary vocabulary;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "state", nullable = false)
+    private WordReviewState state = WordReviewState.NEW;
+
+    @Column(name = "difficulty", nullable = false)
+    private float difficulty = 0.0f;
+
+    @Column(name = "stability", nullable = false)
+    private float stability = 0.0f;
+
     @Column(name = "ease_factor", nullable = false)
     private double easeFactor = 2.5;
 
@@ -33,6 +43,18 @@ public class WordReview {
 
     @Column(name = "repetitions", nullable = false)
     private int repetitions = 0;
+
+    @Column(name = "review_count", nullable = false)
+    private int reviewCount = 0;
+
+    @Column(name = "correct_count", nullable = false)
+    private int correctCount = 0;
+
+    @Column(name = "wrong_count", nullable = false)
+    private int wrongCount = 0;
+
+    @Column(name = "consecutive_correct", nullable = false)
+    private int consecutiveCorrect = 0;
 
     @Column(name = "next_review", nullable = false)
     private Instant nextReview = Instant.now();
@@ -59,6 +81,15 @@ public class WordReview {
     public Vocabulary getVocabulary() { return vocabulary; }
     public void setVocabulary(Vocabulary vocabulary) { this.vocabulary = vocabulary; }
 
+    public WordReviewState getState() { return state; }
+    public void setState(WordReviewState state) { this.state = state; }
+
+    public float getDifficulty() { return difficulty; }
+    public void setDifficulty(float difficulty) { this.difficulty = difficulty; }
+
+    public float getStability() { return stability; }
+    public void setStability(float stability) { this.stability = stability; }
+
     public double getEaseFactor() { return easeFactor; }
     public void setEaseFactor(double easeFactor) { this.easeFactor = easeFactor; }
 
@@ -67,6 +98,19 @@ public class WordReview {
 
     public int getRepetitions() { return repetitions; }
     public void setRepetitions(int repetitions) { this.repetitions = repetitions; }
+
+    public int getReviewCount() { return reviewCount; }
+    public void setReviewCount(int reviewCount) { this.reviewCount = reviewCount; }
+
+    public int getCorrectCount() { return correctCount; }
+    public void setCorrectCount(int correctCount) { this.correctCount = correctCount; }
+
+    public int getWrongCount() { return wrongCount; }
+    public void setWrongCount(int wrongCount) { this.wrongCount = wrongCount; }
+
+
+    public int getConsecutiveCorrect() { return consecutiveCorrect; }
+    public void setConsecutiveCorrect(int consecutiveCorrect) { this.consecutiveCorrect = consecutiveCorrect; }
 
     public Instant getNextReview() { return nextReview; }
     public void setNextReview(Instant nextReview) { this.nextReview = nextReview; }
