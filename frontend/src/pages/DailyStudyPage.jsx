@@ -777,7 +777,7 @@ const DailyStudyPage = ({ level, stats, goBack }) => {
       <div style={{ width: '100%', position: 'relative' }}>
         {/* Kanji Detail Page */}
         {modalIndex !== null && (
-          <div className="animate-fade-in" style={{ width: '100%' }}>
+          <div style={{ width: '100%' }}>
             <KanjiDetailModal
               words={words}
               initialIndex={modalIndex}
