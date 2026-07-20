@@ -62,13 +62,22 @@ class SrsServiceTest {
         when(vocabularyRepository.findById(10L)).thenReturn(Optional.of(testVocabulary));
         when(reviewRepository.findByUserAndVocabulary(testUser, testVocabulary)).thenReturn(Optional.empty());
         when(reviewRepository.save(any(WordReview.class))).thenAnswer(invocation -> invocation.getArgument(0));
+        
+        // Mock FSRS logic for a NEW card rated AGAIN
+        Mockito.doAnswer(invocation -> {
+            WordReview r = invocation.getArgument(0);
+            r.setState(com.flashcard.model.WordReviewState.LEARNING);
+            r.setDifficulty(7.0f);
+            r.setIntervalDays(0);
+            r.setNextReview(java.time.Instant.now().plus(java.time.Duration.ofMinutes(5)));
+            return null;
+        }).when(spacedRepetitionAlgorithm).calculateNextState(any(WordReview.class), any(com.flashcard.model.ReviewRating.class));
 
-        // quality = 1 (Again)
+        // quality = 1 (Again) -> ReviewRating.AGAIN
         WordReview review = srsService.reviewWord(testUser, 10L, 1);
 
-        assertEquals(0, review.getRepetitions());
-        assertEquals(0, review.getIntervalDays());
-        assertTrue(review.getEaseFactor() < 2.5); // Ease factor should decrease on poor rating
+        assertEquals(com.flashcard.model.WordReviewState.LEARNING, review.getState());
+        assertEquals(7.0f, review.getDifficulty());
         assertNotNull(review.getNextReview());
     }
 
@@ -78,18 +87,34 @@ class SrsServiceTest {
         when(reviewRepository.findByUserAndVocabulary(testUser, testVocabulary)).thenReturn(Optional.empty());
         when(reviewRepository.save(any(WordReview.class))).thenAnswer(invocation -> invocation.getArgument(0));
 
+        // Mock FSRS logic for NEW card rated GOOD
+        Mockito.doAnswer(invocation -> {
+            WordReview r = invocation.getArgument(0);
+            r.setState(com.flashcard.model.WordReviewState.LEARNING);
+            r.setIntervalDays(1);
+            return null;
+        }).when(spacedRepetitionAlgorithm).calculateNextState(any(WordReview.class), any(com.flashcard.model.ReviewRating.class));
+
         // First review, Good rating (quality = 3)
         WordReview review1 = srsService.reviewWord(testUser, 10L, 3);
-        assertEquals(1, review1.getRepetitions());
+        assertEquals(com.flashcard.model.WordReviewState.LEARNING, review1.getState());
         assertEquals(1, review1.getIntervalDays());
 
         // Mock return existing review state
         when(reviewRepository.findByUserAndVocabulary(testUser, testVocabulary)).thenReturn(Optional.of(review1));
+        
+        // Mock FSRS logic for LEARNING card rated GOOD
+        Mockito.doAnswer(invocation -> {
+            WordReview r = invocation.getArgument(0);
+            r.setState(com.flashcard.model.WordReviewState.MATURE);
+            r.setIntervalDays(6);
+            return null;
+        }).when(spacedRepetitionAlgorithm).calculateNextState(any(WordReview.class), any(com.flashcard.model.ReviewRating.class));
 
         // Second review, Good rating (quality = 3)
         WordReview review2 = srsService.reviewWord(testUser, 10L, 3);
-        assertEquals(2, review2.getRepetitions());
-        assertEquals(6, review2.getIntervalDays()); // 2nd repetition always defaults to 6 days in SM-2
+        assertEquals(com.flashcard.model.WordReviewState.MATURE, review2.getState());
+        assertEquals(6, review2.getIntervalDays());
     }
 
     @Test
@@ -98,17 +123,33 @@ class SrsServiceTest {
         when(reviewRepository.findByUserAndVocabulary(testUser, testVocabulary)).thenReturn(Optional.empty());
         when(reviewRepository.save(any(WordReview.class))).thenAnswer(invocation -> invocation.getArgument(0));
 
+        // Mock FSRS logic for NEW card rated GOOD
+        Mockito.doAnswer(invocation -> {
+            WordReview r = invocation.getArgument(0);
+            r.setState(com.flashcard.model.WordReviewState.MATURE);
+            r.setIntervalDays(5);
+            return null;
+        }).when(spacedRepetitionAlgorithm).calculateNextState(any(WordReview.class), any(com.flashcard.model.ReviewRating.class));
+
         // 1. First review, Good rating (quality = 3) -> rep=1, interval=1 (learned)
         WordReview review1 = srsService.reviewWord(testUser, 10L, 3);
-        assertEquals(1, review1.getRepetitions());
-        assertEquals(1, review1.getIntervalDays());
+        assertEquals(com.flashcard.model.WordReviewState.MATURE, review1.getState());
 
         // Mock return existing review state
         when(reviewRepository.findByUserAndVocabulary(testUser, testVocabulary)).thenReturn(Optional.of(review1));
 
-        // 2. Second review, Forgot rating (quality = 1) -> should set repetitions to 0 but keep intervalDays = 1 (learned)
+        // Mock FSRS logic for MATURE card rated AGAIN
+        Mockito.doAnswer(invocation -> {
+            WordReview r = invocation.getArgument(0);
+            // It remains mature or drops to learning depending on logic, let's assume it drops to learning but we check fields
+            r.setState(com.flashcard.model.WordReviewState.LEARNING);
+            r.setDifficulty(8.0f);
+            return null;
+        }).when(spacedRepetitionAlgorithm).calculateNextState(any(WordReview.class), any(com.flashcard.model.ReviewRating.class));
+
+        // 2. Second review, Forgot rating (quality = 1)
         WordReview review2 = srsService.reviewWord(testUser, 10L, 1);
-        assertEquals(0, review2.getRepetitions());
-        assertEquals(1, review2.getIntervalDays()); // Preserves learned status (> 0)
+        assertEquals(com.flashcard.model.WordReviewState.LEARNING, review2.getState());
+        assertEquals(8.0f, review2.getDifficulty());
     }
 }
