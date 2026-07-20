@@ -53,7 +53,7 @@ public class VocabularyService {
         return repository.findRandom(PageRequest.of(0, count));
     }
 
-    @Cacheable(value = "vocabulary", key = "#id", unless = "#result == null || !#result.isPresent()")
+    @Cacheable(value = "vocabulary", key = "#id", unless = "#result == null")
     public Optional<Vocabulary> getById(Long id) {
         return repository.findById(id);
     }
