@@ -69,7 +69,7 @@ const SearchPage = () => {
       ))}
 
       {/* ── Corner Mascots ── */}
-      <MascotCorners />
+      <MascotCorners leftMascot="mascot_siro_detective.png" rightMascot="mascot_siro_kimono_nobg.png" />
 
       {/* ── Hero header ── */}
       <div className="search-hero">

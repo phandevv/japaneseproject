@@ -583,43 +583,34 @@ const DailyStudyPage = ({ level, stats, goBack }) => {
 
   if (!currentLevel) {
     return (
-      <div className="container animate-fade-in" style={{ padding: '40px 20px', maxWidth: '800px', margin: '40px auto', textAlign: 'center' }}>
-        <MascotCorners />
+      <div className="daily-study-page-bg animate-fade-in" style={{ padding: '0 20px 60px 20px', width: '100%', textAlign: 'center' }}>
+        <MascotCorners leftMascot="mascot_siro_reading.png" rightMascot="mascot_siro_kimono_nobg.png" />
         <SakuraPetals />
-        <h1 style={{ fontSize: '2.2rem', marginBottom: '10px', fontWeight: 800 }}>Học Hàng Ngày</h1>
-        <p style={{ color: 'var(--text-secondary)', marginBottom: '40px' }}>
-          Vui lòng chọn cấp độ JLPT hoặc chủ đề bạn muốn rèn luyện hàng ngày.
-        </p>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '20px' }}>
+        <div style={{ position: 'relative', zIndex: 1, padding: '48px 20px 32px', marginBottom: '8px' }}>
+          <h1 style={{ fontSize: '2.6rem', marginBottom: '8px', fontWeight: 900, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '12px' }}>
+            <span style={{ fontSize: '2rem' }}>📖</span>
+            Học Hàng Ngày
+          </h1>
+          <p style={{ color: 'var(--text-secondary)', fontSize: '1.05rem', margin: '0 auto' }}>
+            Vui lòng chọn cấp độ JLPT hoặc chủ đề bạn muốn rèn luyện hàng ngày.
+          </p>
+        </div>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '20px', maxWidth: '1000px', margin: '0 auto' }}>
           {Object.keys(levelColors).map(lvl => (
             <div 
               key={lvl} 
               onClick={() => {
                 setCurrentLevel(lvl);
               }}
-              className="card"
+              className="glass-card"
               style={{
                 padding: '30px 20px',
                 cursor: 'pointer',
-                border: `1.5px solid var(--border-color)`,
                 borderTop: `4px solid ${levelColors[lvl]}`,
-                transition: 'all 0.25s',
                 display: 'flex',
                 flexDirection: 'column',
                 alignItems: 'center',
                 gap: '10px',
-                borderRadius: '16px',
-                background: 'var(--surface-color)',
-              }}
-              onMouseEnter={e => {
-                e.currentTarget.style.transform = 'translateY(-4px)';
-                e.currentTarget.style.boxShadow = 'var(--shadow-md)';
-                e.currentTarget.style.borderColor = levelColors[lvl];
-              }}
-              onMouseLeave={e => {
-                e.currentTarget.style.transform = 'none';
-                e.currentTarget.style.boxShadow = 'none';
-                e.currentTarget.style.borderColor = 'var(--border-color)';
               }}
             >
               <span style={{ fontSize: '2rem', fontWeight: 900, color: levelColors[lvl] }}>
