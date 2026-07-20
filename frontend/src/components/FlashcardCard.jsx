@@ -124,12 +124,27 @@ const FlashcardCard = ({ word, flipped, onFlip, onRateWord }) => {
 
   if (!word) return null;
 
+  const getGlowColor = (level) => {
+    if (!level) return 'rgba(0, 0, 0, 0.08)';
+    const l = level.toUpperCase();
+    if (l.includes('N1')) return 'rgba(139, 92, 246, 0.4)';
+    if (l.includes('N2')) return 'rgba(239, 68, 68, 0.4)';
+    if (l.includes('N3')) return 'rgba(245, 158, 11, 0.4)';
+    if (l.includes('N4')) return 'rgba(16, 185, 129, 0.4)';
+    if (l.includes('N5')) return 'rgba(59, 130, 246, 0.4)';
+    return 'rgba(0, 0, 0, 0.08)';
+  };
+  
+  const cardGlowStyle = {
+    boxShadow: `0 12px 40px ${getGlowColor(word?.level)}`
+  };
+
   return (
     <div className="flashcard-container" onClick={handleFlip}>
       <div className={`flashcard ${flipped ? 'is-flipped' : ''}`}>
         
         {/* Front side (Japanese) */}
-        <div className="flashcard-face flashcard-front">
+        <div className="flashcard-face flashcard-front" style={cardGlowStyle}>
           {word.kanji ? (
             <h2 className="jp-text" style={{ fontSize: '7rem', marginBottom: '1rem', color: 'var(--text-primary)', transition: 'font-size 0.2s' }}>
               {word.kanji}
@@ -157,7 +172,7 @@ const FlashcardCard = ({ word, flipped, onFlip, onRateWord }) => {
         </div>
 
         {/* Back side (Meaning) */}
-        <div className="flashcard-face flashcard-back" style={{ padding: 0 }}>
+        <div className="flashcard-face flashcard-back" style={{ padding: 0, ...cardGlowStyle }}>
           <div className="flashcard-back-content">
             
             {/* Left Column: Basic word information and Rate buttons */}
@@ -195,17 +210,17 @@ const FlashcardCard = ({ word, flipped, onFlip, onRateWord }) => {
 
               {/* Rate buttons for logged-in user in flashcard mode */}
               {onRateWord && (
-                <div style={{ display: 'flex', gap: '6px', width: '100%', justifyContent: 'center', marginTop: '15px' }} onClick={e => e.stopPropagation()}>
-                  <button className="btn" style={{ backgroundColor: 'var(--danger-light)', color: 'var(--danger-color)', borderColor: 'rgba(239, 68, 68, 0.3)', border: '1px solid', flex: 1, padding: '8px 2px', fontSize: '0.8rem', cursor: 'pointer' }} onClick={() => onRateWord(1)}>
+                <div style={{ display: 'flex', gap: '12px', width: '100%', justifyContent: 'center', marginTop: '20px' }} onClick={e => e.stopPropagation()}>
+                  <button className="glass-pill-btn glass-pill-forgot" onClick={() => onRateWord(1)}>
                     Forgot
                   </button>
-                  <button className="btn" style={{ backgroundColor: 'var(--warning-light)', color: 'var(--warning-color)', borderColor: 'rgba(245, 158, 11, 0.3)', border: '1px solid', flex: 1, padding: '8px 2px', fontSize: '0.8rem', cursor: 'pointer' }} onClick={() => onRateWord(2)}>
+                  <button className="glass-pill-btn glass-pill-hard" onClick={() => onRateWord(2)}>
                     Hard
                   </button>
-                  <button className="btn" style={{ backgroundColor: 'var(--accent-light)', color: 'var(--accent-color)', borderColor: 'rgba(37, 99, 235, 0.3)', border: '1px solid', flex: 1, padding: '8px 2px', fontSize: '0.8rem', cursor: 'pointer' }} onClick={() => onRateWord(3)}>
+                  <button className="glass-pill-btn glass-pill-good" onClick={() => onRateWord(3)}>
                     Good
                   </button>
-                  <button className="btn" style={{ backgroundColor: 'var(--success-light)', color: 'var(--success-color)', borderColor: 'rgba(16, 185, 129, 0.3)', border: '1px solid', flex: 1, padding: '8px 2px', fontSize: '0.8rem', cursor: 'pointer' }} onClick={() => onRateWord(4)}>
+                  <button className="glass-pill-btn glass-pill-easy" onClick={() => onRateWord(4)}>
                     Easy
                   </button>
                 </div>

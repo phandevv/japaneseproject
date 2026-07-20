@@ -328,8 +328,8 @@ export default function ConversationTutorPage({ goBack }) {
 
   if (step === 'setup') {
     return (
-      <div className="tutor-container animate-fade-in" style={{ position: 'relative', zIndex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-        <MascotCorners />
+      <div className="tutor-container animate-fade-in" style={{ position: 'relative', zIndex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'flex-start', height: 'auto', minHeight: 'calc(100vh - 80px)', paddingTop: '60px', paddingBottom: '60px', overflowY: 'auto' }}>
+        <MascotCorners leftMascot="mascot_siro_sensei.png" rightMascot="mascot_siro_studying.png" />
         <SakuraPetals />
 
         <div className="tutor-setup-card">
@@ -412,7 +412,7 @@ export default function ConversationTutorPage({ goBack }) {
   // Active session screen
   return (
     <div className="tutor-container animate-fade-in" style={{ position: 'relative', zIndex: 1 }}>
-      <MascotCorners />
+      <MascotCorners leftMascot="mascot_siro_sensei.png" rightMascot="mascot_siro_studying.png" />
       <SakuraPetals />
       
       {/* Top Header bar */}

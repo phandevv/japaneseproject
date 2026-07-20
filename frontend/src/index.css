@@ -496,6 +496,26 @@ input, textarea, select { font-family: var(--font-ui); color: var(--text-primary
 
 .flashcard.is-flipped { transform: rotateY(180deg); }
 
+.flashcard-page-premium-bg {
+  min-height: calc(100vh - 64px);
+  background: radial-gradient(circle at 0% 0%, rgba(59, 130, 246, 0.15) 0%, transparent 50%),
+              radial-gradient(circle at 100% 100%, rgba(139, 92, 246, 0.15) 0%, transparent 50%),
+              var(--background-color);
+  background-attachment: fixed;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.flashcard-content-wrapper {
+  width: 100%;
+  max-width: 900px;
+  padding: 20px;
+  z-index: 10;
+}
+
 .flashcard-face {
   position: absolute;
   top: 0; left: 0;
@@ -509,13 +529,40 @@ input, textarea, select { font-family: var(--font-ui); color: var(--text-primary
   align-items: center;
   justify-content: center;
   padding: 40px;
-  background-color: var(--surface-color);
-  border: 1px solid var(--border-color);
-  box-shadow: var(--shadow-lg);
+  
+  /* Glass effect */
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08);
+}
+
+[data-theme='dark'] .flashcard-face {
+  background: rgba(30, 41, 59, 0.65);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+}
+
+.flashcard-face::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  border-radius: inherit;
+  padding: 2px;
+  background: linear-gradient(135deg, rgba(255,255,255,0.7), rgba(255,255,255,0));
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+[data-theme='dark'] .flashcard-face::before {
+  background: linear-gradient(135deg, rgba(255,255,255,0.2), rgba(255,255,255,0));
 }
 
 .flashcard-front { transform: rotateY(0deg); }
-.flashcard-back { transform: rotateY(180deg); background-color: var(--surface-color); }
+.flashcard-back { transform: rotateY(180deg); }
 
 /* ============================================================ PROGRESS BAR */
 .progress-bg { width: 100%; height: 6px; background-color: var(--border-color); border-radius: 3px; overflow: hidden; }
@@ -653,3 +700,26 @@ input, textarea, select { font-family: var(--font-ui); color: var(--text-primary
     padding: 16px 8px;
   }
 }
+
+/* Glass Pills for Rating */
+.glass-pill-btn { flex: 1; padding: 12px 4px; font-size: 0.85rem; font-weight: 600; border-radius: 20px; border: 1px solid rgba(255, 255, 255, 0.2); background: rgba(255, 255, 255, 0.5); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); cursor: pointer; transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05); display: flex; align-items: center; justify-content: center; }
+[data-theme='dark'] .glass-pill-btn { background: rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1); }
+.glass-pill-btn:hover { transform: translateY(-3px) scale(1.02); box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1); }
+.glass-pill-btn:active { transform: translateY(1px) scale(0.98); }
+.glass-pill-forgot { color: #ef4444; border-color: rgba(239, 68, 68, 0.3); }
+.glass-pill-forgot:hover { background: rgba(239, 68, 68, 0.1); box-shadow: 0 6px 20px rgba(239, 68, 68, 0.2); }
+.glass-pill-hard { color: #f59e0b; border-color: rgba(245, 158, 11, 0.3); }
+.glass-pill-hard:hover { background: rgba(245, 158, 11, 0.1); box-shadow: 0 6px 20px rgba(245, 158, 11, 0.2); }
+.glass-pill-good { color: #3b82f6; border-color: rgba(59, 130, 246, 0.3); }
+.glass-pill-good:hover { background: rgba(59, 130, 246, 0.1); box-shadow: 0 6px 20px rgba(59, 130, 246, 0.2); }
+.glass-pill-easy { color: #10b981; border-color: rgba(16, 185, 129, 0.3); }
+.glass-pill-easy:hover { background: rgba(16, 185, 129, 0.1); box-shadow: 0 6px 20px rgba(16, 185, 129, 0.2); }
+
+/* ============================================================
+   DAILY STUDY PAGE
+   ============================================================ */
+.daily-study-page-bg { min-height: calc(100vh - 64px); background: radial-gradient(circle at 80% 20%, rgba(245, 158, 11, 0.15) 0%, transparent 40%), radial-gradient(circle at 20% 80%, rgba(16, 185, 129, 0.1) 0%, transparent 40%), var(--background-color); background-attachment: fixed; overflow: hidden; position: relative; }
+.glass-card { background: rgba(255, 255, 255, 0.4); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-radius: 20px; border: 1px solid rgba(255, 255, 255, 0.4); box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05); transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); }
+[data-theme='dark'] .glass-card { background: rgba(30, 41, 59, 0.4); border: 1px solid rgba(255, 255, 255, 0.05); box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15); }
+.glass-card:hover { transform: translateY(-4px) scale(1.02); box-shadow: 0 12px 32px rgba(0, 0, 0, 0.08); background: rgba(255, 255, 255, 0.6); border-color: rgba(255, 255, 255, 0.7); }
+[data-theme='dark'] .glass-card:hover { background: rgba(30, 41, 59, 0.6); border-color: rgba(255, 255, 255, 0.15); box-shadow: 0 12px 32px rgba(0, 0, 0, 0.3); }
