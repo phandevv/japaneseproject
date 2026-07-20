@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { Bot, X, SendHorizonal, Trash2, Sparkles } from 'lucide-react';
+import ReactMarkdown from 'react-markdown';
 import { chatApi } from '../services/api';
 import '../styles/AIChatWidget.css';
 
@@ -143,7 +144,9 @@ export default function AIChatWidget() {
                 {msg.role === 'assistant' && (
                   <div className="ai-bubble-avatar"><Bot size={13} /></div>
                 )}
-                <div className="ai-bubble-text">{msg.content}</div>
+                <div className="ai-bubble-text">
+                  <ReactMarkdown>{msg.content}</ReactMarkdown>
+                </div>
               </div>
             ))}
             {loading && (
