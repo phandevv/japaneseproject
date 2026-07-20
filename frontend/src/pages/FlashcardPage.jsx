@@ -260,7 +260,7 @@ const FlashcardPage = ({ level: initialLevel, isSrs = false, stats, goBack, onDa
   if (!activeLevel && !isSrs) {
     return (
       <div className="container animate-fade-in" style={{ padding: '40px 20px' }}>
-        <MascotCorners />
+        <MascotCorners leftMascot="mascot_siro_ninja.png" rightMascot="mascot_siro_studying.png" />
         <SakuraPetals />
         <div style={{ textAlign: 'center', marginBottom: '40px' }}>
           <h1 style={{ fontSize: '2.5rem', marginBottom: '15px' }}>{t.flashcard.selectLevelTitle}</h1>
@@ -483,11 +483,12 @@ const FlashcardPage = ({ level: initialLevel, isSrs = false, stats, goBack, onDa
   const currentWord = words[currentIndex];
 
   return (
-    <div className="container animate-fade-in" style={{ padding: '20px', maxWidth: '800px' }}>
-      <MascotCorners />
+    <div className="flashcard-page-premium-bg animate-fade-in">
+      <MascotCorners leftMascot="mascot_siro_ninja.png" rightMascot="mascot_siro_studying.png" />
       <SakuraPetals />
 
-      {/* Header */}
+      <div className="flashcard-content-wrapper">
+        {/* Header */}
       <div className="flex-between" style={{ marginBottom: '30px' }}>
         <button className="btn btn-secondary" style={{ padding: '8px 15px' }} onClick={handleBack}>
           <CornerUpLeft size={18} /> {selectedDay !== null ? "Chọn ngày khác" : ((!initialLevel && activeLevel) ? t.flashcard.backSelection : t.flashcard.backDashboard)}
@@ -563,7 +564,7 @@ const FlashcardPage = ({ level: initialLevel, isSrs = false, stats, goBack, onDa
           <ArrowRight size={28} />
         </button>
       </div>
-
+      </div>
     </div>
   );
 };
