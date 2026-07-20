@@ -8,6 +8,7 @@ import ProfileModal from './components/ProfileModal';
 import DailyStudyPage from './pages/DailyStudyPage';
 import AuthPage from './pages/AuthPage';
 import VocabAdminPage from './pages/VocabAdminPage';
+import StudyStatsPage from './pages/StudyStatsPage';
 import { useAuth } from './context/AuthContext';
 
 import SrsListPage from './pages/SrsListPage';
@@ -77,6 +78,7 @@ function App() {
     if (path === '/search') return 'search';
     if (path === '/knowledge') return 'knowledge';
     if (path === '/conversation-tutor') return 'conversation-tutor';
+    if (path === '/study-stats') return 'study-stats';
     return 'home';
   };
 
@@ -101,6 +103,7 @@ function App() {
       case 'search': navigate('/search'); break;
       case 'knowledge': navigate('/knowledge'); break;
       case 'conversation-tutor': navigate('/conversation-tutor'); break;
+      case 'study-stats': navigate('/study-stats'); break;
       default: navigate('/');
     }
   };
@@ -281,6 +284,12 @@ function App() {
       case 'conversation-tutor':
         return isAuthenticated ? (
           <ConversationTutorPage goBack={() => navigate('/')} />
+        ) : (
+          <AuthPage onCancel={() => navigate('/')} onSuccess={handleLoginSuccess} />
+        );
+      case 'study-stats':
+        return isAuthenticated ? (
+          <StudyStatsPage />
         ) : (
           <AuthPage onCancel={() => navigate('/')} onSuccess={handleLoginSuccess} />
         );

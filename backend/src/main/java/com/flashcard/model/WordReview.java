@@ -6,6 +6,9 @@ import java.time.Instant;
 @Entity
 @Table(name = "word_reviews", uniqueConstraints = {
     @UniqueConstraint(columnNames = {"user_id", "vocabulary_id"})
+}, indexes = {
+    @Index(name = "idx_user_last_reviewed", columnList = "user_id, last_reviewed_at"),
+    @Index(name = "idx_user_last_rating", columnList = "user_id, last_rating")
 })
 public class WordReview {
 

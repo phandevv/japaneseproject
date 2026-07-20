@@ -72,7 +72,10 @@ public class UserController {
     @GetMapping("/me/study-history-details")
     public ResponseEntity<?> getStudyHistoryDetails(
             @org.springframework.security.core.annotation.AuthenticationPrincipal User user,
-            @org.springframework.web.bind.annotation.RequestParam(defaultValue = "day") String range) {
+            @org.springframework.web.bind.annotation.RequestParam(defaultValue = "day") String range,
+            @org.springframework.web.bind.annotation.RequestParam(defaultValue = "all") String tab,
+            @org.springframework.web.bind.annotation.RequestParam(defaultValue = "0") int page,
+            @org.springframework.web.bind.annotation.RequestParam(defaultValue = "30") int size) {
         
         if (user == null) {
             return ResponseEntity.status(401).body(Map.of("error", "Unauthorized"));
@@ -88,13 +91,29 @@ public class UserController {
                        .truncatedTo(java.time.temporal.ChronoUnit.DAYS).toInstant();
         } else if ("month".equalsIgnoreCase(range)) {
             start = now.withDayOfMonth(1).truncatedTo(java.time.temporal.ChronoUnit.DAYS).toInstant();
+        } else if ("all".equalsIgnoreCase(range)) {
+            start = java.time.Instant.EPOCH;
         } else { // default "day"
             start = now.truncatedTo(java.time.temporal.ChronoUnit.DAYS).toInstant();
         }
 
-        List<com.flashcard.model.WordReview> reviews = wordReviewRepository.findByUserAndLastReviewedAtBetween(user, start, end);
+        org.springframework.data.domain.PageRequest pageRequest = org.springframework.data.domain.PageRequest.of(page, size, org.springframework.data.domain.Sort.by(org.springframework.data.domain.Sort.Direction.DESC, "lastReviewedAt"));
         
-        List<Map<String, Object>> responseList = reviews.stream().map(wr -> {
+        org.springframework.data.domain.Page<com.flashcard.model.WordReview> reviewsPage;
+        
+        if ("perfect".equalsIgnoreCase(tab)) {
+            reviewsPage = wordReviewRepository.findByUserAndLastReviewedAtBetweenAndRatingIn(user, start, end, List.of(5), pageRequest);
+        } else if ("good".equalsIgnoreCase(tab)) {
+            reviewsPage = wordReviewRepository.findByUserAndLastReviewedAtBetweenAndRatingIn(user, start, end, List.of(4), pageRequest);
+        } else if ("hard".equalsIgnoreCase(tab)) {
+            reviewsPage = wordReviewRepository.findByUserAndLastReviewedAtBetweenAndRatingIn(user, start, end, List.of(1, 2, 3), pageRequest);
+        } else if ("fail".equalsIgnoreCase(tab)) {
+            reviewsPage = wordReviewRepository.findByUserAndLastReviewedAtBetweenAndRatingIn(user, start, end, List.of(0), pageRequest);
+        } else {
+            reviewsPage = wordReviewRepository.findByUserAndLastReviewedAtBetween(user, start, end, pageRequest);
+        }
+        
+        List<Map<String, Object>> responseList = reviewsPage.getContent().stream().map(wr -> {
             Map<String, Object> map = new HashMap<>();
             map.put("id", wr.getVocabulary().getId());
             map.put("kanji", wr.getVocabulary().getKanji());
@@ -105,6 +124,11 @@ public class UserController {
             return map;
         }).collect(Collectors.toList());
 
-        return ResponseEntity.ok(responseList);
+        return ResponseEntity.ok(Map.of(
+            "content", responseList,
+            "totalPages", reviewsPage.getTotalPages(),
+            "totalElements", reviewsPage.getTotalElements(),
+            "currentPage", reviewsPage.getNumber()
+        ));
     }
 }

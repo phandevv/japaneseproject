@@ -380,8 +380,8 @@ export const usersApi = {
     const response = await axios.get(`${API_BASE_URL}/users/${username}`);
     return response.data;
   },
-  studyHistoryDetails: async (range) => {
-    const response = await axios.get(`${API_BASE_URL}/users/me/study-history-details?range=${range}`);
+  studyHistoryDetails: async (range, tab = 'all', page = 0, size = 30) => {
+    const response = await axios.get(`${API_BASE_URL}/users/me/study-history-details?range=${range}&tab=${tab}&page=${page}&size=${size}`);
     return response.data;
   }
 };

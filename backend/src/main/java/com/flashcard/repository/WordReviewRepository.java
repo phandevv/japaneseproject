@@ -48,7 +48,18 @@ public interface WordReviewRepository extends JpaRepository<WordReview, Long> {
 
     @Query("SELECT wr FROM WordReview wr JOIN FETCH wr.vocabulary WHERE wr.user = :user " +
            "AND wr.lastReviewedAt >= :start AND wr.lastReviewedAt <= :end")
-    List<WordReview> findByUserAndLastReviewedAtBetween(@Param("user") User user,
-                                                        @Param("start") Instant start,
-                                                        @Param("end") Instant end);
+    org.springframework.data.domain.Page<WordReview> findByUserAndLastReviewedAtBetween(
+            @Param("user") User user,
+            @Param("start") Instant start,
+            @Param("end") Instant end,
+            org.springframework.data.domain.Pageable pageable);
+
+    @Query("SELECT wr FROM WordReview wr JOIN FETCH wr.vocabulary WHERE wr.user = :user " +
+           "AND wr.lastReviewedAt >= :start AND wr.lastReviewedAt <= :end AND wr.lastRating IN :ratings")
+    org.springframework.data.domain.Page<WordReview> findByUserAndLastReviewedAtBetweenAndRatingIn(
+            @Param("user") User user,
+            @Param("start") Instant start,
+            @Param("end") Instant end,
+            @Param("ratings") List<Integer> ratings,
+            org.springframework.data.domain.Pageable pageable);
 }
