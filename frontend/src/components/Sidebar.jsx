@@ -1,4 +1,4 @@
-import { BookOpen, ChevronLeft, ChevronRight, Cpu, Database, Home, Layers, Loader, LogIn, LogOut, MessageSquare, Palette, Search, ShieldCheck, Upload, LifeBuoy } from "lucide-react";
+import { BookOpen, ChevronLeft, ChevronRight, Cpu, Database, Home, Layers, Loader, LogIn, LogOut, MessageSquare, Palette, Search, ShieldCheck, Upload, LifeBuoy, Gamepad2 } from "lucide-react";
 import { useRef, useState } from "react";
 import { useLanguage } from "../context/LanguageContext";
 import { useTheme } from "../context/ThemeContext";
@@ -99,6 +99,13 @@ const Sidebar = ({ isCollapsed, onToggleCollapse, currentPage, setCurrentPage, o
         >
           <Layers size={17} />
           <span>Thẻ ghi nhớ</span>
+        </button>
+        <button
+          className={`sidebar-link${currentPage?.startsWith("game") ? " active" : ""}`}
+          onClick={() => setCurrentPage("games")}
+        >
+          <Gamepad2 size={17} />
+          <span>Trò chơi</span>
         </button>
         <button
           className={`sidebar-link${currentPage === "knowledge" ? " active" : ""}`}

@@ -17,6 +17,9 @@ import AiEnrichmentAdminPage from './pages/AiEnrichmentAdminPage';
 import AIChatWidget from './components/AIChatWidget';
 import KnowledgeBasePage from './pages/KnowledgeBasePage';
 import ConversationTutorPage from './pages/ConversationTutorPage';
+import GamesHubPage from './pages/GamesHubPage';
+import MemoryMatchGame from './pages/MemoryMatchGame';
+import FallingWordsGame from './pages/FallingWordsGame';
 
 const getTodayKey = () => new Date().toISOString().slice(0, 10);
 
@@ -77,6 +80,9 @@ function App() {
     if (path === '/search') return 'search';
     if (path === '/knowledge') return 'knowledge';
     if (path === '/conversation-tutor') return 'conversation-tutor';
+    if (path === '/games') return 'games';
+    if (path.startsWith('/games/memory')) return 'game-memory';
+    if (path.startsWith('/games/falling')) return 'game-falling';
     return 'home';
   };
 
@@ -101,6 +107,9 @@ function App() {
       case 'search': navigate('/search'); break;
       case 'knowledge': navigate('/knowledge'); break;
       case 'conversation-tutor': navigate('/conversation-tutor'); break;
+      case 'games': navigate('/games'); break;
+      case 'game-memory': navigate('/games/memory'); break;
+      case 'game-falling': navigate('/games/falling'); break;
       default: navigate('/');
     }
   };
@@ -284,6 +293,12 @@ function App() {
         ) : (
           <AuthPage onCancel={() => navigate('/')} onSuccess={handleLoginSuccess} />
         );
+      case 'games':
+        return isAuthenticated ? <GamesHubPage /> : <AuthPage onCancel={() => navigate('/')} onSuccess={handleLoginSuccess} />;
+      case 'game-memory':
+        return isAuthenticated ? <MemoryMatchGame /> : <AuthPage onCancel={() => navigate('/')} onSuccess={handleLoginSuccess} />;
+      case 'game-falling':
+        return isAuthenticated ? <FallingWordsGame /> : <AuthPage onCancel={() => navigate('/')} onSuccess={handleLoginSuccess} />;
       default:
         return <HomePage startStudy={startStudy} user={isAuthenticated ? authUser : null} />;
     }
