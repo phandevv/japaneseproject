@@ -138,7 +138,7 @@ public class ChatService {
 
             Map<String, Object> requestBodyMap = Map.of(
                 "model", "deepseek-v4-flash",
-                "max_tokens", 512,
+                "max_tokens", 2048,
                 "temperature", 0.6,
                 "messages", messages
             );
@@ -148,7 +148,7 @@ public class ChatService {
                     .header("Content-Type", "application/json")
                     .header("Authorization", "Bearer " + apiKey)
                     .POST(HttpRequest.BodyPublishers.ofString(requestBody))
-                    .timeout(Duration.ofSeconds(25))
+                    .timeout(Duration.ofSeconds(60))
                     .build();
 
             return httpClient.sendAsync(request, HttpResponse.BodyHandlers.ofString())

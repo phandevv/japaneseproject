@@ -452,7 +452,7 @@ input, textarea, select { font-family: var(--font-ui); color: var(--text-primary
 .flashcard-container {
   perspective: 1200px;
   width: 100%;
-  max-width: 960px;
+  max-width: 1050px;
   height: 560px;
   margin: 0 auto;
   cursor: pointer;
@@ -469,7 +469,7 @@ input, textarea, select { font-family: var(--font-ui); color: var(--text-primary
 }
 
 .flashcard-back-left {
-  flex: 1 1 44%;
+  flex: 1 1 30%;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -478,7 +478,7 @@ input, textarea, select { font-family: var(--font-ui); color: var(--text-primary
 }
 
 .flashcard-back-right {
-  flex: 1 1 56%;
+  flex: 1 1 70%;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -511,7 +511,7 @@ input, textarea, select { font-family: var(--font-ui); color: var(--text-primary
 
 .flashcard-content-wrapper {
   width: 100%;
-  max-width: 900px;
+  max-width: 1100px;
   padding: 20px;
   z-index: 10;
 }

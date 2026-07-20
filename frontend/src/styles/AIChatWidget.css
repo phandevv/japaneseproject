@@ -68,8 +68,8 @@
   position: fixed;
   bottom: 108px;  /* Just above the new AI FAB (24px bottom + 72px height + 12px gap) */
   right: 24px;
-  width: 370px;
-  max-height: 520px;
+  width: 420px;
+  max-height: 650px;
   background: var(--surface-color);
   border: 1px solid var(--border-color);
   border-radius: 20px;
@@ -220,7 +220,6 @@
   border-radius: 14px;
   font-size: 0.84rem;
   line-height: 1.55;
-  white-space: pre-wrap;
   word-break: break-word;
 }
 
@@ -235,6 +234,37 @@
   background: var(--accent-color);
   color: #ffffff;
   border-radius: 14px 4px 14px 14px;
+}
+
+/* Markdown Formatting inside Bubbles */
+.ai-bubble-text p {
+  margin: 0 0 8px 0;
+}
+.ai-bubble-text p:last-child {
+  margin-bottom: 0;
+}
+.ai-bubble-text ul, .ai-bubble-text ol {
+  margin: 4px 0 8px 0;
+  padding-left: 20px;
+}
+.ai-bubble-text li {
+  margin-bottom: 4px;
+}
+.ai-bubble-text strong {
+  font-weight: 600;
+  color: inherit;
+}
+.ai-bubble-text code {
+  background: rgba(0,0,0,0.1);
+  padding: 2px 4px;
+  border-radius: 4px;
+  font-family: monospace;
+  font-size: 0.9em;
+}
+.ai-bubble-text hr {
+  border: none;
+  border-top: 1px solid var(--border-color);
+  margin: 10px 0;
 }
 
 /* ── Typing Indicator ─────────────────────────────── */

@@ -65,4 +65,70 @@ public class UserController {
             return ResponseEntity.notFound().build();
         }
     }
+
+    @Autowired
+    private com.flashcard.repository.WordReviewRepository wordReviewRepository;
+
+    @GetMapping("/me/study-history-details")
+    public ResponseEntity<?> getStudyHistoryDetails(
+            @org.springframework.security.core.annotation.AuthenticationPrincipal User user,
+            @org.springframework.web.bind.annotation.RequestParam(defaultValue = "day") String range,
+            @org.springframework.web.bind.annotation.RequestParam(defaultValue = "all") String tab,
+            @org.springframework.web.bind.annotation.RequestParam(defaultValue = "0") int page,
+            @org.springframework.web.bind.annotation.RequestParam(defaultValue = "30") int size) {
+        
+        if (user == null) {
+            return ResponseEntity.status(401).body(Map.of("error", "Unauthorized"));
+        }
+
+        java.time.Instant start;
+        java.time.Instant end = java.time.Instant.now();
+        java.time.ZoneId zone = java.time.ZoneId.systemDefault();
+        java.time.ZonedDateTime now = java.time.ZonedDateTime.now(zone);
+
+        if ("week".equalsIgnoreCase(range)) {
+            start = now.with(java.time.temporal.TemporalAdjusters.previousOrSame(java.time.DayOfWeek.MONDAY))
+                       .truncatedTo(java.time.temporal.ChronoUnit.DAYS).toInstant();
+        } else if ("month".equalsIgnoreCase(range)) {
+            start = now.withDayOfMonth(1).truncatedTo(java.time.temporal.ChronoUnit.DAYS).toInstant();
+        } else if ("all".equalsIgnoreCase(range)) {
+            start = java.time.Instant.EPOCH;
+        } else { // default "day"
+            start = now.truncatedTo(java.time.temporal.ChronoUnit.DAYS).toInstant();
+        }
+
+        org.springframework.data.domain.PageRequest pageRequest = org.springframework.data.domain.PageRequest.of(page, size, org.springframework.data.domain.Sort.by(org.springframework.data.domain.Sort.Direction.DESC, "lastReviewedAt"));
+        
+        org.springframework.data.domain.Page<com.flashcard.model.WordReview> reviewsPage;
+        
+        if ("perfect".equalsIgnoreCase(tab)) {
+            reviewsPage = wordReviewRepository.findByUserAndLastReviewedAtBetweenAndRatingIn(user, start, end, List.of(5), pageRequest);
+        } else if ("good".equalsIgnoreCase(tab)) {
+            reviewsPage = wordReviewRepository.findByUserAndLastReviewedAtBetweenAndRatingIn(user, start, end, List.of(4), pageRequest);
+        } else if ("hard".equalsIgnoreCase(tab)) {
+            reviewsPage = wordReviewRepository.findByUserAndLastReviewedAtBetweenAndRatingIn(user, start, end, List.of(1, 2, 3), pageRequest);
+        } else if ("fail".equalsIgnoreCase(tab)) {
+            reviewsPage = wordReviewRepository.findByUserAndLastReviewedAtBetweenAndRatingIn(user, start, end, List.of(0), pageRequest);
+        } else {
+            reviewsPage = wordReviewRepository.findByUserAndLastReviewedAtBetween(user, start, end, pageRequest);
+        }
+        
+        List<Map<String, Object>> responseList = reviewsPage.getContent().stream().map(wr -> {
+            Map<String, Object> map = new HashMap<>();
+            map.put("id", wr.getVocabulary().getId());
+            map.put("kanji", wr.getVocabulary().getKanji());
+            map.put("hiragana", wr.getVocabulary().getHiragana());
+            map.put("meaning", wr.getVocabulary().getMeaning());
+            map.put("lastRating", wr.getLastRating());
+            map.put("lastReviewedAt", wr.getLastReviewedAt());
+            return map;
+        }).collect(Collectors.toList());
+
+        return ResponseEntity.ok(Map.of(
+            "content", responseList,
+            "totalPages", reviewsPage.getTotalPages(),
+            "totalElements", reviewsPage.getTotalElements(),
+            "currentPage", reviewsPage.getNumber()
+        ));
+    }
 }

@@ -8,6 +8,7 @@ import ProfileModal from './components/ProfileModal';
 import DailyStudyPage from './pages/DailyStudyPage';
 import AuthPage from './pages/AuthPage';
 import VocabAdminPage from './pages/VocabAdminPage';
+import StudyStatsPage from './pages/StudyStatsPage';
 import { useAuth } from './context/AuthContext';
 
 import SrsListPage from './pages/SrsListPage';
@@ -83,6 +84,9 @@ function App() {
     if (path === '/games') return 'games';
     if (path.startsWith('/games/memory')) return 'game-memory';
     if (path.startsWith('/games/falling')) return 'game-falling';
+
+    if (path === '/study-stats') return 'study-stats';
+
     return 'home';
   };
 
@@ -110,6 +114,8 @@ function App() {
       case 'games': navigate('/games'); break;
       case 'game-memory': navigate('/games/memory'); break;
       case 'game-falling': navigate('/games/falling'); break;
+
+      case 'study-stats': navigate('/study-stats'); break;
       default: navigate('/');
     }
   };
@@ -299,6 +305,12 @@ function App() {
         return isAuthenticated ? <MemoryMatchGame /> : <AuthPage onCancel={() => navigate('/')} onSuccess={handleLoginSuccess} />;
       case 'game-falling':
         return isAuthenticated ? <FallingWordsGame /> : <AuthPage onCancel={() => navigate('/')} onSuccess={handleLoginSuccess} />;
+      case 'study-stats':
+        return isAuthenticated ? (
+          <StudyStatsPage />
+        ) : (
+          <AuthPage onCancel={() => navigate('/')} onSuccess={handleLoginSuccess} />
+        );
       default:
         return <HomePage startStudy={startStudy} user={isAuthenticated ? authUser : null} />;
     }
