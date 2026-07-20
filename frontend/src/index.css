@@ -140,6 +140,10 @@
 }
 
 /* ============================================================ RESET */
+html {
+  scrollbar-gutter: stable;
+}
+
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
 body {
@@ -180,6 +184,7 @@ h1, h2, h3, h4, h5, h6 {
   min-height: 100vh;
   background-color: var(--bg-color);
   overflow-y: auto;
+  scrollbar-gutter: stable;
   transition: margin-left 0.3s ease;
 }
 .app-layout.no-sidebar .app-main {
