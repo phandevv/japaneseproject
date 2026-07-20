@@ -68,8 +68,8 @@
   position: fixed;
   bottom: 108px;  /* Just above the new AI FAB (24px bottom + 72px height + 12px gap) */
   right: 24px;
-  width: 370px;
-  max-height: 520px;
+  width: 420px;
+  max-height: 650px;
   background: var(--surface-color);
   border: 1px solid var(--border-color);
   border-radius: 20px;
@@ -220,7 +220,6 @@
   border-radius: 14px;
   font-size: 0.84rem;
   line-height: 1.55;
-  white-space: pre-wrap;
   word-break: break-word;
 }
 
