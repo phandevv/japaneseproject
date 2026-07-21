@@ -330,6 +330,68 @@ export const knowledgeApi = {
     return response.data;
   },
   /**
+   * Stream normalize and AI enrichment in real-time.
+   */
+  collectStream: async (input, { onStatus, onChunk, onComplete, onError }) => {
+    try {
+      const token = localStorage.getItem('token');
+      const response = await fetch(`${API_BASE_URL}/knowledge/collect/stream`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          ...(token ? { 'Authorization': `Bearer ${token}` } : {})
+        },
+        body: JSON.stringify({ input })
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const reader = response.body.getReader();
+      const decoder = new TextDecoder('utf-8');
+      let buffer = '';
+
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        buffer += decoder.decode(value, { stream: true });
+
+        const lines = buffer.split('\n\n');
+        buffer = lines.pop() || '';
+
+        for (const block of lines) {
+          if (!block.trim()) continue;
+          let eventName = 'message';
+          let dataStr = '';
+
+          const blockLines = block.split('\n');
+          for (const l of blockLines) {
+            if (l.startsWith('event:')) {
+              eventName = l.substring(6).trim();
+            } else if (l.startsWith('data:')) {
+              dataStr += l.substring(5).trim();
+            }
+          }
+
+          if (dataStr) {
+            try {
+              const data = JSON.parse(dataStr);
+              if (eventName === 'status' && onStatus) onStatus(data);
+              else if (eventName === 'chunk' && onChunk) onChunk(data.content || '');
+              else if (eventName === 'complete' && onComplete) onComplete(data);
+              else if (eventName === 'error' && onError) onError(data.error || 'Lỗi Streaming AI');
+            } catch (e) {
+              console.warn('JSON parse error in SSE chunk:', e);
+            }
+          }
+        }
+      }
+    } catch (e) {
+      if (onError) onError(e.message);
+    }
+  },
+  /**
    * Save the finalized enriched knowledge card.
    * @param {string} type - 'vocabulary' or 'grammar'
    * @param {Object} data - The enriched JSON data

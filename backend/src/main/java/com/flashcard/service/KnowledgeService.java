@@ -25,6 +25,7 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.time.Duration;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -307,12 +308,15 @@ public class KnowledgeService {
                 "Bạn là một chuyên gia biên soạn ngữ pháp tiếng Nhật cao cấp. Hãy làm giàu thông tin cho ngữ pháp sau bằng tiếng Việt:\n" +
                 "Ngữ pháp: \"%s\"\n\n" +
                 "Yêu cầu dữ liệu cực kỳ chi tiết, chính xác, không dùng tiếng Trung hay tiếng Anh để giải nghĩa. Mọi giải thích, dịch ví dụ bắt buộc phải là tiếng Việt.\n" +
+                "QUY TẮC BẮT BUỘC KHI TẠO CÁCH KẾT HỢP (FORMATION) VÀ CÂU VÍ DỤ (EXAMPLES):\n" +
+                "1. `formation`: Trình bày cách kết hợp chia theo từng dạng (V, A-i, A-na, N), phân tách rõ ràng bằng ' / ' hoặc xuống dòng \\n.\n" +
+                "2. `examples`: BẮT BUỘC phải tạo ít nhất 1-2 câu ví dụ minh họa cho CẢ 100%% các trường hợp kết hợp ở `formation` (không được thiếu trường hợp nào). Mỗi câu ví dụ PHẢI có thuộc tính `caseLabel` ghi rõ trường hợp áp dụng (ví dụ: \"[Vば] Dùng với Động từ\", \"[Aい] Dùng với Tính từ -i\", \"[N] Dùng với Danh từ\").\n\n" +
                 "Hãy trả về JSON duy nhất, không markdown:\n" +
                 "{\n" +
                 "  \"grammar\": \"cấu trúc ngữ pháp chính xác (ví dụ: 〜ように)\",\n" +
                 "  \"meaning\": \"nghĩa tiếng Việt chính xác (ví dụ: để làm gì đó)\",\n" +
                 "  \"usageDesc\": \"cách dùng cụ thể, ngữ cảnh sử dụng\",\n" +
-                "  \"formation\": \"cách kết hợp cấu trúc, phân tách rõ ràng từng dạng (V, A-i, A-na, N) bằng dấu ' / ' hoặc xuống dòng \\n (ví dụ: Vば + ほど / Aいければ + ほど / N/Aな + であれば + ほど)\",\n" +
+                "  \"formation\": \"cách kết hợp cấu trúc, phân tách từng dạng (V, A-i, A-na, N) bằng ' / ' hoặc \\n (ví dụ: Vば + ほど / Aいければ + ほど / N/Aな + であれば + ほど)\",\n" +
                 "  \"jlpt\": \"cấp độ JLPT từ N5 đến N1\",\n" +
                 "  \"similarGrammar\": [\"ngữ pháp tương tự 1\", \"ngữ pháp tương tự 2\"],\n" +
                 "  \"difference\": \"so sánh và phân biệt với các ngữ pháp tương tự để tránh nhầm lẫn\",\n" +
@@ -320,7 +324,7 @@ public class KnowledgeService {
                 "     { \"error\": \"sai lầm phổ biến khi dùng\", \"fix\": \"cách dùng đúng và giải thích\" }\n" +
                 "  ],\n" +
                 "  \"examples\": [\n" +
-                "     { \"ja\": \"câu ví dụ tiếng Nhật\", \"reading\": \"hiragana câu ví dụ\", \"vi\": \"dịch nghĩa tiếng Việt\" }\n" +
+                "     { \"caseLabel\": \"[Vば] Dùng với Động từ\", \"ja\": \"câu ví dụ tiếng Nhật\", \"reading\": \"hiragana câu ví dụ\", \"vi\": \"dịch nghĩa tiếng Việt\" }\n" +
                 "  ],\n" +
                 "  \"readingPassage\": \"một đoạn văn đọc hiểu ngắn (3-4 câu) áp dụng ngữ pháp này kèm nghĩa dịch tiếng Việt\",\n" +
                 "  \"quizzes\": [\n" +
@@ -355,6 +359,161 @@ public class KnowledgeService {
             String jsonContent = root.path("choices").get(0).path("message").path("content").asText();
 
             return parseAiJsonResponse(jsonContent);
+        } finally {
+            bulkheadSemaphore.release();
+        }
+    }
+
+    /**
+     * Stream collect and enrich via Server-Sent Events (SSE).
+     */
+    public void streamCollectAndEnrich(String input, org.springframework.web.servlet.mvc.method.annotation.SseEmitter emitter) throws Exception {
+        if (!bulkheadSemaphore.tryAcquire()) {
+            emitter.send(org.springframework.web.servlet.mvc.method.annotation.SseEmitter.event()
+                    .name("error").data(Map.of("error", "Hệ thống AI đang bận. Vui lòng thử lại sau!")));
+            emitter.complete();
+            return;
+        }
+
+        try {
+            String apiKey = getApiKey();
+            if (apiKey == null) {
+                emitter.send(org.springframework.web.servlet.mvc.method.annotation.SseEmitter.event()
+                        .name("error").data(Map.of("error", "Chưa cấu hình API Key.")));
+                emitter.complete();
+                return;
+            }
+
+            // Step 1: Normalize input
+            Map<String, Object> collectResult = normalize(input);
+            String type = (String) collectResult.get("type");
+            String normalizedInput = (String) collectResult.get("normalizedInput");
+
+            emitter.send(org.springframework.web.servlet.mvc.method.annotation.SseEmitter.event()
+                    .name("status")
+                    .data(Map.of("step", "normalized", "type", type, "normalizedInput", normalizedInput)));
+
+            // Step 2: Build prompt based on type
+            String prompt;
+            if ("grammar".equalsIgnoreCase(type)) {
+                prompt = String.format(
+                    "Bạn là một chuyên gia biên soạn ngữ pháp tiếng Nhật cao cấp. Hãy làm giàu thông tin cho ngữ pháp sau bằng tiếng Việt:\n" +
+                    "Ngữ pháp: \"%s\"\n\n" +
+                    "Yêu cầu dữ liệu cực kỳ chi tiết, chính xác, không dùng tiếng Trung hay tiếng Anh để giải nghĩa. Mọi giải thích, dịch ví dụ bắt buộc phải là tiếng Việt.\n" +
+                    "QUY TẮC BẮT BUỘC KHI TẠO CÁCH KẾT HỢP (FORMATION) VÀ CÂU VÍ DỤ (EXAMPLES):\n" +
+                    "1. `formation`: Trình bày cách kết hợp chia theo từng dạng (V, A-i, A-na, N), phân tách rõ ràng bằng ' / ' hoặc xuống dòng \\n.\n" +
+                    "2. `examples`: BẮT BUỘC phải tạo ít nhất 1-2 câu ví dụ minh họa cho CẢ 100%% các trường hợp kết hợp ở `formation` (không được thiếu trường hợp nào). Mỗi câu ví dụ PHẢI có thuộc tính `caseLabel` ghi rõ trường hợp áp dụng (ví dụ: \"[Vば] Dùng với Động từ\", \"[Aい] Dùng với Tính từ -i\", \"[N] Dùng với Danh từ\").\n\n" +
+                    "Hãy trả về JSON duy nhất, không markdown:\n" +
+                    "{\n" +
+                    "  \"grammar\": \"cấu trúc ngữ pháp chính xác (ví dụ: 〜ように)\",\n" +
+                    "  \"meaning\": \"nghĩa tiếng Việt chính xác (ví dụ: để làm gì đó)\",\n" +
+                    "  \"usageDesc\": \"cách dùng cụ thể, ngữ cảnh sử dụng\",\n" +
+                    "  \"formation\": \"cách kết hợp cấu trúc, phân tách từng dạng (V, A-i, A-na, N) bằng ' / ' hoặc \\n (ví dụ: Vば + ほど / Aいければ + ほど / N/Aな + であれば + ほど)\",\n" +
+                    "  \"jlpt\": \"cấp độ JLPT từ N5 đến N1\",\n" +
+                    "  \"similarGrammar\": [\"ngữ pháp tương tự 1\", \"ngữ pháp tương tự 2\"],\n" +
+                    "  \"difference\": \"so sánh và phân biệt với các ngữ pháp tương tự để tránh nhầm lẫn\",\n" +
+                    "  \"commonMistakes\": [\n" +
+                    "     { \"error\": \"sai lầm phổ biến khi dùng\", \"fix\": \"cách dùng đúng và giải thích\" }\n" +
+                    "  ],\n" +
+                    "  \"examples\": [\n" +
+                    "     { \"caseLabel\": \"[Vば] Dùng với Động từ\", \"ja\": \"câu ví dụ tiếng Nhật\", \"reading\": \"hiragana câu ví dụ\", \"vi\": \"dịch nghĩa tiếng Việt\" }\n" +
+                    "  ],\n" +
+                    "  \"readingPassage\": \"một đoạn văn đọc hiểu ngắn (3-4 câu) áp dụng ngữ pháp này kèm nghĩa dịch tiếng Việt\",\n" +
+                    "  \"quizzes\": [\n" +
+                    "     { \"question\": \"câu hỏi trắc nghiệm điền từ (để trống chỗ cần điền)\", \"options\": [\"đáp án A\", \"đáp án B\", \"đáp án C\", \"đáp án D\"], \"answer\": \"đáp án đúng chính xác\", \"explanation\": \"giải thích tại sao chọn đáp án này\" }\n" +
+                    "  ]\n" +
+                    "}",
+                    normalizedInput
+                );
+            } else {
+                prompt = String.format(
+                    "Bạn là một chuyên gia biên soạn từ điển tiếng Nhật cao cấp. Hãy làm giàu thông tin cho từ vựng sau bằng tiếng Việt:\n" +
+                    "Từ: \"%s\"\n\n" +
+                    "Yêu cầu dữ liệu cực kỳ chi tiết, chính xác, không dùng tiếng Trung hay tiếng Anh để giải nghĩa. Mọi giải thích, dịch ví dụ bắt buộc phải là tiếng Việt.\n" +
+                    "Hãy trả về JSON duy nhất, không markdown:\n" +
+                    "{\n" +
+                    "  \"word\": \"từ kanji hoặc kana chính xác\",\n" +
+                    "  \"reading\": \"hiragana/katakana cách đọc\",\n" +
+                    "  \"meaning\": \"nghĩa tiếng Việt chính xác\",\n" +
+                    "  \"hanViet\": \"âm Hán Việt (nếu có, viết hoa, ví dụ: THỰC SỰ)\",\n" +
+                    "  \"jlpt\": \"cấp độ JLPT từ N5 đến N1\",\n" +
+                    "  \"pitchAccent\": \"cách đánh trọng âm (ví dụ: しょくじ [0])\",\n" +
+                    "  \"wordType\": \"loại từ (noun, verb, i-adjective, na-adjective...)\",\n" +
+                    "  \"kanjiWords\": [\n" +
+                    "     { \"word\": \"từ ghép chứa kanji này\", \"reading\": \"cách đọc\", \"meaning\": \"nghĩa tiếng Việt\" }\n" +
+                    "  ],\n" +
+                    "  \"synonyms\": [\"từ đồng nghĩa 1\", \"từ đồng nghĩa 2\"],\n" +
+                    "  \"antonyms\": [\"từ trái nghĩa 1\", \"từ trái nghĩa 2\"],\n" +
+                    "  \"commonMistakes\": [\n" +
+                    "     { \"error\": \"sai lầm phổ biến\", \"fix\": \"cách sửa\" }\n" +
+                    "  ],\n" +
+                    "  \"exampleSentences\": [\n" +
+                    "     { \"ja\": \"câu ví dụ tiếng Nhật\", \"reading\": \"hiragana câu ví dụ\", \"vi\": \"dịch nghĩa tiếng Việt\" }\n" +
+                    "  ],\n" +
+                    "  \"collocations\": [\"cụm từ hay đi kèm 1\", \"cụm từ hay đi kèm 2\"],\n" +
+                    "  \"mnemonic\": \"mẹo nhớ chữ Hán hoặc từ vựng này. Hãy đưa ra mẹo nhớ cực kỳ sáng tạo, dễ nhớ, có thể dùng chiết tự các bộ thủ chữ Hán (kanji breakdown) hoặc liên tưởng âm thanh/hình ảnh thú vị, tránh giải thích khô khan.\",\n" +
+                    "  \"conversationExamples\": [\n" +
+                    "     { \"speakerA\": \"hội thoại người A\", \"speakerB\": \"hội thoại người B (phản hồi)\", \"translationA\": \"dịch nghĩa A\", \"translationB\": \"dịch nghĩa B\" }\n" +
+                    "  ]\n" +
+                    "}",
+                    normalizedInput
+                );
+            }
+
+            // Step 3: Stream from DeepSeek with stream: true
+            Map<String, Object> requestBodyMap = Map.of(
+                "model", "deepseek-v4-flash",
+                "stream", true,
+                "response_format", Map.of("type", "json_object"),
+                "messages", new Object[]{
+                    Map.of("role", "system", "content", "Bạn là biên tập viên tiếng Nhật. Bạn chỉ phản hồi bằng định dạng JSON."),
+                    Map.of("role", "user", "content", prompt)
+                }
+            );
+
+            String requestBody = objectMapper.writeValueAsString(requestBodyMap);
+            HttpRequest request = HttpRequest.newBuilder(URI.create("https://api.deepseek.com/chat/completions"))
+                    .header("Content-Type", "application/json")
+                    .header("Authorization", "Bearer " + apiKey)
+                    .POST(HttpRequest.BodyPublishers.ofString(requestBody))
+                    .build();
+
+            StringBuilder fullContent = new StringBuilder();
+            HttpResponse<java.util.stream.Stream<String>> response = httpClient.send(request, HttpResponse.BodyHandlers.ofLines());
+
+            if (response.statusCode() != 200) {
+                emitter.send(org.springframework.web.servlet.mvc.method.annotation.SseEmitter.event()
+                        .name("error").data(Map.of("error", "API error status: " + response.statusCode())));
+                emitter.complete();
+                return;
+            }
+
+            response.body().forEach(line -> {
+                if (line.startsWith("data: ") && !line.contains("[DONE]")) {
+                    try {
+                        String jsonChunk = line.substring(6).trim();
+                        JsonNode node = objectMapper.readTree(jsonChunk);
+                        JsonNode delta = node.path("choices").get(0).path("delta").path("content");
+                        if (!delta.isMissingNode()) {
+                            String textStr = delta.asText();
+                            fullContent.append(textStr);
+                            emitter.send(org.springframework.web.servlet.mvc.method.annotation.SseEmitter.event()
+                                    .name("chunk").data(Map.of("content", textStr)));
+                        }
+                    } catch (Exception ignored) {}
+                }
+            });
+
+            // Parse final full JSON content
+            String cleaned = cleanJsonContent(fullContent.toString());
+            Map<String, Object> enrichmentData = parseAiJsonResponse(cleaned);
+
+            Map<String, Object> finalResult = new HashMap<>(collectResult);
+            finalResult.put("enrichmentData", enrichmentData);
+
+            emitter.send(org.springframework.web.servlet.mvc.method.annotation.SseEmitter.event()
+                    .name("complete").data(finalResult));
+            emitter.complete();
         } finally {
             bulkheadSemaphore.release();
         }

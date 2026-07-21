@@ -73,6 +73,51 @@ public class KnowledgeController {
     }
 
     /**
+     * Stream normalize and AI enrichment via SSE (Server-Sent Events)
+     * POST /api/knowledge/collect/stream
+     */
+    @PostMapping(value = "/collect/stream", produces = org.springframework.http.MediaType.TEXT_EVENT_STREAM_VALUE)
+    public org.springframework.web.servlet.mvc.method.annotation.SseEmitter collectStream(
+            @AuthenticationPrincipal User user,
+            @RequestBody Map<String, String> request) {
+        org.springframework.web.servlet.mvc.method.annotation.SseEmitter emitter =
+                new org.springframework.web.servlet.mvc.method.annotation.SseEmitter(120_000L);
+
+        if (user == null) {
+            try {
+                emitter.send(org.springframework.web.servlet.mvc.method.annotation.SseEmitter.event()
+                        .name("error").data(Map.of("error", "Vui lòng đăng nhập!")));
+                emitter.complete();
+            } catch (Exception ignored) {}
+            return emitter;
+        }
+
+        String input = request.get("input");
+        if (input == null || input.trim().isEmpty()) {
+            try {
+                emitter.send(org.springframework.web.servlet.mvc.method.annotation.SseEmitter.event()
+                        .name("error").data(Map.of("error", "Nội dung nhập vào không được để trống.")));
+                emitter.complete();
+            } catch (Exception ignored) {}
+            return emitter;
+        }
+
+        java.util.concurrent.CompletableFuture.runAsync(() -> {
+            try {
+                knowledgeService.streamCollectAndEnrich(input.trim(), emitter);
+            } catch (Exception e) {
+                try {
+                    emitter.send(org.springframework.web.servlet.mvc.method.annotation.SseEmitter.event()
+                            .name("error").data(Map.of("error", "Lỗi xử lý AI: " + e.getMessage())));
+                    emitter.completeWithError(e);
+                } catch (Exception ignored) {}
+            }
+        });
+
+        return emitter;
+    }
+
+    /**
      * Save enriched knowledge card to DB (supports update and versioning)
      * POST /api/knowledge/save
      */

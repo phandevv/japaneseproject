@@ -54,6 +54,8 @@ export default function KnowledgeBasePage() {
   const [librarySearch, setLibrarySearch] = useState('');
   const [selectedLibraryCard, setSelectedLibraryCard] = useState(null); // { type: 'vocab'|'grammar', data: Object }
 
+  const [streamProgress, setStreamProgress] = useState('');
+
   const handleCollect = async (e) => {
     if (e) e.preventDefault();
     const trimmed = inputText.trim();
@@ -63,16 +65,26 @@ export default function KnowledgeBasePage() {
     setError(null);
     setResult(null);
     setSaveStatus(null);
+    setStreamProgress('Đang gửi yêu cầu đến AI...');
 
-    try {
-      const data = await knowledgeApi.collect(trimmed);
-      setResult(data);
-    } catch (err) {
-      console.error(err);
-      setError(err?.response?.data?.error || err.message || 'Không thể kết nối đến AI để chuẩn hóa dữ liệu.');
-    } finally {
-      setLoading(false);
-    }
+    await knowledgeApi.collectStream(trimmed, {
+      onStatus: (data) => {
+        setStreamProgress(`Đã nhận diện: ${data.type === 'grammar' ? 'Ngữ pháp' : 'Từ vựng'} (${data.normalizedInput}). AI đang tổng hợp dữ liệu...`);
+      },
+      onChunk: () => {
+        setStreamProgress('AI đang phản hồi luồng dữ liệu theo thời gian thực (Streaming)...');
+      },
+      onComplete: (data) => {
+        setResult(data);
+        setLoading(false);
+        setStreamProgress('');
+      },
+      onError: (errMsg) => {
+        setError(errMsg || 'Không thể kết nối đến AI để chuẩn hóa dữ liệu.');
+        setLoading(false);
+        setStreamProgress('');
+      }
+    });
   };
 
   const handleSave = async () => {
@@ -321,6 +333,12 @@ export default function KnowledgeBasePage() {
                     </>
                   )}
                 </button>
+                {loading && streamProgress && (
+                  <div style={{ marginTop: '12px', fontSize: '0.85rem', color: 'var(--accent-color)', display: 'flex', alignItems: 'center', gap: '8px', fontWeight: '500' }}>
+                    <span className="pulse-dot">⚡</span>
+                    <span>{streamProgress}</span>
+                  </div>
+                )}
               </form>
 
               <div className="kb-demo-suggestions">
