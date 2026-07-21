@@ -5,6 +5,7 @@ import { ArrowLeft, RefreshCw, Trophy, Heart, Play } from 'lucide-react';
 import MascotCorners from '../components/MascotCorners';
 import { useAuth } from '../context/AuthContext';
 import PodiumLeaderboard from '../components/PodiumLeaderboard';
+import MascotLoader from '../components/MascotLoader';
 
 const normalizeString = (str) => {
   if (!str) return '';
@@ -48,7 +49,11 @@ const FallingWordsGame = () => {
   const startGame = async () => {
     setGameState('loading');
     try {
-      const data = await vocabApi.getRandomByLevel(selectedLevel, wordCount);
+      // Force 5 seconds minimum load time to show animation
+      const [data] = await Promise.all([
+        vocabApi.getRandomByLevel(selectedLevel, wordCount),
+        new Promise(resolve => setTimeout(resolve, 5000))
+      ]);
       setWordsQueue(data);
       setActiveWords([]);
       setScore(0);
@@ -260,7 +265,7 @@ const FallingWordsGame = () => {
           </div>
         )}
 
-        {gameState === 'loading' && <div style={{ fontSize: '1.5rem', color: 'var(--text-secondary)' }}>Đang chuẩn bị...</div>}
+        {gameState === 'loading' && <div style={{ margin: 'auto' }}><MascotLoader message="Đang chuẩn bị từ vựng..." /></div>}
         
         {gameState === 'playing' && activeWords.map(word => (
           <div 
