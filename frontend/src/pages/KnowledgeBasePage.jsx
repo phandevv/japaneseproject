@@ -54,28 +54,6 @@ export default function KnowledgeBasePage() {
   const [librarySearch, setLibrarySearch] = useState('');
   const [selectedLibraryCard, setSelectedLibraryCard] = useState(null); // { type: 'vocab'|'grammar', data: Object }
 
-  const [streamProgress, setStreamProgress] = useState('');
-  const [streamingText, setStreamingText] = useState('');
-  const [streamByteCount, setStreamByteCount] = useState(0);
-  const [streamPartial, setStreamPartial] = useState({}); // incrementally parsed fields
-
-  // Extract readable fields as they appear in the streaming JSON text
-  const extractPartialFields = (text) => {
-    const partial = {};
-    const tryExtract = (key, regex) => {
-      const m = text.match(regex);
-      if (m) partial[key] = m[1];
-    };
-    tryExtract('word', /"(?:word|grammar|kanji|kana)"\s*:\s*"([^"]+)"/);
-    tryExtract('meaning', /"(?:meaning|nghia|nghĩa)"\s*:\s*"([^"]+)"/i);
-    tryExtract('reading', /"(?:reading|hiragana|furigana)"\s*:\s*"([^"]+)"/i);
-    tryExtract('jlpt', /"jlpt"\s*:\s*"([^"]+)"/i);
-    tryExtract('formation', /"formation"\s*:\s*"([^"]{10,})"/i);
-    tryExtract('usageDesc', /"usageDesc"\s*:\s*"([^"]{10,})"/i);
-    tryExtract('mnemonic', /"mnemonic"\s*:\s*"([^"]{10,})"/i);
-    return partial;
-  };
-
   const handleCollect = async (e) => {
     if (e) e.preventDefault();
     const trimmed = inputText.trim();
@@ -85,46 +63,19 @@ export default function KnowledgeBasePage() {
     setError(null);
     setResult(null);
     setSaveStatus(null);
-    setStreamProgress('Đang gửi yêu cầu đến AI...');
-    setStreamingText('');
-    setStreamByteCount(0);
-    setStreamPartial({});
 
-    let accumulated = '';
-
-    await knowledgeApi.collectStream(trimmed, {
-      onStatus: (data) => {
-        setStreamProgress(`Đã nhận diện: ${data.type === 'grammar' ? 'Ngữ pháp' : 'Từ vựng'} — ${data.normalizedInput}. AI đang tổng hợp...`);
-      },
-      onChunk: (chunk) => {
-        accumulated += chunk;
-        setStreamingText(accumulated);
-        setStreamByteCount(accumulated.length);
-        setStreamProgress('streaming');
-        // Try to extract partial fields from accumulated text
-        const partial = extractPartialFields(accumulated);
-        if (Object.keys(partial).length > 0) {
-          setStreamPartial(partial);
-        }
-      },
-      onComplete: (data) => {
-        setResult(data);
-        setLoading(false);
-        setStreamProgress('');
-        setStreamingText('');
-        setStreamByteCount(0);
-        setStreamPartial({});
-      },
-      onError: (errMsg) => {
-        setError(errMsg || 'Không thể kết nối đến AI để chuẩn hóa dữ liệu.');
-        setLoading(false);
-        setStreamProgress('');
-        setStreamingText('');
-        setStreamByteCount(0);
-        setStreamPartial({});
-      }
-    });
+    try {
+      const data = await knowledgeApi.collect(trimmed);
+      setResult(data);
+    } catch (err) {
+      console.error(err);
+      setError(err?.response?.data?.error || err.message || 'Không thể kết nối đến AI để chuẩn hóa dữ liệu.');
+    } finally {
+      setLoading(false);
+    }
   };
+
+
 
   const handleSave = async () => {
     if (!result) return;
@@ -372,12 +323,6 @@ export default function KnowledgeBasePage() {
                     </>
                   )}
                 </button>
-                {loading && streamProgress && (
-                  <div style={{ marginTop: '12px', fontSize: '0.85rem', color: 'var(--accent-color)', display: 'flex', alignItems: 'center', gap: '8px', fontWeight: '500' }}>
-                    <span className="pulse-dot">⚡</span>
-                    <span>{streamProgress}</span>
-                  </div>
-                )}
               </form>
 
               <div className="kb-demo-suggestions">
@@ -398,106 +343,15 @@ export default function KnowledgeBasePage() {
             </div>
 
             <div className="kb-preview-container">
-              {/* Streaming live panel */}
               {loading && (
                 <div className="kb-preview-skeleton glass-panel">
-                  {/* Header */}
-                  <div className="stream-header">
-                    <span className="stream-icon">⚡</span>
-                    <span className="stream-label">
-                      {streamProgress === 'streaming'
-                        ? `AI đang viết dữ liệu... (${streamByteCount} ký tự)`
-                        : streamProgress || 'Đang kết nối đến AI...'}
-                    </span>
-                    <span className="stream-spinner" />
-                  </div>
-
-                  {/* Progress bar */}
-                  <div className="stream-progress-bar-track">
-                    <div
-                      className="stream-progress-bar-fill"
-                      style={{ width: streamByteCount > 0 ? `${Math.min(100, (streamByteCount / 2000) * 100)}%` : '5%' }}
-                    />
-                  </div>
-
-                  {/* Partial card fields — appear one by one as AI writes them */}
-                  {Object.keys(streamPartial).length > 0 && (
-                    <div className="stream-partial-card animate-fade-in">
-                      {streamPartial.word && (
-                        <div className="stream-partial-row animate-fade-in">
-                          <span className="stream-partial-icon">📖</span>
-                          <span className="stream-partial-label">Từ/Ngữ pháp</span>
-                          <span className="stream-partial-value font-jp">{streamPartial.word}</span>
-                        </div>
-                      )}
-                      {streamPartial.reading && (
-                        <div className="stream-partial-row animate-fade-in">
-                          <span className="stream-partial-icon">🔈</span>
-                          <span className="stream-partial-label">Cách đọc</span>
-                          <span className="stream-partial-value font-jp">{streamPartial.reading}</span>
-                        </div>
-                      )}
-                      {streamPartial.meaning && (
-                        <div className="stream-partial-row animate-fade-in">
-                          <span className="stream-partial-icon">💡</span>
-                          <span className="stream-partial-label">Nghĩa</span>
-                          <span className="stream-partial-value">{streamPartial.meaning}</span>
-                        </div>
-                      )}
-                      {streamPartial.jlpt && (
-                        <div className="stream-partial-row animate-fade-in">
-                          <span className="stream-partial-icon">🏆</span>
-                          <span className="stream-partial-label">Cấp độ JLPT</span>
-                          <span className="stream-partial-value">{streamPartial.jlpt}</span>
-                        </div>
-                      )}
-                      {streamPartial.formation && (
-                        <div className="stream-partial-row animate-fade-in">
-                          <span className="stream-partial-icon">🔧</span>
-                          <span className="stream-partial-label">Cách chia</span>
-                          <span className="stream-partial-value font-jp">{streamPartial.formation}</span>
-                        </div>
-                      )}
-                      {streamPartial.usageDesc && (
-                        <div className="stream-partial-row animate-fade-in">
-                          <span className="stream-partial-icon">📝</span>
-                          <span className="stream-partial-label">Cách dùng</span>
-                          <span className="stream-partial-value">{streamPartial.usageDesc}</span>
-                        </div>
-                      )}
-                      {streamPartial.mnemonic && (
-                        <div className="stream-partial-row animate-fade-in">
-                          <span className="stream-partial-icon">🧠</span>
-                          <span className="stream-partial-label">Mẹo nhớ</span>
-                          <span className="stream-partial-value">{streamPartial.mnemonic}</span>
-                        </div>
-                      )}
-                    </div>
-                  )}
-
-                  {/* Raw stream monitor */}
-                  {streamingText.length > 0 && (
-                    <div className="stream-text-preview">
-                      <pre className="stream-text-content">
-                        {streamingText.length > 400
-                          ? '...' + streamingText.slice(-400)
-                          : streamingText}
-                      </pre>
-                    </div>
-                  )}
-
-                  {/* Skeleton when no chunks yet */}
-                  {streamingText.length === 0 && Object.keys(streamPartial).length === 0 && (
-                    <>
-                      <div className="skeleton-line w-3/4 animate-pulse" style={{ marginTop: 12 }} />
-                      <div className="skeleton-line w-1/2 animate-pulse" />
-                      <div className="skeleton-line w-5/6 animate-pulse" />
-                    </>
-                  )}
+                  <div className="skeleton-avatar animate-pulse" />
+                  <div className="skeleton-line w-3/4 animate-pulse" />
+                  <div className="skeleton-line w-1/2 animate-pulse" />
+                  <div className="skeleton-line w-5/6 animate-pulse" />
+                  <p className="skeleton-text">AI đang đọc dữ liệu, phân tích Kanji và tổng hợp các ví dụ học tập cho bạn...</p>
                 </div>
               )}
-
-
               {!loading && !result && (
                 <div className="kb-preview-empty glass-panel">
                   <BookOpen size={48} className="empty-icon" />
