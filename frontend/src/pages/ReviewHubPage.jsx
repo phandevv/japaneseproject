@@ -48,12 +48,11 @@ const ReviewHubPage = ({ mode = 'morning', goBack }) => {
 
   // Render sub-mode pages
   if (selectedMode === MODES.FLASHCARD) {
-    // morning = ôn lại SRS (từ đã học, tới hạn ôn) ; today = flashcard ngẫu nhiên từ đã học
     return (
       <FlashcardPage
-        level={null}
-        isSrs={false}
-        isLearnedStudy={true}
+        level={isMorning ? 'SRS' : 'TODAY'}
+        isSrs={isMorning}
+        isLearnedStudy={!isMorning}
         goBack={() => setSelectedMode(null)}
       />
     );

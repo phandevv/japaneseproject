@@ -119,7 +119,11 @@ const FlashcardPage = ({ level: initialLevel, isSrs = false, stats, goBack, onDa
           wordReviewId: item.id
         }));
       } else if (isLearnedStudy) {
-        data = await srsApi.getRandomLearnedWords(50);
+        if (activeLevel === 'TODAY') {
+          data = await srsApi.getTodayReviewed();
+        } else {
+          data = await srsApi.getRandomLearnedWords(50);
+        }
       }
       setWords(data);
       setCurrentIndex(0);

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ArrowLeft, Loader, FileQuestion, CheckCircle, XCircle } from 'lucide-react';
+import { ArrowLeft, Loader, FileQuestion, CheckCircle, XCircle, Eye, EyeOff } from 'lucide-react';
 import { srsApi, vocabApi } from '../services/api';
 
 /**
@@ -16,6 +16,7 @@ const ReviewQuizPage = ({ goBack }) => {
   const [mistakes, setMistakes] = useState(0);
   const [finished, setFinished] = useState(false);
   const [questionType, setQuestionType] = useState('ja-to-vi'); // 'ja-to-vi' or 'vi-to-ja'
+  const [showHiragana, setShowHiragana] = useState(false);
 
   useEffect(() => {
     const load = async () => {
@@ -51,6 +52,7 @@ const ReviewQuizPage = ({ goBack }) => {
     const allChoices = [...shuffledOthers, current].sort(() => Math.random() - 0.5);
     setChoices(allChoices);
     setSelected(null);
+    setShowHiragana(false); // Reset visibility for next question
   }, [quizIndex, words]);
 
   const handleAnswer = (word) => {
@@ -80,6 +82,7 @@ const ReviewQuizPage = ({ goBack }) => {
     setMistakes(0);
     setSelected(null);
     setFinished(false);
+    setShowHiragana(false);
   };
 
   // ── Loading ────────────────────────────────────────────────────────────────
@@ -199,7 +202,30 @@ const ReviewQuizPage = ({ goBack }) => {
               {current.kanji || current.hiragana}
             </p>
             {current.kanji && current.hiragana && (
-              <p style={{ color: 'var(--text-secondary)', margin: 0, fontSize: '0.9rem' }}>{current.hiragana}</p>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', marginTop: '6px' }}>
+                <span 
+                  onClick={() => setShowHiragana(!showHiragana)}
+                  style={{ 
+                    fontSize: '0.95rem',
+                    color: 'var(--text-secondary)',
+                    filter: (showHiragana || selected !== null) ? 'none' : 'blur(5px)',
+                    cursor: 'pointer',
+                    userSelect: 'none',
+                    transition: 'filter 0.2s ease',
+                  }}
+                  title={(showHiragana || selected !== null) ? '' : 'Bấm để xem cách đọc'}
+                >
+                  {current.hiragana}
+                </span>
+                {selected === null && (
+                  <button 
+                    onClick={() => setShowHiragana(!showHiragana)}
+                    style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-muted)', display: 'flex', alignItems: 'center', padding: 0 }}
+                  >
+                    {showHiragana ? <EyeOff size={14} /> : <Eye size={14} />}
+                  </button>
+                )}
+              </div>
             )}
           </>
         ) : (
