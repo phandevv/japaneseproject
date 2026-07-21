@@ -52,28 +52,36 @@ Hệ thống được thiết kế theo mô hình **Client-Server** phân tách 
 
 ## 3. Cấu Trúc Thư Mục & Phân Lớp (Directory Structure)
 
-### Backend Packages (`com.flashcard.*`)
-Cấu trúc phân lớp chuẩn của Spring Boot:
-* **`config`**: Các cấu hình hệ thống bao gồm bảo mật, nạp dữ liệu mẫu, và chỉ mục Hibernate Search.
-  * `JwtAuthFilter.java`: Bộ lọc JWT chặn các request, trích xuất Token và gán Authentication.
-  * `SecurityConfig.java`: Cấu hình phân quyền Spring Security, CORS động, và Actuator endpoints.
-  * `SearchIndexer.java`: Thực hiện nạp chỉ mục Lucene khi ứng dụng khởi động.
-  * `ExcelDataLoader.java`: Tự động đọc dữ liệu từ tệp Excel mẫu để điền từ vựng vào DB khi khởi chạy lần đầu.
-* **`controller`**: Cung cấp các RESTful API endpoints.
-  * `AuthController.java`: Đăng ký, đăng nhập, lấy thông tin cá nhân.
-  * `VocabularyController.java`: Tìm kiếm, quản lý, phân trang từ vựng.
-  * `SrsController.java`: Ôn luyện, đánh giá thẻ ghi nhớ, lấy các từ đến hạn ôn tập.
-  * `UserSettingController.java`: Cấu hình số từ học mỗi ngày của người dùng.
-  * `AnalyticsController.java`: Thống kê tần suất học tập dưới dạng lưới commit và bảng xếp hạng.
-  * `ImportController.java`: Admin import từ vựng qua file Excel.
-* **`model`**: Định nghĩa các Entity JPA.
-  * `User.java`: Bảng `users` (tên đăng nhập, mật khẩu mã hóa BCrypt, vai trò).
-  * `Vocabulary.java`: Bảng `vocabulary` (từ vựng Kanji, Hiragana, Romaji, Hán Việt, từ loại, cấp độ, nghĩa).
-  * `UserSetting.java`: Bảng `user_settings` (số lượng từ học mỗi ngày, các ngày đã hoàn thành).
-  * `WordReview.java`: Bảng `word_reviews` (trạng thái ôn luyện SRS, Ease Factor, chu kỳ lặp lại, ngày ôn tập tiếp theo).
-  * `StudySession.java`: Bảng `study_sessions` (lịch sử học tập phục vụ tính toán lưới commit).
-* **`repository`**: Tương tác với Database bằng Spring Data JPA.
-* **`service`**: Chứa toàn bộ Logic nghiệp vụ của hệ thống (Auth, SRS, Analytics, Excel Import).
+### Backend Modules (`com.flashcard.*`)
+Cấu trúc tái cấu trúc theo mô hình **Module-based / Package-by-feature**:
+* **`common`**: Các cấu hình hệ thống & AI core shared.
+  * `common.config`: `SecurityConfig`, `JwtAuthFilter`, `WebSocketConfig`, `SearchIndexer`, `ExcelDataLoader`.
+  * `common.ai`: `AIProvider`, `DeepSeekProvider`, `PromptBuilder`.
+* **`user`**: Module quản lý người dùng và xác thực.
+  * `user.controller`: `AuthController`, `UserController`, `UserSettingController`.
+  * `user.service`: `AuthService`, `UserSettingService`, `OnlineUserService`.
+  * `user.repository`: `UserRepository`, `UserSettingRepository`.
+  * `user.model`: `User`, `UserSetting`.
+* **`vocabulary`**: Module từ điển và nhập dữ liệu từ vựng.
+  * `vocabulary.controller`: `VocabularyController`, `ImportController`.
+  * `vocabulary.service`: `VocabularyService`, `ExcelImportService`.
+  * `vocabulary.repository`: `VocabularyRepository`.
+  * `vocabulary.model`: `Vocabulary`.
+* **`srs`**: Module học tập giãn cách (Spaced Repetition System - SM-2 & FSRS).
+  * `srs.controller`: `SrsController`, `StudyController`.
+  * `srs.service`: `SrsService`, `GrammarSrsService`, `FsrsAlgorithm`, `SpacedRepetitionAlgorithm`, `LearningStrategyService`, `StudySessionHelper`.
+  * `srs.repository`: `WordReviewRepository`, `GrammarReviewRepository`, `ReviewLogRepository`, `ReviewRecommendationRepository`, `StudySessionRepository`, `DailyStudyStatsRepository`.
+  * `srs.model`: `WordReview`, `GrammarReview`, `ReviewLog`, `ReviewRecommendation`, `ReviewRating`, `WordReviewState`, `StudySession`, `DailyStudyStats`.
+  * `srs.dto`: `WordReviewDto`.
+* **`knowledge`**: Module AI Enrichment, Kho tri thức cá nhân, Chat & Hội thoại.
+  * `knowledge.controller`: `KnowledgeController`, `AiExerciseController`, `ChatController`, `ConversationController`, `ConversationWebSocketHandler`, `FeedbackController`.
+  * `knowledge.service`: `KnowledgeService`, `DeepSeekEnrichmentService`, `PersonalCorpusService`, `ChatService`, `ConversationManager`, `FeedbackService`, `SchedulerService`.
+  * `knowledge.repository`: `GrammarCardRepository`, `KnowledgeVersionRepository`, `ConversationRepository`, `ConversationMessageRepository`, `ConversationCorrectionRepository`, `SpeakingStatisticsRepository`, `FeedbackRepository`.
+  * `knowledge.model`: `GrammarCard`, `KnowledgeVersion`, `Conversation`, `ConversationMessage`, `ConversationCorrection`, `SpeakingStatistics`, `Feedback`.
+* **`analytics`**: Module thống kê tiến trình học tập và bảng xếp hạng.
+  * `analytics.controller`: `AnalyticsController`.
+  * `analytics.service`: `AnalyticsService`.
+
 
 ### Frontend Structure (`frontend/src/*`)
 * **`components`**: Các thành phần tái sử dụng.

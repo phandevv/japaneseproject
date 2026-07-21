@@ -1,0 +1,127 @@
+package com.flashcard.user.controller;
+
+import com.flashcard.user.model.User;
+import com.flashcard.user.service.AuthService;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
+
+@RestController
+@RequestMapping("/api/auth")
+public class AuthController {
+
+    private final AuthService authService;
+
+    public AuthController(AuthService authService) {
+        this.authService = authService;
+    }
+
+    @PostMapping("/register")
+    public ResponseEntity<?> register(@RequestBody Map<String, String> request) {
+        try {
+            User user = authService.register(request.get("username"), request.get("password"));
+            return ResponseEntity.ok(Map.of(
+                "message", "User registered successfully",
+                "username", user.getUsername()
+            ));
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body(Map.of("error", "Registration failed: " + e.getMessage()));
+        }
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestBody Map<String, String> request) {
+        try {
+            Map<String, String> tokens = authService.login(request.get("username"), request.get("password"));
+            User user = authService.getUserByUsername(request.get("username").trim());
+            return ResponseEntity.ok(Map.of(
+                "token", tokens.get("token"),
+                "refreshToken", tokens.get("refreshToken"),
+                "username", user.getUsername(),
+                "role", user.getRole() != null ? user.getRole() : "USER",
+                "displayName", user.getDisplayName() != null ? user.getDisplayName() : "",
+                "address", user.getAddress() != null ? user.getAddress() : "",
+                "phone", user.getPhone() != null ? user.getPhone() : "",
+                "occupation", user.getOccupation() != null ? user.getOccupation() : "",
+                "avatar", user.getAvatar() != null ? user.getAvatar() : ""
+            ));
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(401).body(Map.of("error", e.getMessage()));
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body(Map.of("error", "Login failed: " + e.getMessage()));
+        }
+    }
+
+    @PostMapping("/refresh")
+    public ResponseEntity<?> refresh(@RequestBody Map<String, String> request) {
+        try {
+            String refreshToken = request.get("refreshToken");
+            if (refreshToken == null || refreshToken.isBlank()) {
+                return ResponseEntity.badRequest().body(Map.of("error", "Refresh token is required"));
+            }
+            String newAccessToken = authService.refreshAccessToken(refreshToken);
+            return ResponseEntity.ok(Map.of("token", newAccessToken));
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(401).body(Map.of("error", e.getMessage()));
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body(Map.of("error", "Token refresh failed: " + e.getMessage()));
+        }
+    }
+
+    /** Stateless JWT — logout is client-side (discard token). Endpoint kept for API compatibility. */
+    @PostMapping("/logout")
+    public ResponseEntity<?> logout() {
+        return ResponseEntity.ok(Map.of("message", "Logged out successfully"));
+    }
+
+    /** Returns current authenticated user info (useful for frontend session restore). */
+    @GetMapping("/me")
+    public ResponseEntity<?> me(@AuthenticationPrincipal User user) {
+        if (user == null) return ResponseEntity.status(401).body(Map.of("error", "Unauthorized"));
+        return ResponseEntity.ok(Map.of(
+            "username", user.getUsername(),
+            "id", user.getId(),
+            "role", user.getRole() != null ? user.getRole() : "USER",
+            "displayName", user.getDisplayName() != null ? user.getDisplayName() : "",
+            "address", user.getAddress() != null ? user.getAddress() : "",
+            "phone", user.getPhone() != null ? user.getPhone() : "",
+            "occupation", user.getOccupation() != null ? user.getOccupation() : "",
+            "avatar", user.getAvatar() != null ? user.getAvatar() : "",
+            "coverPhoto", user.getCoverPhoto() != null ? user.getCoverPhoto() : ""
+        ));
+    }
+
+    /** Update authenticated user profile settings */
+    @PutMapping("/profile")
+    public ResponseEntity<?> updateProfile(@AuthenticationPrincipal User user,
+                                           @RequestBody Map<String, String> request) {
+        if (user == null) return ResponseEntity.status(401).body(Map.of("error", "Unauthorized"));
+        try {
+            String displayName = request.get("displayName");
+            String address = request.get("address");
+            String phone = request.get("phone");
+            String occupation = request.get("occupation");
+            String avatar = request.get("avatar");
+            String coverPhoto = request.get("coverPhoto");
+            
+            User updated = authService.updateProfile(user, displayName, address, phone, occupation, avatar, coverPhoto);
+            return ResponseEntity.ok(Map.of(
+                "message", "Profile updated successfully",
+                "displayName", updated.getDisplayName() != null ? updated.getDisplayName() : "",
+                "address", updated.getAddress() != null ? updated.getAddress() : "",
+                "phone", updated.getPhone() != null ? updated.getPhone() : "",
+                "occupation", updated.getOccupation() != null ? updated.getOccupation() : "",
+                "avatar", updated.getAvatar() != null ? updated.getAvatar() : ""
+            ));
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body(Map.of("error", "Failed to update profile: " + e.getMessage()));
+        }
+    }
+}
+
