@@ -79,11 +79,15 @@ const AiTranslationStudy = ({ mode = 'morning', goBack }) => {
         let vocabIds = [];
 
         if (mode === 'morning') {
-          const resp = await studyApi.getQueue();
-          vocabIds = (resp.queue || []).slice(0, 10).map(item => item.vocabulary?.id || item.id).filter(Boolean);
+          const resp = await srsApi.getRandomLearnedWords(20);
+          vocabIds = (Array.isArray(resp) ? resp : []).slice(0, 10).map(w => w.id).filter(Boolean);
         } else {
           const resp = await srsApi.getTodayReviewed();
           vocabIds = (Array.isArray(resp) ? resp : []).slice(0, 10).map(w => w.id).filter(Boolean);
+          if (vocabIds.length === 0) {
+            const learned = await srsApi.getRandomLearnedWords(20);
+            vocabIds = (Array.isArray(learned) ? learned : []).slice(0, 10).map(w => w.id).filter(Boolean);
+          }
         }
 
         if (vocabIds.length === 0) {

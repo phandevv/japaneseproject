@@ -222,13 +222,18 @@ public class DeepSeekEnrichmentService {
         StringBuilder wordList = new StringBuilder();
         for (Vocabulary v : vocabs) {
             String word = v.getKanji() != null ? v.getKanji() : v.getHiragana();
-            wordList.append("- ").append(word).append(" (").append(v.getMeaning()).append(")\n");
+            wordList.append("- ").append(word).append(" (Nghĩa: ").append(v.getMeaning()).append(")\n");
         }
 
-        String prompt = "Hãy tạo 1 câu hoặc đoạn văn tiếng Nhật ngắn (khoảng 15-30 chữ) " +
-                "có chứa các từ vựng sau một cách tự nhiên:\n" + wordList +
-                "\nTrả về JSON duy nhất không markdown:\n" +
-                "{\"sentence\": \"câu tiếng Nhật ở đây\", \"hint\": \"gợi ý ngữ cảnh ngắn bằng tiếng Việt\"}";
+        String prompt = "Bạn là giáo viên tiếng Nhật dành cho người mới học (trình độ N5/N4).\n" +
+                "Hãy tạo 1 câu tiếng Nhật ngắn, đơn giản và tự nhiên (khoảng 10-25 chữ) có chứa các từ vựng sau:\n" + wordList +
+                "\nYÊU CẦU BẮT BUỘC:\n" +
+                "1. CHỈ sử dụng cấu trúc ngữ pháp và từ vựng xung quanh vô cùng đơn giản (trình độ N5/N4 cơ bản) để học viên dịch được.\n" +
+                "2. KHÔNG sử dụng từ vựng hiếm, từ chuyên ngành hoặc ngữ pháp cao cấp (N3, N2, N1).\n" +
+                "3. Mọi Kanji ngoài các từ trong danh sách trên bắt buộc phải mở ngoặc kèm Hiragana ngay sau đó (ví dụ: 私(わたし)は学校(がっこう)へ行きます).\n" +
+                "4. Trong ô hint, hãy kê lại danh sách từ vựng cần kiểm tra kèm nghĩa tiếng Việt ngắn gọn.\n\n" +
+                "Trả về JSON duy nhất không markdown:\n" +
+                "{\"sentence\": \"câu tiếng Nhật đơn giản ở đây\", \"hint\": \"Từ vựng ôn tập: ... (nghĩa ...)\"}";
 
         String responseBody = callDeepSeekRaw(apiKey, prompt);
         JsonNode root = objectMapper.readTree(cleanJsonContent(responseBody));
