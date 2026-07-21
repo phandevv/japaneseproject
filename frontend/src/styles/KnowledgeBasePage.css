@@ -606,6 +606,47 @@
   font-family: var(--font-jp);
 }
 
+.formation-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.formation-item {
+  background: var(--surface-hover);
+  border: 1.5px solid var(--border-color);
+  border-left: 5px solid #7c3aed;
+  padding: 12px 16px;
+  border-radius: var(--radius-md);
+  font-weight: 700;
+  font-size: 1.05rem;
+  color: #7c3aed;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-align: left;
+  line-height: 1.5;
+  transition: all 0.2s ease;
+  box-shadow: var(--shadow-xs);
+}
+
+.formation-item:hover {
+  background: var(--surface-color);
+  border-color: #7c3aed;
+  box-shadow: var(--shadow-sm);
+  transform: translateX(4px);
+}
+
+.formation-bullet {
+  font-size: 1rem;
+  flex-shrink: 0;
+}
+
+.formation-text {
+  font-family: var(--font-jp);
+  word-break: break-word;
+}
+
 .usage-desc {
   font-size: 0.86rem;
   margin-top: 10px;

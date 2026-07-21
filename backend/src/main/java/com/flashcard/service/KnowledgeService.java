@@ -312,7 +312,7 @@ public class KnowledgeService {
                 "  \"grammar\": \"cấu trúc ngữ pháp chính xác (ví dụ: 〜ように)\",\n" +
                 "  \"meaning\": \"nghĩa tiếng Việt chính xác (ví dụ: để làm gì đó)\",\n" +
                 "  \"usageDesc\": \"cách dùng cụ thể, ngữ cảnh sử dụng\",\n" +
-                "  \"formation\": \"cách kết hợp (ví dụ: V-dict / V-nai + ように)\",\n" +
+                "  \"formation\": \"cách kết hợp cấu trúc, phân tách rõ ràng từng dạng (V, A-i, A-na, N) bằng dấu ' / ' hoặc xuống dòng \\n (ví dụ: Vば + ほど / Aいければ + ほど / N/Aな + であれば + ほど)\",\n" +
                 "  \"jlpt\": \"cấp độ JLPT từ N5 đến N1\",\n" +
                 "  \"similarGrammar\": [\"ngữ pháp tương tự 1\", \"ngữ pháp tương tự 2\"],\n" +
                 "  \"difference\": \"so sánh và phân biệt với các ngữ pháp tương tự để tránh nhầm lẫn\",\n" +

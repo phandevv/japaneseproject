@@ -1032,7 +1032,40 @@ function GrammarCardPreview({ data, parseList }) {
           <div className="card-tab-content animate-fade-in">
             <div className="card-block-section formation-section">
               <h4>📐 Cách kết hợp cấu trúc (Formation)</h4>
-              <div className="formation-box font-jp">{data.formation}</div>
+              {(() => {
+                const parseFormationLines = (raw) => {
+                  if (!raw) return [];
+                  if (Array.isArray(raw)) return raw;
+                  const str = String(raw).trim();
+                  if (!str) return [];
+                  let items = [];
+                  if (str.includes('\n')) {
+                    items = str.split('\n');
+                  } else if (str.includes(' / ') || str.includes(' /') || str.includes('/ ')) {
+                    items = str.split(/\s*\/\s*/);
+                  } else if (str.includes(';')) {
+                    items = str.split(';');
+                  } else {
+                    items = [str];
+                  }
+                  return items.map(i => i.trim()).filter(Boolean);
+                };
+
+                const lines = parseFormationLines(data.formation);
+                if (lines.length <= 1) {
+                  return <div className="formation-box font-jp">{data.formation || 'Chưa cập nhật'}</div>;
+                }
+                return (
+                  <div className="formation-list font-jp">
+                    {lines.map((line, idx) => (
+                      <div key={idx} className="formation-item">
+                        <span className="formation-bullet">🔹</span>
+                        <span className="formation-text">{line}</span>
+                      </div>
+                    ))}
+                  </div>
+                );
+              })()}
               {data.usageDesc && (
                 <div className="usage-desc">
                   <strong>Mô tả cách dùng:</strong> {data.usageDesc}
