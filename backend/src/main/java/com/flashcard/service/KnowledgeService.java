@@ -488,21 +488,25 @@ public class KnowledgeService {
                 return;
             }
 
-            response.body().forEach(line -> {
-                if (line.startsWith("data: ") && !line.contains("[DONE]")) {
-                    try {
-                        String jsonChunk = line.substring(6).trim();
-                        JsonNode node = objectMapper.readTree(jsonChunk);
-                        JsonNode delta = node.path("choices").get(0).path("delta").path("content");
-                        if (!delta.isMissingNode()) {
-                            String textStr = delta.asText();
-                            fullContent.append(textStr);
-                            emitter.send(org.springframework.web.servlet.mvc.method.annotation.SseEmitter.event()
-                                    .name("chunk").data(Map.of("content", textStr)));
-                        }
-                    } catch (Exception ignored) {}
-                }
-            });
+            try (java.util.stream.Stream<String> lines = response.body()) {
+                lines.forEach(line -> {
+                    if (line.startsWith("data: ") && !line.contains("[DONE]")) {
+                        try {
+                            String jsonChunk = line.substring(6).trim();
+                            JsonNode node = objectMapper.readTree(jsonChunk);
+                            JsonNode delta = node.path("choices").get(0).path("delta").path("content");
+                            if (!delta.isMissingNode()) {
+                                String textStr = delta.asText();
+                                fullContent.append(textStr);
+                                try {
+                                    emitter.send(org.springframework.web.servlet.mvc.method.annotation.SseEmitter.event()
+                                            .name("chunk").data(Map.of("content", textStr)));
+                                } catch (Exception ignored) {}
+                            }
+                        } catch (Exception ignored) {}
+                    }
+                });
+            }
 
             // Parse final full JSON content
             String cleaned = cleanJsonContent(fullContent.toString());
@@ -511,9 +515,11 @@ public class KnowledgeService {
             Map<String, Object> finalResult = new HashMap<>(collectResult);
             finalResult.put("enrichmentData", enrichmentData);
 
-            emitter.send(org.springframework.web.servlet.mvc.method.annotation.SseEmitter.event()
-                    .name("complete").data(finalResult));
-            emitter.complete();
+            try {
+                emitter.send(org.springframework.web.servlet.mvc.method.annotation.SseEmitter.event()
+                        .name("complete").data(finalResult));
+                emitter.complete();
+            } catch (Exception ignored) {}
         } finally {
             bulkheadSemaphore.release();
         }

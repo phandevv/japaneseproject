@@ -79,7 +79,13 @@ public class KnowledgeController {
     @PostMapping(value = "/collect/stream", produces = org.springframework.http.MediaType.TEXT_EVENT_STREAM_VALUE)
     public org.springframework.web.servlet.mvc.method.annotation.SseEmitter collectStream(
             @AuthenticationPrincipal User user,
-            @RequestBody Map<String, String> request) {
+            @RequestBody Map<String, String> request,
+            jakarta.servlet.http.HttpServletResponse httpResponse) {
+
+        httpResponse.setHeader("X-Accel-Buffering", "no");
+        httpResponse.setHeader("Cache-Control", "no-cache, no-transform");
+        httpResponse.setHeader("Connection", "keep-alive");
+
         org.springframework.web.servlet.mvc.method.annotation.SseEmitter emitter =
                 new org.springframework.web.servlet.mvc.method.annotation.SseEmitter(120_000L);
 

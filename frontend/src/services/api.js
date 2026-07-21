@@ -333,6 +333,7 @@ export const knowledgeApi = {
    * Stream normalize and AI enrichment in real-time.
    */
   collectStream: async (input, { onStatus, onChunk, onComplete, onError }) => {
+    let receivedComplete = false;
     try {
       const token = localStorage.getItem('token');
       const response = await fetch(`${API_BASE_URL}/knowledge/collect/stream`, {
@@ -379,7 +380,10 @@ export const knowledgeApi = {
               const data = JSON.parse(dataStr);
               if (eventName === 'status' && onStatus) onStatus(data);
               else if (eventName === 'chunk' && onChunk) onChunk(data.content || '');
-              else if (eventName === 'complete' && onComplete) onComplete(data);
+              else if (eventName === 'complete' && onComplete) {
+                receivedComplete = true;
+                onComplete(data);
+              }
               else if (eventName === 'error' && onError) onError(data.error || 'Lỗi Streaming AI');
             } catch (e) {
               console.warn('JSON parse error in SSE chunk:', e);
@@ -387,8 +391,20 @@ export const knowledgeApi = {
           }
         }
       }
+
+      if (!receivedComplete) {
+        console.warn('Stream connection ended without complete event. Executing fallback...');
+        const fallbackData = await knowledgeApi.collect(input);
+        if (onComplete) onComplete(fallbackData);
+      }
     } catch (e) {
-      if (onError) onError(e.message);
+      console.warn('Streaming connection issue, executing fallback to standard collect API:', e);
+      try {
+        const fallbackData = await knowledgeApi.collect(input);
+        if (onComplete) onComplete(fallbackData);
+      } catch (fallbackErr) {
+        if (onError) onError(fallbackErr?.response?.data?.error || fallbackErr.message || 'Lỗi kết nối AI');
+      }
     }
   },
   /**
