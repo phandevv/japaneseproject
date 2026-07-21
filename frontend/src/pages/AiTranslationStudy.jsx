@@ -3,12 +3,22 @@ import { ArrowLeft, Loader, Bot, CheckCircle, XCircle, Send, Sparkles, RefreshCw
 import { studyApi, srsApi } from '../services/api';
 import axios from 'axios';
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8080/api';
+// Use same URL logic as api.js - works on both localhost and production
+const getApiBaseUrl = () => {
+  if (typeof window === 'undefined') return 'http://127.0.0.1:8080/api';
+  const { hostname, protocol } = window.location;
+  if (hostname === 'localhost' || hostname === '127.0.0.1') {
+    return 'http://localhost:8080/api';
+  }
+  return `${protocol}//${hostname}/api`;
+};
+
+const API_BASE_URL = getApiBaseUrl();
 const TOTAL_EXERCISES = 3;
 
 // ── API helpers ───────────────────────────────────────────────────────────────
 const getAuthHeaders = () => ({
-  Authorization: `Bearer ${localStorage.getItem('authToken')}`,
+  Authorization: `Bearer ${localStorage.getItem('token')}`,
 });
 
 const aiExerciseApi = {
