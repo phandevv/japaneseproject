@@ -13,14 +13,32 @@ import java.util.Optional;
 public class FeedbackService {
 
     private final FeedbackRepository repository;
+    private final NotificationService notificationService;
+    private final com.flashcard.repository.UserRepository userRepository;
 
-    public FeedbackService(FeedbackRepository repository) {
+    public FeedbackService(FeedbackRepository repository, NotificationService notificationService, com.flashcard.repository.UserRepository userRepository) {
         this.repository = repository;
+        this.notificationService = notificationService;
+        this.userRepository = userRepository;
     }
 
     @Transactional
     public Feedback save(Feedback feedback) {
-        return repository.save(feedback);
+        Feedback saved = repository.save(feedback);
+        
+        // Notify all admins
+        java.util.List<com.flashcard.model.User> admins = userRepository.findByRole("ADMIN");
+        for (com.flashcard.model.User admin : admins) {
+            notificationService.createNotification(
+                admin,
+                "Phản ánh mới",
+                "Có phản ánh mới từ " + (feedback.getUser().getDisplayName() != null ? feedback.getUser().getDisplayName() : feedback.getUser().getUsername()) + ": " + feedback.getTitle(),
+                "FEEDBACK",
+                saved.getId()
+            );
+        }
+        
+        return saved;
     }
 
     public Page<Feedback> getAll(Pageable pageable) {
@@ -35,7 +53,38 @@ public class FeedbackService {
     public Optional<Feedback> updateStatus(Long id, String status) {
         return repository.findById(id).map(feedback -> {
             feedback.setStatus(status.toUpperCase());
-            return repository.save(feedback);
+            Feedback saved = repository.save(feedback);
+            
+            String upperStatus = status.toUpperCase();
+            
+            // Notify the user based on the new status
+            if ("INVESTIGATING".equals(upperStatus)) {
+                notificationService.createNotification(
+                    feedback.getUser(),
+                    "Phản ánh đang được xử lý",
+                    "Yêu cầu của bạn đang được chúng tôi xem xét và xử lý.",
+                    "FEEDBACK_PROCESSED",
+                    feedback.getId()
+                );
+            } else if ("PROCESSED".equals(upperStatus) || "RESOLVED".equals(upperStatus)) {
+                notificationService.createNotification(
+                    feedback.getUser(),
+                    "Phản ánh đã được giải quyết",
+                    "Yêu cầu của bạn đã được tiếp nhận và xử lý hoàn tất, cảm ơn bạn đã góp ý.",
+                    "FEEDBACK_PROCESSED",
+                    feedback.getId()
+                );
+            } else if ("REJECTED".equals(upperStatus)) {
+                notificationService.createNotification(
+                    feedback.getUser(),
+                    "Phản ánh bị từ chối",
+                    "Yêu cầu của bạn không thể thực hiện vào lúc này, cảm ơn bạn đã góp ý.",
+                    "FEEDBACK_PROCESSED",
+                    feedback.getId()
+                );
+            }
+            
+            return saved;
         });
     }
 }

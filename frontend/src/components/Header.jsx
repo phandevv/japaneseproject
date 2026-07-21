@@ -2,6 +2,8 @@ import React from 'react';
 import { LogOut, Palette, Flame, User as UserIcon } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
 
+import NotificationBell from './NotificationBell';
+
 const Header = ({ user, streak = 0, onProfileClick, onLogout }) => {
   const { theme, changeTheme } = useTheme();
   
@@ -59,7 +61,8 @@ const Header = ({ user, streak = 0, onProfileClick, onLogout }) => {
 
         {/* User Profile info */}
         {user && (
-          <div className="header-profile-section">
+          <div className="header-profile-section flex items-center gap-3">
+            <NotificationBell />
             <div className="header-user-info" onClick={onProfileClick} title="Xem trang cá nhân">
               <div className="header-avatar">{avatarContent}</div>
               <div className="header-user-details">

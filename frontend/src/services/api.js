@@ -308,6 +308,25 @@ export const feedbackApi = {
   }
 };
 
+export const notificationApi = {
+  getNotifications: async (page = 0, size = 20) => {
+    const response = await axios.get(`${API_BASE_URL}/notifications?page=${page}&size=${size}`);
+    return response.data;
+  },
+  getUnreadCount: async () => {
+    const response = await axios.get(`${API_BASE_URL}/notifications/unread-count`);
+    return response.data;
+  },
+  markAsRead: async (id) => {
+    const response = await axios.put(`${API_BASE_URL}/notifications/${id}/read`);
+    return response.data;
+  },
+  markAllAsRead: async () => {
+    const response = await axios.put(`${API_BASE_URL}/notifications/read-all`);
+    return response.data;
+  }
+};
+
 export const chatApi = {
   /**
    * Send a message to the Japanese AI tutor.
