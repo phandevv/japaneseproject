@@ -145,73 +145,75 @@ const ReviewQuizPage = ({ goBack }) => {
   const isJaToVi = questionType === 'ja-to-vi';
 
   return (
-    <div className="container animate-fade-in" style={{ padding: '32px 20px', maxWidth: '680px', margin: '0 auto' }}>
+    <div className="container animate-fade-in" style={{ padding: '36px 20px', maxWidth: '840px', margin: '0 auto' }}>
       {/* Top bar */}
       <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '24px' }}>
-        <button className="btn btn-secondary" onClick={goBack} style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-          <ArrowLeft size={15} /> Quay lại
+        <button className="btn btn-secondary" onClick={goBack} style={{ display: 'flex', alignItems: 'center', gap: '6px', padding: '10px 18px', fontSize: '0.95rem' }}>
+          <ArrowLeft size={16} /> Quay lại
         </button>
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-          <FileQuestion size={20} color="var(--accent-color)" />
-          <span style={{ fontWeight: 600 }}>Trắc nghiệm ôn tập</span>
+          <FileQuestion size={22} color="var(--accent-color)" />
+          <span style={{ fontWeight: 700, fontSize: '1.1rem' }}>Trắc nghiệm ôn tập</span>
         </div>
-        <div style={{ marginLeft: 'auto', display: 'flex', gap: '12px', fontSize: '0.85rem' }}>
-          <span style={{ color: '#10b981', fontWeight: 600 }}>✓ {score}</span>
-          <span style={{ color: '#ef4444', fontWeight: 600 }}>✗ {mistakes}</span>
+        <div style={{ marginLeft: 'auto', display: 'flex', gap: '16px', fontSize: '1rem' }}>
+          <span style={{ color: '#10b981', fontWeight: 700 }}>✓ {score}</span>
+          <span style={{ color: '#ef4444', fontWeight: 700 }}>✗ {mistakes}</span>
         </div>
       </div>
 
       {/* Progress bar */}
-      <div style={{ height: '6px', background: 'var(--surface-hover)', borderRadius: '3px', marginBottom: '28px' }}>
+      <div style={{ height: '8px', background: 'var(--surface-hover)', borderRadius: '4px', marginBottom: '28px', overflow: 'hidden' }}>
         <div style={{
           height: '100%',
           width: `${((quizIndex) / words.length) * 100}%`,
           background: 'linear-gradient(90deg, #10b981, #3b82f6)',
-          borderRadius: '3px', transition: 'width 0.3s ease',
+          borderRadius: '4px', transition: 'width 0.3s ease',
         }} />
       </div>
 
       {/* Question type toggle */}
-      <div style={{ display: 'flex', gap: '8px', marginBottom: '24px' }}>
+      <div style={{ display: 'flex', gap: '10px', marginBottom: '24px' }}>
         <button
           onClick={() => setQuestionType('ja-to-vi')}
           style={{
-            padding: '6px 14px', borderRadius: '20px', fontSize: '0.8rem', border: 'none', cursor: 'pointer',
+            padding: '8px 18px', borderRadius: '24px', fontSize: '0.9rem', border: 'none', cursor: 'pointer', fontWeight: 600,
             background: isJaToVi ? 'var(--accent-color)' : 'var(--surface-hover)',
             color: isJaToVi ? 'white' : 'var(--text-secondary)',
+            transition: 'all 0.2s ease',
           }}
         >🇯🇵 → 🇻🇳 Nhật → Việt</button>
         <button
           onClick={() => setQuestionType('vi-to-ja')}
           style={{
-            padding: '6px 14px', borderRadius: '20px', fontSize: '0.8rem', border: 'none', cursor: 'pointer',
+            padding: '8px 18px', borderRadius: '24px', fontSize: '0.9rem', border: 'none', cursor: 'pointer', fontWeight: 600,
             background: !isJaToVi ? 'var(--accent-color)' : 'var(--surface-hover)',
             color: !isJaToVi ? 'white' : 'var(--text-secondary)',
+            transition: 'all 0.2s ease',
           }}
         >🇻🇳 → 🇯🇵 Việt → Nhật</button>
       </div>
 
       {/* Question card */}
-      <div className="card" style={{ padding: '32px', textAlign: 'center', marginBottom: '24px' }}>
-        <p style={{ margin: '0 0 8px', fontSize: '0.75rem', color: 'var(--text-secondary)', textTransform: 'uppercase' }}>
+      <div className="card" style={{ padding: '44px 32px', textAlign: 'center', marginBottom: '28px', borderRadius: '20px' }}>
+        <p style={{ margin: '0 0 12px', fontSize: '0.85rem', color: 'var(--text-secondary)', textTransform: 'uppercase', letterSpacing: '1px', fontWeight: 600 }}>
           Câu {quizIndex + 1} / {words.length}
         </p>
         {isJaToVi ? (
           <>
-            <p className="jp-text" style={{ fontSize: '2rem', margin: '0 0 8px' }}>
+            <p className="jp-text" style={{ fontSize: '2.8rem', margin: '0 0 10px', fontWeight: 700, lineHeight: 1.3 }}>
               {current.kanji || current.hiragana}
             </p>
             {current.kanji && current.hiragana && (
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', marginTop: '6px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', marginTop: '8px' }}>
                 <span 
                   onClick={() => setShowHiragana(!showHiragana)}
                   style={{ 
-                    fontSize: '0.95rem',
+                    fontSize: '1.1rem',
                     color: 'var(--text-secondary)',
-                    filter: (showHiragana || selected !== null) ? 'none' : 'blur(5px)',
+                    filter: (showHiragana || selected !== null) ? 'none' : 'blur(6px)',
                     cursor: 'pointer',
                     userSelect: 'none',
-                    transition: 'filter 0.2s ease',
+                    transition: 'filter 0.25s ease',
                   }}
                   title={(showHiragana || selected !== null) ? '' : 'Bấm để xem cách đọc'}
                 >
@@ -222,36 +224,40 @@ const ReviewQuizPage = ({ goBack }) => {
                     onClick={() => setShowHiragana(!showHiragana)}
                     style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-muted)', display: 'flex', alignItems: 'center', padding: 0 }}
                   >
-                    {showHiragana ? <EyeOff size={14} /> : <Eye size={14} />}
+                    {showHiragana ? <EyeOff size={16} /> : <Eye size={16} />}
                   </button>
                 )}
               </div>
             )}
           </>
         ) : (
-          <p style={{ fontSize: '1.4rem', margin: 0, fontWeight: 500 }}>{current.meaning}</p>
+          <p style={{ fontSize: '1.8rem', margin: 0, fontWeight: 600, lineHeight: 1.4 }}>{current.meaning}</p>
         )}
       </div>
 
       {/* Answer choices */}
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
         {choices.map((choice, i) => {
           const isCorrect = choice.id === current.id;
           const isSelected = selected?.id === choice.id;
 
           let bg = 'var(--surface-color)';
-          let border = '1px solid var(--border-color)';
+          let border = '2px solid var(--border-color)';
           let color = 'var(--text-primary)';
 
           if (selected !== null) {
             if (isCorrect) {
-              bg = 'rgba(16,185,129,0.15)';
+              bg = 'rgba(16,185,129,0.12)';
               border = '2px solid #10b981';
               color = '#10b981';
             } else if (isSelected && !isCorrect) {
-              bg = 'rgba(239,68,68,0.15)';
+              bg = 'rgba(239,68,68,0.12)';
               border = '2px solid #ef4444';
               color = '#ef4444';
+            } else {
+              bg = 'var(--surface-color)';
+              border = '2px solid var(--border-color)';
+              color = 'var(--text-muted)';
             }
           }
 
@@ -261,14 +267,39 @@ const ReviewQuizPage = ({ goBack }) => {
               onClick={() => handleAnswer(choice)}
               disabled={selected !== null}
               style={{
-                padding: '16px', borderRadius: '12px', border,
-                background: bg, color, cursor: selected ? 'default' : 'pointer',
-                textAlign: 'center', transition: 'all 0.2s ease',
-                transform: isSelected && selected ? 'scale(1.02)' : 'scale(1)',
-                fontSize: '0.95rem', fontWeight: 500,
+                padding: '22px 24px',
+                borderRadius: '16px',
+                border,
+                background: bg,
+                color,
+                cursor: selected ? 'default' : 'pointer',
+                textAlign: 'center',
+                transition: 'border-color 0.2s ease, background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease',
+                fontSize: isJaToVi ? '1.15rem' : '1.3rem',
+                fontWeight: 600,
+                minHeight: '75px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                boxShadow: '0 2px 6px rgba(0,0,0,0.03)',
+                WebkitFontSmoothing: 'antialiased',
               }}
-              onMouseEnter={e => { if (!selected) e.currentTarget.style.transform = 'scale(1.02)'; }}
-              onMouseLeave={e => { if (!selected) e.currentTarget.style.transform = 'scale(1)'; }}
+              onMouseEnter={e => {
+                if (!selected) {
+                  e.currentTarget.style.borderColor = 'var(--accent-color)';
+                  e.currentTarget.style.backgroundColor = 'var(--accent-light)';
+                  e.currentTarget.style.transform = 'translateY(-2px)';
+                  e.currentTarget.style.boxShadow = '0 6px 16px rgba(37,99,235,0.15)';
+                }
+              }}
+              onMouseLeave={e => {
+                if (!selected) {
+                  e.currentTarget.style.borderColor = 'var(--border-color)';
+                  e.currentTarget.style.backgroundColor = 'var(--surface-color)';
+                  e.currentTarget.style.transform = 'translateY(0)';
+                  e.currentTarget.style.boxShadow = '0 2px 6px rgba(0,0,0,0.03)';
+                }
+              }}
             >
               {isJaToVi ? (
                 choice.meaning
