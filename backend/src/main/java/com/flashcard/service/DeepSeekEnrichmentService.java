@@ -220,20 +220,25 @@ public class DeepSeekEnrichmentService {
         }
 
         StringBuilder wordList = new StringBuilder();
+        String mainLevel = "N5";
         for (Vocabulary v : vocabs) {
-            String word = v.getKanji() != null ? v.getKanji() : v.getHiragana();
-            wordList.append("- ").append(word).append(" (Nghĩa: ").append(v.getMeaning()).append(")\n");
+            String word = v.getKanji() != null && !v.getKanji().trim().isEmpty() ? v.getKanji() : v.getHiragana();
+            wordList.append("- ").append(word).append(" (nghĩa: ").append(v.getMeaning()).append(")\n");
+            if (v.getLevel() != null && !v.getLevel().trim().isEmpty()) {
+                mainLevel = v.getLevel();
+            }
         }
 
-        String prompt = "Bạn là giáo viên tiếng Nhật dành cho người mới học (trình độ N5/N4).\n" +
-                "Hãy tạo 1 câu tiếng Nhật ngắn, đơn giản và tự nhiên (khoảng 10-25 chữ) có chứa các từ vựng sau:\n" + wordList +
-                "\nYÊU CẦU BẮT BUỘC:\n" +
-                "1. CHỈ sử dụng cấu trúc ngữ pháp và từ vựng xung quanh vô cùng đơn giản (trình độ N5/N4 cơ bản) để học viên dịch được.\n" +
-                "2. KHÔNG sử dụng từ vựng hiếm, từ chuyên ngành hoặc ngữ pháp cao cấp (N3, N2, N1).\n" +
-                "3. Mọi Kanji ngoài các từ trong danh sách trên bắt buộc phải mở ngoặc kèm Hiragana ngay sau đó (ví dụ: 私(わたし)は学校(がっこう)へ行きます).\n" +
-                "4. Trong ô hint, hãy kê lại danh sách từ vựng cần kiểm tra kèm nghĩa tiếng Việt ngắn gọn.\n\n" +
-                "Trả về JSON duy nhất không markdown:\n" +
-                "{\"sentence\": \"câu tiếng Nhật đơn giản ở đây\", \"hint\": \"Từ vựng ôn tập: ... (nghĩa ...)\"}";
+        String prompt = "Bạn là trợ lý soạn bài tập tiếng Nhật thông minh.\n" +
+                "Nhiệm vụ: Tạo 1 câu tiếng Nhật cực kỳ ngắn gọn, tự nhiên (chỉ từ 8 đến 18 từ) để kiểm tra các từ vựng sau:\n" + wordList +
+                "\nQUY TẮC BẮT BUỘC ĐỂ HỌC VIÊN DỄ DỊCH:\n" +
+                "1. CHỈ SỬ DỤNG từ vựng và ngữ pháp tương ứng trình độ " + mainLevel + " trở xuống (đây là trình độ học viên ĐÃ HỌC).\n" +
+                "2. KHÔNG DÙNG bất kỳ từ vựng hay ngữ pháp lạ nào ngoài trình độ " + mainLevel + ".\n" +
+                "3. Các từ nối / từ xung quanh CHỈ dùng các từ siêu cơ bản (như 私, これ, それ, 毎日, 今日, 行く, 見る, 食べる và các trợ từ は, が, を, に, で, と).\n" +
+                "4. Mọi Kanji phụ xuất hiện trong câu (nếu có) PHẢI mở ngoặc kèm cách đọc Hiragana ngay sau đó, ví dụ: 本(ほん), 友(とも)だち.\n" +
+                "5. Trong ô hint, hãy ghi rõ gợi ý các từ vựng chính cần ôn cùng nghĩa tiếng Việt.\n\n" +
+                "Trả về JSON duy nhất không dùng markdown format:\n" +
+                "{\"sentence\": \"câu tiếng Nhật ngắn ở đây\", \"hint\": \"Từ vựng: ...\"}";
 
         String responseBody = callDeepSeekRaw(apiKey, prompt);
         JsonNode root = objectMapper.readTree(cleanJsonContent(responseBody));
