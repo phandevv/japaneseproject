@@ -5,8 +5,10 @@ import com.flashcard.model.Vocabulary;
 import com.flashcard.repository.VocabularyRepository;
 import com.flashcard.service.DeepSeekEnrichmentService;
 import com.flashcard.service.SrsService;
+import com.flashcard.repository.WordReviewRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -20,12 +22,6 @@ import java.util.stream.Collectors;
  *
  * POST /api/ai/exercise/batch-generate  – Generates N exercises IN PARALLEL (prefetch all at once).
  * POST /api/ai/exercise/grade           – Grades ONE sentence immediately, updates SRS.
- *
- * Architecture: Prefetch + Per-sentence streaming grading.
- *   - Frontend calls batch-generate ONCE on mount → all sentences ready in parallel.
- *   - Frontend calls grade IMMEDIATELY after each submit (fire-and-forget Promise).
- *   - When user submits the last exercise, most grades are already done or in-flight.
- *   - No large context batch → each grade call is a small, focused prompt.
  */
 @RestController
 @RequestMapping("/api/ai/exercise")
@@ -35,13 +31,16 @@ public class AiExerciseController {
 
     private final DeepSeekEnrichmentService deepSeekService;
     private final VocabularyRepository vocabularyRepository;
+    private final WordReviewRepository wordReviewRepository;
     private final SrsService srsService;
 
     public AiExerciseController(DeepSeekEnrichmentService deepSeekService,
                                 VocabularyRepository vocabularyRepository,
+                                WordReviewRepository wordReviewRepository,
                                 SrsService srsService) {
         this.deepSeekService = deepSeekService;
         this.vocabularyRepository = vocabularyRepository;
+        this.wordReviewRepository = wordReviewRepository;
         this.srsService = srsService;
     }
 
@@ -49,10 +48,6 @@ public class AiExerciseController {
     // LEGACY: Single generate (kept for backward compat)
     // ──────────────────────────────────────────────────────────────────────
 
-    /**
-     * POST /api/ai/exercise/generate
-     * Generates ONE exercise (legacy). Prefer /batch-generate for prefetch.
-     */
     @PostMapping("/generate")
     public ResponseEntity<?> generate(@AuthenticationPrincipal User user,
                                       @RequestBody Map<String, Object> body) {
@@ -69,7 +64,8 @@ public class AiExerciseController {
             return ResponseEntity.badRequest().body(Map.of("error", "No vocabulary found"));
 
         try {
-            return ResponseEntity.ok(deepSeekService.generateTranslationExercise(vocabs));
+            List<Vocabulary> contextPool = wordReviewRepository.findLearnedVocabulariesByUser(user, PageRequest.of(0, 60));
+            return ResponseEntity.ok(deepSeekService.generateTranslationExercise(vocabs, contextPool));
         } catch (Exception e) {
             return ResponseEntity.internalServerError().body(Map.of("error", e.getMessage()));
         }
@@ -79,20 +75,6 @@ public class AiExerciseController {
     // NEW: Batch parallel generate (prefetch architecture)
     // ──────────────────────────────────────────────────────────────────────
 
-    /**
-     * POST /api/ai/exercise/batch-generate
-     *
-     * Generates `count` exercises in parallel using CompletableFuture.
-     * Each exercise is generated from a random subset of the provided vocabs.
-     *
-     * Request:  { "vocabularyIds": [1,2,3,...], "count": 3 }
-     * Response: [ { "index": 0, "sentence": "...", "hint": "...", "vocabularyIds": [1,2] },
-     *             { "index": 1, "sentence": "...", "hint": "...", "vocabularyIds": [3,4] },
-     *             { "index": 2, "sentence": "...", "hint": "...", "vocabularyIds": [2,5] } ]
-     *
-     * The `vocabularyIds` in each exercise item are the specific IDs used for that sentence
-     * so the frontend can pass them back to /grade for SRS update.
-     */
     @PostMapping("/batch-generate")
     public ResponseEntity<?> batchGenerate(@AuthenticationPrincipal User user,
                                            @RequestBody Map<String, Object> body) {
@@ -109,6 +91,9 @@ public class AiExerciseController {
         List<Vocabulary> allVocabs = vocabularyRepository.findAllById(ids);
         if (allVocabs.isEmpty())
             return ResponseEntity.badRequest().body(Map.of("error", "No vocabulary found"));
+
+        // Fetch user's 60 learned vocabularies from DB to provide as context pool for DeepSeek
+        List<Vocabulary> contextPool = wordReviewRepository.findLearnedVocabulariesByUser(user, PageRequest.of(0, 60));
 
         // Shuffle and chunk the vocab list into `count` groups
         List<Vocabulary> shuffled = new ArrayList<>(allVocabs);
@@ -127,7 +112,7 @@ public class AiExerciseController {
 
             CompletableFuture<Map<String, Object>> future = CompletableFuture.supplyAsync(() -> {
                 try {
-                    Map<String, String> exercise = deepSeekService.generateTranslationExercise(subset);
+                    Map<String, String> exercise = deepSeekService.generateTranslationExercise(subset, contextPool);
                     Map<String, Object> result = new LinkedHashMap<>();
                     result.put("index", idx);
                     result.put("sentence", exercise.get("sentence"));
@@ -136,7 +121,6 @@ public class AiExerciseController {
                     return result;
                 } catch (Exception e) {
                     log.error("Failed to generate exercise {}: {}", idx, e.getMessage());
-                    // Fallback so we don't fail the whole batch
                     return Map.of(
                         "index", idx,
                         "sentence", "今日は良い天気ですね。",

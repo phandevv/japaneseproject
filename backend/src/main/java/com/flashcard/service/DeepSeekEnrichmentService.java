@@ -209,36 +209,65 @@ public class DeepSeekEnrichmentService {
     // AI Translation Exercise Methods
     // ──────────────────────────────────────────────────────────────────────────
 
+    public Map<String, String> generateTranslationExercise(java.util.List<Vocabulary> vocabs) throws Exception {
+        return generateTranslationExercise(vocabs, java.util.Collections.emptyList());
+    }
+
     /**
-     * Generate a Japanese sentence / paragraph that naturally contains the given vocabulary words.
+     * Generate a Japanese sentence using target vocabulary words and an allowed context pool of 50-80 learned words.
      * Returns: { "sentence": "...", "hint": "..." }
      */
-    public Map<String, String> generateTranslationExercise(java.util.List<Vocabulary> vocabs) throws Exception {
+    public Map<String, String> generateTranslationExercise(java.util.List<Vocabulary> vocabs, java.util.List<Vocabulary> contextPool) throws Exception {
         String apiKey = getApiKey();
         if (apiKey == null) {
             return Map.of("sentence", "今日は良い天気ですね。", "hint", "Gợi ý: thời tiết hôm nay");
         }
 
-        StringBuilder wordList = new StringBuilder();
+        StringBuilder targetWordList = new StringBuilder();
+        StringBuilder grammarAndSamples = new StringBuilder();
         String mainLevel = "N5";
+
         for (Vocabulary v : vocabs) {
             String word = v.getKanji() != null && !v.getKanji().trim().isEmpty() ? v.getKanji() : v.getHiragana();
-            wordList.append("- ").append(word).append(" (nghĩa: ").append(v.getMeaning()).append(")\n");
+            targetWordList.append("- ").append(word).append(" (nghĩa: ").append(v.getMeaning()).append(")\n");
             if (v.getLevel() != null && !v.getLevel().trim().isEmpty()) {
                 mainLevel = v.getLevel();
+            }
+
+            if (v.getSampleSentence() != null && !v.getSampleSentence().trim().isEmpty()) {
+                grammarAndSamples.append("- Mẫu câu của ").append(word).append(": ").append(v.getSampleSentence()).append("\n");
+            }
+            if (v.getCollocations() != null && !v.getCollocations().trim().isEmpty()) {
+                grammarAndSamples.append("- Cụm từ/ngữ pháp đi kèm ").append(word).append(": ").append(v.getCollocations()).append("\n");
+            }
+        }
+
+        StringBuilder contextWordList = new StringBuilder();
+        if (contextPool != null && !contextPool.isEmpty()) {
+            int sampleCount = 0;
+            for (Vocabulary cv : contextPool) {
+                String word = cv.getKanji() != null && !cv.getKanji().trim().isEmpty() ? cv.getKanji() : cv.getHiragana();
+                contextWordList.append(word).append(" (").append(cv.getMeaning()).append("), ");
+
+                if (cv.getSampleSentence() != null && !cv.getSampleSentence().trim().isEmpty() && sampleCount < 10) {
+                    grammarAndSamples.append("- Mẫu câu đã học (").append(word).append("): ").append(cv.getSampleSentence()).append("\n");
+                    sampleCount++;
+                }
             }
         }
 
         String prompt = "Bạn là trợ lý soạn bài tập tiếng Nhật thông minh.\n" +
-                "Nhiệm vụ: Tạo 1 câu tiếng Nhật cực kỳ ngắn gọn, tự nhiên (chỉ từ 8 đến 18 từ) để kiểm tra các từ vựng sau:\n" + wordList +
-                "\nQUY TẮC BẮT BUỘC ĐỂ HỌC VIÊN DỄ DỊCH:\n" +
-                "1. CHỈ SỬ DỤNG từ vựng và ngữ pháp tương ứng trình độ " + mainLevel + " trở xuống (đây là trình độ học viên ĐÃ HỌC).\n" +
-                "2. KHÔNG DÙNG bất kỳ từ vựng hay ngữ pháp lạ nào ngoài trình độ " + mainLevel + ".\n" +
-                "3. Các từ nối / từ xung quanh CHỈ dùng các từ siêu cơ bản (như 私, これ, それ, 毎日, 今日, 行く, 見る, 食べる và các trợ từ は, が, を, に, で, と).\n" +
+                "Nhiệm vụ: Tạo 1 câu tiếng Nhật ngắn gọn, tự nhiên (10 đến 20 từ) để kiểm tra các từ vựng mục tiêu sau:\n" + targetWordList +
+                (grammarAndSamples.length() > 0 ? "\nCÁC MẪU CÂU VÀ NGỮ PHÁP ĐÃ HỌC LIÊN QUAN:\n" + grammarAndSamples.toString() + "\n" : "") +
+                (contextWordList.length() > 0 ? "\nDANH SÁCH TỪ VỰNG HỌC VIÊN ĐÃ HỌC (50-80 từ):\n" + contextWordList.toString() + "\n" : "") +
+                "\nQUY TẮC BẮT BUỘC:\n" +
+                "1. SỬ DỤNG VÀ MÔ PHỎNG LẠI CẤU TRÚC NGỮ PHÁP / MẪU CÂU ĐÃ HỌC Ở TRÊN để ghép câu cho từ vựng mục tiêu.\n" +
+                "2. CHỈ SỬ DỤNG từ vựng và ngữ pháp trình độ " + mainLevel + " trở xuống mà học viên ĐÃ HỌC ở trên.\n" +
+                "3. Tuyệt đối KHÔNG DÙNG mẫu ngữ pháp hay từ vựng lạ nằm ngoài các mẫu câu/từ vựng đã học ở trên.\n" +
                 "4. Mọi Kanji phụ xuất hiện trong câu (nếu có) PHẢI mở ngoặc kèm cách đọc Hiragana ngay sau đó, ví dụ: 本(ほん), 友(とも)だち.\n" +
                 "5. Trong ô hint, hãy ghi rõ gợi ý các từ vựng chính cần ôn cùng nghĩa tiếng Việt.\n\n" +
                 "Trả về JSON duy nhất không dùng markdown format:\n" +
-                "{\"sentence\": \"câu tiếng Nhật ngắn ở đây\", \"hint\": \"Từ vựng: ...\"}";
+                "{\"sentence\": \"câu tiếng Nhật ở đây\", \"hint\": \"Từ vựng: ...\"}";
 
         String responseBody = callDeepSeekRaw(apiKey, prompt);
         JsonNode root = objectMapper.readTree(cleanJsonContent(responseBody));
