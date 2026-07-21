@@ -850,6 +850,58 @@
   margin: 0;
 }
 
+.stream-partial-card {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 14px;
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+}
+
+.stream-partial-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 6px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  animation: slideInLeft 0.3s ease forwards;
+}
+
+.stream-partial-row:last-child {
+  border-bottom: none;
+}
+
+.stream-partial-icon {
+  font-size: 1rem;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.stream-partial-label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  min-width: 80px;
+  flex-shrink: 0;
+}
+
+.stream-partial-value {
+  font-size: 0.9rem;
+  color: var(--text-primary);
+  word-break: break-word;
+  line-height: 1.5;
+}
+
+@keyframes slideInLeft {
+  from { opacity: 0; transform: translateX(-12px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
 /* ═══════════════════════════════════════════════════════
    Giai đoạn 2 CSS: Reading & Conversation Practice Workspaces
 ═══════════════════════════════════════════════════════ */

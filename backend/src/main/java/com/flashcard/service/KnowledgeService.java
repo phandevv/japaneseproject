@@ -458,15 +458,18 @@ public class KnowledgeService {
             }
 
             // Step 3: Stream from DeepSeek with stream: true
-            Map<String, Object> requestBodyMap = Map.of(
-                "model", "deepseek-v4-flash",
-                "stream", true,
-                "response_format", Map.of("type", "json_object"),
-                "messages", new Object[]{
-                    Map.of("role", "system", "content", "Bạn là biên tập viên tiếng Nhật. Bạn chỉ phản hồi bằng định dạng JSON."),
-                    Map.of("role", "user", "content", prompt)
-                }
-            );
+            // IMPORTANT: Do NOT use response_format: json_object with streaming.
+            // json_object mode forces DeepSeek to buffer until full JSON is ready — killing real-time streaming.
+            // Instead stream freely and parse JSON from the accumulated content at the end.
+            Map<String, Object> requestBodyMap = new java.util.LinkedHashMap<>();
+            requestBodyMap.put("model", "deepseek-v4-flash");
+            requestBodyMap.put("stream", true);
+            requestBodyMap.put("temperature", 1.0);
+            requestBodyMap.put("max_tokens", 2000);
+            requestBodyMap.put("messages", new Object[]{
+                Map.of("role", "system", "content", "Bạn là biên tập viên tiếng Nhật. Bạn CHỈ phản hồi bằng một đối tượng JSON hợp lệ duy nhất, không có văn bản nào khác bên ngoài."),
+                Map.of("role", "user", "content", prompt)
+            });
 
             String requestBody = objectMapper.writeValueAsString(requestBodyMap);
             HttpRequest request = HttpRequest.newBuilder(URI.create("https://api.deepseek.com/chat/completions"))
