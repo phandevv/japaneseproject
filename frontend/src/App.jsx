@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import Sidebar from './components/Sidebar';
+import Header from './components/Header';
 import HomePage from './pages/HomePage';
 import FlashcardPage from './pages/FlashcardPage';
 import SearchPage from './pages/SearchPage';
@@ -433,6 +434,14 @@ function App() {
         />
       )}
       <main className="app-main">
+        {isAuthenticated && (
+          <Header
+            user={isAuthenticated ? authUser : null}
+            streak={userStreakData?.streak || 0}
+            onProfileClick={() => setShowProfileModal(true)}
+            onLogout={handleLogout}
+          />
+        )}
         {renderPage()}
       </main>
       {showProfileModal && <ProfileModal onClose={() => setShowProfileModal(false)} />}
