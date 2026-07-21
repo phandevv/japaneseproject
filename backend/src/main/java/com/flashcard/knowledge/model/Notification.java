@@ -1,4 +1,4 @@
-package com.flashcard.model;
+package com.flashcard.knowledge.model;
 
 import com.flashcard.user.model.User;
 import jakarta.persistence.*;

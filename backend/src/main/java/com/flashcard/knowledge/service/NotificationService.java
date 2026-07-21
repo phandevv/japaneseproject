@@ -1,8 +1,10 @@
-package com.flashcard.service;
+package com.flashcard.knowledge.service;
 
 
 
 
+import com.flashcard.knowledge.model.Notification;
+import com.flashcard.knowledge.repository.NotificationRepository;
 import com.flashcard.user.model.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

@@ -1,8 +1,10 @@
-package com.flashcard.controller;
+package com.flashcard.knowledge.controller;
 
 
 
 
+import com.flashcard.knowledge.model.Notification;
+import com.flashcard.knowledge.service.NotificationService;
 import com.flashcard.user.model.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;

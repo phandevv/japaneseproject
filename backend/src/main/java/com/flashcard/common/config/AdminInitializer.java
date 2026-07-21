@@ -1,7 +1,4 @@
-package com.flashcard.config;
-
-
-
+package com.flashcard.common.config;
 import com.flashcard.user.model.User;
 import com.flashcard.user.repository.UserRepository;
 import org.springframework.boot.CommandLineRunner;
