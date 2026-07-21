@@ -55,6 +55,8 @@ export default function KnowledgeBasePage() {
   const [selectedLibraryCard, setSelectedLibraryCard] = useState(null); // { type: 'vocab'|'grammar', data: Object }
 
   const [streamProgress, setStreamProgress] = useState('');
+  const [streamingText, setStreamingText] = useState(''); // raw streaming text for preview
+  const [streamByteCount, setStreamByteCount] = useState(0);
 
   const handleCollect = async (e) => {
     if (e) e.preventDefault();
@@ -66,23 +68,31 @@ export default function KnowledgeBasePage() {
     setResult(null);
     setSaveStatus(null);
     setStreamProgress('Đang gửi yêu cầu đến AI...');
+    setStreamingText('');
+    setStreamByteCount(0);
 
     await knowledgeApi.collectStream(trimmed, {
       onStatus: (data) => {
-        setStreamProgress(`Đã nhận diện: ${data.type === 'grammar' ? 'Ngữ pháp' : 'Từ vựng'} (${data.normalizedInput}). AI đang tổng hợp dữ liệu...`);
+        setStreamProgress(`Đã nhận diện: ${data.type === 'grammar' ? 'Ngữ pháp' : 'Từ vựng'} — ${data.normalizedInput}. AI đang tổng hợp...`);
       },
-      onChunk: () => {
-        setStreamProgress('AI đang phản hồi luồng dữ liệu theo thời gian thực (Streaming)...');
+      onChunk: (chunk) => {
+        setStreamingText(prev => prev + chunk);
+        setStreamByteCount(prev => prev + chunk.length);
+        setStreamProgress('streaming');
       },
       onComplete: (data) => {
         setResult(data);
         setLoading(false);
         setStreamProgress('');
+        setStreamingText('');
+        setStreamByteCount(0);
       },
       onError: (errMsg) => {
         setError(errMsg || 'Không thể kết nối đến AI để chuẩn hóa dữ liệu.');
         setLoading(false);
         setStreamProgress('');
+        setStreamingText('');
+        setStreamByteCount(0);
       }
     });
   };
@@ -359,13 +369,42 @@ export default function KnowledgeBasePage() {
             </div>
 
             <div className="kb-preview-container">
+              {/* Streaming live panel */}
               {loading && (
                 <div className="kb-preview-skeleton glass-panel">
-                  <div className="skeleton-avatar animate-pulse" />
-                  <div className="skeleton-line w-3/4 animate-pulse" />
-                  <div className="skeleton-line w-1/2 animate-pulse" />
-                  <div className="skeleton-line w-5/6 animate-pulse" />
-                  <p className="skeleton-text">AI đang đọc dữ liệu, phân tích Kanji và tổng hợp các ví dụ học tập cho bạn...</p>
+                  <div className="stream-header">
+                    <span className="stream-icon">⚡</span>
+                    <span className="stream-label">
+                      {streamProgress === 'streaming'
+                        ? `AI đang tổng hợp... (${streamByteCount} ký tự nhận được)`
+                        : streamProgress || 'Đang kết nối đến AI...'}
+                    </span>
+                    <span className="stream-spinner" />
+                  </div>
+                  {/* Progress bar */}
+                  <div className="stream-progress-bar-track">
+                    <div
+                      className="stream-progress-bar-fill"
+                      style={{ width: streamByteCount > 0 ? `${Math.min(100, (streamByteCount / 1800) * 100)}%` : '10%' }}
+                    />
+                  </div>
+                  {/* Live JSON text preview */}
+                  {streamingText.length > 0 && (
+                    <div className="stream-text-preview">
+                      <pre className="stream-text-content">
+                        {streamingText.length > 600
+                          ? '...' + streamingText.slice(-600)
+                          : streamingText}
+                      </pre>
+                    </div>
+                  )}
+                  {streamingText.length === 0 && (
+                    <>
+                      <div className="skeleton-line w-3/4 animate-pulse" style={{ marginTop: 12 }} />
+                      <div className="skeleton-line w-1/2 animate-pulse" />
+                      <div className="skeleton-line w-5/6 animate-pulse" />
+                    </>
+                  )}
                 </div>
               )}
 
