@@ -144,6 +144,7 @@ function App() {
 
   // Streak state associated with the active user (username or 'guest')
   const [userStreakData, setUserStreakData] = useState(null);
+  const [dbStreak, setDbStreak] = useState(null);
 
   const activeUsername = isAuthenticated ? authUser?.username : 'guest';
   const streakStorageKey = `nihongo-streak-${activeUsername}`;
@@ -160,6 +161,19 @@ function App() {
       setUserStreakData({ userName: activeUsername, streak: 0, lastStudyDate: null });
     }
   }, [activeUsername, streakStorageKey]);
+
+  // Sync real database streak when authenticated
+  useEffect(() => {
+    if (isAuthenticated) {
+      import('./services/api').then(({ analyticsApi }) => {
+        analyticsApi.getDashboard()
+          .then(dash => setDbStreak(dash?.streak || 0))
+          .catch(err => console.error("Failed to fetch DB streak:", err));
+      });
+    } else {
+      setDbStreak(null);
+    }
+  }, [isAuthenticated, authUser]);
 
   // Redirect logged-in users away from guest pages
   useEffect(() => {
@@ -437,7 +451,7 @@ function App() {
         {isAuthenticated && (
           <Header
             user={isAuthenticated ? authUser : null}
-            streak={userStreakData?.streak || 0}
+            streak={dbStreak !== null ? dbStreak : (userStreakData?.streak || 0)}
             onProfileClick={() => setShowProfileModal(true)}
             onLogout={handleLogout}
           />
