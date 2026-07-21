@@ -17,6 +17,7 @@ export const AuthProvider = ({ children }) => {
     const savedPhone = localStorage.getItem('phone');
     const savedOccupation = localStorage.getItem('occupation');
     const savedAvatar = localStorage.getItem('avatar');
+    const savedCoverPhoto = localStorage.getItem('coverPhoto');
     if (savedToken && savedUsername) {
       setToken(savedToken);
       setUser({ 
@@ -26,7 +27,8 @@ export const AuthProvider = ({ children }) => {
         address: savedAddress || "",
         phone: savedPhone || "",
         occupation: savedOccupation || "",
-        avatar: savedAvatar || ""
+        avatar: savedAvatar || "",
+        coverPhoto: savedCoverPhoto || ""
       });
     }
     setLoading(false);
@@ -58,7 +60,8 @@ export const AuthProvider = ({ children }) => {
         address: data.address || "",
         phone: data.phone || "",
         occupation: data.occupation || "",
-        avatar: data.avatar || ""
+        avatar: data.avatar || "",
+        coverPhoto: data.coverPhoto || ""
       });
       localStorage.setItem('token', data.token);
       localStorage.setItem('refreshToken', data.refreshToken);
@@ -69,6 +72,7 @@ export const AuthProvider = ({ children }) => {
       localStorage.setItem('phone', data.phone || "");
       localStorage.setItem('occupation', data.occupation || "");
       localStorage.setItem('avatar', data.avatar || "");
+      localStorage.setItem('coverPhoto', data.coverPhoto || "");
       return { success: true };
     } catch (error) {
       const errorMsg = error.response?.data?.error || "Login failed";
@@ -110,6 +114,7 @@ export const AuthProvider = ({ children }) => {
     localStorage.removeItem('phone');
     localStorage.removeItem('occupation');
     localStorage.removeItem('avatar');
+    localStorage.removeItem('coverPhoto');
     sessionStorage.removeItem('streakModalShown');
   };
 

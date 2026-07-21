@@ -2,7 +2,9 @@ package com.flashcard.controller;
 
 import com.flashcard.model.User;
 import com.flashcard.repository.UserRepository;
+import com.flashcard.repository.WordReviewRepository;
 import com.flashcard.service.OnlineUserService;
+import com.flashcard.service.AnalyticsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,6 +27,12 @@ public class UserController {
 
     @Autowired
     private UserRepository userRepository;
+    
+    @Autowired
+    private AnalyticsService analyticsService;
+    
+    @Autowired
+    private WordReviewRepository wordReviewRepository;
 
     @GetMapping("/online")
     public ResponseEntity<?> getOnlineUsers() {
@@ -42,7 +50,10 @@ public class UserController {
             profile.put("username", user.getUsername());
             profile.put("displayName", user.getDisplayName());
             profile.put("avatar", user.getAvatar());
+            profile.put("coverPhoto", user.getCoverPhoto());
             profile.put("occupation", user.getOccupation());
+            profile.put("streak", analyticsService.calculateStreak(user));
+            profile.put("learnedCount", wordReviewRepository.countLearnedWords(user));
             return profile;
         }).collect(Collectors.toList());
 
@@ -58,16 +69,17 @@ public class UserController {
             profile.put("username", user.getUsername());
             profile.put("displayName", user.getDisplayName());
             profile.put("avatar", user.getAvatar());
+            profile.put("coverPhoto", user.getCoverPhoto());
             profile.put("occupation", user.getOccupation());
             profile.put("address", user.getAddress());
+            profile.put("streak", analyticsService.calculateStreak(user));
+            profile.put("learnedCount", wordReviewRepository.countLearnedWords(user));
             return ResponseEntity.ok(profile);
         } else {
             return ResponseEntity.notFound().build();
         }
     }
 
-    @Autowired
-    private com.flashcard.repository.WordReviewRepository wordReviewRepository;
 
     @GetMapping("/me/study-history-details")
     public ResponseEntity<?> getStudyHistoryDetails(

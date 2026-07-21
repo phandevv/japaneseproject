@@ -5,7 +5,6 @@ import Header from './components/Header';
 import HomePage from './pages/HomePage';
 import FlashcardPage from './pages/FlashcardPage';
 import SearchPage from './pages/SearchPage';
-import ProfileModal from './components/ProfileModal';
 import DailyStudyPage from './pages/DailyStudyPage';
 import AuthPage from './pages/AuthPage';
 import VocabAdminPage from './pages/VocabAdminPage';
@@ -23,6 +22,7 @@ import ReviewHubPage from './pages/ReviewHubPage';
 import GamesHubPage from './pages/GamesHubPage';
 import MemoryMatchGame from './pages/MemoryMatchGame';
 import FallingWordsGame from './pages/FallingWordsGame';
+import UserProfilePage from './pages/UserProfilePage';
 
 const getTodayKey = () => new Date().toISOString().slice(0, 10);
 
@@ -59,7 +59,6 @@ function App() {
   });
   const [stats, setStats] = useState(null);
   const [showStudySection, setShowStudySection] = useState(false);
-  const [showProfileModal, setShowProfileModal] = useState(false);
   const [showFeedbackModal, setShowFeedbackModal] = useState(false);
 
   // Extract level from pathname if it starts with /flashcard/ or /daily/
@@ -82,6 +81,7 @@ function App() {
     if (path === '/admin-ai') return 'admin-ai';
     if (path === '/search') return 'search';
     if (path === '/knowledge') return 'knowledge';
+    if (path === '/profile') return 'profile';
     if (path === '/conversation-tutor') return 'conversation-tutor';
     if (path === '/games') return 'games';
     if (path.startsWith('/games/memory')) return 'game-memory';
@@ -343,6 +343,12 @@ function App() {
         ) : (
           <AuthPage onCancel={() => navigate('/')} onSuccess={handleLoginSuccess} />
         );
+      case 'profile':
+        return isAuthenticated ? (
+          <UserProfilePage />
+        ) : (
+          <AuthPage onCancel={() => navigate('/')} onSuccess={handleLoginSuccess} />
+        );
       default:
         return <HomePage startStudy={startStudy} user={isAuthenticated ? authUser : null} />;
     }
@@ -436,7 +442,7 @@ function App() {
         onLoginClick={() => navigate('/auth')}
         user={isAuthenticated ? authUser : null}
         onLogout={handleLogout}
-        onProfileClick={() => setShowProfileModal(true)}
+        onProfileClick={() => navigate('/profile')}
         onFeedbackClick={() => {
           if (isAuthenticated) {
             setShowFeedbackModal(true);
@@ -452,13 +458,12 @@ function App() {
           <Header
             user={isAuthenticated ? authUser : null}
             streak={dbStreak !== null ? dbStreak : (userStreakData?.streak || 0)}
-            onProfileClick={() => setShowProfileModal(true)}
+            onProfileClick={() => navigate('/profile')}
             onLogout={handleLogout}
           />
         )}
         {renderPage()}
       </main>
-      {showProfileModal && <ProfileModal onClose={() => setShowProfileModal(false)} />}
       {showFeedbackModal && <FeedbackModal onClose={() => setShowFeedbackModal(false)} />}
       <AIChatWidget />
 
