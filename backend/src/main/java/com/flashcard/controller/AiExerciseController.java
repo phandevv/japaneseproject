@@ -64,8 +64,8 @@ public class AiExerciseController {
             return ResponseEntity.badRequest().body(Map.of("error", "No vocabulary found"));
 
         try {
-            List<Vocabulary> contextPool = wordReviewRepository.findLearnedVocabulariesByUser(user, PageRequest.of(0, 60));
-            return ResponseEntity.ok(deepSeekService.generateTranslationExercise(vocabs, contextPool));
+            List<Vocabulary> fallbackLearned = wordReviewRepository.findLearnedVocabulariesByUser(user, PageRequest.of(0, 50));
+            return ResponseEntity.ok(deepSeekService.generateTranslationExercise(vocabs, vocabs, fallbackLearned));
         } catch (Exception e) {
             return ResponseEntity.internalServerError().body(Map.of("error", e.getMessage()));
         }
@@ -92,8 +92,11 @@ public class AiExerciseController {
         if (allVocabs.isEmpty())
             return ResponseEntity.badRequest().body(Map.of("error", "No vocabulary found"));
 
-        // Fetch user's 60 learned vocabularies from DB to provide as context pool for DeepSeek
-        List<Vocabulary> contextPool = wordReviewRepository.findLearnedVocabulariesByUser(user, PageRequest.of(0, 60));
+        // Primary context: exact session words & grammar of this review session
+        List<Vocabulary> sessionVocabs = allVocabs;
+
+        // Secondary fallback context: previously learned words/grammar if needed
+        List<Vocabulary> fallbackLearned = wordReviewRepository.findLearnedVocabulariesByUser(user, PageRequest.of(0, 50));
 
         // Shuffle and chunk the vocab list into `count` groups
         List<Vocabulary> shuffled = new ArrayList<>(allVocabs);
@@ -112,7 +115,7 @@ public class AiExerciseController {
 
             CompletableFuture<Map<String, Object>> future = CompletableFuture.supplyAsync(() -> {
                 try {
-                    Map<String, String> exercise = deepSeekService.generateTranslationExercise(subset, contextPool);
+                    Map<String, String> exercise = deepSeekService.generateTranslationExercise(subset, sessionVocabs, fallbackLearned);
                     Map<String, Object> result = new LinkedHashMap<>();
                     result.put("index", idx);
                     result.put("sentence", exercise.get("sentence"));

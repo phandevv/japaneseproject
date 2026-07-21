@@ -210,64 +210,82 @@ public class DeepSeekEnrichmentService {
     // ──────────────────────────────────────────────────────────────────────────
 
     public Map<String, String> generateTranslationExercise(java.util.List<Vocabulary> vocabs) throws Exception {
-        return generateTranslationExercise(vocabs, java.util.Collections.emptyList());
+        return generateTranslationExercise(vocabs, java.util.Collections.emptyList(), java.util.Collections.emptyList());
+    }
+
+    public Map<String, String> generateTranslationExercise(java.util.List<Vocabulary> vocabs, java.util.List<Vocabulary> sessionVocabs) throws Exception {
+        return generateTranslationExercise(vocabs, sessionVocabs, java.util.Collections.emptyList());
     }
 
     /**
-     * Generate a Japanese sentence using target vocabulary words and an allowed context pool of 50-80 learned words.
-     * Returns: { "sentence": "...", "hint": "..." }
+     * Generate a Japanese sentence using target vocabulary words, prioritizing session words/grammar,
+     * with fallback to previously learned words/grammar if needed.
      */
-    public Map<String, String> generateTranslationExercise(java.util.List<Vocabulary> vocabs, java.util.List<Vocabulary> contextPool) throws Exception {
+    public Map<String, String> generateTranslationExercise(java.util.List<Vocabulary> targetVocabs,
+                                                           java.util.List<Vocabulary> sessionVocabs,
+                                                           java.util.List<Vocabulary> fallbackLearnedVocabs) throws Exception {
         String apiKey = getApiKey();
         if (apiKey == null) {
             return Map.of("sentence", "今日は良い天気ですね。", "hint", "Gợi ý: thời tiết hôm nay");
         }
 
         StringBuilder targetWordList = new StringBuilder();
-        StringBuilder grammarAndSamples = new StringBuilder();
         String mainLevel = "N5";
 
-        for (Vocabulary v : vocabs) {
+        for (Vocabulary v : targetVocabs) {
             String word = v.getKanji() != null && !v.getKanji().trim().isEmpty() ? v.getKanji() : v.getHiragana();
             targetWordList.append("- ").append(word).append(" (nghĩa: ").append(v.getMeaning()).append(")\n");
             if (v.getLevel() != null && !v.getLevel().trim().isEmpty()) {
                 mainLevel = v.getLevel();
             }
+        }
 
-            if (v.getSampleSentence() != null && !v.getSampleSentence().trim().isEmpty()) {
-                grammarAndSamples.append("- Mẫu câu của ").append(word).append(": ").append(v.getSampleSentence()).append("\n");
-            }
-            if (v.getCollocations() != null && !v.getCollocations().trim().isEmpty()) {
-                grammarAndSamples.append("- Cụm từ/ngữ pháp đi kèm ").append(word).append(": ").append(v.getCollocations()).append("\n");
+        StringBuilder sessionGrammar = new StringBuilder();
+        StringBuilder contextWordList = new StringBuilder();
+
+        // 1. Primary Grammar & Vocabulary from current study session (Morning Queue or Today's Reviewed)
+        if (sessionVocabs != null && !sessionVocabs.isEmpty()) {
+            for (Vocabulary sv : sessionVocabs) {
+                String word = sv.getKanji() != null && !sv.getKanji().trim().isEmpty() ? sv.getKanji() : sv.getHiragana();
+                contextWordList.append(word).append(" (").append(sv.getMeaning()).append("), ");
+
+                if (sv.getSampleSentence() != null && !sv.getSampleSentence().trim().isEmpty()) {
+                    sessionGrammar.append("- Mẫu câu của ").append(word).append(": ").append(sv.getSampleSentence()).append("\n");
+                }
+                if (sv.getCollocations() != null && !sv.getCollocations().trim().isEmpty()) {
+                    sessionGrammar.append("- Ngữ pháp/cụm từ của ").append(word).append(": ").append(sv.getCollocations()).append("\n");
+                }
             }
         }
 
-        StringBuilder contextWordList = new StringBuilder();
-        if (contextPool != null && !contextPool.isEmpty()) {
-            int sampleCount = 0;
-            for (Vocabulary cv : contextPool) {
-                String word = cv.getKanji() != null && !cv.getKanji().trim().isEmpty() ? cv.getKanji() : cv.getHiragana();
-                contextWordList.append(word).append(" (").append(cv.getMeaning()).append("), ");
+        // 2. Secondary Fallback Grammar & Vocabulary from previously learned words
+        StringBuilder fallbackGrammar = new StringBuilder();
+        if (fallbackLearnedVocabs != null && !fallbackLearnedVocabs.isEmpty()) {
+            int count = 0;
+            for (Vocabulary fv : fallbackLearnedVocabs) {
+                String word = fv.getKanji() != null && !fv.getKanji().trim().isEmpty() ? fv.getKanji() : fv.getHiragana();
+                contextWordList.append(word).append(" (").append(fv.getMeaning()).append("), ");
 
-                if (cv.getSampleSentence() != null && !cv.getSampleSentence().trim().isEmpty() && sampleCount < 10) {
-                    grammarAndSamples.append("- Mẫu câu đã học (").append(word).append("): ").append(cv.getSampleSentence()).append("\n");
-                    sampleCount++;
+                if (fv.getSampleSentence() != null && !fv.getSampleSentence().trim().isEmpty() && count < 8) {
+                    fallbackGrammar.append("- Mẫu câu bổ trợ (").append(word).append("): ").append(fv.getSampleSentence()).append("\n");
+                    count++;
                 }
             }
         }
 
         String prompt = "Bạn là trợ lý soạn bài tập tiếng Nhật thông minh.\n" +
                 "Nhiệm vụ: Tạo 1 câu tiếng Nhật ngắn gọn, tự nhiên (10 đến 20 từ) để kiểm tra các từ vựng mục tiêu sau:\n" + targetWordList +
-                (grammarAndSamples.length() > 0 ? "\nCÁC MẪU CÂU VÀ NGỮ PHÁP ĐÃ HỌC LIÊN QUAN:\n" + grammarAndSamples.toString() + "\n" : "") +
-                (contextWordList.length() > 0 ? "\nDANH SÁCH TỪ VỰNG HỌC VIÊN ĐÃ HỌC (50-80 từ):\n" + contextWordList.toString() + "\n" : "") +
+                (sessionGrammar.length() > 0 ? "\nNGỮ PHÁP VÀ MẪU CÂU ĐỢT ÔN NÀY (BẮT BUỘC ƯU TIÊN SỬ DỤNG):\n" + sessionGrammar.toString() + "\n" : "") +
+                (fallbackGrammar.length() > 0 ? "\nNGỮ PHÁP VÀ MẪU CÂU ĐÃ HỌC BỔ TRỢ (NẾU THIẾU):\n" + fallbackGrammar.toString() + "\n" : "") +
+                (contextWordList.length() > 0 ? "\nTỪ VỰNG LIÊN QUAN ĐÃ HỌC:\n" + contextWordList.toString() + "\n" : "") +
                 "\nQUY TẮC BẮT BUỘC:\n" +
-                "1. SỬ DỤNG VÀ MÔ PHỎNG LẠI CẤU TRÚC NGỮ PHÁP / MẪU CÂU ĐÃ HỌC Ở TRÊN để ghép câu cho từ vựng mục tiêu.\n" +
-                "2. CHỈ SỬ DỤNG từ vựng và ngữ pháp trình độ " + mainLevel + " trở xuống mà học viên ĐÃ HỌC ở trên.\n" +
-                "3. Tuyệt đối KHÔNG DÙNG mẫu ngữ pháp hay từ vựng lạ nằm ngoài các mẫu câu/từ vựng đã học ở trên.\n" +
+                "1. ƯU TIÊN HÀNG ĐẦU: Dùng cấu trúc ngữ pháp và mẫu câu của đợt ôn tập này để ghép câu cho các từ vựng mục tiêu.\n" +
+                "2. Nếu thiếu cấu trúc, hãy dùng các mẫu ngữ pháp/từ vựng bổ trợ hoặc liên quan đã học ở trên (trình độ " + mainLevel + " trở xuống).\n" +
+                "3. Tuyệt đối KHÔNG DÙNG mẫu ngữ pháp hay từ vựng lạ nằm ngoài các ngữ pháp/từ vựng đã học ở trên.\n" +
                 "4. Mọi Kanji phụ xuất hiện trong câu (nếu có) PHẢI mở ngoặc kèm cách đọc Hiragana ngay sau đó, ví dụ: 本(ほん), 友(とも)だち.\n" +
                 "5. Trong ô hint, hãy ghi rõ gợi ý các từ vựng chính cần ôn cùng nghĩa tiếng Việt.\n\n" +
                 "Trả về JSON duy nhất không dùng markdown format:\n" +
-                "{\"sentence\": \"câu tiếng Nhật ở đây\", \"hint\": \"Từ vựng: ...\"}";
+                "{\"sentence\": \"câu tiếng Nhật ngắn ở đây\", \"hint\": \"Từ vựng: ...\"}";
 
         String responseBody = callDeepSeekRaw(apiKey, prompt);
         JsonNode root = objectMapper.readTree(cleanJsonContent(responseBody));
