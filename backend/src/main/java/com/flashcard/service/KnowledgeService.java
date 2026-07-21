@@ -63,7 +63,9 @@ public class KnowledgeService {
         this.wordReviewRepository = wordReviewRepository;
         this.grammarReviewRepository = grammarReviewRepository;
         this.userRepository = userRepository;
-        this.objectMapper = objectMapper;
+        this.objectMapper = objectMapper.copy()
+                .configure(com.fasterxml.jackson.core.JsonParser.Feature.ALLOW_UNQUOTED_CONTROL_CHARS, true)
+                .configure(com.fasterxml.jackson.core.JsonParser.Feature.ALLOW_BACKSLASH_ESCAPING_ANY_CHARACTER, true);
         this.httpClient = HttpClient.newBuilder()
                 .connectTimeout(Duration.ofSeconds(15))
                 .build();
@@ -83,13 +85,12 @@ public class KnowledgeService {
             }
 
             String prompt = String.format(
-                "Bạn là một chuyên gia ngôn ngữ học tiếng Nhật. Hãy chuẩn hóa đầu vào sau đây về từ vựng tiếng Nhật chuẩn (Kanji/Kana) hoặc cấu trúc ngữ pháp chuẩn tiếng Nhật.\n" +
-                "Đầu vào có thể là: Romaji, Hiragana không dấu, Katakana sai, Hán tự Trung Quốc (giản thể/phồn thể), tiếng Việt giải nghĩa, hoặc viết sai chính tả nhẹ.\n" +
+                "Bạn là một chuyên gia từ điển tiếng Nhật. Hãy phân tích từ/cấu trúc đầu vào sau và trả về thông tin chuẩn hóa:\n" +
                 "Đầu vào: \"%s\"\n\n" +
-                "Hãy trả về phản hồi định dạng JSON duy nhất, không có markdown:\n" +
+                "Trả về JSON duy nhất, không markdown:\n" +
                 "{\n" +
-                "  \"type\": \"vocabulary\" hoặc \"grammar\",\n" +
-                "  \"normalized\": \"Từ hoặc ngữ pháp chuẩn tiếng Nhật (ví dụ: 食事 hoặc 〜ように)\"\n" +
+                "  \"type\": \"vocabulary hoặc grammar\",\n" +
+                "  \"normalizedInput\": \"dạng chuẩn (nếu là romaji/kana sai -> trả về Kanji/Kana đúng; nếu là ngữ pháp -> trả về dạng gốc như 〜ように)\"\n" +
                 "}",
                 input
             );
@@ -98,7 +99,7 @@ public class KnowledgeService {
                 "model", "deepseek-v4-flash",
                 "response_format", Map.of("type", "json_object"),
                 "messages", new Object[]{
-                    Map.of("role", "system", "content", "Bạn là trợ lý chuẩn hóa tiếng Nhật. Bạn chỉ phản hồi bằng JSON."),
+                    Map.of("role", "system", "content", "Bạn là công cụ phân tích từ vựng/ngữ pháp tiếng Nhật. Chỉ phản hồi bằng định dạng JSON."),
                     Map.of("role", "user", "content", prompt)
                 }
             );
@@ -119,10 +120,10 @@ public class KnowledgeService {
             String jsonContent = root.path("choices").get(0).path("message").path("content").asText();
 
             // Use robust parsing with retry/repair
-            Map<String, Object> parsed = parseAiJsonResponse(jsonContent);
+            Map<String, Object> aiResult = parseAiJsonResponse(jsonContent);
 
-            String type = parsed.getOrDefault("type", "vocabulary").toString();
-            String normalized = parsed.getOrDefault("normalized", input).toString();
+            String type = (String) aiResult.getOrDefault("type", "vocabulary");
+            String normalized = (String) aiResult.getOrDefault("normalizedInput", input);
 
             // Check if normalized item exists in DB
             boolean exists = false;
@@ -153,41 +154,38 @@ public class KnowledgeService {
     }
 
     /**
-     * Clean markdown code fences from AI JSON response.
+     * Clean markdown code fences from AI JSON response and extract JSON object.
      */
     private String cleanJsonContent(String content) {
         if (content == null) return "{}";
-        content = content.trim();
-        if (content.startsWith("```json")) {
-            content = content.substring(7);
-        } else if (content.startsWith("```")) {
-            content = content.substring(3);
-        }
-        if (content.endsWith("```")) {
-            content = content.substring(0, content.length() - 3);
-        }
-        return content.trim();
-    }
+        String str = content.trim();
 
-    /**
-     * Attempt to repair malformed JSON by removing CJK characters and other invalid chars
-     * that sometimes appear between JSON tokens in AI responses.
-     */
-    private String repairJson(String json) {
-        if (json == null || json.isEmpty()) return "{}";
-        // Remove CJK (Chinese/Japanese/Korean) characters that appear between "}" and "\""
-        // (i.e., between the end of an object and the start of the next key)
-        // These sometimes leak from AI-generated string values into JSON structure
-        json = json.replaceAll("\\}[\\u4e00-\\u9fff\\u3040-\\u309f\\u30a0-\\u30ff]+", "},");
-        // Same for between "]" and "\"" (end of array and start of next key)
-        json = json.replaceAll("\\][\\u4e00-\\u9fff\\u3040-\\u309f\\u30a0-\\u30ff]+", "],");
-        // Also handle between "}" and "{" (end of one object and start of another)
-        json = json.replaceAll("\\}[\\u4e00-\\u9fff\\u3040-\\u309f\\u30a0-\\u30ff]+\\{", "},{");
-        // Remove any null bytes or other control characters
-        json = json.replaceAll("\\p{Cc}", "");
-        // Collapse any double commas that may have been introduced
-        json = json.replaceAll(",,+", ",");
-        return json;
+        if (str.contains("```json")) {
+            int start = str.indexOf("```json") + 7;
+            int end = str.lastIndexOf("```");
+            if (end > start) {
+                str = str.substring(start, end);
+            } else {
+                str = str.substring(start);
+            }
+        } else if (str.contains("```")) {
+            int start = str.indexOf("```") + 3;
+            int end = str.lastIndexOf("```");
+            if (end > start) {
+                str = str.substring(start, end);
+            } else {
+                str = str.substring(start);
+            }
+        }
+
+        str = str.trim();
+        int firstBrace = str.indexOf('{');
+        int lastBrace = str.lastIndexOf('}');
+        if (firstBrace != -1 && lastBrace != -1 && lastBrace >= firstBrace) {
+            str = str.substring(firstBrace, lastBrace + 1);
+        }
+
+        return str.trim();
     }
 
     /**
@@ -200,16 +198,15 @@ public class KnowledgeService {
             return objectMapper.readValue(cleaned, Map.class);
         } catch (Exception e) {
             log.warn("Failed to parse AI JSON response on first attempt: {}", e.getMessage());
-            log.warn("Raw AI content (first 500 chars): {}", 
-                cleaned.length() > 500 ? cleaned.substring(0, 500) + "..." : cleaned);
-            // Attempt repair
-            String repaired = repairJson(cleaned);
+            log.warn("Cleaned snippet (first 300 chars): {}", 
+                cleaned.length() > 300 ? cleaned.substring(0, 300) + "..." : cleaned);
+            
+            // Remove trailing commas before closing braces/brackets
+            String repaired = cleaned.replaceAll(",\\s*([}\\]])", "$1");
             try {
                 return objectMapper.readValue(repaired, Map.class);
             } catch (Exception e2) {
-                log.error("Failed to parse AI JSON response after repair attempt.");
-                log.error("Repaired content (first 500 chars): {}",
-                    repaired.length() > 500 ? repaired.substring(0, 500) + "..." : repaired);
+                log.error("Failed to parse AI JSON response after repair attempt: {}", e2.getMessage());
                 throw new RuntimeException("AI phản hồi dữ liệu không đúng định dạng. Vui lòng thử lại!");
             }
         }
