@@ -139,6 +139,28 @@
   --danger-light: #ffebeb;
 }
 
+/* Custom Cursors for Sakura Theme */
+html[data-theme='sakura'],
+html[data-theme='sakura'] body {
+  cursor: url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2224%22 height=%2224%22 viewBox=%220 0 24 24%22%3E%3Cpath d=%22M 2 2 L 2 20 L 7 15 L 12 23 L 15 21 L 10 13 L 17 13 Z%22 fill=%22%23ff4d6d%22 stroke=%22%23ffffff%22 stroke-width=%221.5%22 stroke-linejoin=%22round%22/%3E%3C/svg%3E") 2 2, auto;
+}
+
+html[data-theme='sakura'] a, 
+html[data-theme='sakura'] button, 
+html[data-theme='sakura'] select, 
+html[data-theme='sakura'] [role="button"],
+html[data-theme='sakura'] .btn-primary,
+html[data-theme='sakura'] .btn-secondary,
+html[data-theme='sakura'] .btn-icon,
+html[data-theme='sakura'] .nav-item,
+html[data-theme='sakura'] .theme-dot,
+html[data-theme='sakura'] .notification-bell-btn,
+html[data-theme='sakura'] .notification-item,
+html[data-theme='sakura'] [style*="cursor: pointer"] {
+  cursor: url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2224%22 height=%2224%22 viewBox=%220 0 24 24%22%3E%3Cpath d=%22M 2 2 L 2 20 L 7 15 L 12 23 L 15 21 L 10 13 L 17 13 Z%22 fill=%22%23c9184a%22 stroke=%22%23ffffff%22 stroke-width=%221.5%22 stroke-linejoin=%22round%22/%3E%3C/svg%3E") 2 2, pointer !important;
+}
+
+
 /* ============================================================ RESET */
 html {
   scrollbar-gutter: stable;

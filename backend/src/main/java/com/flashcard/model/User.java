@@ -18,6 +18,9 @@ public class User {
     @Column(name = "avatar", columnDefinition = "MEDIUMTEXT")
     private String avatar;
 
+    @Column(name = "cover_photo", columnDefinition = "MEDIUMTEXT")
+    private String coverPhoto;
+
     @Column(name = "display_name")
     private String displayName;
 
@@ -48,6 +51,8 @@ public class User {
     public void setPassword(String password) { this.password = password; }
     public String getAvatar() { return avatar; }
     public void setAvatar(String avatar) { this.avatar = avatar; }
+    public String getCoverPhoto() { return coverPhoto; }
+    public void setCoverPhoto(String coverPhoto) { this.coverPhoto = coverPhoto; }
     public String getDisplayName() { return displayName; }
     public void setDisplayName(String displayName) { this.displayName = displayName; }
     public String getAddress() { return address; }

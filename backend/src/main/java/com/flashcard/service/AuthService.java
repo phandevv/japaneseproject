@@ -99,7 +99,7 @@ public class AuthService {
     }
 
     @Transactional
-    public User updateProfile(User user, String displayName, String address, String phone, String occupation, String avatar) {
+    public User updateProfile(User user, String displayName, String address, String phone, String occupation, String avatar, String coverPhoto) {
         User existingUser = userRepository.findById(user.getId())
                 .orElseThrow(() -> new IllegalArgumentException("User not found"));
         existingUser.setDisplayName(displayName);
@@ -107,6 +107,7 @@ public class AuthService {
         existingUser.setPhone(phone);
         existingUser.setOccupation(occupation);
         existingUser.setAvatar(avatar);
+        existingUser.setCoverPhoto(coverPhoto);
         return userRepository.save(existingUser);
     }
 }

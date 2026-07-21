@@ -90,7 +90,8 @@ public class AuthController {
             "address", user.getAddress() != null ? user.getAddress() : "",
             "phone", user.getPhone() != null ? user.getPhone() : "",
             "occupation", user.getOccupation() != null ? user.getOccupation() : "",
-            "avatar", user.getAvatar() != null ? user.getAvatar() : ""
+            "avatar", user.getAvatar() != null ? user.getAvatar() : "",
+            "coverPhoto", user.getCoverPhoto() != null ? user.getCoverPhoto() : ""
         ));
     }
 
@@ -105,8 +106,9 @@ public class AuthController {
             String phone = request.get("phone");
             String occupation = request.get("occupation");
             String avatar = request.get("avatar");
+            String coverPhoto = request.get("coverPhoto");
             
-            User updated = authService.updateProfile(user, displayName, address, phone, occupation, avatar);
+            User updated = authService.updateProfile(user, displayName, address, phone, occupation, avatar, coverPhoto);
             return ResponseEntity.ok(Map.of(
                 "message", "Profile updated successfully",
                 "displayName", updated.getDisplayName() != null ? updated.getDisplayName() : "",
