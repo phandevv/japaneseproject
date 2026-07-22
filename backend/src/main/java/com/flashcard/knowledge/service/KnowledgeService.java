@@ -32,6 +32,9 @@ import java.util.Optional;
 import java.util.concurrent.Semaphore;
 import java.util.stream.Collectors;
 
+import com.flashcard.srs.service.SrsService;
+import com.flashcard.srs.service.GrammarSrsService;
+
 @Service
 public class KnowledgeService {
 
@@ -45,9 +48,21 @@ public class KnowledgeService {
     private final UserRepository userRepository;
     private final ObjectMapper objectMapper;
     private final HttpClient httpClient;
+    private final SrsService srsService;
+    private final GrammarSrsService grammarSrsService;
 
     // Bulkhead to protect AI APIs
     private final Semaphore bulkheadSemaphore = new Semaphore(50);
+
+    public KnowledgeService(VocabularyRepository vocabularyRepository,
+                            GrammarCardRepository grammarCardRepository,
+                            KnowledgeVersionRepository knowledgeVersionRepository,
+                            WordReviewRepository wordReviewRepository,
+                            GrammarReviewRepository grammarReviewRepository,
+                            UserRepository userRepository,
+                            ObjectMapper objectMapper) {
+        this(vocabularyRepository, grammarCardRepository, knowledgeVersionRepository, wordReviewRepository, grammarReviewRepository, userRepository, objectMapper, null, null);
+    }
 
     @Autowired
     public KnowledgeService(VocabularyRepository vocabularyRepository,
@@ -56,13 +71,17 @@ public class KnowledgeService {
                             WordReviewRepository wordReviewRepository,
                             GrammarReviewRepository grammarReviewRepository,
                             UserRepository userRepository,
-                            ObjectMapper objectMapper) {
+                            ObjectMapper objectMapper,
+                            @Autowired(required = false) SrsService srsService,
+                            @Autowired(required = false) GrammarSrsService grammarSrsService) {
         this.vocabularyRepository = vocabularyRepository;
         this.grammarCardRepository = grammarCardRepository;
         this.knowledgeVersionRepository = knowledgeVersionRepository;
         this.wordReviewRepository = wordReviewRepository;
         this.grammarReviewRepository = grammarReviewRepository;
         this.userRepository = userRepository;
+        this.srsService = srsService;
+        this.grammarSrsService = grammarSrsService;
         this.objectMapper = objectMapper.copy()
                 .configure(com.fasterxml.jackson.core.JsonParser.Feature.ALLOW_UNQUOTED_CONTROL_CHARS, true)
                 .configure(com.fasterxml.jackson.core.JsonParser.Feature.ALLOW_BACKSLASH_ESCAPING_ANY_CHARACTER, true);
@@ -634,6 +653,15 @@ public class KnowledgeService {
             wordReviewRepository.save(newReview);
         }
 
+        // Auto-mark with quality 1 (AGAIN / Hardest) so it is marked learned and appears in "Ôn lại hôm nay"
+        if (srsService != null) {
+            try {
+                srsService.reviewWord(managedUser, savedVocab.getId(), 1);
+            } catch (Exception e) {
+                log.error("Failed to auto-schedule SRS review for saved vocabulary: {}", e.getMessage());
+            }
+        }
+
         return savedVocab;
     }
 
@@ -693,6 +721,15 @@ public class KnowledgeService {
         if (existingReview.isEmpty()) {
             GrammarReview newReview = new GrammarReview(managedUser, savedGrammar);
             grammarReviewRepository.save(newReview);
+        }
+
+        // Auto-mark with quality 1 (AGAIN / Hardest) so it is marked learned and appears in "Ôn lại hôm nay"
+        if (grammarSrsService != null) {
+            try {
+                grammarSrsService.reviewGrammar(managedUser, savedGrammar.getId(), 1);
+            } catch (Exception e) {
+                log.error("Failed to auto-schedule SRS review for saved grammar: {}", e.getMessage());
+            }
         }
 
         return savedGrammar;
