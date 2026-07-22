@@ -231,6 +231,27 @@ const DailyStudyPage = ({ level, stats, goBack }) => {
     }
   }, [phase, currentLevel, selectedDay, quizWords, initialQuizWords, originalQuizLength, failedWordIds, seenWordIds, quizIndex, score, mistakes, quizQuestionType, showHiraganaHint, quizStatus]);
 
+  // Keep scroll at top when submitting or navigating questions in Quiz Mode (Phase 3)
+  useEffect(() => {
+    if (phase === 3) {
+      window.scrollTo({ top: 0, behavior: 'instant' });
+    }
+  }, [phase, quizIndex, quizStatus]);
+
+  // Allow pressing Enter key when answer result is shown to move to next question
+  useEffect(() => {
+    if (phase === 3 && (quizStatus === 'correct' || quizStatus === 'incorrect')) {
+      const handleKeyDown = (e) => {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          nextQuestion();
+        }
+      };
+      window.addEventListener('keydown', handleKeyDown);
+      return () => window.removeEventListener('keydown', handleKeyDown);
+    }
+  }, [phase, quizStatus, quizIndex, quizWords.length]);
+
   useEffect(() => {
     const loadSettings = async () => {
       if (!currentLevel) return;
@@ -1177,7 +1198,7 @@ const DailyStudyPage = ({ level, stats, goBack }) => {
               </div>
 
               <div style={{ display: 'flex', justifyContent: 'flex-end', borderTop: '1px solid var(--border-color)', paddingTop: '14px' }}>
-                <button className="btn btn-primary" onClick={nextQuestion} autoFocus style={{ padding: '10px 24px' }}>
+                <button className="btn btn-primary" onClick={nextQuestion} style={{ padding: '10px 24px' }}>
                   {t.daily.nextBtn} <ArrowRight size={18} />
                 </button>
               </div>
@@ -1242,7 +1263,7 @@ const DailyStudyPage = ({ level, stats, goBack }) => {
               </div>
 
               <div style={{ display: 'flex', justifyContent: 'flex-end', borderTop: '1px solid var(--border-color)', paddingTop: '14px' }}>
-                <button className="btn btn-primary" onClick={nextQuestion} autoFocus style={{ padding: '10px 24px' }}>
+                <button className="btn btn-primary" onClick={nextQuestion} style={{ padding: '10px 24px' }}>
                   {t.daily.continueBtn} <ArrowRight size={18} />
                 </button>
               </div>
