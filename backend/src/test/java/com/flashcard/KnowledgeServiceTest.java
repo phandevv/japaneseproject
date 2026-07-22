@@ -1,14 +1,24 @@
 package com.flashcard;
 
+import com.flashcard.knowledge.repository.GrammarCardRepository;
+import com.flashcard.knowledge.repository.KnowledgeVersionRepository;
+import com.flashcard.knowledge.service.KnowledgeService;
+import com.flashcard.srs.model.WordReview;
+import com.flashcard.srs.repository.GrammarReviewRepository;
+import com.flashcard.srs.repository.WordReviewRepository;
+import com.flashcard.user.model.User;
+import com.flashcard.user.repository.UserRepository;
+import com.flashcard.vocabulary.model.Vocabulary;
+import com.flashcard.vocabulary.repository.VocabularyRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.flashcard.model.Vocabulary;
-import com.flashcard.model.User;
-import com.flashcard.model.WordReview;
-import com.flashcard.repository.GrammarCardRepository;
-import com.flashcard.repository.KnowledgeVersionRepository;
-import com.flashcard.repository.VocabularyRepository;
-import com.flashcard.repository.UserRepository;
-import com.flashcard.service.KnowledgeService;
+
+
+
+
+
+
+
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -20,8 +30,8 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-import com.flashcard.repository.WordReviewRepository;
-import com.flashcard.repository.GrammarReviewRepository;
+
+
 import static org.mockito.Mockito.*;
 
 class KnowledgeServiceTest {

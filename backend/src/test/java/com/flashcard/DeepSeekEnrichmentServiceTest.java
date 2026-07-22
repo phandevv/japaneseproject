@@ -1,9 +1,12 @@
 package com.flashcard;
 
+import com.flashcard.knowledge.service.DeepSeekEnrichmentService;
+import com.flashcard.vocabulary.model.Vocabulary;
+import com.flashcard.vocabulary.repository.VocabularyRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.flashcard.model.Vocabulary;
-import com.flashcard.repository.VocabularyRepository;
-import com.flashcard.service.DeepSeekEnrichmentService;
+
+
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
