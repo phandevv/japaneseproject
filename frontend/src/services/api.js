@@ -494,4 +494,15 @@ export const usersApi = {
   }
 };
 
+export const achievementApi = {
+  getAchievements: async () => {
+    const response = await axios.get(`${API_BASE_URL}/achievements`);
+    return response.data;
+  },
+  checkAchievements: async () => {
+    const response = await axios.post(`${API_BASE_URL}/achievements/check`);
+    return response.data;
+  }
+};
+
 export const api = axios;

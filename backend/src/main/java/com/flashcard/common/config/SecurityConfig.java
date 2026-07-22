@@ -99,8 +99,9 @@ public class SecurityConfig {
                 // ── AI Exercise (Translation Practice + Grading) ─────────────────────────────
                 .requestMatchers("/api/ai/exercise/**").authenticated()
 
-                // ── Study Queue & Today Review ───────────────────────────────────────────────
+                // ── Study Queue & Achievements ──────────────────────────────────────────────
                 .requestMatchers("/api/study/**").authenticated()
+                .requestMatchers("/api/achievements/**").authenticated()
 
                 // ── Everything else requires valid JWT ──────────────────────
                 .anyRequest().authenticated()

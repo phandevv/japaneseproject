@@ -1,4 +1,4 @@
-import { BookOpen, ChevronLeft, ChevronRight, Cpu, Database, Home, Layers, Loader, LogIn, LogOut, MessageSquare, Palette, Search, ShieldCheck, Upload, LifeBuoy, Gamepad2, Sun, RefreshCw } from "lucide-react";
+import { BookOpen, ChevronLeft, ChevronRight, Cpu, Database, Home, Layers, Loader, LogIn, LogOut, MessageSquare, Palette, Search, ShieldCheck, Upload, LifeBuoy, Gamepad2, Sun, RefreshCw, Trophy } from "lucide-react";
 import { useRef, useState } from "react";
 import { useLanguage } from "../context/LanguageContext";
 import { useTheme } from "../context/ThemeContext";
@@ -129,6 +129,13 @@ const Sidebar = ({ isCollapsed, onToggleCollapse, currentPage, setCurrentPage, o
         >
           <Database size={17} />
           <span>Kho tri thức AI</span>
+        </button>
+        <button
+          className={`sidebar-link${currentPage === "achievements" ? " active" : ""}`}
+          onClick={() => setCurrentPage("achievements")}
+        >
+          <Trophy size={17} />
+          <span>Thành tựu & Huy hiệu</span>
         </button>
         <button
           className={`sidebar-link${currentPage === "conversation-tutor" ? " active" : ""}`}

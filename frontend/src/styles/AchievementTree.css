@@ -1,0 +1,311 @@
+.achievement-tree-wrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.achievement-tabs-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 12px;
+  width: 100%;
+}
+
+.ach-tab-btn {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  border-radius: 16px;
+  border: 1.5px solid var(--border-color, #e2e8f0);
+  background: var(--surface-color, #ffffff);
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.ach-tab-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.06);
+}
+
+.ach-tab-btn.active {
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+}
+
+.ach-tab-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: var(--surface-hover, rgba(0, 0, 0, 0.04));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.ach-tab-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  overflow: hidden;
+}
+
+.ach-tab-title {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--text-primary, #0f172a);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.ach-tab-subtitle {
+  font-size: 0.75rem;
+  color: var(--text-secondary, #64748b);
+}
+
+.ach-tree-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 24px;
+  flex-wrap: wrap;
+  gap: 20px;
+  border-radius: 20px;
+  background: var(--surface-color, #ffffff);
+  border: 1px solid var(--border-color, #e2e8f0);
+}
+
+.ach-banner-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex: 1 1 300px;
+}
+
+.ach-banner-badge {
+  width: 56px;
+  height: 56px;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.ach-banner-title {
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: var(--text-primary, #0f172a);
+  margin-bottom: 4px;
+}
+
+.ach-banner-desc {
+  font-size: 0.88rem;
+  color: var(--text-secondary, #64748b);
+  margin: 0;
+}
+
+.ach-banner-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 8px;
+}
+
+.ach-progress-label {
+  display: flex;
+  gap: 10px;
+  font-size: 0.85rem;
+  color: var(--text-secondary, #64748b);
+}
+
+.ach-progress-label strong {
+  color: var(--text-primary, #0f172a);
+}
+
+.ach-tree-graph-container {
+  padding: 36px 24px;
+  border-radius: 20px;
+  background: var(--surface-color, #ffffff);
+  border: 1px solid var(--border-color, #e2e8f0);
+}
+
+.ach-nodes-path {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+  max-width: 680px;
+  margin: 0 auto;
+}
+
+.ach-connector-line {
+  width: 4px;
+  height: 36px;
+  background: var(--border-color, #cbd5e1);
+  position: relative;
+  margin: 4px 0;
+  border-radius: 2px;
+  transition: background 0.3s ease;
+}
+
+.ach-connector-line.active {
+  background: linear-gradient(180deg, #f59e0b, #10b981);
+  box-shadow: 0 0 10px rgba(245, 158, 11, 0.4);
+}
+
+.ach-node-card {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 20px;
+  border-radius: 20px;
+  border: 2px solid var(--border-color, #e2e8f0);
+  background: var(--surface-color, #ffffff);
+  position: relative;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.ach-node-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.07);
+}
+
+.ach-node-card.unlocked {
+  border-color: rgba(245, 158, 11, 0.5);
+  background: linear-gradient(135deg, rgba(255, 251, 235, 0.8) 0%, rgba(255, 255, 255, 1) 100%);
+  box-shadow: 0 4px 20px rgba(245, 158, 11, 0.12);
+}
+
+.ach-node-card.locked {
+  opacity: 0.88;
+}
+
+.ach-node-level-tag {
+  position: absolute;
+  top: 12px;
+  right: 16px;
+  font-size: 0.72rem;
+  font-weight: 800;
+  padding: 3px 10px;
+  border-radius: 10px;
+  background: var(--surface-hover, rgba(0, 0, 0, 0.05));
+  color: var(--text-secondary, #64748b);
+}
+
+.ach-node-badge {
+  position: relative;
+  width: 72px;
+  height: 72px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ach-node-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.15));
+  transition: transform 0.3s ease;
+}
+
+.ach-node-card.locked .ach-node-img {
+  filter: grayscale(0.85) opacity(0.6);
+}
+
+.ach-unlocked-check {
+  position: absolute;
+  bottom: -2px;
+  right: -2px;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #10b981;
+  border: 2px solid white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 6px rgba(16, 185, 129, 0.4);
+}
+
+.ach-locked-overlay {
+  position: absolute;
+  bottom: -2px;
+  right: -2px;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #64748b;
+  border: 2px solid white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ach-node-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.ach-node-title-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.ach-node-title {
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: var(--text-primary, #0f172a);
+  margin: 0;
+}
+
+.ach-node-pts {
+  font-size: 0.75rem;
+  font-weight: 800;
+  color: #f59e0b;
+  background: rgba(245, 158, 11, 0.12);
+  padding: 3px 8px;
+  border-radius: 8px;
+}
+
+.ach-node-desc {
+  font-size: 0.86rem;
+  color: var(--text-secondary, #64748b);
+  margin: 0;
+  line-height: 1.4;
+}
+
+.ach-node-progress-wrapper {
+  margin-top: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.ach-node-progress-info {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.75rem;
+  color: var(--text-secondary, #64748b);
+  font-weight: 600;
+}
+
+.ach-node-unlocked-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #10b981;
+  margin-top: 4px;
+}

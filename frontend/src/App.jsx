@@ -23,6 +23,7 @@ import GamesHubPage from './pages/GamesHubPage';
 import MemoryMatchGame from './pages/MemoryMatchGame';
 import FallingWordsGame from './pages/FallingWordsGame';
 import UserProfilePage from './pages/UserProfilePage';
+import AchievementsPage from './pages/AchievementsPage';
 
 const getTodayKey = () => new Date().toISOString().slice(0, 10);
 
@@ -81,6 +82,7 @@ function App() {
     if (path === '/admin-ai') return 'admin-ai';
     if (path === '/search') return 'search';
     if (path === '/knowledge') return 'knowledge';
+    if (path === '/achievements') return 'achievements';
     if (path === '/profile') return 'profile';
     if (path === '/conversation-tutor') return 'conversation-tutor';
     if (path === '/games') return 'games';
@@ -114,6 +116,7 @@ function App() {
       case 'admin-ai': navigate('/admin-ai'); break;
       case 'search': navigate('/search'); break;
       case 'knowledge': navigate('/knowledge'); break;
+      case 'achievements': navigate('/achievements'); break;
       case 'conversation-tutor': navigate('/conversation-tutor'); break;
       case 'games': navigate('/games'); break;
       case 'game-memory': navigate('/games/memory'); break;
@@ -346,6 +349,12 @@ function App() {
       case 'profile':
         return isAuthenticated ? (
           <UserProfilePage />
+        ) : (
+          <AuthPage onCancel={() => navigate('/')} onSuccess={handleLoginSuccess} />
+        );
+      case 'achievements':
+        return isAuthenticated ? (
+          <AchievementsPage />
         ) : (
           <AuthPage onCancel={() => navigate('/')} onSuccess={handleLoginSuccess} />
         );
