@@ -544,6 +544,11 @@ public class KnowledgeService {
         }
     }
 
+    private boolean isAdmin(User user) {
+        if (user == null) return false;
+        return "ADMIN".equalsIgnoreCase(user.getRole()) || "admin".equalsIgnoreCase(user.getUsername());
+    }
+
     /**
      * Save Vocabulary card with Versioning and Auto Deduplication.
      */
@@ -597,29 +602,32 @@ public class KnowledgeService {
             }
         }
 
+        boolean isAdminUser = isAdmin(user);
+
         Vocabulary vocab;
         if (existing.isPresent()) {
             vocab = existing.get();
-            // Save version history before modifying
-            saveVersionHistory("VOCABULARY", vocab.getId(), vocab, operator);
+            if (isAdminUser) {
+                // Only ADMIN can modify / update shared dictionary data in DB
+                saveVersionHistory("VOCABULARY", vocab.getId(), vocab, operator);
 
-            // Update fields
-            vocab.setMeaning(meaning);
-            vocab.setHanViet(hanViet);
-            vocab.setLevel(jlpt);
-            vocab.setWordType(wordType);
-            vocab.setPitchAccent(pitchAccent);
-            vocab.setMnemonic(mnemonic);
-            vocab.setKanjiWords(kanjiWords);
-            vocab.setSynonyms(synonyms);
-            vocab.setAntonyms(antonyms);
-            vocab.setCommonMistakes(commonMistakes);
-            vocab.setCollocations(collocations);
-            vocab.setConversationExamples(conversationExamples);
-            vocab.setExampleSentences(exampleSentencesJson);
-            vocab.setSampleSentence(sampleSentence);
-            vocab.setSampleReading(sampleReading);
-            vocab.setSampleTranslation(sampleTranslation);
+                vocab.setMeaning(meaning);
+                vocab.setHanViet(hanViet);
+                vocab.setLevel(jlpt);
+                vocab.setWordType(wordType);
+                vocab.setPitchAccent(pitchAccent);
+                vocab.setMnemonic(mnemonic);
+                vocab.setKanjiWords(kanjiWords);
+                vocab.setSynonyms(synonyms);
+                vocab.setAntonyms(antonyms);
+                vocab.setCommonMistakes(commonMistakes);
+                vocab.setCollocations(collocations);
+                vocab.setConversationExamples(conversationExamples);
+                vocab.setExampleSentences(exampleSentencesJson);
+                vocab.setSampleSentence(sampleSentence);
+                vocab.setSampleReading(sampleReading);
+                vocab.setSampleTranslation(sampleTranslation);
+            }
         } else {
             vocab = new Vocabulary();
             vocab.setKanji(word);
@@ -687,21 +695,25 @@ public class KnowledgeService {
         Optional<GrammarCard> existing = grammarCardRepository.findByGrammar(grammar);
         GrammarCard grammarCard;
 
+        boolean isAdminUser = isAdmin(user);
+
         if (existing.isPresent()) {
             grammarCard = existing.get();
-            // Save version history before updating
-            saveVersionHistory("GRAMMAR", grammarCard.getId(), grammarCard, operator);
+            if (isAdminUser) {
+                // Only ADMIN can modify / update shared grammar cards in DB
+                saveVersionHistory("GRAMMAR", grammarCard.getId(), grammarCard, operator);
 
-            grammarCard.setMeaning(meaning);
-            grammarCard.setUsageDesc(usageDesc);
-            grammarCard.setFormation(formation);
-            grammarCard.setJlpt(jlpt);
-            grammarCard.setSimilarGrammar(similarGrammar);
-            grammarCard.setDifference(difference);
-            grammarCard.setCommonMistakes(commonMistakes);
-            grammarCard.setExamples(examples);
-            grammarCard.setReadingPassage(readingPassage);
-            grammarCard.setQuizzes(quizzes);
+                grammarCard.setMeaning(meaning);
+                grammarCard.setUsageDesc(usageDesc);
+                grammarCard.setFormation(formation);
+                grammarCard.setJlpt(jlpt);
+                grammarCard.setSimilarGrammar(similarGrammar);
+                grammarCard.setDifference(difference);
+                grammarCard.setCommonMistakes(commonMistakes);
+                grammarCard.setExamples(examples);
+                grammarCard.setReadingPassage(readingPassage);
+                grammarCard.setQuizzes(quizzes);
+            }
         } else {
             grammarCard = new GrammarCard(grammar, meaning, usageDesc, formation, jlpt);
             grammarCard.setSimilarGrammar(similarGrammar);

@@ -114,8 +114,9 @@ class KnowledgeServiceTest {
     }
 
     @Test
-    void testSaveVocabularyUpdatesAndVersionsWhenExists() throws Exception {
+    void testSaveVocabularyUpdatesAndVersionsWhenExistsAndUserIsAdmin() throws Exception {
         // Arrange
+        testUser.setRole("ADMIN");
         Vocabulary existingVocab = new Vocabulary();
         existingVocab.setId(99L);
         existingVocab.setKanji("将来");
@@ -145,11 +146,43 @@ class KnowledgeServiceTest {
         // Assert
         assertNotNull(saved);
         assertEquals(99L, saved.getId());
-        assertEquals("tương lai xa", saved.getMeaning()); // Updated
+        assertEquals("tương lai xa", saved.getMeaning()); // Updated because user is ADMIN
         
         // Should trigger version history logging
         verify(knowledgeVersionRepository).save(any());
         verify(vocabularyRepository).save(any(Vocabulary.class));
-        verify(wordReviewRepository, never()).save(any(WordReview.class));
+    }
+
+    @Test
+    void testSaveVocabularyDoesNotUpdateWhenUserIsNotAdmin() throws Exception {
+        // Arrange: normal user (ROLE = USER)
+        testUser.setRole("USER");
+        Vocabulary existingVocab = new Vocabulary();
+        existingVocab.setId(99L);
+        existingVocab.setKanji("将来");
+        existingVocab.setHiragana("しょうらい");
+        existingVocab.setMeaning("tương lai gốc");
+        existingVocab.setLevel("N3");
+
+        Map<String, Object> data = new HashMap<>();
+        data.put("word", "将来");
+        data.put("reading", "しょうらい");
+        data.put("meaning", "nghĩa mới từ AI");
+
+        when(vocabularyRepository.findFirstByKanji("将来")).thenReturn(Optional.of(existingVocab));
+        when(vocabularyRepository.save(any(Vocabulary.class))).thenAnswer(invocation -> invocation.getArgument(0));
+        when(wordReviewRepository.findByUserAndVocabulary(any(User.class), any(Vocabulary.class)))
+                .thenReturn(Optional.of(new WordReview(testUser, existingVocab)));
+
+        // Act
+        Vocabulary saved = knowledgeService.saveVocabulary(data, testUser);
+
+        // Assert
+        assertNotNull(saved);
+        assertEquals(99L, saved.getId());
+        assertEquals("tương lai gốc", saved.getMeaning()); // NOT updated because user is not ADMIN
+        
+        // Version history must NOT be created
+        verify(knowledgeVersionRepository, never()).save(any());
     }
 }
