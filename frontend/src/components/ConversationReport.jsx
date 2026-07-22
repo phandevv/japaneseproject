@@ -339,7 +339,25 @@ export default function ConversationReport({ conversationId, onClose }) {
             })}
 
             {!quizSubmitted ? (
-              <button className="btn btn-primary" style={{ alignSelf: 'flex-end' }} onClick={() => setQuizSubmitted(true)}>
+              <button 
+                className="btn btn-primary" 
+                style={{ alignSelf: 'flex-end' }} 
+                onClick={() => {
+                  setQuizSubmitted(true);
+                  if (typeof window !== 'undefined' && window.speechSynthesis && quizzes && quizzes.length > 0) {
+                    window.speechSynthesis.cancel();
+                    // Pronounce the correct answer of the first quiz to avoid speaking multiple at the same time,
+                    // or combine them with a tiny pause. Let's speak them one by one.
+                    const answersToSpeak = quizzes.map(q => q.answer).filter(Boolean);
+                    if (answersToSpeak.length > 0) {
+                      const utterance = new SpeechSynthesisUtterance("Đáp án đúng là: " + answersToSpeak.join(", "));
+                      utterance.lang = 'ja-JP';
+                      utterance.rate = 0.95;
+                      window.speechSynthesis.speak(utterance);
+                    }
+                  }
+                }}
+              >
                 Nộp bài & Xem giải thích
               </button>
             ) : (

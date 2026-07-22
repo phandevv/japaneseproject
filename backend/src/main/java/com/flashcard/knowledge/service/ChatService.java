@@ -138,7 +138,7 @@ public class ChatService {
             messages.add(Map.of("role", "user", "content", truncatedMessage));
 
             Map<String, Object> requestBodyMap = Map.of(
-                "model", "deepseek-v4-flash",
+                "model", "deepseek-chat",
                 "max_tokens", 2048,
                 "temperature", 0.6,
                 "messages", messages
@@ -146,13 +146,13 @@ public class ChatService {
             String requestBody = objectMapper.writeValueAsString(requestBodyMap);
 
             HttpRequest request = HttpRequest.newBuilder(URI.create("https://api.deepseek.com/chat/completions"))
-                    .header("Content-Type", "application/json")
+                    .header("Content-Type", "application/json; charset=UTF-8")
                     .header("Authorization", "Bearer " + apiKey)
-                    .POST(HttpRequest.BodyPublishers.ofString(requestBody))
+                    .POST(HttpRequest.BodyPublishers.ofString(requestBody, java.nio.charset.StandardCharsets.UTF_8))
                     .timeout(Duration.ofSeconds(60))
                     .build();
 
-            return httpClient.sendAsync(request, HttpResponse.BodyHandlers.ofString())
+            return httpClient.sendAsync(request, HttpResponse.BodyHandlers.ofString(java.nio.charset.StandardCharsets.UTF_8))
                     .thenApply(response -> {
                         try {
                             if (response.statusCode() == 200) {

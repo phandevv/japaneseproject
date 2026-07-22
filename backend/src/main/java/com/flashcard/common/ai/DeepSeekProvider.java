@@ -40,7 +40,7 @@ public class DeepSeekProvider implements AIProvider {
                 }
 
                 Map<String, Object> requestBodyMap = new HashMap<>();
-                requestBodyMap.put("model", "deepseek-v4-flash");
+                requestBodyMap.put("model", "deepseek-chat");
                 requestBodyMap.put("messages", messages);
                 requestBodyMap.put("stream", true);
 

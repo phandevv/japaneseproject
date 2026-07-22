@@ -664,22 +664,30 @@ export default function KnowledgeBasePage() {
                           </button>
                         </div>
                       )}
-
-                      {quizChecked && (
-                        <div className={`quiz-feedback-box animate-fade-in ${selectedQuizOption === readingData.quiz.answer ? 'correct' : 'incorrect'}`}>
-                          <div className="feedback-result">
-                            {selectedQuizOption === readingData.quiz.answer ? (
-                              <>🎉 Chính xác! Đáp án đúng là: <strong>{readingData.quiz.answer}</strong></>
-                            ) : (
-                              <>❌ Sai rồi! Đáp án đúng phải là: <strong>{readingData.quiz.answer}</strong></>
-                            )}
+                      {quizChecked && (() => {
+                        // Pronounce the correct answer
+                        if (typeof window !== 'undefined' && window.speechSynthesis) {
+                          window.speechSynthesis.cancel();
+                          const utterance = new SpeechSynthesisUtterance(readingData.quiz.answer);
+                          utterance.lang = 'ja-JP';
+                          utterance.rate = 0.95;
+                          window.speechSynthesis.speak(utterance);
+                        }
+                        return (
+                          <div className={`quiz-feedback-box animate-fade-in ${selectedQuizOption === readingData.quiz.answer ? 'correct' : 'incorrect'}`}>
+                            <div className="feedback-result">
+                              {selectedQuizOption === readingData.quiz.answer ? (
+                                <>🎉 Chính xác! Đáp án đúng là: <strong>{readingData.quiz.answer}</strong></>
+                              ) : (
+                                <>❌ Sai rồi! Đáp án đúng phải là: <strong>{readingData.quiz.answer}</strong></>
+                              )}
+                            </div>
+                            <p className="feedback-explanation">
+                              <strong>Giải thích:</strong> {readingData.quiz.explanation}
+                            </p>
                           </div>
-                          <p className="feedback-explanation">
-                            <strong>Giải thích:</strong> {readingData.quiz.explanation}
-                          </p>
-                        </div>
-                      )}
-                    </div>
+                        );
+                      })()}                    </div>
                   )}
                 </div>
               )}
