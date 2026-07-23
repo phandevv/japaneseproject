@@ -12,7 +12,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Map;
@@ -26,15 +25,18 @@ public class StudyController {
     private final LearningStrategyService learningStrategyService;
     private final SpacedRepetitionAlgorithm spacedRepetitionAlgorithm;
     private final ReviewLogRepository reviewLogRepository;
+    private final com.flashcard.srs.repository.WordReviewRepository wordReviewRepository;
 
     public StudyController(SchedulerService schedulerService,
                            LearningStrategyService learningStrategyService,
                            SpacedRepetitionAlgorithm spacedRepetitionAlgorithm,
-                           ReviewLogRepository reviewLogRepository) {
+                           ReviewLogRepository reviewLogRepository,
+                           com.flashcard.srs.repository.WordReviewRepository wordReviewRepository) {
         this.schedulerService = schedulerService;
         this.learningStrategyService = learningStrategyService;
         this.spacedRepetitionAlgorithm = spacedRepetitionAlgorithm;
         this.reviewLogRepository = reviewLogRepository;
+        this.wordReviewRepository = wordReviewRepository;
     }
 
     /**
@@ -78,8 +80,8 @@ public class StudyController {
 
     /**
      * GET /api/study/today-reviewed
-     * Returns the list of distinct vocabulary words reviewed TODAY by the authenticated user.
-     * Used for "Ôn lại hôm nay" mode.
+     * Returns the list of distinct vocabulary words reviewed TODAY by the authenticated user
+     * across Flashcards, Quizzes, AI Exercises, and Knowledge Entry.
      */
     @GetMapping("/today-reviewed")
     public ResponseEntity<?> getTodayReviewed(@AuthenticationPrincipal User user) {
@@ -87,17 +89,46 @@ public class StudyController {
             return ResponseEntity.status(401).body(Map.of("error", "Unauthorized"));
         }
 
-        // Compute start and end of today in UTC
-        ZonedDateTime todayStart = ZonedDateTime.now(ZoneOffset.UTC).toLocalDate().atStartOfDay(ZoneOffset.UTC);
+        // Compute start and end of today in local time zone (Asia/Ho_Chi_Minh)
+        java.time.ZoneId zone = java.time.ZoneId.of("Asia/Ho_Chi_Minh");
+        ZonedDateTime todayStart = ZonedDateTime.now(zone).toLocalDate().atStartOfDay(zone);
         ZonedDateTime todayEnd = todayStart.plusDays(1);
 
-        List<Vocabulary> todayWords = reviewLogRepository.findDistinctVocabularyByUserAndCreatedAtBetween(
+        // 1. Vocabularies logged in ReviewLog today
+        List<Vocabulary> logWords = reviewLogRepository.findDistinctVocabularyByUserAndCreatedAtBetween(
                 user,
                 todayStart.toInstant(),
                 todayEnd.toInstant()
         );
 
-        return ResponseEntity.ok(todayWords);
+        // 2. Vocabularies updated in WordReview today
+        List<WordReview> reviewWords = wordReviewRepository.findByUserAndLastReviewedAtBetween(
+                user,
+                todayStart.toInstant(),
+                todayEnd.toInstant(),
+                org.springframework.data.domain.Pageable.unpaged()
+        ).getContent();
+
+        // 3. Merge into a distinct list preserving order
+        java.util.Set<Long> seenIds = new java.util.HashSet<>();
+        List<Vocabulary> result = new java.util.ArrayList<>();
+
+        if (logWords != null) {
+            for (Vocabulary v : logWords) {
+                if (v != null && seenIds.add(v.getId())) {
+                    result.add(v);
+                }
+            }
+        }
+        if (reviewWords != null) {
+            for (WordReview wr : reviewWords) {
+                if (wr != null && wr.getVocabulary() != null && seenIds.add(wr.getVocabulary().getId())) {
+                    result.add(wr.getVocabulary());
+                }
+            }
+        }
+
+        return ResponseEntity.ok(result);
     }
 }
 

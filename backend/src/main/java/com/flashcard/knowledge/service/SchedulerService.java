@@ -19,14 +19,27 @@ public class SchedulerService {
     private WordReviewRepository wordReviewRepository;
 
     /**
-     * Lấy danh sách các từ cần ôn tập (Review Queue) dựa trên Priority Score.
-     * Priority = OverdueScore + DifficultyScore + WrongWeight + ConsecutiveWrong
+     * Lấy danh sách các từ cần ôn tập (Morning Review Queue) dựa trên Priority Score.
+     * Bào gồm tất cả từ quá hạn, từ đến hạn hôm nay, và ĐẶC BIỆT từ vừa mới học/ôn ngày hôm qua.
      */
     public List<WordReview> getReviewQueue(User user, int limit) {
-        // 1. Lấy tất cả các từ đã đến hạn (nextReviewAt <= now)
-        List<WordReview> dueReviews = wordReviewRepository.findByUserAndNextReviewBefore(user, Instant.now());
+        java.time.ZoneId zone = java.time.ZoneId.of("Asia/Ho_Chi_Minh");
+        java.time.ZonedDateTime nowZoned = java.time.ZonedDateTime.now(zone);
+        
+        // 1. Threshold: End of today local time
+        java.time.Instant dueThreshold = nowZoned.toLocalDate().plusDays(1).atStartOfDay(zone).toInstant();
 
-        // 2. Sắp xếp theo Priority Score giảm dần
+        // 2. Yesterday range (00:00:00 to 23:59:59 yesterday)
+        java.time.ZonedDateTime yesterdayStart = nowZoned.minusDays(1).toLocalDate().atStartOfDay(zone);
+        java.time.Instant yStart = yesterdayStart.toInstant();
+        java.time.Instant yEnd = yesterdayStart.plusDays(1).toInstant();
+
+        List<WordReview> dueReviews = wordReviewRepository.findMorningReviewQueue(user, dueThreshold, yStart, yEnd);
+        if (dueReviews == null || dueReviews.isEmpty()) {
+            dueReviews = wordReviewRepository.findByUserAndNextReviewBefore(user, Instant.now());
+        }
+
+        // 3. Sắp xếp theo Priority Score giảm dần
         return dueReviews.stream()
                 .sorted(Comparator.comparingDouble(this::calculatePriorityScore).reversed())
                 .limit(limit)

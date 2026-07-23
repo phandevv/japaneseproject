@@ -65,3 +65,17 @@ $$EF' = EF + (0.1 - (5 - q) \times (0.08 + (5 - q) \times 0.02))$$
   * Thêm từ vựng/ngữ pháp mới vào **CUỐI danh sách** (vị trí ID mới nhất hoặc Tuần/Ngày cuối cùng).
   * Việc này đảm bảo thứ tự các ngày học trước đó không bị xê dịch hay xáo trộn, bảo toàn hoàn toàn trạng thái các ngày đã hoàn thành trong Học hàng ngày.
 
+---
+
+## 6. Quy tắc Phân luồng Ôn tập Kép (Dual-Loop Review System)
+
+* **Ôn tập buổi sáng (Morning SRS Review - `GET /api/study/queue`)**:
+  * Chứa danh sách các từ vựng cần ôn tập theo thuật toán SRS (quá hạn hoặc đến hạn trong ngày).
+  * **Đặc biệt**: Tự động gom thêm các từ vựng **mới học/ôn ngày hôm qua** vào danh sách buổi sáng để chủ động gợi nhớ lại trong khoảng thời gian quên nhanh nhất sau 24h.
+* **Ôn lại hôm nay (Today's Review - `GET /api/study/today-reviewed`)**:
+  * Tự động tổng hợp **100% các từ vựng đã được tương tác/đánh dấu trạng thái TRONG NGÀY HÔM NAY** (từ 00:00:00 đến 23:59:59 theo múi giờ địa phương `Asia/Ho_Chi_Minh`).
+  * Bao quát toàn bộ dữ liệu từ **cả 3 phân hệ**:
+    1. **Flashcards**: Khi người dùng lật thẻ hoặc đánh giá trạng thái thẻ.
+    2. **Trắc nghiệm (Quiz)**: Khi hoàn thành các câu trắc nghiệm từ vựng.
+    3. **Thử thách AI**: Khi thực hiện bài tập dịch AI, hội thoại AI Tutor hoặc nhập kiến thức AI.
+
