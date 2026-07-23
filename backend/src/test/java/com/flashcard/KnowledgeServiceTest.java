@@ -154,7 +154,7 @@ class KnowledgeServiceTest {
     }
 
     @Test
-    void testSaveVocabularyDoesNotUpdateWhenUserIsNotAdmin() throws Exception {
+    void testSaveVocabularyUpdatesEnrichmentWithoutVersionHistoryForNonAdmin() throws Exception {
         // Arrange: normal user (ROLE = USER)
         testUser.setRole("USER");
         Vocabulary existingVocab = new Vocabulary();
@@ -180,9 +180,9 @@ class KnowledgeServiceTest {
         // Assert
         assertNotNull(saved);
         assertEquals(99L, saved.getId());
-        assertEquals("tương lai gốc", saved.getMeaning()); // NOT updated because user is not ADMIN
+        assertEquals("nghĩa mới từ AI", saved.getMeaning()); // Updated enrichment data in place
         
-        // Version history must NOT be created
+        // Version history must NOT be created for non-admin
         verify(knowledgeVersionRepository, never()).save(any());
     }
 }
