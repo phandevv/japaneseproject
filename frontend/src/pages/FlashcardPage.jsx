@@ -211,26 +211,6 @@ const FlashcardPage = ({ level: initialLevel, isSrs = false, stats, goBack, onDa
 
   const handleSessionComplete = async () => {
     setShowShoji(true);
-    if (selectedDay !== null && activeLevel) {
-      try {
-        await userSettingsApi.markDayCompleted(activeLevel, selectedDay);
-        setCompletedDays(prev => {
-          const next = new Set(prev);
-          next.add(selectedDay);
-          return next;
-        });
-        
-        // Cập nhật localStorage để đảm bảo đồng bộ nếu reload
-        const savedCompleted = localStorage.getItem(`completedDays_${activeLevel}`);
-        const currentCompletedArr = savedCompleted ? savedCompleted.split(',') : [];
-        if (!currentCompletedArr.includes(selectedDay.toString())) {
-          currentCompletedArr.push(selectedDay.toString());
-          localStorage.setItem(`completedDays_${activeLevel}`, currentCompletedArr.join(','));
-        }
-      } catch (error) {
-        console.error("Failed to mark day as completed:", error);
-      }
-    }
   };
 
   const handleNext = () => {
@@ -620,7 +600,7 @@ const FlashcardPage = ({ level: initialLevel, isSrs = false, stats, goBack, onDa
           setSelectedDay(nextDay);
           fetchWordsForDay(nextDay);
         } : null}
-        message={isSrs ? "Chúc mừng! Bạn đã hoàn thành tất cả các từ cần ôn hôm nay." : "Bạn đã học xong toàn bộ thẻ trong xấp này!"} 
+        message={isSrs ? "Chúc mừng! Bạn đã hoàn thành tất cả các từ cần ôn hôm nay." : "Bạn đã xem hết từ vựng ngày này! Hãy hoàn thành bài Quiz ở mục Học Hàng Ngày để tính hoàn thành ngày học."} 
       />
     </div>
   );
