@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { achievementApi } from '../services/api';
-import { Trophy, Award, Sparkles, Loader, Shield, CornerUpLeft, CheckCircle2 } from 'lucide-react';
+import { Trophy, Award, Sparkles, Shield, CornerUpLeft, CheckCircle2 } from 'lucide-react';
 import AchievementTree from '../components/AchievementTree';
 import AchievementUnlockModal from '../components/AchievementUnlockModal';
 import MascotCorners from '../components/MascotCorners';
 import SakuraPetals from '../components/SakuraPetals';
+import MascotLoader from '../components/MascotLoader';
 import { useAuth } from '../context/AuthContext';
 import '../styles/AchievementsPage.css';
 
@@ -38,12 +39,7 @@ export default function AchievementsPage() {
   }, [user]);
 
   if (loading) {
-    return (
-      <div className="flex-center" style={{ height: '70vh', flexDirection: 'column', gap: '20px' }}>
-        <Loader size={40} className="animate-spin" style={{ color: 'var(--accent-color)' }} />
-        <p style={{ color: 'var(--text-secondary)' }}>Đang tải cây thành tựu...</p>
-      </div>
-    );
+    return <MascotLoader message="Đang tải cây thành tựu..." />;
   }
 
   if (!user) {

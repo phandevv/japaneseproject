@@ -6,6 +6,10 @@ export const ThemeProvider = ({ children }) => {
   const [theme, setTheme] = useState(() => {
     return localStorage.getItem('nihongo-theme') || 'light';
   });
+  
+  const [customBg, setCustomBg] = useState(() => {
+    return localStorage.getItem('nihongo-custom-bg') || null;
+  });
 
   useEffect(() => {
     // Apply data-theme attribute to html element
@@ -13,12 +17,29 @@ export const ThemeProvider = ({ children }) => {
     localStorage.setItem('nihongo-theme', theme);
   }, [theme]);
 
+  useEffect(() => {
+    if (customBg) {
+      document.documentElement.style.setProperty('--custom-bg-image', `url(${customBg})`);
+      document.documentElement.setAttribute('data-custom-bg', 'true');
+    } else {
+      document.documentElement.style.removeProperty('--custom-bg-image');
+      document.documentElement.removeAttribute('data-custom-bg');
+    }
+  }, [customBg, theme]);
+
   const changeTheme = (newTheme) => {
     setTheme(newTheme);
+    setCustomBg(null);
+    localStorage.removeItem('nihongo-custom-bg');
+  };
+  
+  const applyCustomBackground = (base64Image) => {
+    setCustomBg(base64Image);
+    localStorage.setItem('nihongo-custom-bg', base64Image);
   };
 
   return (
-    <ThemeContext.Provider value={{ theme, changeTheme }}>
+    <ThemeContext.Provider value={{ theme, changeTheme, customBg, applyCustomBackground }}>
       {children}
     </ThemeContext.Provider>
   );

@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useAuth } from '../context/AuthContext';
-import { authApi, analyticsApi } from '../services/api';
+import MascotLoader from '../components/MascotLoader';
+import { authApi, analyticsApi, getMediaUrl } from '../services/api';
 import { useNavigate } from 'react-router-dom';
 import { ArrowLeft, Save, Camera, Activity, Calendar, Trophy, Zap, BookOpen } from 'lucide-react';
 
@@ -190,11 +191,7 @@ const UserProfilePage = () => {
   };
 
   if (loading) {
-    return (
-      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', background: 'var(--bg-color)' }}>
-        <h2 style={{ color: 'var(--text-secondary)' }}>Đang tải...</h2>
-      </div>
-    );
+    return <MascotLoader message="Đang tải thông tin..." />;
   }
 
   return (
@@ -243,8 +240,8 @@ const UserProfilePage = () => {
                     zIndex: 2
                   }}
                 >
-                  {selectedAvatar && selectedAvatar.startsWith('data:image') ? (
-                    <img src={selectedAvatar} alt="Avatar Preview" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                  {selectedAvatar && (selectedAvatar.startsWith('data:image') || selectedAvatar.startsWith('http') || selectedAvatar.startsWith('/')) ? (
+                    <img src={getMediaUrl(selectedAvatar)} alt="Avatar Preview" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                   ) : selectedAvatar ? (
                     <div style={{ fontSize: '3.5rem' }}>{selectedAvatar}</div>
                   ) : (

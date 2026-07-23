@@ -2,7 +2,7 @@ import { BookOpen, ChevronLeft, ChevronRight, Cpu, Database, Home, Layers, Loade
 import { useRef, useState } from "react";
 import { useLanguage } from "../context/LanguageContext";
 import { useTheme } from "../context/ThemeContext";
-import { vocabApi } from "../services/api";
+import { vocabApi, getMediaUrl } from "../services/api";
 
 import { useAuth } from "../context/AuthContext";
 
@@ -40,8 +40,8 @@ const Sidebar = ({ isCollapsed, onToggleCollapse, currentPage, setCurrentPage, o
 
   const displayName = user?.displayName || user?.username || "Learner";
   const avatarContent = user?.avatar
-    ? (user.avatar.startsWith("data:image") 
-        ? <img src={user.avatar} alt="avatar" style={{ width: "100%", height: "100%", objectFit: "cover", borderRadius: "50%" }} />
+    ? (user.avatar.startsWith("data:image") || user.avatar.startsWith("http") || user.avatar.startsWith("/")
+        ? <img src={getMediaUrl(user.avatar)} alt="avatar" style={{ width: "100%", height: "100%", objectFit: "cover", borderRadius: "50%" }} />
         : user.avatar)
     : displayName.substring(0, 2).toUpperCase();
 

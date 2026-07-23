@@ -12,6 +12,19 @@ const getApiBaseUrl = () => {
 
 const API_BASE_URL = getApiBaseUrl();
 
+export const getMediaUrl = (path) => {
+  if (!path) return '';
+  if (path.startsWith('http') || path.startsWith('data:image')) return path;
+  if (path.startsWith('/')) {
+    if (typeof window === 'undefined') return `http://127.0.0.1:8080${path}`;
+    const { hostname, protocol } = window.location;
+    if (hostname === 'localhost' || hostname === '127.0.0.1') {
+      return `http://localhost:8080${path}`;
+    }
+    return `${protocol}//${hostname}${path}`;
+  }
+  return path;
+};
 // Automatically attach JWT/Session Token to all requests if present
 axios.interceptors.request.use(config => {
   const token = localStorage.getItem('token');

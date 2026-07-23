@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { vocabApi, analyticsApi } from '../services/api';
-import { Sparkles, Play, BookOpen, Globe, Users, Video, ShieldCheck, Loader, Brain, Flame, CheckCircle2, BarChart2, ShieldAlert, Trophy, Snowflake, Calendar, List, Check, Star, ArrowRight } from 'lucide-react';
+import { Sparkles, Play, BookOpen, Globe, Users, Video, ShieldCheck, Brain, Flame, CheckCircle2, BarChart2, ShieldAlert, Trophy, Snowflake, Calendar, List, Check, Star, ArrowRight } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
 import { useAuth } from '../context/AuthContext';
 import { OnlineUsersWidget } from '../components/OnlineUsersWidget';
 import { UserProfileModal } from '../components/UserProfileModal';
 import StudyHistoryDetailsWidget from '../components/StudyHistoryDetailsWidget';
 import SakuraPetals from '../components/SakuraPetals';
+import MascotLoader from '../components/MascotLoader';
 import AuthPage from './AuthPage';
 import '../styles/HomePage.css';
 
@@ -123,12 +124,7 @@ const HomePage = ({ user: propUser, startStudy, streak, onLoginClick, onLogout, 
   };
 
   if (loading) {
-    return (
-      <div className="flex-center" style={{ height: '70vh', flexDirection: 'column', gap: '20px' }}>
-        <Loader size={40} className="animate-spin" style={{ color: 'var(--accent-color)' }} />
-        <p style={{ color: 'var(--text-secondary)' }}>{t.home.loading}</p>
-      </div>
-    );
+    return <MascotLoader message={t.home.loading} />;
   }
 
   const levelColors = {

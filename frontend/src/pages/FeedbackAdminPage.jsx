@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { feedbackApi } from '../services/api';
-import { ArrowLeft, ChevronLeft, ChevronRight, Loader, CheckCircle, Clock, AlertTriangle, HelpCircle } from 'lucide-react';
+import { ArrowLeft, ChevronLeft, ChevronRight, CheckCircle, Clock, AlertTriangle, HelpCircle } from 'lucide-react';
+import MascotLoader from '../components/MascotLoader';
 
 const FeedbackAdminPage = ({ goBack }) => {
   const [feedbacks, setFeedbacks] = useState([]);
@@ -97,10 +98,7 @@ const FeedbackAdminPage = ({ goBack }) => {
 
       <div className="card" style={{ padding: '0px', overflow: 'hidden' }}>
         {loading ? (
-          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '350px', gap: '12px' }}>
-            <Loader className="animate-spin" size={32} color="var(--accent-color)" />
-            <span style={{ fontSize: '0.9rem', color: 'var(--text-secondary)' }}>Đang tải danh sách...</span>
-          </div>
+          <MascotLoader message="Đang tải danh sách..." />
         ) : feedbacks.length === 0 ? (
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '300px', gap: '8px', color: 'var(--text-secondary)' }}>
             <Clock size={40} style={{ opacity: 0.5 }} />

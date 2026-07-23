@@ -74,11 +74,7 @@ const MemoryMatchGame = () => {
     setLoading(true);
     setGameState('playing');
     try {
-      // Force 5 seconds minimum load time to show animation
-      const [words] = await Promise.all([
-        vocabApi.getRandomByLevel(selectedLevel, wordCount),
-        new Promise(resolve => setTimeout(resolve, 5000))
-      ]);
+      const words = await vocabApi.getRandomByLevel(selectedLevel, wordCount);
       
       const gameCards = [];
       words.forEach(word => {
@@ -228,8 +224,9 @@ const MemoryMatchGame = () => {
         }
         .memory-card-front {
           background: var(--surface-color);
-          box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-          border: 2px solid var(--border-color);
+          box-shadow: 0 8px 24px rgba(0,0,0,0.25);
+          border: 3px solid var(--accent-color);
+          backdrop-filter: blur(8px);
         }
         /* Highlight hover */
         .memory-card:hover .memory-card-back {
@@ -365,11 +362,12 @@ const MemoryMatchGame = () => {
                     className="memory-card-back"
                     style={{
                       position: 'absolute', width: '100%', height: '100%', backfaceVisibility: 'hidden',
-                      background: 'linear-gradient(135deg, var(--accent-color), var(--primary-color))',
+                      background: 'linear-gradient(135deg, var(--accent-color), var(--accent-hover))',
                       borderRadius: '12px',
-                      boxShadow: '0 6px 16px rgba(0,0,0,0.15)',
+                      boxShadow: '0 8px 24px rgba(0,0,0,0.25)',
                       display: 'flex', alignItems: 'center', justifyContent: 'center',
                       color: 'white', fontSize: '2rem', fontWeight: 'bold',
+                      border: '3px solid white',
                       transition: 'filter 0.2s'
                     }}
                   >

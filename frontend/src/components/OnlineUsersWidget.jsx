@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { usersApi } from '../services/api';
+import { usersApi, getMediaUrl } from '../services/api';
 import { User as UserIcon } from 'lucide-react';
 
 export const OnlineUsersWidget = ({ onUserClick }) => {
@@ -69,7 +69,7 @@ export const OnlineUsersWidget = ({ onUserClick }) => {
                   title={u.displayName || u.username}
                 >
                   {u.avatar ? (
-                    <img src={u.avatar} alt="avatar" style={{ width: 32, height: 32, borderRadius: '50%', objectFit: 'cover' }} />
+                    <img src={getMediaUrl(u.avatar)} alt="avatar" style={{ width: 32, height: 32, borderRadius: '50%', objectFit: 'cover' }} />
                   ) : (
                     <div style={{ width: 32, height: 32, borderRadius: '50%', background: 'var(--border-color)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--text-secondary)' }}>
                       <UserIcon size={16} />

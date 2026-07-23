@@ -2,11 +2,12 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { vocabApi, srsApi, analyticsApi, userSettingsApi, studyApi } from '../services/api';
 import FlashcardCard from '../components/FlashcardCard';
 import ShojiScreen from '../components/ShojiScreen';
-import { ArrowLeft, ArrowRight, Shuffle, Loader, CornerUpLeft, Settings, Check } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Shuffle, CornerUpLeft, Settings, Check } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
 import { useAuth } from '../context/AuthContext';
 import MascotCorners from '../components/MascotCorners';
 import SakuraPetals from '../components/SakuraPetals';
+import MascotLoader from '../components/MascotLoader';
 
 const levelColors = {
   N5: '#3b82f6',
@@ -331,9 +332,8 @@ const FlashcardPage = ({ level: initialLevel, isSrs = false, stats, goBack, onDa
   }
   if (loading) {
     return (
-      <div className="flex-center" style={{ height: '70vh', flexDirection: 'column', gap: '20px' }}>
-        <Loader size={40} className="animate-spin" style={{ color: 'var(--accent-color)' }} />
-        <p>{t.flashcard.loading}</p>
+      <div className="container" style={{ padding: '20px', minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <MascotLoader message={t.flashcard.loading} />
       </div>
     );
   }

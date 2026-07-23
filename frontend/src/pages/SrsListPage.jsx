@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { srsApi } from '../services/api';
-import { Search, Loader, ChevronLeft, Volume2, ArrowLeft, Calendar, Brain, Clock } from 'lucide-react';
+import { Search, ChevronLeft, Volume2, ArrowLeft, Calendar, Brain, Clock } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
+import MascotLoader from '../components/MascotLoader';
 
 export default function SrsListPage({ goBack }) {
   const { t, lang } = useLanguage();
@@ -82,7 +83,7 @@ export default function SrsListPage({ goBack }) {
     const styles = {
       N5: { bg: 'rgba(239, 68, 68, 0.15)', color: '#ef4444', border: '1px solid rgba(239, 68, 68, 0.3)' },
       N4: { bg: 'rgba(245, 158, 11, 0.15)', color: '#f59e0b', border: '1px solid rgba(245, 158, 11, 0.3)' },
-      N3: { bg: 'rgba(16, 185, 129, 0.15)', color: '#10b981', border: '1px solid rgba(16, 185, 129, 0.3)' },
+      N3: { bg: 'rgba(10, 185, 129, 0.15)', color: '#10b981', border: '1px solid rgba(16, 185, 129, 0.3)' },
       N2: { bg: 'rgba(59, 130, 246, 0.15)', color: '#3b82f6', border: '1px solid rgba(59, 130, 246, 0.3)' },
       N1: { bg: 'rgba(168, 85, 247, 0.15)', color: '#a855f7', border: '1px solid rgba(168, 85, 247, 0.3)' },
       DEFAULT: { bg: 'rgba(107, 114, 128, 0.15)', color: '#9ca3af', border: '1px solid rgba(107, 114, 128, 0.3)' }
@@ -138,10 +139,7 @@ export default function SrsListPage({ goBack }) {
 
       {/* Content Area */}
       {loading ? (
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '16px', margin: '80px 0' }}>
-          <Loader size={36} className="animate-spin" style={{ color: 'var(--accent-color)' }} />
-          <span style={{ color: 'var(--text-secondary)' }}>{t.home.loading}</span>
-        </div>
+        <MascotLoader message={t.home.loading} />
       ) : filteredReviews.length === 0 ? (
         <div className="card" style={{ padding: '60px 20px', textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '16px' }}>
           <Clock size={48} style={{ color: 'var(--text-secondary)', opacity: 0.5 }} />
