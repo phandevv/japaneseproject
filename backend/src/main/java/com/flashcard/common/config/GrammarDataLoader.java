@@ -43,7 +43,7 @@ public class GrammarDataLoader implements CommandLineRunner {
                 
                 int loadedCount = 0;
                 for (Map<String, Object> item : items) {
-                    String grammar = (String) item.get("Mẫu ngữ pháp");
+                    String grammar = optionalString(item, "grammar", optionalString(item, "Mẫu ngữ pháp", ""));
                     if (grammar == null || grammar.trim().isEmpty()) {
                         continue;
                     }
@@ -53,14 +53,36 @@ public class GrammarDataLoader implements CommandLineRunner {
                     GrammarCard card = existingOpt.orElseGet(GrammarCard::new);
 
                     card.setGrammar(grammar);
-                    card.setMeaning(optionalString(item, "Ý nghĩa", "Chưa có nghĩa"));
-                    card.setUsageDesc(optionalString(item, "Giải thích & Hướng dẫn", ""));
-                    card.setFormation(optionalString(item, "Cấu trúc", ""));
-                    card.setJlpt("N3");
-                    card.setWeekName(optionalString(item, "Tuần", ""));
-                    card.setDayName(optionalString(item, "Ngày", ""));
-                    card.setLessonTitle(optionalString(item, "Tên bài học", ""));
-                    card.setExamples(optionalString(item, "Ví dụ minh họa", ""));
+                    card.setMeaning(optionalString(item, "meaning", optionalString(item, "Ý nghĩa", "Chưa có nghĩa")));
+                    card.setUsageDesc(optionalString(item, "usageDesc", optionalString(item, "Giải thích & Hướng dẫn", "")));
+                    card.setFormation(optionalString(item, "formation", optionalString(item, "Cấu trúc", "")));
+                    card.setJlpt(optionalString(item, "jlpt", "N3"));
+                    card.setWeekName(optionalString(item, "weekName", optionalString(item, "Tuần", "")));
+                    card.setDayName(optionalString(item, "dayName", optionalString(item, "Ngày", "")));
+                    card.setLessonTitle(optionalString(item, "lessonTitle", optionalString(item, "Tên bài học", "")));
+
+                    Object exObj = item.containsKey("examples") ? item.get("examples") : item.get("Ví dụ minh họa");
+                    if (exObj instanceof String) {
+                        card.setExamples((String) exObj);
+                    } else if (exObj != null) {
+                        card.setExamples(objectMapper.writeValueAsString(exObj));
+                    }
+
+                    Object simObj = item.get("similarGrammar");
+                    if (simObj instanceof String) card.setSimilarGrammar((String) simObj);
+                    else if (simObj != null) card.setSimilarGrammar(objectMapper.writeValueAsString(simObj));
+
+                    card.setDifference(optionalString(item, "difference", ""));
+
+                    Object errObj = item.get("commonMistakes");
+                    if (errObj instanceof String) card.setCommonMistakes((String) errObj);
+                    else if (errObj != null) card.setCommonMistakes(objectMapper.writeValueAsString(errObj));
+
+                    card.setReadingPassage(optionalString(item, "readingPassage", ""));
+
+                    Object quizObj = item.get("quizzes");
+                    if (quizObj instanceof String) card.setQuizzes((String) quizObj);
+                    else if (quizObj != null) card.setQuizzes(objectMapper.writeValueAsString(quizObj));
 
                     grammarCardRepository.save(card);
                     loadedCount++;
