@@ -5,6 +5,7 @@
    ============================================================ */
 :root, [data-theme='light'], .force-light-theme {
   --bg-color: #f0f4f8;
+  --bg-pattern: url("data:image/svg+xml,%3Csvg width='40' height='40' xmlns='http://www.w3.org/2000/svg'%3E%3Cdefs%3E%3Cpattern id='waves' x='0' y='0' width='40' height='40' patternUnits='userSpaceOnUse'%3E%3Ccircle cx='20' cy='20' r='20' fill='none' stroke='%232563eb' stroke-width='2' stroke-opacity='0.08'/%3E%3Ccircle cx='20' cy='20' r='14' fill='none' stroke='%232563eb' stroke-width='2' stroke-opacity='0.08'/%3E%3Ccircle cx='20' cy='20' r='8' fill='none' stroke='%232563eb' stroke-width='2' stroke-opacity='0.08'/%3E%3Ccircle cx='0' cy='40' r='20' fill='none' stroke='%232563eb' stroke-width='2' stroke-opacity='0.08'/%3E%3Ccircle cx='0' cy='40' r='14' fill='none' stroke='%232563eb' stroke-width='2' stroke-opacity='0.08'/%3E%3Ccircle cx='0' cy='40' r='8' fill='none' stroke='%232563eb' stroke-width='2' stroke-opacity='0.08'/%3E%3Ccircle cx='40' cy='40' r='20' fill='none' stroke='%232563eb' stroke-width='2' stroke-opacity='0.08'/%3E%3Ccircle cx='40' cy='40' r='14' fill='none' stroke='%232563eb' stroke-width='2' stroke-opacity='0.08'/%3E%3Ccircle cx='40' cy='40' r='8' fill='none' stroke='%232563eb' stroke-width='2' stroke-opacity='0.08'/%3E%3C/pattern%3E%3C/defs%3E%3Crect width='40' height='40' fill='url(%23waves)'/%3E%3C/svg%3E");
   --surface-color: #ffffff;
   --surface-hover: #f1f5f9;
   --border-color: #e2e8f0;
@@ -51,6 +52,7 @@
    ============================================================ */
 [data-theme='dark'] {
   --bg-color: #0f172a;
+  --bg-pattern: url("data:image/svg+xml,%3Csvg width='28' height='49' viewBox='0 0 28 49' xmlns='http://www.w3.org/2000/svg'%3E%3Cg stroke='%233b82f6' stroke-opacity='0.1' fill='none' fill-rule='evenodd'%3E%3Cpath d='M13.99 9.25l13 7.5v15l-13 7.5L1 31.75v-15l12.99-7.5zM3 17.9v12.7l10.99 6.34 11-6.35V17.9l-11-6.34L3 17.9zM0 15l12.98-7.5V0h-2v6.35L0 12.69v2.3zm0 18.5L12.98 41v8h-2v-6.85L0 35.81v-2.3zM15 0v7.5L27.99 15H28v-2.31h-.01L17 6.35V0h-2zm0 49v-8l12.99-7.5H28v2.31h-.01L17 42.15V49h-2z'/%3E%3C/g%3E%3C/svg%3E");
   --surface-color: #1e293b;
   --surface-hover: #334155;
   --border-color: #334155;
@@ -82,6 +84,7 @@
    ============================================================ */
 [data-theme='sepia'] {
   --bg-color: #f4ecd8;
+  --bg-pattern: url("data:image/svg+xml,%3Csvg width='12' height='12' viewBox='0 0 12 12' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M5 0h2v2H5V0zm4 0h2v2H9V0zm-4 4h2v2H5V4zm4 0h2v2H9V4zm-4 4h2v2H5V8zm4 0h2v2H9V8zm-4 4h2v2H5v-2zm4 0h2v2H9v-2zM1 0h2v2H1V0zm0 4h2v2H1V4zm0 4h2v2H1V8zm0 4h2v2H1v-2z' fill='%23b58900' fill-opacity='0.08' fill-rule='evenodd'/%3E%3C/svg%3E");
   --surface-color: #fdf6e3;
   --surface-hover: #eee8d5;
   --border-color: #e4dbbf;
@@ -113,6 +116,7 @@
    ============================================================ */
 [data-theme='sakura'] {
   --bg-color: #fff0f3;
+  --bg-pattern: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ff4d6d' fill-opacity='0.1'%3E%3Ccircle cx='20' cy='20' r='5'/%3E%3Ccircle cx='20' cy='11' r='4'/%3E%3Ccircle cx='20' cy='29' r='4'/%3E%3Ccircle cx='11' cy='20' r='4'/%3E%3Ccircle cx='29' cy='20' r='4'/%3E%3C/g%3E%3C/svg%3E");
   --surface-color: #ffffff;
   --surface-hover: #ffe3e8;
   --border-color: #ffccd5;
@@ -139,7 +143,70 @@
   --danger-light: #ffebeb;
 }
 
-/* Custom Cursors for Sakura Theme */
+/* Custom Cursors - Default / Light Theme */
+html,
+html body {
+  cursor: url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2224%22 height=%2224%22 viewBox=%220 0 24 24%22%3E%3Cpath d=%22M 2 2 L 2 20 L 7 15 L 12 23 L 15 21 L 10 13 L 17 13 Z%22 fill=%22%232563eb%22 stroke=%22%23ffffff%22 stroke-width=%221.5%22 stroke-linejoin=%22round%22/%3E%3C/svg%3E") 2 2, auto;
+}
+
+a, 
+button, 
+select, 
+[role="button"],
+.btn-primary,
+.btn-secondary,
+.btn-icon,
+.nav-item,
+.theme-dot,
+.notification-bell-btn,
+.notification-item,
+[style*="cursor: pointer"] {
+  cursor: url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2224%22 height=%2224%22 viewBox=%220 0 24 24%22%3E%3Cpath d=%22M 2 2 L 2 20 L 7 15 L 12 23 L 15 21 L 10 13 L 17 13 Z%22 fill=%22%231d4ed8%22 stroke=%22%23ffffff%22 stroke-width=%221.5%22 stroke-linejoin=%22round%22/%3E%3C/svg%3E") 2 2, pointer !important;
+}
+
+/* Custom Cursors - Dark Theme */
+html[data-theme='dark'],
+html[data-theme='dark'] body {
+  cursor: url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2224%22 height=%2224%22 viewBox=%220 0 24 24%22%3E%3Cpath d=%22M 2 2 L 2 20 L 7 15 L 12 23 L 15 21 L 10 13 L 17 13 Z%22 fill=%22%233b82f6%22 stroke=%22%23ffffff%22 stroke-width=%221.5%22 stroke-linejoin=%22round%22/%3E%3C/svg%3E") 2 2, auto;
+}
+
+html[data-theme='dark'] a, 
+html[data-theme='dark'] button, 
+html[data-theme='dark'] select, 
+html[data-theme='dark'] [role="button"],
+html[data-theme='dark'] .btn-primary,
+html[data-theme='dark'] .btn-secondary,
+html[data-theme='dark'] .btn-icon,
+html[data-theme='dark'] .nav-item,
+html[data-theme='dark'] .theme-dot,
+html[data-theme='dark'] .notification-bell-btn,
+html[data-theme='dark'] .notification-item,
+html[data-theme='dark'] [style*="cursor: pointer"] {
+  cursor: url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2224%22 height=%2224%22 viewBox=%220 0 24 24%22%3E%3Cpath d=%22M 2 2 L 2 20 L 7 15 L 12 23 L 15 21 L 10 13 L 17 13 Z%22 fill=%22%2360a5fa%22 stroke=%22%23ffffff%22 stroke-width=%221.5%22 stroke-linejoin=%22round%22/%3E%3C/svg%3E") 2 2, pointer !important;
+}
+
+/* Custom Cursors - Sepia Theme */
+html[data-theme='sepia'],
+html[data-theme='sepia'] body {
+  cursor: url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2224%22 height=%2224%22 viewBox=%220 0 24 24%22%3E%3Cpath d=%22M 2 2 L 2 20 L 7 15 L 12 23 L 15 21 L 10 13 L 17 13 Z%22 fill=%22%23b58900%22 stroke=%22%23ffffff%22 stroke-width=%221.5%22 stroke-linejoin=%22round%22/%3E%3C/svg%3E") 2 2, auto;
+}
+
+html[data-theme='sepia'] a, 
+html[data-theme='sepia'] button, 
+html[data-theme='sepia'] select, 
+html[data-theme='sepia'] [role="button"],
+html[data-theme='sepia'] .btn-primary,
+html[data-theme='sepia'] .btn-secondary,
+html[data-theme='sepia'] .btn-icon,
+html[data-theme='sepia'] .nav-item,
+html[data-theme='sepia'] .theme-dot,
+html[data-theme='sepia'] .notification-bell-btn,
+html[data-theme='sepia'] .notification-item,
+html[data-theme='sepia'] [style*="cursor: pointer"] {
+  cursor: url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2224%22 height=%2224%22 viewBox=%220 0 24 24%22%3E%3Cpath d=%22M 2 2 L 2 20 L 7 15 L 12 23 L 15 21 L 10 13 L 17 13 Z%22 fill=%22%23cb4b16%22 stroke=%22%23ffffff%22 stroke-width=%221.5%22 stroke-linejoin=%22round%22/%3E%3C/svg%3E") 2 2, pointer !important;
+}
+
+/* Custom Cursors - Sakura Theme */
 html[data-theme='sakura'],
 html[data-theme='sakura'] body {
   cursor: url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2224%22 height=%2224%22 viewBox=%220 0 24 24%22%3E%3Cpath d=%22M 2 2 L 2 20 L 7 15 L 12 23 L 15 21 L 10 13 L 17 13 Z%22 fill=%22%23ff4d6d%22 stroke=%22%23ffffff%22 stroke-width=%221.5%22 stroke-linejoin=%22round%22/%3E%3C/svg%3E") 2 2, auto;
@@ -171,6 +238,8 @@ html {
 body {
   font-family: var(--font-ui);
   background-color: var(--bg-color);
+  background-image: var(--bg-pattern);
+  background-attachment: fixed;
   color: var(--text-primary);
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
@@ -204,7 +273,7 @@ h1, h2, h3, h4, h5, h6 {
 .app-main {
   margin-left: var(--sidebar-width);
   min-height: 100vh;
-  background-color: var(--bg-color);
+  background-color: transparent;
   overflow-y: auto;
   scrollbar-gutter: stable;
   transition: margin-left 0.3s ease;

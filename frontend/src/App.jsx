@@ -223,10 +223,10 @@ function App() {
     switch (currentPage) {
       case 'landing':
         return (
-          <HomePage 
-            startStudy={startStudy} 
-            user={isAuthenticated ? authUser : null} 
-            streak={userStreakData?.streak || 0} 
+          <HomePage
+            startStudy={startStudy}
+            user={isAuthenticated ? authUser : null}
+            streak={userStreakData?.streak || 0}
             forceLanding={true}
             onLoginClick={() => {
               if (isAuthenticated) {
@@ -251,10 +251,10 @@ function App() {
         );
       case 'home':
         return (
-          <HomePage 
-            startStudy={startStudy} 
-            user={isAuthenticated ? authUser : null} 
-            streak={userStreakData?.streak || 0} 
+          <HomePage
+            startStudy={startStudy}
+            user={isAuthenticated ? authUser : null}
+            streak={userStreakData?.streak || 0}
             onLoginClick={() => {
               navigate('/auth');
               setShowStudySection(false);
@@ -413,8 +413,8 @@ function App() {
     }
     const updateMeta = (nameOrProperty, content) => {
       if (!content) return;
-      let el = document.querySelector(`meta[name="${nameOrProperty}"]`) || 
-               document.querySelector(`meta[property="${nameOrProperty}"]`);
+      let el = document.querySelector(`meta[name="${nameOrProperty}"]`) ||
+        document.querySelector(`meta[property="${nameOrProperty}"]`);
       if (!el) {
         el = document.createElement('meta');
         if (nameOrProperty.startsWith('og:')) {
@@ -440,26 +440,26 @@ function App() {
       {isAuthenticated && (
         <Sidebar
           isCollapsed={isSidebarCollapsed}
-        onToggleCollapse={() => setIsSidebarCollapsed(!isSidebarCollapsed)}
-        currentPage={currentPage}
-        setCurrentPage={(page, resetLevel) => {
-          if (resetLevel || page === 'flashcard' || page === 'daily') {
-            setSelectedLevelState(null);
-          }
-          setCurrentPage(page);
-        }}
-        onLoginClick={() => navigate('/auth')}
-        user={isAuthenticated ? authUser : null}
-        onLogout={handleLogout}
-        onProfileClick={() => navigate('/profile')}
-        onFeedbackClick={() => {
-          if (isAuthenticated) {
-            setShowFeedbackModal(true);
-          } else {
-            alert("Vui lòng đăng nhập để gửi góp ý & báo lỗi!");
-            navigate('/auth');
-          }
-        }}
+          onToggleCollapse={() => setIsSidebarCollapsed(!isSidebarCollapsed)}
+          currentPage={currentPage}
+          setCurrentPage={(page, resetLevel) => {
+            if (resetLevel || page === 'flashcard' || page === 'daily') {
+              setSelectedLevelState(null);
+            }
+            setCurrentPage(page);
+          }}
+          onLoginClick={() => navigate('/auth')}
+          user={isAuthenticated ? authUser : null}
+          onLogout={handleLogout}
+          onProfileClick={() => navigate('/profile')}
+          onFeedbackClick={() => {
+            if (isAuthenticated) {
+              setShowFeedbackModal(true);
+            } else {
+              alert("Vui lòng đăng nhập để gửi góp ý & báo lỗi!");
+              navigate('/auth');
+            }
+          }}
         />
       )}
       <main className="app-main">

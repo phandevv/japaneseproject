@@ -1,0 +1,136 @@
+.shoji-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.shoji-overlay.is-active {
+  pointer-events: all;
+}
+
+.shoji-door {
+  flex: 1;
+  height: 100%;
+  background-color: #faf3e0;
+  /* Washi paper color */
+  /* Shoji Grid using linear gradients */
+  background-image:
+    linear-gradient(to right, #5c3a21 4px, transparent 4px),
+    linear-gradient(to bottom, #5c3a21 4px, transparent 4px);
+  background-size: 80px 120px;
+  background-position: top left;
+  border: 16px solid #4a2e1b;
+  box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.15);
+  transition: transform 1s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.shoji-door.left {
+  transform: translateX(-100%);
+  border-right-width: 8px;
+}
+
+.shoji-door.right {
+  transform: translateX(100%);
+  border-left-width: 8px;
+}
+
+.shoji-overlay.is-open .shoji-door.left,
+.shoji-overlay.is-open .shoji-door.right {
+  transform: translateX(0);
+}
+
+/* Add an inner shadow to simulate room depth behind the doors */
+.shoji-overlay::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  opacity: 0;
+  transition: opacity 1s;
+  z-index: -1;
+}
+
+.shoji-overlay.is-open::before {
+  opacity: 1;
+}
+
+.shoji-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  z-index: 10;
+  opacity: 0;
+  transition: opacity 0.5s ease 1s;
+  /* fade in after doors close */
+  background: rgba(255, 255, 255, 0.9);
+  padding: 50px 60px;
+  border-radius: 16px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(10px);
+  pointer-events: none;
+}
+
+[data-theme='dark'] .shoji-content {
+  background: rgba(30, 41, 59, 0.9);
+  color: white;
+}
+
+.shoji-overlay.is-open .shoji-content {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.shoji-title {
+  font-size: 3.5rem;
+  margin-bottom: 10px;
+  color: #c9184a;
+  font-family: var(--font-jp);
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+[data-theme='dark'] .shoji-title {
+  color: #ff4d6d;
+}
+
+.shoji-message {
+  font-size: 1.2rem;
+  margin-bottom: 30px;
+  color: var(--text-secondary);
+}
+
+.shoji-door.no-transition {
+  transition: none !important;
+}
+
+.shoji-actions {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.shoji-close-btn {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: transparent;
+  border: none;
+  color: var(--text-secondary);
+  cursor: pointer;
+  padding: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+}
+
+.shoji-close-btn:hover {
+  background-color: var(--hover-color, rgba(0,0,0,0.05));
+  color: var(--text-primary);
+}
