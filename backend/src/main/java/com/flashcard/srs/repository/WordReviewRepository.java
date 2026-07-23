@@ -73,5 +73,10 @@ public interface WordReviewRepository extends JpaRepository<WordReview, Long> {
             @Param("dueThreshold") Instant dueThreshold,
             @Param("yesterdayStart") Instant yesterdayStart,
             @Param("yesterdayEnd") Instant yesterdayEnd);
+
+    @org.springframework.data.jpa.repository.Modifying
+    @org.springframework.transaction.annotation.Transactional
+    @Query("UPDATE WordReview wr SET wr.nextReview = :now WHERE wr.nextReview > :now")
+    int markAllReviewsAsDue(@Param("now") Instant now);
 }
 

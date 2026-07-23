@@ -61,9 +61,13 @@ $$EF' = EF + (0.1 - (5 - q) \times (0.08 + (5 - q) \times 0.02))$$
 * **Nếu từ vựng/ngữ pháp ĐÃ CÓ trong DB**:
   * Cập nhật thông tin chi tiết (nghĩa, ví dụ, mnemonic...) trực tiếp trên bản ghi hiện tại mà **không đổi ID hoặc vị trí**.
   * Nếu người dùng đã học từ này trước đó (`WordReview`/`GrammarReview` đã tồn tại), **bảo toàn nguyên vẹn** trạng thái `is_learned` và lịch trình ôn tập SRS, không reset điểm quality.
+* **Mặc định mức độ khó nhớ nhất (Highest Priority / Hardest)**:
+  * Khi nhập kiến thức mới học vào hệ thống, các từ/mẫu ngữ pháp này mặc định được đánh dấu ở mức độ **Khó nhớ nhất (Quality = 1: AGAIN)** và gán ngày ôn tập `nextReview = NOW()` để ưu tiên nhắc nhở ngay trong Ôn tập buổi sáng.
 * **Nếu từ vựng/ngữ pháp CHƯA CÓ trong DB**:
   * Thêm từ vựng/ngữ pháp mới vào **CUỐI danh sách** (vị trí ID mới nhất hoặc Tuần/Ngày cuối cùng).
   * Việc này đảm bảo thứ tự các ngày học trước đó không bị xê dịch hay xáo trộn, bảo toàn hoàn toàn trạng thái các ngày đã hoàn thành trong Học hàng ngày.
+* **Quét tự động dọn dẹp hệ thống (System Startup Reset)**:
+  * Khi hệ thống khởi động (`SrsResetRunner`), tự động quét và cập nhật lại toàn bộ các bản ghi `WordReview` & `GrammarReview` cũ của dữ liệu trước đây về trạng thái **Đến hạn ôn tập (`nextReview = NOW()`)**, giúp loại bỏ toàn bộ dữ liệu lỗi/tệ và bắt buộc người dùng được kiểm tra lại đầy đủ.
 
 ---
 
