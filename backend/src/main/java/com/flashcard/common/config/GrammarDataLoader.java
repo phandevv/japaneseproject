@@ -62,27 +62,20 @@ public class GrammarDataLoader implements CommandLineRunner {
                     card.setLessonTitle(optionalString(item, "lessonTitle", optionalString(item, "Tên bài học", "")));
 
                     Object exObj = item.containsKey("examples") ? item.get("examples") : item.get("Ví dụ minh họa");
-                    if (exObj instanceof String) {
-                        card.setExamples((String) exObj);
-                    } else if (exObj != null) {
-                        card.setExamples(objectMapper.writeValueAsString(exObj));
-                    }
+                    card.setExamples(ensureJsonString(exObj));
 
                     Object simObj = item.get("similarGrammar");
-                    if (simObj instanceof String) card.setSimilarGrammar((String) simObj);
-                    else if (simObj != null) card.setSimilarGrammar(objectMapper.writeValueAsString(simObj));
+                    card.setSimilarGrammar(ensureJsonString(simObj));
 
                     card.setDifference(optionalString(item, "difference", ""));
 
                     Object errObj = item.get("commonMistakes");
-                    if (errObj instanceof String) card.setCommonMistakes((String) errObj);
-                    else if (errObj != null) card.setCommonMistakes(objectMapper.writeValueAsString(errObj));
+                    card.setCommonMistakes(ensureJsonString(errObj));
 
                     card.setReadingPassage(optionalString(item, "readingPassage", ""));
 
                     Object quizObj = item.get("quizzes");
-                    if (quizObj instanceof String) card.setQuizzes((String) quizObj);
-                    else if (quizObj != null) card.setQuizzes(objectMapper.writeValueAsString(quizObj));
+                    card.setQuizzes(ensureJsonString(quizObj));
 
                     grammarCardRepository.save(card);
                     loadedCount++;
@@ -92,6 +85,20 @@ public class GrammarDataLoader implements CommandLineRunner {
             }
         } catch (Exception e) {
             logger.error("❌ Error loading N3 Grammar data: {}", e.getMessage(), e);
+        }
+    }
+
+    private String ensureJsonString(Object val) {
+        if (val == null) return null;
+        if (val instanceof String) {
+            String str = ((String) val).trim();
+            if (str.isEmpty()) return null;
+            return str;
+        }
+        try {
+            return objectMapper.writeValueAsString(val);
+        } catch (Exception e) {
+            return val.toString();
         }
     }
 

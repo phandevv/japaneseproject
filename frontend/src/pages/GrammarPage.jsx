@@ -192,39 +192,32 @@ const GrammarPage = () => {
     }
   };
 
-  // Helper to parse JSON or raw string data safely
+  // Helper to parse JSON or raw string data safely (handles double/triple encoded JSON strings)
   const parseJsonData = (raw) => {
     if (!raw) return null;
-    if (typeof raw === 'object') return raw;
-    if (typeof raw === 'string') {
-      const trimmed = raw.trim();
-      if (trimmed.startsWith('[') || trimmed.startsWith('{')) {
+    let data = raw;
+    let attempts = 0;
+    while (typeof data === 'string' && attempts < 5) {
+      const trimmed = data.trim();
+      if (trimmed.startsWith('[') || trimmed.startsWith('{') || (trimmed.startsWith('"') && trimmed.endsWith('"'))) {
         try {
-          return JSON.parse(trimmed);
+          data = JSON.parse(trimmed);
+          attempts++;
         } catch (e) {
-          return trimmed;
+          break;
         }
+      } else {
+        break;
       }
-      return trimmed;
     }
-    return null;
+    return data;
   };
 
   // Helper to parse examples text or JSON into array of { jp, reading, vn }
   const parseExamples = (raw) => {
     if (!raw) return [];
     
-    let items = raw;
-    if (typeof raw === 'string') {
-      const trimmed = raw.trim();
-      if (trimmed.startsWith('[') || trimmed.startsWith('{')) {
-        try {
-          items = JSON.parse(trimmed);
-        } catch (e) {
-          items = trimmed;
-        }
-      }
-    }
+    const items = parseJsonData(raw);
 
     if (Array.isArray(items)) {
       return items.map(item => {
