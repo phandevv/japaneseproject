@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { vocabApi, srsApi, analyticsApi, userSettingsApi, studyApi } from '../services/api';
 import FlashcardCard from '../components/FlashcardCard';
-import { ArrowLeft, ArrowRight, Shuffle, Loader, CornerUpLeft, Settings } from 'lucide-react';
+import ShojiScreen from '../components/ShojiScreen';
+import { ArrowLeft, ArrowRight, Shuffle, Loader, CornerUpLeft, Settings, Check } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
 import { useAuth } from '../context/AuthContext';
 import MascotCorners from '../components/MascotCorners';
@@ -26,6 +27,7 @@ const FlashcardPage = ({ level: initialLevel, isSrs = false, stats, goBack, onDa
   const [loading, setLoading] = useState(false);
   const [flipped, setFlipped] = useState(false);
   const [seenWordIds, setSeenWordIds] = useState(new Set());
+  const [showShoji, setShowShoji] = useState(false);
 
   // Day Selection States
   const [selectedDay, setSelectedDay] = useState(null);
@@ -207,10 +209,36 @@ const FlashcardPage = ({ level: initialLevel, isSrs = false, stats, goBack, onDa
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [currentIndex, words.length]);
 
+  const handleSessionComplete = async () => {
+    setShowShoji(true);
+    if (selectedDay !== null && activeLevel) {
+      try {
+        await userSettingsApi.markDayCompleted(activeLevel, selectedDay);
+        setCompletedDays(prev => {
+          const next = new Set(prev);
+          next.add(selectedDay);
+          return next;
+        });
+        
+        // Cập nhật localStorage để đảm bảo đồng bộ nếu reload
+        const savedCompleted = localStorage.getItem(`completedDays_${activeLevel}`);
+        const currentCompletedArr = savedCompleted ? savedCompleted.split(',') : [];
+        if (!currentCompletedArr.includes(selectedDay.toString())) {
+          currentCompletedArr.push(selectedDay.toString());
+          localStorage.setItem(`completedDays_${activeLevel}`, currentCompletedArr.join(','));
+        }
+      } catch (error) {
+        console.error("Failed to mark day as completed:", error);
+      }
+    }
+  };
+
   const handleNext = () => {
     if (currentIndex < words.length - 1) {
       setFlipped(false);
       setCurrentIndex(prev => prev + 1);
+    } else {
+      handleSessionComplete();
     }
   };
 
@@ -249,7 +277,7 @@ const FlashcardPage = ({ level: initialLevel, isSrs = false, stats, goBack, onDa
       setCurrentIndex(prev => prev + 1);
       setFlipped(false);
     } else {
-      alert(isSrs ? "Chúc mừng! Bạn đã hoàn thành tất cả các từ cần ôn hôm nay." : "Bạn đã học hết xấp thẻ này!");
+      handleSessionComplete();
     }
   };
 
@@ -561,21 +589,39 @@ const FlashcardPage = ({ level: initialLevel, isSrs = false, stats, goBack, onDa
         <button
           className="btn-icon"
           onClick={handleNext}
-          disabled={currentIndex === words.length - 1}
           style={{
             width: '60px', height: '60px',
-            backgroundColor: currentIndex === words.length - 1 ? 'var(--surface-color)' : 'var(--accent-color)',
-            color: currentIndex === words.length - 1 ? 'var(--text-primary)' : 'white',
-            border: currentIndex === words.length - 1 ? '1px solid var(--border-color)' : 'none',
-            opacity: currentIndex === words.length - 1 ? 0.5 : 1,
-            cursor: currentIndex === words.length - 1 ? 'not-allowed' : 'pointer',
-            boxShadow: currentIndex !== words.length - 1 ? '0 4px 14px 0 rgba(239, 68, 68, 0.39)' : 'none'
+            backgroundColor: currentIndex === words.length - 1 ? 'var(--success-color)' : 'var(--accent-color)',
+            color: currentIndex === words.length - 1 ? 'white' : 'white',
+            border: currentIndex === words.length - 1 ? 'none' : 'none',
+            cursor: 'pointer',
+            boxShadow: currentIndex !== words.length - 1 ? '0 4px 14px 0 rgba(239, 68, 68, 0.39)' : '0 4px 14px 0 rgba(16, 185, 129, 0.39)'
           }}
         >
-          <ArrowRight size={28} />
+          {currentIndex === words.length - 1 ? <Check size={28} /> : <ArrowRight size={28} />}
         </button>
       </div>
       </div>
+      
+      <ShojiScreen 
+        isOpen={showShoji} 
+        onClose={() => {
+          setShowShoji(false);
+          handleBack();
+        }}
+        onRetry={() => {
+          setShowShoji(false);
+          setCurrentIndex(0);
+          setFlipped(false);
+        }}
+        onNextDay={(!isSrs && selectedDay !== null) ? () => {
+          setShowShoji(false);
+          const nextDay = selectedDay + 1;
+          setSelectedDay(nextDay);
+          fetchWordsForDay(nextDay);
+        } : null}
+        message={isSrs ? "Chúc mừng! Bạn đã hoàn thành tất cả các từ cần ôn hôm nay." : "Bạn đã học xong toàn bộ thẻ trong xấp này!"} 
+      />
     </div>
   );
 };
