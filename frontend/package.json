@@ -12,6 +12,7 @@
   "dependencies": {
     "@sentry/react": "^10.66.0",
     "axios": "^1.18.1",
+    "jimp": "^1.6.1",
     "lucide-react": "^1.21.0",
     "react": "^19.2.7",
     "react-dom": "^19.2.7",

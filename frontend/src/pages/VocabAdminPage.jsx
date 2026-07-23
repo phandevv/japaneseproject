@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { vocabApi } from '../services/api';
-import { ArrowLeft, Plus, Edit, Trash2, Search, X, ChevronLeft, ChevronRight, Loader } from 'lucide-react';
+import { ArrowLeft, Plus, Edit, Trash2, Search, X, ChevronLeft, ChevronRight } from 'lucide-react';
+import MascotLoader from '../components/MascotLoader';
 
 const VocabAdminPage = ({ goBack }) => {
   const [vocabList, setVocabList] = useState([]);
@@ -169,10 +170,7 @@ const VocabAdminPage = ({ goBack }) => {
       {/* Vocabulary Table */}
       <div className="card" style={{ padding: 0, overflowX: 'auto', marginBottom: '24px' }}>
         {loading ? (
-          <div className="flex-center" style={{ height: '300px', flexDirection: 'column', gap: '16px' }}>
-            <Loader className="animate-spin" size={32} color="var(--accent-color)" />
-            <p style={{ color: 'var(--text-secondary)' }}>Đang tải danh sách từ vựng...</p>
-          </div>
+          <MascotLoader message="Đang tải danh sách từ vựng..." />
         ) : (
           <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
             <thead style={{ backgroundColor: 'var(--surface-hover)', color: 'var(--text-secondary)' }}>

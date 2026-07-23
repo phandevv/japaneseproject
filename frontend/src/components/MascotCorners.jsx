@@ -51,8 +51,8 @@ const MascotCorners = ({ leftMascot = "mascot_siro_kimono_nobg.png", rightMascot
         50%      { transform: translateY(-8px); }
       }
     `}</style>
-    <MascotImage src={leftMascot} position="left" delay="0s" />
-    <MascotImage src={rightMascot} position="right" delay="1.5s" />
+    {leftMascot && <MascotImage src={leftMascot} position="left" delay="0s" />}
+    {rightMascot && <MascotImage src={rightMascot} position="right" delay="1.5s" />}
   </>
 );
 

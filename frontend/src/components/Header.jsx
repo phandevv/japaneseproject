@@ -1,18 +1,31 @@
-import React from 'react';
-import { LogOut, Palette, Flame, User as UserIcon } from 'lucide-react';
+import React, { useRef } from 'react';
+import { LogOut, Palette, Flame, User as UserIcon, Image as ImageIcon } from 'lucide-react';
+import { getMediaUrl } from '../services/api';
 import { useTheme } from '../context/ThemeContext';
 
 import NotificationBell from './NotificationBell';
 
 const Header = ({ user, streak = 0, onProfileClick, onLogout }) => {
-  const { theme, changeTheme } = useTheme();
+  const { theme, changeTheme, customBg, applyCustomBackground } = useTheme();
+  const bgInputRef = useRef(null);
+
+  const handleBgUpload = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        applyCustomBackground(reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
   
   const isAdmin = user && (user.username === "admin" || user.role === "ADMIN" || user.roles?.includes("ADMIN") || user.roles?.includes("ROLE_ADMIN"));
   const displayName = user?.displayName || user?.username || "Learner";
   
   const avatarContent = user?.avatar
-    ? (user.avatar.startsWith("data:image") 
-        ? <img src={user.avatar} alt="avatar" style={{ width: "100%", height: "100%", objectFit: "cover", borderRadius: "50%" }} />
+    ? (user.avatar.startsWith("data:image") || user.avatar.startsWith("http") || user.avatar.startsWith("/")
+        ? <img src={getMediaUrl(user.avatar)} alt="avatar" style={{ width: "100%", height: "100%", objectFit: "cover", borderRadius: "50%" }} />
         : user.avatar)
     : displayName.substring(0, 2).toUpperCase();
 
@@ -36,26 +49,42 @@ const Header = ({ user, streak = 0, onProfileClick, onLogout }) => {
           <button 
             type="button"
             onClick={() => changeTheme('light')} 
-            className={`theme-dot light-dot ${theme === 'light' ? 'active' : ''}`}
+            className={`theme-dot light-dot ${theme === 'light' && !customBg ? 'active' : ''}`}
             title="Sáng"
           />
           <button 
             type="button"
             onClick={() => changeTheme('dark')} 
-            className={`theme-dot dark-dot ${theme === 'dark' ? 'active' : ''}`}
+            className={`theme-dot dark-dot ${theme === 'dark' && !customBg ? 'active' : ''}`}
             title="Tối"
           />
           <button 
             type="button"
             onClick={() => changeTheme('sepia')} 
-            className={`theme-dot sepia-dot ${theme === 'sepia' ? 'active' : ''}`}
+            className={`theme-dot sepia-dot ${theme === 'sepia' && !customBg ? 'active' : ''}`}
             title="Hoài cổ"
           />
           <button 
             type="button"
             onClick={() => changeTheme('sakura')} 
-            className={`theme-dot sakura-dot ${theme === 'sakura' ? 'active' : ''}`}
+            className={`theme-dot sakura-dot ${theme === 'sakura' && !customBg ? 'active' : ''}`}
             title="Hoa anh đào"
+          />
+          <button
+            type="button"
+            onClick={() => bgInputRef.current?.click()}
+            className={`theme-dot ${customBg ? 'active' : ''}`}
+            style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'var(--surface-color)', border: '1px solid var(--border-color)', color: 'var(--text-secondary)' }}
+            title="Ảnh nền tùy chỉnh"
+          >
+            <ImageIcon size={12} />
+          </button>
+          <input
+            type="file"
+            ref={bgInputRef}
+            onChange={handleBgUpload}
+            accept="image/*"
+            style={{ display: 'none' }}
           />
         </div>
 

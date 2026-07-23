@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { ArrowLeft, Loader, FileQuestion, CheckCircle, XCircle, Eye, EyeOff } from 'lucide-react';
+import { ArrowLeft, FileQuestion, CheckCircle, XCircle, Eye, EyeOff } from 'lucide-react';
+import MascotLoader from '../components/MascotLoader';
 import { srsApi, vocabApi } from '../services/api';
 
 /**
@@ -87,12 +88,7 @@ const ReviewQuizPage = ({ goBack }) => {
 
   // ── Loading ────────────────────────────────────────────────────────────────
   if (loading) {
-    return (
-      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '60vh', gap: '16px' }}>
-        <Loader size={32} style={{ animation: 'spin 1s linear infinite', color: 'var(--accent-color)' }} />
-        <p style={{ color: 'var(--text-secondary)' }}>Đang tải từ vựng đã học...</p>
-      </div>
-    );
+    return <MascotLoader message="Đang tải từ vựng đã học..." />;
   }
 
   if (words.length < 4) {

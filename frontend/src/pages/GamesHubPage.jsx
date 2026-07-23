@@ -2,7 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import MascotCorners from '../components/MascotCorners';
 import SakuraPetals from '../components/SakuraPetals';
-import { Gamepad2, BrainCircuit, CloudRain } from 'lucide-react';
+import { Gamepad2, BrainCircuit, CloudRain, Link } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
 
 const GamesHubPage = () => {
@@ -132,6 +132,58 @@ const GamesHubPage = () => {
               </h3>
               <p style={{ color: 'var(--text-secondary)', fontSize: '1.1rem', flex: 1 }}>
                 Tăng tốc độ gõ phím và phản xạ nghĩa của từ. Kanji rơi liên tục, gõ nhanh kẻo lỡ!
+              </p>
+            </div>
+          </div>
+
+          {/* Word Connect Game Card */}
+          <div 
+            className="glass-card" 
+            style={{ 
+              cursor: 'pointer', 
+              transition: 'transform 0.3s, box-shadow 0.3s',
+              border: '2px solid transparent',
+              overflow: 'hidden',
+              padding: 0,
+              display: 'flex',
+              flexDirection: 'column'
+            }}
+            onMouseOver={(e) => {
+              e.currentTarget.style.transform = 'translateY(-10px)';
+              e.currentTarget.style.boxShadow = '0 12px 24px rgba(16,185,129,0.3)';
+              e.currentTarget.style.borderColor = '#10b981';
+            }}
+            onMouseOut={(e) => {
+              e.currentTarget.style.transform = 'translateY(0)';
+              e.currentTarget.style.boxShadow = 'var(--shadow-md)';
+              e.currentTarget.style.borderColor = 'transparent';
+            }}
+            onClick={() => navigate('/games/connect')}
+          >
+            {/* Banner Illustration */}
+            <div style={{
+              height: '160px',
+              background: 'linear-gradient(135deg, #d1fae5, #a7f3d0)',
+              position: 'relative',
+              overflow: 'hidden',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              borderBottom: '1px solid rgba(0,0,0,0.05)'
+            }}>
+               <div style={{ position: 'absolute', top: 30, left: '15%', width: 60, height: 40, background: 'white', borderRadius: 8, opacity: 0.8, boxShadow: '0 4px 6px rgba(0,0,0,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#10b981', fontWeight: 'bold' }}>猫</div>
+               <div style={{ position: 'absolute', bottom: 30, right: '15%', width: 60, height: 40, background: 'white', borderRadius: 8, opacity: 0.8, boxShadow: '0 4px 6px rgba(0,0,0,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#10b981', fontWeight: 'bold' }}>Mèo</div>
+               <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%) rotate(-20deg)', borderTop: '3px dashed #10b981', width: '100px', opacity: 0.5 }}></div>
+               <img src="/assets/mascot_siro_ninja_nobg.png" alt="Connect Illustration" style={{ height: '120px', zIndex: 2, transform: 'translateY(25px)' }} />
+            </div>
+
+            <div style={{ padding: '25px', flex: 1, display: 'flex', flexDirection: 'column' }}>
+              <h3 style={{ fontSize: '1.8rem', fontWeight: 800, marginBottom: '10px', display: 'flex', alignItems: 'center', gap: '10px' }}>
+                <Link size={28} color="#10b981" />
+                Nối Từ
+              </h3>
+              <p style={{ color: 'var(--text-secondary)', fontSize: '1.1rem', flex: 1 }}>
+                Tinh mắt và nhanh tay nối đúng cặp từ vựng Nhật - Việt tương ứng.
               </p>
             </div>
           </div>

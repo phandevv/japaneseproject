@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { usersApi } from '../services/api';
+import { usersApi, getMediaUrl } from '../services/api';
 import { X, MapPin, Briefcase, User as UserIcon, Flame, BookOpen, Medal } from 'lucide-react';
 import '../styles/HomePage.css'; 
 
@@ -109,8 +109,8 @@ export const UserProfileModal = ({ username, onClose }) => {
                 boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)'
               }}>
                 {profile.avatar ? (
-                  profile.avatar.startsWith("data:image") ? (
-                    <img src={profile.avatar} alt="Avatar" style={{ width: '100%', height: '100%', borderRadius: '50%', objectFit: 'cover' }} />
+                  (profile.avatar.startsWith("data:image") || profile.avatar.startsWith("http") || profile.avatar.startsWith("/")) ? (
+                    <img src={getMediaUrl(profile.avatar)} alt="Avatar" style={{ width: '100%', height: '100%', borderRadius: '50%', objectFit: 'cover' }} />
                   ) : (
                     <div style={{ width: '100%', height: '100%', borderRadius: '50%', background: 'var(--surface-hover)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '2.5rem' }}>
                       {profile.avatar}

@@ -18,15 +18,43 @@ async function processImage(file) {
   try {
     const image = await Jimp.read(filePath);
     
-    image.scan(0, 0, image.bitmap.width, image.bitmap.height, function(x, y, idx) {
-      const red = this.bitmap.data[idx + 0];
-      const green = this.bitmap.data[idx + 1];
-      const blue = this.bitmap.data[idx + 2];
+    const w = image.bitmap.width;
+    const h = image.bitmap.height;
+    const visited = new Uint8Array(w * h);
+    const queue = [];
+    
+    // Start from all edges
+    for (let x = 0; x < w; x++) {
+      queue.push([x, 0]);
+      queue.push([x, h - 1]);
+    }
+    for (let y = 0; y < h; y++) {
+      queue.push([0, y]);
+      queue.push([w - 1, y]);
+    }
+    
+    let head = 0;
+    while(head < queue.length) {
+      const [x, y] = queue[head++];
+      if (x < 0 || x >= w || y < 0 || y >= h) continue;
+      
+      const pos = y * w + x;
+      if (visited[pos]) continue;
+      visited[pos] = 1;
+      
+      const idx = (y * w + x) * 4;
+      const red = image.bitmap.data[idx];
+      const green = image.bitmap.data[idx + 1];
+      const blue = image.bitmap.data[idx + 2];
       
       if (red > 235 && green > 235 && blue > 235) {
-        this.bitmap.data[idx + 3] = 0; 
+        image.bitmap.data[idx + 3] = 0; // make transparent
+        queue.push([x - 1, y]);
+        queue.push([x + 1, y]);
+        queue.push([x, y - 1]);
+        queue.push([x, y + 1]);
       }
-    });
+    }
     
     const outPath = path.join(dir, file.replace('.png', '_nobg.png'));
     await image.write(outPath);

@@ -22,6 +22,7 @@ import ReviewHubPage from './pages/ReviewHubPage';
 import GamesHubPage from './pages/GamesHubPage';
 import MemoryMatchGame from './pages/MemoryMatchGame';
 import FallingWordsGame from './pages/FallingWordsGame';
+import WordConnectGame from './pages/WordConnectGame';
 import UserProfilePage from './pages/UserProfilePage';
 import AchievementsPage from './pages/AchievementsPage';
 
@@ -88,6 +89,7 @@ function App() {
     if (path === '/games') return 'games';
     if (path.startsWith('/games/memory')) return 'game-memory';
     if (path.startsWith('/games/falling')) return 'game-falling';
+    if (path.startsWith('/games/connect')) return 'game-connect';
 
     if (path === '/study-stats') return 'study-stats';
     if (path === '/review/morning') return 'review-morning';
@@ -121,6 +123,7 @@ function App() {
       case 'games': navigate('/games'); break;
       case 'game-memory': navigate('/games/memory'); break;
       case 'game-falling': navigate('/games/falling'); break;
+      case 'game-connect': navigate('/games/connect'); break;
 
       case 'review-morning': navigate('/review/morning'); break;
       case 'review-today': navigate('/review/today'); break;
@@ -328,6 +331,8 @@ function App() {
         return isAuthenticated ? <MemoryMatchGame /> : <AuthPage onCancel={() => navigate('/')} onSuccess={handleLoginSuccess} />;
       case 'game-falling':
         return isAuthenticated ? <FallingWordsGame /> : <AuthPage onCancel={() => navigate('/')} onSuccess={handleLoginSuccess} />;
+      case 'game-connect':
+        return isAuthenticated ? <WordConnectGame /> : <AuthPage onCancel={() => navigate('/')} onSuccess={handleLoginSuccess} />;
       case 'review-morning':
         return isAuthenticated ? (
           <ReviewHubPage mode="morning" goBack={() => navigate('/')} />

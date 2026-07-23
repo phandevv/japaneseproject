@@ -81,21 +81,13 @@ const ReviewHubPage = ({ mode = 'morning', goBack }) => {
   return (
     <div className="container animate-fade-in" style={{ padding: '40px 20px', minHeight: '100vh' }}>
       <MascotCorners
-        leftMascot={isMorning ? 'mascot_siro_ninja.png' : 'mascot_siro_studying.png'}
+        leftMascot={null}
         rightMascot="mascot_siro_reading.png"
       />
       <SakuraPetals />
 
       {/* Header */}
       <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '40px' }}>
-        <button
-          className="btn btn-secondary"
-          onClick={goBack}
-          style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '8px 16px' }}
-        >
-          <ArrowLeft size={16} />
-          Quay lại
-        </button>
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
           {isMorning
             ? <Sun size={28} color="var(--accent-color)" />

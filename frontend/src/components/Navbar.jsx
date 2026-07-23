@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react';
 import { BookOpen, Search, Home, Languages, Upload, Loader, Sparkles } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
-import { vocabApi } from '../services/api';
+import { vocabApi, getMediaUrl } from '../services/api';
 import '../styles/Navbar.css';
 
 const Navbar = ({ setCurrentPage, onLoginClick, user, onLogout, onProfileClick }) => {
@@ -118,9 +118,9 @@ const Navbar = ({ setCurrentPage, onLoginClick, user, onLogout, onProfileClick }
                   boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
                   overflow: 'hidden'
                 }}>
-                  {user.avatar && user.avatar.startsWith('data:image') ? (
+                  {user.avatar && (user.avatar.startsWith('data:image') || user.avatar.startsWith('http') || user.avatar.startsWith('/')) ? (
                     <img 
-                      src={user.avatar} 
+                      src={getMediaUrl(user.avatar)} 
                       alt="avatar" 
                       style={{ width: '100%', height: '100%', objectFit: 'cover' }} 
                     />
