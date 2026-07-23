@@ -117,6 +117,7 @@ function App() {
       case 'admin-feedback': navigate('/admin-feedback'); break;
       case 'admin-ai': navigate('/admin-ai'); break;
       case 'search': navigate('/search'); break;
+      case 'grammar': navigate('/grammar'); break;
       case 'knowledge': navigate('/knowledge'); break;
       case 'achievements': navigate('/achievements'); break;
       case 'conversation-tutor': navigate('/conversation-tutor'); break;
