@@ -117,6 +117,9 @@ erDiagram
         text quizzes
         text reading_passage
         varchar jlpt
+        varchar week_name
+        varchar day_name
+        varchar lesson_title
         datetime created_at
         datetime updated_at
     }

@@ -505,4 +505,26 @@ export const achievementApi = {
   }
 };
 
+export const grammarApi = {
+  getGrammarCards: async ({ jlpt = 'N3', week, day, query, page = 0, size = 50 } = {}) => {
+    const params = new URLSearchParams();
+    if (jlpt) params.append('jlpt', jlpt);
+    if (week) params.append('week', week);
+    if (day) params.append('day', day);
+    if (query) params.append('query', query);
+    params.append('page', page);
+    params.append('size', size);
+    const response = await axios.get(`${API_BASE_URL}/grammar?${params.toString()}`);
+    return response.data;
+  },
+  getNavigation: async (jlpt = 'N3') => {
+    const response = await axios.get(`${API_BASE_URL}/grammar/navigation?jlpt=${jlpt}`);
+    return response.data;
+  },
+  getGrammarDetail: async (id) => {
+    const response = await axios.get(`${API_BASE_URL}/grammar/${id}`);
+    return response.data;
+  }
+};
+
 export const api = axios;

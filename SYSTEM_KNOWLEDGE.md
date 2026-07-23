@@ -254,7 +254,10 @@ Dưới đây là một số API RESTful chính được công bố trên backen
   * `GET /api/vocab/level/{level}?page={page}&size={size}`: Lấy danh sách từ vựng phân trang theo cấp độ.
   * `GET /api/vocab/search?query={text}`: Tìm kiếm từ vựng theo Kanji, Kana, Romaji hoặc nghĩa tiếng Việt.
   * `POST /api/vocab/import`: Admin upload file Excel để import thêm từ vựng mới.
-  * `POST /api/vocab/{id}/enrich`: Gọi DeepSeek AI để làm giàu ví dụ và từ liên quan Kanji cho từ vựng. Câu ví dụ được tạo tự động tương ứng với cấp độ ngữ pháp JLPT (N5 -> N1) của từ đó.
+* **Ngữ pháp JLPT (`/api/grammar/*`)**:
+  * `GET /api/grammar`: Lấy danh sách mẫu ngữ pháp phân trang, lọc theo cấp độ (N3), Tuần (`week`), Ngày (`day`), và từ khóa tìm kiếm (`query`).
+  * `GET /api/grammar/navigation`: Lấy cây điều hướng phân loại danh sách các Tuần và Ngày của cấp độ tương ứng.
+  * `GET /api/grammar/{id}`: Lấy chi tiết mẫu ngữ pháp theo ID.
 
 ---
 

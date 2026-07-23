@@ -374,4 +374,60 @@ Tài liệu này đặc tả toàn bộ danh sách REST API endpoints được x
   ```
 * **Phản hồi thành công (200 OK)**: `{"message": "Đã lưu ngữ pháp vào Thư viện cá nhân thành công!"}`
 
+---
+
+## 10. Module Ngữ Pháp JLPT (Grammar) - `GrammarController`
+
+### A. Lấy danh sách mẫu ngữ pháp (Phân trang, Lọc Tuần/Ngày/Search)
+* **Endpoint**: `GET /api/grammar`
+* **Tham số**:
+  * `jlpt` (Query): Cấp độ JLPT (mặc định `N3`)
+  * `week` (Query): Lọc theo Tuần (ví dụ: `Tuần 1`)
+  * `day` (Query): Lọc theo Ngày (ví dụ: `Ngày 1`)
+  * `query` (Query): Từ khóa tìm kiếm mẫu ngữ pháp / nghĩa tiếng Việt
+  * `page` (Query): Trang (mặc định 0)
+  * `size` (Query): Kích thước trang (mặc định 50)
+* **Xác thực**: Không yêu cầu (Public)
+* **Phản hồi thành công (200 OK)**:
+  ```json
+  {
+    "content": [
+      {
+        "id": 1,
+        "grammar": "～書かれている",
+        "meaning": "Bị, được (Bị động)",
+        "usageDesc": "Dùng tường thuật lại một sự việc...",
+        "formation": "Vれる（受身）",
+        "jlpt": "N3",
+        "weekName": "Tuần 1",
+        "dayName": "Ngày 1",
+        "lessonTitle": "第1週 (1) – 僕にもやらせて",
+        "examples": "1. この本には...\n 👉 Trong cuốn sách..."
+      }
+    ],
+    "currentPage": 0,
+    "totalItems": 132,
+    "totalPages": 3
+  }
+  ```
+
+### B. Lấy cấu trúc cây điều hướng Tuần & Ngày
+* **Endpoint**: `GET /api/grammar/navigation?jlpt=N3`
+* **Xác thực**: Không yêu cầu (Public)
+* **Phản hồi thành công (200 OK)**:
+  ```json
+  [
+    {
+      "week": "Tuần 1",
+      "days": ["Ngày 1", "Ngày 2", "Ngày 3", "Ngày 4", "Ngày 5", "Ngày 6"]
+    }
+  ]
+  ```
+
+### C. Lấy chi tiết một mẫu ngữ pháp
+* **Endpoint**: `GET /api/grammar/{id}`
+* **Xác thực**: Không yêu cầu (Public)
+* **Phản hồi thành công (200 OK)**: Đối tượng `GrammarCard`.
+
+
 

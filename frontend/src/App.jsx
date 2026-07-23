@@ -24,6 +24,7 @@ import MemoryMatchGame from './pages/MemoryMatchGame';
 import FallingWordsGame from './pages/FallingWordsGame';
 import UserProfilePage from './pages/UserProfilePage';
 import AchievementsPage from './pages/AchievementsPage';
+import GrammarPage from './pages/GrammarPage';
 
 const getTodayKey = () => new Date().toISOString().slice(0, 10);
 
@@ -81,6 +82,7 @@ function App() {
     if (path === '/admin-feedback') return 'admin-feedback';
     if (path === '/admin-ai') return 'admin-ai';
     if (path === '/search') return 'search';
+    if (path === '/grammar') return 'grammar';
     if (path === '/knowledge') return 'knowledge';
     if (path === '/achievements') return 'achievements';
     if (path === '/profile') return 'profile';
@@ -314,6 +316,8 @@ function App() {
         return <AiEnrichmentAdminPage goBack={() => navigate('/')} />;
       case 'search':
         return <SearchPage />;
+      case 'grammar':
+        return <GrammarPage />;
       case 'knowledge':
         return <KnowledgeBasePage />;
       case 'conversation-tutor':
@@ -376,6 +380,12 @@ function App() {
         return {
           title: 'Tra Cứu Từ Điển Nhật - Việt | SIRO NIHONGO',
           description: 'Tra cứu từ vựng tiếng Nhật nhanh chóng với giải thích nghĩa, cách đọc Pitch Accent và ví dụ minh họa phong phú.',
+          ogImage: 'https://phandeptrai.id.vn/assets/siro_logo.png'
+        };
+      case 'grammar':
+        return {
+          title: 'Ngữ Pháp JLPT N3 Somatome | SIRO NIHONGO',
+          description: 'Hệ thống 132 mẫu ngữ pháp JLPT N3 phân loại theo 6 Tuần đầy đủ cấu trúc, giải thích & phát âm ví dụ.',
           ogImage: 'https://phandeptrai.id.vn/assets/siro_logo.png'
         };
       case 'daily':

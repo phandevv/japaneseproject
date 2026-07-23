@@ -46,6 +46,15 @@ public class GrammarCard {
     @Column(name = "quizzes", columnDefinition = "TEXT")
     private String quizzes;
 
+    @Column(name = "week_name")
+    private String weekName;
+
+    @Column(name = "day_name")
+    private String dayName;
+
+    @Column(name = "lesson_title")
+    private String lessonTitle;
+
     @Column(name = "created_at", insertable = false, updatable = false)
     private LocalDateTime createdAt;
 
@@ -94,6 +103,15 @@ public class GrammarCard {
 
     public String getQuizzes() { return quizzes; }
     public void setQuizzes(String quizzes) { this.quizzes = quizzes; }
+
+    public String getWeekName() { return weekName; }
+    public void setWeekName(String weekName) { this.weekName = weekName; }
+
+    public String getDayName() { return dayName; }
+    public void setDayName(String dayName) { this.dayName = dayName; }
+
+    public String getLessonTitle() { return lessonTitle; }
+    public void setLessonTitle(String lessonTitle) { this.lessonTitle = lessonTitle; }
 
     public LocalDateTime getCreatedAt() { return createdAt; }
     public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
