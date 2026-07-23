@@ -11,6 +11,7 @@ const GrammarPage = () => {
   const [error, setError] = useState(null);
   
   // Navigation & Filtering
+  const [selectedLevel, setSelectedLevel] = useState('N3');
   const [navigation, setNavigation] = useState([]);
   const [selectedWeek, setSelectedWeek] = useState('ALL');
   const [selectedDay, setSelectedDay] = useState('ALL');
@@ -26,15 +27,19 @@ const GrammarPage = () => {
   // Audio Speech state
   const [speakingIndex, setSpeakingIndex] = useState(null);
 
-  // Fetch navigation & grammar data
+  // Fetch navigation when level changes
   useEffect(() => {
     fetchNavigation();
+  }, [selectedLevel]);
+
+  // Fetch grammar data when level, week, or day changes
+  useEffect(() => {
     fetchGrammarData();
-  }, []);
+  }, [selectedLevel, selectedWeek, selectedDay]);
 
   const fetchNavigation = async () => {
     try {
-      const data = await grammarApi.getNavigation('N3');
+      const data = await grammarApi.getNavigation(selectedLevel);
       setNavigation(data || []);
     } catch (err) {
       console.error('Failed to load navigation:', err);
@@ -46,7 +51,7 @@ const GrammarPage = () => {
     setError(null);
     try {
       const res = await grammarApi.getGrammarCards({
-        jlpt: 'N3',
+        jlpt: selectedLevel,
         week: selectedWeek === 'ALL' ? '' : selectedWeek,
         day: selectedDay === 'ALL' ? '' : selectedDay,
         query: searchQuery.trim(),
@@ -61,11 +66,6 @@ const GrammarPage = () => {
       setLoading(false);
     }
   };
-
-  // Re-fetch when week/day changes
-  useEffect(() => {
-    fetchGrammarData();
-  }, [selectedWeek, selectedDay]);
 
   // Handle search submission with debounce or enter
   const handleSearchSubmit = (e) => {
@@ -165,17 +165,17 @@ const GrammarPage = () => {
               borderRadius: '20px',
               letterSpacing: '0.5px'
             }}>
-              JLPT N3 SOMATOME
+              JLPT {selectedLevel} GRAMMAR
             </span>
             <span style={{ color: '#94a3b8', fontSize: '14px' }}>
-              • 132 Mẫu ngữ pháp trọng tâm
+              • {grammarCards.length} Mẫu ngữ pháp trọng tâm
             </span>
           </div>
           <h1 style={{ fontSize: '28px', fontWeight: '800', margin: 0, color: '#fff', letterSpacing: '-0.5px' }}>
-            Ngữ Pháp Tiếng Nhật N3
+            Ngữ Pháp Tiếng Nhật {selectedLevel}
           </h1>
           <p style={{ color: '#94a3b8', margin: '8px 0 0 0', fontSize: '15px' }}>
-            Hệ thống giáo trình Somatome đầy đủ 6 Tuần, có giải thích công thức & phát âm ví dụ sinh động
+            Hệ thống bài học ngữ pháp JLPT phân loại theo Tuần, có giải thích công thức & phát âm ví dụ sinh động
           </p>
         </div>
 
@@ -282,8 +282,46 @@ const GrammarPage = () => {
           </button>
         </form>
 
-        {/* Week Selector Tabs */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+        {/* Level & Week Selector Tabs */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+          
+          {/* Level Selector Row */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap', paddingBottom: '14px', borderBottom: '1px solid rgba(255, 255, 255, 0.08)' }}>
+            <span style={{ fontSize: '13px', fontWeight: 'bold', color: '#94a3b8', textTransform: 'uppercase', minWidth: '60px' }}>
+              CẤP ĐỘ:
+            </span>
+            {['N5', 'N4', 'N3', 'N2', 'N1'].map(lvl => {
+              const isSelected = selectedLevel === lvl;
+              return (
+                <button
+                  key={lvl}
+                  onClick={() => {
+                    setSelectedLevel(lvl);
+                    setSelectedWeek('ALL');
+                    setSelectedDay('ALL');
+                  }}
+                  style={{
+                    padding: '8px 20px',
+                    borderRadius: '10px',
+                    fontSize: '14px',
+                    fontWeight: '800',
+                    cursor: 'pointer',
+                    border: 'none',
+                    background: isSelected 
+                      ? 'linear-gradient(135deg, #ef4444 0%, #f59e0b 100%)' 
+                      : 'rgba(255, 255, 255, 0.06)',
+                    color: isSelected ? '#fff' : '#cbd5e1',
+                    boxShadow: isSelected ? '0 4px 12px rgba(239, 68, 68, 0.3)' : 'none',
+                    transition: 'all 0.15s ease'
+                  }}
+                >
+                  JLPT {lvl}
+                </button>
+              );
+            })}
+          </div>
+
+          {/* Week Selector Row */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
             <span style={{ fontSize: '13px', fontWeight: 'bold', color: '#94a3b8', textTransform: 'uppercase', minWidth: '60px' }}>
               CHỌN TUẦN:
@@ -302,7 +340,7 @@ const GrammarPage = () => {
                 transition: 'all 0.15s ease'
               }}
             >
-              Tất Cả Tuần (132 mẫu)
+              Tất Cả Tuần ({grammarCards.length} mẫu)
             </button>
 
             {[1, 2, 3, 4, 5, 6].map(wNum => {
@@ -384,7 +422,7 @@ const GrammarPage = () => {
       {loading ? (
         <div style={{ textWrap: 'nowrap', textAlign: 'center', padding: '60px 0', color: '#94a3b8' }}>
           <RefreshCw size={32} className="animate-spin" style={{ margin: '0 auto 16px auto', color: '#6366f1' }} />
-          <p style={{ fontSize: '16px' }}>Đang tải danh sách ngữ pháp N3...</p>
+          <p style={{ fontSize: '16px' }}>Đang tải danh sách ngữ pháp {selectedLevel}...</p>
         </div>
       ) : error ? (
         <div style={{ background: 'rgba(239, 68, 68, 0.1)', border: '1px solid rgba(239, 68, 68, 0.3)', padding: '20px', borderRadius: '12px', color: '#fca5a5', textAlign: 'center' }}>

@@ -384,8 +384,8 @@ function App() {
         };
       case 'grammar':
         return {
-          title: 'Ngữ Pháp JLPT N3 Somatome | SIRO NIHONGO',
-          description: 'Hệ thống 132 mẫu ngữ pháp JLPT N3 phân loại theo 6 Tuần đầy đủ cấu trúc, giải thích & phát âm ví dụ.',
+          title: 'Ngữ Pháp Tiếng Nhật JLPT | SIRO NIHONGO',
+          description: 'Hệ thống ngữ pháp JLPT N5 - N1 phân loại theo tuần đầy đủ cấu trúc, giải thích & phát âm ví dụ.',
           ogImage: 'https://phandeptrai.id.vn/assets/siro_logo.png'
         };
       case 'daily':

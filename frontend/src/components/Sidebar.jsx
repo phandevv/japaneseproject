@@ -80,7 +80,7 @@ const Sidebar = ({ isCollapsed, onToggleCollapse, currentPage, setCurrentPage, o
           onClick={() => setCurrentPage("grammar")}
         >
           <FileText size={17} />
-          <span>Ngữ pháp N3</span>
+          <span>Ngữ pháp</span>
         </button>
         <button
           className={`sidebar-link${currentPage === "search" ? " active" : ""}`}
