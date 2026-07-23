@@ -5,6 +5,75 @@ import {
 } from 'lucide-react';
 import { grammarApi, knowledgeApi } from '../services/api';
 
+const ModalQuizItem = ({ quiz, index }) => {
+  const [selectedOpt, setSelectedOpt] = useState(null);
+  if (typeof quiz !== 'object' || !quiz) {
+    return <div style={{ fontSize: '14px', color: '#cbd5e1', marginBottom: '8px' }}>• {String(quiz)}</div>;
+  }
+
+  const question = quiz.question || quiz.q || '';
+  const options = quiz.options || quiz.opts || [];
+  const answer = quiz.answer || quiz.ans || '';
+  const explanation = quiz.explanation || quiz.exp || '';
+
+  return (
+    <div style={{ marginBottom: '14px', paddingBottom: '12px', borderBottom: '1px dashed rgba(255,255,255,0.1)' }}>
+      <div style={{ fontWeight: '600', fontSize: '15px', color: '#fff', marginBottom: '8px' }}>
+        Câu {index + 1}: {question}
+      </div>
+      {options.length > 0 && (
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: '8px', marginBottom: '8px' }}>
+          {options.map((opt, oIdx) => {
+            const isSelected = selectedOpt === opt;
+            const isCorrect = answer && (opt === answer || opt.startsWith(answer));
+            let btnBg = 'rgba(255, 255, 255, 0.06)';
+            let borderClr = 'rgba(255, 255, 255, 0.12)';
+            let textClr = '#cbd5e1';
+
+            if (selectedOpt !== null) {
+              if (isCorrect) {
+                btnBg = 'rgba(34, 197, 94, 0.25)';
+                borderClr = '#22c55e';
+                textClr = '#4ade80';
+              } else if (isSelected) {
+                btnBg = 'rgba(239, 68, 68, 0.25)';
+                borderClr = '#ef4444';
+                textClr = '#f87171';
+              }
+            }
+
+            return (
+              <button
+                key={oIdx}
+                onClick={() => setSelectedOpt(opt)}
+                style={{
+                  padding: '8px 12px',
+                  borderRadius: '8px',
+                  border: `1px solid ${borderClr}`,
+                  background: btnBg,
+                  color: textClr,
+                  textAlign: 'left',
+                  fontSize: '13px',
+                  cursor: 'pointer',
+                  fontWeight: '500',
+                  transition: 'all 0.15s ease'
+                }}
+              >
+                {opt}
+              </button>
+            );
+          })}
+        </div>
+      )}
+      {selectedOpt !== null && explanation && (
+        <div style={{ fontSize: '13px', color: '#a7f3d0', background: 'rgba(16, 185, 129, 0.15)', padding: '8px 12px', borderRadius: '6px', marginTop: '6px' }}>
+          💡 Giải thích: {explanation}
+        </div>
+      )}
+    </div>
+  );
+};
+
 const GrammarPage = () => {
   const [grammarCards, setGrammarCards] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -123,17 +192,65 @@ const GrammarPage = () => {
     }
   };
 
-  // Helper to parse examples text into array of (jp, vn)
-  const parseExamples = (examplesStr) => {
-    if (!examplesStr) return [];
-    // Split by numbered list e.g. "1. " or "2. "
-    const lines = examplesStr.split(/\n(?=\d+\.\s)/);
-    return lines.map(line => {
-      const parts = line.split(/👉|\n\s*👉/);
-      const jp = parts[0] ? parts[0].replace(/^\d+\.\s*/, '').trim() : '';
-      const vn = parts[1] ? parts[1].trim() : '';
-      return { jp, vn };
-    }).filter(ex => ex.jp || ex.vn);
+  // Helper to parse JSON or raw string data safely
+  const parseJsonData = (raw) => {
+    if (!raw) return null;
+    if (typeof raw === 'object') return raw;
+    if (typeof raw === 'string') {
+      const trimmed = raw.trim();
+      if (trimmed.startsWith('[') || trimmed.startsWith('{')) {
+        try {
+          return JSON.parse(trimmed);
+        } catch (e) {
+          return trimmed;
+        }
+      }
+      return trimmed;
+    }
+    return null;
+  };
+
+  // Helper to parse examples text or JSON into array of { jp, reading, vn }
+  const parseExamples = (raw) => {
+    if (!raw) return [];
+    
+    let items = raw;
+    if (typeof raw === 'string') {
+      const trimmed = raw.trim();
+      if (trimmed.startsWith('[') || trimmed.startsWith('{')) {
+        try {
+          items = JSON.parse(trimmed);
+        } catch (e) {
+          items = trimmed;
+        }
+      }
+    }
+
+    if (Array.isArray(items)) {
+      return items.map(item => {
+        if (typeof item === 'object' && item !== null) {
+          return {
+            jp: item.ja || item.jp || item.japanese || item.kanji || item.word || '',
+            reading: item.reading || item.hiragana || item.furigana || '',
+            vn: item.vi || item.vn || item.meaning || item.translation || ''
+          };
+        }
+        if (typeof item === 'string') return { jp: item, reading: '', vn: '' };
+        return null;
+      }).filter(ex => ex && (ex.jp || ex.vn));
+    }
+
+    if (typeof items === 'string') {
+      const lines = items.split(/\n(?=\d+\.\s)/);
+      return lines.map(line => {
+        const parts = line.split(/👉|\n\s*👉/);
+        const jp = parts[0] ? parts[0].replace(/^\d+\.\s*/, '').trim() : '';
+        const vn = parts[1] ? parts[1].trim() : '';
+        return { jp, reading: '', vn };
+      }).filter(ex => ex.jp || ex.vn);
+    }
+
+    return [];
   };
 
   return (
@@ -594,9 +711,16 @@ const GrammarPage = () => {
                           return (
                             <div key={exIdx} style={{ marginBottom: exIdx < examples.length - 1 ? '12px' : '0', paddingBottom: exIdx < examples.length - 1 ? '10px' : '0', borderBottom: exIdx < examples.length - 1 ? '1px dashed rgba(255, 255, 255, 0.06)' : 'none' }}>
                               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '8px' }}>
-                                <span style={{ fontSize: '15px', color: '#f8fafc', fontWeight: '500', lineHeight: '1.5' }}>
-                                  {ex.jp}
-                                </span>
+                                <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
+                                  {showFurigana && ex.reading && (
+                                    <span style={{ fontSize: '13px', color: '#818cf8', fontStyle: 'italic', fontWeight: '500' }}>
+                                      {ex.reading}
+                                    </span>
+                                  )}
+                                  <span style={{ fontSize: '15px', color: '#f8fafc', fontWeight: '600', lineHeight: '1.5' }}>
+                                    {ex.jp}
+                                  </span>
+                                </div>
                                 {ex.jp && (
                                   <button
                                     onClick={() => handlePlayAudio(ex.jp, globalExIdx)}
@@ -676,7 +800,7 @@ const GrammarPage = () => {
             border: '1px solid rgba(255, 255, 255, 0.15)',
             borderRadius: '24px',
             width: '100%',
-            maxWidth: '680px',
+            maxWidth: '720px',
             maxHeight: '85vh',
             overflowY: 'auto',
             padding: '32px',
@@ -739,27 +863,134 @@ const GrammarPage = () => {
               </div>
             )}
 
+            {/* Example Sentences Section */}
             {activeModalCard.examples && (
-              <div>
-                <h4 style={{ color: '#94a3b8', margin: '0 0 12px 0', fontSize: '14px', textTransform: 'uppercase' }}>Tất cả ví dụ:</h4>
-                <div style={{ background: 'rgba(15, 23, 42, 0.6)', borderRadius: '12px', padding: '16px' }}>
+              <div style={{ marginBottom: '24px' }}>
+                <h4 style={{ color: '#94a3b8', margin: '0 0 12px 0', fontSize: '14px', textTransform: 'uppercase' }}>Tất cả ví dụ minh họa:</h4>
+                <div style={{ background: 'rgba(15, 23, 42, 0.6)', borderRadius: '12px', padding: '16px', border: '1px solid rgba(255, 255, 255, 0.06)' }}>
                   {parseExamples(activeModalCard.examples).map((ex, idx) => (
-                    <div key={idx} style={{ marginBottom: '14px', paddingBottom: '12px', borderBottom: '1px solid rgba(255, 255, 255, 0.08)' }}>
-                      <div style={{ display: 'flex', justifyContent: 'space-between', gap: '10px' }}>
-                        <span style={{ fontSize: '16px', color: '#fff', fontWeight: '500' }}>{ex.jp}</span>
-                        <button
-                          onClick={() => handlePlayAudio(ex.jp, `modal-${idx}`)}
-                          style={{ background: 'transparent', border: 'none', color: '#818cf8', cursor: 'pointer' }}
-                        >
-                          <Volume2 size={18} />
-                        </button>
+                    <div key={idx} style={{ marginBottom: '14px', paddingBottom: '12px', borderBottom: idx < parseExamples(activeModalCard.examples).length - 1 ? '1px solid rgba(255, 255, 255, 0.08)' : 'none' }}>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '10px' }}>
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                          {showFurigana && ex.reading && (
+                            <span style={{ fontSize: '14px', color: '#818cf8', fontStyle: 'italic', fontWeight: '500' }}>
+                              {ex.reading}
+                            </span>
+                          )}
+                          <span style={{ fontSize: '16px', color: '#fff', fontWeight: '600' }}>{ex.jp}</span>
+                        </div>
+                        {ex.jp && (
+                          <button
+                            onClick={() => handlePlayAudio(ex.jp, `modal-${idx}`)}
+                            style={{ background: 'transparent', border: 'none', color: '#818cf8', cursor: 'pointer', padding: '4px' }}
+                            title="Phát âm tiếng Nhật"
+                          >
+                            <Volume2 size={18} />
+                          </button>
+                        )}
                       </div>
-                      {ex.vn && <div style={{ fontSize: '14px', color: '#94a3b8', marginTop: '4px' }}>👉 {ex.vn}</div>}
+                      {showTranslations && ex.vn && <div style={{ fontSize: '14px', color: '#94a3b8', marginTop: '6px', fontStyle: 'italic' }}>👉 {ex.vn}</div>}
                     </div>
                   ))}
                 </div>
               </div>
             )}
+
+            {/* Similar Grammar & Differences Section */}
+            {(activeModalCard.similarGrammar || activeModalCard.difference) && (() => {
+              const sim = parseJsonData(activeModalCard.similarGrammar);
+              return (
+                <div style={{ marginBottom: '24px', background: 'rgba(99, 102, 241, 0.1)', border: '1px solid rgba(99, 102, 241, 0.25)', borderRadius: '14px', padding: '18px' }}>
+                  <h4 style={{ color: '#818cf8', margin: '0 0 10px 0', fontSize: '14px', textTransform: 'uppercase', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                    <Layers size={16} /> Ngữ Pháp Tương Tự & Phân Biệt:
+                  </h4>
+                  {sim && (
+                    Array.isArray(sim) ? (
+                      sim.map((item, i) => (
+                        <div key={i} style={{ marginBottom: '8px', fontSize: '14px', color: '#cbd5e1' }}>
+                          {typeof item === 'object' ? (
+                            <div>
+                              <strong style={{ color: '#a5b4fc' }}>{item.grammar || item.title}:</strong> {item.meaning || item.diff || item.difference || JSON.stringify(item)}
+                            </div>
+                          ) : (
+                            <div>• {item}</div>
+                          )}
+                        </div>
+                      ))
+                    ) : (
+                      <p style={{ fontSize: '14px', color: '#cbd5e1', margin: 0, whiteSpace: 'pre-line' }}>{String(sim)}</p>
+                    )
+                  )}
+                  {activeModalCard.difference && (
+                    <div style={{ marginTop: '10px', paddingTop: '10px', borderTop: '1px dashed rgba(255, 255, 255, 0.12)', fontSize: '14px', color: '#e2e8f0', lineHeight: '1.6' }}>
+                      <strong style={{ color: '#818cf8' }}>So sánh phân biệt:</strong> {activeModalCard.difference}
+                    </div>
+                  )}
+                </div>
+              );
+            })()}
+
+            {/* Common Mistakes Section */}
+            {activeModalCard.commonMistakes && (() => {
+              const mistakes = parseJsonData(activeModalCard.commonMistakes);
+              if (!mistakes) return null;
+              return (
+                <div style={{ marginBottom: '24px', background: 'rgba(239, 68, 68, 0.1)', border: '1px solid rgba(239, 68, 68, 0.25)', borderRadius: '14px', padding: '18px' }}>
+                  <h4 style={{ color: '#fca5a5', margin: '0 0 12px 0', fontSize: '14px', textTransform: 'uppercase', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                    <HelpCircle size={16} /> Lỗi Thường Gặp Cần Tránh:
+                  </h4>
+                  {Array.isArray(mistakes) ? (
+                    mistakes.map((item, i) => (
+                      <div key={i} style={{ marginBottom: '10px', fontSize: '14px' }}>
+                        {typeof item === 'object' ? (
+                          <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', background: 'rgba(0, 0, 0, 0.2)', padding: '10px 14px', borderRadius: '8px' }}>
+                            {item.error && <div style={{ color: '#f87171', fontWeight: '500' }}>❌ Sai: {item.error}</div>}
+                            {item.correct && <div style={{ color: '#4ade80', fontWeight: '500' }}>✅ Đúng: {item.correct}</div>}
+                            {item.note && <div style={{ color: '#cbd5e1', fontSize: '13px', fontStyle: 'italic', marginTop: '2px' }}>💡 {item.note}</div>}
+                          </div>
+                        ) : (
+                          <div style={{ color: '#fca5a5' }}>• {item}</div>
+                        )}
+                      </div>
+                    ))
+                  ) : (
+                    <p style={{ fontSize: '14px', color: '#fca5a5', margin: 0, whiteSpace: 'pre-line' }}>{String(mistakes)}</p>
+                  )}
+                </div>
+              );
+            })()}
+
+            {/* Reading Passage Section */}
+            {activeModalCard.readingPassage && (
+              <div style={{ marginBottom: '24px', background: 'rgba(15, 23, 42, 0.6)', border: '1px solid rgba(255, 255, 255, 0.1)', borderRadius: '14px', padding: '18px' }}>
+                <h4 style={{ color: '#a855f7', margin: '0 0 10px 0', fontSize: '14px', textTransform: 'uppercase', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                  <BookOpen size={16} /> Đoạn Văn Ứng Dụng:
+                </h4>
+                <p style={{ fontSize: '15px', lineHeight: '1.8', color: '#e2e8f0', whiteSpace: 'pre-line', margin: 0 }}>
+                  {activeModalCard.readingPassage}
+                </p>
+              </div>
+            )}
+
+            {/* Quizzes Section */}
+            {activeModalCard.quizzes && (() => {
+              const qList = parseJsonData(activeModalCard.quizzes);
+              if (!qList || (Array.isArray(qList) && qList.length === 0)) return null;
+              return (
+                <div style={{ marginBottom: '24px', background: 'rgba(16, 185, 129, 0.1)', border: '1px solid rgba(16, 185, 129, 0.25)', borderRadius: '14px', padding: '18px' }}>
+                  <h4 style={{ color: '#34d399', margin: '0 0 14px 0', fontSize: '14px', textTransform: 'uppercase', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                    <Award size={16} /> Luyện Tập Trắc Nghiệm Củng Cố:
+                  </h4>
+                  {Array.isArray(qList) ? (
+                    qList.map((q, qIdx) => (
+                      <ModalQuizItem key={qIdx} quiz={q} index={qIdx} />
+                    ))
+                  ) : (
+                    <p style={{ fontSize: '14px', color: '#cbd5e1', margin: 0, whiteSpace: 'pre-line' }}>{String(qList)}</p>
+                  )}
+                </div>
+              );
+            })()}
           </div>
         </div>
       )}
