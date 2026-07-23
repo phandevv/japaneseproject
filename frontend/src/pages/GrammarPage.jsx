@@ -5,6 +5,43 @@ import {
 } from 'lucide-react';
 import { grammarApi, knowledgeApi } from '../services/api';
 
+const FuriganaText = ({ text }) => {
+  if (!text) return null;
+  const str = String(text);
+
+  // Match Kanji/Word + (furigana): e.g. "本(ほん)", "説明(せつめい)"
+  const regex = /([^\s\(\)▶👉\u3040-\u309F\u30A0-\u30FF]+)\(([^)]+)\)/g;
+  const elements = [];
+  let lastIndex = 0;
+  let match;
+
+  while ((match = regex.exec(str)) !== null) {
+    if (match.index > lastIndex) {
+      elements.push(str.substring(lastIndex, match.index));
+    }
+
+    const baseText = match[1];
+    const furigana = match[2];
+
+    elements.push(
+      <ruby key={match.index} style={{ rubyPosition: 'over' }}>
+        <span>{baseText}</span>
+        <rt style={{ fontSize: '0.65em', color: '#a5b4fc', fontWeight: '600', userSelect: 'none', paddingBottom: '2px' }}>
+          {furigana}
+        </rt>
+      </ruby>
+    );
+
+    lastIndex = regex.lastIndex;
+  }
+
+  if (lastIndex < str.length) {
+    elements.push(str.substring(lastIndex));
+  }
+
+  return <>{elements}</>;
+};
+
 const ModalQuizItem = ({ quiz, index }) => {
   const [selectedOpt, setSelectedOpt] = useState(null);
   if (typeof quiz !== 'object' || !quiz) {
@@ -638,9 +675,9 @@ const GrammarPage = () => {
                       color: '#60a5fa',
                       margin: '0 0 10px 0',
                       letterSpacing: '-0.3px',
-                      lineHeight: '1.4'
+                      lineHeight: '1.5'
                     }}>
-                      {card.grammar}
+                      <FuriganaText text={showFurigana && card.grammarFurigana ? card.grammarFurigana : card.grammar} />
                     </h2>
 
                     {/* Formation / Formula */}
@@ -704,15 +741,12 @@ const GrammarPage = () => {
                           return (
                             <div key={exIdx} style={{ marginBottom: exIdx < examples.length - 1 ? '12px' : '0', paddingBottom: exIdx < examples.length - 1 ? '10px' : '0', borderBottom: exIdx < examples.length - 1 ? '1px dashed rgba(255, 255, 255, 0.06)' : 'none' }}>
                               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '8px' }}>
-                                <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
-                                  {showFurigana && ex.reading && (
-                                    <span style={{ fontSize: '13px', color: '#818cf8', fontStyle: 'italic', fontWeight: '500' }}>
-                                      {ex.reading}
-                                    </span>
+                                <div style={{ fontSize: '15px', color: '#f8fafc', fontWeight: '600', lineHeight: '1.6' }}>
+                                  {showFurigana && ex.reading ? (
+                                    <FuriganaText text={ex.reading} />
+                                  ) : (
+                                    <FuriganaText text={ex.jp} />
                                   )}
-                                  <span style={{ fontSize: '15px', color: '#f8fafc', fontWeight: '600', lineHeight: '1.5' }}>
-                                    {ex.jp}
-                                  </span>
                                 </div>
                                 {ex.jp && (
                                   <button
@@ -833,8 +867,8 @@ const GrammarPage = () => {
               )}
             </div>
 
-            <h2 style={{ fontSize: '28px', fontWeight: '800', color: '#60a5fa', margin: '0 0 16px 0' }}>
-              {activeModalCard.grammar}
+            <h2 style={{ fontSize: '28px', fontWeight: '800', color: '#60a5fa', margin: '0 0 16px 0', lineHeight: '1.5' }}>
+              <FuriganaText text={showFurigana && activeModalCard.grammarFurigana ? activeModalCard.grammarFurigana : activeModalCard.grammar} />
             </h2>
 
             {activeModalCard.formation && (
@@ -864,13 +898,12 @@ const GrammarPage = () => {
                   {parseExamples(activeModalCard.examples).map((ex, idx) => (
                     <div key={idx} style={{ marginBottom: '14px', paddingBottom: '12px', borderBottom: idx < parseExamples(activeModalCard.examples).length - 1 ? '1px solid rgba(255, 255, 255, 0.08)' : 'none' }}>
                       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '10px' }}>
-                        <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-                          {showFurigana && ex.reading && (
-                            <span style={{ fontSize: '14px', color: '#818cf8', fontStyle: 'italic', fontWeight: '500' }}>
-                              {ex.reading}
-                            </span>
+                        <div style={{ fontSize: '16px', color: '#fff', fontWeight: '600', lineHeight: '1.6' }}>
+                          {showFurigana && ex.reading ? (
+                            <FuriganaText text={ex.reading} />
+                          ) : (
+                            <FuriganaText text={ex.jp} />
                           )}
-                          <span style={{ fontSize: '16px', color: '#fff', fontWeight: '600' }}>{ex.jp}</span>
                         </div>
                         {ex.jp && (
                           <button
