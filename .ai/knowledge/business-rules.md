@@ -53,3 +53,15 @@ $$EF' = EF + (0.1 - (5 - q) \times (0.08 + (5 - q) \times 0.02))$$
   * Nếu **Đã có**: Hiển thị ngay lập tức từ local cache/database.
   * Nếu **Chưa có**: Gửi request `POST /api/vocab/{id}/enrich` lên backend. Backend sẽ gọi DeepSeek API để lấy dữ liệu phong phú gồm 3 phần (Cốt lõi & Ghi nhớ, Ngữ cảnh & Ví dụ, Luyện tập & Lưu ý - bao gồm pitchAccent, mnemonic, synonyms, antonyms, exampleSentences, collocations, conversationExamples, commonMistakes, kanjiWords), lưu vào database rồi trả về cho frontend hiển thị.
 * **Mục đích**: Tiết kiệm chi phí token DeepSeek API, giảm thiểu blocking tải danh sách từ vựng ban đầu, tự động tích lũy kho dữ liệu ví dụ phong phú theo thời gian học thực tế, đồng thời đồng bộ hóa hoàn toàn cấu trúc dữ liệu với Kho tri thức AI.
+
+---
+
+## 5. Quy tắc nhập kiến thức mới học (Knowledge Save & Deduplication)
+
+* **Nếu từ vựng/ngữ pháp ĐÃ CÓ trong DB**:
+  * Cập nhật thông tin chi tiết (nghĩa, ví dụ, mnemonic...) trực tiếp trên bản ghi hiện tại mà **không đổi ID hoặc vị trí**.
+  * Nếu người dùng đã học từ này trước đó (`WordReview`/`GrammarReview` đã tồn tại), **bảo toàn nguyên vẹn** trạng thái `is_learned` và lịch trình ôn tập SRS, không reset điểm quality.
+* **Nếu từ vựng/ngữ pháp CHƯA CÓ trong DB**:
+  * Thêm từ vựng/ngữ pháp mới vào **CUỐI danh sách** (vị trí ID mới nhất hoặc Tuần/Ngày cuối cùng).
+  * Việc này đảm bảo thứ tự các ngày học trước đó không bị xê dịch hay xáo trộn, bảo toàn hoàn toàn trạng thái các ngày đã hoàn thành trong Học hàng ngày.
+

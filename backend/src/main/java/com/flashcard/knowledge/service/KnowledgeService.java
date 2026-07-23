@@ -608,33 +608,35 @@ public class KnowledgeService {
         if (existing.isPresent()) {
             vocab = existing.get();
             if (isAdminUser) {
-                // Only ADMIN can modify / update shared dictionary data in DB
+                // Save version history for admin audit
                 saveVersionHistory("VOCABULARY", vocab.getId(), vocab, operator);
-
-                vocab.setMeaning(meaning);
-                vocab.setHanViet(hanViet);
-                vocab.setLevel(jlpt);
-                vocab.setWordType(wordType);
-                vocab.setPitchAccent(pitchAccent);
-                vocab.setMnemonic(mnemonic);
-                vocab.setKanjiWords(kanjiWords);
-                vocab.setSynonyms(synonyms);
-                vocab.setAntonyms(antonyms);
-                vocab.setCommonMistakes(commonMistakes);
-                vocab.setCollocations(collocations);
-                vocab.setConversationExamples(conversationExamples);
-                vocab.setExampleSentences(exampleSentencesJson);
-                vocab.setSampleSentence(sampleSentence);
-                vocab.setSampleReading(sampleReading);
-                vocab.setSampleTranslation(sampleTranslation);
             }
+            // Update fields in place to refresh enrichment data while preserving position & ID
+            if (meaning != null && !meaning.trim().isEmpty()) vocab.setMeaning(meaning);
+            if (hanViet != null && !hanViet.trim().isEmpty()) vocab.setHanViet(hanViet);
+            if (jlpt != null && !jlpt.trim().isEmpty()) vocab.setLevel(jlpt);
+            if (wordType != null && !wordType.trim().isEmpty()) vocab.setWordType(wordType);
+            if (pitchAccent != null && !pitchAccent.trim().isEmpty()) vocab.setPitchAccent(pitchAccent);
+            if (mnemonic != null && !mnemonic.trim().isEmpty()) vocab.setMnemonic(mnemonic);
+            if (kanjiWords != null && !kanjiWords.trim().isEmpty()) vocab.setKanjiWords(kanjiWords);
+            if (synonyms != null && !synonyms.trim().isEmpty()) vocab.setSynonyms(synonyms);
+            if (antonyms != null && !antonyms.trim().isEmpty()) vocab.setAntonyms(antonyms);
+            if (commonMistakes != null && !commonMistakes.trim().isEmpty()) vocab.setCommonMistakes(commonMistakes);
+            if (collocations != null && !collocations.trim().isEmpty()) vocab.setCollocations(collocations);
+            if (conversationExamples != null && !conversationExamples.trim().isEmpty()) vocab.setConversationExamples(conversationExamples);
+            if (exampleSentencesJson != null && !exampleSentencesJson.trim().isEmpty()) vocab.setExampleSentences(exampleSentencesJson);
+            if (sampleSentence != null && !sampleSentence.trim().isEmpty()) vocab.setSampleSentence(sampleSentence);
+            if (sampleReading != null && !sampleReading.trim().isEmpty()) vocab.setSampleReading(sampleReading);
+            if (sampleTranslation != null && !sampleTranslation.trim().isEmpty()) vocab.setSampleTranslation(sampleTranslation);
         } else {
+            // New vocabulary: Inserted at the VERY END of the database (highest auto-increment ID)
+            // to avoid shifting existing daily study words or completed days
             vocab = new Vocabulary();
             vocab.setKanji(word);
             vocab.setHiragana(reading);
             vocab.setMeaning(meaning);
             vocab.setHanViet(hanViet);
-            vocab.setLevel(jlpt);
+            vocab.setLevel(jlpt != null && !jlpt.trim().isEmpty() ? jlpt : "N3");
             vocab.setWordType(wordType);
             vocab.setPitchAccent(pitchAccent);
             vocab.setMnemonic(mnemonic);
@@ -659,14 +661,14 @@ public class KnowledgeService {
         if (existingReview.isEmpty()) {
             WordReview newReview = new WordReview(managedUser, savedVocab);
             wordReviewRepository.save(newReview);
-        }
 
-        // Auto-mark with quality 1 (AGAIN / Hardest) so it is marked learned and appears in "Ôn lại hôm nay"
-        if (srsService != null) {
-            try {
-                srsService.reviewWord(managedUser, savedVocab.getId(), 1);
-            } catch (Exception e) {
-                log.error("Failed to auto-schedule SRS review for saved vocabulary: {}", e.getMessage());
+            // Auto-mark with quality 1 for newly added items only
+            if (srsService != null) {
+                try {
+                    srsService.reviewWord(managedUser, savedVocab.getId(), 1);
+                } catch (Exception e) {
+                    log.error("Failed to auto-schedule SRS review for saved vocabulary: {}", e.getMessage());
+                }
             }
         }
 
@@ -700,28 +702,41 @@ public class KnowledgeService {
         if (existing.isPresent()) {
             grammarCard = existing.get();
             if (isAdminUser) {
-                // Only ADMIN can modify / update shared grammar cards in DB
                 saveVersionHistory("GRAMMAR", grammarCard.getId(), grammarCard, operator);
-
-                grammarCard.setMeaning(meaning);
-                grammarCard.setUsageDesc(usageDesc);
-                grammarCard.setFormation(formation);
-                grammarCard.setJlpt(jlpt);
-                grammarCard.setSimilarGrammar(similarGrammar);
-                grammarCard.setDifference(difference);
-                grammarCard.setCommonMistakes(commonMistakes);
-                grammarCard.setExamples(examples);
-                grammarCard.setReadingPassage(readingPassage);
-                grammarCard.setQuizzes(quizzes);
             }
+            // Update fields in place while preserving existing weekName/dayName position
+            if (meaning != null && !meaning.trim().isEmpty()) grammarCard.setMeaning(meaning);
+            if (usageDesc != null && !usageDesc.trim().isEmpty()) grammarCard.setUsageDesc(usageDesc);
+            if (formation != null && !formation.trim().isEmpty()) grammarCard.setFormation(formation);
+            if (jlpt != null && !jlpt.trim().isEmpty()) grammarCard.setJlpt(jlpt);
+            if (similarGrammar != null && !similarGrammar.trim().isEmpty() && !"null".equalsIgnoreCase(similarGrammar)) grammarCard.setSimilarGrammar(similarGrammar);
+            if (difference != null && !difference.trim().isEmpty()) grammarCard.setDifference(difference);
+            if (commonMistakes != null && !commonMistakes.trim().isEmpty() && !"null".equalsIgnoreCase(commonMistakes)) grammarCard.setCommonMistakes(commonMistakes);
+            if (examples != null && !examples.trim().isEmpty() && !"null".equalsIgnoreCase(examples)) grammarCard.setExamples(examples);
+            if (readingPassage != null && !readingPassage.trim().isEmpty()) grammarCard.setReadingPassage(readingPassage);
+            if (quizzes != null && !quizzes.trim().isEmpty() && !"null".equalsIgnoreCase(quizzes)) grammarCard.setQuizzes(quizzes);
         } else {
-            grammarCard = new GrammarCard(grammar, meaning, usageDesc, formation, jlpt);
-            grammarCard.setSimilarGrammar(similarGrammar);
+            String cardJlpt = (jlpt != null && !jlpt.trim().isEmpty()) ? jlpt : "N3";
+            grammarCard = new GrammarCard(grammar, meaning, usageDesc, formation, cardJlpt);
+            if (similarGrammar != null && !"null".equalsIgnoreCase(similarGrammar)) grammarCard.setSimilarGrammar(similarGrammar);
             grammarCard.setDifference(difference);
-            grammarCard.setCommonMistakes(commonMistakes);
-            grammarCard.setExamples(examples);
+            if (commonMistakes != null && !"null".equalsIgnoreCase(commonMistakes)) grammarCard.setCommonMistakes(commonMistakes);
+            if (examples != null && !"null".equalsIgnoreCase(examples)) grammarCard.setExamples(examples);
             grammarCard.setReadingPassage(readingPassage);
-            grammarCard.setQuizzes(quizzes);
+            if (quizzes != null && !"null".equalsIgnoreCase(quizzes)) grammarCard.setQuizzes(quizzes);
+
+            // Assign new grammar card to the VERY END of the curriculum (latest week/day)
+            String weekName = (String) data.get("weekName");
+            String dayName = (String) data.get("dayName");
+            if (weekName == null || weekName.trim().isEmpty()) {
+                weekName = getLastWeekNameForJlpt(cardJlpt);
+            }
+            if (dayName == null || dayName.trim().isEmpty()) {
+                dayName = getLastDayNameForWeek(cardJlpt, weekName);
+            }
+            grammarCard.setWeekName(weekName);
+            grammarCard.setDayName(dayName);
+            grammarCard.setLessonTitle((String) data.get("lessonTitle"));
         }
 
         GrammarCard savedGrammar = grammarCardRepository.save(grammarCard);
@@ -733,18 +748,36 @@ public class KnowledgeService {
         if (existingReview.isEmpty()) {
             GrammarReview newReview = new GrammarReview(managedUser, savedGrammar);
             grammarReviewRepository.save(newReview);
-        }
 
-        // Auto-mark with quality 1 (AGAIN / Hardest) so it is marked learned and appears in "Ôn lại hôm nay"
-        if (grammarSrsService != null) {
-            try {
-                grammarSrsService.reviewGrammar(managedUser, savedGrammar.getId(), 1);
-            } catch (Exception e) {
-                log.error("Failed to auto-schedule SRS review for saved grammar: {}", e.getMessage());
+            // Auto-mark with quality 1 for newly added items only
+            if (grammarSrsService != null) {
+                try {
+                    grammarSrsService.reviewGrammar(managedUser, savedGrammar.getId(), 1);
+                } catch (Exception e) {
+                    log.error("Failed to auto-schedule SRS review for saved grammar: {}", e.getMessage());
+                }
             }
         }
 
         return savedGrammar;
+    }
+
+    private String getLastWeekNameForJlpt(String jlpt) {
+        String level = (jlpt != null && !jlpt.isEmpty()) ? jlpt : "N3";
+        List<String> weeks = grammarCardRepository.findDistinctWeeksByJlpt(level);
+        if (weeks != null && !weeks.isEmpty()) {
+            return weeks.get(weeks.size() - 1);
+        }
+        return "Tuần 6";
+    }
+
+    private String getLastDayNameForWeek(String jlpt, String weekName) {
+        String level = (jlpt != null && !jlpt.isEmpty()) ? jlpt : "N3";
+        List<String> days = grammarCardRepository.findDistinctDaysByJlptAndWeek(level, weekName);
+        if (days != null && !days.isEmpty()) {
+            return days.get(days.size() - 1);
+        }
+        return "Ngày 6";
     }
 
     /**
