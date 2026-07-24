@@ -238,6 +238,57 @@ const FlashcardPage = ({ level: initialLevel, isSrs = false, stats, goBack, onDa
     }
   };
 
+  const handleSessionComplete = useCallback(() => {
+    setShowShoji(true);
+  }, []);
+
+  const handleNext = useCallback(() => {
+    if (currentIndex < words.length - 1) {
+      setFlipped(false);
+      setCurrentIndex(prev => prev + 1);
+    } else {
+      handleSessionComplete();
+    }
+  }, [currentIndex, words.length, handleSessionComplete]);
+
+  const handlePrev = useCallback(() => {
+    if (currentIndex > 0) {
+      setFlipped(false);
+      setCurrentIndex(prev => prev - 1);
+    }
+  }, [currentIndex]);
+
+  const handleRateWord = useCallback(async (quality) => {
+    if (words.length === 0) return;
+    const currentWord = words[currentIndex];
+    if (!currentWord) return;
+
+    const isNew = !seenWordIds.has(currentWord.id);
+    if (isNew) {
+      setSeenWordIds(prev => {
+        const next = new Set(prev);
+        next.add(currentWord.id);
+        return next;
+      });
+    }
+
+    if (isAuthenticated) {
+      try {
+        await srsApi.reviewWord(currentWord.id, quality);
+        await analyticsApi.logSession(isNew ? 1 : 0, quality >= 3 ? 1 : 0, 1);
+      } catch (error) {
+        console.error("Failed to save SRS review:", error);
+      }
+    }
+
+    if (currentIndex < words.length - 1) {
+      setCurrentIndex(prev => prev + 1);
+      setFlipped(false);
+    } else {
+      handleSessionComplete();
+    }
+  }, [words, currentIndex, seenWordIds, isAuthenticated, handleSessionComplete]);
+
   useEffect(() => {
     if (currentIndex !== null) {
       setFlipped(false);
@@ -278,57 +329,7 @@ const FlashcardPage = ({ level: initialLevel, isSrs = false, stats, goBack, onDa
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [currentIndex, words.length, handleRateWord]);
-
-  const handleSessionComplete = async () => {
-    setShowShoji(true);
-  };
-
-  const handleNext = () => {
-    if (currentIndex < words.length - 1) {
-      setFlipped(false);
-      setCurrentIndex(prev => prev + 1);
-    } else {
-      handleSessionComplete();
-    }
-  };
-
-  const handlePrev = () => {
-    if (currentIndex > 0) {
-      setFlipped(false);
-      setCurrentIndex(prev => prev - 1);
-    }
-  };
-
-  const handleRateWord = async (quality) => {
-    if (words.length === 0) return;
-    const currentWord = words[currentIndex];
-
-    const isNew = !seenWordIds.has(currentWord.id);
-    if (isNew) {
-      setSeenWordIds(prev => {
-        const next = new Set(prev);
-        next.add(currentWord.id);
-        return next;
-      });
-    }
-
-    if (isAuthenticated) {
-      try {
-        await srsApi.reviewWord(currentWord.id, quality);
-        await analyticsApi.logSession(isNew ? 1 : 0, quality >= 3 ? 1 : 0, 1);
-      } catch (error) {
-        console.error("Failed to save SRS review:", error);
-      }
-    }
-
-    if (currentIndex < words.length - 1) {
-      setCurrentIndex(prev => prev + 1);
-      setFlipped(false);
-    } else {
-      handleSessionComplete();
-    }
-  };
+  }, [words.length, handleNext, handlePrev, handleRateWord]);
 
   const handleBack = () => {
     if (phase === 0) {
