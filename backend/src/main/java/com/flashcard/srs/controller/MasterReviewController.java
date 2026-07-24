@@ -48,11 +48,7 @@ public class MasterReviewController {
             Instant end = endDate.plusDays(1).atStartOfDay(zone).toInstant();
             vocabularies = wordReviewRepository.findDistinctVocabularyByUserAndLastReviewedAtBetween(user, start, end);
         } else {
-            List<WordReview> learnedReviews = wordReviewRepository.findAllLearnedByUser(user);
-            vocabularies = learnedReviews.stream()
-                    .map(WordReview::getVocabulary)
-                    .filter(Objects::nonNull)
-                    .collect(Collectors.toList());
+            vocabularies = wordReviewRepository.findLearnedVocabulariesByUser(user, org.springframework.data.domain.PageRequest.of(0, 500));
         }
 
         return ResponseEntity.ok(vocabularies);

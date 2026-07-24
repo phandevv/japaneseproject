@@ -132,14 +132,14 @@ public class SrsService {
      */
     @Transactional(readOnly = true)
     public List<Vocabulary> getRandomLearnedVocabulary(User user, int count) {
-        List<WordReview> learned = reviewRepository.findAllLearnedByUser(user);
-        if (learned.isEmpty()) {
+        List<Vocabulary> learnedVocabs = reviewRepository.findLearnedVocabulariesByUser(user, org.springframework.data.domain.PageRequest.of(0, Math.max(count * 5, 100)));
+        if (learnedVocabs.isEmpty()) {
             return java.util.Collections.emptyList();
         }
-        java.util.Collections.shuffle(learned);
-        return learned.stream()
+        List<Vocabulary> shuffled = new java.util.ArrayList<>(learnedVocabs);
+        java.util.Collections.shuffle(shuffled);
+        return shuffled.stream()
                 .limit(count)
-                .map(WordReview::getVocabulary)
                 .collect(Collectors.toList());
     }
 

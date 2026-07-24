@@ -113,4 +113,7 @@ $$EF' = EF + (0.1 - (5 - q) \times (0.08 + (5 - q) \times 0.02))$$
   * Lệnh log truy cập chuỗi ngày (`analyticsApi.logSession(0)`) được thực thi bất đồng bộ ở background sau khi Dashboard đã render hiển thị dữ liệu cho người dùng.
 * **Tối ưu hóa Truy vấn Bảng xếp hạng Streak (Scoped Streak Leaderboard Query)**:
   * Tại `AnalyticsService.java`, giới hạn danh sách kiểm tra chuỗi `streakLeaderboard` cho các tài khoản active trong 14 ngày gần nhất (`sessionRepository.findRecentActiveUsers`), loại bỏ hoàn toàn tình trạng loop N database queries trên tất cả user trong lịch sử database.
+* **Tối ưu hóa Truy vấn Không phân trang (No Uncapped `findAll` Queries)**:
+  * Tại `SrsService.getRandomLearnedVocabulary`, thay thế việc load toàn bộ `findAllLearnedByUser` bằng truy vấn giới hạn `findLearnedVocabulariesByUser(user, PageRequest.of(0, 100))`.
+  * Tại `MasterReviewController.getWordsForMasterReview`, áp dụng `PageRequest.of(0, 500)` để tránh tình trạng nạp quá nhiều đối tượng Entity vào Hibernate Session khi quét từ vựng tổng ôn.
 
