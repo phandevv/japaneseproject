@@ -1206,16 +1206,11 @@ const MasterReviewPage = ({ goBack }) => {
               <p className="jp-text" style={{ fontSize: '2.8rem', margin: '0 0 10px', fontWeight: 700 }}>
                 {current.kanji || current.hiragana}
               </p>
-              {current.kanji && current.hiragana && (
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
-                  <span
-                    style={{
-                      fontSize: '1.15rem', color: 'var(--text-secondary)',
-                      filter: (showHiraganaHint || answeredStatus !== null) ? 'none' : 'blur(6px)',
-                      cursor: 'pointer', userSelect: 'none'
-                    }}
-                  >
-                    {current.hiragana}
+              {/* Show Hiragana reading ONLY if word has no Kanji, OR after answering */}
+              {current.kanji && current.hiragana && answeredStatus !== null && (
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', marginTop: '6px' }}>
+                  <span style={{ fontSize: '1.15rem', color: 'var(--accent-color)', fontWeight: 600 }}>
+                    ({current.hiragana})
                   </span>
                 </div>
               )}
