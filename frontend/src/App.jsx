@@ -97,6 +97,7 @@ function App() {
     if (path === '/study-stats') return 'study-stats';
     if (path === '/review/morning') return 'review-morning';
     if (path === '/review/today') return 'review-today';
+    if (path === '/master-review') return 'master-review';
 
     return 'home';
   };
