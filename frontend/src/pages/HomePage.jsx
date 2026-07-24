@@ -71,44 +71,47 @@ const HomePage = ({ user: propUser, startStudy, streak, onLoginClick, onLogout, 
   const [showStreakModal, setShowStreakModal] = useState(false);
 
   useEffect(() => {
+    let active = true;
     const initData = async () => {
       try {
-        const vocabStats = await vocabApi.getStats();
-        setStats(vocabStats);
+        const [vocabStatsRes, dashRes] = await Promise.all([
+          vocabApi.getStats().catch(err => { console.error("Error fetching vocab stats:", err); return null; }),
+          user ? analyticsApi.getDashboard().catch(err => { console.error("Error fetching dashboard:", err); return null; }) : Promise.resolve(null)
+        ]);
+
+        if (!active) return;
+        if (vocabStatsRes) setStats(vocabStatsRes);
+        if (dashRes) setDashboardData(dashRes);
+        setLoading(false);
 
         if (user) {
-          const dash = await analyticsApi.getDashboard();
-          setDashboardData(dash);
-
-          // Show streak modal once per day or per new session (app open / login)
           const todayStr = new Date().toLocaleDateString('vi-VN');
           const lastShown = localStorage.getItem(`lastStreakDate_${user.username}`);
           const sessionShown = sessionStorage.getItem('streakModalShown');
 
           if (lastShown !== todayStr || !sessionShown) {
-            try {
-              // Log an empty session to maintain streak just by opening the app
-              await analyticsApi.logSession(0);
-              const updatedDash = await analyticsApi.getDashboard();
-              setDashboardData(updatedDash);
-
-              if (updatedDash.streak > 0) {
-                setShowStreakModal(true);
-                localStorage.setItem(`lastStreakDate_${user.username}`, todayStr);
-                sessionStorage.setItem('streakModalShown', 'true');
-              }
-            } catch (err) {
-              console.error("Error logging daily visit:", err);
-            }
+            analyticsApi.logSession(0)
+              .then(() => analyticsApi.getDashboard())
+              .then(updatedDash => {
+                if (!active || !updatedDash) return;
+                setDashboardData(updatedDash);
+                if (updatedDash.streak > 0) {
+                  setShowStreakModal(true);
+                  localStorage.setItem(`lastStreakDate_${user.username}`, todayStr);
+                  sessionStorage.setItem('streakModalShown', 'true');
+                }
+              })
+              .catch(err => console.error("Error logging daily visit:", err));
           }
         }
       } catch (error) {
         console.error('Error fetching dashboard data:', error);
       } finally {
-        setLoading(false);
+        if (active) setLoading(false);
       }
     };
     initData();
+    return () => { active = false; };
   }, [user]);
 
   const handleUseFreeze = async () => {

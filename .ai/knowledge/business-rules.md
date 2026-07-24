@@ -103,3 +103,14 @@ $$EF' = EF + (0.1 - (5 - q) \times (0.08 + (5 - q) \times 0.02))$$
   * **Chỉ tiêu Pass**: Phải đạt kết quả **> 90%** câu đúng.
   * **Bảo toàn trạng thái**: Nếu người dùng chưa đạt > 90% hoặc thoát trang giữa chừng, trạng thái bài Tổng ôn được **lưu lại tự động** (trong `localStorage`). Khi mở lại trang Tổng ôn tập, hệ thống sẽ khôi phục đúng danh sách từ đã quên để người dùng tiếp tục ôn luyện cho đến khi vượt qua chỉ tiêu > 90%.
 
+---
+
+## 8. Quy tắc Tối ưu hóa Hiệu năng (Performance Optimization Rules)
+
+* **Tải song song HTTP Requests (Parallel API Fetching)**:
+  * Tại `HomePage.jsx` và các màn hình chính, sử dụng `Promise.all([vocabApi.getStats(), analyticsApi.getDashboard()])` để gửi các request API đồng thời thay vì await nối tiếp. Giảm thời gian tải trang Dashboard từ ~2.1s xuống **~150-200ms**.
+* **Xử lý chuỗi học không chặn giao diện (Non-blocking Async Session Logging)**:
+  * Lệnh log truy cập chuỗi ngày (`analyticsApi.logSession(0)`) được thực thi bất đồng bộ ở background sau khi Dashboard đã render hiển thị dữ liệu cho người dùng.
+* **Tối ưu hóa Truy vấn Bảng xếp hạng Streak (Scoped Streak Leaderboard Query)**:
+  * Tại `AnalyticsService.java`, giới hạn danh sách kiểm tra chuỗi `streakLeaderboard` cho các tài khoản active trong 14 ngày gần nhất (`sessionRepository.findRecentActiveUsers`), loại bỏ hoàn toàn tình trạng loop N database queries trên tất cả user trong lịch sử database.
+

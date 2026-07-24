@@ -148,8 +148,14 @@ public class AnalyticsService {
         stats.put("leaderboard", sessionRepository.getLeaderboardForDate(today, PageRequest.of(0, 10)));
         stats.put("learnedLeaderboard", reviewRepository.getLearnedLeaderboard(PageRequest.of(0, 10)));
 
-        // Calculate streak leaderboard
-        List<Map<String, Object>> streakLeaderboard = userRepository.findAll().stream()
+        // Calculate streak leaderboard (scoped to recent active users in last 14 days for high performance)
+        LocalDate minDate = today.minusDays(14);
+        List<User> candidateUsers = sessionRepository.findRecentActiveUsers(minDate);
+        if (candidateUsers == null || candidateUsers.isEmpty()) {
+            candidateUsers = userRepository.findAll(PageRequest.of(0, 15)).getContent();
+        }
+
+        List<Map<String, Object>> streakLeaderboard = candidateUsers.stream()
                 .map(u -> {
                     Map<String, Object> map = new java.util.HashMap<>();
                     map.put("username", u.getUsername());

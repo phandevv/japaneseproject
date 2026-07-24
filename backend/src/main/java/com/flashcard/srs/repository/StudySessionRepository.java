@@ -24,5 +24,8 @@ public interface StudySessionRepository extends JpaRepository<StudySession, Long
 
     @Query("SELECT s.user.username as username, s.user.avatar as avatar, s.wordsStudied as wordsStudied FROM StudySession s WHERE s.studyDate = :date ORDER BY s.wordsStudied DESC")
     List<java.util.Map<String, Object>> getLeaderboardForDate(@Param("date") LocalDate date, Pageable pageable);
+
+    @Query("SELECT DISTINCT s.user FROM StudySession s WHERE s.studyDate >= :minDate")
+    List<User> findRecentActiveUsers(@Param("minDate") LocalDate minDate);
 }
 
