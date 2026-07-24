@@ -270,6 +270,26 @@ const MasterReviewPage = ({ goBack }) => {
     }
   };
 
+  // Keyboard navigation for Phase 1 Flashcard Screening
+  useEffect(() => {
+    if (phase !== 1 || allWords.length === 0) return;
+    const handleKeyDown = (e) => {
+      if (['INPUT', 'TEXTAREA', 'SELECT'].includes(e.target.tagName) || e.target.isContentEditable) return;
+      if (e.key === ' ') {
+        e.preventDefault();
+        setIsFlipped(prev => !prev);
+      } else if (e.key === '1' || e.key === 'ArrowLeft') {
+        e.preventDefault();
+        handleFlashcardRating(false);
+      } else if (e.key === '2' || e.key === '3' || e.key === '4' || e.key === 'ArrowRight') {
+        e.preventDefault();
+        handleFlashcardRating(true);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [phase, cardIndex, allWords, forgottenWords]);
+
   // ── Step 3: Open Quiz Setup Modal (Phase 4) ─────────────────────────────────
   const openQuizSetup = () => {
     setQuizSetupError('');
