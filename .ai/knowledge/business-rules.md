@@ -121,6 +121,9 @@ $$EF' = EF + (0.1 - (5 - q) \times (0.08 + (5 - q) \times 0.02))$$
   * Nếu kết quả danh sách từ vựng theo trang trả về mảng rỗng, hệ thống tự động gọi `vocabApi.getRandomByLevel` để đảm bảo luôn luôn có thẻ cho người dùng luyện tập.
 * **Tính năng Luyện tập Nhanh Ngẫu nhiên (Quick Start Random Practice)**:
   * Bổ sung nút **"⚡ Học ngẫu nhiên 20 từ"** tại màn hình chọn Ngày học, cho phép người dùng vào học Flashcard ngay lập tức mà không cần chọn từng ngày.
+* **Đánh giá Độ khó Trực tiếp ở Mặt Trước Thẻ (Front-Side Difficulty Rating & Keyboard 1-4)**:
+  * Thẻ Flashcard (`FlashcardCard.jsx`) hiển thị 4 nút đánh giá độ khó (**Forgot / Hard / Good / Easy**) ngay ở **mặt trước** (mặt tiếng Nhật/Kanji). Giúp người học có thể đánh giá và chuyển sang từ tiếp theo ngay lập tức nếu đã thuộc từ mà không bắt buộc phải click lật sang mặt sau.
+  * Hỗ trợ phím tắt số **1, 2, 3, 4** trên bàn phím tương ứng với 4 mức độ (1: Forgot, 2: Hard, 3: Good, 4: Easy).
 
 ---
 

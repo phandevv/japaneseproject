@@ -261,12 +261,24 @@ const FlashcardPage = ({ level: initialLevel, isSrs = false, stats, goBack, onDa
       } else if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
         e.preventDefault();
         setFlipped(prev => !prev);
+      } else if (e.key === '1') {
+        e.preventDefault();
+        handleRateWord(1);
+      } else if (e.key === '2') {
+        e.preventDefault();
+        handleRateWord(2);
+      } else if (e.key === '3') {
+        e.preventDefault();
+        handleRateWord(3);
+      } else if (e.key === '4') {
+        e.preventDefault();
+        handleRateWord(4);
       }
     };
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [currentIndex, words.length]);
+  }, [currentIndex, words.length, handleRateWord]);
 
   const handleSessionComplete = async () => {
     setShowShoji(true);
@@ -621,7 +633,7 @@ const FlashcardPage = ({ level: initialLevel, isSrs = false, stats, goBack, onDa
             word={currentWord}
             flipped={flipped}
             onFlip={() => setFlipped(!flipped)}
-            onRateWord={isAuthenticated ? handleRateWord : null}
+            onRateWord={handleRateWord}
           />
         </div>
 
@@ -636,9 +648,9 @@ const FlashcardPage = ({ level: initialLevel, isSrs = false, stats, goBack, onDa
             <ArrowLeft size={26} />
           </button>
 
-          <div style={{ color: 'var(--text-secondary)', fontSize: '0.88rem', textAlign: 'center', minWidth: '160px', lineHeight: 1.4 }}>
-            Dùng phím <strong>← →</strong> để chuyển thẻ<br />
-            Phím <strong>Space / ↑ ↓</strong> để lật thẻ
+          <div style={{ color: 'var(--text-secondary)', fontSize: '0.88rem', textAlign: 'center', minWidth: '180px', lineHeight: 1.4 }}>
+            Phím <strong>1-4</strong> hoặc <strong>Forgot/Good/Easy</strong> để đánh giá<br />
+            Phím <strong>← →</strong> chuyển thẻ | <strong>Space</strong> lật thẻ
           </div>
 
           <button

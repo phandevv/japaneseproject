@@ -147,22 +147,15 @@ const FlashcardCard = ({ word, flipped, onFlip, onRateWord }) => {
       <div className={`flashcard ${flipped ? 'is-flipped' : ''}`}>
         
         {/* Front side (Japanese) */}
-        <div className="flashcard-face flashcard-front" style={cardGlowStyle}>
-          {word.kanji ? (
-            <h2 className="jp-text" style={{ fontSize: '7rem', marginBottom: '1rem', color: 'var(--text-primary)', transition: 'font-size 0.2s' }}>
-              {word.kanji}
-            </h2>
-          ) : (
-            <p className="jp-text" style={{ fontSize: '5.5rem', color: 'var(--text-primary)', transition: 'font-size 0.2s' }}>
-              {word.hiragana}
-            </p>
-          )}
-          
-          <div style={{ position: 'absolute', bottom: '20px', display: 'flex', gap: '10px', flexWrap: 'wrap', alignItems: 'center' }}>
-            <span className="level-badge">{word.level}</span>
-            <span className="level-badge" style={{ borderColor: 'var(--border-color)', color: 'var(--text-secondary)', backgroundColor: 'transparent' }}>
-              {t.card.clickToFlip}
-            </span>
+        <div className="flashcard-face flashcard-front" style={{ ...cardGlowStyle, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'space-between', padding: '24px 20px 20px 20px' }}>
+          {/* Top header bar */}
+          <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap', alignItems: 'center', width: '100%', justifyContent: 'space-between' }}>
+            <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+              <span className="level-badge">{word.level}</span>
+              <span className="level-badge" style={{ borderColor: 'var(--border-color)', color: 'var(--text-secondary)', backgroundColor: 'transparent' }}>
+                {t.card.clickToFlip}
+              </span>
+            </div>
             <button
               type="button"
               className="btn btn-secondary"
@@ -172,6 +165,44 @@ const FlashcardCard = ({ word, flipped, onFlip, onRateWord }) => {
               <Volume2 size={16} /> {t.card.pronounce}
             </button>
           </div>
+
+          {/* Main Japanese Word Display */}
+          <div style={{ marginTop: 'auto', marginBottom: 'auto', textAlign: 'center' }}>
+            {word.kanji ? (
+              <h2 className="jp-text" style={{ fontSize: '6rem', marginBottom: '0.5rem', color: 'var(--text-primary)', transition: 'font-size 0.2s' }}>
+                {word.kanji}
+              </h2>
+            ) : (
+              <p className="jp-text" style={{ fontSize: '5rem', color: 'var(--text-primary)', transition: 'font-size 0.2s' }}>
+                {word.hiragana}
+              </p>
+            )}
+          </div>
+          
+          {/* Difficulty Rate Buttons directly on Front Side */}
+          {onRateWord && (() => {
+            const proj = word.projections || { AGAIN: 0, HARD: 0, GOOD: 1, EASY: 5 };
+            return (
+              <div style={{ display: 'flex', gap: '10px', width: '100%', maxWidth: '500px', justifyContent: 'center', marginTop: 'auto' }} onClick={e => e.stopPropagation()}>
+                <button className="glass-pill-btn glass-pill-forgot" onClick={() => onRateWord(1)} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '2px', flex: 1 }}>
+                  <span style={{fontSize: '0.72rem', opacity: 0.8}}>{proj.AGAIN === 0 ? '<10m' : proj.AGAIN + 'd'}</span>
+                  <span style={{ fontWeight: 700 }}>Forgot</span>
+                </button>
+                <button className="glass-pill-btn glass-pill-hard" onClick={() => onRateWord(2)} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '2px', flex: 1 }}>
+                  <span style={{fontSize: '0.72rem', opacity: 0.8}}>{proj.HARD === 0 ? '<10m' : proj.HARD + 'd'}</span>
+                  <span style={{ fontWeight: 700 }}>Hard</span>
+                </button>
+                <button className="glass-pill-btn glass-pill-good" onClick={() => onRateWord(3)} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '2px', flex: 1 }}>
+                  <span style={{fontSize: '0.72rem', opacity: 0.8}}>{proj.GOOD === 0 ? '<10m' : proj.GOOD + 'd'}</span>
+                  <span style={{ fontWeight: 700 }}>Good</span>
+                </button>
+                <button className="glass-pill-btn glass-pill-easy" onClick={() => onRateWord(4)} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '2px', flex: 1 }}>
+                  <span style={{fontSize: '0.72rem', opacity: 0.8}}>{proj.EASY === 0 ? '<10m' : proj.EASY + 'd'}</span>
+                  <span style={{ fontWeight: 700 }}>Easy</span>
+                </button>
+              </div>
+            );
+          })()}
         </div>
 
         {/* Back side (Meaning) */}
