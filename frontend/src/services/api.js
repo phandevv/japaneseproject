@@ -273,6 +273,17 @@ export const srsApi = {
   }
 };
 
+export const masterReviewApi = {
+  getWords: async (startDate = null, endDate = null) => {
+    let url = `${API_BASE_URL}/master-review/words`;
+    if (startDate && endDate) {
+      url += `?startDate=${startDate}&endDate=${endDate}`;
+    }
+    const response = await axios.get(url);
+    return response.data;
+  }
+};
+
 export const studyApi = {
   getQueue: async (level = 'N5') => {
     const response = await axios.get(`${API_BASE_URL}/study/queue?level=${level}`);

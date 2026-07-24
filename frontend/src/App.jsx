@@ -26,6 +26,7 @@ import WordConnectGame from './pages/WordConnectGame';
 import UserProfilePage from './pages/UserProfilePage';
 import AchievementsPage from './pages/AchievementsPage';
 import GrammarPage from './pages/GrammarPage';
+import MasterReviewPage from './pages/MasterReviewPage';
 
 const getTodayKey = () => new Date().toISOString().slice(0, 10);
 
@@ -130,6 +131,7 @@ function App() {
 
       case 'review-morning': navigate('/review/morning'); break;
       case 'review-today': navigate('/review/today'); break;
+      case 'master-review': navigate('/master-review'); break;
       case 'study-stats': navigate('/study-stats'); break;
       default: navigate('/');
     }
@@ -347,6 +349,12 @@ function App() {
       case 'review-today':
         return isAuthenticated ? (
           <ReviewHubPage mode="today" goBack={() => navigate('/')} />
+        ) : (
+          <AuthPage onCancel={() => navigate('/')} onSuccess={handleLoginSuccess} />
+        );
+      case 'master-review':
+        return isAuthenticated ? (
+          <MasterReviewPage goBack={() => navigate('/')} />
         ) : (
           <AuthPage onCancel={() => navigate('/')} onSuccess={handleLoginSuccess} />
         );

@@ -78,5 +78,12 @@ public interface WordReviewRepository extends JpaRepository<WordReview, Long> {
     @org.springframework.transaction.annotation.Transactional
     @Query("UPDATE WordReview wr SET wr.nextReview = :now WHERE wr.nextReview > :now")
     int markAllReviewsAsDue(@Param("now") Instant now);
+
+    @Query("SELECT DISTINCT wr.vocabulary FROM WordReview wr WHERE wr.user = :user " +
+           "AND wr.lastReviewedAt >= :start AND wr.lastReviewedAt <= :end")
+    List<com.flashcard.vocabulary.model.Vocabulary> findDistinctVocabularyByUserAndLastReviewedAtBetween(
+            @Param("user") User user,
+            @Param("start") Instant start,
+            @Param("end") Instant end);
 }
 

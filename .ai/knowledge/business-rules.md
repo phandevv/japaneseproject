@@ -86,3 +86,20 @@ $$EF' = EF + (0.1 - (5 - q) \times (0.08 + (5 - q) \times 0.02))$$
        - Hỗ trợ đảo chiều linh hoạt: **Nhật ➔ Việt** và **Việt ➔ Nhật**.
     3. **Thử thách AI**: Khi thực hiện bài tập dịch AI, hội thoại AI Tutor hoặc nhập kiến thức AI.
 
+---
+
+## 7. Quy tắc Tổng ôn tập (Master Review System - `/master-review`)
+
+* **Mục đích**: Rà soát các từ vựng chưa thuộc trong phạm vi chỉ định, tập hợp danh sách từ quên, bắt buộc vượt qua bài Quiz với điểm Pass **> 90%**.
+* **Phạm vi ôn tập (Scope Selection)**:
+  * **Tất cả từ đã học**: Lấy toàn bộ các từ vựng đã được học trong hệ thống.
+  * **Khoảng thời gian (Từ ngày A ➔ Đến ngày B)**: Lọc các từ vựng được học/ôn trong khoảng thời gian chỉ định (`GET /api/master-review/words?startDate=...&endDate=...`).
+* **Flashcard Rà soát Nhanh (Minimalist Screening)**:
+  * **Mặt trước**: Chỉ hiển thị Kanji (hoặc Hiragana nếu không có Kanji).
+  * **Mặt sau**: Chỉ hiển thị Nghĩa tiếng Việt khi bấm lật thẻ.
+  * Nút bấm: **Nhớ** (cập nhật SRS rating 3) & **Quên** (tự động gom vào danh sách `forgottenWords` và cập nhật SRS rating 1).
+* **Bài Quiz Bắt buộc & Bảo toàn trạng thái (Mandatory Quiz & Session Persistence)**:
+  * Sau khi rà soát, hệ thống tạo bảng tổng hợp các từ đã quên và yêu cầu người dùng làm Quiz (Trắc nghiệm hoặc Gõ chữ).
+  * **Chỉ tiêu Pass**: Phải đạt kết quả **> 90%** câu đúng.
+  * **Bảo toàn trạng thái**: Nếu người dùng chưa đạt > 90% hoặc thoát trang giữa chừng, trạng thái bài Tổng ôn được **lưu lại tự động** (trong `localStorage`). Khi mở lại trang Tổng ôn tập, hệ thống sẽ khôi phục đúng danh sách từ đã quên để người dùng tiếp tục ôn luyện cho đến khi vượt qua chỉ tiêu > 90%.
+

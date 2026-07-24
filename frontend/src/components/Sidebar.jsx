@@ -124,6 +124,13 @@ const Sidebar = ({ isCollapsed, onToggleCollapse, currentPage, setCurrentPage, o
           <span>Ôn lại hôm nay</span>
         </button>
         <button
+          className={`sidebar-link${currentPage === "master-review" ? " active" : ""}`}
+          onClick={() => setCurrentPage("master-review")}
+        >
+          <Sparkles size={17} />
+          <span>Tổng ôn tập</span>
+        </button>
+        <button
           className={`sidebar-link${currentPage?.startsWith("game") ? " active" : ""}`}
           onClick={() => setCurrentPage("games")}
         >
