@@ -123,7 +123,12 @@ $$EF' = EF + (0.1 - (5 - q) \times (0.08 + (5 - q) \times 0.02))$$
   * Bổ sung nút **"⚡ Học ngẫu nhiên 20 từ"** tại màn hình chọn Ngày học, cho phép người dùng vào học Flashcard ngay lập tức mà không cần chọn từng ngày.
 * **Đánh giá Độ khó Trực tiếp ở Mặt Trước Thẻ (Front-Side Difficulty Rating & Keyboard 1-4)**:
   * Thẻ Flashcard (`FlashcardCard.jsx`) hiển thị 4 nút đánh giá độ khó (**Forgot / Hard / Good / Easy**) ngay ở **mặt trước** (mặt tiếng Nhật/Kanji). Giúp người học có thể đánh giá và chuyển sang từ tiếp theo ngay lập tức nếu đã thuộc từ mà không bắt buộc phải click lật sang mặt sau.
-  * Hỗ trợ phím tắt số **1, 2, 3, 4** trên bàn phím tương ứng với 4 mức độ (1: Forgot, 2: Hard, 3: Good, 4: Easy).
+* **Quy tắc Hoàn thành Quiz Tổng ôn tập (Master Review Quiz Completion Rule - Full vs Subset)**:
+  * **Chế độ Tất cả từ (FULL Test)**: Chỉ khi người dùng chọn kiểm tra Tất cả các từ chưa thuộc (`quizOptType === 'all'`) VÀ đạt kết quả **> 90%**, hệ thống mới hoàn tất lượt Tổng ôn (`clearSession()`) và trở về trang chủ ban đầu (Phase 0).
+  * **Chế độ Tập hợp con (Partial/Subset Test)**: Khi người dùng chọn kiểm tra một số lượng từ ngẫu nhiên hoặc khoảng chỉ định (ví dụ 10/100 từ), khi làm xong:
+    - Các từ trả lời đúng sẽ được tự động loại bỏ khỏi danh sách chưa thuộc (ví dụ 100 ➔ 91 từ).
+    - Hệ thống lưu lại danh sách từ chưa thuộc mới vào `localStorage` (`persistSession(updatedForgotten)`).
+    - Hiển thị màn hình tổng kết bài Quiz ngắn ("Đã thuộc X/Y từ, còn lại Z từ cần tiếp tục ôn tập") kèm 2 tùy chọn: **"Tiếp tục ôn Z từ còn lại"** (chuyển sang Phase 2 Bảng danh sách từ) hoặc **"Làm tiếp Quiz khác"** (mở Phase 4 Cấu hình Quiz mới).
 
 ---
 

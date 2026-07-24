@@ -129,6 +129,7 @@ const MasterReviewPage = ({ goBack }) => {
   const [quizScore, setQuizScore] = useState(0);
   const [quizMistakes, setQuizMistakes] = useState(0);
   const [quizFinished, setQuizFinished] = useState(false);
+  const [correctlyAnsweredWordIds, setCorrectlyAnsweredWordIds] = useState(new Set());
   const [answeredStatus, setAnsweredStatus] = useState(null); // null, 'correct', 'incorrect'
   const [quizWordEnriched, setQuizWordEnriched] = useState(null);
   const [loadingQuizEnrich, setLoadingQuizEnrich] = useState(false);
@@ -270,6 +271,26 @@ const MasterReviewPage = ({ goBack }) => {
     }
   };
 
+  // Keyboard navigation for Phase 1 Flashcard Screening
+  useEffect(() => {
+    if (phase !== 1 || allWords.length === 0) return;
+    const handleKeyDown = (e) => {
+      if (['INPUT', 'TEXTAREA', 'SELECT'].includes(e.target.tagName) || e.target.isContentEditable) return;
+      if (e.key === ' ') {
+        e.preventDefault();
+        setIsFlipped(prev => !prev);
+      } else if (e.key === '1' || e.key === 'ArrowLeft') {
+        e.preventDefault();
+        handleFlashcardRating(false);
+      } else if (e.key === '2' || e.key === '3' || e.key === '4' || e.key === 'ArrowRight') {
+        e.preventDefault();
+        handleFlashcardRating(true);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [phase, cardIndex, allWords, forgottenWords]);
+
   // ── Step 3: Open Quiz Setup Modal (Phase 4) ─────────────────────────────────
   const openQuizSetup = () => {
     setQuizSetupError('');
@@ -315,6 +336,7 @@ const MasterReviewPage = ({ goBack }) => {
     setQuizScore(0);
     setQuizMistakes(0);
     setQuizFinished(false);
+    setCorrectlyAnsweredWordIds(new Set());
     setSelectedChoice(null);
     setUserInput('');
     setTypingStatus('idle');
@@ -381,6 +403,7 @@ const MasterReviewPage = ({ goBack }) => {
 
     if (isCorrect) {
       setQuizScore(s => s + 1);
+      setCorrectlyAnsweredWordIds(prev => new Set(prev).add(current.id));
       srsApi.reviewWord(current.id, 3).catch(console.error);
       analyticsApi.logSession(0, 1, 1).catch(console.error);
       speakWord(current);
@@ -419,6 +442,7 @@ const MasterReviewPage = ({ goBack }) => {
     if (isCorrect) {
       setTypingStatus('correct');
       setQuizScore(s => s + 1);
+      setCorrectlyAnsweredWordIds(prev => new Set(prev).add(current.id));
       srsApi.reviewWord(current.id, 4).catch(console.error);
       analyticsApi.logSession(0, 1, 1).catch(console.error);
       speakWord(current);
@@ -1084,12 +1108,74 @@ const MasterReviewPage = ({ goBack }) => {
     // Finished Quiz Sub-Screen
     if (quizFinished) {
       const accuracy = Math.round((quizScore / quizWords.length) * 100);
-      const isPassed = accuracy > 90;
+      const isFullTest = quizOptType === 'all' || quizWords.length === forgottenWords.length;
+      
+      // Calculate updated forgotten words by excluding words answered correctly in this quiz
+      const updatedForgotten = forgottenWords.filter(w => !correctlyAnsweredWordIds.has(w.id));
+      const removedCount = forgottenWords.length - updatedForgotten.length;
+      const isPassed = isFullTest ? accuracy > 90 : (updatedForgotten.length === 0 || accuracy > 90);
 
-      if (isPassed) {
+      // Clear session ONLY if full test passed OR all remaining forgotten words are cleared
+      if (isPassed && (isFullTest || updatedForgotten.length === 0)) {
         clearSession();
+      } else {
+        persistSession(updatedForgotten);
       }
 
+      // ── PARTIAL SUBSET QUIZ RESULT SCREEN ─────────────────────────────────────
+      if (!isFullTest && updatedForgotten.length > 0) {
+        return (
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '75vh', gap: '24px', textAlign: 'center', padding: '20px' }}>
+            <div style={{
+              width: '84px', height: '84px', borderRadius: '50%',
+              background: 'linear-gradient(135deg, #10b981, #3b82f6)',
+              display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 8px 24px rgba(0,0,0,0.12)'
+            }}>
+              <CheckCircle size={42} color="white" />
+            </div>
+
+            <div>
+              <h1 style={{ margin: '0 0 8px', fontSize: '2.2rem' }}>
+                Hoàn thành bài Quiz ngẫu nhiên! 📝
+              </h1>
+              <p style={{ fontSize: '2.4rem', fontWeight: 800, margin: '0 0 6px', color: '#10b981' }}>
+                {accuracy}%
+              </p>
+              <p style={{ color: 'var(--text-secondary)', margin: '0 0 12px', fontSize: '1.1rem' }}>
+                Đúng {quizScore}/{quizWords.length} câu • Đã thuộc {removedCount} từ
+              </p>
+              <p style={{ color: 'var(--text-secondary)', margin: 0, maxWidth: '520px', lineHeight: 1.5 }}>
+                Đã loại bỏ <strong style={{ color: '#10b981' }}>{removedCount} từ</strong> khỏi danh sách chưa thuộc. Còn lại <strong style={{ color: 'var(--accent-color)' }}>{updatedForgotten.length} từ</strong> cần tiếp tục ôn tập.
+              </p>
+            </div>
+
+            <div style={{ display: 'flex', gap: '14px', marginTop: '12px', flexWrap: 'wrap', justifyContent: 'center' }}>
+              <button
+                className="btn btn-primary"
+                onClick={() => {
+                  setForgottenWords(updatedForgotten);
+                  setPhase(2);
+                }}
+                style={{ padding: '14px 28px', fontSize: '1.05rem', fontWeight: 700 }}
+              >
+                Tiếp tục ôn {updatedForgotten.length} từ còn lại ➔
+              </button>
+              <button
+                className="btn btn-secondary"
+                onClick={() => {
+                  setForgottenWords(updatedForgotten);
+                  openQuizSetup();
+                }}
+                style={{ padding: '14px 24px', fontSize: '1rem', display: 'flex', alignItems: 'center', gap: '8px' }}
+              >
+                <RotateCcw size={18} /> Làm tiếp Quiz khác
+              </button>
+            </div>
+          </div>
+        );
+      }
+
+      // ── FULL TEST RESULT SCREEN (Pass vs Fail) ─────────────────────────────────
       return (
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '75vh', gap: '24px', textAlign: 'center', padding: '20px' }}>
           <div style={{
@@ -1102,7 +1188,7 @@ const MasterReviewPage = ({ goBack }) => {
 
           <div>
             <h1 style={{ margin: '0 0 8px', fontSize: '2.2rem' }}>
-              {isPassed ? 'Xuất sắc! Đã hoàn thành! 🎉' : 'Chưa đạt chỉ tiêu (&gt; 90%) ⚠️'}
+              {isPassed ? 'Xuất sắc! Đã hoàn thành bài Tổng ôn! 🎉' : 'Chưa đạt chỉ tiêu (&gt; 90%) ⚠️'}
             </h1>
             <p style={{ fontSize: '2.6rem', fontWeight: 800, margin: '0 0 6px', color: isPassed ? '#10b981' : '#ef4444' }}>
               {accuracy}%
@@ -1110,24 +1196,30 @@ const MasterReviewPage = ({ goBack }) => {
             <p style={{ color: 'var(--text-secondary)', margin: '0 0 12px', fontSize: '1.1rem' }}>
               Đúng {quizScore}/{quizWords.length} câu • Sai {quizMistakes} câu
             </p>
-            <p style={{ color: 'var(--text-secondary)', margin: 0, maxWidth: '460px', lineHeight: 1.5 }}>
+            <p style={{ color: 'var(--text-secondary)', margin: 0, maxWidth: '480px', lineHeight: 1.5 }}>
               {isPassed
-                ? 'Chúc mừng bạn! Bạn đã đạt trên 90% và hoàn thành bài Tổng ôn tập này.'
-                : 'Bạn cần đạt kết quả > 90% để hoàn thành. Trạng thái các từ chưa thuộc sẽ được giữ nguyên để bạn luyện tiếp.'}
+                ? 'Chúc mừng bạn! Bạn đã đạt trên 90% với bài kiểm tra tất cả từ vựng và hoàn thành lượt Tổng ôn này.'
+                : 'Bạn cần đạt kết quả > 90% khi kiểm tra tất cả các từ để hoàn thành. Các từ chưa thuộc đã được cập nhật.'}
             </p>
           </div>
 
-          <div style={{ display: 'flex', gap: '14px', marginTop: '12px' }}>
+          <div style={{ display: 'flex', gap: '14px', marginTop: '12px', flexWrap: 'wrap', justifyContent: 'center' }}>
             {isPassed ? (
-              <button className="btn btn-primary" onClick={() => setPhase(0)} style={{ padding: '14px 28px', fontSize: '1.05rem' }}>
+              <button className="btn btn-primary" onClick={() => setPhase(0)} style={{ padding: '14px 28px', fontSize: '1.05rem', fontWeight: 700 }}>
                 Quay về trang chủ Tổng ôn
               </button>
             ) : (
               <>
-                <button className="btn btn-secondary" onClick={() => setPhase(2)} style={{ padding: '12px 20px' }}>
-                  Xem lại danh sách từ
+                <button className="btn btn-secondary" onClick={() => {
+                  setForgottenWords(updatedForgotten);
+                  setPhase(2);
+                }} style={{ padding: '12px 20px' }}>
+                  Xem lại danh sách từ ({updatedForgotten.length})
                 </button>
-                <button className="btn btn-primary" onClick={openQuizSetup} style={{ padding: '12px 24px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <button className="btn btn-primary" onClick={() => {
+                  setForgottenWords(updatedForgotten);
+                  openQuizSetup();
+                }} style={{ padding: '12px 24px', display: 'flex', alignItems: 'center', gap: '8px' }}>
                   <RotateCcw size={18} /> Thử lại Quiz (&gt; 90%)
                 </button>
               </>
@@ -1186,16 +1278,11 @@ const MasterReviewPage = ({ goBack }) => {
               <p className="jp-text" style={{ fontSize: '2.8rem', margin: '0 0 10px', fontWeight: 700 }}>
                 {current.kanji || current.hiragana}
               </p>
-              {current.kanji && current.hiragana && (
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
-                  <span
-                    style={{
-                      fontSize: '1.15rem', color: 'var(--text-secondary)',
-                      filter: (showHiraganaHint || answeredStatus !== null) ? 'none' : 'blur(6px)',
-                      cursor: 'pointer', userSelect: 'none'
-                    }}
-                  >
-                    {current.hiragana}
+              {/* Show Hiragana reading ONLY if word has no Kanji, OR after answering */}
+              {current.kanji && current.hiragana && answeredStatus !== null && (
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', marginTop: '6px' }}>
+                  <span style={{ fontSize: '1.15rem', color: 'var(--accent-color)', fontWeight: 600 }}>
+                    ({current.hiragana})
                   </span>
                 </div>
               )}

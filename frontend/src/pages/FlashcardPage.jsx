@@ -239,6 +239,7 @@ const FlashcardPage = ({ level: initialLevel, isSrs = false, stats, goBack, onDa
     }
   };
 
+
   useEffect(() => {
     if (currentIndex !== null) {
       setFlipped(false);
@@ -246,28 +247,30 @@ const FlashcardPage = ({ level: initialLevel, isSrs = false, stats, goBack, onDa
   }, [currentIndex]);
 
   const handleSessionComplete = async () => {
-    setShowShoji(true);
-  };
 
-  const handleNext = () => {
+    setShowShoji(true);
+  }, []);
+
+  const handleNext = useCallback(() => {
     if (currentIndex < words.length - 1) {
       setFlipped(false);
       setCurrentIndex(prev => prev + 1);
     } else {
       handleSessionComplete();
     }
-  };
+  }, [currentIndex, words.length, handleSessionComplete]);
 
-  const handlePrev = () => {
+  const handlePrev = useCallback(() => {
     if (currentIndex > 0) {
       setFlipped(false);
       setCurrentIndex(prev => prev - 1);
     }
-  };
+  }, [currentIndex]);
 
-  const handleRateWord = async (quality) => {
+  const handleRateWord = useCallback(async (quality) => {
     if (words.length === 0) return;
     const currentWord = words[currentIndex];
+    if (!currentWord) return;
 
     const isNew = !seenWordIds.has(currentWord.id);
     if (isNew) {
@@ -293,7 +296,49 @@ const FlashcardPage = ({ level: initialLevel, isSrs = false, stats, goBack, onDa
     } else {
       handleSessionComplete();
     }
-  };
+  }, [words, currentIndex, seenWordIds, isAuthenticated, handleSessionComplete]);
+
+  useEffect(() => {
+    if (currentIndex !== null) {
+      setFlipped(false);
+    }
+  }, [currentIndex]);
+
+  // Keyboard navigation
+  useEffect(() => {
+    if (words.length === 0) return;
+    const handleKeyDown = (e) => {
+      if (['INPUT', 'TEXTAREA', 'SELECT'].includes(e.target.tagName) || e.target.isContentEditable) return;
+      if (e.key === ' ') {
+        e.preventDefault();
+        setFlipped(prev => !prev);
+      } else if (e.key === 'ArrowRight') {
+        e.preventDefault();
+        handleNext();
+      } else if (e.key === 'ArrowLeft') {
+        e.preventDefault();
+        handlePrev();
+      } else if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
+        e.preventDefault();
+        setFlipped(prev => !prev);
+      } else if (e.key === '1') {
+        e.preventDefault();
+        handleRateWord(1);
+      } else if (e.key === '2') {
+        e.preventDefault();
+        handleRateWord(2);
+      } else if (e.key === '3') {
+        e.preventDefault();
+        handleRateWord(3);
+      } else if (e.key === '4') {
+        e.preventDefault();
+        handleRateWord(4);
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [words.length, handleNext, handlePrev, handleRateWord]);
 
   // Keyboard navigation
   useEffect(() => {
