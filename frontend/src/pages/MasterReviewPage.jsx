@@ -1,10 +1,11 @@
-import { ArrowLeft, CheckCircle, Eye, EyeOff, FileQuestion, Keyboard, Layers, ListFilter, RotateCcw, Send, Sparkles, Trophy, Volume2, XCircle, ChevronRight } from 'lucide-react';
+import { ArrowLeft, CheckCircle, Eye, EyeOff, FileQuestion, Keyboard, Layers, ListFilter, RotateCcw, Send, Sparkles, Trophy, Volume2, XCircle, ChevronRight, ArrowRight } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import KanjiDetailModal from '../components/KanjiDetailModal';
 import MascotCorners from '../components/MascotCorners';
 import MascotLoader from '../components/MascotLoader';
 import SakuraPetals from '../components/SakuraPetals';
-import { analyticsApi, masterReviewApi, srsApi } from '../services/api';
+import AiEnrichedTabbedView from '../components/AiEnrichedTabbedView';
+import { analyticsApi, masterReviewApi, srsApi, vocabApi } from '../services/api';
 
 // ── Smart Vietnamese Matcher ──────────────────────────────────────────────────
 const VIETNAMESE_SYNONYMS = [
@@ -118,6 +119,9 @@ const MasterReviewPage = ({ goBack }) => {
   const [quizMistakes, setQuizMistakes] = useState(0);
   const [quizFinished, setQuizFinished] = useState(false);
   const [showHiraganaHint, setShowHiraganaHint] = useState(false);
+  const [answeredStatus, setAnsweredStatus] = useState(null); // null, 'correct', 'incorrect'
+  const [quizWordEnriched, setQuizWordEnriched] = useState(null);
+  const [loadingQuizEnrich, setLoadingQuizEnrich] = useState(false);
   const inputRef = useRef(null);
 
   // 1. On Mount: Check for persisted unfinished session
@@ -264,7 +268,32 @@ const MasterReviewPage = ({ goBack }) => {
     setSelectedChoice(null);
     setUserInput('');
     setTypingStatus('idle');
+    setAnsweredStatus(null);
+    setQuizWordEnriched(null);
+    setLoadingQuizEnrich(false);
     setPhase(3);
+  };
+
+  const fetchQuizWordEnrichment = (word) => {
+    if (!word) return;
+    if (word.sampleSentence) {
+      setQuizWordEnriched(word);
+      return;
+    }
+    setQuizWordEnriched(null);
+    setLoadingQuizEnrich(true);
+    vocabApi.enrich(word.id)
+      .then(data => {
+        if (data && data.sampleSentence) {
+          word.sampleSentence = data.sampleSentence;
+          word.sampleReading = data.sampleReading;
+          word.sampleTranslation = data.sampleTranslation;
+          word.kanjiWords = data.kanjiWords;
+          setQuizWordEnriched(data);
+        }
+      })
+      .catch(console.error)
+      .finally(() => setLoadingQuizEnrich(false));
   };
 
   // Prepare multiple choice options for Phase 3 Quiz
@@ -287,14 +316,18 @@ const MasterReviewPage = ({ goBack }) => {
       }, 100);
     }
     setShowHiraganaHint(false);
+    setAnsweredStatus(null);
+    setQuizWordEnriched(null);
+    setLoadingQuizEnrich(false);
   }, [phase, quizIndex, quizWords, quizFormat]);
 
   // Quiz Choice Handler
   const handleQuizChoice = (choice) => {
-    if (selectedChoice !== null) return;
+    if (selectedChoice !== null || answeredStatus !== null) return;
     setSelectedChoice(choice);
     const current = quizWords[quizIndex];
     const isCorrect = choice.id === current.id;
+    setAnsweredStatus(isCorrect ? 'correct' : 'incorrect');
 
     if (isCorrect) {
       setQuizScore(s => s + 1);
@@ -307,15 +340,13 @@ const MasterReviewPage = ({ goBack }) => {
       analyticsApi.logSession(0, 0, 1).catch(console.error);
     }
 
-    setTimeout(() => {
-      advanceQuizNext();
-    }, 1200);
+    fetchQuizWordEnrichment(current);
   };
 
   // Quiz Typing Handler
   const handleQuizTypingCheck = (e) => {
     if (e) e.preventDefault();
-    if (typingStatus !== 'idle') {
+    if (typingStatus !== 'idle' || answeredStatus !== null) {
       advanceQuizNext();
       return;
     }
@@ -333,6 +364,8 @@ const MasterReviewPage = ({ goBack }) => {
       isCorrect = matchVietnameseAnswer(userInput, current.meaning || '');
     }
 
+    setAnsweredStatus(isCorrect ? 'correct' : 'incorrect');
+
     if (isCorrect) {
       setTypingStatus('correct');
       setQuizScore(s => s + 1);
@@ -346,6 +379,8 @@ const MasterReviewPage = ({ goBack }) => {
       analyticsApi.logSession(0, 0, 1).catch(console.error);
       speakWord(current);
     }
+
+    fetchQuizWordEnrichment(current);
   };
 
   const advanceQuizNext = () => {
@@ -356,6 +391,9 @@ const MasterReviewPage = ({ goBack }) => {
       setSelectedChoice(null);
       setUserInput('');
       setTypingStatus('idle');
+      setAnsweredStatus(null);
+      setQuizWordEnriched(null);
+      setLoadingQuizEnrich(false);
     }
   };
 
@@ -954,14 +992,14 @@ const MasterReviewPage = ({ goBack }) => {
                 value={userInput}
                 onChange={(e) => setUserInput(e.target.value)}
                 placeholder={isJaToVi ? "Nhập nghĩa tiếng Việt..." : "Nhập cách đọc Hiragana hoặc Kanji..."}
-                disabled={typingStatus !== 'idle'}
+                disabled={answeredStatus !== null}
                 style={{
                   flex: 1, padding: '16px 20px', fontSize: '1.2rem', borderRadius: '14px',
-                  border: typingStatus === 'correct' ? '2px solid #10b981' : typingStatus === 'incorrect' ? '2px solid #ef4444' : '2px solid var(--border-color)',
+                  border: answeredStatus === 'correct' ? '2px solid #10b981' : answeredStatus === 'incorrect' ? '2px solid #ef4444' : '2px solid var(--border-color)',
                   backgroundColor: 'var(--surface-color)', color: 'var(--text-primary)', outline: 'none'
                 }}
               />
-              {typingStatus === 'idle' ? (
+              {answeredStatus === null ? (
                 <button type="submit" className="btn btn-primary" disabled={!userInput.trim()} style={{ padding: '0 28px', borderRadius: '14px' }}>
                   Kiểm tra <Send size={18} />
                 </button>
@@ -971,28 +1009,72 @@ const MasterReviewPage = ({ goBack }) => {
                 </button>
               )}
             </div>
-
-            {typingStatus !== 'idle' && (
-              <div className="animate-fade-in" style={{
-                padding: '18px 24px', borderRadius: '14px',
-                background: typingStatus === 'correct' ? 'rgba(16,185,129,0.1)' : 'rgba(239,68,68,0.1)',
-                border: typingStatus === 'correct' ? '1px solid #10b981' : '1px solid #ef4444',
-                display: 'flex', alignItems: 'center', justifyContent: 'space-between'
-              }}>
-                <div>
-                  <h4 style={{ margin: '0 0 4px', color: typingStatus === 'correct' ? '#10b981' : '#ef4444' }}>
-                    {typingStatus === 'correct' ? '🎉 Chính xác!' : '❌ Chưa chính xác'}
-                  </h4>
-                  <p style={{ margin: 0 }}>
-                    <strong>Đáp án đúng:</strong> {isJaToVi ? current.meaning : (current.kanji ? `${current.kanji} (${current.hiragana})` : current.hiragana)}
-                  </p>
-                </div>
-                <button type="button" onClick={advanceQuizNext} className="btn btn-secondary">
-                  Nhấn Enter để tiếp tục ↵
-                </button>
-              </div>
-            )}
           </form>
+        )}
+
+        {/* Post-Answer Feedback Card (matching DailyStudyPage.jsx) */}
+        {answeredStatus !== null && (
+          <div className="card animate-fade-in" style={{
+            backgroundColor: answeredStatus === 'correct' ? 'rgba(16,185,129,0.06)' : 'rgba(239,68,68,0.06)',
+            borderColor: answeredStatus === 'correct' ? '#10b981' : '#ef4444',
+            borderWidth: '1.5px',
+            borderStyle: 'solid',
+            padding: '24px',
+            marginTop: '24px',
+            borderRadius: '20px'
+          }}>
+            <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', gap: '24px', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: '20px' }}>
+              {/* Left Column: Word Info */}
+              <div style={{ flex: '1 1 320px', display: 'flex', gap: '15px', alignItems: 'flex-start' }}>
+                {answeredStatus === 'correct'
+                  ? <CheckCircle size={32} color="#10b981" style={{ flexShrink: 0, marginTop: '2px' }} />
+                  : <XCircle size={32} color="#ef4444" style={{ flexShrink: 0, marginTop: '2px' }} />
+                }
+                <div style={{ textAlign: 'left' }}>
+                  <h3 style={{ color: answeredStatus === 'correct' ? '#10b981' : '#ef4444', margin: '0 0 8px', fontSize: '1.25rem' }}>
+                    {answeredStatus === 'correct' ? '🎉 Chính xác!' : '❌ Chưa chính xác'}
+                  </h3>
+                  <p className="jp-text" style={{ fontSize: '1.4rem', margin: '0 0 8px', display: 'flex', alignItems: 'center', gap: '8px', fontWeight: 700 }}>
+                    {current.kanji && <span>{current.kanji} </span>}
+                    <span style={{ color: 'var(--text-secondary)', fontWeight: 500 }}>({current.hiragana})</span>
+                    <button
+                      type="button"
+                      onClick={() => speakWord(current)}
+                      style={{ background: 'none', border: 'none', color: 'var(--accent-color)', cursor: 'pointer', padding: '4px', display: 'flex', alignItems: 'center' }}
+                    >
+                      <Volume2 size={18} />
+                    </button>
+                  </p>
+                  <p style={{ marginTop: '6px', fontSize: '1.05rem', color: 'var(--text-primary)', marginBottom: '4px' }}>
+                    <strong>Nghĩa:</strong> {current.meaning}
+                  </p>
+                  {current.hanViet && (
+                    <p style={{ marginTop: '4px', fontSize: '0.95rem', color: 'var(--text-secondary)' }}>
+                      <strong>Hán Việt:</strong> 【{current.hanViet}】
+                    </p>
+                  )}
+                </div>
+              </div>
+
+              {/* Right Column: AI Enriched Data */}
+              <div style={{ flex: '1 1 350px', width: '100%' }}>
+                {loadingQuizEnrich && (
+                  <div style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', fontStyle: 'italic', padding: '10px', textAlign: 'left' }}>
+                    Đang tải dữ liệu AI (Ví dụ, dịch nghĩa, phát âm)...
+                  </div>
+                )}
+                {quizWordEnriched && (
+                  <AiEnrichedTabbedView data={quizWordEnriched} />
+                )}
+              </div>
+            </div>
+
+            <div style={{ display: 'flex', justifyContent: 'flex-end', borderTop: '1px solid var(--border-color)', paddingTop: '16px' }}>
+              <button className="btn btn-primary" onClick={advanceQuizNext} style={{ padding: '12px 28px', fontSize: '1rem', fontWeight: 700, borderRadius: '12px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                Tiếp theo <ArrowRight size={18} />
+              </button>
+            </div>
+          </div>
         )}
       </div>
     );

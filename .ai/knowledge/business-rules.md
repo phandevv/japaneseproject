@@ -103,6 +103,7 @@ $$EF' = EF + (0.1 - (5 - q) \times (0.08 + (5 - q) \times 0.02))$$
   * Hỗ trợ chuyển tiếp từ trước/sau (Next/Prev) trực tiếp trong Modal và hiển thị thứ tự nét viết Kanji, phát âm âm thanh, Hán Việt và phân tích từ vựng AI.
 * **Bài Quiz Bắt buộc & Bảo toàn trạng thái (Mandatory Quiz & Session Persistence)**:
   * Sau khi rà soát, hệ thống tạo bảng tổng hợp các từ đã quên và yêu cầu người dùng làm Quiz (Trắc nghiệm hoặc Gõ chữ).
+  * **Hiển thị Chi tiết Từ vựng AI sau mỗi câu trả lời**: Đồng bộ 100% với `DailyStudyPage.jsx`: Ngay khi trả lời (chọn phương án hoặc gõ từ), hệ thống tự động hiển thị thẻ phản hồi 2 cột gồm: Kanji/Hiragana, Nghĩa, Hán Việt, phát âm âm thanh và khối **Dữ liệu AI Bổ sung (`AiEnrichedTabbedView`)** (Ví dụ câu, Dịch nghĩa, Phân tích Kanji).
   * **Chỉ tiêu Pass**: Phải đạt kết quả **> 90%** câu đúng.
   * **Bảo toàn trạng thái**: Nếu người dùng chưa đạt > 90% hoặc thoát trang giữa chừng, trạng thái bài Tổng ôn được **lưu lại tự động** (trong `localStorage`). Khi mở lại trang Tổng ôn tập, hệ thống sẽ khôi phục đúng danh sách từ đã quên để người dùng tiếp tục ôn luyện cho đến khi vượt qua chỉ tiêu > 90%.
 
