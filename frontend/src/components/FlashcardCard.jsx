@@ -23,7 +23,10 @@ const FlashcardCard = ({ word, flipped, onFlip, onRateWord }) => {
   };
 
   useEffect(() => {
-    if (!word) return;
+    if (!word || !word.id) {
+      setLoadingEnrich(false);
+      return;
+    }
 
     if (hasRichEnrichment(word)) {
       setEnriched(word);

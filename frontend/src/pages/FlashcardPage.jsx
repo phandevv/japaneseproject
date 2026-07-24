@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { vocabApi, srsApi, analyticsApi, userSettingsApi, studyApi } from '../services/api';
 import FlashcardCard from '../components/FlashcardCard';
 import ShojiScreen from '../components/ShojiScreen';
-import { ArrowLeft, ArrowRight, Shuffle, CornerUpLeft, Settings, Check } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Shuffle, CornerUpLeft, Settings, Check, Loader, Sparkles, Play } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
 import { useAuth } from '../context/AuthContext';
 import MascotCorners from '../components/MascotCorners';
@@ -47,7 +47,7 @@ const FlashcardPage = ({ level: initialLevel, isSrs = false, stats, goBack, onDa
     setActiveLevel(initialLevel);
   }, [initialLevel]);
 
-  // Load stats if missing
+  // Load stats if missing or empty
   useEffect(() => {
     if (stats && stats.levels) {
       setLocalStats(stats);
@@ -56,7 +56,7 @@ const FlashcardPage = ({ level: initialLevel, isSrs = false, stats, goBack, onDa
         .then(data => {
           if (data && data.levels) setLocalStats(data);
         })
-        .catch(console.error);
+        .catch(err => console.error("Failed to fetch level stats in FlashcardPage:", err));
     }
   }, [stats]);
 
@@ -65,7 +65,7 @@ const FlashcardPage = ({ level: initialLevel, isSrs = false, stats, goBack, onDa
   const handleSaveSettings = async (value) => {
     const val = parseInt(value, 10);
     if (!val || val <= 0) return;
-    
+
     setLoadingSettings(true);
     try {
       if (isAuthenticated) {
@@ -183,27 +183,60 @@ const FlashcardPage = ({ level: initialLevel, isSrs = false, stats, goBack, onDa
         let currentDayPage = day - 1;
         while (true) {
           const paginated = await vocabApi.getByLevelPaginated(activeLevel, currentDayPage, wordsPerDay);
-          if (!paginated || !paginated.content || paginated.content.length === 0) break;
-          data = [...data, ...paginated.content];
-          if (paginated.last) break;
+          const pageItems = Array.isArray(paginated) ? paginated : (paginated?.content || []);
+          if (pageItems.length === 0) break;
+          data = [...data, ...pageItems];
+          if (paginated?.last) break;
           currentDayPage++;
         }
       } else {
         const paginated = await vocabApi.getByLevelPaginated(activeLevel, day - 1, wordsPerDay);
-        data = paginated.content || [];
+        data = Array.isArray(paginated) ? paginated : (paginated?.content || []);
       }
-      setWords(data);
+
+      // Robust Fallback if backend returned empty array for page
+      if (!data || data.length === 0) {
+        const randomData = await vocabApi.getRandomByLevel(activeLevel, wordsPerDay);
+        data = Array.isArray(randomData) ? randomData : [];
+      }
+
+      setWords(data || []);
       setSelectedDay(day);
       setCurrentIndex(0);
       setFlipped(false);
       setSeenWordIds(new Set());
     } catch (error) {
-      console.error("Failed to fetch words for day:", error);
-      setWords([]);
+      console.error("Failed to fetch words for day, attempting random fallback:", error);
+      try {
+        const fallbackData = await vocabApi.getRandomByLevel(activeLevel, wordsPerDay);
+        setWords(fallbackData || []);
+        setSelectedDay(day);
+      } catch (fbErr) {
+        setWords([]);
+      }
     } finally {
       setLoading(false);
     }
   }, [activeLevel, wordsPerDay, activeStatsLevels]);
+
+  // Quick Start Handler: Learn random words directly
+  const handleQuickStartRandom = async () => {
+    if (!activeLevel) return;
+    setLoading(true);
+    try {
+      const randomData = await vocabApi.getRandomByLevel(activeLevel, wordsPerDay || 20);
+      const data = Array.isArray(randomData) ? randomData : [];
+      setWords(data);
+      setSelectedDay(1);
+      setCurrentIndex(0);
+      setFlipped(false);
+      setSeenWordIds(new Set());
+    } catch (e) {
+      console.error("Failed to load quick start random words:", e);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
     if (currentIndex !== null) {
@@ -271,14 +304,12 @@ const FlashcardPage = ({ level: initialLevel, isSrs = false, stats, goBack, onDa
     if (isAuthenticated) {
       try {
         await srsApi.reviewWord(currentWord.id, quality);
-        // Log study session: 1 word studied if new, 1 correct if quality is Good/Easy, total questions 1
         await analyticsApi.logSession(isNew ? 1 : 0, quality >= 3 ? 1 : 0, 1);
       } catch (error) {
         console.error("Failed to save SRS review:", error);
       }
     }
 
-    // Advance to next word
     if (currentIndex < words.length - 1) {
       setCurrentIndex(prev => prev + 1);
       setFlipped(false);
@@ -302,47 +333,50 @@ const FlashcardPage = ({ level: initialLevel, isSrs = false, stats, goBack, onDa
     }
   };
 
+  // ── Level Selection Screen (when level is not selected yet) ────────────────
   if (!activeLevel && !isSrs) {
     return (
-      <div className="container animate-fade-in" style={{ padding: '40px 20px' }}>
+      <div className="container animate-fade-in" style={{ padding: '40px 20px', maxWidth: '1000px', margin: '0 auto' }}>
         <MascotCorners leftMascot="mascot_siro_ninja.png" rightMascot="mascot_siro_studying.png" />
         <SakuraPetals />
         <div style={{ textAlign: 'center', marginBottom: '40px' }}>
-          <h1 style={{ fontSize: '2.5rem', marginBottom: '15px' }}>{t.flashcard.selectLevelTitle}</h1>
-          <p style={{ color: 'var(--text-secondary)' }}>{t.flashcard.selectLevelSubtitle}</p>
+          <h1 style={{ fontSize: '2.5rem', marginBottom: '12px', fontWeight: 800 }}>{t.flashcard.selectLevelTitle}</h1>
+          <p style={{ color: 'var(--text-secondary)', fontSize: '1.05rem' }}>{t.flashcard.selectLevelSubtitle}</p>
         </div>
 
-          <div className="grid grid-cols-3 home-level-grid">
+        <div className="grid grid-cols-3 home-level-grid" style={{ gap: '20px' }}>
           {activeStatsLevels &&
             Object.entries(activeStatsLevels).map(([lvl, count]) => (
-              <div 
-                key={lvl} 
-                className="card home-level-card" 
-                style={{ cursor: 'pointer', display: 'flex', flexDirection: 'column', height: '100%', minHeight: '220px' }} 
+              <div
+                key={lvl}
+                className="card home-level-card"
+                style={{ cursor: 'pointer', display: 'flex', flexDirection: 'column', height: '100%', minHeight: '220px', padding: '24px', borderRadius: '18px' }}
                 onClick={() => setActiveLevel(lvl)}
               >
                 <div className="home-level-card-title">
                   <div>
-                    <p className="home-level-badge" style={{ backgroundColor: `${levelColors[lvl]}22`, color: levelColors[lvl] }}>
+                    <p className="home-level-badge" style={{ backgroundColor: `${levelColors[lvl] || '#3b82f6'}22`, color: levelColors[lvl] || '#3b82f6', fontWeight: 700 }}>
                       {t.home.levelLabels[lvl] || lvl}
                     </p>
-                    <h3 style={{ marginTop: '10px' }}>{t.home.levelLabels[lvl] || lvl}</h3>
+                    <h3 style={{ marginTop: '10px', fontSize: '1.4rem' }}>{t.home.levelLabels[lvl] || lvl}</h3>
                   </div>
-                  <span>{count} {t.home.words}</span>
+                  <span style={{ fontWeight: 600, color: 'var(--text-secondary)' }}>{count} {t.home.words}</span>
                 </div>
-                <p style={{ margin: '15px 0' }}>{t.home.levelDescriptions?.[lvl] || t.home.levelDesc(t.home.levelLabels[lvl] || lvl)}</p>
-                <div style={{ marginTop: 'auto', display: 'flex', gap: '8px' }} onClick={e => e.stopPropagation()}>
-                  <button 
-                    className="btn btn-primary" 
-                    style={{ flex: 1, padding: '8px 12px', fontSize: '0.85rem' }}
+                <p style={{ margin: '15px 0', color: 'var(--text-secondary)', lineHeight: 1.5 }}>
+                  {t.home.levelDescriptions?.[lvl] || t.home.levelDesc(t.home.levelLabels[lvl] || lvl)}
+                </p>
+                <div style={{ marginTop: 'auto', display: 'flex', gap: '10px' }} onClick={e => e.stopPropagation()}>
+                  <button
+                    className="btn btn-primary"
+                    style={{ flex: 1, padding: '10px 14px', fontSize: '0.9rem', fontWeight: 700 }}
                     onClick={() => setActiveLevel(lvl)}
                   >
                     {t.flashcard.startPractice}
                   </button>
                   {onDailyStudy && (
-                    <button 
-                      className="btn btn-secondary" 
-                      style={{ flex: 1, padding: '8px 12px', fontSize: '0.85rem' }}
+                    <button
+                      className="btn btn-secondary"
+                      style={{ flex: 1, padding: '10px 14px', fontSize: '0.9rem' }}
                       onClick={() => onDailyStudy(lvl)}
                     >
                       📅 Học hàng ngày
@@ -355,10 +389,11 @@ const FlashcardPage = ({ level: initialLevel, isSrs = false, stats, goBack, onDa
       </div>
     );
   }
+
   if (loading) {
     return (
-      <div className="container" style={{ padding: '20px', minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-        <MascotLoader message={t.flashcard.loading} />
+      <div className="container" style={{ padding: '20px', minHeight: '80vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <MascotLoader message={t.flashcard.loading || "Đang chuẩn bị thẻ Flashcard..."} />
       </div>
     );
   }
@@ -367,23 +402,24 @@ const FlashcardPage = ({ level: initialLevel, isSrs = false, stats, goBack, onDa
   if (activeLevel && !isSrs && !isLearnedStudy && phase === 0) {
     return (
       <div className="container animate-fade-in" style={{ padding: '20px', maxWidth: '600px', margin: '40px auto' }}>
-        <button className="btn btn-secondary" onClick={() => setPhase(1)} style={{ marginBottom: '20px' }}>
+        <button className="btn btn-secondary" onClick={() => setPhase(1)} style={{ marginBottom: '20px', display: 'flex', alignItems: 'center', gap: '6px' }}>
           <CornerUpLeft size={18} /> Quay lại
         </button>
-        <div className="card" style={{ padding: '40px', textAlign: 'center' }}>
-          <h2 style={{ marginBottom: '10px' }}>Cấu hình học tập</h2>
+        <div className="card" style={{ padding: '40px', textAlign: 'center', borderRadius: '20px' }}>
+          <h2 style={{ marginBottom: '10px', fontSize: '1.6rem' }}>Cấu hình học tập</h2>
           <p style={{ color: 'var(--text-secondary)', marginBottom: '30px' }}>Số từ vựng học mỗi ngày:</p>
-          
+
           <div className="flex-center" style={{ gap: '15px', flexWrap: 'wrap', marginBottom: '25px' }}>
             {[10, 20, 30, 50].map(num => (
-              <button 
+              <button
                 key={num}
                 className="btn"
-                style={{ 
+                style={{
                   backgroundColor: wordsPerDay === num ? 'var(--accent-color)' : 'var(--surface-hover)',
                   color: wordsPerDay === num ? 'white' : 'var(--text-primary)',
                   fontSize: '1.2rem',
-                  padding: '12px 24px'
+                  padding: '12px 24px',
+                  borderRadius: '12px'
                 }}
                 onClick={() => setWordsPerDay(num)}
               >
@@ -393,7 +429,7 @@ const FlashcardPage = ({ level: initialLevel, isSrs = false, stats, goBack, onDa
           </div>
 
           <div style={{ marginBottom: '30px', display: 'flex', justifyContent: 'center' }}>
-            <input 
+            <input
               type="number"
               placeholder="Nhập số từ khác"
               value={customInput}
@@ -403,20 +439,21 @@ const FlashcardPage = ({ level: initialLevel, isSrs = false, stats, goBack, onDa
                 if (val > 0) setWordsPerDay(val);
               }}
               style={{
-                padding: '12px',
-                borderRadius: '8px',
+                padding: '12px 16px',
+                borderRadius: '10px',
                 border: '1px solid var(--border-color)',
                 backgroundColor: 'var(--surface-color)',
                 color: 'var(--text-primary)',
                 width: '200px',
-                textAlign: 'center'
+                textAlign: 'center',
+                fontSize: '1rem'
               }}
             />
           </div>
 
-          <button 
-            className="btn btn-primary" 
-            style={{ padding: '14px 40px', fontSize: '1.1rem', width: '100%' }}
+          <button
+            className="btn btn-primary"
+            style={{ padding: '14px 40px', fontSize: '1.1rem', width: '100%', borderRadius: '12px', fontWeight: 700 }}
             onClick={() => handleSaveSettings(wordsPerDay)}
           >
             Lưu cài đặt
@@ -432,12 +469,12 @@ const FlashcardPage = ({ level: initialLevel, isSrs = false, stats, goBack, onDa
       return (
         <div className="flex-center" style={{ height: '70vh', flexDirection: 'column', gap: '20px' }}>
           <Loader size={40} className="animate-spin" style={{ color: 'var(--accent-color)' }} />
-          <p>Loading settings...</p>
+          <p>Tải cấu hình...</p>
         </div>
       );
     }
 
-    const totalWords = stats?.levels?.[activeLevel] || 0;
+    const totalWords = activeStatsLevels[activeLevel] || DEFAULT_LEVEL_COUNTS[activeLevel] || 600;
     const totalDays = Math.max(1, Math.floor(totalWords / wordsPerDay));
 
     const getWordCountForDay = (day) => {
@@ -448,41 +485,53 @@ const FlashcardPage = ({ level: initialLevel, isSrs = false, stats, goBack, onDa
     };
 
     return (
-      <div className="container animate-fade-in" style={{ padding: '20px', maxWidth: '1000px' }}>
-        <div className="flex-between" style={{ marginBottom: '30px' }}>
+      <div className="container animate-fade-in" style={{ padding: '20px', maxWidth: '1000px', margin: '0 auto' }}>
+        <div className="flex-between" style={{ marginBottom: '24px' }}>
           <button className="btn btn-secondary" onClick={() => {
             if (!initialLevel) {
               setActiveLevel(null);
             } else {
               goBack();
             }
-          }}>
+          }} style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
             <CornerUpLeft size={18} /> {t.flashcard.backSelection || "Quay lại chọn cấp độ"}
           </button>
-          <h2>Học Flashcard - <span style={{ color: 'var(--accent-color)' }}>{t.home.levelLabels[activeLevel] || activeLevel}</span></h2>
-          <button className="btn btn-secondary" onClick={() => setPhase(0)}>
-            <Settings size={18} /> Thay đổi cài đặt
-          </button>
+          <h2 style={{ margin: 0, fontSize: '1.5rem' }}>
+            Học Flashcard - <span style={{ color: levelColors[activeLevel] || 'var(--accent-color)' }}>{t.home.levelLabels[activeLevel] || activeLevel}</span>
+          </h2>
+          <div style={{ display: 'flex', gap: '10px' }}>
+            <button className="btn btn-primary" onClick={handleQuickStartRandom} style={{ display: 'flex', alignItems: 'center', gap: '6px', fontWeight: 700 }}>
+              <Play size={16} /> Học ngẫu nhiên 20 từ
+            </button>
+            <button className="btn btn-secondary" onClick={() => setPhase(0)} style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+              <Settings size={16} /> Cài đặt
+            </button>
+          </div>
         </div>
 
-        <div style={{ textAlign: 'center', marginBottom: '30px' }}>
-          <p style={{ color: 'var(--text-secondary)' }}>
-            Chọn ngày học để bắt đầu luyện tập Flashcard. Mỗi ngày gồm {wordsPerDay} từ.
+        <div style={{ textAlign: 'center', marginBottom: '28px' }}>
+          <p style={{ color: 'var(--text-secondary)', fontSize: '1rem' }}>
+            Chọn ngày học để bắt đầu luyện tập Flashcard. Mỗi ngày gồm <strong>{wordsPerDay} từ vựng</strong>.
           </p>
         </div>
 
-        <div className="grid grid-cols-4" style={{ gap: '15px' }}>
+        <div className="grid grid-cols-4" style={{ gap: '16px' }}>
           {Array.from({ length: totalDays }, (_, i) => i + 1).map(day => {
             const isDone = completedDays.has(day);
             return (
               <button
                 key={day}
-                className="card flex-center"
-                style={{ 
-                  padding: '20px', 
-                  cursor: 'pointer', 
-                  flexDirection: 'column', 
-                  gap: '10px',
+                className="card"
+                style={{
+                  padding: '20px',
+                  borderRadius: '16px',
+                  cursor: 'pointer',
+                  textAlign: 'center',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: '8px',
                   backgroundColor: isDone ? 'rgba(16, 185, 129, 0.1)' : 'var(--surface-color)',
                   borderColor: isDone ? 'var(--success-color)' : 'var(--border-color)',
                   borderWidth: '1.5px',
@@ -491,10 +540,10 @@ const FlashcardPage = ({ level: initialLevel, isSrs = false, stats, goBack, onDa
                 }}
                 onClick={() => fetchWordsForDay(day)}
               >
-                <h3 style={{ fontSize: '1.2rem', color: isDone ? 'var(--success-color)' : 'var(--text-primary)' }}>
+                <h3 style={{ fontSize: '1.25rem', margin: 0, color: isDone ? 'var(--success-color)' : 'var(--text-primary)' }}>
                   Ngày {day} {isDone && '✓'}
                 </h3>
-                <p style={{ fontSize: '0.9rem', color: isDone ? 'rgba(16, 185, 129, 0.85)' : 'var(--text-secondary)' }}>
+                <p style={{ fontSize: '0.9rem', margin: 0, color: isDone ? 'rgba(16, 185, 129, 0.85)' : 'var(--text-secondary)' }}>
                   {getWordCountForDay(day)} từ
                 </p>
               </button>
@@ -505,20 +554,20 @@ const FlashcardPage = ({ level: initialLevel, isSrs = false, stats, goBack, onDa
     );
   }
 
-
+  // ── Flashcard Viewer Screen ────────────────────────────────────────────────
   if (words.length === 0) {
     return (
-      <div className="container flex-center" style={{ height: '70vh', flexDirection: 'column', gap: '20px' }}>
-      <h2>
-        {isSrs 
-          ? "Bạn không có từ nào đến hạn ôn tập hôm nay! 🎉" 
-          : isLearnedStudy 
-            ? "Bạn chưa có từ đã học nào để học flashcard! Hãy hoàn thành bài học trước." 
-            : t.flashcard.noWords}
-      </h2>
-      <button className="btn btn-primary" onClick={handleBack}>
-        {isSrs || isLearnedStudy ? t.flashcard.backDashboard : (!initialLevel ? t.flashcard.backSelection : t.flashcard.backDashboard)}
-      </button>
+      <div className="container flex-center animate-fade-in" style={{ height: '70vh', flexDirection: 'column', gap: '20px', textAlign: 'center' }}>
+        <h2>
+          {isSrs
+            ? "Bạn không có từ nào đến hạn ôn tập hôm nay! 🎉"
+            : isLearnedStudy
+              ? "Bạn chưa có từ đã học nào để học flashcard! Hãy hoàn thành bài học trước."
+              : t.flashcard.noWords || "Không tìm thấy từ vựng cho phạm vi này."}
+        </h2>
+        <button className="btn btn-primary" onClick={handleBack} style={{ padding: '12px 28px', borderRadius: '12px', fontWeight: 700 }}>
+          {isSrs || isLearnedStudy ? t.flashcard.backDashboard || "Quay về trang chủ" : (!initialLevel ? t.flashcard.backSelection || "Quay lại chọn cấp độ" : t.flashcard.backDashboard || "Quay lại")}
+        </button>
       </div>
     );
   }
@@ -527,89 +576,88 @@ const FlashcardPage = ({ level: initialLevel, isSrs = false, stats, goBack, onDa
   const currentWord = words[currentIndex];
 
   return (
-    <div className="flashcard-page-premium-bg animate-fade-in">
+    <div className="flashcard-page-premium-bg animate-fade-in" style={{ padding: '20px', maxWidth: '1000px', margin: '0 auto' }}>
       <MascotCorners leftMascot="mascot_siro_ninja.png" rightMascot="mascot_siro_studying.png" />
       <SakuraPetals />
 
       <div className="flashcard-content-wrapper">
         {/* Header */}
-      <div className="flex-between" style={{ marginBottom: '30px' }}>
-        <button className="btn btn-secondary" style={{ padding: '8px 15px' }} onClick={handleBack}>
-          <CornerUpLeft size={18} /> {selectedDay !== null ? "Chọn ngày khác" : ((!initialLevel && activeLevel) ? t.flashcard.backSelection : t.flashcard.backDashboard)}
-        </button>
-
-        <div style={{ textAlign: 'center' }}>
-          <h2 style={{ fontSize: '1.5rem', marginBottom: '5px' }}>
-            {isSrs ? "Ôn tập SRS" : isLearnedStudy ? "Flashcard từ đã học" : `${t.flashcard.level}: `}
-            {!isSrs && !isLearnedStudy && <span style={{ color: 'var(--accent-color)' }}>{t.home.levelLabels[activeLevel] || activeLevel} (Ngày {selectedDay})</span>}
-          </h2>
-        </div>
-
-        {!isSrs && !isLearnedStudy ? (
-          <button className="btn btn-secondary" style={{ padding: '8px 15px' }} onClick={() => fetchWordsForDay(selectedDay)}>
-            <Shuffle size={18} /> Trộn / Tải lại
+        <div className="flex-between" style={{ marginBottom: '24px' }}>
+          <button className="btn btn-secondary" style={{ padding: '8px 16px', display: 'flex', alignItems: 'center', gap: '6px' }} onClick={handleBack}>
+            <CornerUpLeft size={18} /> {selectedDay !== null ? "Chọn ngày khác" : ((!initialLevel && activeLevel) ? t.flashcard.backSelection : t.flashcard.backDashboard)}
           </button>
-        ) : (
-          <div style={{ width: '100px' }}></div>
-        )}
-      </div>
 
-      {/* Progress Bar */}
-      <div style={{ marginBottom: '40px' }}>
-        <div className="flex-between" style={{ marginBottom: '10px', fontSize: '0.9rem', color: 'var(--text-secondary)' }}>
-          <span>{t.flashcard.card} {currentIndex + 1} {t.flashcard.of} {words.length}</span>
-          <span>{Math.round(progressPercentage)}{t.flashcard.complete}</span>
-        </div>
-        <div className="progress-bg">
-          <div className="progress-fill" style={{ width: `${progressPercentage}%` }}></div>
-        </div>
-      </div>
+          <div style={{ textAlign: 'center' }}>
+            <h2 style={{ fontSize: '1.4rem', margin: 0 }}>
+              {isSrs ? "Ôn tập SRS" : isLearnedStudy ? "Flashcard từ đã học" : `${t.flashcard.level}: `}
+              {!isSrs && !isLearnedStudy && <span style={{ color: levelColors[activeLevel] || 'var(--accent-color)' }}>{t.home.levelLabels[activeLevel] || activeLevel} (Ngày {selectedDay})</span>}
+            </h2>
+          </div>
 
-      {/* Flashcard Area */}
-      <div style={{ minHeight: '450px', display: 'flex', alignItems: 'center' }}>
-        <FlashcardCard
-          key={currentWord?.id}
-          word={currentWord}
-          flipped={flipped}
-          onFlip={() => setFlipped(!flipped)}
-          onRateWord={isAuthenticated ? handleRateWord : null}
-        />
-      </div>
-
-      {/* Controls */}
-      <div className="flex-center" style={{ gap: '20px', marginTop: '40px' }}>
-        <button
-          className="btn-icon"
-          onClick={handlePrev}
-          disabled={currentIndex === 0}
-          style={{ width: '60px', height: '60px', opacity: currentIndex === 0 ? 0.5 : 1, cursor: currentIndex === 0 ? 'not-allowed' : 'pointer' }}
-        >
-          <ArrowLeft size={28} />
-        </button>
-
-        <div style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', textAlign: 'center', minWidth: '150px' }}>
-          {t.flashcard.navigate}<br/>{t.flashcard.flip}
+          {!isSrs && !isLearnedStudy ? (
+            <button className="btn btn-secondary" style={{ padding: '8px 16px', display: 'flex', alignItems: 'center', gap: '6px' }} onClick={() => fetchWordsForDay(selectedDay)}>
+              <Shuffle size={18} /> Trộn từ
+            </button>
+          ) : (
+            <div style={{ width: '100px' }}></div>
+          )}
         </div>
 
-        <button
-          className="btn-icon"
-          onClick={handleNext}
-          style={{
-            width: '60px', height: '60px',
-            backgroundColor: currentIndex === words.length - 1 ? 'var(--success-color)' : 'var(--accent-color)',
-            color: currentIndex === words.length - 1 ? 'white' : 'white',
-            border: currentIndex === words.length - 1 ? 'none' : 'none',
-            cursor: 'pointer',
-            boxShadow: currentIndex !== words.length - 1 ? '0 4px 14px 0 rgba(239, 68, 68, 0.39)' : '0 4px 14px 0 rgba(16, 185, 129, 0.39)'
-          }}
-        >
-          {currentIndex === words.length - 1 ? <Check size={28} /> : <ArrowRight size={28} />}
-        </button>
+        {/* Progress Bar */}
+        <div style={{ marginBottom: '32px' }}>
+          <div className="flex-between" style={{ marginBottom: '8px', fontSize: '0.9rem', color: 'var(--text-secondary)' }}>
+            <span>Thẻ {currentIndex + 1} / {words.length}</span>
+            <span>{Math.round(progressPercentage)}% hoàn thành</span>
+          </div>
+          <div className="progress-bg" style={{ height: '8px', borderRadius: '4px', overflow: 'hidden' }}>
+            <div className="progress-fill" style={{ width: `${progressPercentage}%`, height: '100%', background: 'linear-gradient(90deg, #3b82f6, #10b981)', borderRadius: '4px' }}></div>
+          </div>
+        </div>
+
+        {/* Flashcard Area */}
+        <div style={{ minHeight: '440px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <FlashcardCard
+            key={currentWord?.id || currentIndex}
+            word={currentWord}
+            flipped={flipped}
+            onFlip={() => setFlipped(!flipped)}
+            onRateWord={isAuthenticated ? handleRateWord : null}
+          />
+        </div>
+
+        {/* Navigation Controls */}
+        <div className="flex-center" style={{ gap: '24px', marginTop: '32px' }}>
+          <button
+            className="btn-icon"
+            onClick={handlePrev}
+            disabled={currentIndex === 0}
+            style={{ width: '56px', height: '56px', borderRadius: '50%', opacity: currentIndex === 0 ? 0.4 : 1, cursor: currentIndex === 0 ? 'not-allowed' : 'pointer' }}
+          >
+            <ArrowLeft size={26} />
+          </button>
+
+          <div style={{ color: 'var(--text-secondary)', fontSize: '0.88rem', textAlign: 'center', minWidth: '160px', lineHeight: 1.4 }}>
+            Dùng phím <strong>← →</strong> để chuyển thẻ<br />
+            Phím <strong>Space / ↑ ↓</strong> để lật thẻ
+          </div>
+
+          <button
+            className="btn-icon"
+            onClick={handleNext}
+            style={{
+              width: '56px', height: '56px', borderRadius: '50%',
+              backgroundColor: currentIndex === words.length - 1 ? '#10b981' : 'var(--accent-color)',
+              color: 'white', border: 'none', cursor: 'pointer',
+              boxShadow: currentIndex !== words.length - 1 ? '0 4px 14px rgba(37,99,235,0.35)' : '0 4px 14px rgba(16,185,129,0.35)'
+            }}
+          >
+            {currentIndex === words.length - 1 ? <Check size={26} /> : <ArrowRight size={26} />}
+          </button>
+        </div>
       </div>
-      </div>
-      
-      <ShojiScreen 
-        isOpen={showShoji} 
+
+      <ShojiScreen
+        isOpen={showShoji}
         onClose={() => {
           setShowShoji(false);
           handleBack();
@@ -625,11 +673,10 @@ const FlashcardPage = ({ level: initialLevel, isSrs = false, stats, goBack, onDa
           setSelectedDay(nextDay);
           fetchWordsForDay(nextDay);
         } : null}
-        message={isSrs ? "Chúc mừng! Bạn đã hoàn thành tất cả các từ cần ôn hôm nay." : "Bạn đã xem hết từ vựng ngày này! Hãy hoàn thành bài Quiz ở mục Học Hàng Ngày để tính hoàn thành ngày học."} 
+        message={isSrs ? "Chúc mừng! Bạn đã hoàn thành tất cả các từ cần ôn hôm nay." : "Bạn đã xem hết từ vựng ngày này! Hãy hoàn thành bài Quiz ở mục Học Hàng Ngày để tính hoàn thành ngày học."}
       />
     </div>
   );
 };
 
 export default FlashcardPage;
-

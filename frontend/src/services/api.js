@@ -154,6 +154,10 @@ export const userSettingsApi = {
   markDayCompleted: async (level, day) => {
     const response = await axios.post(`${API_BASE_URL}/user/settings/complete-day`, { level, day });
     return response.data;
+  },
+  completeDay: async (level, day) => {
+    const response = await axios.post(`${API_BASE_URL}/user/settings/complete-day`, { level, day });
+    return response.data;
   }
 };
 

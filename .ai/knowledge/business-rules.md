@@ -114,9 +114,13 @@ $$EF' = EF + (0.1 - (5 - q) \times (0.08 + (5 - q) \times 0.02))$$
 
 * **Tự động Khôi phục Thống kê Cấp độ (Auto-Fetch Level Stats Fallback)**:
   * Khi truy cập trang Flashcard (`FlashcardPage.jsx`) trực tiếp mà chưa qua Trang chủ, nếu prop `stats` bị null/undefined, `FlashcardPage` tự động gọi `vocabApi.getStats()` bất đồng bộ và sử dụng mảng định danh mặc định (`DEFAULT_LEVEL_COUNTS`) làm fallback. Đảm bảo giao diện chọn Cấp độ (N5 - N1, Từ láy, Trợ từ) luôn luôn hiển thị thẻ đầy đủ.
-* **Xử lý An toàn API SRS Queue (Safe SRS Queue Parsing)**:
-  * Khi người dùng học Flashcard SRS (`isSrs = true`), mảng hàng đợi từ vựng được bọc xử lý an toàn `Array.isArray(response) ? response : (response?.queue || response?.content || [])`.
-  * Nếu API `studyApi.getQueue` bị gián đoạn hoặc yêu cầu xác thực guest, hệ thống tự động fallback về `srsApi.getDueWords()`, không gây lỗi trắng màn hình.
+* **Đồng bộ hóa API Cấu hình Người dùng (`userSettingsApi`)**:
+  * Đảm bảo `userSettingsApi` được xuất đầy đủ trong `api.js` kèm theo alias `completeDay` và `markDayCompleted` tương thích với `UserSettingController`.
+* **Xử lý An toàn API SRS Queue & Tải theo Ngày (Safe SRS Queue & Page Data Parsing)**:
+  * Khi người dùng học Flashcard SRS (`isSrs = true`), mảng hàng đợi từ vựng được bọc xử lý an toàn `Array.isArray(response) ? response : (response?.queue || response?.content || [])`. Nếu API `studyApi.getQueue` bị gián đoạn hoặc yêu cầu xác thực guest, hệ thống tự động fallback về `srsApi.getDueWords()`.
+  * Nếu kết quả danh sách từ vựng theo trang trả về mảng rỗng, hệ thống tự động gọi `vocabApi.getRandomByLevel` để đảm bảo luôn luôn có thẻ cho người dùng luyện tập.
+* **Tính năng Luyện tập Nhanh Ngẫu nhiên (Quick Start Random Practice)**:
+  * Bổ sung nút **"⚡ Học ngẫu nhiên 20 từ"** tại màn hình chọn Ngày học, cho phép người dùng vào học Flashcard ngay lập tức mà không cần chọn từng ngày.
 
 ---
 
