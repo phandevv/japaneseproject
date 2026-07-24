@@ -61,6 +61,7 @@ const ReviewHubPage = ({ mode = 'morning', goBack }) => {
   if (selectedMode === MODES.QUIZ) {
     return (
       <ReviewQuizPage
+        mode={mode}
         goBack={() => setSelectedMode(null)}
       />
     );

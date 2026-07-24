@@ -80,6 +80,9 @@ $$EF' = EF + (0.1 - (5 - q) \times (0.08 + (5 - q) \times 0.02))$$
   * Tự động tổng hợp **100% các từ vựng đã được tương tác/đánh dấu trạng thái TRONG NGÀY HÔM NAY** (từ 00:00:00 đến 23:59:59 theo múi giờ địa phương `Asia/Ho_Chi_Minh`).
   * Bao quát toàn bộ dữ liệu từ **cả 3 phân hệ**:
     1. **Flashcards**: Khi người dùng lật thẻ hoặc đánh giá trạng thái thẻ.
-    2. **Trắc nghiệm (Quiz)**: Khi hoàn thành các câu trắc nghiệm từ vựng.
+    2. **Trắc nghiệm & Gõ chữ (Quiz)**: Tích hợp đầy đủ 2 định dạng bài tập:
+       - **Trắc nghiệm (Multiple Choice)**: Chọn 1 trong 4 phương án.
+       - **Gõ chữ (Typing Quiz)**: Tự luận gõ đáp án bằng bàn phím (hỗ trợ kiểm tra từ đồng nghĩa & sửa lỗi chính tả tiếng Việt).
+       - Hỗ trợ đảo chiều linh hoạt: **Nhật ➔ Việt** và **Việt ➔ Nhật**.
     3. **Thử thách AI**: Khi thực hiện bài tập dịch AI, hội thoại AI Tutor hoặc nhập kiến thức AI.
 
