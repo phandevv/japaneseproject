@@ -1,11 +1,12 @@
-import { ArrowLeft, CheckCircle, Eye, EyeOff, FileQuestion, Keyboard, Layers, ListFilter, RotateCcw, Send, Sparkles, Trophy, Volume2, XCircle, ChevronRight, ArrowRight } from 'lucide-react';
-import { useEffect, useRef, useState } from 'react';
-import KanjiDetailModal from '../components/KanjiDetailModal';
-import MascotCorners from '../components/MascotCorners';
+import React, { useState, useEffect, useRef } from 'react';
+import { masterReviewApi, srsApi, analyticsApi, vocabApi } from '../services/api';
+import { ArrowLeft, BookOpen, Layers, CheckCircle, XCircle, RotateCcw, Calendar, FileQuestion, ListFilter, Keyboard, Send, Sparkles, Trophy, Play, Download, CornerUpLeft, ChevronRight, ArrowRight, Volume2, Eye, EyeOff } from 'lucide-react';
 import MascotLoader from '../components/MascotLoader';
-import SakuraPetals from '../components/SakuraPetals';
+import KanjiDetailModal from '../components/KanjiDetailModal';
 import AiEnrichedTabbedView from '../components/AiEnrichedTabbedView';
-import { analyticsApi, masterReviewApi, srsApi, vocabApi } from '../services/api';
+import MascotCorners from '../components/MascotCorners';
+import SakuraPetals from '../components/SakuraPetals';
+import * as XLSX from 'xlsx';
 
 // ── Smart Vietnamese Matcher ──────────────────────────────────────────────────
 const VIETNAMESE_SYNONYMS = [
@@ -78,47 +79,56 @@ const matchVietnameseAnswer = (userInput, correctMeaning) => {
 const SESSION_STORAGE_KEY = 'nihongo_master_review_session';
 
 /**
- * MasterReviewPage – "Tổng ôn tập" Module
- * Phase 0: Range Selection (Tất cả từ đã học hoặc Theo khoảng thời gian A - B)
- * Phase 1: Minimalist Screening Flashcards (Front: ONLY Kanji/Reading; Back: ONLY Meaning)
- * Phase 2: Forgotten Words Review List & Detail Modal
- * Phase 3: Mandatory Mastery Quiz (> 90% pass rate required to clear session)
+ * MasterReviewPage – "Tổng ôn tập" Module (Daily Study Style)
+ * Phase 0: Scope Selection (Tất cả từ đã học hoặc Theo khoảng thời gian A - B)
+ * Phase 1: Minimalist Screening Flashcards (Front: ONLY Kanji/Reading; Back: Meaning & Reading)
+ * Phase 2: Forgotten Words Review List & Detail Modal (Matching DailyStudyPage Phase 2)
+ * Phase 4: Quiz Setup Options Screen (Matching DailyStudyPage Phase 4)
+ * Phase 3: Mandatory Mastery Quiz (> 90% pass rate required to clear session, with AI Enriched feedback card)
  */
 const MasterReviewPage = ({ goBack }) => {
-  // Phase state: 0: Range Select, 1: Flashcard Screening, 2: Forgotten List, 3: Quiz
+  // Phase state: 0: Range Select, 1: Flashcard Screening, 2: Forgotten List, 4: Quiz Setup, 3: Quiz Execution
   const [phase, setPhase] = useState(0);
   const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
 
-  // Scope selection states
+  // Scope selection states (Phase 0)
   const [rangeType, setRangeType] = useState('all'); // 'all' or 'range'
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
 
-  // Loaded words for screening
+  // Loaded words for screening (Phase 1)
   const [allWords, setAllWords] = useState([]);
   const [cardIndex, setCardIndex] = useState(0);
   const [isFlipped, setIsFlipped] = useState(false);
 
   // Forgotten words collected during screening
   const [forgottenWords, setForgottenWords] = useState([]);
+  const [hideMeanings, setHideMeanings] = useState(false);
 
-  // Detail Modal state
+  // Detail Modal state (Phase 2)
   const [selectedModalIndex, setSelectedModalIndex] = useState(null);
 
-  // Quiz states (Phase 3)
+  // Quiz Setup States (Phase 4)
+  const [quizOptType, setQuizOptType] = useState('all'); // 'all', 'random', 'range'
+  const [quizOptRandomCount, setQuizOptRandomCount] = useState(20);
+  const [quizOptRangeStart, setQuizOptRangeStart] = useState(1);
+  const [quizOptRangeEnd, setQuizOptRangeEnd] = useState(10);
+  const [questionType, setQuestionType] = useState('vi-to-ja'); // 'vi-to-ja' or 'ja-to-vi'
+  const [quizFormat, setQuizFormat] = useState('choice'); // 'choice' or 'typing'
+  const [showHiraganaHint, setShowHiraganaHint] = useState(true);
+  const [quizSetupError, setQuizSetupError] = useState('');
+
+  // Quiz Execution States (Phase 3)
   const [quizWords, setQuizWords] = useState([]);
   const [quizIndex, setQuizIndex] = useState(0);
-  const [quizFormat, setQuizFormat] = useState('choice'); // 'choice' or 'typing'
-  const [questionType, setQuestionType] = useState('ja-to-vi'); // 'ja-to-vi' or 'vi-to-ja'
   const [choices, setChoices] = useState([]);
   const [selectedChoice, setSelectedChoice] = useState(null);
   const [userInput, setUserInput] = useState('');
-  const [typingStatus, setTypingStatus] = useState('idle'); // idle, correct, incorrect
+  const [typingStatus, setTypingStatus] = useState('idle'); // 'idle', 'correct', 'incorrect'
   const [quizScore, setQuizScore] = useState(0);
   const [quizMistakes, setQuizMistakes] = useState(0);
   const [quizFinished, setQuizFinished] = useState(false);
-  const [showHiraganaHint, setShowHiraganaHint] = useState(false);
   const [answeredStatus, setAnsweredStatus] = useState(null); // null, 'correct', 'incorrect'
   const [quizWordEnriched, setQuizWordEnriched] = useState(null);
   const [loadingQuizEnrich, setLoadingQuizEnrich] = useState(false);
@@ -135,7 +145,9 @@ const MasterReviewPage = ({ goBack }) => {
           setRangeType(parsed.rangeType || 'all');
           setStartDate(parsed.startDate || '');
           setEndDate(parsed.endDate || '');
-          // If session was saved in quiz or review state, resume at Phase 2 (Forgotten Words List)
+          setQuizOptRandomCount(parsed.forgottenWords.length);
+          setQuizOptRangeEnd(parsed.forgottenWords.length);
+          // Resume at Phase 2 (Forgotten Words List View)
           setPhase(2);
         }
       }
@@ -248,19 +260,57 @@ const MasterReviewPage = ({ goBack }) => {
       if (updatedForgotten.length === 0) {
         // 100% remembered!
         clearSession();
-        setPhase(4); // 100% success phase
+        setPhase(5); // 100% success phase
       } else {
         persistSession(updatedForgotten);
-        setPhase(2); // Show forgotten words list
+        setQuizOptRandomCount(updatedForgotten.length);
+        setQuizOptRangeEnd(updatedForgotten.length);
+        setPhase(2); // Show forgotten words list (Daily Study style)
       }
     }
   };
 
-  // ── Step 3: Start Quiz on Forgotten Words ──────────────────────────────────
-  const handleStartQuiz = () => {
-    if (forgottenWords.length === 0) return;
-    const shuffled = [...forgottenWords].sort(() => Math.random() - 0.5);
-    setQuizWords(shuffled);
+  // ── Step 3: Open Quiz Setup Modal (Phase 4) ─────────────────────────────────
+  const openQuizSetup = () => {
+    setQuizSetupError('');
+    setQuizOptRandomCount(Math.min(20, forgottenWords.length));
+    setQuizOptRangeStart(1);
+    setQuizOptRangeEnd(forgottenWords.length);
+    setPhase(4);
+  };
+
+  // ── Step 4: Start Quiz Execution (Phase 3) ──────────────────────────────────
+  const startQuizFromSetup = () => {
+    setQuizSetupError('');
+    let selectedWords = [];
+
+    if (quizOptType === 'all') {
+      selectedWords = [...forgottenWords];
+    } else if (quizOptType === 'random') {
+      const count = parseInt(quizOptRandomCount, 10);
+      if (isNaN(count) || count < 1 || count > forgottenWords.length) {
+        setQuizSetupError(`Vui lòng nhập số câu hợp lệ (từ 1 đến ${forgottenWords.length})`);
+        return;
+      }
+      const shuffled = [...forgottenWords].sort(() => Math.random() - 0.5);
+      selectedWords = shuffled.slice(0, count);
+    } else if (quizOptType === 'range') {
+      const start = parseInt(quizOptRangeStart, 10);
+      const end = parseInt(quizOptRangeEnd, 10);
+      if (isNaN(start) || isNaN(end) || start < 1 || end > forgottenWords.length || start > end) {
+        setQuizSetupError(`Khoảng chỉ định không hợp lệ (từ 1 đến ${forgottenWords.length})`);
+        return;
+      }
+      selectedWords = forgottenWords.slice(start - 1, end);
+    }
+
+    if (selectedWords.length === 0) {
+      setQuizSetupError('Danh sách từ vựng làm Quiz rỗng.');
+      return;
+    }
+
+    const finalShuffled = [...selectedWords].sort(() => Math.random() - 0.5);
+    setQuizWords(finalShuffled);
     setQuizIndex(0);
     setQuizScore(0);
     setQuizMistakes(0);
@@ -274,6 +324,7 @@ const MasterReviewPage = ({ goBack }) => {
     setPhase(3);
   };
 
+  // Fetch AI Enriched Data for Quiz Question Answer
   const fetchQuizWordEnrichment = (word) => {
     if (!word) return;
     if (word.sampleSentence) {
@@ -315,7 +366,6 @@ const MasterReviewPage = ({ goBack }) => {
         if (inputRef.current) inputRef.current.focus();
       }, 100);
     }
-    setShowHiraganaHint(false);
     setAnsweredStatus(null);
     setQuizWordEnriched(null);
     setLoadingQuizEnrich(false);
@@ -407,7 +457,7 @@ const MasterReviewPage = ({ goBack }) => {
   // ───────────────────────────────────────────────────────────────────────────
   if (phase === 0) {
     return (
-      <div className="container animate-fade-in" style={{ padding: '40px 20px', maxWidth: '780px', margin: '0 auto', minHeight: '85vh' }}>
+      <div className="container animate-fade-in" style={{ padding: '40px 20px', maxWidth: '1000px', margin: '0 auto', minHeight: '85vh' }}>
         <MascotCorners rightMascot="mascot_siro_reading.png" />
         <SakuraPetals />
 
@@ -522,7 +572,7 @@ const MasterReviewPage = ({ goBack }) => {
   if (phase === 1) {
     const current = allWords[cardIndex];
     return (
-      <div className="container animate-fade-in" style={{ padding: '36px 20px', maxWidth: '680px', margin: '0 auto' }}>
+      <div className="container animate-fade-in" style={{ padding: '36px 20px', maxWidth: '1000px', margin: '0 auto' }}>
         {/* Header */}
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '24px' }}>
           <button className="btn btn-secondary" onClick={() => setPhase(0)} style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
@@ -586,6 +636,9 @@ const MasterReviewPage = ({ goBack }) => {
                   Cách đọc: {current.hiragana}
                 </p>
               )}
+              <span style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>
+                (Mặt sau: Nghĩa & cách đọc)
+              </span>
             </>
           )}
         </div>
@@ -638,104 +691,144 @@ const MasterReviewPage = ({ goBack }) => {
   }
 
   // ───────────────────────────────────────────────────────────────────────────
-  // PHASE 2: FORGOTTEN WORDS REVIEW TABLE SCREEN
+  // PHASE 2: FORGOTTEN WORDS REVIEW TABLE SCREEN (Daily Study Style)
   // ───────────────────────────────────────────────────────────────────────────
   if (phase === 2) {
     return (
-      <div className="container animate-fade-in" style={{ padding: '36px 20px', maxWidth: '920px', margin: '0 auto' }}>
-        <MascotCorners rightMascot="mascot_siro_reading.png" />
+      <div style={{ width: '100%', position: 'relative' }}>
+        <div
+          className="container animate-fade-in"
+          style={{
+            padding: '20px',
+            maxWidth: '1000px',
+            margin: '0 auto',
+            display: selectedModalIndex !== null ? 'none' : 'block'
+          }}
+        >
+          <MascotCorners rightMascot="mascot_siro_reading.png" />
 
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '28px' }}>
-          <button className="btn btn-secondary" onClick={() => setPhase(0)} style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-            <ArrowLeft size={16} /> Chọn lại phạm vi
-          </button>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-            <RotateCcw size={24} color="#ef4444" />
-            <h2 style={{ margin: 0, fontSize: '1.5rem' }}>Danh sách từ cần học lại</h2>
-          </div>
-        </div>
-
-        {/* Warning persistent state notification banner */}
-        <div style={{ padding: '16px 20px', backgroundColor: 'rgba(245,158,11,0.1)', border: '1px solid #f59e0b', color: '#b45309', borderRadius: '14px', marginBottom: '24px', fontSize: '0.95rem', lineHeight: 1.5 }}>
-          ⚠️ <strong>Yêu cầu hoàn thành:</strong> Bạn đã đánh dấu <strong>{forgottenWords.length} từ quên</strong>. Trạng thái này sẽ được bảo toàn cho tới khi bạn hoàn thành bài Quiz kiểm tra đạt kết quả <strong>&gt; 90%</strong>.
-        </div>
-
-        {/* Hint */}
-        <p style={{ color: 'var(--text-secondary)', fontSize: '0.88rem', marginBottom: '14px', display: 'flex', alignItems: 'center', gap: '6px' }}>
-          <ChevronRight size={14} />
-          Nhấn vào một từ để xem chi tiết và thứ tự nét viết
-        </p>
-
-        {/* Forgotten Words Table */}
-        <div className="card" style={{ padding: '24px', borderRadius: '18px', marginBottom: '28px' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '18px' }}>
-            <h3 style={{ margin: 0, fontSize: '1.15rem' }}>Chi tiết {forgottenWords.length} từ vựng</h3>
-            <button className="btn btn-primary" onClick={handleStartQuiz} style={{ padding: '12px 24px', fontSize: '1rem', fontWeight: 700, borderRadius: '12px', display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <FileQuestion size={18} /> Bắt đầu Quiz Kiểm tra (&gt; 90%)
+          {/* Top Bar matching Daily Study */}
+          <div className="flex-between" style={{
+            position: 'sticky',
+            top: '0px',
+            zIndex: 100,
+            backgroundColor: 'var(--bg-color)',
+            padding: '15px 0',
+            borderBottom: '1px solid var(--border-color)',
+            marginBottom: '20px'
+          }}>
+            <button className="btn btn-secondary" onClick={() => setPhase(0)} style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+              <CornerUpLeft size={18} /> Chọn lại phạm vi
             </button>
+            <h2 style={{ margin: 0, fontSize: '1.4rem' }}>
+              Tổng ôn - {forgottenWords.length} từ cần học lại
+            </h2>
+
+            <div style={{ display: 'flex', gap: '10px' }}>
+              {/* Export Excel Button */}
+              <button
+                className="btn btn-secondary"
+                onClick={() => {
+                  const exportData = forgottenWords.map((w, index) => ({
+                    'No.': index + 1,
+                    'Kanji': w.kanji || '',
+                    'Hiragana': w.hiragana || '',
+                    'Nghĩa tiếng Việt (Meaning)': w.meaning || '',
+                    'Hán Việt': w.hanViet || '',
+                    'Level': w.level || 'REVIEW'
+                  }));
+                  const ws = XLSX.utils.json_to_sheet(exportData);
+                  const wb = XLSX.utils.book_new();
+                  XLSX.utils.book_append_sheet(wb, ws, 'Từ cần học lại');
+                  XLSX.writeFile(wb, `Master_Review_Forgotten_Words.xlsx`);
+                }}
+                style={{ display: 'flex', alignItems: 'center', gap: '6px' }}
+              >
+                <Download size={18} /> Xuất Excel
+              </button>
+
+              {/* Toggle Hide Meanings Button */}
+              <button
+                className="btn btn-secondary"
+                onClick={() => setHideMeanings(!hideMeanings)}
+                style={{ display: 'flex', alignItems: 'center', gap: '6px' }}
+              >
+                {hideMeanings ? <Eye size={18} /> : <EyeOff size={18} />}
+                {hideMeanings ? 'Hiện nghĩa' : 'Ẩn nghĩa'}
+              </button>
+
+              {/* Start Quiz Button */}
+              <button className="btn btn-primary" onClick={openQuizSetup} style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '10px 20px', fontWeight: 700 }}>
+                <Play size={18} /> Bắt đầu Quiz (&gt; 90%)
+              </button>
+            </div>
           </div>
 
-          <div style={{ overflowX: 'auto' }}>
+          {/* Hint */}
+          <p style={{ color: 'var(--text-secondary)', fontSize: '0.85rem', marginBottom: '14px', display: 'flex', alignItems: 'center', gap: '6px' }}>
+            <ChevronRight size={14} />
+            Nhấn vào một từ để xem chi tiết và thứ tự nét viết
+          </p>
+
+          {/* Forgotten Words Table */}
+          <div className="card" style={{ padding: 0, overflow: 'hidden', borderRadius: '16px' }}>
             <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
-              <thead>
-                <tr style={{ borderBottom: '2px solid var(--border-color)', color: 'var(--text-secondary)', fontSize: '0.9rem' }}>
-                  <th style={{ padding: '14px 16px' }}>#</th>
-                  <th style={{ padding: '14px 16px' }}>Từ vựng (Kanji)</th>
-                  <th style={{ padding: '14px 16px' }}>Cách đọc (Hiragana)</th>
-                  <th style={{ padding: '14px 16px' }}>Ý nghĩa</th>
-                  <th style={{ padding: '14px 16px', textAlign: 'right' }}>Hán Việt / Âm thanh</th>
+              <thead style={{ backgroundColor: 'var(--surface-hover)', color: 'var(--text-secondary)' }}>
+                <tr>
+                  <th style={{ padding: '15px 20px', width: '50px' }}>#</th>
+                  <th style={{ padding: '15px 20px' }}>Từ vựng (Kanji)</th>
+                  {!hideMeanings && <th style={{ padding: '15px 20px' }}>Cách đọc (Hiragana)</th>}
+                  {!hideMeanings && <th style={{ padding: '15px 20px' }}>Ý nghĩa</th>}
+                  <th style={{ padding: '15px 20px' }}>Hán Việt & Âm thanh</th>
                 </tr>
               </thead>
               <tbody>
-                {forgottenWords.map((word, idx) => (
+                {forgottenWords.map((word, index) => (
                   <tr
-                    key={word.id || idx}
-                    onClick={() => setSelectedModalIndex(idx)}
+                    key={word.id || index}
+                    onClick={() => setSelectedModalIndex(index)}
                     style={{
                       borderBottom: '1px solid var(--border-color)',
                       cursor: 'pointer',
-                      transition: 'background 0.15s ease'
+                      transition: 'background 0.15s ease',
                     }}
                     onMouseEnter={e => e.currentTarget.style.background = 'var(--surface-hover)'}
                     onMouseLeave={e => e.currentTarget.style.background = 'transparent'}
                   >
-                    <td style={{ padding: '14px 16px', color: 'var(--text-muted)', fontSize: '0.9rem' }}>{idx + 1}</td>
-                    <td style={{ padding: '14px 16px', fontWeight: 700, fontSize: '1.25rem' }} className="jp-text">
+                    <td style={{ padding: '15px 20px', color: 'var(--text-secondary)' }}>{index + 1}</td>
+                    <td className="jp-text" style={{ padding: '15px 20px', fontSize: '1.2rem', fontWeight: 700 }}>
                       {word.kanji || word.hiragana}
                     </td>
-                    <td style={{ padding: '14px 16px', color: 'var(--accent-color)' }} className="jp-text">
-                      {word.hiragana}
-                    </td>
-                    <td style={{ padding: '14px 16px', fontWeight: 500 }}>
-                      {word.meaning}
-                    </td>
-                    <td style={{ padding: '14px 16px', textAlign: 'right' }}>
-                      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: '10px' }}>
-                        {word.hanViet && (
-                          <span style={{ fontSize: '0.9rem', color: 'var(--text-secondary)' }}>
-                            【{word.hanViet}】
-                          </span>
-                        )}
-                        <button
-                          type="button"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            speakWord(word);
-                          }}
-                          style={{
-                            background: 'none',
-                            border: 'none',
-                            color: 'var(--text-secondary)',
-                            cursor: 'pointer',
-                            padding: '4px',
-                            display: 'flex',
-                            alignItems: 'center',
-                            borderRadius: '4px'
-                          }}
-                        >
-                          <Volume2 size={16} />
-                        </button>
-                        <ChevronRight size={16} style={{ opacity: 0.4 }} />
+                    {!hideMeanings && <td className="jp-text" style={{ padding: '15px 20px', color: 'var(--accent-color)' }}>{word.hiragana}</td>}
+                    {!hideMeanings && <td style={{ padding: '15px 20px', fontWeight: 500 }}>{word.meaning}</td>}
+                    <td style={{ padding: '15px 20px', color: 'var(--text-secondary)' }}>
+                      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '8px' }}>
+                        <span>{word.hanViet ? `【${word.hanViet}】` : ''}</span>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                          <button
+                            type="button"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              speakWord(word);
+                            }}
+                            style={{
+                              background: 'none',
+                              border: 'none',
+                              color: 'var(--text-secondary)',
+                              cursor: 'pointer',
+                              padding: '4px',
+                              display: 'flex',
+                              alignItems: 'center',
+                              borderRadius: '4px',
+                              transition: 'color 0.15s ease'
+                            }}
+                            onMouseEnter={ev => ev.currentTarget.style.color = 'var(--accent-color)'}
+                            onMouseLeave={ev => ev.currentTarget.style.color = 'var(--text-secondary)'}
+                          >
+                            <Volume2 size={16} />
+                          </button>
+                          <ChevronRight size={14} style={{ opacity: 0.3, flexShrink: 0 }} />
+                        </div>
                       </div>
                     </td>
                   </tr>
@@ -758,7 +851,234 @@ const MasterReviewPage = ({ goBack }) => {
   }
 
   // ───────────────────────────────────────────────────────────────────────────
-  // PHASE 3: MANDATORY MASTERY QUIZ SCREEN
+  // PHASE 4: QUIZ SETUP SCREEN (Daily Study Style)
+  // ───────────────────────────────────────────────────────────────────────────
+  if (phase === 4) {
+    return (
+      <div className="container animate-fade-in" style={{ padding: '20px', maxWidth: '1000px', margin: '40px auto' }}>
+        <button className="btn btn-secondary" onClick={() => setPhase(2)} style={{ marginBottom: '20px', display: 'flex', alignItems: 'center', gap: '6px' }}>
+          <CornerUpLeft size={18} /> Quay lại danh sách từ
+        </button>
+
+        <div className="card" style={{ padding: '36px 32px', borderRadius: '20px' }}>
+          <h2 style={{ marginBottom: '10px', textAlign: 'center', fontSize: '1.6rem' }}>
+            Cấu hình Bài Quiz Kiểm tra Tổng ôn
+          </h2>
+          <p style={{ color: 'var(--text-secondary)', marginBottom: '24px', textAlign: 'center', fontSize: '0.95rem' }}>
+            Bạn có <strong>{forgottenWords.length} từ chưa thuộc</strong>. Đạt kết quả <strong>&gt; 90%</strong> để hoàn thành bài Tổng ôn!
+          </p>
+
+          {/* Question Direction Selection */}
+          <div style={{ marginBottom: '24px', paddingBottom: '20px', borderBottom: '1px solid var(--border-color)' }}>
+            <label style={{ display: 'block', fontWeight: 600, marginBottom: '12px', fontSize: '1rem' }}>
+              Hướng câu hỏi Quiz:
+            </label>
+            <div style={{ display: 'flex', gap: '16px' }}>
+              <button
+                type="button"
+                className={`btn ${questionType === 'vi-to-ja' ? 'btn-primary' : 'btn-secondary'}`}
+                style={{ flex: 1, padding: '12px 8px', fontSize: '0.9rem', fontWeight: 600 }}
+                onClick={() => setQuestionType('vi-to-ja')}
+              >
+                🇻🇳 Nghĩa Việt → 🇯🇵 Tiếng Nhật
+              </button>
+              <button
+                type="button"
+                className={`btn ${questionType === 'ja-to-vi' ? 'btn-primary' : 'btn-secondary'}`}
+                style={{ flex: 1, padding: '12px 8px', fontSize: '0.9rem', fontWeight: 600 }}
+                onClick={() => setQuestionType('ja-to-vi')}
+              >
+                🇯🇵 Tiếng Nhật → 🇻🇳 Nghĩa Việt
+              </button>
+            </div>
+          </div>
+
+          {/* Hiragana Hint Toggle */}
+          {questionType === 'ja-to-vi' && (
+            <div style={{ marginBottom: '24px', paddingBottom: '20px', borderBottom: '1px solid var(--border-color)', display: 'flex', alignItems: 'center', gap: '10px' }}>
+              <input
+                type="checkbox"
+                id="showHiraganaHintSetup"
+                checked={showHiraganaHint}
+                onChange={(e) => setShowHiraganaHint(e.target.checked)}
+                style={{ width: '18px', height: '18px', cursor: 'pointer' }}
+              />
+              <label htmlFor="showHiraganaHintSetup" style={{ fontWeight: 600, cursor: 'pointer', fontSize: '0.95rem' }}>
+                Hiển thị cách đọc Hiragana (Furigana) kèm Kanji
+              </label>
+            </div>
+          )}
+
+          {/* Quiz Format Selection (Choice vs Typing) */}
+          <div style={{ marginBottom: '24px', paddingBottom: '20px', borderBottom: '1px solid var(--border-color)' }}>
+            <label style={{ display: 'block', fontWeight: 600, marginBottom: '12px', fontSize: '1rem' }}>
+              Định dạng bài làm Quiz:
+            </label>
+            <div style={{ display: 'flex', gap: '16px' }}>
+              <button
+                type="button"
+                className={`btn ${quizFormat === 'choice' ? 'btn-primary' : 'btn-secondary'}`}
+                style={{ flex: 1, padding: '12px 8px', fontSize: '0.9rem', fontWeight: 600, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px' }}
+                onClick={() => setQuizFormat('choice')}
+              >
+                <ListFilter size={16} /> Trắc nghiệm (4 đáp án)
+              </button>
+              <button
+                type="button"
+                className={`btn ${quizFormat === 'typing' ? 'btn-primary' : 'btn-secondary'}`}
+                style={{ flex: 1, padding: '12px 8px', fontSize: '0.9rem', fontWeight: 600, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px' }}
+                onClick={() => setQuizFormat('typing')}
+              >
+                <Keyboard size={16} /> Gõ chữ (Tự luận)
+              </button>
+            </div>
+          </div>
+
+          {quizSetupError && (
+            <div style={{
+              backgroundColor: 'rgba(239, 68, 68, 0.1)',
+              color: '#ef4444',
+              padding: '12px 16px',
+              borderRadius: '10px',
+              marginBottom: '20px',
+              fontSize: '0.9rem',
+              fontWeight: 600
+            }}>
+              ⚠️ {quizSetupError}
+            </div>
+          )}
+
+          {/* Question Scope Selection */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', marginBottom: '32px' }}>
+            <label style={{ display: 'block', fontWeight: 600, fontSize: '1rem' }}>
+              Phạm vi từ vựng làm Quiz:
+            </label>
+
+            {/* Option A: All forgotten words */}
+            <label style={{
+              display: 'flex', alignItems: 'center', gap: '12px', padding: '15px', borderRadius: '12px',
+              border: `2px solid ${quizOptType === 'all' ? 'var(--accent-color)' : 'var(--border-color)'}`,
+              backgroundColor: quizOptType === 'all' ? 'rgba(37,99,235,0.04)' : 'transparent',
+              cursor: 'pointer'
+            }}>
+              <input
+                type="radio"
+                name="quizOptType"
+                value="all"
+                checked={quizOptType === 'all'}
+                onChange={() => setQuizOptType('all')}
+              />
+              <div>
+                <strong>Tất cả {forgottenWords.length} từ đã quên</strong>
+                <div style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', marginTop: '2px' }}>
+                  Làm bài kiểm tra tất cả các từ bạn vừa đánh dấu Quên trong phần rà soát.
+                </div>
+              </div>
+            </label>
+
+            {/* Option B: Random Count */}
+            <label style={{
+              display: 'flex', flexDirection: 'column', gap: '12px', padding: '15px', borderRadius: '12px',
+              border: `2px solid ${quizOptType === 'random' ? 'var(--accent-color)' : 'var(--border-color)'}`,
+              backgroundColor: quizOptType === 'random' ? 'rgba(37,99,235,0.04)' : 'transparent',
+              cursor: 'pointer'
+            }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                <input
+                  type="radio"
+                  name="quizOptType"
+                  value="random"
+                  checked={quizOptType === 'random'}
+                  onChange={() => setQuizOptType('random')}
+                />
+                <div>
+                  <strong>Số lượng ngẫu nhiên</strong>
+                  <div style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', marginTop: '2px' }}>
+                    Chọn một số lượng câu hỏi ngẫu nhiên từ danh sách từ đã quên.
+                  </div>
+                </div>
+              </div>
+              {quizOptType === 'random' && (
+                <div style={{ paddingLeft: '28px', display: 'flex', alignItems: 'center', gap: '10px' }}>
+                  <input
+                    type="number"
+                    min="1"
+                    max={forgottenWords.length}
+                    value={quizOptRandomCount}
+                    onChange={(e) => setQuizOptRandomCount(e.target.value)}
+                    style={{
+                      padding: '8px 12px', borderRadius: '8px', border: '1px solid var(--border-color)',
+                      backgroundColor: 'var(--surface-color)', color: 'var(--text-primary)', width: '110px'
+                    }}
+                  />
+                  <span style={{ fontSize: '0.9rem', color: 'var(--text-secondary)' }}>
+                    từ (Tối đa {forgottenWords.length} từ)
+                  </span>
+                </div>
+              )}
+            </label>
+
+            {/* Option C: Range A to B */}
+            <label style={{
+              display: 'flex', flexDirection: 'column', gap: '12px', padding: '15px', borderRadius: '12px',
+              border: `2px solid ${quizOptType === 'range' ? 'var(--accent-color)' : 'var(--border-color)'}`,
+              backgroundColor: quizOptType === 'range' ? 'rgba(37,99,235,0.04)' : 'transparent',
+              cursor: 'pointer'
+            }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                <input
+                  type="radio"
+                  name="quizOptType"
+                  value="range"
+                  checked={quizOptType === 'range'}
+                  onChange={() => setQuizOptType('range')}
+                />
+                <div>
+                  <strong>Khoảng chỉ định (Từ # A đến # B)</strong>
+                  <div style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', marginTop: '2px' }}>
+                    Chỉ làm bài kiểm tra trong phạm vi vị trí các từ chỉ định.
+                  </div>
+                </div>
+              </div>
+              {quizOptType === 'range' && (
+                <div style={{ paddingLeft: '28px', display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
+                  <span>Từ số</span>
+                  <input
+                    type="number"
+                    min="1"
+                    max={forgottenWords.length}
+                    value={quizOptRangeStart}
+                    onChange={(e) => setQuizOptRangeStart(e.target.value)}
+                    style={{ padding: '8px 12px', borderRadius: '8px', border: '1px solid var(--border-color)', backgroundColor: 'var(--surface-color)', color: 'var(--text-primary)', width: '80px' }}
+                  />
+                  <span>đến số</span>
+                  <input
+                    type="number"
+                    min="1"
+                    max={forgottenWords.length}
+                    value={quizOptRangeEnd}
+                    onChange={(e) => setQuizOptRangeEnd(e.target.value)}
+                    style={{ padding: '8px 12px', borderRadius: '8px', border: '1px solid var(--border-color)', backgroundColor: 'var(--surface-color)', color: 'var(--text-primary)', width: '80px' }}
+                  />
+                </div>
+              )}
+            </label>
+          </div>
+
+          <button
+            className="btn btn-primary"
+            onClick={startQuizFromSetup}
+            style={{ width: '100%', padding: '16px', fontSize: '1.1rem', fontWeight: 700, borderRadius: '14px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px' }}
+          >
+            <Play size={20} /> Bắt đầu Làm bài Quiz (&gt; 90%)
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  // ───────────────────────────────────────────────────────────────────────────
+  // PHASE 3: MANDATORY MASTERY QUIZ EXECUTION SCREEN
   // ───────────────────────────────────────────────────────────────────────────
   if (phase === 3) {
     // Finished Quiz Sub-Screen
@@ -767,7 +1087,6 @@ const MasterReviewPage = ({ goBack }) => {
       const isPassed = accuracy > 90;
 
       if (isPassed) {
-        // Passed > 90%: Clear session!
         clearSession();
       }
 
@@ -808,7 +1127,7 @@ const MasterReviewPage = ({ goBack }) => {
                 <button className="btn btn-secondary" onClick={() => setPhase(2)} style={{ padding: '12px 20px' }}>
                   Xem lại danh sách từ
                 </button>
-                <button className="btn btn-primary" onClick={handleStartQuiz} style={{ padding: '12px 24px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <button className="btn btn-primary" onClick={openQuizSetup} style={{ padding: '12px 24px', display: 'flex', alignItems: 'center', gap: '8px' }}>
                   <RotateCcw size={18} /> Thử lại Quiz (&gt; 90%)
                 </button>
               </>
@@ -822,10 +1141,10 @@ const MasterReviewPage = ({ goBack }) => {
     const isJaToVi = questionType === 'ja-to-vi';
 
     return (
-      <div className="container animate-fade-in" style={{ padding: '36px 20px', maxWidth: '840px', margin: '0 auto' }}>
+      <div className="container animate-fade-in" style={{ padding: '36px 20px', maxWidth: '1000px', margin: '0 auto' }}>
         {/* Header */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '24px' }}>
-          <button className="btn btn-secondary" onClick={() => setPhase(2)} style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+          <button className="btn btn-secondary" onClick={() => setPhase(4)} style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
             <ArrowLeft size={16} /> Thoát Quiz
           </button>
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
@@ -846,55 +1165,6 @@ const MasterReviewPage = ({ goBack }) => {
             background: 'linear-gradient(90deg, #10b981, #3b82f6)',
             borderRadius: '4px', transition: 'width 0.3s ease',
           }} />
-        </div>
-
-        {/* Format & Direction Toggles */}
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '12px', marginBottom: '24px', flexWrap: 'wrap' }}>
-          <div style={{ display: 'flex', background: 'var(--surface-hover)', padding: '4px', borderRadius: '24px', gap: '4px' }}>
-            <button
-              onClick={() => setQuizFormat('choice')}
-              style={{
-                display: 'flex', alignItems: 'center', gap: '6px',
-                padding: '8px 16px', borderRadius: '20px', fontSize: '0.88rem', border: 'none', cursor: 'pointer', fontWeight: 600,
-                background: quizFormat === 'choice' ? 'var(--card-bg)' : 'transparent',
-                color: quizFormat === 'choice' ? 'var(--accent-color)' : 'var(--text-secondary)',
-                boxShadow: quizFormat === 'choice' ? '0 2px 8px rgba(0,0,0,0.08)' : 'none',
-              }}
-            >
-              <ListFilter size={16} /> Trắc nghiệm
-            </button>
-            <button
-              onClick={() => setQuizFormat('typing')}
-              style={{
-                display: 'flex', alignItems: 'center', gap: '6px',
-                padding: '8px 16px', borderRadius: '20px', fontSize: '0.88rem', border: 'none', cursor: 'pointer', fontWeight: 600,
-                background: quizFormat === 'typing' ? 'var(--card-bg)' : 'transparent',
-                color: quizFormat === 'typing' ? 'var(--accent-color)' : 'var(--text-secondary)',
-                boxShadow: quizFormat === 'typing' ? '0 2px 8px rgba(0,0,0,0.08)' : 'none',
-              }}
-            >
-              <Keyboard size={16} /> Gõ chữ (Tự luận)
-            </button>
-          </div>
-
-          <div style={{ display: 'flex', gap: '8px' }}>
-            <button
-              onClick={() => setQuestionType('ja-to-vi')}
-              style={{
-                padding: '8px 16px', borderRadius: '20px', fontSize: '0.88rem', border: 'none', cursor: 'pointer', fontWeight: 600,
-                background: isJaToVi ? 'var(--accent-color)' : 'var(--surface-hover)',
-                color: isJaToVi ? 'white' : 'var(--text-secondary)',
-              }}
-            >🇯🇵 → 🇻🇳 Nhật → Việt</button>
-            <button
-              onClick={() => setQuestionType('vi-to-ja')}
-              style={{
-                padding: '8px 16px', borderRadius: '20px', fontSize: '0.88rem', border: 'none', cursor: 'pointer', fontWeight: 600,
-                background: !isJaToVi ? 'var(--accent-color)' : 'var(--surface-hover)',
-                color: !isJaToVi ? 'white' : 'var(--text-secondary)',
-              }}
-            >🇻🇳 → 🇯🇵 Việt → Nhật</button>
-          </div>
         </div>
 
         {/* Question Card */}
@@ -918,21 +1188,15 @@ const MasterReviewPage = ({ goBack }) => {
               </p>
               {current.kanji && current.hiragana && (
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
-                  <span 
-                    onClick={() => setShowHiraganaHint(!showHiraganaHint)}
-                    style={{ 
+                  <span
+                    style={{
                       fontSize: '1.15rem', color: 'var(--text-secondary)',
-                      filter: (showHiraganaHint || selectedChoice !== null || typingStatus !== 'idle') ? 'none' : 'blur(6px)',
+                      filter: (showHiraganaHint || answeredStatus !== null) ? 'none' : 'blur(6px)',
                       cursor: 'pointer', userSelect: 'none'
                     }}
                   >
                     {current.hiragana}
                   </span>
-                  {(selectedChoice === null && typingStatus === 'idle') && (
-                    <button onClick={() => setShowHiraganaHint(!showHiraganaHint)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-muted)' }}>
-                      {showHiraganaHint ? <EyeOff size={16} /> : <Eye size={16} />}
-                    </button>
-                  )}
                 </div>
               )}
             </>
@@ -969,10 +1233,10 @@ const MasterReviewPage = ({ goBack }) => {
                 <button
                   key={choice.id || i}
                   onClick={() => handleQuizChoice(choice)}
-                  disabled={selectedChoice !== null}
+                  disabled={selectedChoice !== null || answeredStatus !== null}
                   style={{
                     padding: '22px 24px', borderRadius: '16px', border, background: bg, color,
-                    cursor: selectedChoice ? 'default' : 'pointer', textAlign: 'center', fontSize: isJaToVi ? '1.15rem' : '1.3rem', fontWeight: 600, minHeight: '75px', display: 'flex', alignItems: 'center', justifyContent: 'center'
+                    cursor: (selectedChoice || answeredStatus) ? 'default' : 'pointer', textAlign: 'center', fontSize: isJaToVi ? '1.15rem' : '1.3rem', fontWeight: 600, minHeight: '75px', display: 'flex', alignItems: 'center', justifyContent: 'center'
                   }}
                 >
                   {isJaToVi ? choice.meaning : <span className="jp-text">{choice.kanji || choice.hiragana}</span>}
@@ -1081,7 +1345,7 @@ const MasterReviewPage = ({ goBack }) => {
   }
 
   // ───────────────────────────────────────────────────────────────────────────
-  // PHASE 4: 100% SUCCESS SCREEN (Screened & Remembered 100%)
+  // PHASE 5: 100% SUCCESS SCREEN (Screened & Remembered 100%)
   // ───────────────────────────────────────────────────────────────────────────
   return (
     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '75vh', gap: '24px', textAlign: 'center', padding: '20px' }}>

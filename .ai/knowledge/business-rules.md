@@ -101,6 +101,8 @@ $$EF' = EF + (0.1 - (5 - q) \times (0.08 + (5 - q) \times 0.02))$$
 * **Danh sách từ Quên & Modal Chi tiết (Forgotten Words List & Detail Modal)**:
   * Giao diện bảng hiển thị danh sách từ đã quên đồng bộ 100% phong cách thiết kế của `DailyStudyPage.jsx`: Nhấp vào bất kỳ hàng nào trên bảng để mở Modal chi tiết từ vựng (`KanjiDetailModal`).
   * Hỗ trợ chuyển tiếp từ trước/sau (Next/Prev) trực tiếp trong Modal và hiển thị thứ tự nét viết Kanji, phát âm âm thanh, Hán Việt và phân tích từ vựng AI.
+* **Giao diện Mở rộng Toàn màn hình (Full Screen Width Layout)**:
+  * Tất cả các màn hình trong Tổng ôn tập (Chọn phạm vi, Rà soát Flashcard, Bảng danh sách từ quên, Cấu hình Quiz và Làm bài Quiz) đều sử dụng độ rộng container chuẩn `1000px` rộng rãi giống như `DailyStudyPage.jsx` nhằm tăng tối đa mức độ tập trung cho người học.
 * **Bài Quiz Bắt buộc & Bảo toàn trạng thái (Mandatory Quiz & Session Persistence)**:
   * Sau khi rà soát, hệ thống tạo bảng tổng hợp các từ đã quên và yêu cầu người dùng làm Quiz (Trắc nghiệm hoặc Gõ chữ).
   * **Hiển thị Chi tiết Từ vựng AI sau mỗi câu trả lời**: Đồng bộ 100% với `DailyStudyPage.jsx`: Ngay khi trả lời (chọn phương án hoặc gõ từ), hệ thống tự động hiển thị thẻ phản hồi 2 cột gồm: Kanji/Hiragana, Nghĩa, Hán Việt, phát âm âm thanh và khối **Dữ liệu AI Bổ sung (`AiEnrichedTabbedView`)** (Ví dụ câu, Dịch nghĩa, Phân tích Kanji).
