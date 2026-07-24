@@ -569,9 +569,10 @@ const KanjiPracticeCanvas = ({ word, onBack }) => {
 /* ─────────────────────────────────────────────
    KanjiDetailModal
    ───────────────────────────────────────────── */
-const KanjiDetailModal = ({ words, initialIndex, onClose }) => {
+const KanjiDetailModal = ({ words, initialIndex = 0, onClose, vocab }) => {
   useLanguage();
-  const [currentIndex, setCurrentIndex] = useState(initialIndex);
+  const effectiveWords = (words && words.length > 0) ? words : (vocab ? [vocab] : []);
+  const [currentIndex, setCurrentIndex] = useState(initialIndex || 0);
   const [slideDir, setSlideDir]         = useState(null);
   const [isSliding, setIsSliding]       = useState(false);
 
@@ -581,7 +582,7 @@ const KanjiDetailModal = ({ words, initialIndex, onClose }) => {
   const [showSampleHint, setShowSampleHint] = useState(false);
 
   const overlayRef = useRef(null);
-  const word = words[currentIndex];
+  const word = effectiveWords[currentIndex];
 
   const [enriched, setEnriched] = useState(null);
   const [loadingEnrich, setLoadingEnrich] = useState(false);
@@ -696,7 +697,7 @@ const KanjiDetailModal = ({ words, initialIndex, onClose }) => {
     };
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
-  }, [currentIndex, words.length, side]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [currentIndex, effectiveWords.length, side]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const navigate = (dir) => {
     if (isSliding || side !== 'front') return;
@@ -706,7 +707,7 @@ const KanjiDetailModal = ({ words, initialIndex, onClose }) => {
       setSlideDir(null); setIsSliding(false);
     }, 220);
   };
-  const goNext = () => { if (currentIndex < words.length - 1) navigate('right'); };
+  const goNext = () => { if (currentIndex < effectiveWords.length - 1) navigate('right'); };
   const goPrev = () => { if (currentIndex > 0) navigate('left'); };
 
   const handleSpeak = () => {

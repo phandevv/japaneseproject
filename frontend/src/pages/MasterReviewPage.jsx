@@ -1,4 +1,4 @@
-import { ArrowLeft, CheckCircle, Eye, EyeOff, FileQuestion, Keyboard, Layers, ListFilter, RotateCcw, Send, Sparkles, Trophy, Volume2, XCircle } from 'lucide-react';
+import { ArrowLeft, CheckCircle, Eye, EyeOff, FileQuestion, Keyboard, Layers, ListFilter, RotateCcw, Send, Sparkles, Trophy, Volume2, XCircle, ChevronRight } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import KanjiDetailModal from '../components/KanjiDetailModal';
 import MascotCorners from '../components/MascotCorners';
@@ -103,7 +103,7 @@ const MasterReviewPage = ({ goBack }) => {
   const [forgottenWords, setForgottenWords] = useState([]);
 
   // Detail Modal state
-  const [selectedModalVocab, setSelectedModalVocab] = useState(null);
+  const [selectedModalIndex, setSelectedModalIndex] = useState(null);
 
   // Quiz states (Phase 3)
   const [quizWords, setQuizWords] = useState([]);
@@ -548,8 +548,6 @@ const MasterReviewPage = ({ goBack }) => {
                   Cách đọc: {current.hiragana}
                 </p>
               )}
-              <span style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>
-              </span>
             </>
           )}
         </div>
@@ -624,6 +622,12 @@ const MasterReviewPage = ({ goBack }) => {
           ⚠️ <strong>Yêu cầu hoàn thành:</strong> Bạn đã đánh dấu <strong>{forgottenWords.length} từ quên</strong>. Trạng thái này sẽ được bảo toàn cho tới khi bạn hoàn thành bài Quiz kiểm tra đạt kết quả <strong>&gt; 90%</strong>.
         </div>
 
+        {/* Hint */}
+        <p style={{ color: 'var(--text-secondary)', fontSize: '0.88rem', marginBottom: '14px', display: 'flex', alignItems: 'center', gap: '6px' }}>
+          <ChevronRight size={14} />
+          Nhấn vào một từ để xem chi tiết và thứ tự nét viết
+        </p>
+
         {/* Forgotten Words Table */}
         <div className="card" style={{ padding: '24px', borderRadius: '18px', marginBottom: '28px' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '18px' }}>
@@ -637,34 +641,64 @@ const MasterReviewPage = ({ goBack }) => {
             <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
               <thead>
                 <tr style={{ borderBottom: '2px solid var(--border-color)', color: 'var(--text-secondary)', fontSize: '0.9rem' }}>
-                  <th style={{ padding: '12px 16px' }}>#</th>
-                  <th style={{ padding: '12px 16px' }}>Từ vựng</th>
-                  <th style={{ padding: '12px 16px' }}>Cách đọc</th>
-                  <th style={{ padding: '12px 16px' }}>Ý nghĩa</th>
-                  <th style={{ padding: '12px 16px', textAlign: 'right' }}>Chi tiết</th>
+                  <th style={{ padding: '14px 16px' }}>#</th>
+                  <th style={{ padding: '14px 16px' }}>Từ vựng (Kanji)</th>
+                  <th style={{ padding: '14px 16px' }}>Cách đọc (Hiragana)</th>
+                  <th style={{ padding: '14px 16px' }}>Ý nghĩa</th>
+                  <th style={{ padding: '14px 16px', textAlign: 'right' }}>Hán Việt / Âm thanh</th>
                 </tr>
               </thead>
               <tbody>
                 {forgottenWords.map((word, idx) => (
-                  <tr key={word.id || idx} style={{ borderBottom: '1px solid var(--border-color)' }}>
+                  <tr
+                    key={word.id || idx}
+                    onClick={() => setSelectedModalIndex(idx)}
+                    style={{
+                      borderBottom: '1px solid var(--border-color)',
+                      cursor: 'pointer',
+                      transition: 'background 0.15s ease'
+                    }}
+                    onMouseEnter={e => e.currentTarget.style.background = 'var(--surface-hover)'}
+                    onMouseLeave={e => e.currentTarget.style.background = 'transparent'}
+                  >
                     <td style={{ padding: '14px 16px', color: 'var(--text-muted)', fontSize: '0.9rem' }}>{idx + 1}</td>
-                    <td style={{ padding: '14px 16px', fontWeight: 700, fontSize: '1.2rem' }} className="jp-text">
+                    <td style={{ padding: '14px 16px', fontWeight: 700, fontSize: '1.25rem' }} className="jp-text">
                       {word.kanji || word.hiragana}
                     </td>
-                    <td style={{ padding: '14px 16px', color: 'var(--text-secondary)' }} className="jp-text">
+                    <td style={{ padding: '14px 16px', color: 'var(--accent-color)' }} className="jp-text">
                       {word.hiragana}
                     </td>
                     <td style={{ padding: '14px 16px', fontWeight: 500 }}>
                       {word.meaning}
                     </td>
                     <td style={{ padding: '14px 16px', textAlign: 'right' }}>
-                      <button
-                        className="btn btn-secondary"
-                        onClick={() => setSelectedModalVocab(word)}
-                        style={{ padding: '6px 12px', fontSize: '0.85rem' }}
-                      >
-                        Xem chi tiết
-                      </button>
+                      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: '10px' }}>
+                        {word.hanViet && (
+                          <span style={{ fontSize: '0.9rem', color: 'var(--text-secondary)' }}>
+                            【{word.hanViet}】
+                          </span>
+                        )}
+                        <button
+                          type="button"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            speakWord(word);
+                          }}
+                          style={{
+                            background: 'none',
+                            border: 'none',
+                            color: 'var(--text-secondary)',
+                            cursor: 'pointer',
+                            padding: '4px',
+                            display: 'flex',
+                            alignItems: 'center',
+                            borderRadius: '4px'
+                          }}
+                        >
+                          <Volume2 size={16} />
+                        </button>
+                        <ChevronRight size={16} style={{ opacity: 0.4 }} />
+                      </div>
                     </td>
                   </tr>
                 ))}
@@ -674,10 +708,11 @@ const MasterReviewPage = ({ goBack }) => {
         </div>
 
         {/* Kanji Detail Modal popup */}
-        {selectedModalVocab && (
+        {selectedModalIndex !== null && (
           <KanjiDetailModal
-            vocab={selectedModalVocab}
-            onClose={() => setSelectedModalVocab(null)}
+            words={forgottenWords}
+            initialIndex={selectedModalIndex}
+            onClose={() => setSelectedModalIndex(null)}
           />
         )}
       </div>

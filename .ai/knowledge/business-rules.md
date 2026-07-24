@@ -98,6 +98,9 @@ $$EF' = EF + (0.1 - (5 - q) \times (0.08 + (5 - q) \times 0.02))$$
   * **Mặt trước**: Chỉ hiển thị duy nhất chữ Kanji (hoặc Hiragana nếu từ không có Kanji). **Tuyệt đối không hiển thị cách đọc/phiên âm ở mặt trước** để bắt buộc người dùng tự kiểm tra trí nhớ Kanji.
   * **Mặt sau**: Hiển thị Nghĩa tiếng Việt và cách đọc Hiragana khi lật thẻ.
   * Nút bấm: **Nhớ** (cập nhật SRS rating 3) & **Quên** (tự động gom vào danh sách `forgottenWords` và cập nhật SRS rating 1).
+* **Danh sách từ Quên & Modal Chi tiết (Forgotten Words List & Detail Modal)**:
+  * Giao diện bảng hiển thị danh sách từ đã quên đồng bộ 100% phong cách thiết kế của `DailyStudyPage.jsx`: Nhấp vào bất kỳ hàng nào trên bảng để mở Modal chi tiết từ vựng (`KanjiDetailModal`).
+  * Hỗ trợ chuyển tiếp từ trước/sau (Next/Prev) trực tiếp trong Modal và hiển thị thứ tự nét viết Kanji, phát âm âm thanh, Hán Việt và phân tích từ vựng AI.
 * **Bài Quiz Bắt buộc & Bảo toàn trạng thái (Mandatory Quiz & Session Persistence)**:
   * Sau khi rà soát, hệ thống tạo bảng tổng hợp các từ đã quên và yêu cầu người dùng làm Quiz (Trắc nghiệm hoặc Gõ chữ).
   * **Chỉ tiêu Pass**: Phải đạt kết quả **> 90%** câu đúng.
