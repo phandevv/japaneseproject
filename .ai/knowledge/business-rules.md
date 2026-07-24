@@ -107,7 +107,16 @@ $$EF' = EF + (0.1 - (5 - q) \times (0.08 + (5 - q) \times 0.02))$$
   * Sau khi rà soát, hệ thống tạo bảng tổng hợp các từ đã quên và yêu cầu người dùng làm Quiz (Trắc nghiệm hoặc Gõ chữ).
   * **Hiển thị Chi tiết Từ vựng AI sau mỗi câu trả lời**: Đồng bộ 100% với `DailyStudyPage.jsx`: Ngay khi trả lời (chọn phương án hoặc gõ từ), hệ thống tự động hiển thị thẻ phản hồi 2 cột gồm: Kanji/Hiragana, Nghĩa, Hán Việt, phát âm âm thanh và khối **Dữ liệu AI Bổ sung (`AiEnrichedTabbedView`)** (Ví dụ câu, Dịch nghĩa, Phân tích Kanji).
   * **Chỉ tiêu Pass**: Phải đạt kết quả **> 90%** câu đúng.
-  * **Bảo toàn trạng thái**: Nếu người dùng chưa đạt > 90% hoặc thoát trang giữa chừng, trạng thái bài Tổng ôn được **lưu lại tự động** (trong `localStorage`). Khi mở lại trang Tổng ôn tập, hệ thống sẽ khôi phục đúng danh sách từ đã quên để người dùng tiếp tục ôn luyện cho đến khi vượt qua chỉ tiêu > 90%.
+
+---
+
+## 9. Quy tắc An toàn Giao diện Flashcard (Flashcard Resilience & Fallback Rules)
+
+* **Tự động Khôi phục Thống kê Cấp độ (Auto-Fetch Level Stats Fallback)**:
+  * Khi truy cập trang Flashcard (`FlashcardPage.jsx`) trực tiếp mà chưa qua Trang chủ, nếu prop `stats` bị null/undefined, `FlashcardPage` tự động gọi `vocabApi.getStats()` bất đồng bộ và sử dụng mảng định danh mặc định (`DEFAULT_LEVEL_COUNTS`) làm fallback. Đảm bảo giao diện chọn Cấp độ (N5 - N1, Từ láy, Trợ từ) luôn luôn hiển thị thẻ đầy đủ.
+* **Xử lý An toàn API SRS Queue (Safe SRS Queue Parsing)**:
+  * Khi người dùng học Flashcard SRS (`isSrs = true`), mảng hàng đợi từ vựng được bọc xử lý an toàn `Array.isArray(response) ? response : (response?.queue || response?.content || [])`.
+  * Nếu API `studyApi.getQueue` bị gián đoạn hoặc yêu cầu xác thực guest, hệ thống tự động fallback về `srsApi.getDueWords()`, không gây lỗi trắng màn hình.
 
 ---
 

@@ -19,10 +19,15 @@ const levelColors = {
   TRO_TU: '#06b6d4',
 };
 
+const DEFAULT_LEVEL_COUNTS = {
+  N5: 600, N4: 700, N3: 800, N2: 900, N1: 1000, TU_LAY: 200, TRO_TU: 100
+};
+
 const FlashcardPage = ({ level: initialLevel, isSrs = false, stats, goBack, onDailyStudy, isLearnedStudy = false }) => {
   const { t } = useLanguage();
   const { isAuthenticated } = useAuth();
   const [activeLevel, setActiveLevel] = useState(initialLevel);
+  const [localStats, setLocalStats] = useState(stats);
   const [words, setWords] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [loading, setLoading] = useState(false);
@@ -41,6 +46,21 @@ const FlashcardPage = ({ level: initialLevel, isSrs = false, stats, goBack, onDa
   useEffect(() => {
     setActiveLevel(initialLevel);
   }, [initialLevel]);
+
+  // Load stats if missing
+  useEffect(() => {
+    if (stats && stats.levels) {
+      setLocalStats(stats);
+    } else {
+      vocabApi.getStats()
+        .then(data => {
+          if (data && data.levels) setLocalStats(data);
+        })
+        .catch(console.error);
+    }
+  }, [stats]);
+
+  const activeStatsLevels = stats?.levels || localStats?.levels || DEFAULT_LEVEL_COUNTS;
 
   const handleSaveSettings = async (value) => {
     const val = parseInt(value, 10);
@@ -113,14 +133,19 @@ const FlashcardPage = ({ level: initialLevel, isSrs = false, stats, goBack, onDa
     try {
       let data = [];
       if (isSrs) {
-        // Use the new Gamified Priority Queue API for SRS
-        const response = await studyApi.getQueue(activeLevel || 'N5');
-        // Map WordReviewDto to what the UI expects (vocabulary + projections)
-        data = response.queue.map(item => ({
-          ...item.vocabulary,
-          projections: item.projectedIntervals,
-          wordReviewId: item.id
-        }));
+        try {
+          const response = await studyApi.getQueue(activeLevel || 'N5');
+          const rawItems = Array.isArray(response) ? response : (response?.queue || response?.content || []);
+          data = rawItems.map(item => ({
+            ...(item.vocabulary || item),
+            projections: item.projectedIntervals || item.projections,
+            wordReviewId: item.id
+          }));
+        } catch (queueErr) {
+          console.warn("Queue API fallback to due words:", queueErr);
+          const dueData = await srsApi.getDueWords();
+          data = Array.isArray(dueData) ? dueData : (dueData?.content || []);
+        }
       } else if (isLearnedStudy) {
         if (activeLevel === 'TODAY') {
           data = await srsApi.getTodayReviewed();
@@ -128,7 +153,7 @@ const FlashcardPage = ({ level: initialLevel, isSrs = false, stats, goBack, onDa
           data = await srsApi.getRandomLearnedWords(50);
         }
       }
-      setWords(data);
+      setWords(data || []);
       setCurrentIndex(0);
       setFlipped(false);
       setSeenWordIds(new Set());
@@ -151,7 +176,7 @@ const FlashcardPage = ({ level: initialLevel, isSrs = false, stats, goBack, onDa
     if (!activeLevel) return;
     setLoading(true);
     try {
-      const totalWords = stats?.levels?.[activeLevel] || 0;
+      const totalWords = activeStatsLevels[activeLevel] || DEFAULT_LEVEL_COUNTS[activeLevel] || 600;
       const totalDays = Math.max(1, Math.floor(totalWords / wordsPerDay));
       let data = [];
       if (day === totalDays && totalWords > totalDays * wordsPerDay) {
@@ -178,7 +203,7 @@ const FlashcardPage = ({ level: initialLevel, isSrs = false, stats, goBack, onDa
     } finally {
       setLoading(false);
     }
-  }, [activeLevel, wordsPerDay, stats]);
+  }, [activeLevel, wordsPerDay, activeStatsLevels]);
 
   useEffect(() => {
     if (currentIndex !== null) {
@@ -288,8 +313,8 @@ const FlashcardPage = ({ level: initialLevel, isSrs = false, stats, goBack, onDa
         </div>
 
           <div className="grid grid-cols-3 home-level-grid">
-          {stats && stats.levels &&
-            Object.entries(stats.levels).map(([lvl, count]) => (
+          {activeStatsLevels &&
+            Object.entries(activeStatsLevels).map(([lvl, count]) => (
               <div 
                 key={lvl} 
                 className="card home-level-card" 
