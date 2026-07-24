@@ -1,10 +1,10 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { masterReviewApi, srsApi, analyticsApi, vocabApi } from '../services/api';
-import { ArrowLeft, BookOpen, Layers, CheckCircle, XCircle, RotateCcw, Calendar, FileQuestion, ListFilter, Keyboard, Send, Volume2, Eye, EyeOff, Sparkles, Trophy } from 'lucide-react';
-import MascotLoader from '../components/MascotLoader';
+import { ArrowLeft, CheckCircle, Eye, EyeOff, FileQuestion, Keyboard, Layers, ListFilter, RotateCcw, Send, Sparkles, Trophy, Volume2, XCircle } from 'lucide-react';
+import { useEffect, useRef, useState } from 'react';
 import KanjiDetailModal from '../components/KanjiDetailModal';
 import MascotCorners from '../components/MascotCorners';
+import MascotLoader from '../components/MascotLoader';
 import SakuraPetals from '../components/SakuraPetals';
+import { analyticsApi, masterReviewApi, srsApi } from '../services/api';
 
 // ── Smart Vietnamese Matcher ──────────────────────────────────────────────────
 const VIETNAMESE_SYNONYMS = [
@@ -534,13 +534,8 @@ const MasterReviewPage = ({ goBack }) => {
               <p className="jp-text" style={{ fontSize: '3.6rem', margin: '0 0 12px', fontWeight: 700, color: 'var(--text-primary)' }}>
                 {current.kanji || current.hiragana}
               </p>
-              {current.kanji && (
-                <p style={{ fontSize: '1.2rem', color: 'var(--text-secondary)', margin: 0 }}>
-                  ({current.hiragana})
-                </p>
-              )}
               <span style={{ marginTop: '24px', fontSize: '0.85rem', color: 'var(--text-muted)' }}>
-                (Bấm để lật xem nghĩa)
+                (Bấm để lật xem nghĩa & cách đọc)
               </span>
             </>
           ) : (
@@ -548,8 +543,12 @@ const MasterReviewPage = ({ goBack }) => {
               <p style={{ fontSize: '2.2rem', margin: '0 0 12px', fontWeight: 700, color: 'var(--accent-color)' }}>
                 {current.meaning}
               </p>
+              {current.kanji && current.hiragana && (
+                <p className="jp-text" style={{ fontSize: '1.2rem', color: 'var(--text-secondary)', margin: '0 0 12px' }}>
+                  Cách đọc: {current.hiragana}
+                </p>
+              )}
               <span style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>
-                (Mặt sau: Nghĩa từ vựng)
               </span>
             </>
           )}
