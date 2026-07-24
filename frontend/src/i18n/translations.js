@@ -80,6 +80,7 @@ export const translations = {
         N1: 'JLPT N1',
         TU_LAY: 'Từ Láy',
         TRO_TU: 'Trợ Từ',
+        MIMIKARA_N3: 'N3 Mimikara',
       },
       levelDescriptions: {
         N5: 'Trình độ sơ cấp sơ khởi: Làm quen bảng chữ cái, số đếm, chào hỏi và các mẫu câu cơ bản nhất.',
@@ -89,6 +90,7 @@ export const translations = {
         N1: 'Trình độ cao cấp: Đọc hiểu tài liệu chuyên ngành, thảo luận chuyên sâu và làm chủ tiếng Nhật.',
         TU_LAY: 'Tổng hợp từ láy sinh động (giongo/gitaigo) giúp cách nói chuyện tự nhiên như người bản xứ.',
         TRO_TU: 'Luyện tập cách sử dụng các trợ từ cốt lõi (は, が, を, に, で, へ...) tránh nhầm lẫn.',
+        MIMIKARA_N3: 'Từ vựng Mimikara N3: Phương pháp học qua âm thanh và lặp lại giúp nhớ sâu và phản xạ nhanh.',
       },
       studySectionLabel: 'Ôn tập theo cấp độ',
     },
@@ -332,6 +334,7 @@ export const translations = {
         N1: 'JLPT N1',
         TU_LAY: 'Reduplication',
         TRO_TU: 'Particles',
+        MIMIKARA_N3: 'N3 Mimikara',
       },
       levelDescriptions: {
         N5: 'Beginner level: Learn hiragana, katakana, basic numbers, greetings, and simple sentences.',
@@ -341,6 +344,7 @@ export const translations = {
         N1: 'Advanced level: Read specialized texts, participate in deep discussions, and master the language.',
         TU_LAY: 'Collection of vivid onomatopoeia and mimetic words for natural expression.',
         TRO_TU: 'Practice core Japanese particles (wa, ga, wo, ni, de, he...) to avoid common mistakes.',
+        MIMIKARA_N3: 'Mimikara N3 Vocabulary: Learn through audio and spaced repetition for fast retention.',
       },
       studySectionLabel: 'Level review',
     },

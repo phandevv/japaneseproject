@@ -17,10 +17,11 @@ const levelColors = {
   N1: '#8b5cf6',
   TU_LAY: '#ec4899',
   TRO_TU: '#06b6d4',
+  MIMIKARA_N3: '#f97316',
 };
 
 const DEFAULT_LEVEL_COUNTS = {
-  N5: 600, N4: 700, N3: 800, N2: 900, N1: 1000, TU_LAY: 200, TRO_TU: 100
+  N5: 600, N4: 700, N3: 800, N2: 900, N1: 1000, TU_LAY: 200, TRO_TU: 100, MIMIKARA_N3: 880
 };
 
 const FlashcardPage = ({ level: initialLevel, isSrs = false, stats, goBack, onDailyStudy, isLearnedStudy = false }) => {
@@ -244,42 +245,6 @@ const FlashcardPage = ({ level: initialLevel, isSrs = false, stats, goBack, onDa
     }
   }, [currentIndex]);
 
-  // Keyboard navigation
-  useEffect(() => {
-    if (words.length === 0) return;
-    const handleKeyDown = (e) => {
-      if (['INPUT', 'TEXTAREA', 'SELECT'].includes(e.target.tagName) || e.target.isContentEditable) return;
-      if (e.key === ' ') {
-        e.preventDefault();
-        setFlipped(prev => !prev);
-      } else if (e.key === 'ArrowRight') {
-        e.preventDefault();
-        handleNext();
-      } else if (e.key === 'ArrowLeft') {
-        e.preventDefault();
-        handlePrev();
-      } else if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
-        e.preventDefault();
-        setFlipped(prev => !prev);
-      } else if (e.key === '1') {
-        e.preventDefault();
-        handleRateWord(1);
-      } else if (e.key === '2') {
-        e.preventDefault();
-        handleRateWord(2);
-      } else if (e.key === '3') {
-        e.preventDefault();
-        handleRateWord(3);
-      } else if (e.key === '4') {
-        e.preventDefault();
-        handleRateWord(4);
-      }
-    };
-
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [currentIndex, words.length, handleRateWord]);
-
   const handleSessionComplete = async () => {
     setShowShoji(true);
   };
@@ -329,6 +294,44 @@ const FlashcardPage = ({ level: initialLevel, isSrs = false, stats, goBack, onDa
       handleSessionComplete();
     }
   };
+
+  // Keyboard navigation
+  useEffect(() => {
+    if (words.length === 0) return;
+    const handleKeyDown = (e) => {
+      if (['INPUT', 'TEXTAREA', 'SELECT'].includes(e.target.tagName) || e.target.isContentEditable) return;
+      if (e.key === ' ') {
+        e.preventDefault();
+        setFlipped(prev => !prev);
+      } else if (e.key === 'ArrowRight') {
+        e.preventDefault();
+        handleNext();
+      } else if (e.key === 'ArrowLeft') {
+        e.preventDefault();
+        handlePrev();
+      } else if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
+        e.preventDefault();
+        setFlipped(prev => !prev);
+      } else if (e.key === '1') {
+        e.preventDefault();
+        handleRateWord(1);
+      } else if (e.key === '2') {
+        e.preventDefault();
+        handleRateWord(2);
+      } else if (e.key === '3') {
+        e.preventDefault();
+        handleRateWord(3);
+      } else if (e.key === '4') {
+        e.preventDefault();
+        handleRateWord(4);
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [currentIndex, words.length, handleRateWord]);
+
+
 
   const handleBack = () => {
     if (phase === 0) {
