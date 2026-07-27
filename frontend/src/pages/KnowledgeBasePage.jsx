@@ -33,6 +33,7 @@ export default function KnowledgeBasePage() {
   const [result, setResult] = useState(null);
   const [error, setError] = useState(null);
   const [saveStatus, setSaveStatus] = useState(null); 
+  const [fastMode, setFastMode] = useState(true); 
 
   // Reading State
   const [readingLoading, setReadingLoading] = useState(false);
