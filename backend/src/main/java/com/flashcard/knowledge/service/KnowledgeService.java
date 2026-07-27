@@ -173,7 +173,7 @@ public class KnowledgeService {
     }
 
     /**
-     * Perform Single-Call Combined Fast Collect & Normalize (< 0.9s - 1.1s latency).
+     * Perform Single-Call Combined Fast Collect & Normalize (< 1.2s - 1.8s latency).
      */
     public Map<String, Object> collectFast(String input) throws Exception {
         String trimmed = input.trim();
@@ -182,6 +182,9 @@ public class KnowledgeService {
         Optional<Vocabulary> existingVocab = vocabularyRepository.findFirstByKanji(trimmed);
         if (existingVocab.isEmpty()) {
             existingVocab = vocabularyRepository.findFirstByHiragana(trimmed);
+        }
+        if (existingVocab.isEmpty()) {
+            existingVocab = vocabularyRepository.findFirstByRomaji(trimmed);
         }
         if (existingVocab.isPresent()) {
             Vocabulary v = existingVocab.get();
@@ -224,7 +227,7 @@ public class KnowledgeService {
             return res;
         }
 
-        // 2. Single Combined DeepSeek Call (~0.9s - 1.1s)
+        // 2. Ultra-Fast DeepSeek API Call (deepseek-chat, max_tokens: 90, temperature: 0.0)
         if (!bulkheadSemaphore.tryAcquire()) {
             throw new RuntimeException("Hệ thống AI đang bận. Vui lòng thử lại sau!");
         }
@@ -234,31 +237,15 @@ public class KnowledgeService {
                 return Map.of("error", "Chưa cấu hình DEEPSEEK_API_KEY.");
             }
 
-            String prompt = String.format(
-                "Bạn là từ điển tiếng Nhật siêu tốc. Hãy phân tích đầu vào sau và trả về thông tin chuẩn hóa tối thiểu cực kỳ nhanh trong 1 JSON duy nhất:\n" +
-                "Đầu vào: \"%s\"\n\n" +
-                "Trả về JSON duy nhất, không markdown:\n" +
-                "{\n" +
-                "  \"type\": \"vocabulary hoặc grammar\",\n" +
-                "  \"normalizedInput\": \"dạng chuẩn Kanji/Kana hoặc cấu trúc ngữ pháp\",\n" +
-                "  \"word\": \"từ kanji/kana chính xác hoặc cấu trúc ngữ pháp\",\n" +
-                "  \"reading\": \"hiragana cách đọc\",\n" +
-                "  \"meaning\": \"nghĩa tiếng Việt ngắn gọn\",\n" +
-                "  \"hanViet\": \"âm Hán Việt (nếu từ vựng có Kanji, ví dụ: NAN, THỰC SỰ)\",\n" +
-                "  \"jlpt\": \"N5 đến N1\",\n" +
-                "  \"pitchAccent\": \"cách đọc kèm trọng âm (ví dụ: むずかしい [4])\",\n" +
-                "  \"wordType\": \"loại từ (NOUN, VERB, I-ADJECTIVE, NA-ADJECTIVE, GRAMMAR...)\",\n" +
-                "  \"formation\": \"cách kết hợp ngắn gọn (nếu là grammar, ví dụ: V辞書形 + ように)\",\n" +
-                "  \"usageDesc\": \"ngữ cảnh vắn tắt (nếu là grammar)\"\n" +
-                "}",
-                trimmed
-            );
+            String prompt = String.format("Analyze \"%s\" -> Return 1 raw compact JSON: {\"type\":\"vocabulary/grammar\",\"normalizedInput\":\"...\",\"word\":\"...\",\"reading\":\"...\",\"meaning\":\"nghĩa tiếng Việt\",\"hanViet\":\"âm Hán Việt\",\"jlpt\":\"N5..N1\",\"pitchAccent\":\"[0]\",\"wordType\":\"NOUN/VERB/ADJ/GRAMMAR\",\"formation\":\"(if grammar)\",\"usageDesc\":\"(if grammar)\"}", trimmed);
 
             Map<String, Object> requestBodyMap = Map.of(
-                "model", "deepseek-v4-flash",
+                "model", "deepseek-chat",
+                "temperature", 0.0,
+                "max_tokens", 90,
                 "response_format", Map.of("type", "json_object"),
                 "messages", new Object[]{
-                    Map.of("role", "system", "content", "Bạn là từ điển tiếng Nhật siêu tốc. Chỉ trả về định dạng JSON ngắn gọn duy nhất."),
+                    Map.of("role", "system", "content", "Fast Japanese Dict. Return ONLY minimal raw JSON."),
                     Map.of("role", "user", "content", prompt)
                 }
             );
