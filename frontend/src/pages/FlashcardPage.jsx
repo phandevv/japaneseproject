@@ -297,12 +297,6 @@ const FlashcardPage = ({ level: initialLevel, isSrs = false, stats, goBack, onDa
     }
   }, [words, currentIndex, seenWordIds, isAuthenticated, handleSessionComplete]);
 
-  useEffect(() => {
-    if (currentIndex !== null) {
-      setFlipped(false);
-    }
-  }, [currentIndex]);
-
   // Keyboard navigation
   useEffect(() => {
     if (words.length === 0) return;
@@ -338,42 +332,6 @@ const FlashcardPage = ({ level: initialLevel, isSrs = false, stats, goBack, onDa
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [words.length, handleNext, handlePrev, handleRateWord]);
-
-  // Keyboard navigation
-  useEffect(() => {
-    if (words.length === 0) return;
-    const handleKeyDown = (e) => {
-      if (['INPUT', 'TEXTAREA', 'SELECT'].includes(e.target.tagName) || e.target.isContentEditable) return;
-      if (e.key === ' ') {
-        e.preventDefault();
-        setFlipped(prev => !prev);
-      } else if (e.key === 'ArrowRight') {
-        e.preventDefault();
-        handleNext();
-      } else if (e.key === 'ArrowLeft') {
-        e.preventDefault();
-        handlePrev();
-      } else if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
-        e.preventDefault();
-        setFlipped(prev => !prev);
-      } else if (e.key === '1') {
-        e.preventDefault();
-        handleRateWord(1);
-      } else if (e.key === '2') {
-        e.preventDefault();
-        handleRateWord(2);
-      } else if (e.key === '3') {
-        e.preventDefault();
-        handleRateWord(3);
-      } else if (e.key === '4') {
-        e.preventDefault();
-        handleRateWord(4);
-      }
-    };
-
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [currentIndex, words.length, handleRateWord]);
 
 
 
