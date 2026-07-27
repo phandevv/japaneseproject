@@ -128,7 +128,9 @@ $$EF' = EF + (0.1 - (5 - q) \times (0.08 + (5 - q) \times 0.02))$$
   * **Chế độ Tập hợp con (Partial/Subset Test)**: Khi người dùng chọn kiểm tra một số lượng từ ngẫu nhiên hoặc khoảng chỉ định (ví dụ 10/100 từ), khi làm xong:
     - Các từ trả lời đúng sẽ được tự động loại bỏ khỏi danh sách chưa thuộc (ví dụ 100 ➔ 91 từ).
     - Hệ thống lưu lại danh sách từ chưa thuộc mới vào `localStorage` (`persistSession(updatedForgotten)`).
-    - Hiển thị màn hình tổng kết bài Quiz ngắn ("Đã thuộc X/Y từ, còn lại Z từ cần tiếp tục ôn tập") kèm 2 tùy chọn: **"Tiếp tục ôn Z từ còn lại"** (chuyển sang Phase 2 Bảng danh sách từ) hoặc **"Làm tiếp Quiz khác"** (mở Phase 4 Cấu hình Quiz mới).
+* **Quy tắc Nhập Nhanh & Background Worker (Fast Collect & Background AI Enrichment Rule)**:
+  * **Chế độ Nhập nhanh (Fast Mode ⚡)**: Trong AI Personal Knowledge Base (`KnowledgeBasePage.jsx`), khi bật chế độ Nhập nhanh, yêu cầu DeepSeek chỉ trả về gói JSON tối thiểu (`kanji`, `hiragana`, `meaning`, `hanViet`, `pitchAccent`, `level`, `wordType` với từ vựng; hoặc `grammar`, `meaning`, `formation`, `usageDesc`, `level` với ngữ pháp). Thời gian AI phản hồi rút ngắn từ 10-15 giây xuống chỉ còn **~1 - 1.5 giây**.
+  * **Xử lý Chạy nền (Background Worker Thread)**: Khi người dùng bấm lưu thẻ nhập nhanh, hệ thống lưu ngay lập tức thông tin cơ bản vào Database và phản hồi thành công tức thì cho người dùng. Đồng thời, một luồng chạy nền bất đồng bộ (`CompletableFuture.runAsync`) tự động gọi DeepSeek để bổ sung các dữ liệu chuyên sâu (mẹo nhớ, câu ví dụ, cụm từ collocation, hội thoại, quizzes...) và cập nhật bản ghi trong DB mà không làm gián đoạn trải nghiệm ghi chú của người dùng.
 
 ---
 

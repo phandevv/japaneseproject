@@ -308,6 +308,122 @@ public class KnowledgeService {
     }
 
     /**
+     * Call DeepSeek for FAST minimal vocabulary data (< 1-1.5s latency).
+     */
+    public Map<String, Object> enrichVocabularyFast(String word) throws Exception {
+        if (!bulkheadSemaphore.tryAcquire()) {
+            throw new RuntimeException("Hệ thống AI đang bận. Vui lòng thử lại sau!");
+        }
+        try {
+            String apiKey = getApiKey();
+            if (apiKey == null) {
+                throw new RuntimeException("Chưa cấu hình API Key.");
+            }
+
+            String prompt = String.format(
+                "Phân tích từ vựng tiếng Nhật \"%s\" và trả về JSON tối thiểu cực kỳ nhanh:\n" +
+                "{\n" +
+                "  \"word\": \"từ kanji hoặc kana chính xác\",\n" +
+                "  \"reading\": \"hiragana cách đọc\",\n" +
+                "  \"meaning\": \"nghĩa tiếng Việt ngắn gọn, chính xác\",\n" +
+                "  \"hanViet\": \"âm Hán Việt (nếu có, ví dụ: NAN, THỰC SỰ)\",\n" +
+                "  \"jlpt\": \"cấp độ từ N5 đến N1\",\n" +
+                "  \"pitchAccent\": \"cách đọc kèm trọng âm (ví dụ: むずかしい [4])\",\n" +
+                "  \"wordType\": \"loại từ ngắn (NOUN, VERB, I-ADJECTIVE, NA-ADJECTIVE...)\"\n" +
+                "}",
+                word
+            );
+
+            Map<String, Object> requestBodyMap = Map.of(
+                "model", "deepseek-v4-flash",
+                "response_format", Map.of("type", "json_object"),
+                "messages", new Object[]{
+                    Map.of("role", "system", "content", "Bạn là từ điển tiếng Nhật siêu tốc. Chỉ trả về định dạng JSON ngắn gọn duy nhất."),
+                    Map.of("role", "user", "content", prompt)
+                }
+            );
+
+            String requestBody = objectMapper.writeValueAsString(requestBodyMap);
+            HttpRequest request = HttpRequest.newBuilder(URI.create("https://api.deepseek.com/chat/completions"))
+                    .header("Content-Type", "application/json")
+                    .header("Authorization", "Bearer " + apiKey)
+                    .POST(HttpRequest.BodyPublishers.ofString(requestBody))
+                    .build();
+
+            HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+            if (response.statusCode() != 200) {
+                throw new RuntimeException("API error status: " + response.statusCode());
+            }
+
+            JsonNode root = objectMapper.readTree(response.body());
+            String jsonContent = root.path("choices").get(0).path("message").path("content").asText();
+
+            Map<String, Object> result = parseAiJsonResponse(jsonContent);
+            result.put("isFast", true);
+            return result;
+        } finally {
+            bulkheadSemaphore.release();
+        }
+    }
+
+    /**
+     * Call DeepSeek for FAST minimal grammar data (< 1-1.5s latency).
+     */
+    public Map<String, Object> enrichGrammarFast(String grammar) throws Exception {
+        if (!bulkheadSemaphore.tryAcquire()) {
+            throw new RuntimeException("Hệ thống AI đang bận. Vui lòng thử lại sau!");
+        }
+        try {
+            String apiKey = getApiKey();
+            if (apiKey == null) {
+                throw new RuntimeException("Chưa cấu hình API Key.");
+            }
+
+            String prompt = String.format(
+                "Phân tích cấu trúc ngữ pháp tiếng Nhật \"%s\" và trả về JSON tối thiểu cực kỳ nhanh:\n" +
+                "{\n" +
+                "  \"grammar\": \"cấu trúc ngữ pháp chính xác (ví dụ: 〜ように)\",\n" +
+                "  \"meaning\": \"nghĩa tiếng Việt ngắn gọn\",\n" +
+                "  \"usageDesc\": \"ngữ cảnh sử dụng vắn tắt\",\n" +
+                "  \"formation\": \"cách kết hợp vắn tắt (ví dụ: V辞書形 + ように)\",\n" +
+                "  \"jlpt\": \"cấp độ từ N5 đến N1\"\n" +
+                "}",
+                grammar
+            );
+
+            Map<String, Object> requestBodyMap = Map.of(
+                "model", "deepseek-v4-flash",
+                "response_format", Map.of("type", "json_object"),
+                "messages", new Object[]{
+                    Map.of("role", "system", "content", "Bạn là công cụ tra cứu ngữ pháp tiếng Nhật siêu tốc. Chỉ trả về định dạng JSON ngắn gọn duy nhất."),
+                    Map.of("role", "user", "content", prompt)
+                }
+            );
+
+            String requestBody = objectMapper.writeValueAsString(requestBodyMap);
+            HttpRequest request = HttpRequest.newBuilder(URI.create("https://api.deepseek.com/chat/completions"))
+                    .header("Content-Type", "application/json")
+                    .header("Authorization", "Bearer " + apiKey)
+                    .POST(HttpRequest.BodyPublishers.ofString(requestBody))
+                    .build();
+
+            HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+            if (response.statusCode() != 200) {
+                throw new RuntimeException("API error status: " + response.statusCode());
+            }
+
+            JsonNode root = objectMapper.readTree(response.body());
+            String jsonContent = root.path("choices").get(0).path("message").path("content").asText();
+
+            Map<String, Object> result = parseAiJsonResponse(jsonContent);
+            result.put("isFast", true);
+            return result;
+        } finally {
+            bulkheadSemaphore.release();
+        }
+    }
+
+    /**
      * Call DeepSeek to enrich a grammar item.
      */
     public Map<String, Object> enrichGrammar(String grammar) throws Exception {
@@ -844,6 +960,84 @@ public class KnowledgeService {
     public void deleteSavedGrammar(User user, Long grammarId) {
         grammarReviewRepository.findByUserIdAndGrammarCardId(user.getId(), grammarId)
                 .ifPresent(grammarReviewRepository::delete);
+    }
+
+    /**
+     * Asynchronously trigger full AI enrichment in background worker thread.
+     */
+    public void triggerBackgroundFullEnrichment(String type, Long id, String term) {
+        java.util.concurrent.CompletableFuture.runAsync(() -> {
+            try {
+                log.info("Starting background full AI enrichment for type: {}, id: {}, term: {}", type, id, term);
+                if ("grammar".equalsIgnoreCase(type)) {
+                    Map<String, Object> fullData = enrichGrammar(term);
+                    Optional<GrammarCard> optCard = grammarCardRepository.findById(id);
+                    if (optCard.isPresent()) {
+                        GrammarCard card = optCard.get();
+                        String usageDesc = (String) fullData.get("usageDesc");
+                        String formation = (String) fullData.get("formation");
+                        String jlpt = (String) fullData.get("jlpt");
+                        String similarGrammar = objectMapper.writeValueAsString(fullData.get("similarGrammar"));
+                        String difference = (String) fullData.get("difference");
+                        String commonMistakes = objectMapper.writeValueAsString(fullData.get("commonMistakes"));
+                        String examples = objectMapper.writeValueAsString(fullData.get("examples"));
+                        String readingPassage = (String) fullData.get("readingPassage");
+                        String quizzes = objectMapper.writeValueAsString(fullData.get("quizzes"));
+
+                        if (usageDesc != null && !usageDesc.trim().isEmpty()) card.setUsageDesc(usageDesc);
+                        if (formation != null && !formation.trim().isEmpty()) card.setFormation(formation);
+                        if (jlpt != null && !jlpt.trim().isEmpty()) card.setJlpt(jlpt);
+                        if (similarGrammar != null && !similarGrammar.trim().isEmpty() && !"null".equalsIgnoreCase(similarGrammar)) card.setSimilarGrammar(similarGrammar);
+                        if (difference != null && !difference.trim().isEmpty()) card.setDifference(difference);
+                        if (commonMistakes != null && !commonMistakes.trim().isEmpty() && !"null".equalsIgnoreCase(commonMistakes)) card.setCommonMistakes(commonMistakes);
+                        if (examples != null && !examples.trim().isEmpty() && !"null".equalsIgnoreCase(examples)) card.setExamples(examples);
+                        if (readingPassage != null && !readingPassage.trim().isEmpty()) card.setReadingPassage(readingPassage);
+                        if (quizzes != null && !quizzes.trim().isEmpty() && !"null".equalsIgnoreCase(quizzes)) card.setQuizzes(quizzes);
+
+                        grammarCardRepository.save(card);
+                        log.info("Completed background full AI enrichment for GrammarCard ID: {}", id);
+                    }
+                } else {
+                    Map<String, Object> fullData = enrichVocabulary(term);
+                    Optional<Vocabulary> optVocab = vocabularyRepository.findById(id);
+                    if (optVocab.isPresent()) {
+                        Vocabulary vocab = optVocab.get();
+                        String pitchAccent = (String) fullData.get("pitchAccent");
+                        String mnemonic = (String) fullData.get("mnemonic");
+                        String kanjiWords = objectMapper.writeValueAsString(fullData.get("kanjiWords"));
+                        String synonyms = objectMapper.writeValueAsString(fullData.get("synonyms"));
+                        String antonyms = objectMapper.writeValueAsString(fullData.get("antonyms"));
+                        String commonMistakes = objectMapper.writeValueAsString(fullData.get("commonMistakes"));
+                        String collocations = objectMapper.writeValueAsString(fullData.get("collocations"));
+                        String conversationExamples = objectMapper.writeValueAsString(fullData.get("conversationExamples"));
+                        String exampleSentencesJson = objectMapper.writeValueAsString(fullData.get("exampleSentences"));
+
+                        List<?> exampleSentences = (List<?>) fullData.get("exampleSentences");
+                        if (exampleSentences != null && !exampleSentences.isEmpty()) {
+                            Map<?, ?> firstEx = (Map<?, ?>) exampleSentences.get(0);
+                            vocab.setSampleSentence((String) firstEx.get("ja"));
+                            vocab.setSampleReading((String) firstEx.get("reading"));
+                            vocab.setSampleTranslation((String) firstEx.get("vi"));
+                        }
+
+                        if (pitchAccent != null && !pitchAccent.trim().isEmpty()) vocab.setPitchAccent(pitchAccent);
+                        if (mnemonic != null && !mnemonic.trim().isEmpty()) vocab.setMnemonic(mnemonic);
+                        if (kanjiWords != null && !kanjiWords.trim().isEmpty() && !"null".equalsIgnoreCase(kanjiWords)) vocab.setKanjiWords(kanjiWords);
+                        if (synonyms != null && !synonyms.trim().isEmpty() && !"null".equalsIgnoreCase(synonyms)) vocab.setSynonyms(synonyms);
+                        if (antonyms != null && !antonyms.trim().isEmpty() && !"null".equalsIgnoreCase(antonyms)) vocab.setAntonyms(antonyms);
+                        if (commonMistakes != null && !commonMistakes.trim().isEmpty() && !"null".equalsIgnoreCase(commonMistakes)) vocab.setCommonMistakes(commonMistakes);
+                        if (collocations != null && !collocations.trim().isEmpty() && !"null".equalsIgnoreCase(collocations)) vocab.setCollocations(collocations);
+                        if (conversationExamples != null && !conversationExamples.trim().isEmpty() && !"null".equalsIgnoreCase(conversationExamples)) vocab.setConversationExamples(conversationExamples);
+                        if (exampleSentencesJson != null && !exampleSentencesJson.trim().isEmpty() && !"null".equalsIgnoreCase(exampleSentencesJson)) vocab.setExampleSentences(exampleSentencesJson);
+
+                        vocabularyRepository.save(vocab);
+                        log.info("Completed background full AI enrichment for Vocabulary ID: {}", id);
+                    }
+                }
+            } catch (Exception e) {
+                log.error("Failed background AI enrichment for type: {}, id: {}: {}", type, id, e.getMessage(), e);
+            }
+        });
     }
 }
 

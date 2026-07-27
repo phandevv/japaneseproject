@@ -372,8 +372,8 @@ export const knowledgeApi = {
    * Normalize and enrich any raw input from the user.
    * @param {string} input - The raw text (e.g. Romaji, Kanji, meaning)
    */
-  collect: async (input) => {
-    const response = await axios.post(`${API_BASE_URL}/knowledge/collect`, { input });
+  collect: async (input, fast = false) => {
+    const response = await axios.post(`${API_BASE_URL}/knowledge/collect`, { input, fast });
     return response.data;
   },
   /**

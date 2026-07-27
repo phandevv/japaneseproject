@@ -39,15 +39,17 @@ public class KnowledgeController {
     @PostMapping("/collect")
     public ResponseEntity<?> collect(
             @AuthenticationPrincipal User user,
-            @RequestBody Map<String, String> request) {
+            @RequestBody Map<String, Object> request) {
         if (user == null) {
             return ResponseEntity.status(401).body(Map.of("error", "Vui lòng đăng nhập!"));
         }
 
-        String input = request.get("input");
+        String input = (String) request.get("input");
         if (input == null || input.trim().isEmpty()) {
             return ResponseEntity.badRequest().body(Map.of("error", "Nội dung nhập vào không được để trống."));
         }
+
+        boolean isFast = Boolean.TRUE.equals(request.get("fast")) || "true".equalsIgnoreCase(String.valueOf(request.get("fast")));
 
         try {
             // Step 1: Normalize raw input
@@ -55,17 +57,26 @@ public class KnowledgeController {
             String type = (String) collectResult.get("type");
             String normalizedInput = (String) collectResult.get("normalizedInput");
 
-            // Step 2: Enrich knowledge based on type
+            // Step 2: Enrich knowledge based on mode
             Map<String, Object> enrichmentData;
-            if ("grammar".equalsIgnoreCase(type)) {
-                enrichmentData = knowledgeService.enrichGrammar(normalizedInput);
+            if (isFast) {
+                if ("grammar".equalsIgnoreCase(type)) {
+                    enrichmentData = knowledgeService.enrichGrammarFast(normalizedInput);
+                } else {
+                    enrichmentData = knowledgeService.enrichVocabularyFast(normalizedInput);
+                }
             } else {
-                enrichmentData = knowledgeService.enrichVocabulary(normalizedInput);
+                if ("grammar".equalsIgnoreCase(type)) {
+                    enrichmentData = knowledgeService.enrichGrammar(normalizedInput);
+                } else {
+                    enrichmentData = knowledgeService.enrichVocabulary(normalizedInput);
+                }
             }
 
             // Construct unified response
             Map<String, Object> response = new HashMap<>(collectResult);
             response.put("enrichmentData", enrichmentData);
+            response.put("isFast", isFast);
 
             return ResponseEntity.ok(response);
         } catch (Exception e) {
@@ -125,7 +136,7 @@ public class KnowledgeController {
     }
 
     /**
-     * Save enriched knowledge card to DB (supports update and versioning)
+     * Save enriched knowledge card to DB (supports update, versioning, and background enrichment)
      * POST /api/knowledge/save
      */
     @PostMapping("/save")
@@ -143,19 +154,31 @@ public class KnowledgeController {
         }
 
         try {
+            boolean isFast = Boolean.TRUE.equals(data.get("isFast")) || "true".equalsIgnoreCase(String.valueOf(data.get("isFast")));
+
             if ("grammar".equalsIgnoreCase(type)) {
                 GrammarCard saved = knowledgeService.saveGrammar(data, user);
+                if (isFast || saved.getExamples() == null || saved.getExamples().isEmpty() || "null".equals(saved.getExamples())) {
+                    String term = saved.getGrammar();
+                    knowledgeService.triggerBackgroundFullEnrichment("grammar", saved.getId(), term);
+                }
                 return ResponseEntity.ok(Map.of(
                     "status", "success",
                     "id", saved.getId(),
-                    "type", "grammar"
+                    "type", "grammar",
+                    "backgroundEnriching", true
                 ));
             } else {
                 Vocabulary saved = knowledgeService.saveVocabulary(data, user);
+                if (isFast || saved.getExampleSentences() == null || saved.getExampleSentences().isEmpty() || "null".equals(saved.getExampleSentences())) {
+                    String term = (saved.getKanji() != null && !saved.getKanji().trim().isEmpty()) ? saved.getKanji() : saved.getHiragana();
+                    knowledgeService.triggerBackgroundFullEnrichment("vocabulary", saved.getId(), term);
+                }
                 return ResponseEntity.ok(Map.of(
                     "status", "success",
                     "id", saved.getId(),
-                    "type", "vocabulary"
+                    "type", "vocabulary",
+                    "backgroundEnriching", true
                 ));
             }
         } catch (Exception e) {

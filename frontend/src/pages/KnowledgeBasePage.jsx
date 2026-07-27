@@ -65,7 +65,7 @@ export default function KnowledgeBasePage() {
     setSaveStatus(null);
 
     try {
-      const data = await knowledgeApi.collect(trimmed);
+      const data = await knowledgeApi.collect(trimmed, fastMode);
       setResult(data);
     } catch (err) {
       console.error(err);
@@ -75,19 +75,21 @@ export default function KnowledgeBasePage() {
     }
   };
 
-
-
   const handleSave = async () => {
     if (!result) return;
     setSaveStatus('saving');
     try {
-      await knowledgeApi.save(result.type, result.enrichmentData);
+      const saveData = {
+        ...result.enrichmentData,
+        isFast: result.isFast || false
+      };
+      await knowledgeApi.save(result.type, saveData);
       setSaveStatus('success');
       setInputText('');
       setTimeout(() => {
         setResult(null);
         setSaveStatus(null);
-      }, 2000);
+      }, 2500);
     } catch (err) {
       console.error(err);
       setError(err?.response?.data?.error || err.message || 'Lỗi khi lưu thẻ kiến thức.');
@@ -280,16 +282,47 @@ export default function KnowledgeBasePage() {
         {activeTab === 'collect' && (
           <div className="kb-collect-grid">
             <div className="kb-input-card glass-panel">
-              <div className="kb-card-header">
-                <h2>1. Nhập kiến thức mới học</h2>
-                <p>AI hỗ trợ chuẩn hóa Romaji, Kana, chữ Kanji viết sai, hoặc nghĩa tiếng Việt.</p>
+              <div className="kb-card-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: 12 }}>
+                <div>
+                  <h2>1. Nhập kiến thức mới học</h2>
+                  <p>AI hỗ trợ chuẩn hóa Romaji, Kana, chữ Kanji viết sai, hoặc nghĩa tiếng Việt.</p>
+                </div>
+
+                <div className="kb-fast-mode-toggle" style={{ display: 'inline-flex', background: 'var(--surface-hover)', borderRadius: 12, padding: 3, border: '1px solid var(--border-color)' }}>
+                  <button
+                    type="button"
+                    className={`kb-mode-btn ${fastMode ? 'active' : ''}`}
+                    onClick={() => setFastMode(true)}
+                    style={{
+                      padding: '6px 12px', borderRadius: 10, fontSize: '0.82rem', fontWeight: 600, border: 'none', cursor: 'pointer',
+                      background: fastMode ? 'var(--accent-color)' : 'transparent',
+                      color: fastMode ? '#fff' : 'var(--text-secondary)',
+                      display: 'flex', alignItems: 'center', gap: 4, transition: 'all 0.2s'
+                    }}
+                  >
+                    ⚡ Nhập nhanh (~1s)
+                  </button>
+                  <button
+                    type="button"
+                    className={`kb-mode-btn ${!fastMode ? 'active' : ''}`}
+                    onClick={() => setFastMode(false)}
+                    style={{
+                      padding: '6px 12px', borderRadius: 10, fontSize: '0.82rem', fontWeight: 600, border: 'none', cursor: 'pointer',
+                      background: !fastMode ? 'var(--accent-color)' : 'transparent',
+                      color: !fastMode ? '#fff' : 'var(--text-secondary)',
+                      display: 'flex', alignItems: 'center', gap: 4, transition: 'all 0.2s'
+                    }}
+                  >
+                    ✨ Phân tích đầy đủ
+                  </button>
+                </div>
               </div>
 
               <form onSubmit={handleCollect} className="kb-form">
                 <div className="kb-input-wrapper">
                   <textarea
                     className="kb-textarea"
-                    placeholder="Ví dụ: hazukashii, ショクジ, 将來, ように, xấu hổ..."
+                    placeholder="Ví dụ: hazukashii, ショクジ, 将來, ように, 難しい, xấu hổ..."
                     value={inputText}
                     onChange={(e) => setInputText(e.target.value)}
                     rows={4}
@@ -302,7 +335,7 @@ export default function KnowledgeBasePage() {
                     }}
                   />
                   <div className="kb-input-tips">
-                    <span className="kb-tip">💡 Nhấn Enter để gửi đi nhanh</span>
+                    <span className="kb-tip">💡 Nhấn Enter để gửi đi nhanh • Mode: {fastMode ? '⚡ Nhập nhanh (Siêu tốc)' : '✨ Phân tích đầy đủ (10-15s)'}</span>
                   </div>
                 </div>
 
@@ -314,12 +347,12 @@ export default function KnowledgeBasePage() {
                   {loading ? (
                     <>
                       <RefreshCw className="animate-spin" size={18} />
-                      Đang phân tích & làm giàu...
+                      {fastMode ? 'Đang nhập nhanh siêu tốc...' : 'Đang phân tích & làm giàu...'}
                     </>
                   ) : (
                     <>
                       <Sparkles size={18} />
-                      AI Normalize & Enrich
+                      {fastMode ? '⚡ AI Phân tích nhanh' : '✨ AI Normalize & Enrich'}
                     </>
                   )}
                 </button>
