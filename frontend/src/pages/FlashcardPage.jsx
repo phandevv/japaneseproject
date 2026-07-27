@@ -246,8 +246,7 @@ const FlashcardPage = ({ level: initialLevel, isSrs = false, stats, goBack, onDa
     }
   }, [currentIndex]);
 
-  const handleSessionComplete = async () => {
-
+  const handleSessionComplete = useCallback(async () => {
     setShowShoji(true);
   }, []);
 
