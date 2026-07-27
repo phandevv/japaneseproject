@@ -52,31 +52,28 @@ public class KnowledgeController {
         boolean isFast = Boolean.TRUE.equals(request.get("fast")) || "true".equalsIgnoreCase(String.valueOf(request.get("fast")));
 
         try {
+            if (isFast) {
+                // Single-Call Combined Fast Normalize & Enrich (< 0.9s - 1.1s latency)
+                return ResponseEntity.ok(knowledgeService.collectFast(input.trim()));
+            }
+
             // Step 1: Normalize raw input
             Map<String, Object> collectResult = knowledgeService.normalize(input.trim());
             String type = (String) collectResult.get("type");
             String normalizedInput = (String) collectResult.get("normalizedInput");
 
-            // Step 2: Enrich knowledge based on mode
+            // Step 2: Full enrich knowledge based on type
             Map<String, Object> enrichmentData;
-            if (isFast) {
-                if ("grammar".equalsIgnoreCase(type)) {
-                    enrichmentData = knowledgeService.enrichGrammarFast(normalizedInput);
-                } else {
-                    enrichmentData = knowledgeService.enrichVocabularyFast(normalizedInput);
-                }
+            if ("grammar".equalsIgnoreCase(type)) {
+                enrichmentData = knowledgeService.enrichGrammar(normalizedInput);
             } else {
-                if ("grammar".equalsIgnoreCase(type)) {
-                    enrichmentData = knowledgeService.enrichGrammar(normalizedInput);
-                } else {
-                    enrichmentData = knowledgeService.enrichVocabulary(normalizedInput);
-                }
+                enrichmentData = knowledgeService.enrichVocabulary(normalizedInput);
             }
 
             // Construct unified response
             Map<String, Object> response = new HashMap<>(collectResult);
             response.put("enrichmentData", enrichmentData);
-            response.put("isFast", isFast);
+            response.put("isFast", false);
 
             return ResponseEntity.ok(response);
         } catch (Exception e) {

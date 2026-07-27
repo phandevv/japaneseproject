@@ -173,6 +173,157 @@ public class KnowledgeService {
     }
 
     /**
+     * Perform Single-Call Combined Fast Collect & Normalize (< 0.9s - 1.1s latency).
+     */
+    public Map<String, Object> collectFast(String input) throws Exception {
+        String trimmed = input.trim();
+
+        // 1. Fast Local DB Lookup check (< 5ms)
+        Optional<Vocabulary> existingVocab = vocabularyRepository.findFirstByKanji(trimmed);
+        if (existingVocab.isEmpty()) {
+            existingVocab = vocabularyRepository.findFirstByHiragana(trimmed);
+        }
+        if (existingVocab.isPresent()) {
+            Vocabulary v = existingVocab.get();
+            Map<String, Object> fastData = new HashMap<>();
+            fastData.put("word", v.getKanji() != null && !v.getKanji().isEmpty() ? v.getKanji() : v.getHiragana());
+            fastData.put("reading", v.getHiragana());
+            fastData.put("meaning", v.getMeaning());
+            fastData.put("hanViet", v.getHanViet());
+            fastData.put("jlpt", v.getLevel());
+            fastData.put("pitchAccent", v.getPitchAccent());
+            fastData.put("wordType", v.getWordType());
+
+            Map<String, Object> res = new HashMap<>();
+            res.put("type", "vocabulary");
+            res.put("normalizedInput", v.getKanji() != null && !v.getKanji().isEmpty() ? v.getKanji() : v.getHiragana());
+            res.put("existsInDb", true);
+            res.put("dbEntityId", v.getId());
+            res.put("enrichmentData", fastData);
+            res.put("isFast", true);
+            return res;
+        }
+
+        Optional<GrammarCard> existingGrammar = grammarCardRepository.findByGrammar(trimmed);
+        if (existingGrammar.isPresent()) {
+            GrammarCard g = existingGrammar.get();
+            Map<String, Object> fastData = new HashMap<>();
+            fastData.put("grammar", g.getGrammar());
+            fastData.put("meaning", g.getMeaning());
+            fastData.put("formation", g.getFormation());
+            fastData.put("usageDesc", g.getUsageDesc());
+            fastData.put("jlpt", g.getJlpt());
+
+            Map<String, Object> res = new HashMap<>();
+            res.put("type", "grammar");
+            res.put("normalizedInput", g.getGrammar());
+            res.put("existsInDb", true);
+            res.put("dbEntityId", g.getId());
+            res.put("enrichmentData", fastData);
+            res.put("isFast", true);
+            return res;
+        }
+
+        // 2. Single Combined DeepSeek Call (~0.9s - 1.1s)
+        if (!bulkheadSemaphore.tryAcquire()) {
+            throw new RuntimeException("Hệ thống AI đang bận. Vui lòng thử lại sau!");
+        }
+        try {
+            String apiKey = getApiKey();
+            if (apiKey == null) {
+                return Map.of("error", "Chưa cấu hình DEEPSEEK_API_KEY.");
+            }
+
+            String prompt = String.format(
+                "Bạn là từ điển tiếng Nhật siêu tốc. Hãy phân tích đầu vào sau và trả về thông tin chuẩn hóa tối thiểu cực kỳ nhanh trong 1 JSON duy nhất:\n" +
+                "Đầu vào: \"%s\"\n\n" +
+                "Trả về JSON duy nhất, không markdown:\n" +
+                "{\n" +
+                "  \"type\": \"vocabulary hoặc grammar\",\n" +
+                "  \"normalizedInput\": \"dạng chuẩn Kanji/Kana hoặc cấu trúc ngữ pháp\",\n" +
+                "  \"word\": \"từ kanji/kana chính xác hoặc cấu trúc ngữ pháp\",\n" +
+                "  \"reading\": \"hiragana cách đọc\",\n" +
+                "  \"meaning\": \"nghĩa tiếng Việt ngắn gọn\",\n" +
+                "  \"hanViet\": \"âm Hán Việt (nếu từ vựng có Kanji, ví dụ: NAN, THỰC SỰ)\",\n" +
+                "  \"jlpt\": \"N5 đến N1\",\n" +
+                "  \"pitchAccent\": \"cách đọc kèm trọng âm (ví dụ: むずかしい [4])\",\n" +
+                "  \"wordType\": \"loại từ (NOUN, VERB, I-ADJECTIVE, NA-ADJECTIVE, GRAMMAR...)\",\n" +
+                "  \"formation\": \"cách kết hợp ngắn gọn (nếu là grammar, ví dụ: V辞書形 + ように)\",\n" +
+                "  \"usageDesc\": \"ngữ cảnh vắn tắt (nếu là grammar)\"\n" +
+                "}",
+                trimmed
+            );
+
+            Map<String, Object> requestBodyMap = Map.of(
+                "model", "deepseek-v4-flash",
+                "response_format", Map.of("type", "json_object"),
+                "messages", new Object[]{
+                    Map.of("role", "system", "content", "Bạn là từ điển tiếng Nhật siêu tốc. Chỉ trả về định dạng JSON ngắn gọn duy nhất."),
+                    Map.of("role", "user", "content", prompt)
+                }
+            );
+
+            String requestBody = objectMapper.writeValueAsString(requestBodyMap);
+            HttpRequest request = HttpRequest.newBuilder(URI.create("https://api.deepseek.com/chat/completions"))
+                    .header("Content-Type", "application/json")
+                    .header("Authorization", "Bearer " + apiKey)
+                    .POST(HttpRequest.BodyPublishers.ofString(requestBody))
+                    .build();
+
+            HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+            if (response.statusCode() != 200) {
+                throw new RuntimeException("DeepSeek API error status: " + response.statusCode());
+            }
+
+            JsonNode root = objectMapper.readTree(response.body());
+            String jsonContent = root.path("choices").get(0).path("message").path("content").asText();
+
+            Map<String, Object> aiResult = parseAiJsonResponse(jsonContent);
+
+            String type = (String) aiResult.getOrDefault("type", "vocabulary");
+            String normalized = (String) aiResult.getOrDefault("normalizedInput", trimmed);
+
+            if ("grammar".equalsIgnoreCase(type)) {
+                if (!aiResult.containsKey("grammar") || aiResult.get("grammar") == null) {
+                    aiResult.put("grammar", normalized);
+                }
+            } else {
+                if (!aiResult.containsKey("word") || aiResult.get("word") == null) {
+                    aiResult.put("word", normalized);
+                }
+            }
+
+            // Check if normalized item exists in DB
+            boolean exists = false;
+            Long id = null;
+            if ("grammar".equalsIgnoreCase(type)) {
+                Optional<GrammarCard> gc = grammarCardRepository.findByGrammar(normalized);
+                exists = gc.isPresent();
+                if (exists) id = gc.get().getId();
+            } else {
+                Optional<Vocabulary> vc = vocabularyRepository.findFirstByKanji(normalized);
+                if (vc.isEmpty()) {
+                    vc = vocabularyRepository.findFirstByHiragana(normalized);
+                }
+                exists = vc.isPresent();
+                if (exists) id = vc.get().getId();
+            }
+
+            Map<String, Object> result = new HashMap<>();
+            result.put("type", type);
+            result.put("normalizedInput", normalized);
+            result.put("existsInDb", exists);
+            result.put("dbEntityId", id != null ? id : -1);
+            result.put("enrichmentData", aiResult);
+            result.put("isFast", true);
+
+            return result;
+        } finally {
+            bulkheadSemaphore.release();
+        }
+    }
+
+    /**
      * Clean markdown code fences from AI JSON response and extract JSON object.
      */
     private String cleanJsonContent(String content) {
