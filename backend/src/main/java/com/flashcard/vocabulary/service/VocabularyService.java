@@ -55,51 +55,57 @@ public class VocabularyService {
 
     @Cacheable(value = "vocabulary", key = "#id", unless = "#result == null")
     public Optional<Vocabulary> getById(Long id) {
-        return repository.findById(id);
+        Optional<Vocabulary> opt = repository.findById(id);
+        if (opt.isPresent()) {
+            return Optional.of(enrichWithMatchingData(opt.get()));
+        }
+        return opt;
+    }
+
+    public Vocabulary enrichWithMatchingData(Vocabulary v) {
+        if (v == null) return null;
+        boolean updated = false;
+
+        if ((v.getMeaning() == null || v.getMeaning().trim().isEmpty()) || (v.getSampleSentence() == null || v.getSampleSentence().trim().isEmpty())) {
+            Optional<Vocabulary> match = Optional.empty();
+            if (v.getKanji() != null && !v.getKanji().trim().isEmpty()) {
+                match = repository.findFirstByKanji(v.getKanji().trim());
+            }
+            if (match.isEmpty() && v.getHiragana() != null && !v.getHiragana().trim().isEmpty()) {
+                match = repository.findFirstByHiragana(v.getHiragana().trim());
+            }
+
+            if (match.isPresent() && !match.get().getId().equals(v.getId())) {
+                Vocabulary src = match.get();
+                if ((v.getMeaning() == null || v.getMeaning().trim().isEmpty()) && src.getMeaning() != null && !src.getMeaning().trim().isEmpty()) {
+                    v.setMeaning(src.getMeaning());
+                    updated = true;
+                }
+                if ((v.getHanViet() == null || v.getHanViet().trim().isEmpty()) && src.getHanViet() != null && !src.getHanViet().trim().isEmpty()) {
+                    v.setHanViet(src.getHanViet());
+                    updated = true;
+                }
+                if ((v.getSampleSentence() == null || v.getSampleSentence().trim().isEmpty()) && src.getSampleSentence() != null) {
+                    v.setSampleSentence(src.getSampleSentence());
+                    v.setSampleReading(src.getSampleReading());
+                    v.setSampleTranslation(src.getSampleTranslation());
+                    updated = true;
+                }
+                if ((v.getPitchAccent() == null || v.getPitchAccent().trim().isEmpty()) && src.getPitchAccent() != null) {
+                    v.setPitchAccent(src.getPitchAccent());
+                    updated = true;
+                }
+            }
+        }
+
+        if (updated) {
+            return repository.save(v);
+        }
+        return v;
     }
 
     @CacheEvict(value = {"vocabulary", "vocabulary-level"}, allEntries = true)
     public Vocabulary save(Vocabulary vocabulary) {
-        if (vocabulary == null) return null;
-
-        if (vocabulary.getId() == null) {
-            // Deduplication check: check if Kanji or Hiragana already exists in DB
-            Optional<Vocabulary> existing = Optional.empty();
-            if (vocabulary.getKanji() != null && !vocabulary.getKanji().trim().isEmpty()) {
-                existing = repository.findFirstByKanji(vocabulary.getKanji().trim());
-            }
-            if (existing.isEmpty() && vocabulary.getHiragana() != null && !vocabulary.getHiragana().trim().isEmpty()) {
-                existing = repository.findFirstByHiragana(vocabulary.getHiragana().trim());
-            }
-
-            if (existing.isPresent()) {
-                Vocabulary canonical = existing.get();
-                // Merge level tags (e.g. 'N3' + 'MIMIKARA_N3' -> 'N3,MIMIKARA_N3')
-                if (vocabulary.getLevel() != null && !vocabulary.getLevel().trim().isEmpty()) {
-                    String newLevel = vocabulary.getLevel().trim();
-                    String curLevel = canonical.getLevel() != null ? canonical.getLevel() : "";
-                    if (!curLevel.contains(newLevel)) {
-                        canonical.setLevel(curLevel.isEmpty() ? newLevel : curLevel + "," + newLevel);
-                    }
-                }
-                // Merge missing non-empty fields
-                if ((canonical.getMeaning() == null || canonical.getMeaning().trim().isEmpty()) && vocabulary.getMeaning() != null && !vocabulary.getMeaning().trim().isEmpty()) {
-                    canonical.setMeaning(vocabulary.getMeaning());
-                }
-                if ((canonical.getHanViet() == null || canonical.getHanViet().trim().isEmpty()) && vocabulary.getHanViet() != null && !vocabulary.getHanViet().trim().isEmpty()) {
-                    canonical.setHanViet(vocabulary.getHanViet());
-                }
-                if ((canonical.getSampleSentence() == null || canonical.getSampleSentence().trim().isEmpty()) && vocabulary.getSampleSentence() != null) {
-                    canonical.setSampleSentence(vocabulary.getSampleSentence());
-                    canonical.setSampleReading(vocabulary.getSampleReading());
-                    canonical.setSampleTranslation(vocabulary.getSampleTranslation());
-                }
-                if ((canonical.getPitchAccent() == null || canonical.getPitchAccent().trim().isEmpty()) && vocabulary.getPitchAccent() != null) {
-                    canonical.setPitchAccent(vocabulary.getPitchAccent());
-                }
-                return repository.save(canonical);
-            }
-        }
         return repository.save(vocabulary);
     }
 

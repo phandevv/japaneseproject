@@ -18,11 +18,9 @@ public class ExcelImportService {
 
     private static final Logger logger = LoggerFactory.getLogger(ExcelImportService.class);
     private final VocabularyRepository repository;
-    private final VocabularyService vocabularyService;
 
-    public ExcelImportService(VocabularyRepository repository, VocabularyService vocabularyService) {
+    public ExcelImportService(VocabularyRepository repository) {
         this.repository = repository;
-        this.vocabularyService = vocabularyService;
     }
 
     public int importExcelFile(MultipartFile file) throws Exception {
@@ -39,8 +37,10 @@ public class ExcelImportService {
                 allVocab.addAll(sheetVocab);
             }
 
-            for (Vocabulary v : allVocab) {
-                vocabularyService.save(v);
+            int batchSize = 500;
+            for (int i = 0; i < allVocab.size(); i += batchSize) {
+                int end = Math.min(i + batchSize, allVocab.size());
+                repository.saveAll(allVocab.subList(i, end));
             }
 
             logger.info("Total vocabulary loaded: {}", allVocab.size());

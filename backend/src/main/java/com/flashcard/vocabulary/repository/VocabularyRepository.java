@@ -13,8 +13,7 @@ import java.util.List;
 @Repository
 public interface VocabularyRepository extends JpaRepository<Vocabulary, Long> {
 
-    @Query("SELECT v FROM Vocabulary v WHERE v.level = :level OR v.level LIKE CONCAT('%,', :level) OR v.level LIKE CONCAT(:level, ',%') OR v.level LIKE CONCAT('%,', :level, ',%')")
-    List<Vocabulary> findByLevel(@Param("level") String level);
+    List<Vocabulary> findByLevel(String level);
 
     java.util.Optional<Vocabulary> findFirstByKanji(String kanji);
     
@@ -24,13 +23,11 @@ public interface VocabularyRepository extends JpaRepository<Vocabulary, Long> {
     
     java.util.Optional<Vocabulary> findByKanjiOrHiragana(String kanji, String hiragana);
 
-    @Query("SELECT v FROM Vocabulary v WHERE v.level = :level OR v.level LIKE CONCAT('%,', :level) OR v.level LIKE CONCAT(:level, ',%') OR v.level LIKE CONCAT('%,', :level, ',%')")
-    Page<Vocabulary> findByLevel(@Param("level") String level, Pageable pageable);
+    Page<Vocabulary> findByLevel(String level, Pageable pageable);
 
-    @Query("SELECT v FROM Vocabulary v WHERE (v.level = :level OR v.level LIKE CONCAT('%,', :level) OR v.level LIKE CONCAT(:level, ',%') OR v.level LIKE CONCAT('%,', :level, ',%')) AND v.wordType = :wordType")
-    List<Vocabulary> findByLevelAndWordType(@Param("level") String level, @Param("wordType") String wordType);
+    List<Vocabulary> findByLevelAndWordType(String level, String wordType);
 
-    @Query("SELECT v FROM Vocabulary v WHERE (v.level = :level OR v.level LIKE CONCAT('%,', :level) OR v.level LIKE CONCAT(:level, ',%') OR v.level LIKE CONCAT('%,', :level, ',%')) ORDER BY FUNCTION('RAND')")
+    @Query("SELECT v FROM Vocabulary v WHERE v.level = :level ORDER BY FUNCTION('RAND')")
     List<Vocabulary> findRandomByLevel(@Param("level") String level, Pageable pageable);
 
     @Query("SELECT v FROM Vocabulary v ORDER BY FUNCTION('RAND')")
