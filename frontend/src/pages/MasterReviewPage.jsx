@@ -1123,10 +1123,15 @@ const MasterReviewPage = ({ goBack }) => {
       // Calculate updated forgotten words by excluding words answered correctly in this quiz
       const updatedForgotten = forgottenWords.filter(w => !correctlyAnsweredWordIds.has(w.id));
       const removedCount = forgottenWords.length - updatedForgotten.length;
-      const isPassed = isFullTest ? accuracy > 90 : (updatedForgotten.length === 0 || accuracy > 90);
+      
+      // A Master Review session is ONLY completed and cleared if:
+      // 1. It is a FULL TEST and accuracy > 90%
+      // OR
+      // 2. All remaining forgotten words have been cleared (updatedForgotten.length === 0)
+      const isPassed = isFullTest ? accuracy > 90 : (updatedForgotten.length === 0);
 
       // Clear session ONLY if full test passed OR all remaining forgotten words are cleared
-      if (isPassed && (isFullTest || updatedForgotten.length === 0)) {
+      if (isPassed) {
         clearSession();
       } else {
         persistSession(updatedForgotten);
