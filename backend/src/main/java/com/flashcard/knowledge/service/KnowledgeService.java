@@ -196,6 +196,18 @@ public class KnowledgeService {
             fastData.put("jlpt", v.getLevel());
             fastData.put("pitchAccent", v.getPitchAccent());
             fastData.put("wordType", v.getWordType());
+            fastData.put("usageGuide", v.getUsageGuide());
+            fastData.put("mnemonic", v.getMnemonic());
+            fastData.put("kanjiWords", v.getKanjiWords());
+            fastData.put("synonyms", v.getSynonyms());
+            fastData.put("antonyms", v.getAntonyms());
+            fastData.put("exampleSentences", v.getExampleSentences());
+            fastData.put("sampleSentence", v.getSampleSentence());
+            fastData.put("sampleReading", v.getSampleReading());
+            fastData.put("sampleTranslation", v.getSampleTranslation());
+            fastData.put("commonMistakes", v.getCommonMistakes());
+            fastData.put("collocations", v.getCollocations());
+            fastData.put("conversationExamples", v.getConversationExamples());
 
             Map<String, Object> res = new HashMap<>();
             res.put("type", "vocabulary");
@@ -215,7 +227,13 @@ public class KnowledgeService {
             fastData.put("meaning", g.getMeaning());
             fastData.put("formation", g.getFormation());
             fastData.put("usageDesc", g.getUsageDesc());
+            fastData.put("usageGuide", g.getUsageGuide());
             fastData.put("jlpt", g.getJlpt());
+            fastData.put("similarGrammar", g.getSimilarGrammar());
+            fastData.put("difference", g.getDifference());
+            fastData.put("commonMistakes", g.getCommonMistakes());
+            fastData.put("examples", g.getExamples());
+            fastData.put("quizzes", g.getQuizzes());
 
             Map<String, Object> res = new HashMap<>();
             res.put("type", "grammar");
@@ -227,7 +245,7 @@ public class KnowledgeService {
             return res;
         }
 
-        // 2. Ultra-Fast DeepSeek API Call (deepseek-chat, max_tokens: 90, temperature: 0.0)
+        // 2. Ultra-Fast DeepSeek API Call (deepseek-chat, max_tokens: 140, temperature: 0.0)
         if (!bulkheadSemaphore.tryAcquire()) {
             throw new RuntimeException("Hệ thống AI đang bận. Vui lòng thử lại sau!");
         }
@@ -237,15 +255,15 @@ public class KnowledgeService {
                 return Map.of("error", "Chưa cấu hình DEEPSEEK_API_KEY.");
             }
 
-            String prompt = String.format("Analyze \"%s\" -> Return 1 raw compact JSON: {\"type\":\"vocabulary/grammar\",\"normalizedInput\":\"...\",\"word\":\"...\",\"reading\":\"...\",\"meaning\":\"nghĩa tiếng Việt\",\"hanViet\":\"âm Hán Việt\",\"jlpt\":\"N5..N1\",\"pitchAccent\":\"[0]\",\"wordType\":\"NOUN/VERB/ADJ/GRAMMAR\",\"formation\":\"(if grammar)\",\"usageDesc\":\"(if grammar)\"}", trimmed);
+            String prompt = String.format("Analyze \"%s\" -> Return 1 raw compact JSON: {\"type\":\"vocabulary/grammar\",\"normalizedInput\":\"...\",\"word\":\"...\",\"reading\":\"...\",\"meaning\":\"nghĩa tiếng Việt\",\"hanViet\":\"âm Hán Việt\",\"jlpt\":\"N5..N1\",\"pitchAccent\":\"[0]\",\"wordType\":\"NOUN/VERB/ADJ/GRAMMAR\",\"usageGuide\":\"hướng dẫn chi tiết cách dùng và trường hợp sử dụng bằng tiếng Việt\",\"mnemonic\":\"mẹo nhớ ngắn gọn\"}", trimmed);
 
             Map<String, Object> requestBodyMap = Map.of(
                 "model", "deepseek-chat",
                 "temperature", 0.0,
-                "max_tokens", 90,
+                "max_tokens", 140,
                 "response_format", Map.of("type", "json_object"),
                 "messages", new Object[]{
-                    Map.of("role", "system", "content", "Fast Japanese Dict. Return ONLY minimal raw JSON."),
+                    Map.of("role", "system", "content", "Fast Japanese Dict. Return ONLY minimal raw JSON in Vietnamese."),
                     Map.of("role", "user", "content", prompt)
                 }
             );

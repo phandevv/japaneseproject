@@ -66,12 +66,31 @@ export default function KnowledgeBasePage() {
     setSaveStatus(null);
 
     try {
-      const data = await knowledgeApi.collect(trimmed, fastMode);
+      // Step 1: Fast Core Mode - returns Tab 1 (Core & Memory) data in ~0.3s
+      const data = await knowledgeApi.collect(trimmed, true);
       setResult(data);
+      setLoading(false); // Unblock UI immediately so Core tab pops up in ~0.3s!
+
+      // Step 2: Background Micro-Enrichment - fetch Tab 2 & Tab 3 rich data asynchronously
+      if (data && data.normalizedInput) {
+        knowledgeApi.collect(trimmed, false).then(fullData => {
+          if (fullData && fullData.enrichmentData) {
+            setResult(prev => {
+              if (!prev) return fullData;
+              return {
+                ...prev,
+                enrichmentData: {
+                  ...prev.enrichmentData,
+                  ...fullData.enrichmentData
+                }
+              };
+            });
+          }
+        }).catch(err => console.log('Background micro-enrichment status:', err));
+      }
     } catch (err) {
       console.error(err);
       setError(err?.response?.data?.error || err.message || 'Không thể kết nối đến AI để chuẩn hóa dữ liệu.');
-    } finally {
       setLoading(false);
     }
   };
