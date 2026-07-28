@@ -65,6 +65,25 @@ public class DeepSeekEnrichmentService {
             }
 
             try {
+                boolean missingUsageGuide = (vocab.getUsageGuide() == null || vocab.getUsageGuide().trim().isEmpty());
+                boolean missingMnemonic = (vocab.getMnemonic() == null || vocab.getMnemonic().trim().isEmpty());
+                boolean missingExamples = (vocab.getExampleSentences() == null || vocab.getExampleSentences().trim().isEmpty());
+
+                // If word is only missing usageGuide, execute targeted fast micro-prompt (< 0.25s)
+                if (missingUsageGuide && !missingMnemonic && !missingExamples) {
+                    String microPrompt = String.format(
+                        "Hãy giải thích chi tiết hướng dẫn sử dụng, sắc thái (nuance) và trường hợp dùng thực tế bằng tiếng Việt cho từ tiếng Nhật: \"%s\" (Cách đọc: %s, Nghĩa: %s). Trả về JSON duy nhất: {\"usageGuide\":\"...\"}",
+                        vocab.getKanji() != null && !vocab.getKanji().isEmpty() ? vocab.getKanji() : vocab.getHiragana(),
+                        vocab.getHiragana() != null ? vocab.getHiragana() : "",
+                        vocab.getMeaning() != null ? vocab.getMeaning() : ""
+                    );
+                    return executeMicroPrompt(vocab, apiKey, microPrompt, (node, v) -> {
+                        if (node.has("usageGuide")) {
+                            v.setUsageGuide(node.path("usageGuide").asText());
+                        }
+                    });
+                }
+
                 String level = vocab.getLevel() != null ? vocab.getLevel().trim().toUpperCase() : "N3";
 
                 String prompt = String.format(
@@ -190,6 +209,48 @@ public class DeepSeekEnrichmentService {
             }
         } catch (Exception e) {
             log.error("Outer error: {}", e.getMessage());
+            bulkheadSemaphore.release();
+            return CompletableFuture.completedFuture(vocab);
+        }
+    }
+
+    private CompletableFuture<Vocabulary> executeMicroPrompt(Vocabulary vocab, String apiKey, String prompt, java.util.function.BiConsumer<JsonNode, Vocabulary> mapper) {
+        try {
+            Map<String, Object> requestBodyMap = Map.of(
+                "model", "deepseek-v4-flash",
+                "max_tokens", 150,
+                "response_format", Map.of("type", "json_object"),
+                "messages", new Object[]{
+                    Map.of("role", "system", "content", "Bạn là trợ lý từ điển tiếng Nhật. Phản hồi duy nhất bằng định dạng JSON bằng tiếng Việt."),
+                    Map.of("role", "user", "content", prompt)
+                }
+            );
+            String requestBody = objectMapper.writeValueAsString(requestBodyMap);
+            HttpRequest request = HttpRequest.newBuilder(URI.create("https://api.deepseek.com/chat/completions"))
+                    .header("Content-Type", "application/json")
+                    .header("Authorization", "Bearer " + apiKey)
+                    .POST(HttpRequest.BodyPublishers.ofString(requestBody))
+                    .timeout(Duration.ofSeconds(10))
+                    .build();
+
+            return httpClient.sendAsync(request, HttpResponse.BodyHandlers.ofString())
+                    .thenApply(response -> {
+                        try {
+                            if (response.statusCode() == 200) {
+                                JsonNode root = objectMapper.readTree(response.body());
+                                String contentJson = root.path("choices").get(0).path("message").path("content").asText();
+                                contentJson = cleanJsonContent(contentJson);
+                                JsonNode contentNode = objectMapper.readTree(contentJson);
+                                mapper.accept(contentNode, vocab);
+                                return vocabularyRepository.save(vocab);
+                            }
+                        } catch (Exception e) {
+                            log.error("Micro-prompt parse error: {}", e.getMessage());
+                        }
+                        return vocab;
+                    })
+                    .whenComplete((res, ex) -> bulkheadSemaphore.release());
+        } catch (Exception e) {
             bulkheadSemaphore.release();
             return CompletableFuture.completedFuture(vocab);
         }

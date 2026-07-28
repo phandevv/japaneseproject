@@ -134,13 +134,12 @@ public class VocabularyController {
     public ResponseEntity<Vocabulary> getById(@PathVariable Long id) {
         return service.getById(id)
                 .map(vocab -> {
-                    // Check if vocabulary is missing rich AI fields
-                    boolean needsEnrichment = vocab.getPitchAccent() == null || vocab.getPitchAccent().isBlank()
-                        || vocab.getMnemonic() == null || vocab.getMnemonic().isBlank()
-                        || vocab.getExampleSentences() == null || vocab.getExampleSentences().isBlank();
+                    boolean isMissingFields = (vocab.getUsageGuide() == null || vocab.getUsageGuide().isBlank())
+                        || (vocab.getMnemonic() == null || vocab.getMnemonic().isBlank())
+                        || (vocab.getExampleSentences() == null || vocab.getExampleSentences().isBlank());
                     
-                    if (needsEnrichment) {
-                        log.info("Vocabulary ID {} is missing rich AI data. Triggering enrichment asynchronously...", id);
+                    if (isMissingFields) {
+                        log.info("Vocabulary ID {} is missing fields (usageGuide/mnemonic/examples). Triggering targeted micro-enrichment...", id);
                         enrichmentService.enrichVocabulary(vocab);
                     }
                     return ResponseEntity.ok(vocab);
@@ -172,21 +171,20 @@ public class VocabularyController {
             return ResponseEntity.notFound().build();
         }
         Vocabulary existing = existingOpt.get();
-        // Check if word already has rich AI enrichment data
-        boolean alreadyEnriched = (existing.getPitchAccent() != null && !existing.getPitchAccent().isBlank())
-            || (existing.getWordType() != null && !existing.getWordType().isBlank())
-            || (existing.getMnemonic() != null && !existing.getMnemonic().isBlank())
-            || (existing.getSynonyms() != null && !existing.getSynonyms().isBlank())
-            || (existing.getAntonyms() != null && !existing.getAntonyms().isBlank())
-            || (existing.getExampleSentences() != null && !existing.getExampleSentences().isBlank());
-        if (alreadyEnriched) {
+        boolean fullyEnriched = (existing.getUsageGuide() != null && !existing.getUsageGuide().isBlank())
+            && (existing.getMnemonic() != null && !existing.getMnemonic().isBlank())
+            && (existing.getExampleSentences() != null && !existing.getExampleSentences().isBlank())
+            && (existing.getCollocations() != null && !existing.getCollocations().isBlank())
+            && (existing.getConversationExamples() != null && !existing.getConversationExamples().isBlank());
+        
+        if (fullyEnriched) {
             return ResponseEntity.ok(existing);
         }
         
-        // Trigger enrichment asynchronously in the background
+        // Trigger targeted micro-enrichment for missing fields in background
         enrichmentService.enrichVocabulary(existing);
         
-        // Return existing immediately so the client does not wait/block
+        // Return existing immediately so client renders fast
         return ResponseEntity.ok(existing);
     }
 
