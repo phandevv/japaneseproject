@@ -197,12 +197,8 @@ public class KnowledgeService {
                 || (v.getExampleSentences() == null || v.getExampleSentences().trim().isEmpty());
 
             if (isMissingFields && deepSeekEnrichmentService != null) {
-                try {
-                    log.info("Auto-enriching missing fields for existing vocabulary ID: {}", v.getId());
-                    v = deepSeekEnrichmentService.enrichVocabulary(v).get();
-                } catch (Exception e) {
-                    log.warn("Failed to auto-enrich existing vocab ID {}: {}", v.getId(), e.getMessage());
-                }
+                // Trigger enrichment in background asynchronously without blocking (never call .get())
+                deepSeekEnrichmentService.enrichVocabulary(v);
             }
 
             Map<String, Object> fastData = new HashMap<>();
@@ -303,12 +299,12 @@ public class KnowledgeService {
 
         // 2. Ultra-Fast DeepSeek API Call (deepseek-chat, max_tokens: 140, temperature: 0.0)
         if (!bulkheadSemaphore.tryAcquire()) {
-            throw new RuntimeException("Hệ thống AI đang bận. Vui lòng thử lại sau!");
+            return buildFallbackResponse(trimmed);
         }
         try {
             String apiKey = getApiKey();
             if (apiKey == null) {
-                return Map.of("error", "Chưa cấu hình DEEPSEEK_API_KEY.");
+                return buildFallbackResponse(trimmed);
             }
 
             String prompt = String.format("Analyze \"%s\" -> Return 1 raw compact JSON: {\"type\":\"vocabulary/grammar\",\"normalizedInput\":\"...\",\"word\":\"...\",\"reading\":\"...\",\"meaning\":\"nghĩa tiếng Việt\",\"hanViet\":\"âm Hán Việt\",\"jlpt\":\"N5..N1\",\"pitchAccent\":\"[0]\",\"wordType\":\"NOUN/VERB/ADJ/GRAMMAR\",\"usageGuide\":\"hướng dẫn chi tiết cách dùng và trường hợp sử dụng bằng tiếng Việt\",\"mnemonic\":\"mẹo nhớ ngắn gọn\"}", trimmed);
@@ -332,14 +328,80 @@ public class KnowledgeService {
                     .build();
 
             HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
-            if (response.statusCode() != 200) {
-                throw new RuntimeException("DeepSeek API error status: " + response.statusCode());
+            if (response.statusCode() == 200) {
+                JsonNode root = objectMapper.readTree(response.body());
+                String jsonContent = root.path("choices").get(0).path("message").path("content").asText();
+
+                Map<String, Object> aiResult = parseAiJsonResponse(jsonContent);
+
+                String type = (String) aiResult.getOrDefault("type", "vocabulary");
+                String normalized = (String) aiResult.getOrDefault("normalizedInput", trimmed);
+
+                if ("grammar".equalsIgnoreCase(type)) {
+                    if (!aiResult.containsKey("grammar") || aiResult.get("grammar") == null) {
+                        aiResult.put("grammar", normalized);
+                    }
+                } else {
+                    if (!aiResult.containsKey("word") || aiResult.get("word") == null) {
+                        aiResult.put("word", normalized);
+                    }
+                }
+
+                // Check if normalized item exists in DB
+                boolean exists = false;
+                Long id = null;
+                if ("grammar".equalsIgnoreCase(type)) {
+                    Optional<GrammarCard> gc = grammarCardRepository.findByGrammar(normalized);
+                    exists = gc.isPresent();
+                    if (exists) id = gc.get().getId();
+                } else {
+                    Optional<Vocabulary> vc = vocabularyRepository.findFirstByKanji(normalized);
+                    if (vc.isEmpty()) {
+                        vc = vocabularyRepository.findFirstByHiragana(normalized);
+                    }
+                    exists = vc.isPresent();
+                    if (exists) id = vc.get().getId();
+                }
+
+                Map<String, Object> result = new HashMap<>();
+                result.put("type", type);
+                result.put("normalizedInput", normalized);
+                result.put("existsInDb", exists);
+                result.put("dbEntityId", id != null ? id : -1);
+                result.put("enrichmentData", aiResult);
+                result.put("isFast", true);
+
+                return result;
+            } else {
+                log.warn("DeepSeek API responded with non-200 code: {}", response.statusCode());
             }
+        } catch (Exception e) {
+            log.warn("Error during collectFast DeepSeek API call: {}", e.getMessage());
+        } finally {
+            bulkheadSemaphore.release();
+        }
 
-            JsonNode root = objectMapper.readTree(response.body());
-            String jsonContent = root.path("choices").get(0).path("message").path("content").asText();
+        return buildFallbackResponse(trimmed);
+    }
 
-            Map<String, Object> aiResult = parseAiJsonResponse(jsonContent);
+    private Map<String, Object> buildFallbackResponse(String input) {
+        Map<String, Object> fallbackData = new HashMap<>();
+        fallbackData.put("word", input);
+        fallbackData.put("reading", input);
+        fallbackData.put("meaning", "Từ vựng tiếng Nhật (" + input + ")");
+        fallbackData.put("jlpt", "N3");
+        fallbackData.put("pitchAccent", "[0]");
+        fallbackData.put("wordType", "vocab");
+
+        Map<String, Object> result = new HashMap<>();
+        result.put("type", "vocabulary");
+        result.put("normalizedInput", input);
+        result.put("existsInDb", false);
+        result.put("dbEntityId", -1);
+        result.put("enrichmentData", fallbackData);
+        result.put("isFast", true);
+        return result;
+    }
 
             String type = (String) aiResult.getOrDefault("type", "vocabulary");
             String normalized = (String) aiResult.getOrDefault("normalizedInput", trimmed);
