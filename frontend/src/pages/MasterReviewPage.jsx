@@ -376,8 +376,18 @@ const MasterReviewPage = ({ goBack }) => {
     if (!current) return;
 
     if (quizFormat === 'choice') {
-      const others = quizWords.filter((_, i) => i !== quizIndex);
-      const shuffledOthers = [...others].sort(() => Math.random() - 0.5).slice(0, 3);
+      // Pick distractors from full forgottenWords pool or allWords pool so distractors don't repeat within subset
+      let pool = forgottenWords.filter(w => w.id !== current.id);
+      if (pool.length < 3) {
+        pool = allWords.filter(w => w.id !== current.id);
+      }
+      // Deduplicate pool items by ID
+      const uniqueMap = new Map();
+      pool.forEach(w => {
+        if (w.id !== current.id) uniqueMap.set(w.id, w);
+      });
+      const uniquePool = Array.from(uniqueMap.values());
+      const shuffledOthers = uniquePool.sort(() => Math.random() - 0.5).slice(0, 3);
       const allChoices = [...shuffledOthers, current].sort(() => Math.random() - 0.5);
       setChoices(allChoices);
       setSelectedChoice(null);
@@ -391,7 +401,7 @@ const MasterReviewPage = ({ goBack }) => {
     setAnsweredStatus(null);
     setQuizWordEnriched(null);
     setLoadingQuizEnrich(false);
-  }, [phase, quizIndex, quizWords, quizFormat]);
+  }, [phase, quizIndex, quizWords, quizFormat, forgottenWords, allWords]);
 
   // Quiz Choice Handler
   const handleQuizChoice = (choice) => {
@@ -1322,11 +1332,29 @@ const MasterReviewPage = ({ goBack }) => {
                   onClick={() => handleQuizChoice(choice)}
                   disabled={selectedChoice !== null || answeredStatus !== null}
                   style={{
-                    padding: '22px 24px', borderRadius: '16px', border, background: bg, color,
-                    cursor: (selectedChoice || answeredStatus) ? 'default' : 'pointer', textAlign: 'center', fontSize: isJaToVi ? '1.15rem' : '1.3rem', fontWeight: 600, minHeight: '75px', display: 'flex', alignItems: 'center', justifyContent: 'center'
+                    padding: '18px 20px', borderRadius: '16px', border, background: bg, color,
+                    cursor: (selectedChoice || answeredStatus) ? 'default' : 'pointer', textAlign: 'center',
+                    fontSize: isJaToVi ? '1.15rem' : '1.3rem', fontWeight: 600, minHeight: '80px',
+                    display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '4px',
+                    transition: 'all 0.2s ease'
                   }}
                 >
                   {isJaToVi ? choice.meaning : <span className="jp-text">{choice.kanji || choice.hiragana}</span>}
+
+                  {/* Show full detail of other options after answering */}
+                  {selectedChoice !== null && (
+                    <div style={{ fontSize: '0.85rem', opacity: 0.9, fontWeight: 500, marginTop: '2px' }}>
+                      {isJaToVi ? (
+                        <span className="jp-text" style={{ color: isCorrect ? '#10b981' : isSelected ? '#ef4444' : 'var(--text-secondary)' }}>
+                          ({choice.kanji ? `${choice.kanji} - ${choice.hiragana}` : choice.hiragana})
+                        </span>
+                      ) : (
+                        <span style={{ color: isCorrect ? '#10b981' : isSelected ? '#ef4444' : 'var(--text-secondary)' }}>
+                          Nghĩa: {choice.meaning}
+                        </span>
+                      )}
+                    </div>
+                  )}
                 </button>
               );
             })}
@@ -1363,7 +1391,7 @@ const MasterReviewPage = ({ goBack }) => {
           </form>
         )}
 
-        {/* Post-Answer Feedback Card (matching DailyStudyPage.jsx) */}
+        {/* Post-Answer Feedback Card */}
         {answeredStatus !== null && (
           <div className="card animate-fade-in" style={{
             backgroundColor: answeredStatus === 'correct' ? 'rgba(16,185,129,0.06)' : 'rgba(239,68,68,0.06)',
@@ -1374,7 +1402,7 @@ const MasterReviewPage = ({ goBack }) => {
             marginTop: '24px',
             borderRadius: '20px'
           }}>
-            <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', gap: '24px', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: '20px' }}>
+            <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', gap: '24px', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: '16px' }}>
               {/* Left Column: Word Info */}
               <div style={{ flex: '1 1 320px', display: 'flex', gap: '15px', alignItems: 'flex-start' }}>
                 {answeredStatus === 'correct'
@@ -1420,7 +1448,40 @@ const MasterReviewPage = ({ goBack }) => {
               </div>
             </div>
 
-            <div style={{ display: 'flex', justifyContent: 'flex-end', borderTop: '1px solid var(--border-color)', paddingTop: '16px' }}>
+            {/* Detailed Breakdown of all 4 choices */}
+            {quizFormat === 'choice' && choices.length > 0 && (
+              <div style={{ marginTop: '16px', borderTop: '1px dashed var(--border-color)', paddingTop: '16px', width: '100%' }}>
+                <h4 style={{ margin: '0 0 12px', fontSize: '0.95rem', color: 'var(--text-primary)', textAlign: 'left', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                  📋 Chi tiết giải nghĩa 4 đáp án trong câu này:
+                </h4>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(210px, 1fr))', gap: '10px', textAlign: 'left' }}>
+                  {choices.map((ch, idx) => {
+                    const isAnsCorrect = ch.id === current.id;
+                    const isAnsSelected = selectedChoice?.id === ch.id;
+                    return (
+                      <div key={ch.id || idx} style={{
+                        padding: '10px 12px',
+                        borderRadius: '12px',
+                        background: isAnsCorrect ? 'rgba(16,185,129,0.08)' : isAnsSelected ? 'rgba(239,68,68,0.08)' : 'var(--surface-hover)',
+                        border: `1.5px solid ${isAnsCorrect ? '#10b981' : isAnsSelected ? '#ef4444' : 'var(--border-color)'}`
+                      }}>
+                        <div style={{ fontSize: '0.78rem', fontWeight: 700, color: isAnsCorrect ? '#10b981' : isAnsSelected ? '#ef4444' : 'var(--text-secondary)', marginBottom: '4px' }}>
+                          {isAnsCorrect ? '✅ Đáp án đúng' : isAnsSelected ? '❌ Bạn đã chọn' : `Lựa chọn ${idx + 1}`}
+                        </div>
+                        <div className="jp-text" style={{ fontSize: '1.05rem', fontWeight: 700, color: 'var(--text-primary)' }}>
+                          {ch.kanji || ch.hiragana} {ch.kanji && ch.hiragana && <span style={{ fontSize: '0.85rem', fontWeight: 400, color: 'var(--text-secondary)' }}>({ch.hiragana})</span>}
+                        </div>
+                        <div style={{ fontSize: '0.88rem', color: 'var(--text-primary)', marginTop: '3px' }}>
+                          <strong>Nghĩa:</strong> {ch.meaning} {ch.hanViet && <span style={{ fontSize: '0.8rem', color: 'var(--warning-color)', fontWeight: 600 }}>【{ch.hanViet}】</span>}
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+
+            <div style={{ display: 'flex', justifyContent: 'flex-end', borderTop: '1px solid var(--border-color)', paddingTop: '16px', marginTop: '16px' }}>
               <button className="btn btn-primary" onClick={advanceQuizNext} style={{ padding: '12px 28px', fontSize: '1rem', fontWeight: 700, borderRadius: '12px', display: 'flex', alignItems: 'center', gap: '8px' }}>
                 Tiếp theo <ArrowRight size={18} />
               </button>
