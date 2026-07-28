@@ -403,49 +403,6 @@ public class KnowledgeService {
         return result;
     }
 
-            String type = (String) aiResult.getOrDefault("type", "vocabulary");
-            String normalized = (String) aiResult.getOrDefault("normalizedInput", trimmed);
-
-            if ("grammar".equalsIgnoreCase(type)) {
-                if (!aiResult.containsKey("grammar") || aiResult.get("grammar") == null) {
-                    aiResult.put("grammar", normalized);
-                }
-            } else {
-                if (!aiResult.containsKey("word") || aiResult.get("word") == null) {
-                    aiResult.put("word", normalized);
-                }
-            }
-
-            // Check if normalized item exists in DB
-            boolean exists = false;
-            Long id = null;
-            if ("grammar".equalsIgnoreCase(type)) {
-                Optional<GrammarCard> gc = grammarCardRepository.findByGrammar(normalized);
-                exists = gc.isPresent();
-                if (exists) id = gc.get().getId();
-            } else {
-                Optional<Vocabulary> vc = vocabularyRepository.findFirstByKanji(normalized);
-                if (vc.isEmpty()) {
-                    vc = vocabularyRepository.findFirstByHiragana(normalized);
-                }
-                exists = vc.isPresent();
-                if (exists) id = vc.get().getId();
-            }
-
-            Map<String, Object> result = new HashMap<>();
-            result.put("type", type);
-            result.put("normalizedInput", normalized);
-            result.put("existsInDb", exists);
-            result.put("dbEntityId", id != null ? id : -1);
-            result.put("enrichmentData", aiResult);
-            result.put("isFast", true);
-
-            return result;
-        } finally {
-            bulkheadSemaphore.release();
-        }
-    }
-
     /**
      * Clean markdown code fences from AI JSON response and extract JSON object.
      */
