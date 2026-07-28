@@ -524,6 +524,7 @@ html[data-custom-bg='true'] body {
 }
 
 .sidebar-section-label {
+  flex-shrink: 0;
   font-size: 0.65rem;
   font-weight: 700;
   color: var(--sidebar-icon);
@@ -536,6 +537,7 @@ html[data-custom-bg='true'] body {
 }
 
 .sidebar-link {
+  flex-shrink: 0;
   display: flex;
   align-items: center;
   gap: 10px;
