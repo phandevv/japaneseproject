@@ -50,6 +50,7 @@ public class KnowledgeService {
     private final HttpClient httpClient;
     private final SrsService srsService;
     private final GrammarSrsService grammarSrsService;
+    private final DeepSeekEnrichmentService deepSeekEnrichmentService;
 
     // Bulkhead to protect AI APIs
     private final Semaphore bulkheadSemaphore = new Semaphore(50);
@@ -61,7 +62,7 @@ public class KnowledgeService {
                             GrammarReviewRepository grammarReviewRepository,
                             UserRepository userRepository,
                             ObjectMapper objectMapper) {
-        this(vocabularyRepository, grammarCardRepository, knowledgeVersionRepository, wordReviewRepository, grammarReviewRepository, userRepository, objectMapper, null, null);
+        this(vocabularyRepository, grammarCardRepository, knowledgeVersionRepository, wordReviewRepository, grammarReviewRepository, userRepository, objectMapper, null, null, null);
     }
 
     @Autowired
@@ -73,7 +74,8 @@ public class KnowledgeService {
                             UserRepository userRepository,
                             ObjectMapper objectMapper,
                             @Autowired(required = false) SrsService srsService,
-                            @Autowired(required = false) GrammarSrsService grammarSrsService) {
+                            @Autowired(required = false) GrammarSrsService grammarSrsService,
+                            @Autowired(required = false) DeepSeekEnrichmentService deepSeekEnrichmentService) {
         this.vocabularyRepository = vocabularyRepository;
         this.grammarCardRepository = grammarCardRepository;
         this.knowledgeVersionRepository = knowledgeVersionRepository;
@@ -82,6 +84,7 @@ public class KnowledgeService {
         this.userRepository = userRepository;
         this.srsService = srsService;
         this.grammarSrsService = grammarSrsService;
+        this.deepSeekEnrichmentService = deepSeekEnrichmentService;
         this.objectMapper = objectMapper.copy()
                 .configure(com.fasterxml.jackson.core.JsonParser.Feature.ALLOW_UNQUOTED_CONTROL_CHARS, true)
                 .configure(com.fasterxml.jackson.core.JsonParser.Feature.ALLOW_BACKSLASH_ESCAPING_ANY_CHARACTER, true);
@@ -188,6 +191,20 @@ public class KnowledgeService {
         }
         if (existingVocab.isPresent()) {
             Vocabulary v = existingVocab.get();
+
+            boolean isMissingFields = (v.getUsageGuide() == null || v.getUsageGuide().trim().isEmpty())
+                || (v.getMnemonic() == null || v.getMnemonic().trim().isEmpty())
+                || (v.getExampleSentences() == null || v.getExampleSentences().trim().isEmpty());
+
+            if (isMissingFields && deepSeekEnrichmentService != null) {
+                try {
+                    log.info("Auto-enriching missing fields for existing vocabulary ID: {}", v.getId());
+                    v = deepSeekEnrichmentService.enrichVocabulary(v).get();
+                } catch (Exception e) {
+                    log.warn("Failed to auto-enrich existing vocab ID {}: {}", v.getId(), e.getMessage());
+                }
+            }
+
             Map<String, Object> fastData = new HashMap<>();
             fastData.put("word", v.getKanji() != null && !v.getKanji().isEmpty() ? v.getKanji() : v.getHiragana());
             fastData.put("reading", v.getHiragana());
@@ -222,6 +239,45 @@ public class KnowledgeService {
         Optional<GrammarCard> existingGrammar = grammarCardRepository.findByGrammar(trimmed);
         if (existingGrammar.isPresent()) {
             GrammarCard g = existingGrammar.get();
+
+            if (g.getUsageGuide() == null || g.getUsageGuide().trim().isEmpty()) {
+                try {
+                    String apiKey = getApiKey();
+                    if (apiKey != null) {
+                        String microPrompt = String.format("Giải thích chi tiết hướng dẫn sử dụng, sắc thái ngữ pháp và trường hợp dùng thực tế bằng tiếng Việt cho cấu trúc ngữ pháp tiếng Nhật: \"%s\" (Nghĩa: %s). Trả về JSON duy nhất: {\"usageGuide\":\"...\"}", g.getGrammar(), g.getMeaning());
+                        Map<String, Object> reqBodyMap = Map.of(
+                            "model", "deepseek-chat",
+                            "temperature", 0.0,
+                            "max_tokens", 150,
+                            "response_format", Map.of("type", "json_object"),
+                            "messages", new Object[]{
+                                Map.of("role", "system", "content", "Fast Grammar Dict. Return ONLY minimal raw JSON in Vietnamese."),
+                                Map.of("role", "user", "content", microPrompt)
+                            }
+                        );
+                        String reqBody = objectMapper.writeValueAsString(reqBodyMap);
+                        HttpRequest req = HttpRequest.newBuilder(URI.create("https://api.deepseek.com/chat/completions"))
+                                .header("Content-Type", "application/json")
+                                .header("Authorization", "Bearer " + apiKey)
+                                .POST(HttpRequest.BodyPublishers.ofString(reqBody))
+                                .timeout(Duration.ofSeconds(10))
+                                .build();
+                        HttpResponse<String> resp = httpClient.send(req, HttpResponse.BodyHandlers.ofString());
+                        if (resp.statusCode() == 200) {
+                            JsonNode root = objectMapper.readTree(resp.body());
+                            String contentStr = cleanJsonContent(root.path("choices").get(0).path("message").path("content").asText());
+                            JsonNode contentNode = objectMapper.readTree(contentStr);
+                            if (contentNode.has("usageGuide")) {
+                                g.setUsageGuide(contentNode.path("usageGuide").asText());
+                                grammarCardRepository.save(g);
+                            }
+                        }
+                    }
+                } catch (Exception e) {
+                    log.warn("Failed to generate grammar usageGuide on-demand: {}", e.getMessage());
+                }
+            }
+
             Map<String, Object> fastData = new HashMap<>();
             fastData.put("grammar", g.getGrammar());
             fastData.put("meaning", g.getMeaning());
