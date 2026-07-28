@@ -60,6 +60,46 @@ public class VocabularyService {
 
     @CacheEvict(value = {"vocabulary", "vocabulary-level"}, allEntries = true)
     public Vocabulary save(Vocabulary vocabulary) {
+        if (vocabulary == null) return null;
+
+        if (vocabulary.getId() == null) {
+            // Deduplication check: check if Kanji or Hiragana already exists in DB
+            Optional<Vocabulary> existing = Optional.empty();
+            if (vocabulary.getKanji() != null && !vocabulary.getKanji().trim().isEmpty()) {
+                existing = repository.findFirstByKanji(vocabulary.getKanji().trim());
+            }
+            if (existing.isEmpty() && vocabulary.getHiragana() != null && !vocabulary.getHiragana().trim().isEmpty()) {
+                existing = repository.findFirstByHiragana(vocabulary.getHiragana().trim());
+            }
+
+            if (existing.isPresent()) {
+                Vocabulary canonical = existing.get();
+                // Merge level tags (e.g. 'N3' + 'MIMIKARA_N3' -> 'N3,MIMIKARA_N3')
+                if (vocabulary.getLevel() != null && !vocabulary.getLevel().trim().isEmpty()) {
+                    String newLevel = vocabulary.getLevel().trim();
+                    String curLevel = canonical.getLevel() != null ? canonical.getLevel() : "";
+                    if (!curLevel.contains(newLevel)) {
+                        canonical.setLevel(curLevel.isEmpty() ? newLevel : curLevel + "," + newLevel);
+                    }
+                }
+                // Merge missing non-empty fields
+                if ((canonical.getMeaning() == null || canonical.getMeaning().trim().isEmpty()) && vocabulary.getMeaning() != null && !vocabulary.getMeaning().trim().isEmpty()) {
+                    canonical.setMeaning(vocabulary.getMeaning());
+                }
+                if ((canonical.getHanViet() == null || canonical.getHanViet().trim().isEmpty()) && vocabulary.getHanViet() != null && !vocabulary.getHanViet().trim().isEmpty()) {
+                    canonical.setHanViet(vocabulary.getHanViet());
+                }
+                if ((canonical.getSampleSentence() == null || canonical.getSampleSentence().trim().isEmpty()) && vocabulary.getSampleSentence() != null) {
+                    canonical.setSampleSentence(vocabulary.getSampleSentence());
+                    canonical.setSampleReading(vocabulary.getSampleReading());
+                    canonical.setSampleTranslation(vocabulary.getSampleTranslation());
+                }
+                if ((canonical.getPitchAccent() == null || canonical.getPitchAccent().trim().isEmpty()) && vocabulary.getPitchAccent() != null) {
+                    canonical.setPitchAccent(vocabulary.getPitchAccent());
+                }
+                return repository.save(canonical);
+            }
+        }
         return repository.save(vocabulary);
     }
 
