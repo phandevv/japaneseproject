@@ -73,6 +73,15 @@ export default function AiEnrichedTabbedView({ data }) {
       <div style={{ padding: '14px 16px', height: '480px', overflowY: 'auto', textAlign: 'left' }} className="custom-scrollbar">
         {activeCardTab === 'core' && (
           <div className="card-tab-content animate-fade-in" style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
+            {data.usageGuide && (
+              <div style={{ padding: '12px 14px', background: 'rgba(37,99,235,0.06)', borderRadius: '10px', border: '1px solid rgba(37,99,235,0.18)' }}>
+                <h5 style={{ margin: '0 0 6px 0', fontSize: '0.85rem', color: 'var(--accent-color)', fontWeight: '700', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                  📌 Hướng dẫn sử dụng & Trường hợp dùng
+                </h5>
+                <p style={{ margin: 0, fontSize: '0.88rem', color: 'var(--text-primary)', lineHeight: 1.55, whiteSpace: 'pre-line' }}>{data.usageGuide}</p>
+              </div>
+            )}
+
             {data.mnemonic && (
               <div>
                 <h5 style={{ margin: '0 0 6px 0', fontSize: '0.85rem', color: 'var(--accent-color)', fontWeight: '600' }}>💡 Mẹo nhớ từ (Mnemonic)</h5>

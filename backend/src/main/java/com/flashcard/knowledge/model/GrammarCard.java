@@ -22,6 +22,9 @@ public class GrammarCard {
     @Column(name = "usage_desc", columnDefinition = "TEXT")
     private String usageDesc;
 
+    @Column(name = "usage_guide", columnDefinition = "TEXT")
+    private String usageGuide;
+
     @Column(name = "formation", columnDefinition = "TEXT")
     private String formation;
 
@@ -79,6 +82,9 @@ public class GrammarCard {
 
     public String getUsageDesc() { return usageDesc; }
     public void setUsageDesc(String usageDesc) { this.usageDesc = usageDesc; }
+
+    public String getUsageGuide() { return usageGuide; }
+    public void setUsageGuide(String usageGuide) { this.usageGuide = usageGuide; }
 
     public String getFormation() { return formation; }
     public void setFormation(String formation) { this.formation = formation; }

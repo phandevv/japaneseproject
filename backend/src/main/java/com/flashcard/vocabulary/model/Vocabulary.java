@@ -136,8 +136,14 @@ public class Vocabulary {
     @Column(name = "example_sentences", columnDefinition = "TEXT")
     private String exampleSentences;
 
+    @Column(name = "usage_guide", columnDefinition = "TEXT")
+    private String usageGuide;
+
     public String getPitchAccent() { return pitchAccent; }
     public void setPitchAccent(String pitchAccent) { this.pitchAccent = pitchAccent; }
+
+    public String getUsageGuide() { return usageGuide; }
+    public void setUsageGuide(String usageGuide) { this.usageGuide = usageGuide; }
 
     public String getSynonyms() { return synonyms; }
     public void setSynonyms(String synonyms) { this.synonyms = synonyms; }

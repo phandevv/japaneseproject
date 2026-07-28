@@ -96,6 +96,7 @@ public class DeepSeekEnrichmentService {
                     "  ],\n" +
                     "  \"collocations\": [\"cụm từ hay đi kèm 1\", \"cụm từ hay đi kèm 2\"],\n" +
                     "  \"mnemonic\": \"mẹo nhớ chữ Hán hoặc từ vựng này. Hãy đưa ra mẹo nhớ cực kỳ sáng tạo, dễ nhớ, có thể dùng chiết tự các bộ thủ chữ Hán (kanji breakdown) hoặc liên tưởng âm thanh/hình ảnh thú vị, tránh giải thích khô khan.\",\n" +
+                    "  \"usageGuide\": \"hướng dẫn chi tiết cách dùng, sắc thái (nuance) và trường hợp sử dụng từ này trong thực tế bằng tiếng Việt (ví dụ: dùng trong hoàn cảnh trang trọng/thân mật, văn viết hay văn nói)\",\n" +
                     "  \"conversationExamples\": [\n" +
                     "     { \"speakerA\": \"hội thoại người A\", \"speakerB\": \"hội thoại người B (phản hồi)\", \"translationA\": \"dịch nghĩa A\", \"translationB\": \"dịch nghĩa B\" }\n" +
                     "  ]\n" +
@@ -141,6 +142,7 @@ public class DeepSeekEnrichmentService {
                                     vocab.setPitchAccent(contentNode.path("pitchAccent").asText());
                                     vocab.setWordType(contentNode.path("wordType").asText());
                                     vocab.setMnemonic(contentNode.path("mnemonic").asText());
+                                    vocab.setUsageGuide(contentNode.path("usageGuide").asText());
                                     
                                     if (contentNode.has("hanViet") && !contentNode.path("hanViet").isNull()) {
                                         vocab.setHanViet(contentNode.path("hanViet").asText());
