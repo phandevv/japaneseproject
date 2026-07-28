@@ -71,22 +71,10 @@ export default function KnowledgeBasePage() {
       setResult(data);
       setLoading(false); // Unblock UI immediately so Core tab pops up in ~0.3s!
 
-      // Step 2: Background Micro-Enrichment - fetch Tab 2 & Tab 3 rich data asynchronously
+      // Step 2: Silent Background Micro-Enrichment - trigger AI to enrich data in DB, but do NOT force re-rendering UI
       if (data && data.normalizedInput) {
-        knowledgeApi.collect(trimmed, false).then(fullData => {
-          if (fullData && fullData.enrichmentData) {
-            setResult(prev => {
-              if (!prev) return fullData;
-              return {
-                ...prev,
-                enrichmentData: {
-                  ...prev.enrichmentData,
-                  ...fullData.enrichmentData
-                }
-              };
-            });
-          }
-        }).catch(err => console.log('Background micro-enrichment status:', err));
+        knowledgeApi.collect(trimmed, false)
+          .catch(err => console.log('Background silent enrichment status:', err));
       }
     } catch (err) {
       console.error(err);
