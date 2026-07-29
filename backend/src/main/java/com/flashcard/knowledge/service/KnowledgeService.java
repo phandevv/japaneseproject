@@ -307,15 +307,31 @@ public class KnowledgeService {
                 return buildFallbackResponse(trimmed);
             }
 
-            String prompt = String.format("Analyze \"%s\" -> Return 1 raw compact JSON: {\"type\":\"vocabulary/grammar\",\"normalizedInput\":\"...\",\"word\":\"...\",\"reading\":\"...\",\"meaning\":\"nghĩa tiếng Việt\",\"hanViet\":\"âm Hán Việt\",\"jlpt\":\"N5..N1\",\"pitchAccent\":\"[0]\",\"wordType\":\"NOUN/VERB/ADJ/GRAMMAR\",\"usageGuide\":\"hướng dẫn chi tiết cách dùng và trường hợp sử dụng bằng tiếng Việt\",\"mnemonic\":\"mẹo nhớ ngắn gọn\"}", trimmed);
+            String prompt = String.format(
+                "Bạn là từ điển tiếng Nhật cao cấp. Hãy phân tích từ vựng/ngữ pháp \"%s\" và trả về duy nhất 1 JSON raw bằng tiếng Việt:\n" +
+                "{\n" +
+                "  \"type\": \"vocabulary\",\n" +
+                "  \"normalizedInput\": \"%s\",\n" +
+                "  \"word\": \"%s\",\n" +
+                "  \"reading\": \"hiragana/katakana cách đọc chính xác\",\n" +
+                "  \"meaning\": \"nghĩa tiếng Việt chính xác đầy đủ\",\n" +
+                "  \"hanViet\": \"âm Hán Việt (nếu có)\",\n" +
+                "  \"jlpt\": \"N5..N1\",\n" +
+                "  \"pitchAccent\": \"[0]\",\n" +
+                "  \"wordType\": \"loại từ\",\n" +
+                "  \"usageGuide\": \"hướng dẫn cách dùng và trường hợp sử dụng ngắn gọn bằng tiếng Việt\",\n" +
+                "  \"mnemonic\": \"mẹo nhớ từ vựng ngắn gọn (1 câu)\"\n" +
+                "}", 
+                trimmed, trimmed, trimmed
+            );
 
             Map<String, Object> requestBodyMap = Map.of(
                 "model", "deepseek-chat",
                 "temperature", 0.0,
-                "max_tokens", 140,
+                "max_tokens", 350,
                 "response_format", Map.of("type", "json_object"),
                 "messages", new Object[]{
-                    Map.of("role", "system", "content", "Fast Japanese Dict. Return ONLY minimal raw JSON in Vietnamese."),
+                    Map.of("role", "system", "content", "Bạn là từ điển tiếng Nhật cao cấp. Phản hồi duy nhất bằng JSON nguyên bản bằng tiếng Việt."),
                     Map.of("role", "user", "content", prompt)
                 }
             );
@@ -347,6 +363,11 @@ public class KnowledgeService {
                     }
                 }
 
+                // Ensure meaning is never empty
+                if (!aiResult.containsKey("meaning") || aiResult.get("meaning") == null || ((String) aiResult.get("meaning")).trim().isEmpty()) {
+                    aiResult.put("meaning", "Nghĩa từ vựng (" + normalized + ")");
+                }
+
                 // Check if normalized item exists in DB
                 boolean exists = false;
                 Long id = null;
@@ -376,7 +397,7 @@ public class KnowledgeService {
                 log.warn("DeepSeek API responded with non-200 code: {}", response.statusCode());
             }
         } catch (Exception e) {
-            log.warn("Error during collectFast DeepSeek API call: {}", e.getMessage());
+            log.warn("Error during collectFast DeepSeek API call: {}", e.getMessage(), e);
         } finally {
             bulkheadSemaphore.release();
         }
@@ -388,7 +409,7 @@ public class KnowledgeService {
         Map<String, Object> fallbackData = new HashMap<>();
         fallbackData.put("word", input);
         fallbackData.put("reading", input);
-        fallbackData.put("meaning", "Từ vựng tiếng Nhật (" + input + ")");
+        fallbackData.put("meaning", "Đang tra cứu nghĩa cho '" + input + "'...");
         fallbackData.put("jlpt", "N3");
         fallbackData.put("pitchAccent", "[0]");
         fallbackData.put("wordType", "vocab");
