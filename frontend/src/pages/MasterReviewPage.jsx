@@ -1118,27 +1118,28 @@ const MasterReviewPage = ({ goBack }) => {
     // Finished Quiz Sub-Screen
     if (quizFinished) {
       const accuracy = Math.round((quizScore / quizWords.length) * 100);
-      const isFullTest = quizOptType === 'all' || quizWords.length === forgottenWords.length;
+      const isFullTest = quizOptType === 'all';
       
-      // Calculate updated forgotten words by excluding words answered correctly in this quiz
-      const updatedForgotten = forgottenWords.filter(w => !correctlyAnsweredWordIds.has(w.id));
+      // ONLY remove words from forgotten list if user chose "Tất cả từ đã quên" (isFullTest).
+      // For "Số lượng ngẫu nhiên" (count) and "Khoảng chỉ định" (range), keep all unlearned words intact.
+      const updatedForgotten = isFullTest 
+        ? forgottenWords.filter(w => !correctlyAnsweredWordIds.has(w.id))
+        : forgottenWords;
       const removedCount = forgottenWords.length - updatedForgotten.length;
       
       // A Master Review session is ONLY completed and cleared if:
-      // 1. It is a FULL TEST and accuracy > 90%
-      // OR
-      // 2. All remaining forgotten words have been cleared (updatedForgotten.length === 0)
-      const isPassed = isFullTest ? accuracy > 90 : (updatedForgotten.length === 0);
+      // It is a FULL TEST and accuracy > 90% (or updatedForgotten is empty)
+      const isPassed = isFullTest ? (accuracy > 90 || updatedForgotten.length === 0) : false;
 
-      // Clear session ONLY if full test passed OR all remaining forgotten words are cleared
+      // Clear session ONLY if full test passed
       if (isPassed) {
         clearSession();
       } else {
         persistSession(updatedForgotten);
       }
 
-      // ── PARTIAL SUBSET QUIZ RESULT SCREEN ─────────────────────────────────────
-      if (!isFullTest && updatedForgotten.length > 0) {
+      // ── PARTIAL SUBSET QUIZ RESULT SCREEN (Count / Range mode) ─────────────────
+      if (!isFullTest) {
         return (
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '75vh', gap: '24px', textAlign: 'center', padding: '20px' }}>
             <div style={{
@@ -1151,16 +1152,16 @@ const MasterReviewPage = ({ goBack }) => {
 
             <div>
               <h1 style={{ margin: '0 0 8px', fontSize: '2.2rem' }}>
-                Hoàn thành bài Quiz ngẫu nhiên! 📝
+                Hoàn thành bài Quiz luyện tập! 📝
               </h1>
               <p style={{ fontSize: '2.4rem', fontWeight: 800, margin: '0 0 6px', color: '#10b981' }}>
                 {accuracy}%
               </p>
               <p style={{ color: 'var(--text-secondary)', margin: '0 0 12px', fontSize: '1.1rem' }}>
-                Đúng {quizScore}/{quizWords.length} câu • Đã thuộc {removedCount} từ
+                Đúng {quizScore}/{quizWords.length} câu • Giữ nguyên danh sách {forgottenWords.length} từ chưa thuộc
               </p>
-              <p style={{ color: 'var(--text-secondary)', margin: 0, maxWidth: '520px', lineHeight: 1.5 }}>
-                Đã loại bỏ <strong style={{ color: '#10b981' }}>{removedCount} từ</strong> khỏi danh sách chưa thuộc. Còn lại <strong style={{ color: 'var(--accent-color)' }}>{updatedForgotten.length} từ</strong> cần tiếp tục ôn tập.
+              <p style={{ color: 'var(--text-secondary)', margin: 0, maxWidth: '540px', lineHeight: 1.55 }}>
+                Ở chế độ <strong>{quizOptType === 'range' ? 'Khoảng chỉ định' : 'Số lượng ngẫu nhiên'}</strong>, danh sách <strong style={{ color: 'var(--accent-color)' }}>{forgottenWords.length} từ chưa thuộc</strong> được giữ nguyên để bạn luyện tập lặp lại. Hãy chọn <strong>"Tất cả từ đã quên"</strong> khi muốn loại bỏ từ đã thuộc khỏi danh sách!
               </p>
             </div>
 
