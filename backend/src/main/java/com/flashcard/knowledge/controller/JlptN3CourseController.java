@@ -1,5 +1,6 @@
 package com.flashcard.knowledge.controller;
 
+import com.flashcard.common.config.JlptN3DataLoader;
 import com.flashcard.knowledge.service.JlptN3CourseService;
 import com.flashcard.user.model.User;
 import com.flashcard.user.repository.UserRepository;
@@ -17,10 +18,14 @@ public class JlptN3CourseController {
 
     private final JlptN3CourseService courseService;
     private final UserRepository userRepository;
+    private final JlptN3DataLoader dataLoader;
 
-    public JlptN3CourseController(JlptN3CourseService courseService, UserRepository userRepository) {
+    public JlptN3CourseController(JlptN3CourseService courseService,
+                                  UserRepository userRepository,
+                                  JlptN3DataLoader dataLoader) {
         this.courseService = courseService;
         this.userRepository = userRepository;
+        this.dataLoader = dataLoader;
     }
 
     private Long getCurrentUserId() {
@@ -73,6 +78,16 @@ public class JlptN3CourseController {
 
         Long userId = getCurrentUserId();
         Map<String, Object> result = courseService.submitQuiz(userId, chapter, lesson, score, total);
+        return ResponseEntity.ok(result);
+    }
+
+    /**
+     * Trigger importing all JLPT N3 course JSON files into system database (Vocabulary & Grammar tables).
+     * POST /api/jlpt-n3/import
+     */
+    @PostMapping("/import")
+    public ResponseEntity<?> importN3Data() {
+        Map<String, Object> result = dataLoader.importAllN3Data();
         return ResponseEntity.ok(result);
     }
 }

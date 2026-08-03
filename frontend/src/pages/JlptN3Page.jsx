@@ -309,6 +309,21 @@ const JlptN3Page = () => {
     );
   };
 
+  const [importingDb, setImportingDb] = useState(false);
+
+  const handleTriggerImport = async () => {
+    setImportingDb(true);
+    try {
+      const res = await jlptN3Api.importData();
+      alert(`Nhập dữ liệu N3 vào CSDL thành công!\n• ${res.importedVocab} từ vựng\n• ${res.importedKanji} chữ Hán\n• ${res.importedGrammar} ngữ pháp`);
+      loadOverview();
+    } catch (err) {
+      alert("Lỗi nhập dữ liệu: " + (err.response?.data?.message || err.message));
+    } finally {
+      setImportingDb(false);
+    }
+  };
+
   return (
     <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '24px 20px' }}>
       
@@ -325,8 +340,22 @@ const JlptN3Page = () => {
             boxShadow: '0 12px 32px rgba(37,99,235,0.2)', position: 'relative', overflow: 'hidden'
           }}>
             <div style={{ position: 'relative', zIndex: 2 }}>
-              <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '4px 14px', background: 'rgba(255,255,255,0.2)', borderRadius: '20px', fontSize: '0.85rem', fontWeight: 600, marginBottom: '12px' }}>
-                <Award size={16} /> Lộ trình Tổng ôn JLPT N3
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '10px', marginBottom: '12px' }}>
+                <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '4px 14px', background: 'rgba(255,255,255,0.2)', borderRadius: '20px', fontSize: '0.85rem', fontWeight: 600 }}>
+                  <Award size={16} /> Lộ trình Tổng ôn JLPT N3
+                </div>
+                <button
+                  onClick={handleTriggerImport}
+                  disabled={importingDb}
+                  style={{
+                    padding: '6px 14px', borderRadius: '12px', border: 'none',
+                    background: 'rgba(255,255,255,0.25)', color: 'white', fontWeight: 700,
+                    fontSize: '0.85rem', cursor: importingDb ? 'not-allowed' : 'pointer',
+                    backdropFilter: 'blur(4px)', transition: 'all 0.2s ease'
+                  }}
+                >
+                  {importingDb ? 'Đang nạp...' : '📥 Import dữ liệu vào CSDL hệ thống'}
+                </button>
               </div>
               <h1 style={{ margin: '0 0 10px 0', fontSize: '2.2rem', fontWeight: 800 }}>
                 Ôn Luyện JLPT N3 (9 Chương - 27 Bài)

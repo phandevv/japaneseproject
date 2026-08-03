@@ -570,6 +570,10 @@ export const jlptN3Api = {
       total
     });
     return response.data;
+  },
+  importData: async () => {
+    const response = await axios.post(`${API_BASE_URL}/jlpt-n3/import`);
+    return response.data;
   }
 };
 
