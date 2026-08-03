@@ -124,8 +124,34 @@ public class JlptN3CourseService {
      * Get details for a specific Chapter and Lesson.
      */
     public Map<String, Object> getLessonData(int chapter, int lesson) {
+        JsonNode root = null;
+
+        // Strategy 1: Try reading from filesystem
         File jsonFile = getLessonJsonFile(chapter, lesson);
-        if (jsonFile == null) {
+        if (jsonFile != null && jsonFile.exists()) {
+            try {
+                root = objectMapper.readTree(jsonFile);
+            } catch (Exception e) {
+                log.warn("Failed to read filesystem JSON file for Chapter {} Lesson {}: {}", chapter, lesson, e.getMessage());
+            }
+        }
+
+        // Strategy 2: Fallback to Classpath resource
+        if (root == null) {
+            String resourcePath = String.format("data/n3/Chuong %d/Chuong%d_Bai%d_Data.json", chapter, chapter, lesson);
+            try {
+                org.springframework.core.io.ClassPathResource res = new org.springframework.core.io.ClassPathResource(resourcePath);
+                if (res.exists()) {
+                    try (java.io.InputStream is = res.getInputStream()) {
+                        root = objectMapper.readTree(is);
+                    }
+                }
+            } catch (Exception e) {
+                log.warn("Failed to read Classpath resource {}: {}", resourcePath, e.getMessage());
+            }
+        }
+
+        if (root == null) {
             Map<String, Object> emptyRes = new HashMap<>();
             emptyRes.put("chuong", chapter);
             emptyRes.put("bai", lesson);
@@ -137,15 +163,10 @@ public class JlptN3CourseService {
             return emptyRes;
         }
 
-        try {
-            JsonNode root = objectMapper.readTree(jsonFile);
-            Map<String, Object> data = objectMapper.convertValue(root, Map.class);
-            data.put("available", true);
-            return data;
-        } catch (Exception e) {
-            log.error("Error reading JSON file for Chapter {} Lesson {}: {}", chapter, lesson, e.getMessage());
-            throw new RuntimeException("Không thể đọc tệp dữ liệu Chương " + chapter + " Bài " + lesson);
-        }
+        @SuppressWarnings("unchecked")
+        Map<String, Object> data = objectMapper.convertValue(root, Map.class);
+        data.put("available", true);
+        return data;
     }
 
     /**
