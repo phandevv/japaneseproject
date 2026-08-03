@@ -2,12 +2,16 @@ import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { 
   BookOpen, CheckCircle, ChevronRight, ChevronLeft, RotateCcw, 
   Trophy, ArrowLeft, Play, Sparkles, Layers, List, Award, 
-  HelpCircle, AlertCircle, Volume2, Shuffle, Upload, FileText
+  HelpCircle, AlertCircle, Volume2, Shuffle, Upload, FileText, Eye, EyeOff
 } from 'lucide-react';
 import { jlptN3Api } from '../services/api';
+import FlashcardCard from '../components/FlashcardCard';
+import KanjiDetailModal from '../components/KanjiDetailModal';
+import AiEnrichedTabbedView from '../components/AiEnrichedTabbedView';
 
 const JlptN3Page = () => {
   const fileInputRef = useRef(null);
+
   // State for Course & Lesson Navigation
   const [phase, setPhase] = useState('overview'); // 'overview' | 'lesson'
   const [overview, setOverview] = useState(null);
@@ -20,13 +24,17 @@ const JlptN3Page = () => {
   const [loadingLesson, setLoadingLesson] = useState(false);
   const [activeTab, setActiveTab] = useState('flashcard'); // 'flashcard' | 'list' | 'quiz'
 
+  // Modal Detail State (Reusing KanjiDetailModal from Daily Study)
+  const [detailModalIndex, setDetailModalIndex] = useState(null);
+
   // Flashcard State
   const [flashcardCategory, setFlashcardCategory] = useState('all'); // 'all' | 'kanji' | 'vocab' | 'grammar'
   const [currentFlashcardIndex, setCurrentFlashcardIndex] = useState(0);
   const [isFlipped, setIsFlipped] = useState(false);
 
   // List View Sub-Tab State
-  const [listSubTab, setListSubTab] = useState('kanji'); // 'kanji' | 'vocab' | 'grammar'
+  const [listSubTab, setListSubTab] = useState('vocab'); // 'kanji' | 'vocab' | 'grammar'
+  const [hideMeanings, setHideMeanings] = useState(false);
 
   // Quiz State
   const [quizState, setQuizState] = useState('setup'); // 'setup' | 'playing' | 'finished'
@@ -36,6 +44,7 @@ const JlptN3Page = () => {
   const [quizScore, setQuizScore] = useState(0);
   const [quizResult, setQuizResult] = useState(null);
   const [submittingQuiz, setSubmittingQuiz] = useState(false);
+  const [uploadingFiles, setUploadingFiles] = useState(false);
 
   // Load Overview Data on mount
   const loadOverview = async () => {
@@ -62,6 +71,7 @@ const JlptN3Page = () => {
     setActiveTab('flashcard');
     setLoadingLesson(true);
     setQuizState('setup');
+    setDetailModalIndex(null);
 
     try {
       const data = await jlptN3Api.getLessonData(chapterId, lessonId);
@@ -73,36 +83,77 @@ const JlptN3Page = () => {
     }
   };
 
-  // Extract all cards for Flashcards
+  // Convert tu_vung items into standard Vocabulary objects expected by KanjiDetailModal & FlashcardCard
+  const formattedVocabWords = useMemo(() => {
+    if (!lessonData || !lessonData.tu_vung) return [];
+    return lessonData.tu_vung.map((v, idx) => {
+      const isKanji = v.tu && v.tu.codePoints().anyMatch(Character => Character.isIdeographic);
+      return {
+        id: v.id || (idx + 1000),
+        kanji: isKanji ? v.tu : (v.kanji || v.tu),
+        hiragana: v.furigana || v.hiragana || v.tu,
+        meaning: v.nghia,
+        hanViet: v.am_han || v.han_viet || '',
+        wordType: v.loai_tu || 'N',
+        level: 'N3',
+        sampleSentence: v.vi_du
+      };
+    });
+  }, [lessonData]);
+
+  // Convert chu_han items into Vocabulary objects for modal preview
+  const formattedKanjiWords = useMemo(() => {
+    if (!lessonData || !lessonData.chu_han) return [];
+    return lessonData.chu_han.map((k, idx) => ({
+      id: k.id || (idx + 2000),
+      kanji: k.kanji,
+      hiragana: k.kanji,
+      meaning: k.nghia,
+      hanViet: k.han_viet || '',
+      wordType: 'Kanji',
+      level: 'N3',
+      sampleSentence: k.tu_vung ? k.tu_vung.join(', ') : ''
+    }));
+  }, [lessonData]);
+
+  // Extract items for Flashcards
   const flashcardItems = useMemo(() => {
     if (!lessonData) return [];
     const items = [];
+
+    // Vocab Items
+    if (lessonData.tu_vung && (flashcardCategory === 'all' || flashcardCategory === 'vocab')) {
+      lessonData.tu_vung.forEach((v, idx) => {
+        const isKanji = v.tu && v.tu.codePoints().anyMatch(Character => Character.isIdeographic);
+        items.push({
+          id: v.id || `vocab-${idx}`,
+          kanji: isKanji ? v.tu : (v.kanji || v.tu),
+          hiragana: v.furigana || v.hiragana || v.tu,
+          meaning: v.nghia,
+          hanViet: v.am_han || v.han_viet || '',
+          wordType: v.loai_tu || 'N',
+          level: 'N3',
+          sampleSentence: v.vi_du,
+          category: 'vocab',
+          badge: `Từ Vựng [${v.loai_tu || 'N'}]`
+        });
+      });
+    }
 
     // Kanji Items
     if (lessonData.chu_han && (flashcardCategory === 'all' || flashcardCategory === 'kanji')) {
       lessonData.chu_han.forEach((k, idx) => {
         items.push({
-          id: `kanji-${idx}`,
-          category: 'kanji',
-          front: k.kanji,
-          badge: `Hán Tự • ${k.han_viet || ''}`,
-          reading: k.han_viet,
+          id: k.id || `kanji-${idx}`,
+          kanji: k.kanji,
+          hiragana: k.kanji,
           meaning: k.nghia,
-          examples: k.tu_vung || []
-        });
-      });
-    }
-
-    // Vocab Items
-    if (lessonData.tu_vung && (flashcardCategory === 'all' || flashcardCategory === 'vocab')) {
-      lessonData.tu_vung.forEach((v, idx) => {
-        items.push({
-          id: `vocab-${idx}`,
-          category: 'vocab',
-          front: v.tu,
-          badge: `Từ Vựng [${v.loai_tu || 'N'}]`,
-          meaning: v.nghia,
-          example: v.vi_du
+          hanViet: k.han_viet || '',
+          wordType: 'Kanji',
+          level: 'N3',
+          sampleSentence: k.tu_vung ? k.tu_vung.join(', ') : '',
+          category: 'kanji',
+          badge: `Hán Tự • ${k.han_viet || ''}`
         });
       });
     }
@@ -112,18 +163,26 @@ const JlptN3Page = () => {
       lessonData.ngu_phap.forEach((g, idx) => {
         items.push({
           id: `grammar-${idx}`,
-          category: 'grammar',
-          front: g.cau_truc,
-          badge: 'Ngữ Pháp N3',
+          kanji: g.cau_truc,
+          hiragana: g.cau_truc,
           meaning: g.y_nghia,
-          formation: g.cach_chia,
-          examples: g.vi_du || []
+          hanViet: 'Ngữ Pháp N3',
+          wordType: 'Grammar',
+          level: 'N3',
+          sampleSentence: g.vi_du ? g.vi_du[0] : '',
+          category: 'grammar',
+          badge: 'Ngữ Pháp N3'
         });
       });
     }
 
     return items;
   }, [lessonData, flashcardCategory]);
+
+  const currentFlashcardWord = useMemo(() => {
+    if (flashcardItems.length === 0) return null;
+    return flashcardItems[currentFlashcardIndex] || null;
+  }, [flashcardItems, currentFlashcardIndex]);
 
   // Reset Flashcard index when category changes
   useEffect(() => {
@@ -161,15 +220,11 @@ const JlptN3Page = () => {
     // 1. Kanji Questions
     if (lessonData.chu_han && lessonData.chu_han.length > 0) {
       lessonData.chu_han.forEach((k, idx) => {
-        // Distractors for meaning/Hán Việt
         const wrongKanji = lessonData.chu_han.filter((_, i) => i !== idx);
         const distractors = wrongKanji.map(item => `${item.han_viet} (${item.nghia})`);
-        
-        // Ensure 3 wrong options
         while (distractors.length < 3) {
           distractors.push(`Ý nghĩa ${distractors.length + 1}`);
         }
-        
         const correctAnswer = `${k.han_viet} (${k.nghia})`;
         const options = shuffleArray([correctAnswer, ...distractors.slice(0, 3)]);
 
@@ -178,7 +233,14 @@ const JlptN3Page = () => {
           category: 'Kanji',
           question: `Chữ Hán "${k.kanji}" có âm Hán Việt và nghĩa là gì?`,
           options,
-          correctAnswer
+          correctAnswer,
+          wordObj: {
+            id: k.id,
+            kanji: k.kanji,
+            hiragana: k.kanji,
+            meaning: k.nghia,
+            hanViet: k.han_viet
+          }
         });
       });
     }
@@ -200,7 +262,14 @@ const JlptN3Page = () => {
           category: 'Từ vựng',
           question: `Từ vựng "${v.tu}" có nghĩa là gì?`,
           options,
-          correctAnswer
+          correctAnswer,
+          wordObj: {
+            id: v.id,
+            kanji: v.tu,
+            hiragana: v.furigana || v.tu,
+            meaning: v.nghia,
+            hanViet: v.am_han || ''
+          }
         });
       });
     }
@@ -222,12 +291,12 @@ const JlptN3Page = () => {
           category: 'Ngữ pháp',
           question: `Cấu trúc ngữ pháp "${g.cau_truc}" mang ý nghĩa gì?`,
           options,
-          correctAnswer
+          correctAnswer,
+          wordObj: null
         });
       });
     }
 
-    // Shuffle questions list and limit to 15 questions maximum per quiz
     const finalQuestions = shuffleArray(questions).slice(0, 15);
 
     setQuizQuestions(finalQuestions);
@@ -238,7 +307,6 @@ const JlptN3Page = () => {
     setQuizState('playing');
   };
 
-  // Helper shuffle
   const shuffleArray = (array) => {
     const arr = [...array];
     for (let i = arr.length - 1; i > 0; i--) {
@@ -248,7 +316,6 @@ const JlptN3Page = () => {
     return arr;
   };
 
-  // Select Quiz Option
   const handleSelectOption = (option) => {
     setUserAnswers(prev => ({
       ...prev,
@@ -256,7 +323,6 @@ const JlptN3Page = () => {
     }));
   };
 
-  // Submit Quiz
   const handleSubmitQuiz = async () => {
     let score = 0;
     quizQuestions.forEach((q, idx) => {
@@ -271,7 +337,6 @@ const JlptN3Page = () => {
       const res = await jlptN3Api.submitQuiz(selectedChapter, selectedLesson, score, quizQuestions.length);
       setQuizResult(res);
       setQuizState('finished');
-      // Refresh Overview
       loadOverview();
     } catch (err) {
       console.error("Error submitting quiz:", err);
@@ -279,38 +344,6 @@ const JlptN3Page = () => {
       setSubmittingQuiz(false);
     }
   };
-
-  // Render Lesson Completion Badge
-  const getLessonBadge = (completed, bestScore, available) => {
-    if (!available) {
-      return (
-        <span style={{ fontSize: '0.75rem', padding: '3px 10px', borderRadius: '12px', background: 'var(--surface-hover)', color: 'var(--text-muted)', fontWeight: 600 }}>
-          Chưa mở
-        </span>
-      );
-    }
-    if (completed) {
-      return (
-        <span style={{ fontSize: '0.78rem', padding: '3px 10px', borderRadius: '12px', background: 'rgba(16,185,129,0.12)', color: '#10b981', fontWeight: 700, display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
-          <CheckCircle size={13} /> Hoàn thành ({bestScore}%)
-        </span>
-      );
-    }
-    if (bestScore > 0) {
-      return (
-        <span style={{ fontSize: '0.78rem', padding: '3px 10px', borderRadius: '12px', background: 'rgba(245,158,11,0.12)', color: '#f59e0b', fontWeight: 700 }}>
-          Chưa đạt ({bestScore}%)
-        </span>
-      );
-    }
-    return (
-      <span style={{ fontSize: '0.78rem', padding: '3px 10px', borderRadius: '12px', background: 'rgba(37,99,235,0.1)', color: 'var(--accent-color)', fontWeight: 600 }}>
-        Chưa học
-      </span>
-    );
-  };
-
-  const [uploadingFiles, setUploadingFiles] = useState(false);
 
   const handleFileUploadClick = () => {
     if (fileInputRef.current) {
@@ -340,8 +373,37 @@ const JlptN3Page = () => {
     }
   };
 
+  const getLessonBadge = (completed, bestScore, available) => {
+    if (!available) {
+      return (
+        <span style={{ fontSize: '0.75rem', padding: '3px 10px', borderRadius: '12px', background: 'var(--surface-hover)', color: 'var(--text-muted)', fontWeight: 600 }}>
+          Chưa mở
+        </span>
+      );
+    }
+    if (completed) {
+      return (
+        <span style={{ fontSize: '0.78rem', padding: '3px 10px', borderRadius: '12px', background: 'rgba(16,185,129,0.12)', color: '#10b981', fontWeight: 700, display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
+          <CheckCircle size={13} /> Hoàn thành ({bestScore}%)
+        </span>
+      );
+    }
+    if (bestScore > 0) {
+      return (
+        <span style={{ fontSize: '0.78rem', padding: '3px 10px', borderRadius: '12px', background: 'rgba(245,158,11,0.12)', color: '#f59e0b', fontWeight: 700 }}>
+          Chưa đạt ({bestScore}%)
+        </span>
+      );
+    }
+    return (
+      <span style={{ fontSize: '0.78rem', padding: '3px 10px', borderRadius: '12px', background: 'rgba(37,99,235,0.1)', color: 'var(--accent-color)', fontWeight: 600 }}>
+        Chưa học
+      </span>
+    );
+  };
+
   return (
-    <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '24px 20px' }}>
+    <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '24px 20px', position: 'relative' }}>
       <input
         type="file"
         ref={fileInputRef}
@@ -350,6 +412,15 @@ const JlptN3Page = () => {
         onChange={handleFilesSelected}
         style={{ display: 'none' }}
       />
+
+      {/* REUSED KANJI & VOCAB DETAIL MODAL (From Daily Study) */}
+      {detailModalIndex !== null && (listSubTab === 'vocab' ? formattedVocabWords : formattedKanjiWords).length > 0 && (
+        <KanjiDetailModal
+          words={listSubTab === 'vocab' ? formattedVocabWords : formattedKanjiWords}
+          initialIndex={detailModalIndex}
+          onClose={() => setDetailModalIndex(null)}
+        />
+      )}
       
       {/* ───────────────────────────────────────────────────────────────────────
           PHASE 1: CHAPTERS & LESSONS OVERVIEW
@@ -387,7 +458,7 @@ const JlptN3Page = () => {
                 Ôn Luyện JLPT N3 (9 Chương - 27 Bài)
               </h1>
               <p style={{ margin: 0, opacity: 0.9, fontSize: '1.05rem', maxWidth: '640px', lineHeight: 1.5 }}>
-                Chinh phục toàn bộ Kanji, Từ vựng & Ngữ Pháp N3. Học qua Thẻ ghi nhớ, Danh sách chi tiết và làm bài Quiz kiểm tra đạt <strong style={{ color: '#fef08a' }}>≥ 90%</strong> để vượt qua bài học!
+                Chinh phục toàn bộ Kanji, Từ vựng & Ngữ Pháp N3. Học qua Thẻ ghi nhớ thông minh, Bảng chi tiết từ và bài Quiz kiểm tra đạt <strong style={{ color: '#fef08a' }}>≥ 90%</strong> để vượt qua bài học!
               </p>
 
               {/* Progress Summary Bar */}
@@ -564,7 +635,7 @@ const JlptN3Page = () => {
                     color: activeTab === 'list' ? 'white' : 'var(--text-secondary)'
                   }}
                 >
-                  <List size={18} /> Danh Sách Chi Tiết
+                  <List size={18} /> Danh Sách Chi Tiết & AI
                 </button>
                 <button
                   onClick={() => setActiveTab('quiz')}
@@ -582,14 +653,14 @@ const JlptN3Page = () => {
 
 
               {/* ───────────────────────────────────────────────────────────────
-                  TAB 1: FLASHCARD VIEW
+                  TAB 1: FLASHCARD VIEW (Reusing FlashcardCard Component)
                  ─────────────────────────────────────────────────────────────── */}
               {activeTab === 'flashcard' && (
                 <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '20px', padding: '10px 0' }}>
                   
                   {/* Category Filter */}
                   <div style={{ display: 'flex', gap: '8px', background: 'var(--surface-hover)', padding: '4px', borderRadius: '10px' }}>
-                    {['all', 'kanji', 'vocab', 'grammar'].map((cat) => (
+                    {['all', 'vocab', 'kanji', 'grammar'].map((cat) => (
                       <button
                         key={cat}
                         onClick={() => setFlashcardCategory(cat)}
@@ -602,8 +673,8 @@ const JlptN3Page = () => {
                         }}
                       >
                         {cat === 'all' && 'Tất cả'}
-                        {cat === 'kanji' && 'Hán tự'}
                         {cat === 'vocab' && 'Từ vựng'}
+                        {cat === 'kanji' && 'Hán tự'}
                         {cat === 'grammar' && 'Ngữ pháp'}
                       </button>
                     ))}
@@ -618,77 +689,16 @@ const JlptN3Page = () => {
                         Thẻ {currentFlashcardIndex + 1} / {flashcardItems.length}
                       </div>
 
-                      {/* Interactive Flip Card */}
-                      {(() => {
-                        const item = flashcardItems[currentFlashcardIndex];
-                        return (
-                          <div 
-                            onClick={() => setIsFlipped(!isFlipped)}
-                            style={{
-                              width: '100%', maxWidth: '520px', minHeight: '320px',
-                              background: 'var(--surface-color)', border: '2px solid var(--border-color)',
-                              borderRadius: '24px', padding: '32px', display: 'flex', flexDirection: 'column',
-                              alignItems: 'center', justifyContent: 'center', textAlign: 'center',
-                              cursor: 'pointer', boxShadow: '0 8px 30px rgba(0,0,0,0.06)', position: 'relative',
-                              transition: 'transform 0.2s ease'
-                            }}
-                          >
-                            <span style={{
-                              position: 'absolute', top: '16px', left: '20px', fontSize: '0.78rem',
-                              padding: '4px 12px', borderRadius: '12px', background: 'var(--surface-hover)',
-                              color: 'var(--accent-color)', fontWeight: 700
-                            }}>
-                              {item.badge}
-                            </span>
-
-                            <span style={{
-                              position: 'absolute', top: '16px', right: '20px', fontSize: '0.8rem',
-                              color: 'var(--text-muted)'
-                            }}>
-                              Chạm để lật 🔄
-                            </span>
-
-                            {!isFlipped ? (
-                              /* FRONT OF CARD */
-                              <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', marginTop: '20px' }}>
-                                <div style={{ fontSize: item.category === 'kanji' ? '4.5rem' : '2.4rem', fontWeight: 800, color: 'var(--text-primary)', letterSpacing: '0.02em' }}>
-                                  {item.front}
-                                </div>
-                                {item.reading && (
-                                  <div style={{ fontSize: '1.2rem', color: 'var(--text-secondary)' }}>
-                                    {item.reading}
-                                  </div>
-                                )}
-                              </div>
-                            ) : (
-                              /* BACK OF CARD */
-                              <div style={{ display: 'flex', flexDirection: 'column', gap: '14px', marginTop: '20px', width: '100%' }}>
-                                <div style={{ fontSize: '1.4rem', fontWeight: 700, color: 'var(--success-color)' }}>
-                                  {item.meaning}
-                                </div>
-                                {item.formation && (
-                                  <div style={{ fontSize: '0.92rem', color: 'var(--text-secondary)', background: 'var(--surface-hover)', padding: '8px 12px', borderRadius: '8px' }}>
-                                    <strong>Cách chia:</strong> {item.formation}
-                                  </div>
-                                )}
-                                {item.example && (
-                                  <div style={{ fontSize: '0.95rem', color: 'var(--text-primary)', fontStyle: 'italic', background: 'var(--surface-hover)', padding: '10px 14px', borderRadius: '8px', textAlign: 'left' }}>
-                                    {item.example}
-                                  </div>
-                                )}
-                                {item.examples && item.examples.length > 0 && (
-                                  <div style={{ textAlign: 'left', fontSize: '0.88rem', color: 'var(--text-secondary)', background: 'var(--surface-hover)', padding: '10px 14px', borderRadius: '8px', display: 'flex', flexDirection: 'column', gap: '4px' }}>
-                                    <strong>Ví dụ:</strong>
-                                    {item.examples.slice(0, 3).map((ex, idx) => (
-                                      <div key={idx}>• {ex}</div>
-                                    ))}
-                                  </div>
-                                )}
-                              </div>
-                            )}
-                          </div>
-                        );
-                      })()}
+                      {/* REUSED FLASHCARD CARD COMPONENT */}
+                      {currentFlashcardWord && (
+                        <div style={{ width: '100%', maxWidth: '560px' }}>
+                          <FlashcardCard 
+                            word={currentFlashcardWord}
+                            flipped={isFlipped}
+                            onFlip={() => setIsFlipped(!isFlipped)}
+                          />
+                        </div>
+                      )}
 
                       {/* Controls */}
                       <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginTop: '8px' }}>
@@ -719,83 +729,125 @@ const JlptN3Page = () => {
 
 
               {/* ───────────────────────────────────────────────────────────────
-                  TAB 2: DETAILED LIST VIEW
+                  TAB 2: DETAILED LIST VIEW (With DeepSeek AI & Kanji Detail Modal)
                  ─────────────────────────────────────────────────────────────── */}
               {activeTab === 'list' && (
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
                   
                   {/* List Sub-Tab Switcher */}
-                  <div style={{ display: 'flex', gap: '10px', borderBottom: '1px solid var(--border-color)', paddingBottom: '10px' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid var(--border-color)', paddingBottom: '10px' }}>
+                    <div style={{ display: 'flex', gap: '10px' }}>
+                      <button
+                        onClick={() => setListSubTab('vocab')}
+                        style={{
+                          padding: '8px 16px', borderRadius: '8px', border: 'none', fontWeight: 700, cursor: 'pointer',
+                          background: listSubTab === 'vocab' ? 'rgba(37,99,235,0.1)' : 'transparent',
+                          color: listSubTab === 'vocab' ? 'var(--accent-color)' : 'var(--text-secondary)'
+                        }}
+                      >
+                        Từ Vựng ({lessonData?.tu_vung?.length || 0})
+                      </button>
+                      <button
+                        onClick={() => setListSubTab('kanji')}
+                        style={{
+                          padding: '8px 16px', borderRadius: '8px', border: 'none', fontWeight: 700, cursor: 'pointer',
+                          background: listSubTab === 'kanji' ? 'rgba(37,99,235,0.1)' : 'transparent',
+                          color: listSubTab === 'kanji' ? 'var(--accent-color)' : 'var(--text-secondary)'
+                        }}
+                      >
+                        Hán Tự ({lessonData?.chu_han?.length || 0})
+                      </button>
+                      <button
+                        onClick={() => setListSubTab('grammar')}
+                        style={{
+                          padding: '8px 16px', borderRadius: '8px', border: 'none', fontWeight: 700, cursor: 'pointer',
+                          background: listSubTab === 'grammar' ? 'rgba(37,99,235,0.1)' : 'transparent',
+                          color: listSubTab === 'grammar' ? 'var(--accent-color)' : 'var(--text-secondary)'
+                        }}
+                      >
+                        Ngữ Pháp ({lessonData?.ngu_phap?.length || 0})
+                      </button>
+                    </div>
+
                     <button
-                      onClick={() => setListSubTab('kanji')}
-                      style={{
-                        padding: '8px 16px', borderRadius: '8px', border: 'none', fontWeight: 700, cursor: 'pointer',
-                        background: listSubTab === 'kanji' ? 'rgba(37,99,235,0.1)' : 'transparent',
-                        color: listSubTab === 'kanji' ? 'var(--accent-color)' : 'var(--text-secondary)'
-                      }}
+                      onClick={() => setHideMeanings(!hideMeanings)}
+                      style={{ display: 'flex', alignItems: 'center', gap: '6px', padding: '6px 12px', borderRadius: '8px', border: '1px solid var(--border-color)', background: 'var(--surface-color)', cursor: 'pointer', fontSize: '0.85rem' }}
                     >
-                      Hán Tự ({lessonData?.chu_han?.length || 0})
-                    </button>
-                    <button
-                      onClick={() => setListSubTab('vocab')}
-                      style={{
-                        padding: '8px 16px', borderRadius: '8px', border: 'none', fontWeight: 700, cursor: 'pointer',
-                        background: listSubTab === 'vocab' ? 'rgba(37,99,235,0.1)' : 'transparent',
-                        color: listSubTab === 'vocab' ? 'var(--accent-color)' : 'var(--text-secondary)'
-                      }}
-                    >
-                      Từ Vựng ({lessonData?.tu_vung?.length || 0})
-                    </button>
-                    <button
-                      onClick={() => setListSubTab('grammar')}
-                      style={{
-                        padding: '8px 16px', borderRadius: '8px', border: 'none', fontWeight: 700, cursor: 'pointer',
-                        background: listSubTab === 'grammar' ? 'rgba(37,99,235,0.1)' : 'transparent',
-                        color: listSubTab === 'grammar' ? 'var(--accent-color)' : 'var(--text-secondary)'
-                      }}
-                    >
-                      Ngữ Pháp ({lessonData?.ngu_phap?.length || 0})
+                      {hideMeanings ? <Eye size={16} /> : <EyeOff size={16} />}
+                      {hideMeanings ? 'Hiện nghĩa' : 'Ẩn nghĩa'}
                     </button>
                   </div>
 
-                  {/* KANJI LIST */}
+                  <p style={{ color: 'var(--text-secondary)', fontSize: '0.85rem', display: 'flex', alignItems: 'center', gap: '6px', margin: '0 0 8px 0' }}>
+                    <ChevronRight size={14} /> Nhấn vào một từ hoặc chữ Hán để xem Chi Tiết AI DeepSeek, Nét Viết & Ví Dụ
+                  </p>
+
+                  {/* VOCAB LIST TABLE */}
+                  {listSubTab === 'vocab' && (
+                    <div style={{ background: 'var(--surface-color)', border: '1px solid var(--border-color)', borderRadius: '14px', overflow: 'hidden' }}>
+                      <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
+                        <thead style={{ backgroundColor: 'var(--surface-hover)', color: 'var(--text-secondary)' }}>
+                          <tr>
+                            <th style={{ padding: '14px 18px', width: '50px' }}>STT</th>
+                            <th style={{ padding: '14px 18px' }}>Từ vựng (Kanji)</th>
+                            {!hideMeanings && <th style={{ padding: '14px 18px' }}>Cách đọc (Kana)</th>}
+                            {!hideMeanings && <th style={{ padding: '14px 18px' }}>Nghĩa tiếng Việt</th>}
+                            <th style={{ padding: '14px 18px' }}>Hán Việt / Loại từ</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {formattedVocabWords.map((word, index) => (
+                            <tr
+                              key={word.id}
+                              onClick={() => setDetailModalIndex(index)}
+                              style={{
+                                borderBottom: '1px solid var(--border-color)',
+                                cursor: 'pointer',
+                                transition: 'background 0.15s ease',
+                              }}
+                              onMouseEnter={e => e.currentTarget.style.background = 'var(--surface-hover)'}
+                              onMouseLeave={e => e.currentTarget.style.background = 'transparent'}
+                            >
+                              <td style={{ padding: '14px 18px', color: 'var(--text-secondary)' }}>{index + 1}</td>
+                              <td style={{ padding: '14px 18px', fontSize: '1.15rem', fontWeight: 800, color: 'var(--text-primary)' }}>{word.kanji}</td>
+                              {!hideMeanings && <td style={{ padding: '14px 18px', color: 'var(--accent-color)', fontWeight: 600 }}>{word.hiragana}</td>}
+                              {!hideMeanings && <td style={{ padding: '14px 18px', fontWeight: 500, color: 'var(--success-color)' }}>{word.meaning}</td>}
+                              <td style={{ padding: '14px 18px', color: 'var(--text-secondary)' }}>
+                                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                                  <span>{word.hanViet || word.wordType}</span>
+                                  <span style={{ fontSize: '0.75rem', color: 'var(--accent-color)', fontWeight: 600 }}>Chi tiết AI ➔</span>
+                                </div>
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  )}
+
+                  {/* KANJI LIST GRID */}
                   {listSubTab === 'kanji' && (
-                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '14px' }}>
-                      {lessonData?.chu_han?.map((k, idx) => (
-                        <div key={idx} style={{ background: 'var(--surface-color)', border: '1px solid var(--border-color)', borderRadius: '14px', padding: '16px 20px', display: 'flex', gap: '16px', alignItems: 'flex-start' }}>
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '14px' }}>
+                      {formattedKanjiWords.map((k, idx) => (
+                        <div 
+                          key={idx} 
+                          onClick={() => setDetailModalIndex(idx)}
+                          style={{ 
+                            background: 'var(--surface-color)', border: '1px solid var(--border-color)', 
+                            borderRadius: '14px', padding: '16px 20px', display: 'flex', gap: '16px', alignItems: 'flex-start',
+                            cursor: 'pointer', transition: 'all 0.2s ease'
+                          }}
+                          className="card-hover"
+                        >
                           <div style={{ width: '56px', height: '56px', borderRadius: '12px', background: 'rgba(37,99,235,0.08)', color: 'var(--accent-color)', fontSize: '2.2rem', fontWeight: 800, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                             {k.kanji}
                           </div>
                           <div style={{ flex: 1 }}>
                             <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px' }}>
-                              <span style={{ fontWeight: 800, color: 'var(--text-primary)', fontSize: '1.05rem' }}>{k.han_viet}</span>
+                              <span style={{ fontWeight: 800, color: 'var(--text-primary)', fontSize: '1.05rem' }}>{k.hanViet}</span>
                             </div>
-                            <div style={{ fontSize: '0.92rem', color: 'var(--success-color)', fontWeight: 600, marginBottom: '6px' }}>{k.nghia}</div>
-                            {k.tu_vung && (
-                              <div style={{ fontSize: '0.82rem', color: 'var(--text-secondary)', display: 'flex', flexDirection: 'column', gap: '2px' }}>
-                                {k.tu_vung.slice(0, 3).map((tv, i) => <div key={i}>• {tv}</div>)}
-                              </div>
-                            )}
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  )}
-
-                  {/* VOCAB LIST */}
-                  {listSubTab === 'vocab' && (
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                      {lessonData?.tu_vung?.map((v, idx) => (
-                        <div key={idx} style={{ background: 'var(--surface-color)', border: '1px solid var(--border-color)', borderRadius: '12px', padding: '14px 18px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '10px' }}>
-                          <div>
-                            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                              <span style={{ fontSize: '1.25rem', fontWeight: 800, color: 'var(--text-primary)' }}>{v.tu}</span>
-                              <span style={{ fontSize: '0.75rem', padding: '2px 8px', borderRadius: '6px', background: 'var(--surface-hover)', color: 'var(--text-secondary)', fontWeight: 600 }}>{v.loai_tu}</span>
-                            </div>
-                            {v.vi_du && <div style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', fontStyle: 'italic', marginTop: '4px' }}>{v.vi_du}</div>}
-                          </div>
-                          <div style={{ fontSize: '1rem', fontWeight: 600, color: 'var(--success-color)' }}>
-                            {v.nghia}
+                            {!hideMeanings && <div style={{ fontSize: '0.92rem', color: 'var(--success-color)', fontWeight: 600, marginBottom: '6px' }}>{k.meaning}</div>}
+                            <span style={{ fontSize: '0.75rem', color: 'var(--accent-color)', fontWeight: 600 }}>Xem nét viết & DeepSeek AI ➔</span>
                           </div>
                         </div>
                       ))}
@@ -809,7 +861,7 @@ const JlptN3Page = () => {
                         <div key={idx} style={{ background: 'var(--surface-color)', border: '1px solid var(--border-color)', borderRadius: '14px', padding: '18px 20px', display: 'flex', flexDirection: 'column', gap: '8px' }}>
                           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                             <span style={{ fontSize: '1.2rem', fontWeight: 800, color: 'var(--accent-color)' }}>{g.cau_truc}</span>
-                            <span style={{ fontSize: '1rem', fontWeight: 700, color: 'var(--success-color)' }}>{g.y_nghia}</span>
+                            {!hideMeanings && <span style={{ fontSize: '1rem', fontWeight: 700, color: 'var(--success-color)' }}>{g.y_nghia}</span>}
                           </div>
                           {g.cach_chia && (
                             <div style={{ fontSize: '0.88rem', color: 'var(--text-secondary)', background: 'var(--surface-hover)', padding: '6px 12px', borderRadius: '6px' }}>
@@ -831,7 +883,7 @@ const JlptN3Page = () => {
 
 
               {/* ───────────────────────────────────────────────────────────────
-                  TAB 3: QUIZ TEST (PASS CONDITION >= 90%)
+                  TAB 3: QUIZ TEST (With DeepSeek AI Breakdown & Pass >= 90%)
                  ─────────────────────────────────────────────────────────────── */}
               {activeTab === 'quiz' && (
                 <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '20px', padding: '20px 0' }}>
@@ -863,7 +915,7 @@ const JlptN3Page = () => {
 
                   {/* QUIZ PLAYING SCREEN */}
                   {quizState === 'playing' && quizQuestions.length > 0 && (
-                    <div style={{ background: 'var(--surface-color)', border: '1px solid var(--border-color)', borderRadius: '20px', padding: '28px', maxWidth: '600px', width: '100%', display: 'flex', flexDirection: 'column', gap: '20px' }}>
+                    <div style={{ background: 'var(--surface-color)', border: '1px solid var(--border-color)', borderRadius: '20px', padding: '28px', maxWidth: '640px', width: '100%', display: 'flex', flexDirection: 'column', gap: '20px' }}>
                       
                       {/* Question Header & Progress */}
                       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -904,6 +956,16 @@ const JlptN3Page = () => {
                           );
                         })}
                       </div>
+
+                      {/* DeepSeek AI Enrichment View in Quiz Feedback */}
+                      {userAnswers[currentQuestionIndex] && quizQuestions[currentQuestionIndex]?.wordObj && (
+                        <div style={{ marginTop: '12px', borderTop: '1px solid var(--border-color)', paddingTop: '16px' }}>
+                          <h4 style={{ margin: '0 0 10px 0', fontSize: '0.95rem', color: 'var(--accent-color)', fontWeight: 700 }}>
+                            🤖 Giải thích Chi Tiết DeepSeek AI cho từ này:
+                          </h4>
+                          <AiEnrichedTabbedView word={quizQuestions[currentQuestionIndex].wordObj} />
+                        </div>
+                      )}
 
                       {/* Quiz Controls */}
                       <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '10px' }}>

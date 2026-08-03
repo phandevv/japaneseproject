@@ -208,6 +208,44 @@ public class JlptN3CourseService {
         @SuppressWarnings("unchecked")
         Map<String, Object> data = objectMapper.convertValue(root, Map.class);
         data.put("available", true);
+
+        // Enrich tu_vung list items with database IDs for DeepSeek AI enrichment
+        if (data.containsKey("tu_vung") && data.get("tu_vung") instanceof List) {
+            @SuppressWarnings("unchecked")
+            List<Map<String, Object>> vocabList = (List<Map<String, Object>>) data.get("tu_vung");
+            for (Map<String, Object> vItem : vocabList) {
+                String tu = vItem.containsKey("tu") ? String.valueOf(vItem.get("tu")) : "";
+                if (!tu.isEmpty()) {
+                    Optional<Vocabulary> dbVocab = vocabularyRepository.findFirstByKanji(tu);
+                    if (dbVocab.isEmpty()) {
+                        dbVocab = vocabularyRepository.findFirstByHiragana(tu);
+                    }
+                    if (dbVocab.isPresent()) {
+                        Vocabulary v = dbVocab.get();
+                        vItem.put("id", v.getId());
+                        if (v.getKanji() != null) vItem.put("kanji", v.getKanji());
+                        if (v.getHiragana() != null) vItem.put("hiragana", v.getHiragana());
+                        if (v.getHanViet() != null) vItem.put("hanViet", v.getHanViet());
+                    }
+                }
+            }
+        }
+
+        // Enrich chu_han list items with database IDs
+        if (data.containsKey("chu_han") && data.get("chu_han") instanceof List) {
+            @SuppressWarnings("unchecked")
+            List<Map<String, Object>> kanjiList = (List<Map<String, Object>>) data.get("chu_han");
+            for (Map<String, Object> kItem : kanjiList) {
+                String kanji = kItem.containsKey("kanji") ? String.valueOf(kItem.get("kanji")) : "";
+                if (!kanji.isEmpty()) {
+                    Optional<Vocabulary> dbKanji = vocabularyRepository.findFirstByKanji(kanji);
+                    if (dbKanji.isPresent()) {
+                        kItem.put("id", dbKanji.get().getId());
+                    }
+                }
+            }
+        }
+
         return data;
     }
 
