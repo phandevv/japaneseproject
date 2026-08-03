@@ -88,6 +88,21 @@ public class JlptN3CourseService {
         return null;
     }
 
+    private boolean isLessonDataAvailable(int chapter, int lesson) {
+        if (getUploadedFile(chapter, lesson) != null) return true;
+        if (getLessonJsonFile(chapter, lesson) != null) return true;
+        if (isResourceAvailable(chapter, lesson)) return true;
+
+        List<Vocabulary> dbVocabs = vocabularyRepository.findByLevel("N3_COURSE");
+        String categorySearch = "Bài " + lesson;
+        for (Vocabulary v : dbVocabs) {
+            if (v.getCategory() != null && v.getCategory().contains(categorySearch)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     /**
      * Get Course Overview of 9 Chapters and 27 Lessons, including progress for the user.
      */
@@ -117,7 +132,7 @@ public class JlptN3CourseService {
                 lessonData.put("chapterId", c);
                 lessonData.put("title", "Bài " + l);
 
-                boolean available = (getUploadedFile(c, l) != null) || (getLessonJsonFile(c, l) != null) || isResourceAvailable(c, l);
+                boolean available = isLessonDataAvailable(c, l);
                 lessonData.put("available", available);
 
                 String key = c + "_" + l;
@@ -193,6 +208,71 @@ public class JlptN3CourseService {
                 }
             } catch (Exception e) {
                 log.warn("Failed to read Classpath resource {}: {}", resourcePath, e.getMessage());
+            }
+        }
+
+        // Strategy 4: Fallback to Database content if JSON files are not on disk/classpath
+        if (root == null) {
+            String categorySearch = "Bài " + lesson;
+            List<Vocabulary> dbVocabs = vocabularyRepository.findByLevel("N3_COURSE");
+            List<GrammarCard> dbGrammars = grammarCardRepository.findAll();
+
+            List<Map<String, Object>> chuHanList = new ArrayList<>();
+            List<Map<String, Object>> tuVungList = new ArrayList<>();
+            List<Map<String, Object>> nguPhapList = new ArrayList<>();
+
+            for (Vocabulary v : dbVocabs) {
+                if (v.getCategory() != null && v.getCategory().contains(categorySearch)) {
+                    Map<String, Object> item = new HashMap<>();
+                    item.put("id", v.getId());
+                    item.put("tu", v.getKanji() != null ? v.getKanji() : v.getHiragana());
+                    item.put("kanji", v.getKanji());
+                    item.put("furigana", v.getHiragana());
+                    item.put("hiragana", v.getHiragana());
+                    item.put("nghia", v.getMeaning());
+                    item.put("loai_tu", v.getWordType());
+                    item.put("vi_du", v.getSampleSentence());
+                    item.put("am_han", v.getHanViet());
+                    item.put("han_viet", v.getHanViet());
+                    item.put("pitchAccent", v.getPitchAccent());
+                    item.put("mnemonic", v.getMnemonic());
+                    item.put("exampleSentences", v.getExampleSentences());
+
+                    if ("Kanji".equalsIgnoreCase(v.getWordType()) || (v.getKanjiWords() != null && !v.getKanjiWords().isEmpty())) {
+                        chuHanList.add(item);
+                    } else {
+                        tuVungList.add(item);
+                    }
+                }
+            }
+
+            for (GrammarCard g : dbGrammars) {
+                if ((g.getDayName() != null && g.getDayName().contains(categorySearch)) ||
+                    (g.getWeekName() != null && g.getWeekName().contains("Chương " + chapter))) {
+                    Map<String, Object> gItem = new HashMap<>();
+                    gItem.put("cau_truc", g.getGrammar());
+                    gItem.put("y_nghia", g.getMeaning());
+                    gItem.put("cach_chia", g.getFormation());
+                    if (g.getExamples() != null) {
+                        try {
+                            gItem.put("vi_du", objectMapper.readValue(g.getExamples(), List.class));
+                        } catch (Exception e) {
+                            gItem.put("vi_du", List.of(g.getExamples()));
+                        }
+                    }
+                    nguPhapList.add(gItem);
+                }
+            }
+
+            if (!tuVungList.isEmpty() || !chuHanList.isEmpty() || !nguPhapList.isEmpty()) {
+                Map<String, Object> dbRes = new HashMap<>();
+                dbRes.put("chuong", chapter);
+                dbRes.put("bai", lesson);
+                dbRes.put("available", true);
+                dbRes.put("chu_han", chuHanList);
+                dbRes.put("tu_vung", tuVungList);
+                dbRes.put("ngu_phap", nguPhapList);
+                return dbRes;
             }
         }
 

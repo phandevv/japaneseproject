@@ -94,14 +94,14 @@ const isContainsKanji = (str) => {
     return lessonData.tu_vung.map((v, idx) => {
       const isKanji = v.tu && isContainsKanji(v.tu);
       return {
-        id: v.id,
-        kanji: isKanji ? v.tu : (v.kanji || v.tu),
-        hiragana: v.furigana || v.hiragana || v.tu,
-        meaning: v.nghia,
-        hanViet: v.am_han || v.han_viet || '',
-        wordType: v.loai_tu || 'N',
+        id: v.id || (idx + 1000),
+        kanji: isKanji ? v.tu : (v.kanji || v.tu || v.hiragana || ''),
+        hiragana: v.furigana || v.hiragana || v.tu || '',
+        meaning: v.nghia || v.meaning || '',
+        hanViet: v.am_han || v.han_viet || v.hanViet || '',
+        wordType: v.loai_tu || v.wordType || 'N',
         level: 'N3',
-        sampleSentence: v.vi_du,
+        sampleSentence: v.vi_du || v.sampleSentence || '',
         pitchAccent: v.pitchAccent,
         mnemonic: v.mnemonic,
         synonyms: v.synonyms,
@@ -119,14 +119,14 @@ const isContainsKanji = (str) => {
   const formattedKanjiWords = useMemo(() => {
     if (!lessonData || !lessonData.chu_han) return [];
     return lessonData.chu_han.map((k, idx) => ({
-      id: k.id,
-      kanji: k.kanji,
-      hiragana: k.kanji,
-      meaning: k.nghia,
-      hanViet: k.han_viet || '',
+      id: k.id || (idx + 2000),
+      kanji: k.kanji || k.tu || '',
+      hiragana: k.kanji || k.tu || '',
+      meaning: k.nghia || k.meaning || '',
+      hanViet: k.han_viet || k.am_han || k.hanViet || '',
       wordType: 'Kanji',
       level: 'N3',
-      sampleSentence: k.tu_vung ? k.tu_vung.join(', ') : '',
+      sampleSentence: k.tu_vung ? (Array.isArray(k.tu_vung) ? k.tu_vung.join(', ') : k.tu_vung) : '',
       pitchAccent: k.pitchAccent,
       mnemonic: k.mnemonic,
       exampleSentences: k.exampleSentences
@@ -143,14 +143,14 @@ const isContainsKanji = (str) => {
       lessonData.tu_vung.forEach((v, idx) => {
         const isKanji = v.tu && isContainsKanji(v.tu);
         items.push({
-          id: v.id,
-          kanji: isKanji ? v.tu : (v.kanji || v.tu),
-          hiragana: v.furigana || v.hiragana || v.tu,
-          meaning: v.nghia,
-          hanViet: v.am_han || v.han_viet || '',
-          wordType: v.loai_tu || 'N',
+          id: v.id || `vocab-${idx}`,
+          kanji: isKanji ? v.tu : (v.kanji || v.tu || v.hiragana || ''),
+          hiragana: v.furigana || v.hiragana || v.tu || '',
+          meaning: v.nghia || v.meaning || '',
+          hanViet: v.am_han || v.han_viet || v.hanViet || '',
+          wordType: v.loai_tu || v.wordType || 'N',
           level: 'N3',
-          sampleSentence: v.vi_du,
+          sampleSentence: v.vi_du || v.sampleSentence || '',
           pitchAccent: v.pitchAccent,
           mnemonic: v.mnemonic,
           synonyms: v.synonyms,
@@ -170,14 +170,14 @@ const isContainsKanji = (str) => {
     if (lessonData.chu_han && (flashcardCategory === 'all' || flashcardCategory === 'kanji')) {
       lessonData.chu_han.forEach((k, idx) => {
         items.push({
-          id: k.id,
-          kanji: k.kanji,
-          hiragana: k.kanji,
-          meaning: k.nghia,
-          hanViet: k.han_viet || '',
+          id: k.id || `kanji-${idx}`,
+          kanji: k.kanji || k.tu || '',
+          hiragana: k.kanji || k.tu || '',
+          meaning: k.nghia || k.meaning || '',
+          hanViet: k.han_viet || k.am_han || k.hanViet || '',
           wordType: 'Kanji',
           level: 'N3',
-          sampleSentence: k.tu_vung ? k.tu_vung.join(', ') : '',
+          sampleSentence: k.tu_vung ? (Array.isArray(k.tu_vung) ? k.tu_vung.join(', ') : k.tu_vung) : '',
           pitchAccent: k.pitchAccent,
           mnemonic: k.mnemonic,
           exampleSentences: k.exampleSentences,
