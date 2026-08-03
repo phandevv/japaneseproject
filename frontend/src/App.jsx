@@ -27,6 +27,7 @@ import UserProfilePage from './pages/UserProfilePage';
 import AchievementsPage from './pages/AchievementsPage';
 import GrammarPage from './pages/GrammarPage';
 import MasterReviewPage from './pages/MasterReviewPage';
+import JlptN3Page from './pages/JlptN3Page';
 
 const getTodayKey = () => new Date().toISOString().slice(0, 10);
 
@@ -84,6 +85,7 @@ function App() {
     if (path === '/admin-feedback') return 'admin-feedback';
     if (path === '/admin-ai') return 'admin-ai';
     if (path === '/search') return 'search';
+    if (path === '/jlpt-n3') return 'jlpt-n3';
     if (path === '/grammar') return 'grammar';
     if (path === '/knowledge') return 'knowledge';
     if (path === '/achievements') return 'achievements';
@@ -121,6 +123,7 @@ function App() {
       case 'admin-feedback': navigate('/admin-feedback'); break;
       case 'admin-ai': navigate('/admin-ai'); break;
       case 'search': navigate('/search'); break;
+      case 'jlpt-n3': navigate('/jlpt-n3'); break;
       case 'grammar': navigate('/grammar'); break;
       case 'knowledge': navigate('/knowledge'); break;
       case 'achievements': navigate('/achievements'); break;
@@ -374,6 +377,12 @@ function App() {
       case 'achievements':
         return isAuthenticated ? (
           <AchievementsPage />
+        ) : (
+          <AuthPage onCancel={() => navigate('/')} onSuccess={handleLoginSuccess} />
+        );
+      case 'jlpt-n3':
+        return isAuthenticated ? (
+          <JlptN3Page />
         ) : (
           <AuthPage onCancel={() => navigate('/')} onSuccess={handleLoginSuccess} />
         );

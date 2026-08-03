@@ -1,0 +1,649 @@
+{
+    "chuong": 1,
+    "bai": 2,
+    "chu_han": [
+        {
+            "kanji": "刀",
+            "han_viet": "ĐAO",
+            "nghia": "dao, kiếm",
+            "tu_vung": [
+                "刀 (kiếm)"
+            ]
+        },
+        {
+            "kanji": "初",
+            "han_viet": "SƠ",
+            "nghia": "đầu tiên, khởi đầu",
+            "tu_vung": [
+                "初め (lúc đầu, khởi đầu, phần đầu)",
+                "初めて (lần đầu tiên, lần đầu trải nghiệm điều gì đó)",
+                "最初 (đầu tiên, ban đầu)",
+                "初心者 (người mới bắt đầu, người chưa có kinh nghiệm)"
+            ]
+        },
+        {
+            "kanji": "券",
+            "han_viet": "KHOÁN",
+            "nghia": "vé, phiếu",
+            "tu_vung": [
+                "券 (vé, phiếu, cuống vé)",
+                "~券 (vé~, phiếu ~)",
+                "商品券 (phiếu quà tặng, voucher mua sắm)",
+                "入場券 (vé vào cửa, vé vào cổng)",
+                "割引券 (phiếu giảm giá, coupon giảm giá)"
+            ]
+        },
+        {
+            "kanji": "則",
+            "han_viet": "TẮC",
+            "nghia": "quy tắc, luật lệ",
+            "tu_vung": [
+                "法則 (quy luật, định luật)",
+                "規則 (quy tắc, nội quy)"
+            ]
+        },
+        {
+            "kanji": "側",
+            "han_viet": "TRẮC",
+            "nghia": "bên cạnh, phía",
+            "tu_vung": [
+                "内側 (bên trong, phía trong)",
+                "裏側 (mặt sau, phía sau, mặt trái)",
+                "窓側 (phía cửa sổ)"
+            ]
+        },
+        {
+            "kanji": "測",
+            "han_viet": "TRẮC",
+            "nghia": "đo lường, ước lượng",
+            "tu_vung": [
+                "測る (đo, đo lường)",
+                "予測 (dự đoán, tiên đoán, ước tính trước)",
+                "測定 (đo đạc, đo lường)"
+            ]
+        },
+        {
+            "kanji": "制",
+            "han_viet": "CHẾ",
+            "nghia": "hạn chế, chế độ",
+            "tu_vung": [
+                "制服 (đồng phục)",
+                "制限 (hạn chế, giới hạn, quy định về mức độ nào đó)"
+            ]
+        },
+        {
+            "kanji": "割",
+            "han_viet": "CÁT",
+            "nghia": "chia, cắt giảm",
+            "tu_vung": [
+                "割れる (vỡ, bể, nứt ra, chia tách)",
+                "割る (làm vỡ, chia nhỏ, chia tách)",
+                "割り算 (phép chia trong toán học)",
+                "割引 (giảm giá, chiết khấu)",
+                "時間割 (thời khóa biểu, lịch học)",
+                "割合 (tỷ lệ, phần trăm, tương đối)"
+            ]
+        },
+        {
+            "kanji": "判",
+            "han_viet": "PHÁN",
+            "nghia": "phán đoán, quyết định",
+            "tu_vung": [
+                "判断 (phán đoán, đánh giá, quyết định)"
+            ]
+        },
+        {
+            "kanji": "到",
+            "han_viet": "ĐÁO",
+            "nghia": "đến nơi",
+            "tu_vung": [
+                "到着 (đến nơi, đến đích)"
+            ]
+        },
+        {
+            "kanji": "倒",
+            "han_viet": "ĐẢO",
+            "nghia": "ngã, đổ",
+            "tu_vung": [
+                "倒れる (ngã, đổ, gục ngã, phá sản)",
+                "倒す (làm đổ, đánh bại, hạ gục)",
+                "倒産 (phá sản, sụp đổ doanh nghiệp)",
+                "面倒 (phiền phức, rắc rối, chăm sóc ai đó)",
+                "面倒臭い (rất phiền phức, rắc rối, lười biếng làm gì đó)"
+            ]
+        },
+        {
+            "kanji": "争",
+            "han_viet": "TRANH",
+            "nghia": "tranh chấp, cạnh tranh",
+            "tu_vung": [
+                "争う (tranh chấp, đấu tranh, tranh giành, cãi vã)",
+                "競争 (cạnh tranh, ganh đua)",
+                "戦争 (chiến tranh, cuộc chiến)"
+            ]
+        },
+        {
+            "kanji": "危",
+            "han_viet": "NGUY",
+            "nghia": "nguy hiểm",
+            "tu_vung": [
+                "危ない (nguy hiểm, không an toàn, có thể xảy ra rủi ro)",
+                "危険 (nguy hiểm)"
+            ]
+        }
+    ],
+    "tu_vung": [
+        {
+            "tu": "初め",
+            "loai_tu": "N",
+            "nghia": "lúc đầu, khởi đầu, phần đầu",
+            "vi_du": "彼のことを、初めは嫌な人だと思ったが、だんだんいい人だとわかってきた。"
+        },
+        {
+            "tu": "初心者",
+            "loai_tu": "N",
+            "nghia": "người mới bắt đầu, người chưa có kinh nghiệm",
+            "vi_du": "スキーの初心者は、スキー板をつけて歩くことから始めます。"
+        },
+        {
+            "tu": "券",
+            "loai_tu": "N",
+            "nghia": "vé ~, phiếu ~",
+            "vi_du": "商品券 / 入場券 / 割引券"
+        },
+        {
+            "tu": "法則",
+            "loai_tu": "N",
+            "nghia": "quy luật, định luật",
+            "vi_du": "動物も人間も、自然の法則の中で生きている。/ 日本語の発音の法則を学ぶ。"
+        },
+        {
+            "tu": "規則",
+            "loai_tu": "N",
+            "nghia": "quy tắc, nội quy",
+            "vi_du": "学校の規則を守る。"
+        },
+        {
+            "tu": "内側",
+            "loai_tu": "N",
+            "nghia": "bên trong, phía trong",
+            "vi_du": "窓の内側を拭いてください。"
+        },
+        {
+            "tu": "裏側",
+            "loai_tu": "N",
+            "nghia": "mặt sau, phía sau, mặt trái",
+            "vi_du": "お皿の裏側まで、きちんと洗ってください。"
+        },
+        {
+            "tu": "窓側",
+            "loai_tu": "N",
+            "nghia": "phía cửa sổ",
+            "vi_du": "飛行機の窓側の席を予約する。"
+        },
+        {
+            "tu": "制服",
+            "loai_tu": "N",
+            "nghia": "đồng phục",
+            "vi_du": "私の学校の制服はデザインがいい。"
+        },
+        {
+            "tu": "祝日",
+            "loai_tu": "N",
+            "nghia": "ngày lễ",
+            "vi_du": "昨日は祝日だったので、会社が休みでした。"
+        },
+        {
+            "tu": "年賀状",
+            "loai_tu": "N",
+            "nghia": "thiệp năm mới",
+            "vi_du": "お正月には、友達に年賀状を送る。"
+        },
+        {
+            "tu": "和菓子",
+            "loai_tu": "N",
+            "nghia": "bánh kẹo truyền thống Nhật Bản",
+            "vi_du": "お茶を飲みながら、和菓子を食べる"
+        },
+        {
+            "tu": "洋菓子",
+            "loai_tu": "N",
+            "nghia": "bánh kẹo phương Tây",
+            "vi_du": "友達の誕生日に、洋菓子をプレゼントしました"
+        },
+        {
+            "tu": "生き物",
+            "loai_tu": "N",
+            "nghia": "vật sống, sinh vật",
+            "vi_du": "動物園には、珍しい生き物がたくさんいます。"
+        },
+        {
+            "tu": "入場料",
+            "loai_tu": "N",
+            "nghia": "phí vào cổng",
+            "vi_du": "入場料は、入口で支払ってください。"
+        },
+        {
+            "tu": "以前",
+            "loai_tu": "N",
+            "nghia": "lúc trước, trước kia, thuở trước",
+            "vi_du": "私は以前、受付の仕事をしていました。"
+        },
+        {
+            "tu": "割合",
+            "loai_tu": "N",
+            "nghia": "tỷ lệ",
+            "vi_du": "この学校の男子学生と女子学生の割合は同じくらいだ。"
+        },
+        {
+            "tu": "親戚",
+            "loai_tu": "N",
+            "nghia": "họ hàng",
+            "vi_du": "お正月には親戚が集まる。"
+        },
+        {
+            "tu": "作品",
+            "loai_tu": "N",
+            "nghia": "tác phẩm",
+            "vi_du": "子供が作った作品を部屋に飾る。/ 芸術作品を見ても、良さがよくわからない。"
+        },
+        {
+            "tu": "事件",
+            "loai_tu": "N",
+            "nghia": "vụ việc, vụ án",
+            "vi_du": "今朝、職場の近くで事件があった。"
+        },
+        {
+            "tu": "中心",
+            "loai_tu": "N",
+            "nghia": "trung tâm",
+            "vi_du": "街の中心に、大きなビルがある。/ 社会人になり、仕事中心の生活になる。"
+        },
+        {
+            "tu": "景色",
+            "loai_tu": "N",
+            "nghia": "phong cảnh, cảnh sắc",
+            "vi_du": "ここからの景色はとてもきれいだ。/ イタリアの町の景色は素晴らしい。"
+        },
+        {
+            "tu": "体力",
+            "loai_tu": "N",
+            "nghia": "thể lực",
+            "vi_du": "年を取ると体力が落ちる。/ 運動をすると、体力がつく。"
+        },
+        {
+            "tu": "警察",
+            "loai_tu": "N",
+            "nghia": "cảnh sát",
+            "vi_du": "財布を盗まれたので、警察に相談した"
+        },
+        {
+            "tu": "犯人",
+            "loai_tu": "N",
+            "nghia": "hung thủ, thủ phạm",
+            "vi_du": "警察が万引きした犯人をつかまえた。"
+        },
+        {
+            "tu": "戦争",
+            "loai_tu": "N",
+            "nghia": "chiến tranh, cuộc chiến",
+            "vi_du": "この国では、10年前からずっと戦争が続いている。"
+        },
+        {
+            "tu": "育児",
+            "loai_tu": "N",
+            "nghia": "nuôi trẻ, chăm sóc trẻ",
+            "vi_du": "育児をしていると、自分の時間がなかなか取れない。"
+        },
+        {
+            "tu": "パスタ",
+            "loai_tu": "N",
+            "nghia": "mì pasta",
+            "vi_du": "パスタが大好きです。"
+        },
+        {
+            "tu": "センター",
+            "loai_tu": "N",
+            "nghia": "trung tâm (centre)",
+            "vi_du": "新しい文化センターが、駅の近くにできました。"
+        },
+        {
+            "tu": "迷惑",
+            "loai_tu": "N/A",
+            "nghia": "phiền phức, bất tiện",
+            "vi_du": "夜に大きな声で話すのは、迷惑だ。/ 両親には迷惑をかけてばかりで、申し訳ない。"
+        },
+        {
+            "tu": "面倒",
+            "loai_tu": "N/A",
+            "nghia": "phiền phức, rắc rối, chăm sóc ai đó",
+            "vi_du": "今から食事を作るのは面倒だから、コンビニで買おう。/ 妹と弟の面倒を見る。"
+        },
+        {
+            "tu": "危険",
+            "loai_tu": "A",
+            "nghia": "nguy hiểm",
+            "vi_du": "この川で泳ぐのは危険です。"
+        },
+        {
+            "tu": "嫌",
+            "loai_tu": "A",
+            "nghia": "ghét, không thích",
+            "vi_du": "朝早く起きるのは嫌だ。"
+        },
+        {
+            "tu": "いい加減",
+            "loai_tu": "A",
+            "nghia": "vừa phải, đủ rồi, vô trách nhiệm, qua loa",
+            "vi_du": "いつも冗談ばかり言って、いい加減にしてくれ。/ いい加減に、勉強しないと合格できないよ。"
+        },
+        {
+            "tu": "積極的",
+            "loai_tu": "A",
+            "nghia": "một cách tích cực",
+            "vi_du": "田中社長は、会社を大きくすることに積極的だ。/ 積極的に日本語で話すようにしている。"
+        },
+        {
+            "tu": "面倒くさい",
+            "loai_tu": "A",
+            "nghia": "phiền hà, rắc rối",
+            "vi_du": "休日に仕事をするなんて面倒くさい。/ 面倒くさいことは後回しにする。"
+        },
+        {
+            "tu": "若い",
+            "loai_tu": "A",
+            "nghia": "trẻ, trẻ trung",
+            "vi_du": "若いころからたばこを吸っていたが、子供が生まれたので禁煙することにした。"
+        },
+        {
+            "tu": "争う",
+            "loai_tu": "V",
+            "nghia": "tranh chấp, tranh giành",
+            "vi_du": "その国は、長い間隣の国と争っている。/ 今、4つのチームが優勝を争っている。"
+        },
+        {
+            "tu": "しゃべる",
+            "loai_tu": "V",
+            "nghia": "nói chuyện, tán gẫu",
+            "vi_du": "日本語でしゃべる機会があまりない。"
+        },
+        {
+            "tu": "増える",
+            "loai_tu": "V",
+            "nghia": "tăng lên, gia tăng",
+            "vi_du": "この町の人口は増えている。"
+        },
+        {
+            "tu": "貯める",
+            "loai_tu": "V",
+            "nghia": "tiết kiệm, tích lũy",
+            "vi_du": "留学のために、アルバイトをしてお金を貯める。"
+        },
+        {
+            "tu": "埋まる",
+            "loai_tu": "V",
+            "nghia": "bị lấp đầy, bị chôn, bị lấp, kín",
+            "vi_du": "地面の下に、宝が埋まっていた。/ 会場は参加者で埋まった。"
+        },
+        {
+            "tu": "倒れる",
+            "loai_tu": "V",
+            "nghia": "ngã, đổ, ngất, phá sản",
+            "vi_du": "強風で木が倒れそうだ。/ 具合が悪くなって、倒れてしまった。/ 不景気で会社が倒れた。"
+        },
+        {
+            "tu": "倒す",
+            "loai_tu": "V",
+            "nghia": "làm đổ, đánh bại, hạ gục",
+            "vi_du": "木を切って倒す。/ 試合で相手を倒す。"
+        },
+        {
+            "tu": "積む",
+            "loai_tu": "V",
+            "nghia": "(ai đó) chất lên, chồng chất, tích lũy",
+            "vi_du": "車に荷物を積む。/ 机の上に本が積んである。/ 日本の会社で経験を積む。"
+        },
+        {
+            "tu": "積もる",
+            "loai_tu": "V",
+            "nghia": "(cái gì đó) chất đống, tích tụ",
+            "vi_du": "朝になると、雪が積もっていた。"
+        },
+        {
+            "tu": "進む",
+            "loai_tu": "V",
+            "nghia": "tiến lên, tiến triển, tiến bộ",
+            "vi_du": "信号が青になったので、車が前に進み始めた。/ 予定通りに作業が進んでいる。/ 腕時計が2分進んでいる。"
+        },
+        {
+            "tu": "落ちる",
+            "loai_tu": "V",
+            "nghia": "rơi, rớt, trượt (kỳ thi), giảm xuống",
+            "vi_du": "道に手袋が落ちている。/ 汗をたくさんかいて、化粧が落ちてしまった。/ 試験に落ちて、がっかりした。/ 昔より、走るスピードが落ちた。"
+        },
+        {
+            "tu": "切れる",
+            "loai_tu": "V",
+            "nghia": "bị đứt, bị gãy, hết hạn, sắc bén",
+            "vi_du": "新聞をしばっていたひもが切れた。/ 電話に出ようとしたとたんに切れてしまった。/ この牛乳は賞味期限が切れている。"
+        },
+        {
+            "tu": "思い出す",
+            "loai_tu": "V",
+            "nghia": "nhớ lại, nhìn lại, hồi tưởng, gợi lại",
+            "vi_du": "母の笑顔を思い出すと、もう少し頑張ろうと思えた。/ この曲を聴くと、当時付き合っていた彼氏を思い出す。"
+        },
+        {
+            "tu": "祝う",
+            "loai_tu": "V",
+            "nghia": "ăn mừng, chúc mừng",
+            "vi_du": "友達が私の誕生日を祝ってくれた。"
+        },
+        {
+            "tu": "割る",
+            "loai_tu": "V",
+            "nghia": "làm vỡ, chia nhỏ, chia tách",
+            "vi_du": "コップを落として割ってしまった。/ 12割る4は3だ。"
+        },
+        {
+            "tu": "測る",
+            "loai_tu": "V",
+            "nghia": "đo, đo lường (chiều dài, độ sâu, nhiệt độ, ...)",
+            "vi_du": "熱を測ったら40度だった。"
+        },
+        {
+            "tu": "並ぶ",
+            "loai_tu": "V",
+            "nghia": "xếp hàng, ngang hàng, sánh ngang với",
+            "vi_du": "店の前に、人がたくさん並んでいる。/ この会社の技術は大企業と並ぶレベルにある。"
+        },
+        {
+            "tu": "褒める",
+            "loai_tu": "V",
+            "nghia": "tán dương, khen ngợi",
+            "vi_du": "先生に褒められてうれしかった。"
+        },
+        {
+            "tu": "驚く",
+            "loai_tu": "V",
+            "nghia": "ngạc nhiên, bất ngờ",
+            "vi_du": "ドアを開けたら、友達がいて驚いた。/ こんなに早く仕事ができるようになるなんて、驚きました。"
+        },
+        {
+            "tu": "判断",
+            "loai_tu": "N/V",
+            "nghia": "phán đoán, đánh giá",
+            "vi_du": "彼の話だけだと、本当かどうか判断できない。"
+        },
+        {
+            "tu": "到着",
+            "loai_tu": "N/V",
+            "nghia": "đến nơi, đến đích",
+            "vi_du": "駅に電車が到着した。/ 会場には、3時半ごろに到着する予定です。"
+        },
+        {
+            "tu": "成長",
+            "loai_tu": "N/V",
+            "nghia": "trưởng thành, phát triển",
+            "vi_du": "子供の成長は早い。もう私より背が高くなった。/ 誰でも経験を積んで成長していく。"
+        },
+        {
+            "tu": "関係",
+            "loai_tu": "N/V",
+            "nghia": "quan hệ, liên quan",
+            "vi_du": "私がどんな生活をしていても、あなたには関係ないです。/ 大学に入学できるかどうかは、息子の将来に関係する重要な問題だ。/ あの2人はどういう関係ですか。/ 山田さんは音楽関係の仕事をしている。"
+        },
+        {
+            "tu": "自慢",
+            "loai_tu": "N/V",
+            "nghia": "tự hào, hãnh diện",
+            "vi_du": "彼女は娘の成績を自慢していた。/ この子は、私の自慢の息子です。"
+        },
+        {
+            "tu": "倒産",
+            "loai_tu": "N/V",
+            "nghia": "phá sản",
+            "vi_du": "この会社は2020年に倒産した。"
+        },
+        {
+            "tu": "作業",
+            "loai_tu": "N/V",
+            "nghia": "công việc, làm việc",
+            "vi_du": "作業はパソコンでできるので、職場へ行く必要はない"
+        },
+        {
+            "tu": "行動",
+            "loai_tu": "N/V",
+            "nghia": "hành động",
+            "vi_du": "一日の行動を日記に記録する。/ 彼らはいつも一緒に行動している。"
+        },
+        {
+            "tu": "競争",
+            "loai_tu": "N/V",
+            "nghia": "cạnh tranh, ganh đua",
+            "vi_du": "子供たちは、誰が一番走るのが速いか競争している。"
+        },
+        {
+            "tu": "制限",
+            "loai_tu": "N/V",
+            "nghia": "hạn chế, giới hạn",
+            "vi_du": "混雑を避けるため、人数を制限して入場させている。/ 食事制限をしている。"
+        },
+        {
+            "tu": "割引",
+            "loai_tu": "N/V",
+            "nghia": "giảm giá, chiết khấu",
+            "vi_du": "この服は今、20%割引です。/ 1000円の商品が、割引で800円で売っている。"
+        },
+        {
+            "tu": "予測",
+            "loai_tu": "N/V",
+            "nghia": "dự đoán, tiên đoán, ước tính trước",
+            "vi_du": "これからの人口の変化を予測する。/ 商品の売り上げの予測は当たらなかった。"
+        },
+        {
+            "tu": "測定",
+            "loai_tu": "N/V",
+            "nghia": "đo đạc, đo lường",
+            "vi_du": "走る速さを測定する。"
+        },
+        {
+            "tu": "受験",
+            "loai_tu": "N/V",
+            "nghia": "dự thi",
+            "vi_du": "息子は来年、大学を受験する予定だ。"
+        },
+        {
+            "tu": "ダイエット",
+            "loai_tu": "N/V",
+            "nghia": "ăn kiêng, giảm cân",
+            "vi_du": "少し太ったから、明日からダイエットすることにした"
+        },
+        {
+            "tu": "がっかり",
+            "loai_tu": "PT",
+            "nghia": "thất vọng",
+            "vi_du": "試験に不合格でがっかりした。"
+        },
+        {
+            "tu": "ますます",
+            "loai_tu": "PT",
+            "nghia": "ngày càng",
+            "vi_du": "日本に留学して、ますます日本が好きになった / 雨が降り始めて、ますます寒くなってきた。"
+        },
+        {
+            "tu": "~中 (ちゅう)",
+            "loai_tu": "Hậu tố",
+            "nghia": "đang trong lúc ~",
+            "vi_du": "会議中 / 食事中 / 電話中"
+        },
+        {
+            "tu": "~中 (じゅう)",
+            "loai_tu": "Hậu tố",
+            "nghia": "suốt ~, trong ~, trên khắp ~",
+            "vi_du": "今日中 / 一日中 / 一年中 / 世界中"
+        }
+    ],
+    "ngu_phap": [
+        {
+            "cau_truc": "~って (1)",
+            "y_nghia": "Đứng ngay sau danh từ (N) đóng vai trò là chủ đề của câu. Dùng để thay thế cho trợ từ は nhằm nhấn mạnh.",
+            "cach_chia": "N + って",
+            "vi_du": [
+                "あなたの恋人ってどんな人ですか。",
+                "日本語ってどうすれば上手になりますか。",
+                "すみません、会社のパーティーっていつですか。"
+            ]
+        },
+        {
+            "cau_truc": "〜って (2)",
+            "y_nghia": "Nghe nói là.../ Thấy bảo là...",
+            "cach_chia": "Vthể ngắn / Aい / N/Aな(+なん)だ + って",
+            "vi_du": [
+                "今週はずっと晴れだって。",
+                "彼は今日、遅刻して先生におこられたって。",
+                "その荷物は小さいけど結構重いって。",
+                "これは昔のアニメだけど、海外では今でも人気なんだって。"
+            ]
+        },
+        {
+            "cau_truc": "~って (3)",
+            "y_nghia": "Là... (Mẫu câu dùng thay cho と trong: と思う/と言う/ と書いてある)",
+            "cach_chia": "Mệnh đề (thể ngắn) + って",
+            "vi_du": [
+                "彼と初めて話したけど、いい人だなって思った。",
+                "彼は来月から日本に留学するってみんなに言っていた。",
+                "子供のとき、父にご飯は残さず全部食べろってよく言われた。"
+            ]
+        },
+        {
+            "cau_truc": "〜って(4) / という",
+            "y_nghia": "N2 gọi là N1",
+            "cach_chia": "N1 + という/って + N2",
+            "vi_du": [
+                "私は日本という国から来ました。",
+                "これはフォーという料理で、ベトナムではとても有名です。",
+                "私はズンモリって日本語センターで、N5からN2まで勉強した。"
+            ]
+        },
+        {
+            "cau_truc": "~らしい",
+            "y_nghia": "Ra dáng/ đậm chất/ chuẩn...",
+            "cach_chia": "N + らしい",
+            "vi_du": [
+                "息子は高校生になり、だんだん大人らしい顔になってきた。",
+                "あの子は遊ばないで勉強ばかりしていて、子供らしくない。"
+            ]
+        },
+        {
+            "cau_truc": "~を中心",
+            "y_nghia": "Mà chủ yếu là.../ trọng tâm là...",
+            "cach_chia": "N1 + を中心に/と(して) / を中心にした/とした + N2 / を中心にする/とする + N2",
+            "vi_du": [
+                "私はダイエットのため、野菜を中心とした食事をしている。",
+                "私の授業では、文法ではなく会話を中心に教えている。",
+                "この店は、パスタを中心とするイタリア料理の店だ。"
+            ]
+        }
+    ]
+}

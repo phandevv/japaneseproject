@@ -1,0 +1,712 @@
+{
+    "chuong": 1,
+    "bai": 1,
+    "chu_han": [
+        {
+            "kanji": "回",
+            "han_viet": "HỒI",
+            "nghia": "xoay, quay lại, lần",
+            "tu_vung": [
+                "回す (xoay, vặn, chuyền, chuyển)",
+                "次回 (lần sau, lần tiếp theo)",
+                "回収 (thu hồi, thu gom)",
+                "回る (xoay quanh, đi vòng quanh, quay)",
+                "遠回り (đi đường vòng, vòng vo)"
+            ]
+        },
+        {
+            "kanji": "因",
+            "han_viet": "NHÂN",
+            "nghia": "nguyên nhân, lý do",
+            "tu_vung": [
+                "原因 (nguyên nhân, lý do)"
+            ]
+        },
+        {
+            "kanji": "困",
+            "han_viet": "KHÔN",
+            "nghia": "khó khăn, khốn khổ",
+            "tu_vung": [
+                "困る (gặp khó khăn, rắc rối, bối rối)",
+                "困難 (khó khăn, gian nan)"
+            ]
+        },
+        {
+            "kanji": "恥",
+            "han_viet": "SỈ",
+            "nghia": "xấu hổ",
+            "tu_vung": [
+                "恥ずかしい (xấu hổ)"
+            ]
+        },
+        {
+            "kanji": "取",
+            "han_viet": "THỦ",
+            "nghia": "lấy, nắm, nhận",
+            "tu_vung": [
+                "取る (lấy, giữ; đạt được, giành được; loại bỏ, bỏ đi)",
+                "やり取り (trao đổi qua lại, đối đáp)",
+                "受け取る (nhận, tiếp nhận, hiểu được)"
+            ]
+        },
+        {
+            "kanji": "最",
+            "han_viet": "TỐI",
+            "nghia": "nhất",
+            "tu_vung": [
+                "最も (nhất, vô cùng, cực kỳ)",
+                "最高 (cao nhất, nhất; tuyệt vời, tuyệt nhất)",
+                "最初 (đầu tiên, ban đầu, lúc đầu)"
+            ]
+        },
+        {
+            "kanji": "亡",
+            "han_viet": "VONG",
+            "nghia": "chết, mất",
+            "tu_vung": [
+                "亡くす (mất đi, đánh mất)",
+                "亡くなる (qua đời, mất)",
+                "死亡 (tử vong, qua đời)"
+            ]
+        },
+        {
+            "kanji": "忘",
+            "han_viet": "VONG",
+            "nghia": "quên",
+            "tu_vung": [
+                "忘れる (quên, bỏ quên, không nhớ)",
+                "忘れ物 (đồ bị bỏ quên, đồ thất lạc)",
+                "忘年会 (tiệc tất niên, tiệc cuối năm)"
+            ]
+        },
+        {
+            "kanji": "望",
+            "han_viet": "VỌNG",
+            "nghia": "mong muốn, hy vọng",
+            "tu_vung": [
+                "望む (mong muốn, kỳ vọng, hy vọng)",
+                "希望 (hy vọng, mong muốn, nguyện vọng)"
+            ]
+        },
+        {
+            "kanji": "忙",
+            "han_viet": "MANG",
+            "nghia": "bận rộn",
+            "tu_vung": [
+                "忙しい (bận rộn)"
+            ]
+        },
+        {
+            "kanji": "慣",
+            "han_viet": "QUÁN",
+            "nghia": "quen thuộc, tập quán",
+            "tu_vung": [
+                "慣れる (thích nghi với, quen với)",
+                "習慣 (thói quen, tập quán)"
+            ]
+        },
+        {
+            "kanji": "情",
+            "han_viet": "TÌNH",
+            "nghia": "cảm xúc, tình cảm",
+            "tu_vung": [
+                "感情 (cảm xúc, tình cảm)",
+                "表情 (biểu cảm, nét mặt, vẻ mặt)",
+                "事情 (sự tình, hoàn cảnh, tình hình, lý do)",
+                "友情 (tình bạn, tình hữu nghị)",
+                "情報 (thông tin, tin tức)",
+                "感情的 (mang tính cảm xúc, dễ xúc động, thiên về cảm xúc)"
+            ]
+        }
+    ],
+    "tu_vung": [
+        {
+            "tu": "次回",
+            "loai_tu": "N",
+            "nghia": "lần sau, lần tiếp theo",
+            "vi_du": "次回は気をつけます。"
+        },
+        {
+            "tu": "原因",
+            "loai_tu": "N",
+            "nghia": "nguyên nhân, lý do",
+            "vi_du": "失敗の原因を調べる。/ 原因不明の病気になる。"
+        },
+        {
+            "tu": "習慣",
+            "loai_tu": "N",
+            "nghia": "thói quen, tập quán",
+            "vi_du": "この仕事を始めてから、早起きの習慣が身に付いた。/ この国には、玄関で靴を脱ぐ習慣がある。"
+        },
+        {
+            "tu": "最後",
+            "loai_tu": "N",
+            "nghia": "cuối cùng, lần cuối",
+            "vi_du": "アルバイト最後の日に、パーティーを開いてもらった。/ こちらにあるものが、最後の1つでございます。/ 最後まであきらめてはいけない。"
+        },
+        {
+            "tu": "最終",
+            "loai_tu": "N",
+            "nghia": "sau cùng, cuối cùng (giai đoạn)",
+            "vi_du": "最終電車は11時58分です。/ 旅行の最終日に風邪を引いてしまいました。"
+        },
+        {
+            "tu": "最初",
+            "loai_tu": "N",
+            "nghia": "đầu tiên, ban đầu, lúc đầu",
+            "vi_du": "最初は漢字が全然読めなかったけど、今は読める。/ 合格できないことは、最初からわかっていた。"
+        },
+        {
+            "tu": "最新",
+            "loai_tu": "N",
+            "nghia": "mới nhất, hiện đại nhất",
+            "vi_du": "このデータは、今年最新のデータです。"
+        },
+        {
+            "tu": "最多",
+            "loai_tu": "N",
+            "nghia": "nhiều nhất (số lượng)",
+            "vi_du": "今年は台風の数がこの5年で最多だった。"
+        },
+        {
+            "tu": "最大",
+            "loai_tu": "N",
+            "nghia": "lớn nhất, cực đại, tối đa",
+            "vi_du": "この会場は最大で1万人入ります。"
+        },
+        {
+            "tu": "最中",
+            "loai_tu": "N",
+            "nghia": "đang trong lúc, giữa chừng",
+            "vi_du": "試合の最中に地震が起きた。"
+        },
+        {
+            "tu": "感情",
+            "loai_tu": "N",
+            "nghia": "cảm xúc, tình cảm",
+            "vi_du": "私は感情が表に出やすい。"
+        },
+        {
+            "tu": "事情",
+            "loai_tu": "N",
+            "nghia": "sự tình, hoàn cảnh, lý do",
+            "vi_du": "彼は中国に住んでいたから、中国の事情に詳しい。/ 家庭の事情で仕事をやめた。"
+        },
+        {
+            "tu": "情報",
+            "loai_tu": "N",
+            "nghia": "thông tin",
+            "vi_du": "事件の情報を集める。/ この本には、役に立つ情報がたくさんある。"
+        },
+        {
+            "tu": "表情",
+            "loai_tu": "N",
+            "nghia": "biểu cảm, nét mặt",
+            "vi_du": "彼女は表情がよく変わる。"
+        },
+        {
+            "tu": "友情",
+            "loai_tu": "N",
+            "nghia": "tình bạn",
+            "vi_du": "私たちは友情を大切にしている。/ 彼と私の間に、友情が生まれた。"
+        },
+        {
+            "tu": "調子",
+            "loai_tu": "N",
+            "nghia": "tình trạng, trạng thái",
+            "vi_du": "最近、体の調子がいい。/ パソコンの調子が悪くて、メールが送信できない。"
+        },
+        {
+            "tu": "熱",
+            "loai_tu": "N",
+            "nghia": "sốt, nhiệt, sức nóng",
+            "vi_du": "40度の熱が出て、会社を休んだ。/ 太陽の熱で、道路が熱くなっている。"
+        },
+        {
+            "tu": "急ぎ",
+            "loai_tu": "N",
+            "nghia": "khẩn cấp, vội vàng, gấp rút",
+            "vi_du": "課長から急ぎの仕事を頼まれた。"
+        },
+        {
+            "tu": "性格",
+            "loai_tu": "N",
+            "nghia": "tính cách",
+            "vi_du": "前の彼氏とは、性格が合わなくて別れた。/ 弟は顔はいいが、性格が悪い。"
+        },
+        {
+            "tu": "始め",
+            "loai_tu": "N",
+            "nghia": "lúc bắt đầu, lúc khởi đầu",
+            "vi_du": "授業の始めに単語テストをする。"
+        },
+        {
+            "tu": "始まり",
+            "loai_tu": "N",
+            "nghia": "sự khởi đầu, sự bắt đầu",
+            "vi_du": "雨の影響で試合の始まりが遅れた。"
+        },
+        {
+            "tu": "将来",
+            "loai_tu": "N",
+            "nghia": "tương lai",
+            "vi_du": "社長は会社の将来を考えている。"
+        },
+        {
+            "tu": "給料",
+            "loai_tu": "N",
+            "nghia": "tiền lương",
+            "vi_du": "給料が少ないので、違う仕事がしたい。"
+        },
+        {
+            "tu": "暮らし",
+            "loai_tu": "N",
+            "nghia": "cuộc sống",
+            "vi_du": "日本の暮らしに少しずつ慣れてきました。"
+        },
+        {
+            "tu": "壁",
+            "loai_tu": "N",
+            "nghia": "bức tường",
+            "vi_du": "部屋の壁に写真を飾った。"
+        },
+        {
+            "tu": "機械",
+            "loai_tu": "N",
+            "nghia": "máy móc",
+            "vi_du": "この機械の使い方を教えていただけませんか。"
+        },
+        {
+            "tu": "電球",
+            "loai_tu": "N",
+            "nghia": "bóng đèn tròn",
+            "vi_du": "あれ? 電気がつかない。電球が切れたのかな。"
+        },
+        {
+            "tu": "前日",
+            "loai_tu": "N",
+            "nghia": "ngày hôm trước",
+            "vi_du": "旅行の前日は、わくわくして眠れなかった。"
+        },
+        {
+            "tu": "全力",
+            "loai_tu": "N",
+            "nghia": "toàn lực, hết sức",
+            "vi_du": "駅まで全力で走って、ぎりぎり電車に間に合った。"
+        },
+        {
+            "tu": "悲しみ",
+            "loai_tu": "N",
+            "nghia": "nỗi buồn",
+            "vi_du": "彼女と別れた悲しみで、勉強する気分になれない。"
+        },
+        {
+            "tu": "困難",
+            "loai_tu": "N/A",
+            "nghia": "khó khăn, gian nan, trở ngại",
+            "vi_du": "事故で足をけがしているので、歩くのが困難だ。"
+        },
+        {
+            "tu": "最高",
+            "loai_tu": "N/A",
+            "nghia": "cao nhất, tuyệt vời",
+            "vi_du": "世界最高の山はエベレストです。/ 好きなチームが試合で勝って、最高の気分だ。"
+        },
+        {
+            "tu": "最低",
+            "loai_tu": "N/A",
+            "nghia": "thấp nhất, tối thiểu, tồi tệ",
+            "vi_du": "今日の最低気温は0度でした。/ あの男は嘘つきで、最低だ。"
+        },
+        {
+            "tu": "無理",
+            "loai_tu": "N/A",
+            "nghia": "quá sức, không thể",
+            "vi_du": "今日中にこの量の仕事を終わらせるなんて無理な話だ。/ 無理なお願いをしてしまい、すみません。"
+        },
+        {
+            "tu": "無駄",
+            "loai_tu": "N/A",
+            "nghia": "vô ích, lãng phí",
+            "vi_du": "部屋にある無駄な物を捨てる。/ 母は毎日近所の人と無駄話をしている。/ 料理を落として無駄にしてしまった。"
+        },
+        {
+            "tu": "豊か",
+            "loai_tu": "A",
+            "nghia": "phong phú, dư dả, giàu có",
+            "vi_du": "鈴木さんは音楽に関する知識が豊かだ。/ 妻と二人で豊かな暮らしを送る。"
+        },
+        {
+            "tu": "感情的",
+            "loai_tu": "A",
+            "nghia": "dễ xúc động, mang tính cảm xúc",
+            "vi_du": "彼は感情的になりやすい。/ 感情的になって、泣いてしまった。"
+        },
+        {
+            "tu": "固い",
+            "loai_tu": "A",
+            "nghia": "cứng, chặt, quả quyết, bảo thủ",
+            "vi_du": "この瓶は、ふたが固くて開かない。/ 息子の留学するという意志は固く、止められなかった。/ 父は頭が固くて、人の話を聞かない。"
+        },
+        {
+            "tu": "悲しい",
+            "loai_tu": "A",
+            "nghia": "buồn, đau khổ",
+            "vi_du": "ペットの犬が死んで、とても悲しい。"
+        },
+        {
+            "tu": "引く",
+            "loai_tu": "V",
+            "nghia": "kéo, gạch (chân), rút, trừ, thu hút",
+            "vi_du": "押しても引いてもドアが開かない。/ 重要な単語に線を引く。/ おみくじを引く。/ 5引く3は2。/ 大きい声で叫んだら、周囲の目を引いた。"
+        },
+        {
+            "tu": "運ぶ",
+            "loai_tu": "V",
+            "nghia": "vận chuyển",
+            "vi_du": "荷物を運ぶ。"
+        },
+        {
+            "tu": "治る",
+            "loai_tu": "V",
+            "nghia": "khỏi (bệnh), lành lại",
+            "vi_du": "なかなか風邪が治らない。/ 傷口が治る。"
+        },
+        {
+            "tu": "向かう",
+            "loai_tu": "V",
+            "nghia": "hướng đến, đối diện",
+            "vi_du": "今、ホテルに向かっています。/ 目標に向かって努力する。/ 先生に向かって失礼なことを言うべきではない。"
+        },
+        {
+            "tu": "届く",
+            "loai_tu": "V",
+            "nghia": "đến nơi, với tới",
+            "vi_du": "海外にいる友達から荷物が届いた。/ 危ない物は、子供の手が届かない所に置いてください。"
+        },
+        {
+            "tu": "抜く",
+            "loai_tu": "V",
+            "nghia": "nhổ, rút, vượt qua",
+            "vi_du": "ワインの栓を抜く。/ 肩の力を抜いて、気楽に生きよう。/ 彼を抜いて、私は一番になった。"
+        },
+        {
+            "tu": "抜ける",
+            "loai_tu": "V",
+            "nghia": "thoát ra, rơi, rụng, rời khỏi",
+            "vi_du": "トンネルを抜ける。/ バイクのタイヤの空気が抜けた。/ まつ毛が抜ける。/ 午前中は会社から抜けられない。"
+        },
+        {
+            "tu": "抜け出す",
+            "loai_tu": "V",
+            "nghia": "thoát ra, rời khỏi",
+            "vi_du": "授業中に教室を抜け出す。"
+        },
+        {
+            "tu": "壊す",
+            "loai_tu": "V",
+            "nghia": "phá hỏng, làm hỏng",
+            "vi_du": "彼はよく物を壊す。/ 体を壊したら大変です。/ 冷たい水をたくさん飲んだから、おなかを壊しちゃった。"
+        },
+        {
+            "tu": "壊れる",
+            "loai_tu": "V",
+            "nghia": "bị hỏng",
+            "vi_du": "テレビが壊れてつかない。"
+        },
+        {
+            "tu": "超える",
+            "loai_tu": "V",
+            "nghia": "vượt quá, vượt qua",
+            "vi_du": "入場者が100万人を超える。"
+        },
+        {
+            "tu": "開く",
+            "loai_tu": "V",
+            "nghia": "mở, (hoa) nở, khai trương, tổ chức",
+            "vi_du": "自動ドアが開く。/ 店は朝9時に開く。/ カーテンを開く。/ チューリップの花が開く。/ ネットでオンラインショップを開く。"
+        },
+        {
+            "tu": "解ける",
+            "loai_tu": "V",
+            "nghia": "được giải quyết, được giải tỏa, tuột ra, được cởi ra",
+            "vi_du": "謎が解ける。/ 緊張が解ける。/ 歩いていたら、靴のひもが解けてしまった。"
+        },
+        {
+            "tu": "暮らす",
+            "loai_tu": "V",
+            "nghia": "sống, sinh sống",
+            "vi_du": "家族と一緒に暮らしている"
+        },
+        {
+            "tu": "過ごす",
+            "loai_tu": "V",
+            "nghia": "trải qua, dành thời gian",
+            "vi_du": "休日は、家族と一緒に過ごしたい。"
+        },
+        {
+            "tu": "望む",
+            "loai_tu": "V",
+            "nghia": "mong muốn, kỳ vọng",
+            "vi_du": "最近は、結婚を望まない人が増えているらしい。"
+        },
+        {
+            "tu": "回す",
+            "loai_tu": "V",
+            "nghia": "xoay, vặn, chuyền, chuyển",
+            "vi_du": "車のハンドルを回す。/ 資料を読んだら、次の人に回してください。"
+        },
+        {
+            "tu": "回る",
+            "loai_tu": "V",
+            "nghia": "xoay quanh, đi vòng quanh, quay",
+            "vi_du": "月は地球の周りを回っている。/ 日本の有名な観光地を回った。"
+        },
+        {
+            "tu": "困る",
+            "loai_tu": "V",
+            "nghia": "gặp khó khăn, rắc rối, bối rối",
+            "vi_du": "道がわからなくて、困っています。"
+        },
+        {
+            "tu": "亡くなる",
+            "loai_tu": "V",
+            "nghia": "qua đời, mất",
+            "vi_du": "電車の事故で、大勢の人が亡くなった。"
+        },
+        {
+            "tu": "亡くす",
+            "loai_tu": "V",
+            "nghia": "mất đi, đánh mất",
+            "vi_du": "大切な人を亡くすのは辛い。"
+        },
+        {
+            "tu": "忘れる",
+            "loai_tu": "V",
+            "nghia": "quên, bỏ quên",
+            "vi_du": "友達の電話番号を忘れてしまった。"
+        },
+        {
+            "tu": "感じる",
+            "loai_tu": "V",
+            "nghia": "cảm thấy",
+            "vi_du": "今日は昨日より暖かく感じる。"
+        },
+        {
+            "tu": "知り合う",
+            "loai_tu": "V",
+            "nghia": "quen biết, làm quen",
+            "vi_du": "このイベントで、たくさんの人と知り合うことができました。"
+        },
+        {
+            "tu": "始まる",
+            "loai_tu": "V",
+            "nghia": "bắt đầu, khởi đầu",
+            "vi_du": "会議が始まる前に、参加者にこの資料を回してください。"
+        },
+        {
+            "tu": "願う",
+            "loai_tu": "V",
+            "nghia": "mong muốn, cầu xin",
+            "vi_du": "家族がみんな健康に過ごせることを願う。"
+        },
+        {
+            "tu": "祈る",
+            "loai_tu": "V",
+            "nghia": "cầu nguyện",
+            "vi_du": "世界平和のために祈る。"
+        },
+        {
+            "tu": "取る",
+            "loai_tu": "V",
+            "nghia": "lấy, giữ, đạt được, giành được, loại bỏ, bỏ đi, dành (thời gian)",
+            "vi_du": "ちょっと、そこにある塩を取ってもらえますか。/ 彼はオリンピックで金メダルを取った。/ レポートを書くために、十分な時間が取れなかった。"
+        },
+        {
+            "tu": "取り出す",
+            "loai_tu": "V",
+            "nghia": "lấy ra, rút ra",
+            "vi_du": "かばんから傘を取り出す。"
+        },
+        {
+            "tu": "取り付ける",
+            "loai_tu": "V",
+            "nghia": "lắp đặt, gắn vào, trang bị, thu xếp, sắp xếp được",
+            "vi_du": "車にカメラを取り付ける。/ 有名な会社の偉い人との約束を取り付けた。"
+        },
+        {
+            "tu": "受け取る",
+            "loai_tu": "V",
+            "nghia": "nhận, tiếp nhận, hiểu được",
+            "vi_du": "母からの荷物を受け取った。/ まだ家族ビザを受け取ってない。/ 彼の言葉をどう受け取ったらいいかわからなかった"
+        },
+        {
+            "tu": "取り上げる",
+            "loai_tu": "V",
+            "nghia": "đề cập, nêu lên, lấy đi, tịch thu",
+            "vi_du": "この薬の問題が、テレビで取り上げられた。/ 子供の手からおもちゃを取り上げた。"
+        },
+        {
+            "tu": "取り替える",
+            "loai_tu": "V",
+            "nghia": "thay thế, đổi lại",
+            "vi_du": "届いた商品が壊れていたので、取り替えてもらった。"
+        },
+        {
+            "tu": "取り消す",
+            "loai_tu": "V",
+            "nghia": "hủy bỏ, xóa bỏ",
+            "vi_du": "旅行に行けなくなったので、ホテルの予約を取り消した。/ 昨日言ったことは取り消すよ。"
+        },
+        {
+            "tu": "やり取り",
+            "loai_tu": "N",
+            "nghia": "trao đổi, trao đổi qua lại",
+            "vi_du": "友達とSNSでやり取りする。/ 遠くにいる祖母と手紙のやり取りをする。"
+        },
+        {
+            "tu": "遠回り",
+            "loai_tu": "N/A",
+            "nghia": "đi đường vòng, vòng vo",
+            "vi_du": "電車で行くと遠回りになるから、タクシーで行こう。/ 遠回りな言い方をしないではっきり言ってくれ。"
+        },
+        {
+            "tu": "回収",
+            "loai_tu": "N",
+            "nghia": "thu hồi, thu gom",
+            "vi_du": "毎朝8時にごみを回収する。"
+        },
+        {
+            "tu": "死亡",
+            "loai_tu": "N",
+            "nghia": "tử vong, qua đời",
+            "vi_du": "この病気で死亡する人が増えているそうだ。/ この男性の死亡原因はまだわかっていない。"
+        },
+        {
+            "tu": "希望",
+            "loai_tu": "N",
+            "nghia": "mong muốn, nguyện vọng",
+            "vi_du": "面接を希望する時間を知らせてください。/ 最近の若い人は、将来にあまり希望が持てないようだ。"
+        },
+        {
+            "tu": "後悔",
+            "loai_tu": "N",
+            "nghia": "hối hận, ăn năn",
+            "vi_du": "あの時、彼女を呼び止めなかったことを、今でも後悔しています。/ 誰でも失敗して後悔することはある。"
+        },
+        {
+            "tu": "寝坊",
+            "loai_tu": "N",
+            "nghia": "ngủ quên, ngủ nướng",
+            "vi_du": "寝坊して授業に遅れてしまった。/ 昨日は寝坊して遅刻しそうになったから、今日は早く起きた。"
+        },
+        {
+            "tu": "遅刻",
+            "loai_tu": "N",
+            "nghia": "trễ giờ, muộn giờ",
+            "vi_du": "寝坊して遅刻しそうになったから、今日は早く起きた。"
+        },
+        {
+            "tu": "貯金",
+            "loai_tu": "N",
+            "nghia": "tiền tiết kiệm, tiết kiệm tiền",
+            "vi_du": "車を買うために貯金している。"
+        },
+        {
+            "tu": "参加",
+            "loai_tu": "N",
+            "nghia": "tham gia",
+            "vi_du": "イベントに参加する。/ 飲み会への参加を希望する方は、私にメールしてください。"
+        },
+        {
+            "tu": "検査",
+            "loai_tu": "N",
+            "nghia": "kiểm tra, xét nghiệm, kiểm định",
+            "vi_du": "空港では、持ち物検査がある。"
+        },
+        {
+            "tu": "最も",
+            "loai_tu": "PT",
+            "nghia": "nhất",
+            "vi_du": "日本で最も暑いのは、7月と8月です。/ 彼は世界で最も有名なバスケットボール選手の一人だ。"
+        },
+        {
+            "tu": "ぎりぎり",
+            "loai_tu": "PT",
+            "nghia": "sát nút, suýt soát, vừa kịp",
+            "vi_du": "締め切りぎりぎりにレポートを提出した。"
+        }
+    ],
+    "ngu_phap": [
+        {
+            "cau_truc": "~ば~ほど",
+            "y_nghia": "Càng... càng...",
+            "cach_chia": "Vば Vるほど / Aければ Aいほど / Aな/Nなら Aな/Nほど / Aなであれば(Aなで) あるほど / Nであれば (Nで) あるほど",
+            "vi_du": [
+                "男性は背が高ければ高いほど人気がある。",
+                "あの人のことを知れば知るほど好きになる。",
+                "日本語が上手であればあるほど、日本の会社で働きやすくなる。"
+            ]
+        },
+        {
+            "cau_truc": "~ようなら",
+            "y_nghia": "Nếu như... (giả sử xảy ra một tình huống nào đó)",
+            "cach_chia": "Thể thường / Aな / Nの + ようなら / であれば",
+            "vi_du": [
+                "遅れるようなら、連絡してください。",
+                "この問題が解けないようなら、大学に行くのは無理だよ。",
+                "その荷物、一人で運ぶのが無理なようなら、手伝いますよ。"
+            ]
+        },
+        {
+            "cau_truc": "~ように",
+            "y_nghia": "Để V/ Để không V",
+            "cach_chia": "Vる/Vない + ように",
+            "vi_du": [
+                "この薬は子供でも飲めるように甘い味がついています。",
+                "この病院は、忙しい人でも来られるように、夜も開いています。",
+                "子供がゲームをやりすぎないように、2時間を超えて続けていたら、ゲームの機械を取り上げています。"
+            ]
+        },
+        {
+            "cau_truc": "~ようにする",
+            "y_nghia": "(Sẽ) Cố gắng V/ không V (để thực hiện được 1 mục tiêu nào đó)",
+            "cach_chia": "Vる/Vない + ようにする",
+            "vi_du": [
+                "もう大人なんですから、遅刻しないようにしましょう。",
+                "目に悪いから、寝る前にスマートフォンやパソコンを使わないようにしましょう。",
+                "赤ちゃんが口の中に入る大きさのものを持っていたら、すぐに取り上げるようにしてください。危ないですから。"
+            ]
+        },
+        {
+            "cau_truc": "~ようにしている",
+            "y_nghia": "Cố gắng (duy trì thói quen) làm/ không làm V",
+            "cach_chia": "Vる/Vない + ようにしている",
+            "vi_du": [
+                "健康のために、毎日野菜を食べるようにしています。",
+                "日本語が上手になりたいから、毎日日本語で話すようにしています。",
+                "無駄なものを買わないようにしています。"
+            ]
+        },
+        {
+            "cau_truc": "〜ところだ",
+            "y_nghia": "Sắp sửa/ chuẩn bị V (Vる) | Đúng vào lúc đang V (Vている) | Vừa mới V (Vた)",
+            "cach_chia": "Vる / Vている / Vた + ところだ",
+            "vi_du": [
+                "A:電球、取り替えた? B: これから取り替えるところ。",
+                "寝坊して急いでゴミを出しに行ったら、ちょうどゴミを回収しているところでした。",
+                "A:荷物、届きましたか。B:はい。ちょうど今、受け取ったところです。"
+            ]
+        },
+        {
+            "cau_truc": "~たばかり",
+            "y_nghia": "Vừa mới V",
+            "cach_chia": "Vた + ばかり",
+            "vi_du": [
+                "さっき帰ってきたばかりなので、まだメールをチェックしていないんです。",
+                "さっき聞いたばかりのことを、もう忘れちゃったの?",
+                "父を亡くしたばかりで、まだ悲しみから抜け出せない。"
+            ]
+        }
+    ]
+}

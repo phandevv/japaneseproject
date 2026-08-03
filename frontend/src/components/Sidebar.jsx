@@ -1,4 +1,4 @@
-import { BookOpen, ChevronLeft, ChevronRight, Cpu, Database, Home, Layers, Loader, LogIn, LogOut, MessageSquare, Palette, Search, ShieldCheck, Upload, LifeBuoy, Gamepad2, Sun, RefreshCw, Trophy, FileText, Sparkles } from "lucide-react";
+import { BookOpen, ChevronLeft, ChevronRight, Cpu, Database, Home, Layers, Loader, LogIn, LogOut, MessageSquare, Palette, Search, ShieldCheck, Upload, LifeBuoy, Gamepad2, Sun, RefreshCw, Trophy, FileText, Sparkles, GraduationCap } from "lucide-react";
 import { useRef, useState } from "react";
 import { useLanguage } from "../context/LanguageContext";
 import { useTheme } from "../context/ThemeContext";
@@ -74,6 +74,13 @@ const Sidebar = ({ isCollapsed, onToggleCollapse, currentPage, setCurrentPage, o
         >
           <Home size={17} />
           <span>Trang chủ</span>
+        </button>
+        <button
+          className={`sidebar-link${currentPage === "jlpt-n3" ? " active" : ""}`}
+          onClick={() => setCurrentPage("jlpt-n3")}
+        >
+          <GraduationCap size={17} />
+          <span>Ôn Luyện JLPT N3</span>
         </button>
         <button
           className={`sidebar-link${currentPage === "grammar" ? " active" : ""}`}
