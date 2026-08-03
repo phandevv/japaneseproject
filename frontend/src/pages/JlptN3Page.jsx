@@ -94,14 +94,23 @@ const isContainsKanji = (str) => {
     return lessonData.tu_vung.map((v, idx) => {
       const isKanji = v.tu && isContainsKanji(v.tu);
       return {
-        id: v.id || (idx + 1000),
+        id: v.id,
         kanji: isKanji ? v.tu : (v.kanji || v.tu),
         hiragana: v.furigana || v.hiragana || v.tu,
         meaning: v.nghia,
         hanViet: v.am_han || v.han_viet || '',
         wordType: v.loai_tu || 'N',
         level: 'N3',
-        sampleSentence: v.vi_du
+        sampleSentence: v.vi_du,
+        pitchAccent: v.pitchAccent,
+        mnemonic: v.mnemonic,
+        synonyms: v.synonyms,
+        antonyms: v.antonyms,
+        exampleSentences: v.exampleSentences,
+        collocations: v.collocations,
+        commonMistakes: v.commonMistakes,
+        conversationExamples: v.conversationExamples,
+        usageGuide: v.usageGuide
       };
     });
   }, [lessonData]);
@@ -110,14 +119,17 @@ const isContainsKanji = (str) => {
   const formattedKanjiWords = useMemo(() => {
     if (!lessonData || !lessonData.chu_han) return [];
     return lessonData.chu_han.map((k, idx) => ({
-      id: k.id || (idx + 2000),
+      id: k.id,
       kanji: k.kanji,
       hiragana: k.kanji,
       meaning: k.nghia,
       hanViet: k.han_viet || '',
       wordType: 'Kanji',
       level: 'N3',
-      sampleSentence: k.tu_vung ? k.tu_vung.join(', ') : ''
+      sampleSentence: k.tu_vung ? k.tu_vung.join(', ') : '',
+      pitchAccent: k.pitchAccent,
+      mnemonic: k.mnemonic,
+      exampleSentences: k.exampleSentences
     }));
   }, [lessonData]);
 
@@ -131,7 +143,7 @@ const isContainsKanji = (str) => {
       lessonData.tu_vung.forEach((v, idx) => {
         const isKanji = v.tu && isContainsKanji(v.tu);
         items.push({
-          id: v.id || `vocab-${idx}`,
+          id: v.id,
           kanji: isKanji ? v.tu : (v.kanji || v.tu),
           hiragana: v.furigana || v.hiragana || v.tu,
           meaning: v.nghia,
@@ -139,6 +151,15 @@ const isContainsKanji = (str) => {
           wordType: v.loai_tu || 'N',
           level: 'N3',
           sampleSentence: v.vi_du,
+          pitchAccent: v.pitchAccent,
+          mnemonic: v.mnemonic,
+          synonyms: v.synonyms,
+          antonyms: v.antonyms,
+          exampleSentences: v.exampleSentences,
+          collocations: v.collocations,
+          commonMistakes: v.commonMistakes,
+          conversationExamples: v.conversationExamples,
+          usageGuide: v.usageGuide,
           category: 'vocab',
           badge: `Từ Vựng [${v.loai_tu || 'N'}]`
         });
@@ -149,7 +170,7 @@ const isContainsKanji = (str) => {
     if (lessonData.chu_han && (flashcardCategory === 'all' || flashcardCategory === 'kanji')) {
       lessonData.chu_han.forEach((k, idx) => {
         items.push({
-          id: k.id || `kanji-${idx}`,
+          id: k.id,
           kanji: k.kanji,
           hiragana: k.kanji,
           meaning: k.nghia,
@@ -157,6 +178,9 @@ const isContainsKanji = (str) => {
           wordType: 'Kanji',
           level: 'N3',
           sampleSentence: k.tu_vung ? k.tu_vung.join(', ') : '',
+          pitchAccent: k.pitchAccent,
+          mnemonic: k.mnemonic,
+          exampleSentences: k.exampleSentences,
           category: 'kanji',
           badge: `Hán Tự • ${k.han_viet || ''}`
         });

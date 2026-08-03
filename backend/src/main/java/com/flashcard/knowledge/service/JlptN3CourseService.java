@@ -33,16 +33,19 @@ public class JlptN3CourseService {
     private final JlptN3ProgressRepository progressRepository;
     private final VocabularyRepository vocabularyRepository;
     private final GrammarCardRepository grammarCardRepository;
+    private final DeepSeekEnrichmentService enrichmentService;
     private final ObjectMapper objectMapper;
 
     @Autowired
     public JlptN3CourseService(JlptN3ProgressRepository progressRepository,
                                VocabularyRepository vocabularyRepository,
                                GrammarCardRepository grammarCardRepository,
+                               DeepSeekEnrichmentService enrichmentService,
                                ObjectMapper objectMapper) {
         this.progressRepository = progressRepository;
         this.vocabularyRepository = vocabularyRepository;
         this.grammarCardRepository = grammarCardRepository;
+        this.enrichmentService = enrichmentService;
         this.objectMapper = objectMapper;
     }
 
@@ -209,7 +212,7 @@ public class JlptN3CourseService {
         Map<String, Object> data = objectMapper.convertValue(root, Map.class);
         data.put("available", true);
 
-        // Enrich tu_vung list items with database IDs for DeepSeek AI enrichment
+        // Enrich tu_vung list items with database IDs & DeepSeek AI fields
         if (data.containsKey("tu_vung") && data.get("tu_vung") instanceof List) {
             @SuppressWarnings("unchecked")
             List<Map<String, Object>> vocabList = (List<Map<String, Object>>) data.get("tu_vung");
@@ -220,18 +223,52 @@ public class JlptN3CourseService {
                     if (dbVocab.isEmpty()) {
                         dbVocab = vocabularyRepository.findFirstByHiragana(tu);
                     }
+
+                    Vocabulary v;
                     if (dbVocab.isPresent()) {
-                        Vocabulary v = dbVocab.get();
-                        vItem.put("id", v.getId());
-                        if (v.getKanji() != null) vItem.put("kanji", v.getKanji());
-                        if (v.getHiragana() != null) vItem.put("hiragana", v.getHiragana());
-                        if (v.getHanViet() != null) vItem.put("hanViet", v.getHanViet());
+                        v = dbVocab.get();
+                    } else {
+                        // Dynamically save missing N3 vocabulary into DB to assign a persistent ID
+                        v = new Vocabulary();
+                        boolean isKanji = tu.codePoints().anyMatch(Character::isIdeographic);
+                        if (isKanji) {
+                            v.setKanji(tu);
+                            v.setHiragana(tu);
+                        } else {
+                            v.setHiragana(tu);
+                            v.setKanji(tu);
+                        }
+                        v.setMeaning(vItem.containsKey("nghia") ? String.valueOf(vItem.get("nghia")) : "");
+                        v.setWordType(vItem.containsKey("loai_tu") ? String.valueOf(vItem.get("loai_tu")) : "N");
+                        v.setSampleSentence(vItem.containsKey("vi_du") ? String.valueOf(vItem.get("vi_du")) : "");
+                        v.setLevel("N3");
+                        v.setCategory("Tổng ôn N3 - Bài " + lesson);
+                        v = vocabularyRepository.saveAndFlush(v);
+                    }
+
+                    vItem.put("id", v.getId());
+                    if (v.getKanji() != null) vItem.put("kanji", v.getKanji());
+                    if (v.getHiragana() != null) vItem.put("hiragana", v.getHiragana());
+                    if (v.getHanViet() != null) vItem.put("hanViet", v.getHanViet());
+                    if (v.getPitchAccent() != null) vItem.put("pitchAccent", v.getPitchAccent());
+                    if (v.getMnemonic() != null) vItem.put("mnemonic", v.getMnemonic());
+                    if (v.getSynonyms() != null) vItem.put("synonyms", v.getSynonyms());
+                    if (v.getAntonyms() != null) vItem.put("antonyms", v.getAntonyms());
+                    if (v.getExampleSentences() != null) vItem.put("exampleSentences", v.getExampleSentences());
+                    if (v.getCollocations() != null) vItem.put("collocations", v.getCollocations());
+                    if (v.getCommonMistakes() != null) vItem.put("commonMistakes", v.getCommonMistakes());
+                    if (v.getConversationExamples() != null) vItem.put("conversationExamples", v.getConversationExamples());
+                    if (v.getUsageGuide() != null) vItem.put("usageGuide", v.getUsageGuide());
+
+                    // Trigger DeepSeek AI enrichment in background if missing AI fields
+                    if (enrichmentService != null) {
+                        enrichmentService.enrichVocabulary(v);
                     }
                 }
             }
         }
 
-        // Enrich chu_han list items with database IDs
+        // Enrich chu_han list items with database IDs & DeepSeek AI fields
         if (data.containsKey("chu_han") && data.get("chu_han") instanceof List) {
             @SuppressWarnings("unchecked")
             List<Map<String, Object>> kanjiList = (List<Map<String, Object>>) data.get("chu_han");
@@ -240,7 +277,14 @@ public class JlptN3CourseService {
                 if (!kanji.isEmpty()) {
                     Optional<Vocabulary> dbKanji = vocabularyRepository.findFirstByKanji(kanji);
                     if (dbKanji.isPresent()) {
-                        kItem.put("id", dbKanji.get().getId());
+                        Vocabulary kVocab = dbKanji.get();
+                        kItem.put("id", kVocab.getId());
+                        if (kVocab.getPitchAccent() != null) kItem.put("pitchAccent", kVocab.getPitchAccent());
+                        if (kVocab.getMnemonic() != null) kItem.put("mnemonic", kVocab.getMnemonic());
+                        if (kVocab.getExampleSentences() != null) kItem.put("exampleSentences", kVocab.getExampleSentences());
+                        if (enrichmentService != null) {
+                            enrichmentService.enrichVocabulary(kVocab);
+                        }
                     }
                 }
             }
