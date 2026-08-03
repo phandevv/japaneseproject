@@ -269,15 +269,21 @@ public class JlptN3CourseService {
 
             String originalName = file.getOriginalFilename();
             try {
-                JsonNode root = objectMapper.readTree(file.getInputStream());
+                byte[] bytes = file.getBytes();
+                if (bytes == null || bytes.length == 0) {
+                    details.add("Tệp " + originalName + " trống (0 byte).");
+                    continue;
+                }
+
+                JsonNode root = objectMapper.readTree(bytes);
                 int chuong = root.path("chuong").asInt(1);
                 int bai = root.path("bai").asInt(1);
 
-                // 1. Save uploaded file to persistent storage directory uploads/n3/Chuong_{c}/Bai_{l}.json
+                // 1. Save uploaded file content persistently to uploads/n3/Chuong_{c}/Bai_{l}.json
                 Path targetDir = Paths.get("uploads", "n3", "Chuong_" + chuong);
                 Files.createDirectories(targetDir);
                 Path targetPath = targetDir.resolve("Bai_" + bai + ".json");
-                Files.copy(file.getInputStream(), targetPath, StandardCopyOption.REPLACE_EXISTING);
+                Files.write(targetPath, bytes, java.nio.file.StandardOpenOption.CREATE, java.nio.file.StandardOpenOption.TRUNCATE_EXISTING);
 
                 int fileVocab = 0;
                 int fileKanji = 0;
@@ -406,10 +412,14 @@ public class JlptN3CourseService {
 
                 details.add(String.format("Đã nạp %s (Chương %d - Bài %d): %d từ vựng, %d chữ Hán, %d ngữ pháp", originalName, chuong, bai, fileVocab, fileKanji, fileGrammar));
             } catch (Exception e) {
-                log.error("Failed to process uploaded file {}: {}", originalName, e.getMessage());
+                log.error("Failed to process uploaded file {}: {}", originalName, e.getMessage(), e);
                 details.add("Lỗi khi đọc " + originalName + ": " + e.getMessage());
             }
         }
+
+        vocabularyRepository.flush();
+        grammarCardRepository.flush();
+        log.info("Persisted to DB: {} files, {} vocab, {} kanji, {} grammar.", processedFilesCount, importedVocab, importedKanji, importedGrammar);
 
         Map<String, Object> response = new HashMap<>();
         response.put("success", true);
