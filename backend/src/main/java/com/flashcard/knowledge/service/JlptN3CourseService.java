@@ -241,7 +241,7 @@ public class JlptN3CourseService {
                         v.setMeaning(vItem.containsKey("nghia") ? String.valueOf(vItem.get("nghia")) : "");
                         v.setWordType(vItem.containsKey("loai_tu") ? String.valueOf(vItem.get("loai_tu")) : "N");
                         v.setSampleSentence(vItem.containsKey("vi_du") ? String.valueOf(vItem.get("vi_du")) : "");
-                        v.setLevel("N3");
+                        v.setLevel("N3_COURSE");
                         v.setCategory("Tổng ôn N3 - Bài " + lesson);
                         v = vocabularyRepository.saveAndFlush(v);
                     }
@@ -357,7 +357,7 @@ public class JlptN3CourseService {
                         }
                         if (hanViet != null && !hanViet.isEmpty()) v.setHanViet(hanViet);
                         if (nghia != null && !nghia.isEmpty()) v.setMeaning(nghia);
-                        v.setLevel("N3");
+                        v.setLevel("N3_COURSE");
                         v.setCategory("Tổng ôn N3 - Bài " + bai);
 
                         if (!tuVungList.isEmpty()) {
@@ -403,7 +403,7 @@ public class JlptN3CourseService {
                         if (nghia != null && !nghia.isEmpty()) v.setMeaning(nghia);
                         if (loaiTu != null && !loaiTu.isEmpty()) v.setWordType(loaiTu);
                         if (viDu != null && !viDu.isEmpty()) v.setSampleSentence(viDu);
-                        v.setLevel("N3");
+                        v.setLevel("N3_COURSE");
                         v.setCategory("Tổng ôn N3 - Bài " + bai);
 
                         vocabularyRepository.save(v);

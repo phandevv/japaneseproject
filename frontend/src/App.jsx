@@ -381,11 +381,7 @@ function App() {
           <AuthPage onCancel={() => navigate('/')} onSuccess={handleLoginSuccess} />
         );
       case 'jlpt-n3':
-        return isAuthenticated ? (
-          <JlptN3Page />
-        ) : (
-          <AuthPage onCancel={() => navigate('/')} onSuccess={handleLoginSuccess} />
-        );
+        return <JlptN3Page />;
       default:
         return <HomePage startStudy={startStudy} user={isAuthenticated ? authUser : null} />;
     }
