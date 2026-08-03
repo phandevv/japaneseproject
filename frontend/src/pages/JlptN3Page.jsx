@@ -83,11 +83,16 @@ const JlptN3Page = () => {
     }
   };
 
+const isContainsKanji = (str) => {
+  if (!str || typeof str !== 'string') return false;
+  return /[\u4e00-\u9faf\u3400-\u4dbf]/.test(str);
+};
+
   // Convert tu_vung items into standard Vocabulary objects expected by KanjiDetailModal & FlashcardCard
   const formattedVocabWords = useMemo(() => {
     if (!lessonData || !lessonData.tu_vung) return [];
     return lessonData.tu_vung.map((v, idx) => {
-      const isKanji = v.tu && v.tu.codePoints().anyMatch(Character => Character.isIdeographic);
+      const isKanji = v.tu && isContainsKanji(v.tu);
       return {
         id: v.id || (idx + 1000),
         kanji: isKanji ? v.tu : (v.kanji || v.tu),
@@ -124,7 +129,7 @@ const JlptN3Page = () => {
     // Vocab Items
     if (lessonData.tu_vung && (flashcardCategory === 'all' || flashcardCategory === 'vocab')) {
       lessonData.tu_vung.forEach((v, idx) => {
-        const isKanji = v.tu && v.tu.codePoints().anyMatch(Character => Character.isIdeographic);
+        const isKanji = v.tu && isContainsKanji(v.tu);
         items.push({
           id: v.id || `vocab-${idx}`,
           kanji: isKanji ? v.tu : (v.kanji || v.tu),
