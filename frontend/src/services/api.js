@@ -574,6 +574,18 @@ export const jlptN3Api = {
   importData: async () => {
     const response = await axios.post(`${API_BASE_URL}/jlpt-n3/import`);
     return response.data;
+  },
+  uploadJsonFiles: async (fileList) => {
+    const formData = new FormData();
+    for (let i = 0; i < fileList.length; i++) {
+      formData.append('files', fileList[i]);
+    }
+    const response = await axios.post(`${API_BASE_URL}/jlpt-n3/upload-json`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    });
+    return response.data;
   }
 };
 

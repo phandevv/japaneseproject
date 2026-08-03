@@ -1,12 +1,13 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { 
   BookOpen, CheckCircle, ChevronRight, ChevronLeft, RotateCcw, 
   Trophy, ArrowLeft, Play, Sparkles, Layers, List, Award, 
-  HelpCircle, AlertCircle, Volume2, Shuffle
+  HelpCircle, AlertCircle, Volume2, Shuffle, Upload, FileText
 } from 'lucide-react';
 import { jlptN3Api } from '../services/api';
 
 const JlptN3Page = () => {
+  const fileInputRef = useRef(null);
   // State for Course & Lesson Navigation
   const [phase, setPhase] = useState('overview'); // 'overview' | 'lesson'
   const [overview, setOverview] = useState(null);
@@ -309,23 +310,46 @@ const JlptN3Page = () => {
     );
   };
 
-  const [importingDb, setImportingDb] = useState(false);
+  const [uploadingFiles, setUploadingFiles] = useState(false);
 
-  const handleTriggerImport = async () => {
-    setImportingDb(true);
+  const handleFileUploadClick = () => {
+    if (fileInputRef.current) {
+      fileInputRef.current.click();
+    }
+  };
+
+  const handleFilesSelected = async (e) => {
+    const selectedFiles = e.target.files;
+    if (!selectedFiles || selectedFiles.length === 0) return;
+
+    setUploadingFiles(true);
     try {
-      const res = await jlptN3Api.importData();
-      alert(`Nhập dữ liệu N3 vào CSDL thành công!\n• ${res.importedVocab} từ vựng\n• ${res.importedKanji} chữ Hán\n• ${res.importedGrammar} ngữ pháp`);
+      const res = await jlptN3Api.uploadJsonFiles(selectedFiles);
+      let summaryText = `🎉 Tải lên & Nạp dữ liệu thành công ${res.processedFiles} tệp JSON!\n\n` +
+        `• ${res.importedVocab} từ vựng mới/cập nhật\n` +
+        `• ${res.importedKanji} chữ Hán mới/cập nhật\n` +
+        `• ${res.importedGrammar} mẫu ngữ pháp mới/cập nhật\n\n` +
+        (res.details ? res.details.join('\n') : '');
+      alert(summaryText);
       loadOverview();
     } catch (err) {
-      alert("Lỗi nhập dữ liệu: " + (err.response?.data?.message || err.message));
+      alert("Lỗi tải tệp JSON: " + (err.response?.data?.message || err.message));
     } finally {
-      setImportingDb(false);
+      setUploadingFiles(false);
+      if (e.target) e.target.value = '';
     }
   };
 
   return (
     <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '24px 20px' }}>
+      <input
+        type="file"
+        ref={fileInputRef}
+        accept=".json"
+        multiple
+        onChange={handleFilesSelected}
+        style={{ display: 'none' }}
+      />
       
       {/* ───────────────────────────────────────────────────────────────────────
           PHASE 1: CHAPTERS & LESSONS OVERVIEW
@@ -344,17 +368,19 @@ const JlptN3Page = () => {
                 <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '4px 14px', background: 'rgba(255,255,255,0.2)', borderRadius: '20px', fontSize: '0.85rem', fontWeight: 600 }}>
                   <Award size={16} /> Lộ trình Tổng ôn JLPT N3
                 </div>
+                
                 <button
-                  onClick={handleTriggerImport}
-                  disabled={importingDb}
+                  onClick={handleFileUploadClick}
+                  disabled={uploadingFiles}
                   style={{
-                    padding: '6px 14px', borderRadius: '12px', border: 'none',
-                    background: 'rgba(255,255,255,0.25)', color: 'white', fontWeight: 700,
-                    fontSize: '0.85rem', cursor: importingDb ? 'not-allowed' : 'pointer',
-                    backdropFilter: 'blur(4px)', transition: 'all 0.2s ease'
+                    padding: '8px 18px', borderRadius: '12px', border: 'none',
+                    background: 'linear-gradient(135deg, #10b981, #059669)', color: 'white', fontWeight: 800,
+                    fontSize: '0.9rem', cursor: uploadingFiles ? 'not-allowed' : 'pointer',
+                    boxShadow: '0 4px 14px rgba(16,185,129,0.35)', display: 'inline-flex', alignItems: 'center', gap: '8px',
+                    transition: 'all 0.2s ease'
                   }}
                 >
-                  {importingDb ? 'Đang nạp...' : '📥 Import dữ liệu vào CSDL hệ thống'}
+                  <Upload size={16} /> {uploadingFiles ? 'Đang nạp tệp...' : '📁 Tải Lên Tệp JSON (Chọn từ máy tính)'}
                 </button>
               </div>
               <h1 style={{ margin: '0 0 10px 0', fontSize: '2.2rem', fontWeight: 800 }}>

@@ -90,4 +90,14 @@ public class JlptN3CourseController {
         Map<String, Object> result = dataLoader.importAllN3Data();
         return ResponseEntity.ok(result);
     }
+
+    /**
+     * Upload JSON file(s) via native OS File Picker and import them dynamically into system database & course storage.
+     * POST /api/jlpt-n3/upload-json
+     */
+    @PostMapping("/upload-json")
+    public ResponseEntity<?> uploadJsonFiles(@RequestParam("files") org.springframework.web.multipart.MultipartFile[] files) {
+        Map<String, Object> result = courseService.processUploadedJsonFiles(files);
+        return ResponseEntity.ok(result);
+    }
 }
