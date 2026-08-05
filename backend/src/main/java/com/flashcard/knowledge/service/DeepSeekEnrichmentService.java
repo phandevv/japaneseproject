@@ -87,16 +87,16 @@ public class DeepSeekEnrichmentService {
                 String level = vocab.getLevel() != null ? vocab.getLevel().trim().toUpperCase() : "N3";
 
                 String prompt = String.format(
-                    "Bạn là một chuyên gia biên soạn từ điển tiếng Nhật cao cấp. Hãy làm giàu thông tin cho từ vựng sau bằng tiếng Việt:\n" +
-                    "Từ: \"%s\"\n" +
-                    "Cách đọc: %s\n" +
+                    "Bạn là một chuyên gia biên soạn từ điển tiếng Nhật cao cấp. Hãy làm giàu thông tin và ĐÍNH CHÍNH CÁCH ĐỌC Hiragana/Katakana chuẩn xác nhất cho từ vựng sau bằng tiếng Việt:\n" +
+                    "Từ kanji/kana chính: \"%s\"\n" +
+                    "Cách đọc ban đầu (có thể sai): %s\n" +
                     "Nghĩa ban đầu: %s\n" +
                     "Cấp độ JLPT: %s\n\n" +
-                    "Yêu cầu dữ liệu cực kỳ chi tiết, chính xác, không dùng tiếng Trung hay tiếng Anh để giải nghĩa. Mọi giải thích, dịch ví dụ bắt buộc phải là tiếng Việt.\n" +
+                    "Yêu cầu dữ liệu cực kỳ chi tiết, chính xác. ĐẶC BIỆT CHÚ Ý: Kiểm tra kỹ từ kanji chính để cung cấp cách đọc Hiragana/Katakana chuẩn xác tuyệt đối trong trường \"reading\" (ví dụ từ 他 thì cách đọc chuẩn là ほか, nếu cách đọc ban đầu sai thì bắt buộc phải đính chính lại). Mọi giải thích, dịch ví dụ bắt buộc phải là tiếng Việt.\n" +
                     "Hãy trả về JSON duy nhất, không markdown:\n" +
                     "{\n" +
                     "  \"word\": \"từ kanji hoặc kana chính xác\",\n" +
-                    "  \"reading\": \"hiragana/katakana cách đọc\",\n" +
+                    "  \"reading\": \"cách đọc hiragana/katakana chuẩn xác nhất tuyệt đối (đã đính chính nếu cách đọc cũ sai)\",\n" +
                     "  \"meaning\": \"nghĩa tiếng Việt chính xác\",\n" +
                     "  \"hanViet\": \"âm Hán Việt (nếu có, viết hoa, ví dụ: THỰC SỰ)\",\n" +
                     "  \"jlpt\": \"cấp độ JLPT từ N5 đến N1\",\n" +
@@ -157,6 +157,12 @@ public class DeepSeekEnrichmentService {
 
                                     JsonNode contentNode = objectMapper.readTree(contentJson);
                                     
+                                    // Overwrite hiragana reading with accurate reading from DeepSeek AI
+                                    String aiReading = contentNode.path("reading").asText();
+                                    if (aiReading != null && !aiReading.trim().isEmpty()) {
+                                        vocab.setHiragana(aiReading.trim());
+                                    }
+
                                     // Map simple fields
                                     vocab.setPitchAccent(contentNode.path("pitchAccent").asText());
                                     vocab.setWordType(contentNode.path("wordType").asText());
