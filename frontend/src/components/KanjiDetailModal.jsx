@@ -617,13 +617,30 @@ const KanjiDetailModal = ({ words, initialIndex = 0, onClose, vocab }) => {
     setShowSampleHint(false);
   }, [currentIndex]);
 
+  // Helper to check if word has rich AI enrichment
+  const hasRichEnrichment = (w) => {
+    return w && (
+      (typeof w.pitchAccent === 'string' && w.pitchAccent.trim().length > 0) ||
+      (typeof w.mnemonic === 'string' && w.mnemonic.trim().length > 0) ||
+      (typeof w.usageGuide === 'string' && w.usageGuide.trim().length > 0) ||
+      (typeof w.collocations === 'string' && w.collocations.trim().length > 0) ||
+      (typeof w.commonMistakes === 'string' && w.commonMistakes.trim().length > 0) ||
+      (typeof w.exampleSentences === 'string' && w.exampleSentences.trim().length > 0) ||
+      (typeof w.conversationExamples === 'string' && w.conversationExamples.trim().length > 0) ||
+      (typeof w.synonyms === 'string' && w.synonyms.trim().length > 0) ||
+      (typeof w.antonyms === 'string' && w.antonyms.trim().length > 0)
+    );
+  };
+
   useEffect(() => {
     if (!word) return;
 
-    if (word.sampleSentence) {
+    if (hasRichEnrichment(word)) {
       setEnriched(word);
       return;
     }
+
+    if (!word.id) return;
 
     setEnriched(null);
     setLoadingEnrich(true);
@@ -634,12 +651,9 @@ const KanjiDetailModal = ({ words, initialIndex = 0, onClose, vocab }) => {
     vocabApi.enrich(word.id)
       .then(data => {
         if (!active) return;
-        if (data.sampleSentence) {
-          // Mutate parent object to cache the enrichment
-          word.sampleSentence = data.sampleSentence;
-          word.sampleReading = data.sampleReading;
-          word.sampleTranslation = data.sampleTranslation;
-          word.kanjiWords = data.kanjiWords;
+        if (hasRichEnrichment(data)) {
+          // Mutate parent object to cache enrichment
+          Object.assign(word, data);
 
           setEnriched(data);
           setLoadingEnrich(false);
@@ -649,11 +663,8 @@ const KanjiDetailModal = ({ words, initialIndex = 0, onClose, vocab }) => {
             vocabApi.getById(word.id)
               .then(pollData => {
                 if (!active) return;
-                if (pollData.sampleSentence) {
-                  word.sampleSentence = pollData.sampleSentence;
-                  word.sampleReading = pollData.sampleReading;
-                  word.sampleTranslation = pollData.sampleTranslation;
-                  word.kanjiWords = pollData.kanjiWords;
+                if (hasRichEnrichment(pollData)) {
+                  Object.assign(word, pollData);
 
                   setEnriched(pollData);
                   setLoadingEnrich(false);

@@ -17,9 +17,19 @@ const FlashcardCard = ({ word, flipped, onFlip, onRateWord }) => {
     };
   }, [word]);
 
-  // Check if word already has rich AI enrichment data (not just sampleSentence)
+  // Check if word already has rich AI enrichment data
   const hasRichEnrichment = (w) => {
-    return w && (w.pitchAccent || w.wordType || w.mnemonic || w.synonyms || w.antonyms || w.kanjiWords || w.commonMistakes || w.exampleSentences || w.collocations || w.conversationExamples);
+    return w && (
+      (typeof w.pitchAccent === 'string' && w.pitchAccent.trim().length > 0) ||
+      (typeof w.mnemonic === 'string' && w.mnemonic.trim().length > 0) ||
+      (typeof w.usageGuide === 'string' && w.usageGuide.trim().length > 0) ||
+      (typeof w.collocations === 'string' && w.collocations.trim().length > 0) ||
+      (typeof w.commonMistakes === 'string' && w.commonMistakes.trim().length > 0) ||
+      (typeof w.exampleSentences === 'string' && w.exampleSentences.trim().length > 0) ||
+      (typeof w.conversationExamples === 'string' && w.conversationExamples.trim().length > 0) ||
+      (typeof w.synonyms === 'string' && w.synonyms.trim().length > 0) ||
+      (typeof w.antonyms === 'string' && w.antonyms.trim().length > 0)
+    );
   };
 
   useEffect(() => {

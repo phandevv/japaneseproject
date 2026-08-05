@@ -720,7 +720,7 @@ const isContainsKanji = (str) => {
 
                       {/* REUSED FLASHCARD CARD COMPONENT */}
                       {currentFlashcardWord && (
-                        <div style={{ width: '100%', maxWidth: '560px' }}>
+                        <div style={{ width: '100%', maxWidth: '1050px', margin: '0 auto' }}>
                           <FlashcardCard 
                             word={currentFlashcardWord}
                             flipped={isFlipped}
