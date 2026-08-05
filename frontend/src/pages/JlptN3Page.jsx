@@ -36,7 +36,7 @@ const JlptN3Page = () => {
   const [listSubTab, setListSubTab] = useState('vocab'); // 'kanji' | 'vocab' | 'grammar'
   const [hideMeanings, setHideMeanings] = useState(false);
 
-  // Quiz State
+  // Quiz State (Matching Daily Study Quiz Options & Logic)
   const [quizState, setQuizState] = useState('setup'); // 'setup' | 'playing' | 'finished'
   const [quizQuestions, setQuizQuestions] = useState([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
@@ -45,6 +45,32 @@ const JlptN3Page = () => {
   const [quizResult, setQuizResult] = useState(null);
   const [submittingQuiz, setSubmittingQuiz] = useState(false);
   const [uploadingFiles, setUploadingFiles] = useState(false);
+
+  // Daily Study Quiz Setup Configuration Options
+  const [quizQuestionType, setQuizQuestionType] = useState('ja-to-vi'); // 'ja-to-vi' | 'vi-to-ja'
+  const [showHiraganaHint, setShowHiraganaHint] = useState(true);
+  const [quizOptType, setQuizOptType] = useState('all'); // 'all' | 'random' | 'range'
+  const [quizOptRandomCount, setQuizOptRandomCount] = useState(15);
+  const [quizOptRangeStart, setQuizOptRangeStart] = useState(1);
+  const [quizOptRangeEnd, setQuizOptRangeEnd] = useState(15);
+  const [quizSetupError, setQuizSetupError] = useState('');
+  const [elapsedSeconds, setElapsedSeconds] = useState(0);
+  const [mistakes, setMistakes] = useState([]);
+
+  // Quiz Timer Effect
+  useEffect(() => {
+    let timer = null;
+    if (quizState === 'playing') {
+      timer = setInterval(() => {
+        setElapsedSeconds(prev => prev + 1);
+      }, 1000);
+    } else {
+      setElapsedSeconds(0);
+    }
+    return () => {
+      if (timer) clearInterval(timer);
+    };
+  }, [quizState, currentQuestionIndex]);
 
   // Load Overview Data on mount
   const loadOverview = async () => {
@@ -240,62 +266,25 @@ const isContainsKanji = (str) => {
     }
   };
 
-  // Generate Quiz Questions from Lesson Data
+  // Generate Quiz Questions from Lesson Data based on selected Options
   const startQuiz = () => {
     if (!lessonData) return;
+    setQuizSetupError('');
 
-    const questions = [];
-
-    // 1. Kanji Questions
-    if (lessonData.chu_han && lessonData.chu_han.length > 0) {
-      lessonData.chu_han.forEach((k, idx) => {
-        const wrongKanji = lessonData.chu_han.filter((_, i) => i !== idx);
-        const distractors = wrongKanji.map(item => `${item.han_viet} (${item.nghia})`);
-        while (distractors.length < 3) {
-          distractors.push(`Ý nghĩa ${distractors.length + 1}`);
-        }
-        const correctAnswer = `${k.han_viet} (${k.nghia})`;
-        const options = shuffleArray([correctAnswer, ...distractors.slice(0, 3)]);
-
-        questions.push({
-          id: `q-kanji-${idx}`,
-          category: 'Kanji',
-          question: `Chữ Hán "${k.kanji}" có âm Hán Việt và nghĩa là gì?`,
-          options,
-          correctAnswer,
-          wordObj: {
-            id: k.id,
-            kanji: k.kanji,
-            hiragana: k.kanji,
-            meaning: k.nghia,
-            hanViet: k.han_viet
-          }
-        });
-      });
-    }
-
-    // 2. Vocab Questions
+    // Combine all study items (chu_han, tu_vung, ngu_phap)
+    let allPool = [];
     if (lessonData.tu_vung && lessonData.tu_vung.length > 0) {
-      lessonData.tu_vung.forEach((v, idx) => {
-        const wrongVocab = lessonData.tu_vung.filter((_, i) => i !== idx);
-        const distractors = wrongVocab.map(item => item.nghia);
-        while (distractors.length < 3) {
-          distractors.push(`Nghĩa ${distractors.length + 1}`);
-        }
-
-        const correctAnswer = v.nghia;
-        const options = shuffleArray([correctAnswer, ...distractors.slice(0, 3)]);
-
-        questions.push({
-          id: `q-vocab-${idx}`,
+      lessonData.tu_vung.forEach((v) => {
+        allPool.push({
+          type: 'vocab',
           category: 'Từ vựng',
-          question: `Từ vựng "${v.tu}" có nghĩa là gì?`,
-          options,
-          correctAnswer,
+          ja: v.tu,
+          hiragana: v.furigana || v.hiragana || v.tu,
+          vi: v.nghia,
           wordObj: {
             id: v.id,
             kanji: v.tu,
-            hiragana: v.furigana || v.tu,
+            hiragana: v.furigana || v.hiragana || v.tu,
             meaning: v.nghia,
             hanViet: v.am_han || ''
           }
@@ -303,35 +292,107 @@ const isContainsKanji = (str) => {
       });
     }
 
-    // 3. Grammar Questions
+    if (lessonData.chu_han && lessonData.chu_han.length > 0) {
+      lessonData.chu_han.forEach((k) => {
+        allPool.push({
+          type: 'kanji',
+          category: 'Kanji',
+          ja: k.kanji,
+          hiragana: k.kanji,
+          vi: `${k.han_viet ? k.han_viet + ' - ' : ''}${k.nghia}`,
+          wordObj: {
+            id: k.id,
+            kanji: k.kanji,
+            hiragana: k.kanji,
+            meaning: k.nghia,
+            hanViet: k.han_viet || ''
+          }
+        });
+      });
+    }
+
     if (lessonData.ngu_phap && lessonData.ngu_phap.length > 0) {
-      lessonData.ngu_phap.forEach((g, idx) => {
-        const wrongGrammar = lessonData.ngu_phap.filter((_, i) => i !== idx);
-        const distractors = wrongGrammar.map(item => item.y_nghia);
-        while (distractors.length < 3) {
-          distractors.push(`Ý nghĩa ngữ pháp ${distractors.length + 1}`);
-        }
-
-        const correctAnswer = g.y_nghia;
-        const options = shuffleArray([correctAnswer, ...distractors.slice(0, 3)]);
-
-        questions.push({
-          id: `q-grammar-${idx}`,
+      lessonData.ngu_phap.forEach((g) => {
+        allPool.push({
+          type: 'grammar',
           category: 'Ngữ pháp',
-          question: `Cấu trúc ngữ pháp "${g.cau_truc}" mang ý nghĩa gì?`,
-          options,
-          correctAnswer,
+          ja: g.cau_truc,
+          hiragana: g.cau_truc,
+          vi: g.y_nghia,
           wordObj: null
         });
       });
     }
 
-    const finalQuestions = shuffleArray(questions).slice(0, 15);
+    if (allPool.length === 0) {
+      setQuizSetupError('Chưa có dữ liệu từ vựng/ngữ pháp nào để tạo bài Quiz.');
+      return;
+    }
 
-    setQuizQuestions(finalQuestions);
+    // Scope filtering
+    let selectedItems = [...allPool];
+    if (quizOptType === 'random') {
+      const count = Math.min(Math.max(1, parseInt(quizOptRandomCount) || 15), allPool.length);
+      selectedItems = shuffleArray(allPool).slice(0, count);
+    } else if (quizOptType === 'range') {
+      const start = Math.max(1, parseInt(quizOptRangeStart) || 1) - 1;
+      const end = Math.min(parseInt(quizOptRangeEnd) || allPool.length, allPool.length);
+      if (start >= end) {
+        setQuizSetupError(`Khoảng câu hỏi không hợp lệ (từ ${start + 1} đến ${end}).`);
+        return;
+      }
+      selectedItems = allPool.slice(start, end);
+    }
+
+    // Build Quiz Questions based on Direction Selection
+    const questions = selectedItems.map((item, idx) => {
+      let questionText = '';
+      let correctAnswer = '';
+      let distractors = [];
+
+      if (quizQuestionType === 'ja-to-vi') {
+        questionText = item.type === 'grammar' 
+          ? `Cấu trúc "${item.ja}" có nghĩa là gì?`
+          : item.type === 'kanji'
+          ? `Hán tự "${item.ja}" có nghĩa là gì?`
+          : `Từ vựng "${item.ja}" có nghĩa là gì?`;
+        correctAnswer = item.vi;
+
+        const otherItems = allPool.filter(x => x.vi !== item.vi);
+        distractors = shuffleArray(otherItems).map(x => x.vi).slice(0, 3);
+        while (distractors.length < 3) {
+          distractors.push(`Ý nghĩa ${distractors.length + 1}`);
+        }
+      } else {
+        // vi-to-ja
+        questionText = `Ý nghĩa "${item.vi}" tương ứng với từ/cấu trúc tiếng Nhật nào?`;
+        correctAnswer = item.ja;
+
+        const otherItems = allPool.filter(x => x.ja !== item.ja);
+        distractors = shuffleArray(otherItems).map(x => x.ja).slice(0, 3);
+        while (distractors.length < 3) {
+          distractors.push(`Từ ${distractors.length + 1}`);
+        }
+      }
+
+      const options = shuffleArray([correctAnswer, ...distractors.slice(0, 3)]);
+
+      return {
+        id: `q-${idx}`,
+        category: item.category,
+        question: questionText,
+        options,
+        correctAnswer,
+        item,
+        wordObj: item.wordObj
+      };
+    });
+
+    setQuizQuestions(questions);
     setCurrentQuestionIndex(0);
     setUserAnswers({});
     setQuizScore(0);
+    setMistakes([]);
     setQuizResult(null);
     setQuizState('playing');
   };
@@ -354,21 +415,52 @@ const isContainsKanji = (str) => {
 
   const handleSubmitQuiz = async () => {
     let score = 0;
+    const wrongList = [];
     quizQuestions.forEach((q, idx) => {
       if (userAnswers[idx] === q.correctAnswer) {
         score++;
+      } else {
+        wrongList.push(q.item);
       }
     });
+
     setQuizScore(score);
+    setMistakes(wrongList);
     setSubmittingQuiz(true);
 
+    const total = quizQuestions.length;
+    const accuracy = Math.round((score / total) * 100);
+    const isPassed = accuracy >= 90;
+
     try {
-      const res = await jlptN3Api.submitQuiz(selectedChapter, selectedLesson, score, quizQuestions.length);
-      setQuizResult(res);
+      if (quizOptType === 'all' || isPassed) {
+        const res = await jlptN3Api.submitQuiz(selectedChapter, selectedLesson, score, total);
+        setQuizResult({
+          score,
+          total,
+          accuracy,
+          passed: isPassed,
+          backendMsg: res.message
+        });
+        loadOverview();
+      } else {
+        setQuizResult({
+          score,
+          total,
+          accuracy,
+          passed: isPassed
+        });
+      }
       setQuizState('finished');
-      loadOverview();
     } catch (err) {
       console.error("Error submitting quiz:", err);
+      setQuizResult({
+        score,
+        total,
+        accuracy,
+        passed: isPassed
+      });
+      setQuizState('finished');
     } finally {
       setSubmittingQuiz(false);
     }
@@ -912,23 +1004,176 @@ const isContainsKanji = (str) => {
 
 
               {/* ───────────────────────────────────────────────────────────────
-                  TAB 3: QUIZ TEST (With DeepSeek AI Breakdown & Pass >= 90%)
+                  TAB 3: QUIZ TEST (Identical to Daily Study Quiz with Options & Pass >= 90%)
                  ─────────────────────────────────────────────────────────────── */}
               {activeTab === 'quiz' && (
                 <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '20px', padding: '20px 0' }}>
                   
-                  {/* QUIZ SETUP SCREEN */}
+                  {/* QUIZ SETUP SCREEN (Configuration Modal Identical to Daily Study) */}
                   {quizState === 'setup' && (
-                    <div style={{ background: 'var(--surface-color)', border: '1px solid var(--border-color)', borderRadius: '20px', padding: '36px', maxWidth: '520px', width: '100%', textAlign: 'center', display: 'flex', flexDirection: 'column', gap: '16px' }}>
-                      <div style={{ width: '64px', height: '64px', borderRadius: '50%', background: 'rgba(37,99,235,0.1)', color: 'var(--accent-color)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto' }}>
-                        <Sparkles size={32} />
+                    <div style={{ background: 'var(--surface-color)', border: '1px solid var(--border-color)', borderRadius: '20px', padding: '36px', maxWidth: '600px', width: '100%', display: 'flex', flexDirection: 'column', gap: '20px' }}>
+                      <div style={{ textAlign: 'center' }}>
+                        <div style={{ width: '64px', height: '64px', borderRadius: '50%', background: 'rgba(37,99,235,0.1)', color: 'var(--accent-color)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 12px auto' }}>
+                          <Sparkles size={32} />
+                        </div>
+                        <h2 style={{ margin: '0 0 6px 0', fontSize: '1.6rem', color: 'var(--text-primary)' }}>
+                          Cấu hình Quiz Kiểm tra - Bài {selectedLesson}
+                        </h2>
+                        <p style={{ margin: 0, color: 'var(--text-secondary)', fontSize: '0.92rem', lineHeight: 1.5 }}>
+                          Đạt <strong style={{ color: '#10b981' }}>≥ 90%</strong> điểm số ở chế độ kiểm tra tất cả từ vựng để mở khóa hoàn thành Bài học!
+                        </p>
                       </div>
-                      <h2 style={{ margin: 0, fontSize: '1.6rem', color: 'var(--text-primary)' }}>
-                        Bài Kiểm Tra Bài {selectedLesson}
-                      </h2>
-                      <p style={{ margin: 0, color: 'var(--text-secondary)', fontSize: '0.95rem', lineHeight: 1.5 }}>
-                        Bài test bao gồm các câu hỏi trắc nghiệm về Hán tự, Từ vựng & Ngữ Pháp của Bài {selectedLesson}. Đạt <strong style={{ color: '#10b981' }}>≥ 90%</strong> điểm số để chính thức vượt qua Bài học này!
-                      </p>
+
+                      {/* Question Direction Selection */}
+                      <div style={{ paddingBottom: '16px', borderBottom: '1px solid var(--border-color)' }}>
+                        <label style={{ display: 'block', fontWeight: 600, marginBottom: '10px', fontSize: '0.95rem' }}>
+                          Dạng câu hỏi Quiz:
+                        </label>
+                        <div style={{ display: 'flex', gap: '12px' }}>
+                          <button 
+                            type="button"
+                            className={`btn ${quizQuestionType === 'vi-to-ja' ? 'btn-primary' : 'btn-secondary'}`}
+                            style={{ flex: 1, padding: '10px 8px', fontSize: '0.88rem', borderRadius: '10px' }}
+                            onClick={() => setQuizQuestionType('vi-to-ja')}
+                          >
+                            Nghĩa Việt → Tiếng Nhật
+                          </button>
+                          <button 
+                            type="button"
+                            className={`btn ${quizQuestionType === 'ja-to-vi' ? 'btn-primary' : 'btn-secondary'}`}
+                            style={{ flex: 1, padding: '10px 8px', fontSize: '0.88rem', borderRadius: '10px' }}
+                            onClick={() => setQuizQuestionType('ja-to-vi')}
+                          >
+                            Tiếng Nhật → Nghĩa Việt
+                          </button>
+                        </div>
+                      </div>
+
+                      {/* Hiragana Hint Option */}
+                      {quizQuestionType === 'ja-to-vi' && (
+                        <div style={{ paddingBottom: '16px', borderBottom: '1px solid var(--border-color)', display: 'flex', alignItems: 'center', gap: '10px' }}>
+                          <input 
+                            type="checkbox" 
+                            id="showHiraganaHintJlpt" 
+                            checked={showHiraganaHint} 
+                            onChange={(e) => setShowHiraganaHint(e.target.checked)} 
+                            style={{ width: '18px', height: '18px', cursor: 'pointer' }}
+                          />
+                          <label htmlFor="showHiraganaHintJlpt" style={{ fontWeight: 600, cursor: 'pointer', fontSize: '0.92rem' }}>
+                            Hiển thị cách đọc Hiragana (Furigana) kèm Kanji
+                          </label>
+                        </div>
+                      )}
+
+                      {/* Quiz Scope Options */}
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
+                        <label style={{ display: 'block', fontWeight: 600, fontSize: '0.95rem' }}>
+                          Phạm vi & Số lượng câu hỏi:
+                        </label>
+
+                        {/* Option: All */}
+                        <label style={{ 
+                          display: 'flex', alignItems: 'center', gap: '12px', padding: '14px 16px', borderRadius: '12px', 
+                          border: `1.5px solid ${quizOptType === 'all' ? 'var(--accent-color)' : 'var(--border-color)'}`,
+                          backgroundColor: quizOptType === 'all' ? 'rgba(37,99,235,0.06)' : 'transparent', cursor: 'pointer'
+                        }}>
+                          <input 
+                            type="radio" 
+                            name="quizOptTypeJlpt" 
+                            value="all" 
+                            checked={quizOptType === 'all'} 
+                            onChange={() => setQuizOptType('all')} 
+                          />
+                          <div>
+                            <strong style={{ fontSize: '0.95rem' }}>Tất cả các nội dung trong bài</strong>
+                            <div style={{ fontSize: '0.82rem', color: 'var(--text-secondary)', marginTop: '2px' }}>
+                              Kiểm tra toàn bộ từ vựng, chữ Hán & ngữ pháp của Bài {selectedLesson} (Bắt buộc đạt ≥ 90% để qua bài)
+                            </div>
+                          </div>
+                        </label>
+
+                        {/* Option: Random */}
+                        <label style={{ 
+                          display: 'flex', flexDirection: 'column', gap: '10px', padding: '14px 16px', borderRadius: '12px', 
+                          border: `1.5px solid ${quizOptType === 'random' ? 'var(--accent-color)' : 'var(--border-color)'}`,
+                          backgroundColor: quizOptType === 'random' ? 'rgba(37,99,235,0.06)' : 'transparent', cursor: 'pointer'
+                        }}>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                            <input 
+                              type="radio" 
+                              name="quizOptTypeJlpt" 
+                              value="random" 
+                              checked={quizOptType === 'random'} 
+                              onChange={() => setQuizOptType('random')} 
+                            />
+                            <div>
+                              <strong style={{ fontSize: '0.95rem' }}>Chọn ngẫu nhiên câu hỏi</strong>
+                              <div style={{ fontSize: '0.82rem', color: 'var(--text-secondary)', marginTop: '2px' }}>
+                                Lấy ngẫu nhiên một số câu hỏi từ bài học để kiểm tra nhanh
+                              </div>
+                            </div>
+                          </div>
+                          {quizOptType === 'random' && (
+                            <div style={{ paddingLeft: '28px', display: 'flex', alignItems: 'center', gap: '10px' }}>
+                              <input 
+                                type="number" 
+                                min="1" 
+                                max="50"
+                                value={quizOptRandomCount}
+                                onChange={(e) => setQuizOptRandomCount(e.target.value)}
+                                style={{ padding: '8px 12px', borderRadius: '8px', border: '1px solid var(--border-color)', background: 'var(--surface-color)', color: 'var(--text-primary)', width: '90px' }}
+                              />
+                              <span style={{ fontSize: '0.88rem', color: 'var(--text-secondary)' }}>câu hỏi</span>
+                            </div>
+                          )}
+                        </label>
+
+                        {/* Option: Range */}
+                        <label style={{ 
+                          display: 'flex', flexDirection: 'column', gap: '10px', padding: '14px 16px', borderRadius: '12px', 
+                          border: `1.5px solid ${quizOptType === 'range' ? 'var(--accent-color)' : 'var(--border-color)'}`,
+                          backgroundColor: quizOptType === 'range' ? 'rgba(37,99,235,0.06)' : 'transparent', cursor: 'pointer'
+                        }}>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                            <input 
+                              type="radio" 
+                              name="quizOptTypeJlpt" 
+                              value="range" 
+                              checked={quizOptType === 'range'} 
+                              onChange={() => setQuizOptType('range')} 
+                            />
+                            <div>
+                              <strong style={{ fontSize: '0.95rem' }}>Theo khoảng câu hỏi</strong>
+                              <div style={{ fontSize: '0.82rem', color: 'var(--text-secondary)', marginTop: '2px' }}>
+                                Kiểm tra theo thứ tự vị trí từ câu A đến câu B
+                              </div>
+                            </div>
+                          </div>
+                          {quizOptType === 'range' && (
+                            <div style={{ paddingLeft: '28px', display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
+                              <span>Từ câu</span>
+                              <input 
+                                type="number" min="1" value={quizOptRangeStart}
+                                onChange={(e) => setQuizOptRangeStart(e.target.value)}
+                                style={{ padding: '8px 12px', borderRadius: '8px', border: '1px solid var(--border-color)', background: 'var(--surface-color)', color: 'var(--text-primary)', width: '80px' }}
+                              />
+                              <span>đến câu</span>
+                              <input 
+                                type="number" min="1" value={quizOptRangeEnd}
+                                onChange={(e) => setQuizOptRangeEnd(e.target.value)}
+                                style={{ padding: '8px 12px', borderRadius: '8px', border: '1px solid var(--border-color)', background: 'var(--surface-color)', color: 'var(--text-primary)', width: '80px' }}
+                              />
+                            </div>
+                          )}
+                        </label>
+                      </div>
+
+                      {quizSetupError && (
+                        <div style={{ background: 'rgba(239, 68, 68, 0.1)', color: '#ef4444', padding: '12px', borderRadius: '8px', fontSize: '0.88rem', fontWeight: 600 }}>
+                          {quizSetupError}
+                        </div>
+                      )}
+
                       <button
                         onClick={startQuiz}
                         style={{
@@ -944,14 +1189,17 @@ const isContainsKanji = (str) => {
 
                   {/* QUIZ PLAYING SCREEN */}
                   {quizState === 'playing' && quizQuestions.length > 0 && (
-                    <div style={{ background: 'var(--surface-color)', border: '1px solid var(--border-color)', borderRadius: '20px', padding: '28px', maxWidth: '640px', width: '100%', display: 'flex', flexDirection: 'column', gap: '20px' }}>
+                    <div style={{ background: 'var(--surface-color)', border: '1px solid var(--border-color)', borderRadius: '20px', padding: '28px', maxWidth: '680px', width: '100%', display: 'flex', flexDirection: 'column', gap: '20px' }}>
                       
-                      {/* Question Header & Progress */}
-                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                        <span style={{ fontSize: '0.85rem', fontWeight: 700, padding: '4px 10px', borderRadius: '10px', background: 'rgba(37,99,235,0.1)', color: 'var(--accent-color)' }}>
+                      {/* Question Header & Progress & Timer */}
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', color: 'var(--text-secondary)', fontSize: '0.9rem', fontWeight: 600 }}>
+                        <span style={{ fontSize: '0.85rem', padding: '4px 10px', borderRadius: '10px', background: 'rgba(37,99,235,0.1)', color: 'var(--accent-color)' }}>
                           {quizQuestions[currentQuestionIndex]?.category}
                         </span>
-                        <span style={{ fontSize: '0.9rem', color: 'var(--text-secondary)', fontWeight: 600 }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                          ⏱️ {elapsedSeconds}s
+                        </div>
+                        <span>
                           Câu {currentQuestionIndex + 1} / {quizQuestions.length}
                         </span>
                       </div>
@@ -961,9 +1209,16 @@ const isContainsKanji = (str) => {
                       </div>
 
                       {/* Question Text */}
-                      <h3 style={{ margin: '10px 0 0 0', fontSize: '1.3rem', color: 'var(--text-primary)', lineHeight: 1.4 }}>
-                        {quizQuestions[currentQuestionIndex]?.question}
-                      </h3>
+                      <div style={{ textAlign: 'center', margin: '10px 0' }}>
+                        <h3 className="font-jp" style={{ fontSize: '1.6rem', color: 'var(--text-primary)', lineHeight: 1.4, margin: '0 0 6px 0' }}>
+                          {quizQuestions[currentQuestionIndex]?.question}
+                        </h3>
+                        {showHiraganaHint && quizQuestionType === 'ja-to-vi' && quizQuestions[currentQuestionIndex]?.item?.hiragana && (
+                          <div style={{ fontSize: '1rem', color: 'var(--accent-color)', fontStyle: 'italic' }}>
+                            Cách đọc: {quizQuestions[currentQuestionIndex].item.hiragana}
+                          </div>
+                        )}
+                      </div>
 
                       {/* 4 Options */}
                       <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
@@ -975,8 +1230,8 @@ const isContainsKanji = (str) => {
                               onClick={() => handleSelectOption(opt)}
                               style={{
                                 padding: '16px 20px', borderRadius: '12px', border: `2px solid ${isSelected ? 'var(--accent-color)' : 'var(--border-color)'}`,
-                                background: isSelected ? 'rgba(37,99,235,0.06)' : 'var(--surface-color)',
-                                color: 'var(--text-primary)', fontSize: '1rem', fontWeight: isSelected ? 700 : 500,
+                                background: isSelected ? 'rgba(37,99,235,0.08)' : 'var(--surface-color)',
+                                color: 'var(--text-primary)', fontSize: '1.05rem', fontWeight: isSelected ? 700 : 500,
                                 cursor: 'pointer', textAlign: 'left', transition: 'all 0.15s ease'
                               }}
                             >
@@ -992,7 +1247,7 @@ const isContainsKanji = (str) => {
                           <h4 style={{ margin: '0 0 10px 0', fontSize: '0.95rem', color: 'var(--accent-color)', fontWeight: 700 }}>
                             🤖 Giải thích Chi Tiết DeepSeek AI cho từ này:
                           </h4>
-                          <AiEnrichedTabbedView word={quizQuestions[currentQuestionIndex].wordObj} />
+                          <AiEnrichedTabbedView data={quizQuestions[currentQuestionIndex].wordObj} />
                         </div>
                       )}
 
@@ -1032,7 +1287,7 @@ const isContainsKanji = (str) => {
 
                   {/* QUIZ FINISHED SCREEN */}
                   {quizState === 'finished' && quizResult && (
-                    <div style={{ background: 'var(--surface-color)', border: '1px solid var(--border-color)', borderRadius: '24px', padding: '36px', maxWidth: '520px', width: '100%', textAlign: 'center', display: 'flex', flexDirection: 'column', gap: '20px' }}>
+                    <div style={{ background: 'var(--surface-color)', border: '1px solid var(--border-color)', borderRadius: '24px', padding: '36px', maxWidth: '640px', width: '100%', textAlign: 'center', display: 'flex', flexDirection: 'column', gap: '20px' }}>
                       <div style={{
                         width: '80px', height: '80px', borderRadius: '50%',
                         background: quizResult.passed ? 'linear-gradient(135deg, #10b981, #059669)' : 'linear-gradient(135deg, #ef4444, #f59e0b)',
@@ -1044,9 +1299,9 @@ const isContainsKanji = (str) => {
 
                       <div>
                         <h2 style={{ margin: '0 0 6px 0', fontSize: '1.8rem', color: 'var(--text-primary)' }}>
-                          {quizResult.passed ? 'Chúc mừng! Đã hoàn thành Bài!' : 'Chưa đạt chỉ tiêu (≥ 90%)'}
+                          {quizResult.passed ? 'Chúc mừng! Đã đạt tiêu chuẩn Hoàn thành! 🎉' : 'Chưa đạt chỉ tiêu (≥ 90%) ⚠️'}
                         </h2>
-                        <div style={{ fontSize: '3rem', fontWeight: 800, color: quizResult.passed ? '#10b981' : '#ef4444' }}>
+                        <div style={{ fontSize: '3rem', fontWeight: 900, color: quizResult.passed ? '#10b981' : '#ef4444' }}>
                           {quizResult.accuracy}%
                         </div>
                         <p style={{ margin: '4px 0 0 0', color: 'var(--text-secondary)', fontSize: '1rem' }}>
@@ -1054,22 +1309,57 @@ const isContainsKanji = (str) => {
                         </p>
                       </div>
 
-                      <p style={{ margin: 0, color: 'var(--text-secondary)', fontSize: '0.92rem', lineHeight: 1.5 }}>
+                      <p style={{ margin: 0, color: 'var(--text-secondary)', fontSize: '0.95rem', lineHeight: 1.5 }}>
                         {quizResult.passed 
-                          ? 'Bạn đã đạt điểm số xuất sắc và vượt qua Bài học này! Trạng thái hoàn thành đã được ghi nhận.'
-                          : 'Cần đạt ≥ 90% điểm số để mở khóa trạng thái Hoàn thành. Hãy làm lại để ôn tập kiến thức nhé!'}
+                          ? 'Bạn đã đạt trên 90% điểm số! Trạng thái hoàn thành xuất sắc Bài học này đã được lưu vào hệ thống.'
+                          : 'Cần đạt ≥ 90% điểm số ở chế độ kiểm tra toàn bộ để hoàn thành bài học. Hãy xem các từ chưa đúng bên dưới và thử lại nhé!'}
                       </p>
 
-                      <div style={{ display: 'flex', gap: '12px', justifyContent: 'center', marginTop: '10px' }}>
+                      {/* Incorrect / Mistakes List Table */}
+                      {mistakes.length > 0 && (
+                        <div style={{ width: '100%', textAlign: 'left', marginTop: '10px' }}>
+                          <h4 style={{ margin: '0 0 10px 0', fontSize: '1rem', color: '#ef4444', fontWeight: 700 }}>
+                            Các câu đã làm chưa đúng ({mistakes.length} câu):
+                          </h4>
+                          <div style={{ border: '1px solid var(--border-color)', borderRadius: '12px', overflow: 'hidden', background: 'var(--surface-hover)' }}>
+                            <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.88rem' }}>
+                              <thead>
+                                <tr style={{ borderBottom: '1px solid var(--border-color)', color: 'var(--text-secondary)' }}>
+                                  <th style={{ padding: '10px 14px' }}>Tiếng Nhật</th>
+                                  <th style={{ padding: '10px 14px' }}>Cách đọc</th>
+                                  <th style={{ padding: '10px 14px' }}>Nghĩa tiếng Việt</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                {mistakes.map((item, idx) => (
+                                  <tr key={idx} style={{ borderBottom: '1px solid var(--border-color)' }}>
+                                    <td className="font-jp" style={{ padding: '10px 14px', fontWeight: 800, color: 'var(--text-primary)' }}>{item.ja}</td>
+                                    <td className="font-jp" style={{ padding: '10px 14px', color: 'var(--accent-color)' }}>{item.hiragana}</td>
+                                    <td style={{ padding: '10px 14px', color: 'var(--success-color)' }}>{item.vi}</td>
+                                  </tr>
+                                ))}
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+                      )}
+
+                      <div style={{ display: 'flex', gap: '12px', justifyContent: 'center', marginTop: '10px', flexWrap: 'wrap' }}>
                         <button
                           onClick={startQuiz}
-                          style={{ padding: '14px 24px', borderRadius: '12px', border: '1px solid var(--border-color)', background: 'var(--surface-color)', fontWeight: 700, cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: '6px' }}
+                          style={{ padding: '14px 22px', borderRadius: '12px', border: '1px solid var(--border-color)', background: 'var(--surface-color)', fontWeight: 700, cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: '6px' }}
                         >
                           <RotateCcw size={16} /> Làm lại Quiz
                         </button>
                         <button
+                          onClick={() => setActiveTab('flashcard')}
+                          style={{ padding: '14px 22px', borderRadius: '12px', border: '1px solid var(--border-color)', background: 'var(--surface-hover)', fontWeight: 700, cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: '6px' }}
+                        >
+                          <BookOpen size={16} /> Ôn thẻ Flashcard
+                        </button>
+                        <button
                           onClick={() => setPhase('overview')}
-                          style={{ padding: '14px 24px', borderRadius: '12px', border: 'none', background: 'var(--accent-color)', color: 'white', fontWeight: 700, cursor: 'pointer' }}
+                          style={{ padding: '14px 22px', borderRadius: '12px', border: 'none', background: 'var(--accent-color)', color: 'white', fontWeight: 800, cursor: 'pointer' }}
                         >
                           Danh sách Chương ➔
                         </button>
