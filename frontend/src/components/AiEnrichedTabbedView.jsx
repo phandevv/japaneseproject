@@ -30,7 +30,7 @@ export default function AiEnrichedTabbedView({ data }) {
   const hasOldSentence = !exampleSentences.length && data.sampleSentence;
 
   return (
-    <div className="knowledge-card vocabulary-card-modern enriched-tabbed-view animate-fade-in" style={{ marginTop: '12px', border: '1px solid var(--border-color)', borderRadius: '12px', overflow: 'hidden', background: 'var(--surface-color)', boxShadow: 'var(--shadow-sm)' }}>
+    <div className="knowledge-card vocabulary-card-modern enriched-tabbed-view animate-fade-in" style={{ marginTop: '0px', border: '1px solid var(--border-color)', borderRadius: '12px', overflow: 'hidden', background: 'var(--surface-color)', boxShadow: 'var(--shadow-sm)', minHeight: '480px', display: 'flex', flexDirection: 'column' }}>
       {/* Mini header for context details */}
       <div style={{ padding: '10px 16px', borderBottom: '1px solid var(--border-color)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', backgroundColor: 'var(--surface-hover)' }}>
         <span style={{ fontSize: '0.82rem', color: 'var(--text-secondary)' }}>
@@ -70,9 +70,9 @@ export default function AiEnrichedTabbedView({ data }) {
       </div>
 
       {/* Content */}
-      <div style={{ padding: '14px 16px', height: '480px', overflowY: 'auto', textAlign: 'left' }} className="custom-scrollbar">
+      <div style={{ padding: '14px 16px', height: '420px', minHeight: '420px', overflowY: 'auto', textAlign: 'left', flex: 1 }} className="custom-scrollbar">
         {activeCardTab === 'core' && (
-          <div className="card-tab-content animate-fade-in" style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
+          <div className="card-tab-content animate-fade-in" style={{ display: 'flex', flexDirection: 'column', gap: '14px', minHeight: '380px' }}>
             {data.usageGuide && (
               <div style={{ padding: '12px 14px', background: 'rgba(37,99,235,0.06)', borderRadius: '10px', border: '1px solid rgba(37,99,235,0.18)' }}>
                 <h5 style={{ margin: '0 0 6px 0', fontSize: '0.85rem', color: 'var(--accent-color)', fontWeight: '700', display: 'flex', alignItems: 'center', gap: '6px' }}>
@@ -126,8 +126,8 @@ export default function AiEnrichedTabbedView({ data }) {
               </div>
             )}
 
-            {!data.mnemonic && kanjiWords.length === 0 && synonyms.length === 0 && antonyms.length === 0 && (
-              <div style={{ color: 'var(--text-muted)', fontSize: '0.8rem', fontStyle: 'italic', textAlign: 'center', padding: '20px 0' }}>
+            {!data.mnemonic && kanjiWords.length === 0 && synonyms.length === 0 && antonyms.length === 0 && !data.usageGuide && (
+              <div style={{ color: 'var(--text-muted)', fontSize: '0.85rem', fontStyle: 'italic', textAlign: 'center', minHeight: '260px', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'var(--surface-hover)', borderRadius: '10px', padding: '20px' }}>
                 Không có thêm thông tin cốt lõi nào khác.
               </div>
             )}
@@ -135,7 +135,7 @@ export default function AiEnrichedTabbedView({ data }) {
         )}
 
         {activeCardTab === 'context' && (
-          <div className="card-tab-content animate-fade-in" style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
+          <div className="card-tab-content animate-fade-in" style={{ display: 'flex', flexDirection: 'column', gap: '14px', minHeight: '380px' }}>
             {(exampleSentences.length > 0 || hasOldSentence) && (
               <div>
                 <h5 style={{ margin: '0 0 8px 0', fontSize: '0.85rem', color: 'var(--accent-color)', fontWeight: '600' }}>📝 Câu ví dụ mẫu</h5>
@@ -189,7 +189,7 @@ export default function AiEnrichedTabbedView({ data }) {
             )}
 
             {!exampleSentences.length && !hasOldSentence && !collocations.length && !conversations.length && (
-              <div style={{ color: 'var(--text-muted)', fontSize: '0.8rem', fontStyle: 'italic', textAlign: 'center', padding: '20px 0' }}>
+              <div style={{ color: 'var(--text-muted)', fontSize: '0.85rem', fontStyle: 'italic', textAlign: 'center', minHeight: '260px', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'var(--surface-hover)', borderRadius: '10px', padding: '20px' }}>
                 Không tìm thấy câu ví dụ hoặc ngữ cảnh ứng dụng nào.
               </div>
             )}
@@ -197,7 +197,7 @@ export default function AiEnrichedTabbedView({ data }) {
         )}
 
         {activeCardTab === 'practice' && (
-          <div className="card-tab-content animate-fade-in" style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
+          <div className="card-tab-content animate-fade-in" style={{ display: 'flex', flexDirection: 'column', gap: '14px', minHeight: '380px' }}>
             {commonMistakes.length > 0 ? (
               <div>
                 <h5 style={{ margin: '0 0 8px 0', fontSize: '0.85rem', color: 'var(--danger-color)', fontWeight: '600' }}>⚠️ Lỗi thường gặp (Common Mistakes)</h5>
@@ -211,7 +211,7 @@ export default function AiEnrichedTabbedView({ data }) {
                 </div>
               </div>
             ) : (
-              <div style={{ color: 'var(--text-muted)', fontSize: '0.8rem', fontStyle: 'italic', textAlign: 'center', padding: '20px 0' }}>
+              <div style={{ color: 'var(--text-muted)', fontSize: '0.85rem', fontStyle: 'italic', textAlign: 'center', minHeight: '260px', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'var(--surface-hover)', borderRadius: '10px', padding: '20px' }}>
                 ✨ Tuyệt vời! Không có lỗi sai phổ biến nào được ghi nhận cho từ vựng này.
               </div>
             )}
