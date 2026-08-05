@@ -1,0 +1,668 @@
+{
+    "chuong": 2,
+    "bai": 2,
+    "chu_han": [
+        {
+            "kanji": "意",
+            "han_viet": "Ý",
+            "nghia": "ý chí, ý nghĩa, suy nghĩ",
+            "tu_vung": [
+                "意義 (ý nghĩa, giá trị)",
+                "意志 (ý chí, quyết tâm)",
+                "意識 (ý thức, nhận thức, để ý đến điều gì đó)",
+                "意外 (ngoài dự kiến, bất ngờ, không ngờ tới)",
+                "得意 (giỏi, tự tin về lĩnh vực nào đó, sở trường)"
+            ]
+        },
+        {
+            "kanji": "識",
+            "han_viet": "THỨC",
+            "nghia": "nhận thức, hiểu biết",
+            "tu_vung": [
+                "意識 (ý thức, nhận thức)",
+                "常識 (kiến thức thông thường, lẽ thường)",
+                "知識 (trí thức, kiến thức)"
+            ]
+        },
+        {
+            "kanji": "職",
+            "han_viet": "CHỨC",
+            "nghia": "nghề nghiệp, công việc",
+            "tu_vung": [
+                "就職 (tìm việc, xin việc)",
+                "職員 (nhân viên, cán bộ)",
+                "職業 (nghề nghiệp, công việc chính)",
+                "退職 (nghỉ việc, từ chức, thôi việc)"
+            ]
+        },
+        {
+            "kanji": "接",
+            "han_viet": "TIẾP",
+            "nghia": "tiếp xúc, kết nối",
+            "tu_vung": [
+                "直接 (trực tiếp)",
+                "面接 (phỏng vấn)",
+                "間接的 (một cách gián tiếp)"
+            ]
+        },
+        {
+            "kanji": "翌",
+            "han_viet": "DỰC",
+            "nghia": "ngày hôm sau, kế tiếp",
+            "tu_vung": [
+                "翌~ ((hôm) sau, (năm) sau)",
+                "翌年 (năm sau)",
+                "翌朝 (sáng hôm sau)",
+                "翌日 (ngày hôm sau)"
+            ]
+        },
+        {
+            "kanji": "産",
+            "han_viet": "SẢN",
+            "nghia": "sinh sản, sản xuất",
+            "tu_vung": [
+                "お土産 (quà lưu niệm)",
+                "生産 (sản xuất)",
+                "産業 (ngành công nghiệp)",
+                "産む (sinh ra, đẻ)",
+                "倒産 (phá sản)",
+                "ベトナム産 (sản xuất/ trồng... ở Việt Nam)"
+            ]
+        },
+        {
+            "kanji": "位",
+            "han_viet": "VỊ",
+            "nghia": "vị trí, thứ hạng",
+            "tu_vung": [
+                "位置 (vị trí, địa điểm)"
+            ]
+        },
+        {
+            "kanji": "倍",
+            "han_viet": "BỘI",
+            "nghia": "gấp đôi",
+            "tu_vung": [
+                "倍 (lần, gấp...)",
+                "~倍 (gấp ~ lần, tăng lên ~ lần)"
+            ]
+        },
+        {
+            "kanji": "候",
+            "han_viet": "HẬU",
+            "nghia": "khí hậu, thời tiết, chờ đợi",
+            "tu_vung": [
+                "気候 (khí hậu)"
+            ]
+        },
+        {
+            "kanji": "仮",
+            "han_viet": "GIẢ",
+            "nghia": "tạm thời, giả",
+            "tu_vung": [
+                "仮定 (giả định, giả thiết)"
+            ]
+        },
+        {
+            "kanji": "任",
+            "han_viet": "NHIỆM",
+            "nghia": "nhiệm vụ, giao phó",
+            "tu_vung": [
+                "任せる (giao phó, ủy thác, để ai đó tự lo liệu)",
+                "責任 (trách nhiệm, nghĩa vụ, bổn phận)",
+                "担任 (giáo viên chủ nhiệm, người phụ trách)"
+            ]
+        },
+        {
+            "kanji": "件",
+            "han_viet": "KIỆN",
+            "nghia": "sự việc, vấn đề",
+            "tu_vung": [
+                "件 (vụ việc, sự kiện, vấn đề)",
+                "事件 (sự kiện, vụ án)",
+                "条件 (điều kiện, điều khoản)",
+                "全責任 (toàn bộ trách nhiệm, chịu trách nhiệm hoàn toàn)",
+                "無責任 (vô trách nhiệm)",
+                "無条件 (vô điều kiện, không có điều kiện ràng buộc)"
+            ]
+        },
+        {
+            "kanji": "直",
+            "han_viet": "TRỰC",
+            "nghia": "thẳng, sửa chữa",
+            "tu_vung": [
+                "直す (sửa chữa, chỉnh sửa)",
+                "直る (được sửa, được chữa)",
+                "~直す (làm lại)",
+                "正直 (thành thật, trung thực)",
+                "素直 (ngoan ngoãn; thẳng thắn)",
+                "直接 (trực tiếp)",
+                "直前 (ngay trước)"
+            ]
+        },
+        {
+            "kanji": "値",
+            "han_viet": "TRỊ",
+            "nghia": "giá trị",
+            "tu_vung": [
+                "値段 (giá cả)",
+                "値上げ (sự tăng giá)",
+                "値下げ (sự giảm giá)",
+                "価値 (giá trị)"
+            ]
+        }
+    ],
+    "tu_vung": [
+        {
+            "tu": "意志",
+            "loai_tu": "N",
+            "nghia": "ý chí, quyết tâm",
+            "vi_du": "彼の意志は固いから変わらないだろう。"
+        },
+        {
+            "tu": "知識",
+            "loai_tu": "N",
+            "nghia": "tri thức, kiến thức",
+            "vi_du": "勉強して、知識を身に付ける。/ 母は知識が豊富で、何でも知っている。"
+        },
+        {
+            "tu": "就職活動",
+            "loai_tu": "N",
+            "nghia": "hoạt động tìm việc",
+            "vi_du": "来年卒業するので、就職活動を始めました。"
+        },
+        {
+            "tu": "産業",
+            "loai_tu": "N",
+            "nghia": "ngành công nghiệp",
+            "vi_du": "日本は自動車産業が盛んだ。/ ベトナムは観光産業に力を入れている。"
+        },
+        {
+            "tu": "気候",
+            "loai_tu": "N",
+            "nghia": "khí hậu",
+            "vi_du": "日本の気候は四季がはっきりしている"
+        },
+        {
+            "tu": "責任",
+            "loai_tu": "N",
+            "nghia": "trách nhiệm",
+            "vi_du": "この学校の責任者は私です。/ ミスの責任を取って、会社を辞めることになった。"
+        },
+        {
+            "tu": "条件",
+            "loai_tu": "N",
+            "nghia": "điều kiện, điều khoản",
+            "vi_du": "条件がいい会社を選ぶ。/ 条件が厳しくて、契約を諦めた。"
+        },
+        {
+            "tu": "勇気",
+            "loai_tu": "N",
+            "nghia": "dũng khí, can đảm",
+            "vi_du": "彼は勇気ある青年だ。/ 母に元気づけられ、勇気が出た。"
+        },
+        {
+            "tu": "いとこ",
+            "loai_tu": "N",
+            "nghia": "anh em họ",
+            "vi_du": "夏休みに、いとこたちとプールに行きました。"
+        },
+        {
+            "tu": "長女",
+            "loai_tu": "N",
+            "nghia": "trưởng nữ, con gái cả",
+            "vi_du": "彼女は三人姉妹の長女です。"
+        },
+        {
+            "tu": "長男",
+            "loai_tu": "N",
+            "nghia": "trưởng nam, con trai cả",
+            "vi_du": "長男が親の財産の大半を受け取った。"
+        },
+        {
+            "tu": "夫妻",
+            "loai_tu": "N",
+            "nghia": "vợ chồng",
+            "vi_du": "兄夫妻は毎日運動をして、健康的な生活を送っています。"
+        },
+        {
+            "tu": "双子",
+            "loai_tu": "N",
+            "nghia": "song sinh, sinh đôi",
+            "vi_du": "双子は見分けがつかない。"
+        },
+        {
+            "tu": "孫",
+            "loai_tu": "N",
+            "nghia": "cháu (con của con cái mình)",
+            "vi_du": "祖父母というものは孫と遊ぶのが大好きです。"
+        },
+        {
+            "tu": "姪",
+            "loai_tu": "N",
+            "nghia": "cháu gái (con của anh/chị/em mình)",
+            "vi_du": "姪はまだ小学生です。"
+        },
+        {
+            "tu": "直前",
+            "loai_tu": "N",
+            "nghia": "ngay trước khi",
+            "vi_du": "結婚式の直前にお腹が痛くなった。"
+        },
+        {
+            "tu": "直後",
+            "loai_tu": "N",
+            "nghia": "ngay sau khi",
+            "vi_du": "手術直後はあまり動かないほうがいい。"
+        },
+        {
+            "tu": "価値",
+            "loai_tu": "N",
+            "nghia": "giá trị",
+            "vi_du": "この宝石には1億円の価値がある。"
+        },
+        {
+            "tu": "年末",
+            "loai_tu": "N",
+            "nghia": "cuối năm",
+            "vi_du": "うちの会社は、年末になると必ず忘年会をやる。/ 年末は、お正月の準備でみんな忙しい。"
+        },
+        {
+            "tu": "相手",
+            "loai_tu": "N",
+            "nghia": "đối phương, đối tượng",
+            "vi_du": "彼は、私の話相手になってくれるので助かる。/ 結婚相手は、優しくてお金持ちの人がいい。"
+        },
+        {
+            "tu": "成績",
+            "loai_tu": "N",
+            "nghia": "thành tích, kết quả học tập",
+            "vi_du": "中学生のころはクラスで成績が一番だった。/ マラソンの大会でいい成績を残すことができた。"
+        },
+        {
+            "tu": "食器",
+            "loai_tu": "N",
+            "nghia": "bát đũa, dụng cụ ăn uống",
+            "vi_du": "食器を洗うのを手伝ってくれない?"
+        },
+        {
+            "tu": "収入",
+            "loai_tu": "N",
+            "nghia": "thu nhập",
+            "vi_du": "収入に見合う生活をする。"
+        },
+        {
+            "tu": "看護師",
+            "loai_tu": "N",
+            "nghia": "điều dưỡng",
+            "vi_du": "入院中、看護師が親切にしてくれた。/ 将来の夢は看護師です。"
+        },
+        {
+            "tu": "直接",
+            "loai_tu": "N/PT",
+            "nghia": "trực tiếp",
+            "vi_du": "直接見て、商品を購入する。/ 友達と待ち合わせをせずに、直接学校に向かう。"
+        },
+        {
+            "tu": "当然",
+            "loai_tu": "N/A",
+            "nghia": "đương nhiên",
+            "vi_du": "借りた物を返すのは当然だ。/ 勉強しなかったので、テストの点数が悪いのは当然の結果だ。"
+        },
+        {
+            "tu": "意外",
+            "loai_tu": "A/PT",
+            "nghia": "ngoài dự kiến, bất ngờ",
+            "vi_du": "弱いほうのチームが勝つという意外な結果になった。/ 初めて納豆を食べてみたら、意外においしかった。"
+        },
+        {
+            "tu": "正直",
+            "loai_tu": "A/PT",
+            "nghia": "thành thật, trung thực",
+            "vi_du": "怒らないから、正直に言いなさい。/ マイさんは正直だから、嘘はつかないよ。"
+        },
+        {
+            "tu": "素直",
+            "loai_tu": "A",
+            "nghia": "ngoan ngoãn, thẳng thắn",
+            "vi_du": "妹は素直な性格で、あまり文句を言わない。/ 自分の間違いを素直に認めるのは難しい。"
+        },
+        {
+            "tu": "得意",
+            "loai_tu": "A",
+            "nghia": "giỏi, tự tin (về lĩnh vực nào đó)",
+            "vi_du": "私はバドミントンが得意です。"
+        },
+        {
+            "tu": "間接的",
+            "loai_tu": "A",
+            "nghia": "một cách gián tiếp",
+            "vi_du": "課長はいつも間接的な言い方ばかりで、直接的な言い方はしない。"
+        },
+        {
+            "tu": "眠たい",
+            "loai_tu": "A",
+            "nghia": "buồn ngủ",
+            "vi_du": "昨夜遅くまで起きていたので、今、とても眠たいです。"
+        },
+        {
+            "tu": "怖い",
+            "loai_tu": "A",
+            "nghia": "sợ, đáng sợ",
+            "vi_du": "スマホを見ながら歩いていたら、怖い人にぶつかった。"
+        },
+        {
+            "tu": "受け入れる",
+            "loai_tu": "V",
+            "nghia": "chấp nhận, tiếp nhận",
+            "vi_du": "私の大学は、毎年留学生を受け入れている。/ 鈴木さんの提案を受け入れることにした。"
+        },
+        {
+            "tu": "失う",
+            "loai_tu": "V",
+            "nghia": "mất, đánh mất",
+            "vi_du": "約束を守らないと、信用を失ってしまう"
+        },
+        {
+            "tu": "悩む",
+            "loai_tu": "V",
+            "nghia": "lo lắng, phiền não",
+            "vi_du": "人生について悩んでいる。/ 母は最近、頭痛に悩んでいる。"
+        },
+        {
+            "tu": "打つ",
+            "loai_tu": "V",
+            "nghia": "đánh, đập, gõ, tiêm",
+            "vi_du": "転んで頭を強く打った。/ 病気の予防のために、赤ちゃんは1か月に何本も注射を打つらしい。"
+        },
+        {
+            "tu": "産む",
+            "loai_tu": "V",
+            "nghia": "sinh, đẻ",
+            "vi_du": "姉が元気な女の子を産んだ。/ 鶏が卵を産む。"
+        },
+        {
+            "tu": "諦める",
+            "loai_tu": "V",
+            "nghia": "từ bỏ, bỏ cuộc",
+            "vi_du": "彼女と結婚するつもりだったが、両親に反対されて諦めた。"
+        },
+        {
+            "tu": "嫌がる",
+            "loai_tu": "V",
+            "nghia": "ghét, không ưa ra mặt",
+            "vi_du": "犬はお風呂に入れられるのを嫌がることが多い"
+        },
+        {
+            "tu": "踏む",
+            "loai_tu": "V",
+            "nghia": "dẫm, đạp",
+            "vi_du": "目の前に子供が飛び出してきて、急ブレーキを踏んだ。"
+        },
+        {
+            "tu": "間違う",
+            "loai_tu": "V",
+            "nghia": "nhầm lẫn, sai sót",
+            "vi_du": "間違った問題を復習する。/ あなたの言ったことは間違っている。"
+        },
+        {
+            "tu": "繰り返す",
+            "loai_tu": "V",
+            "nghia": "lặp đi lặp lại",
+            "vi_du": "練習を繰り返せば、上手になりますよ。/ 歴史は繰り返す。"
+        },
+        {
+            "tu": "立てる",
+            "loai_tu": "V",
+            "nghia": "dựng đứng, gây ra, tạo ra, lập ra",
+            "vi_du": "机に本を立てて置く。/ ケーキにろうそくを立てる。/ 旅行の前に計画を立てる。"
+        },
+        {
+            "tu": "気がつく",
+            "loai_tu": "V",
+            "nghia": "nhận ra, để ý",
+            "vi_du": "Tシャツの前と後ろを反対に着ていたことに気がついた。"
+        },
+        {
+            "tu": "気になる",
+            "loai_tu": "V",
+            "nghia": "lo lắng, bận tâm/quan tâm",
+            "vi_du": "昨日のドラマの続きが気になる。"
+        },
+        {
+            "tu": "任せる",
+            "loai_tu": "V",
+            "nghia": "giao phó, ủy thác",
+            "vi_du": "将来は、息子に会社の経営を任せるつもりだ。"
+        },
+        {
+            "tu": "直す",
+            "loai_tu": "V",
+            "nghia": "sửa chữa, chỉnh sửa",
+            "vi_du": "壊れたパソコンを直す。/ この作文を直してもらえませんか。"
+        },
+        {
+            "tu": "直る",
+            "loai_tu": "V",
+            "nghia": "được sửa",
+            "vi_du": "壊れたギターが直った。/ 息子はつめをかむ癖がなかなか直らない。"
+        },
+        {
+            "tu": "~直す",
+            "loai_tu": "V",
+            "nghia": "làm lại",
+            "vi_du": "言い直す (nói lại, sửa lại lời nói), 書き直す (viết lại), 聞き直す (nghe lại, hỏi lại), やり直す (làm lại)"
+        },
+        {
+            "tu": "仲直り",
+            "loai_tu": "N/V",
+            "nghia": "làm lành, hòa giải",
+            "vi_du": "友達とけんかしたが、次の日に仲直りした。/ 彼女と仲直りするのに1週間かかった。"
+        },
+        {
+            "tu": "見直し",
+            "loai_tu": "N/V",
+            "nghia": "xem lại, đánh giá lại",
+            "vi_du": "テストは、提出する前に必ず見直ししよう。/ 一度見直ししてから、レポートを出した。"
+        },
+        {
+            "tu": "位置",
+            "loai_tu": "N/V",
+            "nghia": "vị trí, địa điểm, nằm ở",
+            "vi_du": "千葉県は東京の東に位置している。/ この駅は町の中心に位置している。"
+        },
+        {
+            "tu": "代表",
+            "loai_tu": "N/V",
+            "nghia": "đại diện",
+            "vi_du": "全校生徒の代表として、スピーチをする。/ オリンピックの代表選手に選ばれた。"
+        },
+        {
+            "tu": "値上がり",
+            "loai_tu": "N/V",
+            "nghia": "giá, phí tăng",
+            "vi_du": "去年より野菜が値上がりした。/ 魚が値上がりして、なかなか買えない。"
+        },
+        {
+            "tu": "待ち合わせ",
+            "loai_tu": "N/V",
+            "nghia": "cuộc hẹn, hẹn gặp",
+            "vi_du": "駅の前で待ち合わせして、一緒に会場へ行きましょう。"
+        },
+        {
+            "tu": "募集",
+            "loai_tu": "N/V",
+            "nghia": "tuyển dụng, chiêu mộ",
+            "vi_du": "アルバイトを募集する。/ 人手が足りないので社員の募集をする。"
+        },
+        {
+            "tu": "応募",
+            "loai_tu": "N/V",
+            "nghia": "đăng ký, ứng tuyển",
+            "vi_du": "留学生を積極的に募集している会社に応募しようと思う。/ この会社は給料がいいので、求人を出すと応募がたくさん来る。"
+        },
+        {
+            "tu": "失礼",
+            "loai_tu": "N/A",
+            "nghia": "thất lễ, bất lịch sự, xin phép",
+            "vi_du": "あの人は、目上の人に失礼な態度をとる。/ 失礼ですが、お名前は?"
+        },
+        {
+            "tu": "発展",
+            "loai_tu": "N/V",
+            "nghia": "phát triển",
+            "vi_du": "AIの技術は、年々発展のスピードが増している。/ ベトナムは現在大きく発展している。"
+        },
+        {
+            "tu": "仮定",
+            "loai_tu": "N/V",
+            "nghia": "giả định, giả thiết",
+            "vi_du": "仮定の話ですが、もし宝くじが当たったらどうしますか?"
+        },
+        {
+            "tu": "担任",
+            "loai_tu": "N/V",
+            "nghia": "(giáo viên) chủ nhiệm, phụ trách/ chịu trách nhiệm",
+            "vi_du": "私の担任の先生は佐藤先生です。"
+        },
+        {
+            "tu": "面接",
+            "loai_tu": "N/V",
+            "nghia": "phỏng vấn, vấn đáp",
+            "vi_du": "大事な面接なので、だらしない服装で行くわけにはいかない。"
+        },
+        {
+            "tu": "退職",
+            "loai_tu": "N/V",
+            "nghia": "nghỉ việc, từ chức",
+            "vi_du": "最近は入社してすぐに退職する人が多いらし"
+        },
+        {
+            "tu": "意識",
+            "loai_tu": "N/V",
+            "nghia": "ý thức, nhận thức",
+            "vi_du": "事故で意識を失った。/ 意識していないと、声が小さくなってしまう。"
+        },
+        {
+            "tu": "生産",
+            "loai_tu": "N/V",
+            "nghia": "sản xuất",
+            "vi_du": "この工場は車を毎日200台生産している。/ 米の生産量が一番多い国は中国だ。"
+        },
+        {
+            "tu": "応援",
+            "loai_tu": "N/V",
+            "nghia": "cổ vũ, ủng hộ",
+            "vi_du": "試合中、友達がずっと応援してくれていた。"
+        },
+        {
+            "tu": "登山",
+            "loai_tu": "N/V",
+            "nghia": "leo núi",
+            "vi_du": "私の趣味は登山で、毎月山に登ります。"
+        },
+        {
+            "tu": "翌~",
+            "loai_tu": "Tiền tố",
+            "nghia": "~ sau/ tiếp theo",
+            "vi_du": "翌日 (Ngày hôm sau) / 翌年 (Năm sau) / 翌週 (Tuần sau) / けんかした日の翌朝、彼氏から電話で仲直りしようと言われた。"
+        },
+        {
+            "tu": "~産",
+            "loai_tu": "Hậu tố",
+            "nghia": "sản xuất tại ~ (nơi sản xuất, nuôi, trồng....)",
+            "vi_du": "アメリカ産 (Sản xuất tại Mỹ) / 北海道産 (Sản xuất tại Hokkaido)"
+        },
+        {
+            "tu": "~製",
+            "loai_tu": "Hậu tố",
+            "nghia": "chế tạo tại ~ (nơi lắp ráp, chế tạo,...)",
+            "vi_du": "外国製 (Hàng nước ngoài) / 中国製 (Hàng Trung Quốc)"
+        },
+        {
+            "tu": "~倍",
+            "loai_tu": "Hậu tố",
+            "nghia": "gấp ~ lần",
+            "vi_du": "売り上げが去年の3倍になった。"
+        },
+        {
+            "tu": "絶対",
+            "loai_tu": "PT",
+            "nghia": "tuyệt đối",
+            "vi_du": "この箱は絶対に開けないでください。/ 絶対に約束は守る。"
+        }
+    ],
+    "ngu_phap": [
+        {
+            "cau_truc": "~そうにない / ~そうもない / ~そうにもない",
+            "y_nghia": "Khó mà V/ Chẳng có vẻ gì sẽ V. Dùng để nói về 1 sự việc ít hoặc gần như không có khả năng sẽ xảy ra.",
+            "cach_chia": "Vます (bỏ ます) + そうにない / そうもない / そうにもない",
+            "vi_du": [
+                "あんなに高価なかばんは、とても買えそうにない。",
+                "またお金を使ってしまった。このままでは、年末までに100万円貯金できそうにない。",
+                "彼は学校の成績も悪かったし、真面目じゃないし、いい会社には就職できそうにないね。"
+            ]
+        },
+        {
+            "cau_truc": "〜がる",
+            "y_nghia": "Miêu tả trạng thái cơ thể, nguyện vọng, mong muốn, cảm xúc của người khác, không phải của mình. Thường dùng ở dạng 〜がっている。",
+            "cach_chia": "Vたい (bỏ い) + がる / Aい (bỏ い) + がる / Aな + がる",
+            "vi_du": [
+                "彼女が寒がっていたので、僕のコートを貸してあげた。",
+                "彼女は仕事中に話しかけられるのをとても嫌がっている。",
+                "私がどこへ行くときも、息子は一緒に行きたがる。"
+            ]
+        },
+        {
+            "cau_truc": "~始める",
+            "y_nghia": "Bắt đầu V. Diễn tả việc bắt đầu làm.../ bắt đầu diễn ra hiện tượng gì đó.",
+            "cach_chia": "Vます (bỏ ます) + 始める",
+            "vi_du": [
+                "私は20歳の時から、タバコを吸い始めました。",
+                "先週から、日本へ留学するために日本語センターに通い始めました。",
+                "息子は夕方になって、やっと勉強をし始めた。"
+            ]
+        },
+        {
+            "cau_truc": "~終わる",
+            "y_nghia": "V xong/ kết thúc V. Diễn tả việc kết thúc/ làm xong một hành động đã diễn ra liên tục trước đó.",
+            "cach_chia": "Vます (bỏ ます) + 終わる",
+            "vi_du": [
+                "今日はレポートを書き終わるまで寝ないつもりだ。",
+                "まだ私が話し終わっていないのに、彼が話し始めた。",
+                "彼が歌い終わってから、次は私が歌わなければならない。"
+            ]
+        },
+        {
+            "cau_truc": "~続ける",
+            "y_nghia": "Duy trì/ liên tục/ tiếp tục V. Diễn tả việc tiếp tục/ duy trì thực hiện hành động gì đó thói quen nào đó.",
+            "cach_chia": "Vます (bỏ ます) + 続ける",
+            "vi_du": [
+                "この財布は10年前に母からもらい、その時からずっと使い続けている。",
+                "N4のクラスが終わった後も、自分で日本語を勉強し続けるつもりです。",
+                "彼は休憩時間が終わった後も、ゲームをし続けている。"
+            ]
+        },
+        {
+            "cau_truc": "~直す",
+            "y_nghia": "V lại (theo hướng sửa sai, cải thiện, làm cho đúng hơn). Diễn tả hành động làm lại từ đầu sau khi đã thử - thất bại - sai - chưa tốt.",
+            "cach_chia": "Vます (bỏ ます) + 直す",
+            "vi_du": [
+                "家が古くなってきたので、建て直すことにしました。",
+                "本当に仕事を辞めるかどうか、もう一度考え直してみなさい。",
+                "今年に入って母の病気は進んでいたが、最近少し持ち直した。"
+            ]
+        },
+        {
+            "cau_truc": "~として",
+            "y_nghia": "Với tư cách, vai trò... / Như là... N1: tư cách, vai trò, chức danh, nghề nghiệp, danh nghĩa, sở thích.",
+            "cach_chia": "N1 + として / としての N2",
+            "vi_du": [
+                "私はベトナムが好きで、趣味としてベトナム語を勉強している。",
+                "私は今ベトナムで、日本語の教師として働いている。",
+                "私は子供に、勉強について親としての考えを言った。",
+                "彼は俳優だが、歌手としても有名だ。",
+                "その男は一流の作家だが、映画監督としてはまだまだだ。"
+            ]
+        }
+    ]
+}

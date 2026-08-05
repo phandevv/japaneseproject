@@ -94,10 +94,12 @@ public class JlptN3CourseService {
         if (isResourceAvailable(chapter, lesson)) return true;
 
         List<Vocabulary> dbVocabs = vocabularyRepository.findByLevel("N3_COURSE");
-        String categorySearch = "Bài " + lesson;
         for (Vocabulary v : dbVocabs) {
-            if (v.getCategory() != null && v.getCategory().contains(categorySearch)) {
-                return true;
+            if (v.getCategory() != null) {
+                String cat = v.getCategory();
+                if (cat.contains("Chương " + chapter) && cat.contains("Bài " + lesson)) {
+                    return true;
+                }
             }
         }
         return false;
@@ -213,7 +215,6 @@ public class JlptN3CourseService {
 
         // Strategy 4: Fallback to Database content if JSON files are not on disk/classpath
         if (root == null) {
-            String categorySearch = "Bài " + lesson;
             List<Vocabulary> dbVocabs = vocabularyRepository.findByLevel("N3_COURSE");
             List<GrammarCard> dbGrammars = grammarCardRepository.findAll();
 
@@ -222,7 +223,9 @@ public class JlptN3CourseService {
             List<Map<String, Object>> nguPhapList = new ArrayList<>();
 
             for (Vocabulary v : dbVocabs) {
-                if (v.getCategory() != null && v.getCategory().contains(categorySearch)) {
+                if (v.getCategory() != null && 
+                    v.getCategory().contains("Chương " + chapter) && 
+                    v.getCategory().contains("Bài " + lesson)) {
                     Map<String, Object> item = new HashMap<>();
                     item.put("id", v.getId());
                     item.put("tu", v.getKanji() != null ? v.getKanji() : v.getHiragana());
@@ -247,8 +250,8 @@ public class JlptN3CourseService {
             }
 
             for (GrammarCard g : dbGrammars) {
-                if ((g.getDayName() != null && g.getDayName().contains(categorySearch)) ||
-                    (g.getWeekName() != null && g.getWeekName().contains("Chương " + chapter))) {
+                if ((g.getDayName() != null && g.getDayName().contains("Bài " + lesson) && g.getWeekName() != null && g.getWeekName().contains("Chương " + chapter)) ||
+                    (g.getWeekName() != null && g.getWeekName().contains("Chương " + chapter) && g.getDayName() != null && g.getDayName().contains("Bài " + lesson))) {
                     Map<String, Object> gItem = new HashMap<>();
                     gItem.put("cau_truc", g.getGrammar());
                     gItem.put("y_nghia", g.getMeaning());
@@ -322,7 +325,7 @@ public class JlptN3CourseService {
                         v.setWordType(vItem.containsKey("loai_tu") ? String.valueOf(vItem.get("loai_tu")) : "N");
                         v.setSampleSentence(vItem.containsKey("vi_du") ? String.valueOf(vItem.get("vi_du")) : "");
                         v.setLevel("N3_COURSE");
-                        v.setCategory("Tổng ôn N3 - Bài " + lesson);
+                        v.setCategory("Tổng ôn N3 - Chương " + chapter + " Bài " + lesson);
                         v = vocabularyRepository.saveAndFlush(v);
                     }
 
@@ -438,7 +441,7 @@ public class JlptN3CourseService {
                         if (hanViet != null && !hanViet.isEmpty()) v.setHanViet(hanViet);
                         if (nghia != null && !nghia.isEmpty()) v.setMeaning(nghia);
                         v.setLevel("N3_COURSE");
-                        v.setCategory("Tổng ôn N3 - Bài " + bai);
+                        v.setCategory("Tổng ôn N3 - Chương " + chuong + " Bài " + bai);
 
                         if (!tuVungList.isEmpty()) {
                             try {
@@ -484,7 +487,7 @@ public class JlptN3CourseService {
                         if (loaiTu != null && !loaiTu.isEmpty()) v.setWordType(loaiTu);
                         if (viDu != null && !viDu.isEmpty()) v.setSampleSentence(viDu);
                         v.setLevel("N3_COURSE");
-                        v.setCategory("Tổng ôn N3 - Bài " + bai);
+                        v.setCategory("Tổng ôn N3 - Chương " + chuong + " Bài " + bai);
 
                         vocabularyRepository.save(v);
                         fileVocab++;

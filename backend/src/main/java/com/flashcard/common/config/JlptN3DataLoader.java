@@ -168,7 +168,7 @@ public class JlptN3DataLoader implements CommandLineRunner {
                     if (hanViet != null && !hanViet.isEmpty()) v.setHanViet(hanViet);
                     if (nghia != null && !nghia.isEmpty()) v.setMeaning(nghia);
                     v.setLevel("N3_COURSE");
-                    v.setCategory("Tổng ôn N3 - Bài " + bai);
+                    v.setCategory("Tổng ôn N3 - Chương " + chuong + " Bài " + bai);
 
                     if (!tuVungList.isEmpty()) {
                         try {
@@ -214,7 +214,7 @@ public class JlptN3DataLoader implements CommandLineRunner {
                     if (loaiTu != null && !loaiTu.isEmpty()) v.setWordType(loaiTu);
                     if (viDu != null && !viDu.isEmpty()) v.setSampleSentence(viDu);
                     v.setLevel("N3_COURSE");
-                    v.setCategory("Tổng ôn N3 - Bài " + bai);
+                    v.setCategory("Tổng ôn N3 - Chương " + chuong + " Bài " + bai);
 
                     vocabularyRepository.save(v);
                     importedVocab++;
