@@ -283,21 +283,20 @@ const FlashcardCard = ({ word, flipped, onFlip, onRateWord }) => {
             <div className="flashcard-back-right hide-scrollbar" style={{ overflowY: 'auto' }} onClick={e => e.stopPropagation()}>
               {loadingEnrich && (
                 <div style={{ 
-                  color: 'var(--text-secondary)', 
-                  fontSize: '0.85rem', 
-                  fontStyle: 'italic',
-                  padding: '15px',
-                  backgroundColor: 'rgba(255,255,255,0.03)',
+                  color: 'var(--accent-color)', 
+                  fontSize: '0.78rem', 
+                  padding: '6px 12px',
+                  backgroundColor: 'rgba(239, 68, 68, 0.08)',
                   borderRadius: '6px',
-                  textAlign: 'center'
+                  textAlign: 'center',
+                  marginBottom: '8px',
+                  fontWeight: '600'
                 }}>
-                  Đang tải dữ liệu AI (từ vựng, ví dụ, Kanji, mẹo nhớ...)...
+                  ✨ Đang tự động gọi DeepSeek AI làm giàu dữ liệu (mẹo nhớ, ngữ cảnh, ví dụ)...
                 </div>
               )}
 
-              {enriched && (
-                <AiEnrichedTabbedView data={enriched} />
-              )}
+              <AiEnrichedTabbedView data={enriched || word} />
             </div>
 
           </div>

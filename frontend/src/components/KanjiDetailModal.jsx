@@ -1038,22 +1038,20 @@ const KanjiDetailModal = ({ words, initialIndex = 0, onClose, vocab }) => {
               <div style={{ flex: '1.1 1 480px', minWidth: '340px' }}>
                 {loadingEnrich && (
                   <div style={{ 
-                    color: 'var(--text-secondary)', 
-                    fontSize: '0.75rem', 
-                    fontStyle: 'italic',
-                    padding: '12px',
-                    backgroundColor: 'var(--surface-hover)',
-                    borderRadius: '8px',
+                    color: 'var(--accent-color)', 
+                    fontSize: '0.78rem', 
+                    padding: '6px 12px',
+                    backgroundColor: 'rgba(239, 68, 68, 0.08)',
+                    borderRadius: '6px',
                     textAlign: 'center',
-                    border: '1px dashed var(--border-color)'
+                    marginBottom: '8px',
+                    fontWeight: '600'
                   }}>
-                    Đang gọi AI làm giàu dữ liệu ví dụ & Kanji...
+                    ✨ Đang gọi DeepSeek AI làm giàu dữ liệu ví dụ & Kanji...
                   </div>
                 )}
 
-                {enriched && (
-                  <AiEnrichedTabbedView data={enriched} />
-                )}
+                <AiEnrichedTabbedView data={enriched || word} />
               </div>
             </div>
 

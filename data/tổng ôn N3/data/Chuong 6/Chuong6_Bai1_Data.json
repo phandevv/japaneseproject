@@ -1,0 +1,714 @@
+{
+    "chuong": 6,
+    "bai": 1,
+    "chu_han": [
+        {
+            "kanji": "余",
+            "han_viet": "DƯ",
+            "nghia": "dư thừa, phần dư",
+            "tu_vung": [
+                "余る (còn thừa, dư)"
+            ]
+        },
+        {
+            "kanji": "令",
+            "han_viet": "LỆNH",
+            "nghia": "mệnh lệnh, lệnh",
+            "tu_vung": [
+                "命令 (mệnh lệnh, ra lệnh)"
+            ]
+        },
+        {
+            "kanji": "冷",
+            "han_viet": "LÃNH",
+            "nghia": "lạnh, làm lạnh",
+            "tu_vung": [
+                "冷たい (lạnh)",
+                "冷える (bị lạnh, nguội đi)",
+                "冷やす (làm lạnh, làm mát)",
+                "冷める (nguội đi; (cảm xúc) nguôi đi, nguội lạnh)",
+                "冷ます (làm nguội)",
+                "冷凍 (đông lạnh)",
+                "冷房 (máy lạnh, điều hòa)",
+                "冷静 (bình tĩnh, điềm tĩnh)"
+            ]
+        },
+        {
+            "kanji": "欠",
+            "han_viet": "KHIẾM",
+            "nghia": "thiếu, khiếm khuyết",
+            "tu_vung": [
+                "欠席 (vắng mặt)",
+                "欠点 (khuyết điểm, điểm yếu)",
+                "欠航 (hủy chuyến bay/tàu)"
+            ]
+        },
+        {
+            "kanji": "次",
+            "han_viet": "THỨ",
+            "nghia": "kế tiếp, lần sau",
+            "tu_vung": [
+                "次 (tiếp theo)",
+                "次回 (lần sau)"
+            ]
+        },
+        {
+            "kanji": "欲",
+            "han_viet": "DỤC",
+            "nghia": "mong muốn, khát khao",
+            "tu_vung": [
+                "欲しい (muốn)",
+                "食欲 (cảm giác thèm ăn)",
+                "欲張り (tham lam)",
+                "欲求 (nhu cầu, khao khát)"
+            ]
+        },
+        {
+            "kanji": "実",
+            "han_viet": "THỰC",
+            "nghia": "sự thật, thực tế",
+            "tu_vung": [
+                "実は (thực ra, thực tế là)",
+                "実際に (thực tế, trên thực tế)",
+                "現実 (hiện thực, thực tế)",
+                "実力 (thực lực)",
+                "実家 (nhà bố mẹ đẻ)"
+            ]
+        },
+        {
+            "kanji": "完",
+            "han_viet": "HOÀN",
+            "nghia": "hoàn thành",
+            "tu_vung": [
+                "完成 (hoàn thành, hoàn tất)",
+                "未完成 (chưa hoàn thành)",
+                "不完全 (không hoàn chỉnh, chưa hoàn thiện)",
+                "完了 (kết thúc, hoàn tất)",
+                "完全 (hoàn toàn, toàn diện)"
+            ]
+        },
+        {
+            "kanji": "容",
+            "han_viet": "DUNG",
+            "nghia": "chứa, dung lượng",
+            "tu_vung": [
+                "内容 (nội dung)",
+                "容器 (đồ đựng, hộp, bình chứa)",
+                "容疑 (tình nghi)",
+                "美容 (làm đẹp, chăm sóc sắc đẹp)",
+                "美容師 (thợ làm tóc, chuyên viên làm đẹp)"
+            ]
+        },
+        {
+            "kanji": "穴",
+            "han_viet": "HUYỆT",
+            "nghia": "lỗ, hố",
+            "tu_vung": [
+                "穴 (lỗ, hố, lỗ hổng)"
+            ]
+        },
+        {
+            "kanji": "突",
+            "han_viet": "ĐỘT",
+            "nghia": "đâm, xông vào",
+            "tu_vung": [
+                "衝突 (va chạm, xung đột)",
+                "突然 (đột nhiên, bất ngờ)"
+            ]
+        },
+        {
+            "kanji": "由",
+            "han_viet": "DO",
+            "nghia": "lý do, nguyên do",
+            "tu_vung": [
+                "理由 (lý do)",
+                "自由 (tự do)",
+                "不自由 (bất tiện, khó khăn)"
+            ]
+        },
+        {
+            "kanji": "横",
+            "han_viet": "HOÀNH",
+            "nghia": "ngang, bên cạnh",
+            "tu_vung": [
+                "横 (bên cạnh, ngang)",
+                "横切る (băng qua, cắt ngang)",
+                "横断 (băng qua, vượt qua)",
+                "経由 (quá cảnh, thông qua)"
+            ]
+        },
+        {
+            "kanji": "演",
+            "han_viet": "DIỄN",
+            "nghia": "biểu diễn, diễn xuất",
+            "tu_vung": [
+                "演劇 (kịch, diễn kịch)",
+                "演奏 (biểu diễn nhạc cụ)",
+                "講演 (bài giảng, bài diễn thuyết)"
+            ]
+        }
+    ],
+    "tu_vung": [
+        {
+            "tu": "実家",
+            "loai_tu": "N",
+            "nghia": "nhà (bố mẹ đẻ)",
+            "vi_du": "明日、実家に帰ります。/ 高校を卒業して以来、2年ぶりに両親が住む実家に帰った。"
+        },
+        {
+            "tu": "美容",
+            "loai_tu": "N",
+            "nghia": "làm đẹp, chăm sóc sắc đẹp",
+            "vi_du": "美容院で髪を短くしてきた。/ 妻は美容への関心が高い。"
+        },
+        {
+            "tu": "美容師",
+            "loai_tu": "N",
+            "nghia": "thợ làm tóc, chuyên viên làm đẹp",
+            "vi_du": "美容師の資格を持っています。"
+        },
+        {
+            "tu": "穴",
+            "loai_tu": "N",
+            "nghia": "lỗ, hố",
+            "vi_du": "うちの犬が、庭に大きな穴を掘ってしまった。/ 書類に穴をあけて、ファイルにまとめてください。"
+        },
+        {
+            "tu": "横",
+            "loai_tu": "N",
+            "nghia": "bên cạnh, ngang",
+            "vi_du": "日本語は、横書きでも縦書きでも書ける。/ 疲れたから、ちょっと横になりたい。"
+        },
+        {
+            "tu": "税込み",
+            "loai_tu": "N",
+            "nghia": "đã bao gồm thuế",
+            "vi_du": "この商品は税込みで5500円です。"
+        },
+        {
+            "tu": "税抜き",
+            "loai_tu": "N",
+            "nghia": "chưa bao gồm thuế",
+            "vi_du": "この商品の値段は税抜きで1000円です。"
+        },
+        {
+            "tu": "消費税",
+            "loai_tu": "N",
+            "nghia": "thuế tiêu dùng",
+            "vi_du": "消費税が10%になり、計算が簡単になった。"
+        },
+        {
+            "tu": "種",
+            "loai_tu": "N",
+            "nghia": "hạt giống",
+            "vi_du": "春になったので、花の種をまいた。/ この野菜の種は、育てやすいと聞いた。"
+        },
+        {
+            "tu": "種類",
+            "loai_tu": "N",
+            "nghia": "loại, chủng loại",
+            "vi_du": "この店はパンの種類が豊富だ。/ このコンビニの弁当は安いが、種類は少ない。"
+        },
+        {
+            "tu": "秒",
+            "loai_tu": "N",
+            "nghia": "giây",
+            "vi_du": "1分は60秒だ。/ あと数秒で12時になる。"
+        },
+        {
+            "tu": "日程",
+            "loai_tu": "N",
+            "nghia": "lịch trình, kế hoạch",
+            "vi_du": "今日の日程を確認する。/ 旅行の日程を家族で話し合って決める。"
+        },
+        {
+            "tu": "書類",
+            "loai_tu": "N",
+            "nghia": "tài liệu, giấy tờ",
+            "vi_du": "机の上に書類を整える。/ 先輩に書類を確認してもらった。"
+        },
+        {
+            "tu": "歯",
+            "loai_tu": "N",
+            "nghia": "răng",
+            "vi_du": "今朝から歯が痛いんです。"
+        },
+        {
+            "tu": "歯医者",
+            "loai_tu": "N",
+            "nghia": "nha sĩ",
+            "vi_du": "歯が痛かったので、歯医者に行ってきた。"
+        },
+        {
+            "tu": "医療",
+            "loai_tu": "N",
+            "nghia": "y tế",
+            "vi_du": "医療の進歩によって、人間の寿命は延び続けている。/ この国の国民は無料で医療を受けられる。"
+        },
+        {
+            "tu": "敬語",
+            "loai_tu": "N",
+            "nghia": "kính ngữ",
+            "vi_du": "フォーマルな場面では、敬語を使ったほうがいい。/ 上司に敬語を使わないのは失礼です。"
+        },
+        {
+            "tu": "夕食",
+            "loai_tu": "N",
+            "nghia": "bữa tối",
+            "vi_du": "夕食ができたから、料理をテーブルに並べて。/ 台所で夕食の準備をする。"
+        },
+        {
+            "tu": "同僚",
+            "loai_tu": "N",
+            "nghia": "đồng nghiệp",
+            "vi_du": "職場の同僚と食事に行ってきた。/ 同僚が手伝ってくれたおかげで、作業が早く終わった。"
+        },
+        {
+            "tu": "少女",
+            "loai_tu": "N",
+            "nghia": "thiếu nữ, bé gái",
+            "vi_du": "その少女は夢中で絵を描いていた。"
+        },
+        {
+            "tu": "少年",
+            "loai_tu": "N",
+            "nghia": "cậu bé",
+            "vi_du": "公園で少年たちが遊んでいる。"
+        },
+        {
+            "tu": "青春",
+            "loai_tu": "N",
+            "nghia": "thời thanh xuân, thời trẻ",
+            "vi_du": "大学時代、楽しい青春を送った。/ この町に来るたびに、青春の日々を思い出す。"
+        },
+        {
+            "tu": "青少年",
+            "loai_tu": "N",
+            "nghia": "thanh thiếu niên",
+            "vi_du": "このイベントは青少年のために行われます。"
+        },
+        {
+            "tu": "青年",
+            "loai_tu": "N",
+            "nghia": "thanh niên",
+            "vi_du": "「青年」が何歳から何歳までを指すかは、法律や団体によって違う。/ 電車で体調をくずしたとき、知らない青年が私を助けてくれた。"
+        },
+        {
+            "tu": "生年月日",
+            "loai_tu": "N",
+            "nghia": "ngày tháng năm sinh",
+            "vi_du": "ここに生年月日を書いてください。"
+        },
+        {
+            "tu": "先日",
+            "loai_tu": "N",
+            "nghia": "hôm trước",
+            "vi_du": "先日、友達の結婚式があった。/ 先日はご自宅にお招きいただき、ありがとうございました"
+        },
+        {
+            "tu": "対策",
+            "loai_tu": "N",
+            "nghia": "biện pháp, đối sách",
+            "vi_du": "花粉症の対策で、マスクをつける。/ 事故を防ぐための対策を考える。"
+        },
+        {
+            "tu": "西洋",
+            "loai_tu": "N",
+            "nghia": "phương Tây",
+            "vi_du": "明治時代には、西洋風の建物がたくさん建てられた。/ 私は西洋の文化も東洋の文化も、どちらも好きだ。"
+        },
+        {
+            "tu": "専門家",
+            "loai_tu": "N",
+            "nghia": "chuyên gia",
+            "vi_du": "彼は経済の専門家として本を書いたり、テレビに出たりしている。"
+        },
+        {
+            "tu": "前半",
+            "loai_tu": "N",
+            "nghia": "hiệp đầu, nửa đầu",
+            "vi_du": "試合の前半に、2点入れることができた。/ 話の前半しか聞けなかったので、内容がよくわからない。"
+        },
+        {
+            "tu": "子育て",
+            "loai_tu": "N",
+            "nghia": "việc nuôi dạy con",
+            "vi_du": "子育てと家事で忙しく、自由な時間がなかなか取れない。"
+        },
+        {
+            "tu": "倉庫",
+            "loai_tu": "N",
+            "nghia": "nhà kho",
+            "vi_du": "普段使わない机や棚などは、会社の倉庫にしまってある。"
+        },
+        {
+            "tu": "袖",
+            "loai_tu": "N",
+            "nghia": "tay áo",
+            "vi_du": "今日は涼しいので、袖が長いシャツを着よう。/ このシャツは袖が少し短い。"
+        },
+        {
+            "tu": "雑巾",
+            "loai_tu": "N",
+            "nghia": "giẻ lau",
+            "vi_du": "床が汚れていたので、雑巾で拭いた。"
+        },
+        {
+            "tu": "旅",
+            "loai_tu": "N",
+            "nghia": "chuyến đi, hành trình",
+            "vi_du": "仕事をやめて、旅に出ることにした。"
+        },
+        {
+            "tu": "短期",
+            "loai_tu": "N",
+            "nghia": "ngắn hạn",
+            "vi_du": "夏休みにできる短期のアルバイトを探している。/ 彼は短期留学でアメリカに行った。"
+        },
+        {
+            "tu": "容疑",
+            "loai_tu": "N",
+            "nghia": "tình nghi",
+            "vi_du": "事件の容疑者が捕まった。/ 彼には、殺人の容疑がかかっている"
+        },
+        {
+            "tu": "欲求",
+            "loai_tu": "N",
+            "nghia": "ham muốn, mong muốn, nhu cầu",
+            "vi_du": "人間には色々な欲求がある。/ 睡眠や食事は基本的な欲求だ。"
+        },
+        {
+            "tu": "バーゲンセール",
+            "loai_tu": "N",
+            "nghia": "đại hạ giá (bargain sale)",
+            "vi_du": "このコートはバーゲンセールで半額だった。"
+        },
+        {
+            "tu": "ショップ",
+            "loai_tu": "N",
+            "nghia": "cửa hàng (shop)",
+            "vi_du": "駅前に新しいコーヒーショップができた。"
+        },
+        {
+            "tu": "カタログ",
+            "loai_tu": "N",
+            "nghia": "catalog (sách giới thiệu sản phẩm)",
+            "vi_du": "このカタログには商品の写真と値段が載っている。"
+        },
+        {
+            "tu": "サンプル",
+            "loai_tu": "N",
+            "nghia": "hàng mẫu (sample)",
+            "vi_du": "このシャンプーが自分に合うかどうかわからないので、サンプルを使ってみよう。"
+        },
+        {
+            "tu": "パンフレット",
+            "loai_tu": "N",
+            "nghia": "tờ thông tin, tờ gấp quảng cáo (pamphlet)",
+            "vi_du": "旅行会社のパンフレットにはツアーの詳細が書いてある。/ 映画館で、映画のパンフレットをもらった。"
+        },
+        {
+            "tu": "ブランド",
+            "loai_tu": "N",
+            "nghia": "thương hiệu (brand)",
+            "vi_du": "私はこのブランドの服が好きです。/ 母はブランドのバッグをたくさん持っている。"
+        },
+        {
+            "tu": "イベント",
+            "loai_tu": "N",
+            "nghia": "sự kiện (event)",
+            "vi_du": "夏休みには花火大会など、色々なイベントが行われる。"
+        },
+        {
+            "tu": "実用的",
+            "loai_tu": "A",
+            "nghia": "thực tế, thực dụng",
+            "vi_du": "このスマホの新しい機能は便利で実用的だ。/ 私は実用的な日本語を学びたい。"
+        },
+        {
+            "tu": "確実",
+            "loai_tu": "A",
+            "nghia": "chắc chắn, chính xác",
+            "vi_du": "私は確実な情報だけを信じるようにしている。/ 彼が今度の試合で優勝するのは確実だろう。"
+        },
+        {
+            "tu": "不完全",
+            "loai_tu": "A",
+            "nghia": "chưa hoàn chỉnh, chưa hoàn thiện",
+            "vi_du": "このシステムはまだ不完全で使えません。"
+        },
+        {
+            "tu": "自由",
+            "loai_tu": "N/A",
+            "nghia": "tự do",
+            "vi_du": "一人暮らしを始めて自由になったが、親に会えないのは寂しい。"
+        },
+        {
+            "tu": "横切る",
+            "loai_tu": "V",
+            "nghia": "băng qua, cắt ngang",
+            "vi_du": "公園を横切って学校へ行く。/ 歩いていたら、黒猫が前を横切った。"
+        },
+        {
+            "tu": "移す",
+            "loai_tu": "V",
+            "nghia": "chuyển, dời, chuyển thành, biến thành (hành động), lây lan (bệnh tật)",
+            "vi_du": "金魚を新しい水槽へ移す。/ 頭の中で考えていたことを行動に移す。/ 家族に風邪を移さないように、マスクをする。"
+        },
+        {
+            "tu": "慌てる",
+            "loai_tu": "V",
+            "nghia": "vội vàng, hoảng loạn, luống cuống",
+            "vi_du": "この建物は地震に強いですから、慌てないで落ち着いてください。"
+        },
+        {
+            "tu": "振る",
+            "loai_tu": "V",
+            "nghia": "vẫy, rắc, từ chối tình cảm, đá (người yêu)",
+            "vi_du": "手を振って別れのあいさつをした。/ 肉にこしょうを振ってから焼く。/ 彼は今、好きな子に振られて、落ち込んでいる。"
+        },
+        {
+            "tu": "経由",
+            "loai_tu": "N/V",
+            "nghia": "quá cảnh, thông qua",
+            "vi_du": "ベトナムから中国経由で日本に来た。/ 同僚を経由して、田中さんの連絡先を聞いた。"
+        },
+        {
+            "tu": "実験",
+            "loai_tu": "N/V",
+            "nghia": "thí nghiệm, thử nghiệm",
+            "vi_du": "実験の結果をレポートにまとめる。"
+        },
+        {
+            "tu": "実行",
+            "loai_tu": "N/V",
+            "nghia": "thực hiện, tiến hành",
+            "vi_du": "計画を実行するためには、お金が必要だ。/ 彼は言葉だけではなくて、実行力がある。"
+        },
+        {
+            "tu": "実習",
+            "loai_tu": "N/V",
+            "nghia": "thực tập",
+            "vi_du": "小学校の教師になるには、教育実習の経験が必要だ。"
+        },
+        {
+            "tu": "完了",
+            "loai_tu": "N/V",
+            "nghia": "kết thúc, hoàn tất",
+            "vi_du": "工事は来週完了する予定だ。/ 契約の手続きが完了した。"
+        },
+        {
+            "tu": "衝突",
+            "loai_tu": "N/V",
+            "nghia": "va chạm",
+            "vi_du": "今朝、車の衝突事故の現場を見た。/ 会議で意見が衝突し、なかなかまとまらない。"
+        },
+        {
+            "tu": "横断",
+            "loai_tu": "N/V",
+            "nghia": "băng qua, vượt qua",
+            "vi_du": "道路を横断する。/ この川は、市内を東から西へと横断している。"
+        },
+        {
+            "tu": "演劇",
+            "loai_tu": "N/V",
+            "nghia": "kịch nói, diễn kịch",
+            "vi_du": "いつか演劇に出て、観客の前で演技してみたいです。"
+        },
+        {
+            "tu": "演奏",
+            "loai_tu": "N/V",
+            "nghia": "biểu diễn (âm nhạc)",
+            "vi_du": "土曜日は、ピアノの演奏会だ。/ クラス全員で楽器を演奏する。"
+        },
+        {
+            "tu": "講演",
+            "loai_tu": "N/V",
+            "nghia": "diễn thuyết",
+            "vi_du": "明日は大学で有名な人の講演があるらしい。/ 講演で話す内容を準備する。"
+        },
+        {
+            "tu": "分類",
+            "loai_tu": "N/V",
+            "nghia": "phân loại",
+            "vi_du": "本を分類して本棚に並べる。/ 植物の分類は難しい。"
+        },
+        {
+            "tu": "修理",
+            "loai_tu": "N/V",
+            "nghia": "sửa chữa",
+            "vi_du": "車を修理する技術を持った人を探している。/ その機械は修理中なので、使用できません。"
+        },
+        {
+            "tu": "低下",
+            "loai_tu": "N/V",
+            "nghia": "giảm sút, suy giảm",
+            "vi_du": "急な気温の低下で風邪を引いた。/ 睡眠不足で、集中力が低下している。"
+        },
+        {
+            "tu": "清掃",
+            "loai_tu": "N/V",
+            "nghia": "dọn dẹp, làm sạch",
+            "vi_du": "ホテルの部屋はきれいに清掃されている"
+        },
+        {
+            "tu": "正答",
+            "loai_tu": "N/V",
+            "nghia": "câu trả lời đúng",
+            "vi_du": "テストの正答は明日発表される。"
+        },
+        {
+            "tu": "前後",
+            "loai_tu": "N/V",
+            "nghia": "trước sau, khoảng, xấp xỉ, gần với ~, trật tự bị đảo lộn",
+            "vi_du": "運動の前後には水分を取りましょう。/ 朝7時前後に目が覚めた。/ 話の順番が前後してしまった。"
+        },
+        {
+            "tu": "送金",
+            "loai_tu": "N/V",
+            "nghia": "gửi tiền, chuyển khoản",
+            "vi_du": "両親に毎月お金を送金している。/ 最近はスマホで簡単に送金できる。"
+        },
+        {
+            "tu": "総合",
+            "loai_tu": "N/V",
+            "nghia": "tổng hợp",
+            "vi_du": "友達にテストの総合点で負けた。"
+        },
+        {
+            "tu": "オーダー",
+            "loai_tu": "N/V",
+            "nghia": "gọi món, đặt hàng (order)",
+            "vi_du": "レストランでハンバーグをオーダーした。/ お客様からのオーダーを確認してください"
+        },
+        {
+            "tu": "ディスカウント",
+            "loai_tu": "N/V",
+            "nghia": "giảm giá (discount)",
+            "vi_du": "学生にはディスカウントがあります。"
+        },
+        {
+            "tu": "さっぱり",
+            "loai_tu": "PT",
+            "nghia": "hoàn toàn (không), nhẹ nhõm, thoải mái, vị thanh, nhạt",
+            "vi_du": "今日のテストの問題はさっぱりわからなかった/ 顔を洗ってさっぱりした。/ 晩ご飯はさっぱりしたものを食べたい"
+        },
+        {
+            "tu": "ほっと",
+            "loai_tu": "PT",
+            "nghia": "nhẹ nhõm, an tâm",
+            "vi_du": "遅れるかと思ったが、なんとか間に合ってほっとした。/ 試験に合格できてほっとした。"
+        },
+        {
+            "tu": "早朝",
+            "loai_tu": "PT",
+            "nghia": "sáng sớm",
+            "vi_du": "早朝にジョギングする人が多い。"
+        },
+        {
+            "tu": "ほとんど",
+            "loai_tu": "N/PT",
+            "nghia": "hầu như, hầu hết",
+            "vi_du": "明日の発表の準備はもうほとんどできている。/ 試験前日は緊張してほとんど眠れなかった。"
+        },
+        {
+            "tu": "ばったり",
+            "loai_tu": "PT",
+            "nghia": "tình cờ, bất ngờ",
+            "vi_du": "町を歩いていたら、先生にばったり出会った。"
+        },
+        {
+            "tu": "ある程度",
+            "loai_tu": "PT",
+            "nghia": "một mức độ nhất định",
+            "vi_du": "日本語はある程度話せますが、英語は苦手です。"
+        },
+        {
+            "tu": "すっかり",
+            "loai_tu": "PT",
+            "nghia": "hoàn toàn, hẳn",
+            "vi_du": "デートの約束をすっかり忘れていた。/ 病気が治って、すっかり元気になった。"
+        },
+        {
+            "tu": "ほんの",
+            "loai_tu": "PT",
+            "nghia": "chỉ là, một chút xíu",
+            "vi_du": "ここから駅まではほんの数分ですよ/ 昨日はほんの少ししか眠れなかった。"
+        },
+        {
+            "tu": "実際に",
+            "loai_tu": "PT",
+            "nghia": "thực tế, thật sự",
+            "vi_du": "簡単だと思っていたが、実際にやってみると難しかった。"
+        },
+        {
+            "tu": "毎度",
+            "loai_tu": "PT",
+            "nghia": "mỗi lần, luôn luôn",
+            "vi_du": "毎度ありがとうございます!/ 彼は毎度遅れてくる。"
+        }
+    ],
+    "ngu_phap": [
+        {
+            "cau_truc": "〜でしかない",
+            "y_nghia": "Chỉ là... (Mang sắc thái xem nhẹ, đánh giá thấp, hoặc nêu lên bản chất đơn thuần của một sự vật, sự việc).",
+            "cach_chia": "N / Aな + でしかない",
+            "vi_du": [
+                "彼はただの学生でしかない。",
+                "それは言い訳でしかない。",
+                "あいつは全然勉強ができないから、今回試験に合格したのは偶然でしかないと思う。",
+                "自分は会社の中で特別な立場ではなく、たくさんいる社員の一人でしかない。",
+                "あの先生はいつも難しいテストを出すから、次のテストも不安でしかない。"
+            ]
+        },
+        {
+            "cau_truc": "~はもちろん",
+            "y_nghia": "N là đương nhiên, nhưng... (Khẳng định một sự việc là hiển nhiên, đồng thời nhấn mạnh thêm một sự việc khác cũng tương tự).",
+            "cach_chia": "N+ はもちろん",
+            "vi_du": [
+                "彼は日本語はもちろん、フランス語も話せる。",
+                "日本のアニメは、日本人にはもちろん世界中の人から人気だ。",
+                "彼女は平日はもちろん、休日も働いてる。"
+            ]
+        },
+        {
+            "cau_truc": "~くらい / ほど〜はない",
+            "y_nghia": "Chẳng có... bằng... (Khẳng định một sự việc/ trạng thái nào đó là nhất).",
+            "cach_chia": "Vる / N + くらい~はない / ほど~はない",
+            "vi_du": [
+                "サッカーをするくらい楽しいことはないと思う。",
+                "彼はいつも「勉強ほどつまらないものはない」と言っている。",
+                "彼と一緒にいる時間くらい幸せな時間はない。"
+            ]
+        },
+        {
+            "cau_truc": "~ほど~ない",
+            "y_nghia": "Không... bằng N (Dùng để so sánh hai sự vật với nhau).",
+            "cach_chia": "N+ ほど~ない / ほどではない",
+            "vi_du": [
+                "東京の冬も寒いが、北海道ほど寒くないです。",
+                "このラーメンは美味しいが、あの店ほどではない。"
+            ]
+        },
+        {
+            "cau_truc": "~代わりに (1)",
+            "y_nghia": "Thay vì, thay cho N/ V thì... (Diễn tả việc sử dụng một thứ khác thay vì một thứ đã có sẵn, hoặc thực hiện một hành động khác thay vì hành động đã định).",
+            "cach_chia": "Nの / V(辞書形) + 代わりに",
+            "vi_du": [
+                "ジュースを飲む代わりに、水を飲んだら1か月で4キロやせた。",
+                "土曜日の代わりに月曜日に休んでもいいですか。",
+                "今朝からずっと雨が降っていて、今日は外で運動する代わりに、家で本を読みました。"
+            ]
+        },
+        {
+            "cau_truc": "~代わりに (2)",
+            "y_nghia": "Thay (ai đó)... (Diễn tả việc một người thay thế người khác để thực hiện một hành động, sự việc nào đó).",
+            "cach_chia": "Nの + 代わりに",
+            "vi_du": [
+                "田中先生の代わりに、今日は私がこのクラスの授業をすることになった。",
+                "体調が悪い同僚の代わりに、私が仕事をしました。",
+                "病気の祖母の代わりに、私が毎日買い物に行く。"
+            ]
+        }
+    ]
+}
