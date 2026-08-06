@@ -137,19 +137,19 @@ export default function AiEnrichedTabbedView({ data, onReEnriched }) {
       <div style={{ padding: '14px 16px', height: '420px', minHeight: '420px', overflowY: 'auto', textAlign: 'left', flex: 1 }} className="custom-scrollbar">
         {activeCardTab === 'core' && (
           <div className="card-tab-content animate-fade-in" style={{ display: 'flex', flexDirection: 'column', gap: '14px', minHeight: '380px' }}>
-            {data.usageGuide && (
+            {displayData.usageGuide && (
               <div style={{ padding: '12px 14px', background: 'rgba(37,99,235,0.06)', borderRadius: '10px', border: '1px solid rgba(37,99,235,0.18)' }}>
                 <h5 style={{ margin: '0 0 6px 0', fontSize: '0.85rem', color: 'var(--accent-color)', fontWeight: '700', display: 'flex', alignItems: 'center', gap: '6px' }}>
                   📌 Hướng dẫn sử dụng & Trường hợp dùng
                 </h5>
-                <p style={{ margin: 0, fontSize: '0.88rem', color: 'var(--text-primary)', lineHeight: 1.55, whiteSpace: 'pre-line' }}>{data.usageGuide}</p>
+                <p style={{ margin: 0, fontSize: '0.88rem', color: 'var(--text-primary)', lineHeight: 1.55, whiteSpace: 'pre-line' }}>{displayData.usageGuide}</p>
               </div>
             )}
 
-            {data.mnemonic && (
+            {displayData.mnemonic && (
               <div>
                 <h5 style={{ margin: '0 0 6px 0', fontSize: '0.85rem', color: 'var(--accent-color)', fontWeight: '600' }}>💡 Mẹo nhớ từ (Mnemonic)</h5>
-                <p style={{ margin: 0, fontSize: '0.88rem', color: 'var(--text-primary)', lineHeight: 1.5 }}>{data.mnemonic}</p>
+                <p style={{ margin: 0, fontSize: '0.88rem', color: 'var(--text-primary)', lineHeight: 1.5 }}>{displayData.mnemonic}</p>
               </div>
             )}
 
@@ -190,7 +190,7 @@ export default function AiEnrichedTabbedView({ data, onReEnriched }) {
               </div>
             )}
 
-            {!data.mnemonic && kanjiWords.length === 0 && synonyms.length === 0 && antonyms.length === 0 && !data.usageGuide && (
+            {!displayData.mnemonic && kanjiWords.length === 0 && synonyms.length === 0 && antonyms.length === 0 && !displayData.usageGuide && (
               <div style={{ color: 'var(--text-muted)', fontSize: '0.85rem', fontStyle: 'italic', textAlign: 'center', minHeight: '260px', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'var(--surface-hover)', borderRadius: '10px', padding: '20px' }}>
                 Không có thêm thông tin cốt lõi nào khác.
               </div>
@@ -214,9 +214,9 @@ export default function AiEnrichedTabbedView({ data, onReEnriched }) {
                     ))
                   ) : (
                     <div style={{ padding: '10px 14px', background: 'var(--surface-hover)', borderRadius: '6px', borderLeft: '3px solid var(--accent-color)' }}>
-                      <div className="font-jp" style={{ fontWeight: 'bold', fontSize: '1.5rem', color: 'var(--text-primary)', marginBottom: '4px', letterSpacing: '0.02em' }}>{data.sampleSentence}</div>
-                      <div style={{ fontSize: '0.95rem', color: 'var(--text-secondary)', marginBottom: '4px', fontStyle: 'italic' }}>{data.sampleReading}</div>
-                      <div style={{ fontSize: '1.02rem', color: 'var(--success-color)', fontWeight: '500' }}>{data.sampleTranslation}</div>
+                      <div className="font-jp" style={{ fontWeight: 'bold', fontSize: '1.5rem', color: 'var(--text-primary)', marginBottom: '4px', letterSpacing: '0.02em' }}>{displayData.sampleSentence}</div>
+                      <div style={{ fontSize: '0.95rem', color: 'var(--text-secondary)', marginBottom: '4px', fontStyle: 'italic' }}>{displayData.sampleReading}</div>
+                      <div style={{ fontSize: '1.02rem', color: 'var(--success-color)', fontWeight: '500' }}>{displayData.sampleTranslation}</div>
                     </div>
                   )}
                 </div>
