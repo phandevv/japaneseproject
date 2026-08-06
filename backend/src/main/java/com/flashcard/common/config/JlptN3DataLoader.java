@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.flashcard.knowledge.model.GrammarCard;
 import com.flashcard.knowledge.repository.GrammarCardRepository;
+import com.flashcard.srs.repository.WordReviewRepository;
 import com.flashcard.vocabulary.model.Vocabulary;
 import com.flashcard.vocabulary.repository.VocabularyRepository;
 import org.slf4j.Logger;
@@ -24,14 +25,17 @@ public class JlptN3DataLoader implements CommandLineRunner {
 
     private final VocabularyRepository vocabularyRepository;
     private final GrammarCardRepository grammarCardRepository;
+    private final WordReviewRepository wordReviewRepository;
     private final ObjectMapper objectMapper;
 
     @Autowired
     public JlptN3DataLoader(VocabularyRepository vocabularyRepository,
                             GrammarCardRepository grammarCardRepository,
+                            WordReviewRepository wordReviewRepository,
                             ObjectMapper objectMapper) {
         this.vocabularyRepository = vocabularyRepository;
         this.grammarCardRepository = grammarCardRepository;
+        this.wordReviewRepository = wordReviewRepository;
         this.objectMapper = objectMapper;
     }
 
@@ -145,6 +149,18 @@ public class JlptN3DataLoader implements CommandLineRunner {
 
             String vocabCategory = "Tổng ôn N3 - Chương " + chuong + " Bài " + bai;
             String kanjiCategory = "Tổng ôn N3 - Chương " + chuong + " Bài " + bai + " - Kanji";
+
+            // Clean up any old stale data for this specific category before importing afresh
+            List<Vocabulary> oldVocab = vocabularyRepository.findByCategory(vocabCategory);
+            if (oldVocab != null && !oldVocab.isEmpty()) {
+                wordReviewRepository.deleteByVocabularyIn(oldVocab);
+                vocabularyRepository.deleteAll(oldVocab);
+            }
+            List<Vocabulary> oldKanji = vocabularyRepository.findByCategory(kanjiCategory);
+            if (oldKanji != null && !oldKanji.isEmpty()) {
+                wordReviewRepository.deleteByVocabularyIn(oldKanji);
+                vocabularyRepository.deleteAll(oldKanji);
+            }
 
             // 1. Process Kanji (chu_han)
             if (root.has("chu_han") && root.get("chu_han").isArray()) {

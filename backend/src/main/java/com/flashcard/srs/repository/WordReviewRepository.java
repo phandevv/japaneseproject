@@ -85,5 +85,9 @@ public interface WordReviewRepository extends JpaRepository<WordReview, Long> {
             @Param("user") User user,
             @Param("start") Instant start,
             @Param("end") Instant end);
+
+    @org.springframework.data.jpa.repository.Modifying
+    @org.springframework.transaction.annotation.Transactional
+    void deleteByVocabularyIn(List<Vocabulary> vocabularies);
 }
 

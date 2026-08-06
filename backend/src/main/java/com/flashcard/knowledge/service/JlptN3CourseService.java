@@ -6,6 +6,7 @@ import com.flashcard.knowledge.model.GrammarCard;
 import com.flashcard.knowledge.model.JlptN3Progress;
 import com.flashcard.knowledge.repository.GrammarCardRepository;
 import com.flashcard.knowledge.repository.JlptN3ProgressRepository;
+import com.flashcard.srs.repository.WordReviewRepository;
 import com.flashcard.vocabulary.model.Vocabulary;
 import com.flashcard.vocabulary.repository.VocabularyRepository;
 import org.slf4j.Logger;
@@ -33,6 +34,7 @@ public class JlptN3CourseService {
     private final JlptN3ProgressRepository progressRepository;
     private final VocabularyRepository vocabularyRepository;
     private final GrammarCardRepository grammarCardRepository;
+    private final WordReviewRepository wordReviewRepository;
     private final DeepSeekEnrichmentService enrichmentService;
     private final ObjectMapper objectMapper;
 
@@ -40,11 +42,13 @@ public class JlptN3CourseService {
     public JlptN3CourseService(JlptN3ProgressRepository progressRepository,
                                VocabularyRepository vocabularyRepository,
                                GrammarCardRepository grammarCardRepository,
+                               WordReviewRepository wordReviewRepository,
                                DeepSeekEnrichmentService enrichmentService,
                                ObjectMapper objectMapper) {
         this.progressRepository = progressRepository;
         this.vocabularyRepository = vocabularyRepository;
         this.grammarCardRepository = grammarCardRepository;
+        this.wordReviewRepository = wordReviewRepository;
         this.enrichmentService = enrichmentService;
         this.objectMapper = objectMapper;
     }
@@ -437,6 +441,18 @@ public class JlptN3CourseService {
 
                 String vocabCategory = "Tổng ôn N3 - Chương " + chuong + " Bài " + bai;
                 String kanjiCategory = "Tổng ôn N3 - Chương " + chuong + " Bài " + bai + " - Kanji";
+
+                // Clean up any stale records from previous uploads for this specific chapter & lesson category
+                List<Vocabulary> oldVocab = vocabularyRepository.findByCategory(vocabCategory);
+                if (oldVocab != null && !oldVocab.isEmpty()) {
+                    wordReviewRepository.deleteByVocabularyIn(oldVocab);
+                    vocabularyRepository.deleteAll(oldVocab);
+                }
+                List<Vocabulary> oldKanji = vocabularyRepository.findByCategory(kanjiCategory);
+                if (oldKanji != null && !oldKanji.isEmpty()) {
+                    wordReviewRepository.deleteByVocabularyIn(oldKanji);
+                    vocabularyRepository.deleteAll(oldKanji);
+                }
 
                 // 1. Save uploaded file content persistently to uploads/n3/Chuong_{c}/Bai_{l}.json
                 Path targetDir = Paths.get("uploads", "n3", "Chuong_" + chuong);
