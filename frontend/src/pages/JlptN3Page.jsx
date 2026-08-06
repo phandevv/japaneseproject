@@ -185,6 +185,7 @@ const JlptN3Page = () => {
   // Daily Study Quiz Setup Configuration Options
   const [quizQuestionType, setQuizQuestionType] = useState('ja-to-vi'); // 'ja-to-vi' | 'vi-to-ja'
   const [showHiraganaHint, setShowHiraganaHint] = useState(true);
+  const [quizCategory, setQuizCategory] = useState('all'); // 'all' | 'vocab' | 'kanji' | 'grammar'
   const [quizOptType, setQuizOptType] = useState('all'); // 'all' | 'random' | 'range'
   const [quizOptRandomCount, setQuizOptRandomCount] = useState(15);
   const [quizOptRangeStart, setQuizOptRangeStart] = useState(1);
@@ -502,20 +503,31 @@ const isContainsKanji = (str) => {
       return;
     }
 
+    // Filter by selected category
+    const filteredPool = quizCategory === 'all'
+      ? allPool
+      : allPool.filter(w => w.type === quizCategory);
+
+    if (filteredPool.length === 0) {
+      const categoryLabel = quizCategory === 'vocab' ? 'Từ vựng' : quizCategory === 'kanji' ? 'Chữ Hán' : 'Ngữ pháp';
+      setQuizSetupError(`Bài học này chưa có dữ liệu ${categoryLabel}.`);
+      return;
+    }
+
     let selectedWords = [];
     if (quizOptType === 'all') {
-      selectedWords = shuffleArray(allPool);
+      selectedWords = shuffleArray(filteredPool);
     } else if (quizOptType === 'random') {
-      const count = Math.min(allPool.length, Math.max(1, parseInt(quizOptRandomCount) || 15));
-      selectedWords = shuffleArray(allPool).slice(0, count);
+      const count = Math.min(filteredPool.length, Math.max(1, parseInt(quizOptRandomCount) || 15));
+      selectedWords = shuffleArray(filteredPool).slice(0, count);
     } else if (quizOptType === 'range') {
       const start = Math.max(1, parseInt(quizOptRangeStart) || 1) - 1;
-      const end = Math.min(parseInt(quizOptRangeEnd) || allPool.length, allPool.length);
+      const end = Math.min(parseInt(quizOptRangeEnd) || filteredPool.length, filteredPool.length);
       if (start >= end) {
         setQuizSetupError(`Khoảng câu hỏi không hợp lệ (từ ${start + 1} đến ${end}).`);
         return;
       }
-      selectedWords = allPool.slice(start, end);
+      selectedWords = filteredPool.slice(start, end);
     }
 
     setQuizWords(selectedWords);
@@ -1228,6 +1240,40 @@ const isContainsKanji = (str) => {
                         <p style={{ margin: 0, color: 'var(--text-secondary)', fontSize: '0.92rem', lineHeight: 1.5 }}>
                           Đạt <strong style={{ color: '#10b981' }}>≥ 90%</strong> điểm số ở chế độ kiểm tra tất cả từ vựng để mở khóa hoàn thành Bài học!
                         </p>
+                      </div>
+
+                      {/* Category Filter Selection */}
+                      <div style={{ paddingBottom: '16px', borderBottom: '1px solid var(--border-color)' }}>
+                        <label style={{ display: 'block', fontWeight: 600, marginBottom: '10px', fontSize: '0.95rem' }}>
+                          Loại nội dung muốn kiểm tra:
+                        </label>
+                        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
+                          {[
+                            { value: 'all',     label: '📚 Tất cả',    desc: 'Từ vựng + Chữ Hán + Ngữ pháp' },
+                            { value: 'vocab',   label: '🔤 Từ vựng',   desc: `${lessonData?.tu_vung?.length || 0} từ` },
+                            { value: 'kanji',   label: '漢 Chữ Hán',   desc: `${lessonData?.chu_han?.length || 0} chữ` },
+                            { value: 'grammar', label: '📝 Ngữ pháp',  desc: `${lessonData?.ngu_phap?.length || 0} cấu trúc` },
+                          ].map(opt => (
+                            <label key={opt.value} style={{
+                              display: 'flex', alignItems: 'center', gap: '10px', padding: '12px 14px', borderRadius: '12px',
+                              border: `1.5px solid ${quizCategory === opt.value ? 'var(--accent-color)' : 'var(--border-color)'}`,
+                              backgroundColor: quizCategory === opt.value ? 'rgba(37,99,235,0.06)' : 'transparent',
+                              cursor: 'pointer', transition: 'all 0.15s ease'
+                            }}>
+                              <input
+                                type="radio"
+                                name="quizCategoryJlpt"
+                                value={opt.value}
+                                checked={quizCategory === opt.value}
+                                onChange={() => setQuizCategory(opt.value)}
+                              />
+                              <div>
+                                <div style={{ fontWeight: 700, fontSize: '0.92rem' }}>{opt.label}</div>
+                                <div style={{ fontSize: '0.78rem', color: 'var(--text-secondary)', marginTop: '2px' }}>{opt.desc}</div>
+                              </div>
+                            </label>
+                          ))}
+                        </div>
                       </div>
 
                       {/* Question Direction Selection */}
