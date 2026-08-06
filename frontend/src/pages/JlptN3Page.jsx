@@ -4,7 +4,7 @@ import {
   Trophy, ArrowLeft, Play, Sparkles, Layers, List, Award, 
   HelpCircle, AlertCircle, Volume2, Shuffle, Upload, FileText, Eye, EyeOff
 } from 'lucide-react';
-import { jlptN3Api } from '../services/api';
+import { jlptN3Api, srsApi } from '../services/api';
 import FlashcardCard from '../components/FlashcardCard';
 import KanjiDetailModal from '../components/KanjiDetailModal';
 import AiEnrichedTabbedView from '../components/AiEnrichedTabbedView';
@@ -46,7 +46,8 @@ const JlptN3Page = () => {
   const [submittingQuiz, setSubmittingQuiz] = useState(false);
   const [uploadingFiles, setUploadingFiles] = useState(false);
 
-  // Daily Study Quiz Setup Configuration Options
+  // Daily Study Quiz Setup Configuration Options & Typing Answer Mode
+  const [quizAnswerMode, setQuizAnswerMode] = useState('typing'); // 'typing' | 'mc'
   const [quizQuestionType, setQuizQuestionType] = useState('ja-to-vi'); // 'ja-to-vi' | 'vi-to-ja'
   const [showHiraganaHint, setShowHiraganaHint] = useState(true);
   const [quizOptType, setQuizOptType] = useState('all'); // 'all' | 'random' | 'range'
@@ -56,6 +57,9 @@ const JlptN3Page = () => {
   const [quizSetupError, setQuizSetupError] = useState('');
   const [elapsedSeconds, setElapsedSeconds] = useState(0);
   const [mistakes, setMistakes] = useState([]);
+  const [userInput, setUserInput] = useState('');
+  const [questionAnswered, setQuestionAnswered] = useState(false);
+  const [lastAssignedQuality, setLastAssignedQuality] = useState(1);
 
   // Quiz Timer Effect
   useEffect(() => {
@@ -391,6 +395,8 @@ const isContainsKanji = (str) => {
     setQuizQuestions(questions);
     setCurrentQuestionIndex(0);
     setUserAnswers({});
+    setUserInput('');
+    setQuestionAnswered(false);
     setQuizScore(0);
     setMistakes([]);
     setQuizResult(null);
@@ -406,18 +412,81 @@ const isContainsKanji = (str) => {
     return arr;
   };
 
-  const handleSelectOption = (option) => {
+  const handleAnswerCheck = (givenAnswer) => {
+    const q = quizQuestions[currentQuestionIndex];
+    if (!q || questionAnswered) return;
+
+    const answerToTest = (givenAnswer !== undefined ? givenAnswer : userInput).trim();
+    if (!answerToTest) return;
+
+    let isCorrect = false;
+
+    if (quizAnswerMode === 'mc') {
+      isCorrect = answerToTest === q.correctAnswer;
+    } else {
+      // Typing mode
+      if (quizQuestionType === 'vi-to-ja') {
+        const inputClean = answerToTest.toLowerCase();
+        const jaClean = (q.item?.ja || '').toLowerCase();
+        const hiraClean = (q.item?.hiragana || '').toLowerCase();
+        isCorrect = (inputClean === jaClean || inputClean === hiraClean);
+      } else {
+        // ja-to-vi mode with smart Vietnamese match & synonyms
+        isCorrect = matchVietnameseAnswer(answerToTest, q.correctAnswer || q.item?.vi || '');
+      }
+    }
+
+    // Determine SRS quality rating (Identical to Daily Study)
+    let quality = 1; // Forgot
+    if (isCorrect) {
+      if (elapsedSeconds <= 3) {
+        quality = 4; // Easy
+      } else if (elapsedSeconds <= 8) {
+        quality = 3; // Good
+      } else {
+        quality = 2; // Hard
+      }
+    }
+
+    setLastAssignedQuality(quality);
+    setQuestionAnswered(true);
+
+    // Save user answer
     setUserAnswers(prev => ({
       ...prev,
-      [currentQuestionIndex]: option
+      [currentQuestionIndex]: {
+        givenAnswer: answerToTest,
+        isCorrect,
+        quality,
+        elapsedSeconds
+      }
     }));
+
+    // Trigger SRS review assessment in database (marks word as learned)
+    if (isCorrect && q.wordObj && q.wordObj.id) {
+      srsApi.reviewWord(q.wordObj.id, quality).catch(err => {
+        console.warn("SRS review word update failed:", err);
+      });
+    }
+  };
+
+  const handleNextQuestion = () => {
+    if (currentQuestionIndex < quizQuestions.length - 1) {
+      setCurrentQuestionIndex(prev => prev + 1);
+      setUserInput('');
+      setQuestionAnswered(false);
+      setElapsedSeconds(0);
+    } else {
+      handleSubmitQuiz();
+    }
   };
 
   const handleSubmitQuiz = async () => {
     let score = 0;
     const wrongList = [];
     quizQuestions.forEach((q, idx) => {
-      if (userAnswers[idx] === q.correctAnswer) {
+      const ans = userAnswers[idx];
+      if (ans && ans.isCorrect) {
         score++;
       } else {
         wrongList.push(q.item);
@@ -974,7 +1043,6 @@ const isContainsKanji = (str) => {
                       ))}
                     </div>
                   )}
-
                   {/* GRAMMAR LIST */}
                   {listSubTab === 'grammar' && (
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
@@ -1004,12 +1072,12 @@ const isContainsKanji = (str) => {
 
 
               {/* ───────────────────────────────────────────────────────────────
-                  TAB 3: QUIZ TEST (Identical to Daily Study Quiz with Options & Pass >= 90%)
+                  TAB 3: QUIZ TEST (With Typing & MC Options, SRS Rating & Pass >= 90%)
                  ─────────────────────────────────────────────────────────────── */}
               {activeTab === 'quiz' && (
                 <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '20px', padding: '20px 0' }}>
                   
-                  {/* QUIZ SETUP SCREEN (Configuration Modal Identical to Daily Study) */}
+                  {/* QUIZ SETUP SCREEN (Configuration Modal) */}
                   {quizState === 'setup' && (
                     <div style={{ background: 'var(--surface-color)', border: '1px solid var(--border-color)', borderRadius: '20px', padding: '36px', maxWidth: '600px', width: '100%', display: 'flex', flexDirection: 'column', gap: '20px' }}>
                       <div style={{ textAlign: 'center' }}>
@@ -1024,10 +1092,35 @@ const isContainsKanji = (str) => {
                         </p>
                       </div>
 
+                      {/* Quiz Answer Mode Selection (Gõ chữ vs Trắc nghiệm) */}
+                      <div style={{ paddingBottom: '16px', borderBottom: '1px solid var(--border-color)' }}>
+                        <label style={{ display: 'block', fontWeight: 600, marginBottom: '10px', fontSize: '0.95rem' }}>
+                          Hình thức làm bài Quiz:
+                        </label>
+                        <div style={{ display: 'flex', gap: '12px' }}>
+                          <button 
+                            type="button"
+                            className={`btn ${quizAnswerMode === 'typing' ? 'btn-primary' : 'btn-secondary'}`}
+                            style={{ flex: 1, padding: '12px 10px', fontSize: '0.92rem', borderRadius: '10px', fontWeight: 700 }}
+                            onClick={() => setQuizAnswerMode('typing')}
+                          >
+                            ⌨️ Gõ câu trả lời (Typing)
+                          </button>
+                          <button 
+                            type="button"
+                            className={`btn ${quizAnswerMode === 'mc' ? 'btn-primary' : 'btn-secondary'}`}
+                            style={{ flex: 1, padding: '12px 10px', fontSize: '0.92rem', borderRadius: '10px', fontWeight: 700 }}
+                            onClick={() => setQuizAnswerMode('mc')}
+                          >
+                            🔘 Trắc nghiệm (4 Lựa chọn)
+                          </button>
+                        </div>
+                      </div>
+
                       {/* Question Direction Selection */}
                       <div style={{ paddingBottom: '16px', borderBottom: '1px solid var(--border-color)' }}>
                         <label style={{ display: 'block', fontWeight: 600, marginBottom: '10px', fontSize: '0.95rem' }}>
-                          Dạng câu hỏi Quiz:
+                          Chiều câu hỏi Quiz:
                         </label>
                         <div style={{ display: 'flex', gap: '12px' }}>
                           <button 
@@ -1036,7 +1129,7 @@ const isContainsKanji = (str) => {
                             style={{ flex: 1, padding: '10px 8px', fontSize: '0.88rem', borderRadius: '10px' }}
                             onClick={() => setQuizQuestionType('vi-to-ja')}
                           >
-                            Nghĩa Việt → Tiếng Nhật
+                            🇻🇳 Nghĩa Việt → 🇯🇵 Tiếng Nhật
                           </button>
                           <button 
                             type="button"
@@ -1044,7 +1137,7 @@ const isContainsKanji = (str) => {
                             style={{ flex: 1, padding: '10px 8px', fontSize: '0.88rem', borderRadius: '10px' }}
                             onClick={() => setQuizQuestionType('ja-to-vi')}
                           >
-                            Tiếng Nhật → Nghĩa Việt
+                            🇯🇵 Tiếng Nhật → 🇻🇳 Nghĩa Việt
                           </button>
                         </div>
                       </div>
@@ -1188,102 +1281,169 @@ const isContainsKanji = (str) => {
                   )}
 
                   {/* QUIZ PLAYING SCREEN */}
-                  {quizState === 'playing' && quizQuestions.length > 0 && (
-                    <div style={{ background: 'var(--surface-color)', border: '1px solid var(--border-color)', borderRadius: '20px', padding: '28px', maxWidth: '680px', width: '100%', display: 'flex', flexDirection: 'column', gap: '20px' }}>
-                      
-                      {/* Question Header & Progress & Timer */}
-                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', color: 'var(--text-secondary)', fontSize: '0.9rem', fontWeight: 600 }}>
-                        <span style={{ fontSize: '0.85rem', padding: '4px 10px', borderRadius: '10px', background: 'rgba(37,99,235,0.1)', color: 'var(--accent-color)' }}>
-                          {quizQuestions[currentQuestionIndex]?.category}
-                        </span>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                          ⏱️ {elapsedSeconds}s
+                  {quizState === 'playing' && quizQuestions.length > 0 && (() => {
+                    const q = quizQuestions[currentQuestionIndex];
+                    const currentAns = userAnswers[currentQuestionIndex];
+
+                    return (
+                      <div style={{ background: 'var(--surface-color)', border: '1px solid var(--border-color)', borderRadius: '20px', padding: '28px', maxWidth: '680px', width: '100%', display: 'flex', flexDirection: 'column', gap: '20px' }}>
+                        
+                        {/* Question Header & Progress & Timer */}
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', color: 'var(--text-secondary)', fontSize: '0.9rem', fontWeight: 600 }}>
+                          <span style={{ fontSize: '0.85rem', padding: '4px 10px', borderRadius: '10px', background: 'rgba(37,99,235,0.1)', color: 'var(--accent-color)' }}>
+                            {q?.category}
+                          </span>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                            ⏱️ {elapsedSeconds}s
+                          </div>
+                          <span>
+                            Câu {currentQuestionIndex + 1} / {quizQuestions.length}
+                          </span>
                         </div>
-                        <span>
-                          Câu {currentQuestionIndex + 1} / {quizQuestions.length}
-                        </span>
-                      </div>
 
-                      <div style={{ width: '100%', height: '6px', background: 'var(--surface-hover)', borderRadius: '6px', overflow: 'hidden' }}>
-                        <div style={{ width: `${((currentQuestionIndex + 1) / quizQuestions.length) * 100}%`, height: '100%', background: 'var(--accent-color)', transition: 'width 0.2s ease' }} />
-                      </div>
+                        <div style={{ width: '100%', height: '6px', background: 'var(--surface-hover)', borderRadius: '6px', overflow: 'hidden' }}>
+                          <div style={{ width: `${((currentQuestionIndex + 1) / quizQuestions.length) * 100}%`, height: '100%', background: 'var(--accent-color)', transition: 'width 0.2s ease' }} />
+                        </div>
 
-                      {/* Question Text */}
-                      <div style={{ textAlign: 'center', margin: '10px 0' }}>
-                        <h3 className="font-jp" style={{ fontSize: '1.6rem', color: 'var(--text-primary)', lineHeight: 1.4, margin: '0 0 6px 0' }}>
-                          {quizQuestions[currentQuestionIndex]?.question}
-                        </h3>
-                        {showHiraganaHint && quizQuestionType === 'ja-to-vi' && quizQuestions[currentQuestionIndex]?.item?.hiragana && (
-                          <div style={{ fontSize: '1rem', color: 'var(--accent-color)', fontStyle: 'italic' }}>
-                            Cách đọc: {quizQuestions[currentQuestionIndex].item.hiragana}
+                        {/* Question Display Card */}
+                        <div style={{ textAlign: 'center', margin: '10px 0', padding: '24px', background: 'var(--surface-hover)', borderRadius: '16px' }}>
+                          <p style={{ color: 'var(--text-secondary)', fontSize: '0.95rem', marginBottom: '8px' }}>
+                            {quizQuestionType === 'vi-to-ja' ? 'Hãy nhập từ/đọc Tiếng Nhật tương ứng:' : 'Hãy trả lời nghĩa Tiếng Việt tương ứng:'}
+                          </p>
+                          <h2 className="font-jp" style={{ fontSize: '2.4rem', color: 'var(--text-primary)', lineHeight: 1.4, margin: '0 0 6px 0', fontWeight: 800 }}>
+                            {quizQuestionType === 'vi-to-ja' ? q?.item?.vi : q?.item?.ja}
+                          </h2>
+                          {showHiraganaHint && quizQuestionType === 'ja-to-vi' && q?.item?.hiragana && (
+                            <div style={{ fontSize: '1.1rem', color: 'var(--accent-color)', fontStyle: 'italic', marginTop: '4px' }}>
+                              ({q.item.hiragana})
+                            </div>
+                          )}
+                          {quizQuestionType === 'vi-to-ja' && q?.item?.wordObj?.hanViet && (
+                            <div style={{ fontSize: '0.95rem', color: 'var(--text-secondary)', marginTop: '4px' }}>
+                              【{q.item.wordObj.hanViet}】
+                            </div>
+                          )}
+                        </div>
+
+                        {/* TYPING INPUT MODE */}
+                        {quizAnswerMode === 'typing' && !questionAnswered && (
+                          <form onSubmit={(e) => { e.preventDefault(); handleAnswerCheck(); }} style={{ display: 'flex', gap: '10px' }}>
+                            <input
+                              type="text"
+                              autoFocus
+                              value={userInput}
+                              onChange={(e) => setUserInput(e.target.value)}
+                              placeholder={quizQuestionType === 'vi-to-ja' ? 'Gõ từ tiếng Nhật (Kanji/Hiragana)...' : 'Nhập nghĩa Tiếng Việt...'}
+                              className={quizQuestionType === 'vi-to-ja' ? 'font-jp' : ''}
+                              style={{
+                                flex: 1,
+                                padding: '16px 20px',
+                                borderRadius: '12px',
+                                border: '2px solid var(--border-color)',
+                                backgroundColor: 'var(--surface-color)',
+                                color: 'var(--text-primary)',
+                                fontSize: '1.2rem',
+                                outline: 'none'
+                              }}
+                            />
+                            <button type="submit" className="btn btn-primary" style={{ padding: '16px 28px', fontSize: '1.05rem', fontWeight: 800 }}>
+                              Kiểm tra ✓
+                            </button>
+                          </form>
+                        )}
+
+                        {/* MULTIPLE CHOICE MODE */}
+                        {quizAnswerMode === 'mc' && !questionAnswered && (
+                          <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                            {q?.options?.map((opt, idx) => (
+                              <button
+                                key={idx}
+                                onClick={() => handleAnswerCheck(opt)}
+                                style={{
+                                  padding: '16px 20px', borderRadius: '12px', border: '2px solid var(--border-color)',
+                                  background: 'var(--surface-color)', color: 'var(--text-primary)',
+                                  fontSize: '1.05rem', fontWeight: 600, cursor: 'pointer', textAlign: 'left',
+                                  transition: 'all 0.15s ease'
+                                }}
+                              >
+                                {opt}
+                              </button>
+                            ))}
                           </div>
                         )}
-                      </div>
 
-                      {/* 4 Options */}
-                      <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-                        {quizQuestions[currentQuestionIndex]?.options?.map((opt, idx) => {
-                          const isSelected = userAnswers[currentQuestionIndex] === opt;
-                          return (
-                            <button
-                              key={idx}
-                              onClick={() => handleSelectOption(opt)}
-                              style={{
-                                padding: '16px 20px', borderRadius: '12px', border: `2px solid ${isSelected ? 'var(--accent-color)' : 'var(--border-color)'}`,
-                                background: isSelected ? 'rgba(37,99,235,0.08)' : 'var(--surface-color)',
-                                color: 'var(--text-primary)', fontSize: '1.05rem', fontWeight: isSelected ? 700 : 500,
-                                cursor: 'pointer', textAlign: 'left', transition: 'all 0.15s ease'
-                              }}
-                            >
-                              {opt}
-                            </button>
-                          );
-                        })}
-                      </div>
+                        {/* ANSWER FEEDBACK & SRS EVALUATION CARD */}
+                        {questionAnswered && currentAns && (
+                          <div className="animate-fade-in" style={{
+                            backgroundColor: currentAns.isCorrect ? 'var(--success-light)' : 'var(--danger-light)',
+                            borderColor: currentAns.isCorrect ? 'var(--success-color)' : 'var(--danger-color)',
+                            borderWidth: '1.5px', borderStyle: 'solid', borderRadius: '16px', padding: '20px',
+                            display: 'flex', flexDirection: 'column', gap: '16px'
+                          }}>
+                            <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', flexWrap: 'wrap', gap: '12px' }}>
+                              <div style={{ display: 'flex', gap: '12px', alignItems: 'flex-start' }}>
+                                {currentAns.isCorrect ? (
+                                  <CheckCircle size={32} color="var(--success-color)" style={{ flexShrink: 0, marginTop: '2px' }} />
+                                ) : (
+                                  <AlertCircle size={32} color="var(--danger-color)" style={{ flexShrink: 0, marginTop: '2px' }} />
+                                )}
+                                <div style={{ textAlign: 'left' }}>
+                                  <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                                    <h3 style={{ color: currentAns.isCorrect ? 'var(--success-color)' : 'var(--danger-color)', margin: 0, fontSize: '1.2rem' }}>
+                                      {currentAns.isCorrect ? 'Chính xác! 🎉' : 'Chưa đúng ⚠️'}
+                                    </h3>
+                                    <span style={{ 
+                                      fontSize: '0.78rem', padding: '3px 10px', borderRadius: '10px', fontWeight: 700,
+                                      backgroundColor: lastAssignedQuality === 4 ? 'var(--success-light)' : lastAssignedQuality === 3 ? 'rgba(37,99,235,0.1)' : lastAssignedQuality === 2 ? 'rgba(245,158,11,0.1)' : 'var(--danger-light)',
+                                      color: lastAssignedQuality === 4 ? 'var(--success-color)' : lastAssignedQuality === 3 ? 'var(--accent-color)' : lastAssignedQuality === 2 ? '#f59e0b' : 'var(--danger-color)',
+                                      border: '1px solid rgba(0,0,0,0.05)'
+                                    }}>
+                                      {lastAssignedQuality === 4 ? '🚀 Easy (Xuất sắc)' : lastAssignedQuality === 3 ? '👍 Good (Chuẩn)' : lastAssignedQuality === 2 ? '⌛ Hard (Chậm)' : '⚠️ Forgot (Cần ôn)'} ({currentAns.elapsedSeconds}s)
+                                    </span>
+                                  </div>
 
-                      {/* DeepSeek AI Enrichment View in Quiz Feedback */}
-                      {userAnswers[currentQuestionIndex] && quizQuestions[currentQuestionIndex]?.wordObj && (
-                        <div style={{ marginTop: '12px', borderTop: '1px solid var(--border-color)', paddingTop: '16px' }}>
-                          <h4 style={{ margin: '0 0 10px 0', fontSize: '0.95rem', color: 'var(--accent-color)', fontWeight: 700 }}>
-                            🤖 Giải thích Chi Tiết DeepSeek AI cho từ này:
-                          </h4>
-                          <AiEnrichedTabbedView data={quizQuestions[currentQuestionIndex].wordObj} />
-                        </div>
-                      )}
+                                  <div style={{ marginTop: '8px', fontSize: '1.05rem', color: 'var(--text-primary)' }}>
+                                    <strong>Đáp án đúng:</strong> <span className="font-jp" style={{ color: 'var(--success-color)', fontWeight: 700 }}>{q.correctAnswer}</span>
+                                    {q.item?.hiragana && <span style={{ color: 'var(--text-secondary)', marginLeft: '6px' }}>({q.item.hiragana})</span>}
+                                  </div>
 
-                      {/* Quiz Controls */}
-                      <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '10px' }}>
-                        <button
-                          disabled={currentQuestionIndex === 0}
-                          onClick={() => setCurrentQuestionIndex(prev => prev - 1)}
-                          style={{
-                            padding: '10px 18px', borderRadius: '10px', border: '1px solid var(--border-color)',
-                            background: 'var(--surface-color)', opacity: currentQuestionIndex === 0 ? 0.4 : 1,
-                            cursor: currentQuestionIndex === 0 ? 'not-allowed' : 'pointer'
-                          }}
-                        >
-                          Câu trước
-                        </button>
+                                  {!currentAns.isCorrect && (
+                                    <div style={{ marginTop: '4px', fontSize: '0.95rem', color: 'var(--danger-color)' }}>
+                                      <strong>Bạn đã nhập:</strong> {currentAns.givenAnswer}
+                                    </div>
+                                  )}
+                                </div>
+                              </div>
+                            </div>
 
-                        {currentQuestionIndex < quizQuestions.length - 1 ? (
-                          <button
-                            onClick={() => setCurrentQuestionIndex(prev => prev + 1)}
-                            style={{ padding: '10px 22px', borderRadius: '10px', border: 'none', background: 'var(--accent-color)', color: 'white', fontWeight: 700, cursor: 'pointer' }}
-                          >
-                            Câu tiếp ➔
-                          </button>
-                        ) : (
-                          <button
-                            onClick={handleSubmitQuiz}
-                            disabled={submittingQuiz}
-                            style={{ padding: '10px 22px', borderRadius: '10px', border: 'none', background: '#10b981', color: 'white', fontWeight: 800, cursor: 'pointer' }}
-                          >
-                            {submittingQuiz ? 'Đang nộp...' : 'Nộp Bài Quiz ✓'}
-                          </button>
+                            {/* DeepSeek AI Breakdown Card */}
+                            {q.wordObj && (
+                              <div style={{ borderTop: '1px solid var(--border-color)', paddingTop: '14px' }}>
+                                <h4 style={{ margin: '0 0 8px 0', fontSize: '0.92rem', color: 'var(--accent-color)', fontWeight: 700 }}>
+                                  🤖 Giải thích chi tiết DeepSeek AI:
+                                </h4>
+                                <AiEnrichedTabbedView data={q.wordObj} />
+                              </div>
+                            )}
+
+                            {/* Next Question Button */}
+                            <div style={{ display: 'flex', justifyContent: 'flex-end', borderTop: '1px solid var(--border-color)', paddingTop: '14px' }}>
+                              {currentQuestionIndex < quizQuestions.length - 1 ? (
+                                <button onClick={handleNextQuestion} className="btn btn-primary" style={{ padding: '12px 28px', fontSize: '1rem', fontWeight: 800 }}>
+                                  Câu tiếp ➔
+                                </button>
+                              ) : (
+                                <button onClick={handleNextQuestion} className="btn" style={{ padding: '12px 28px', fontSize: '1rem', fontWeight: 800, background: '#10b981', color: 'white' }}>
+                                  Nộp Bài Quiz ✓
+                                </button>
+                              )}
+                            </div>
+                          </div>
                         )}
+
                       </div>
-                    </div>
-                  )}
+                    );
+                  })()}
 
                   {/* QUIZ FINISHED SCREEN */}
                   {quizState === 'finished' && quizResult && (
@@ -1309,37 +1469,18 @@ const isContainsKanji = (str) => {
                         </p>
                       </div>
 
-                      <p style={{ margin: 0, color: 'var(--text-secondary)', fontSize: '0.95rem', lineHeight: 1.5 }}>
-                        {quizResult.passed 
-                          ? 'Bạn đã đạt trên 90% điểm số! Trạng thái hoàn thành xuất sắc Bài học này đã được lưu vào hệ thống.'
-                          : 'Cần đạt ≥ 90% điểm số ở chế độ kiểm tra toàn bộ để hoàn thành bài học. Hãy xem các từ chưa đúng bên dưới và thử lại nhé!'}
-                      </p>
-
-                      {/* Incorrect / Mistakes List Table */}
                       {mistakes.length > 0 && (
-                        <div style={{ width: '100%', textAlign: 'left', marginTop: '10px' }}>
-                          <h4 style={{ margin: '0 0 10px 0', fontSize: '1rem', color: '#ef4444', fontWeight: 700 }}>
-                            Các câu đã làm chưa đúng ({mistakes.length} câu):
-                          </h4>
-                          <div style={{ border: '1px solid var(--border-color)', borderRadius: '12px', overflow: 'hidden', background: 'var(--surface-hover)' }}>
-                            <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.88rem' }}>
-                              <thead>
-                                <tr style={{ borderBottom: '1px solid var(--border-color)', color: 'var(--text-secondary)' }}>
-                                  <th style={{ padding: '10px 14px' }}>Tiếng Nhật</th>
-                                  <th style={{ padding: '10px 14px' }}>Cách đọc</th>
-                                  <th style={{ padding: '10px 14px' }}>Nghĩa tiếng Việt</th>
-                                </tr>
-                              </thead>
-                              <tbody>
-                                {mistakes.map((item, idx) => (
-                                  <tr key={idx} style={{ borderBottom: '1px solid var(--border-color)' }}>
-                                    <td className="font-jp" style={{ padding: '10px 14px', fontWeight: 800, color: 'var(--text-primary)' }}>{item.ja}</td>
-                                    <td className="font-jp" style={{ padding: '10px 14px', color: 'var(--accent-color)' }}>{item.hiragana}</td>
-                                    <td style={{ padding: '10px 14px', color: 'var(--success-color)' }}>{item.vi}</td>
-                                  </tr>
-                                ))}
-                              </tbody>
-                            </table>
+                        <div style={{ textAlign: 'left', background: 'var(--surface-hover)', borderRadius: '16px', padding: '20px' }}>
+                          <h3 style={{ fontSize: '1.05rem', margin: '0 0 12px 0', color: '#ef4444' }}>
+                            Các câu trả lời chưa đúng ({mistakes.length}):
+                          </h3>
+                          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', maxHeight: '200px', overflowY: 'auto' }}>
+                            {mistakes.map((m, idx) => (
+                              <div key={idx} style={{ padding: '8px 12px', background: 'var(--surface-color)', borderRadius: '8px', fontSize: '0.9rem', display: 'flex', justifyContent: 'space-between' }}>
+                                <span className="font-jp" style={{ fontWeight: 700 }}>{m.ja} {m.hiragana ? `(${m.hiragana})` : ''}</span>
+                                <span style={{ color: 'var(--text-secondary)' }}>{m.vi}</span>
+                              </div>
+                            ))}
                           </div>
                         </div>
                       )}
