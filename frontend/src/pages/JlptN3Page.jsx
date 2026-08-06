@@ -1106,31 +1106,6 @@ const isContainsKanji = (str) => {
                         </p>
                       </div>
 
-                      {/* Quiz Answer Mode Selection (Gõ chữ vs Trắc nghiệm) */}
-                      <div style={{ paddingBottom: '16px', borderBottom: '1px solid var(--border-color)' }}>
-                        <label style={{ display: 'block', fontWeight: 600, marginBottom: '10px', fontSize: '0.95rem' }}>
-                          Hình thức làm bài Quiz:
-                        </label>
-                        <div style={{ display: 'flex', gap: '12px' }}>
-                          <button 
-                            type="button"
-                            className={`btn ${quizAnswerMode === 'typing' ? 'btn-primary' : 'btn-secondary'}`}
-                            style={{ flex: 1, padding: '12px 10px', fontSize: '0.92rem', borderRadius: '10px', fontWeight: 700 }}
-                            onClick={() => setQuizAnswerMode('typing')}
-                          >
-                            ⌨️ Gõ câu trả lời (Typing)
-                          </button>
-                          <button 
-                            type="button"
-                            className={`btn ${quizAnswerMode === 'mc' ? 'btn-primary' : 'btn-secondary'}`}
-                            style={{ flex: 1, padding: '12px 10px', fontSize: '0.92rem', borderRadius: '10px', fontWeight: 700 }}
-                            onClick={() => setQuizAnswerMode('mc')}
-                          >
-                            🔘 Trắc nghiệm (4 Lựa chọn)
-                          </button>
-                        </div>
-                      </div>
-
                       {/* Question Direction Selection */}
                       <div style={{ paddingBottom: '16px', borderBottom: '1px solid var(--border-color)' }}>
                         <label style={{ display: 'block', fontWeight: 600, marginBottom: '10px', fontSize: '0.95rem' }}>
