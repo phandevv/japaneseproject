@@ -22,6 +22,9 @@ import org.springframework.web.server.ResponseStatusException;
 import org.springframework.http.HttpStatus;
 import java.util.concurrent.CompletableFuture;
 
+import com.flashcard.knowledge.model.GrammarCard;
+import com.flashcard.knowledge.repository.GrammarCardRepository;
+
 @Service
 public class DeepSeekEnrichmentService {
 
@@ -31,12 +34,21 @@ public class DeepSeekEnrichmentService {
     private final Semaphore bulkheadSemaphore = new Semaphore(50);
 
     private final VocabularyRepository vocabularyRepository;
+    private final GrammarCardRepository grammarCardRepository;
     private final ObjectMapper objectMapper;
     private final HttpClient httpClient;
 
     @Autowired
     public DeepSeekEnrichmentService(VocabularyRepository vocabularyRepository, ObjectMapper objectMapper) {
+        this(vocabularyRepository, null, objectMapper);
+    }
+
+    @Autowired
+    public DeepSeekEnrichmentService(VocabularyRepository vocabularyRepository,
+                                  @Autowired(required = false) GrammarCardRepository grammarCardRepository,
+                                  ObjectMapper objectMapper) {
         this.vocabularyRepository = vocabularyRepository;
+        this.grammarCardRepository = grammarCardRepository;
         this.objectMapper = objectMapper;
         this.httpClient = HttpClient.newBuilder()
                 .connectTimeout(Duration.ofSeconds(10))
@@ -266,6 +278,115 @@ public class DeepSeekEnrichmentService {
             log.error("Outer error: {}", e.getMessage());
             bulkheadSemaphore.release();
             return CompletableFuture.completedFuture(vocab);
+        }
+    }
+
+    public CompletableFuture<GrammarCard> enrichGrammarCard(GrammarCard grammarCard) {
+        if (!bulkheadSemaphore.tryAcquire()) {
+            log.warn("Bulkhead rejected AI request for grammar ID: {} because concurrent limit of 50 is exceeded.", grammarCard.getId());
+            return CompletableFuture.failedFuture(new ResponseStatusException(
+                HttpStatus.TOO_MANY_REQUESTS,
+                "Hệ thống AI đang bận xử lý quá nhiều yêu cầu đồng thời. Vui lòng thử lại sau ít phút!"
+            ));
+        }
+        try {
+            String apiKey = getApiKey();
+            if (apiKey == null) {
+                bulkheadSemaphore.release();
+                return CompletableFuture.completedFuture(grammarCard);
+            }
+
+            String prompt = String.format(
+                "Bạn là một chuyên gia ngữ pháp tiếng Nhật hàng đầu.\n" +
+                "Nhiệm vụ: Giải thích chi tiết và phân tích toàn diện điểm ngữ pháp sau.\n\n" +
+                "Cấu trúc ngữ pháp: \"%s\"\n" +
+                "Ý nghĩa hiện tại: \"%s\"\n" +
+                "Cấp độ: \"%s\"\n\n" +
+                "Hãy trả về duy nhất JSON (không dùng markdown):\n" +
+                "{\n" +
+                "  \"grammar\": \"%s\",\n" +
+                "  \"meaning\": \"Ý nghĩa tổng quát ngắn gọn chuẩn xác\",\n" +
+                "  \"formation\": \"Công thức/Cấu trúc kết hợp chi tiết (ví dụ: V-て + 以来 / N + につき / V-る + にあたって)\",\n" +
+                "  \"usageGuide\": \"Giải thích chi tiết sắc thái, hoàn cảnh sử dụng & lưu ý khi dùng (văn viết/văn nói, trang trọng hay thân mật, biểu thị cảm xúc gì)\",\n" +
+                "  \"similarGrammar\": \"Các điểm ngữ pháp tương tự hoặc dễ gây nhầm lẫn\",\n" +
+                "  \"difference\": \"Phân biệt cụ thể sắc thái khác nhau giữa cấu trúc này với các cấu trúc tương tự\",\n" +
+                "  \"commonMistakes\": \"Các lỗi phổ biến học viên hay gặp phải (kèm cách dùng sai vs đúng)\",\n" +
+                "  \"examples\": [\n" +
+                "    {\"ja\": \"Câu ví dụ tiếng Nhật 1 (có Furigana mở ngoặc cho Kanji)\", \"reading\": \"Cách đọc Hiragana\", \"vi\": \"Dịch nghĩa tiếng Việt\"},\n" +
+                "    {\"ja\": \"Câu ví dụ 2\", \"reading\": \"Cách đọc Hiragana\", \"vi\": \"Dịch nghĩa tiếng Việt\"},\n" +
+                "    {\"ja\": \"Câu ví dụ 3\", \"reading\": \"Cách đọc Hiragana\", \"vi\": \"Dịch nghĩa tiếng Việt\"}\n" +
+                "  ]\n" +
+                "}",
+                grammarCard.getGrammar(),
+                grammarCard.getMeaning() != null ? grammarCard.getMeaning() : "",
+                grammarCard.getJlpt() != null ? grammarCard.getJlpt() : "N3",
+                grammarCard.getGrammar()
+            );
+
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create("https://api.deepseek.com/v1/chat/completions"))
+                    .header("Content-Type", "application/json")
+                    .header("Authorization", "Bearer " + apiKey)
+                    .timeout(Duration.ofSeconds(30))
+                    .POST(HttpRequest.BodyPublishers.ofString(
+                        objectMapper.writeValueAsString(Map.of(
+                            "model", "deepseek-chat",
+                            "messages", java.util.List.of(Map.of("role", "user", "content", prompt)),
+                            "max_tokens", 2048,
+                            "temperature", 0.3
+                        ))
+                    ))
+                    .build();
+
+            return httpClient.sendAsync(request, HttpResponse.BodyHandlers.ofString())
+                    .thenApply(response -> {
+                        try {
+                            if (response.statusCode() == 200) {
+                                JsonNode responseRoot = objectMapper.readTree(response.body());
+                                String rawText = responseRoot.path("choices").get(0).path("message").path("content").asText();
+                                String contentJson = cleanJsonContent(rawText);
+                                JsonNode contentNode = objectMapper.readTree(contentJson);
+
+                                if (contentNode.has("meaning") && !contentNode.path("meaning").asText().isBlank()) {
+                                    grammarCard.setMeaning(contentNode.path("meaning").asText());
+                                }
+                                if (contentNode.has("formation") && !contentNode.path("formation").asText().isBlank()) {
+                                    grammarCard.setFormation(contentNode.path("formation").asText());
+                                }
+                                if (contentNode.has("usageGuide") && !contentNode.path("usageGuide").asText().isBlank()) {
+                                    grammarCard.setUsageGuide(contentNode.path("usageGuide").asText());
+                                }
+                                if (contentNode.has("similarGrammar") && !contentNode.path("similarGrammar").asText().isBlank()) {
+                                    grammarCard.setSimilarGrammar(contentNode.path("similarGrammar").asText());
+                                }
+                                if (contentNode.has("difference") && !contentNode.path("difference").asText().isBlank()) {
+                                    grammarCard.setDifference(contentNode.path("difference").asText());
+                                }
+                                if (contentNode.has("commonMistakes") && !contentNode.path("commonMistakes").asText().isBlank()) {
+                                    grammarCard.setCommonMistakes(contentNode.path("commonMistakes").asText());
+                                }
+                                if (contentNode.has("examples")) {
+                                    grammarCard.setExamples(objectMapper.writeValueAsString(contentNode.path("examples")));
+                                }
+
+                                if (grammarCardRepository != null) {
+                                    return grammarCardRepository.saveAndFlush(grammarCard);
+                                }
+                            }
+                        } catch (Exception e) {
+                            log.error("Failed to parse DeepSeek response for grammar ID {}: {}", grammarCard.getId(), e.getMessage());
+                        }
+                        return grammarCard;
+                    })
+                    .exceptionally(ex -> {
+                        log.error("Failed to enrich grammar from DeepSeek API: {}", ex.getMessage());
+                        return grammarCard;
+                    })
+                    .whenComplete((res, ex) -> bulkheadSemaphore.release());
+        } catch (Exception e) {
+            log.error("Grammar request build error: {}", e.getMessage());
+            bulkheadSemaphore.release();
+            return CompletableFuture.completedFuture(grammarCard);
         }
     }
 

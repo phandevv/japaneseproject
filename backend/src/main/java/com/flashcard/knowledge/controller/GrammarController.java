@@ -2,6 +2,9 @@ package com.flashcard.knowledge.controller;
 
 import com.flashcard.knowledge.model.GrammarCard;
 import com.flashcard.knowledge.repository.GrammarCardRepository;
+import com.flashcard.knowledge.service.DeepSeekEnrichmentService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -19,11 +22,16 @@ import java.util.Map;
 @RequestMapping("/api/grammar")
 public class GrammarController {
 
+    private static final Logger log = LoggerFactory.getLogger(GrammarController.class);
+
     private final GrammarCardRepository grammarCardRepository;
+    private final DeepSeekEnrichmentService enrichmentService;
 
     @Autowired
-    public GrammarController(GrammarCardRepository grammarCardRepository) {
+    public GrammarController(GrammarCardRepository grammarCardRepository,
+                             DeepSeekEnrichmentService enrichmentService) {
         this.grammarCardRepository = grammarCardRepository;
+        this.enrichmentService = enrichmentService;
     }
 
     /**
@@ -80,5 +88,34 @@ public class GrammarController {
         return grammarCardRepository.findById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
+    }
+
+    /**
+     * Trigger DeepSeek AI enrichment for a specific GrammarCard by ID.
+     * POST /api/grammar/{id}/enrich?force=false
+     */
+    @PostMapping("/{id}/enrich")
+    public ResponseEntity<?> enrichGrammar(@PathVariable(name = "id") Long id, @RequestParam(name = "force", defaultValue = "false") boolean force) {
+        java.util.Optional<GrammarCard> existingOpt = grammarCardRepository.findById(id);
+        if (existingOpt.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        GrammarCard existing = existingOpt.get();
+
+        boolean fullyEnriched = (existing.getUsageGuide() != null && !existing.getUsageGuide().isBlank())
+            && (existing.getFormation() != null && !existing.getFormation().isBlank())
+            && (existing.getExamples() != null && !existing.getExamples().isBlank());
+
+        if (fullyEnriched && !force) {
+            return ResponseEntity.ok(existing);
+        }
+
+        try {
+            GrammarCard updated = enrichmentService.enrichGrammarCard(existing).get(25, java.util.concurrent.TimeUnit.SECONDS);
+            return ResponseEntity.ok(updated);
+        } catch (Exception e) {
+            log.error("Force grammar enrichment failed for grammar ID {}: {}", id, e.getMessage());
+            return ResponseEntity.ok(existing);
+        }
     }
 }

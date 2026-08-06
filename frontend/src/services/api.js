@@ -552,6 +552,16 @@ export const grammarApi = {
   getGrammarDetail: async (id) => {
     const response = await axios.get(`${API_BASE_URL}/grammar/${id}`);
     return response.data;
+  },
+  getById: async (id) => {
+    const response = await axios.get(`${API_BASE_URL}/grammar/${id}`);
+    return response.data;
+  },
+  enrich: async (id, force = false) => {
+    const response = await axios.post(`${API_BASE_URL}/grammar/${id}/enrich`, null, {
+      params: { force }
+    });
+    return response.data;
   }
 };
 

@@ -4,9 +4,10 @@ import {
   Trophy, ArrowLeft, ArrowRight, Play, Sparkles, Layers, List, Award, 
   HelpCircle, AlertCircle, Volume2, Shuffle, Upload, FileText, Eye, EyeOff
 } from 'lucide-react';
-import { jlptN3Api, srsApi, vocabApi } from '../services/api';
+import { jlptN3Api, srsApi, vocabApi, grammarApi } from '../services/api';
 import FlashcardCard from '../components/FlashcardCard';
 import KanjiDetailModal from '../components/KanjiDetailModal';
+import GrammarDetailModal from '../components/GrammarDetailModal';
 import AiEnrichedTabbedView from '../components/AiEnrichedTabbedView';
 
 // ─── Helper: detect kanji characters in a string ──────────────────────────
@@ -151,6 +152,30 @@ const JlptN3Page = () => {
   // Modal Detail State (Reusing KanjiDetailModal from Daily Study)
   const [detailModalIndex, setDetailModalIndex] = useState(null);
 
+  const openGrammarModal = async (g) => {
+    if (g.id) {
+      try {
+        const full = await grammarApi.getById(g.id);
+        setSelectedGrammarModal(full);
+      } catch {
+        setSelectedGrammarModal({
+          id: g.id,
+          grammar: g.cau_truc,
+          meaning: g.y_nghia,
+          formation: g.cach_chia,
+          examples: JSON.stringify(g.vi_du ? g.vi_du.map(v => ({ ja: v, vi: '' })) : [])
+        });
+      }
+    } else {
+      setSelectedGrammarModal({
+        grammar: g.cau_truc,
+        meaning: g.y_nghia,
+        formation: g.cach_chia,
+        examples: JSON.stringify(g.vi_du ? g.vi_du.map(v => ({ ja: v, vi: '' })) : [])
+      });
+    }
+  };
+
   // Flashcard State
   const [flashcardCategory, setFlashcardCategory] = useState('all'); // 'all' | 'kanji' | 'vocab' | 'grammar'
   const [currentFlashcardIndex, setCurrentFlashcardIndex] = useState(0);
@@ -194,6 +219,7 @@ const JlptN3Page = () => {
   const [elapsedSeconds, setElapsedSeconds] = useState(0);
   const [checkingAiAnswer, setCheckingAiAnswer] = useState(false);
   const [aiMatchExplanation, setAiMatchExplanation] = useState('');
+  const [selectedGrammarModal, setSelectedGrammarModal] = useState(null);
 
   // Quiz Timer Effect (Runs ONLY when quizState === 'playing' AND quizStatus === 'idle')
   useEffect(() => {
@@ -1226,9 +1252,18 @@ const isContainsKanji = (str) => {
                   {listSubTab === 'grammar' && (
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
                       {lessonData?.ngu_phap?.map((g, idx) => (
-                        <div key={idx} style={{ background: 'var(--surface-color)', border: '1px solid var(--border-color)', borderRadius: '14px', padding: '18px 20px', display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                            <span style={{ fontSize: '1.2rem', fontWeight: 800, color: 'var(--accent-color)' }}>{g.cau_truc}</span>
+                        <div 
+                          key={idx} 
+                          onClick={() => openGrammarModal(g)}
+                          style={{ 
+                            background: 'var(--surface-color)', border: '1px solid var(--border-color)', 
+                            borderRadius: '14px', padding: '18px 20px', display: 'flex', flexDirection: 'column', gap: '8px',
+                            cursor: 'pointer', transition: 'all 0.2s ease'
+                          }}
+                          className="card-hover"
+                        >
+                          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '8px' }}>
+                            <span style={{ fontSize: '1.25rem', fontWeight: 800, color: 'var(--accent-color)' }}>{g.cau_truc}</span>
                             {!hideMeanings && <span style={{ fontSize: '1rem', fontWeight: 700, color: 'var(--success-color)' }}>{g.y_nghia}</span>}
                           </div>
                           {g.cach_chia && (
@@ -1242,6 +1277,11 @@ const isContainsKanji = (str) => {
                               {g.vi_du.map((ex, i) => <div key={i}>• {ex}</div>)}
                             </div>
                           )}
+                          <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '6px' }}>
+                            <span style={{ fontSize: '0.8rem', color: 'var(--accent-color)', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '4px' }}>
+                              <Sparkles size={14} /> Xem phân tích chi tiết & DeepSeek AI ➔
+                            </span>
+                          </div>
                         </div>
                       ))}
                     </div>
@@ -1771,6 +1811,14 @@ const isContainsKanji = (str) => {
         </div>
       )}
 
+      {/* Grammar Detail Modal */}
+      {selectedGrammarModal && (
+        <GrammarDetailModal
+          grammarCard={selectedGrammarModal}
+          onClose={() => setSelectedGrammarModal(null)}
+          onReEnriched={(updated) => setSelectedGrammarModal(updated)}
+        />
+      )}
     </div>
   );
 };
