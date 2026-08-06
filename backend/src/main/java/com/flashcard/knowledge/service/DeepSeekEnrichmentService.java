@@ -240,7 +240,7 @@ public class DeepSeekEnrichmentService {
                                         vocab.setSampleTranslation(firstEx.path("vi").asText());
                                     }
 
-                                    return vocabularyRepository.save(vocab);
+                                    return vocabularyRepository.saveAndFlush(vocab);
                                 } else {
                                     log.error("DeepSeek API responded with error status: {}, body: {}", response.statusCode(), response.body());
                                 }

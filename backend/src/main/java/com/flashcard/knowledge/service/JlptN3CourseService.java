@@ -348,6 +348,8 @@ public class JlptN3CourseService {
                     if (v.getHiragana() != null) vItem.put("hiragana", v.getHiragana());
                     if (v.getHanViet() != null) vItem.put("hanViet", v.getHanViet());
                     if (v.getPitchAccent() != null) vItem.put("pitchAccent", v.getPitchAccent());
+                    if (v.getOnReading() != null) vItem.put("onReading", v.getOnReading());
+                    if (v.getKunReading() != null) vItem.put("kunReading", v.getKunReading());
                     if (v.getMnemonic() != null) vItem.put("mnemonic", v.getMnemonic());
                     if (v.getSynonyms() != null) vItem.put("synonyms", v.getSynonyms());
                     if (v.getAntonyms() != null) vItem.put("antonyms", v.getAntonyms());
@@ -356,6 +358,7 @@ public class JlptN3CourseService {
                     if (v.getCommonMistakes() != null) vItem.put("commonMistakes", v.getCommonMistakes());
                     if (v.getConversationExamples() != null) vItem.put("conversationExamples", v.getConversationExamples());
                     if (v.getUsageGuide() != null) vItem.put("usageGuide", v.getUsageGuide());
+                    if (v.getKanjiWords() != null) vItem.put("kanjiWords", v.getKanjiWords());
 
                     // Trigger DeepSeek AI enrichment in background if missing AI fields
                     if (enrichmentService != null) {
@@ -396,9 +399,23 @@ public class JlptN3CourseService {
                     }
 
                     kItem.put("id", kVocab.getId());
+                    if (kVocab.getKanji() != null) kItem.put("kanji", kVocab.getKanji());
+                    if (kVocab.getHiragana() != null) kItem.put("hiragana", kVocab.getHiragana());
+                    if (kVocab.getHanViet() != null) kItem.put("hanViet", kVocab.getHanViet());
+                    if (kVocab.getHanViet() != null) kItem.put("han_viet", kVocab.getHanViet());
                     if (kVocab.getPitchAccent() != null) kItem.put("pitchAccent", kVocab.getPitchAccent());
+                    if (kVocab.getOnReading() != null) kItem.put("onReading", kVocab.getOnReading());
+                    if (kVocab.getKunReading() != null) kItem.put("kunReading", kVocab.getKunReading());
                     if (kVocab.getMnemonic() != null) kItem.put("mnemonic", kVocab.getMnemonic());
+                    if (kVocab.getSynonyms() != null) kItem.put("synonyms", kVocab.getSynonyms());
+                    if (kVocab.getAntonyms() != null) kItem.put("antonyms", kVocab.getAntonyms());
                     if (kVocab.getExampleSentences() != null) kItem.put("exampleSentences", kVocab.getExampleSentences());
+                    if (kVocab.getCollocations() != null) kItem.put("collocations", kVocab.getCollocations());
+                    if (kVocab.getCommonMistakes() != null) kItem.put("commonMistakes", kVocab.getCommonMistakes());
+                    if (kVocab.getConversationExamples() != null) kItem.put("conversationExamples", kVocab.getConversationExamples());
+                    if (kVocab.getUsageGuide() != null) kItem.put("usageGuide", kVocab.getUsageGuide());
+                    if (kVocab.getKanjiWords() != null) kItem.put("kanjiWords", kVocab.getKanjiWords());
+
                     if (enrichmentService != null) {
                         enrichmentService.enrichVocabulary(kVocab);
                     }
