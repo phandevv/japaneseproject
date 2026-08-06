@@ -139,11 +139,23 @@ public class Vocabulary {
     @Column(name = "usage_guide", columnDefinition = "TEXT")
     private String usageGuide;
 
+    @Column(name = "on_reading")
+    private String onReading;
+
+    @Column(name = "kun_reading")
+    private String kunReading;
+
     public String getPitchAccent() { return pitchAccent; }
     public void setPitchAccent(String pitchAccent) { this.pitchAccent = pitchAccent; }
 
     public String getUsageGuide() { return usageGuide; }
     public void setUsageGuide(String usageGuide) { this.usageGuide = usageGuide; }
+
+    public String getOnReading() { return onReading; }
+    public void setOnReading(String onReading) { this.onReading = onReading; }
+
+    public String getKunReading() { return kunReading; }
+    public void setKunReading(String kunReading) { this.kunReading = kunReading; }
 
     public String getSynonyms() { return synonyms; }
     public void setSynonyms(String synonyms) { this.synonyms = synonyms; }

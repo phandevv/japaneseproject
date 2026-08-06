@@ -68,10 +68,24 @@ export default function AiEnrichedTabbedView({ data, onReEnriched }) {
   return (
     <div className="knowledge-card vocabulary-card-modern enriched-tabbed-view animate-fade-in" style={{ marginTop: '0px', border: '1px solid var(--border-color)', borderRadius: '12px', overflow: 'hidden', background: 'var(--surface-color)', boxShadow: 'var(--shadow-sm)', minHeight: '480px', display: 'flex', flexDirection: 'column' }}>
       {/* Mini header for context details */}
-      <div style={{ padding: '10px 16px', borderBottom: '1px solid var(--border-color)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', backgroundColor: 'var(--surface-hover)', gap: '8px' }}>
-        <span style={{ fontSize: '0.82rem', color: 'var(--text-secondary)' }}>
-          🗣️ Phiên âm: <strong style={{ color: 'var(--accent-color)' }}>{displayData.pitchAccent || 'Chưa cập nhật'}</strong>
-        </span>
+      <div style={{ padding: '10px 16px', borderBottom: '1px solid var(--border-color)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', backgroundColor: 'var(--surface-hover)', gap: '8px', flexWrap: 'wrap' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '12px', flexWrap: 'wrap' }}>
+          {displayData.onReading && (
+            <span style={{ fontSize: '0.82rem', color: 'var(--text-secondary)' }}>
+              🔊 Âm On: <strong style={{ color: '#ef4444' }}>{displayData.onReading}</strong>
+            </span>
+          )}
+          {displayData.kunReading && (
+            <span style={{ fontSize: '0.82rem', color: 'var(--text-secondary)' }}>
+              🍃 Âm Kun: <strong style={{ color: '#10b981' }}>{displayData.kunReading}</strong>
+            </span>
+          )}
+          {!displayData.onReading && !displayData.kunReading && (
+            <span style={{ fontSize: '0.82rem', color: 'var(--text-secondary)' }}>
+              🗣️ Phiên âm: <strong style={{ color: 'var(--accent-color)' }}>{displayData.pitchAccent || 'Chưa cập nhật'}</strong>
+            </span>
+          )}
+        </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
           {isAdmin && displayData?.id && (
             <button

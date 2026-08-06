@@ -85,47 +85,89 @@ public class DeepSeekEnrichmentService {
                 }
 
                 String level = vocab.getLevel() != null ? vocab.getLevel().trim().toUpperCase() : "N3";
+                String mainWord = vocab.getKanji() != null && !vocab.getKanji().isEmpty() ? vocab.getKanji() : vocab.getHiragana();
 
-                String prompt = String.format(
-                    "Bạn là một chuyên gia biên soạn từ điển tiếng Nhật cao cấp. Hãy làm giàu thông tin và ĐÍNH CHÍNH CÁCH ĐỌC Hiragana/Katakana chuẩn xác nhất cho từ vựng sau bằng tiếng Việt:\n" +
-                    "Từ kanji/kana chính: \"%s\"\n" +
-                    "Cách đọc ban đầu (có thể sai): %s\n" +
-                    "Nghĩa ban đầu: %s\n" +
-                    "Cấp độ JLPT: %s\n\n" +
-                    "Yêu cầu dữ liệu cực kỳ chi tiết, chính xác. ĐẶC BIỆT CHÚ Ý: Kiểm tra kỹ từ kanji chính để cung cấp cách đọc Hiragana/Katakana chuẩn xác tuyệt đối trong trường \"reading\" (ví dụ từ 他 thì cách đọc chuẩn là ほか, nếu cách đọc ban đầu sai thì bắt buộc phải đính chính lại). Mọi giải thích, dịch ví dụ bắt buộc phải là tiếng Việt.\n" +
-                    "Hãy trả về JSON duy nhất, không markdown:\n" +
-                    "{\n" +
-                    "  \"word\": \"từ kanji hoặc kana chính xác\",\n" +
-                    "  \"reading\": \"cách đọc hiragana/katakana chuẩn xác nhất tuyệt đối (đã đính chính nếu cách đọc cũ sai)\",\n" +
-                    "  \"meaning\": \"nghĩa tiếng Việt chính xác\",\n" +
-                    "  \"hanViet\": \"âm Hán Việt (nếu có, viết hoa, ví dụ: THỰC SỰ)\",\n" +
-                    "  \"jlpt\": \"cấp độ JLPT từ N5 đến N1\",\n" +
-                    "  \"pitchAccent\": \"cách đánh trọng âm (ví dụ: しょくじ [0])\",\n" +
-                    "  \"wordType\": \"loại từ (noun, verb, i-adjective, na-adjective...)\",\n" +
-                    "  \"kanjiWords\": [\n" +
-                    "     { \"word\": \"từ ghép chứa kanji này\", \"reading\": \"cách đọc\", \"meaning\": \"nghĩa tiếng Việt\" }\n" +
-                    "  ],\n" +
-                    "  \"synonyms\": [\"từ đồng nghĩa 1\", \"từ đồng nghĩa 2\"],\n" +
-                    "  \"antonyms\": [\"từ trái nghĩa 1\", \"từ trái nghĩa 2\"],\n" +
-                    "  \"commonMistakes\": [\n" +
-                    "     { \"error\": \"sai lầm phổ biến\", \"fix\": \"cách sửa\" }\n" +
-                    "  ],\n" +
-                    "  \"exampleSentences\": [\n" +
-                    "     { \"ja\": \"câu ví dụ tiếng Nhật\", \"reading\": \"hiragana câu ví dụ\", \"vi\": \"dịch nghĩa tiếng Việt\" }\n" +
-                    "  ],\n" +
-                    "  \"collocations\": [\"cụm từ hay đi kèm 1\", \"cụm từ hay đi kèm 2\"],\n" +
-                    "  \"mnemonic\": \"mẹo nhớ chữ Hán hoặc từ vựng này. Hãy đưa ra mẹo nhớ cực kỳ sáng tạo, dễ nhớ, có thể dùng chiết tự các bộ thủ chữ Hán (kanji breakdown) hoặc liên tưởng âm thanh/hình ảnh thú vị, tránh giải thích khô khan.\",\n" +
-                    "  \"usageGuide\": \"hướng dẫn chi tiết cách dùng, sắc thái (nuance) và trường hợp sử dụng từ này trong thực tế bằng tiếng Việt (ví dụ: dùng trong hoàn cảnh trang trọng/thân mật, văn viết hay văn nói)\",\n" +
-                    "  \"conversationExamples\": [\n" +
-                    "     { \"speakerA\": \"hội thoại người A\", \"speakerB\": \"hội thoại người B (phản hồi)\", \"translationA\": \"dịch nghĩa A\", \"translationB\": \"dịch nghĩa B\" }\n" +
-                    "  ]\n" +
-                    "}",
-                    vocab.getKanji() != null && !vocab.getKanji().isEmpty() ? vocab.getKanji() : vocab.getHiragana(),
-                    vocab.getHiragana(),
-                    vocab.getMeaning(),
-                    level
-                );
+                boolean isKanjiItem = "KANJI".equalsIgnoreCase(vocab.getWordType()) ||
+                        (vocab.getCategory() != null && vocab.getCategory().contains("- Kanji")) ||
+                        (mainWord != null && mainWord.trim().length() == 1);
 
+                String prompt;
+                if (isKanjiItem) {
+                    prompt = String.format(
+                        "Bạn là một chuyên gia biên soạn từ điển Chữ Hán (Kanji) tiếng Nhật cao cấp. Hãy phân tích và làm giàu ĐẦY ĐỦ THÔNG TIN cho chữ Hán sau bằng tiếng Việt:\n" +
+                        "Chữ Hán (Kanji): \"%s\"\n" +
+                        "Âm Hán Việt hiện tại: %s\n" +
+                        "Nghĩa hiện tại: %s\n" +
+                        "Cấp độ JLPT: %s\n\n" +
+                        "Yêu cầu dữ liệu cực kỳ chi tiết, chuẩn xác 100%%. BẮT BUỘC cung cấp đầy đủ Âm On (onReading katakana) và Âm Kun (kunReading hiragana). Mọi giải thích, dịch ví dụ BẮT BUỘC bằng tiếng Việt.\n" +
+                        "Hãy trả về JSON duy nhất, không markdown:\n" +
+                        "{\n" +
+                        "  \"word\": \"%s\",\n" +
+                        "  \"hanViet\": \"Âm Hán Việt chuẩn viết hoa (ví dụ: NGHI)\",\n" +
+                        "  \"onReading\": \"Âm On bằng Katakana (ví dụ: ギ)\",\n" +
+                        "  \"kunReading\": \"Âm Kun bằng Hiragana (ví dụ: うたが.う)\",\n" +
+                        "  \"reading\": \"Âm On: ギ | Âm Kun: うたが.う\",\n" +
+                        "  \"meaning\": \"nghĩa tiếng Việt đầy đủ chính xác\",\n" +
+                        "  \"pitchAccent\": \"Âm On: ギ / Âm Kun: うた가.う\",\n" +
+                        "  \"wordType\": \"KANJI\",\n" +
+                        "  \"mnemonic\": \"Mẹo nhớ chữ Hán này cực kỳ sáng tạo, chiết tự các bộ thủ (kanji breakdown) và liên tưởng âm thanh/hình ảnh thú vị bằng tiếng Việt.\",\n" +
+                        "  \"usageGuide\": \"Giải thích bộ thủ cấu thành, sắc thái nghĩa, các từ hay ghép cùng và trường hợp sử dụng thực tế bằng tiếng Việt.\",\n" +
+                        "  \"kanjiWords\": [\n" +
+                        "     { \"word\": \"từ ghép 1\", \"reading\": \"cách đọc hiragana\", \"meaning\": \"nghĩa tiếng Việt\" },\n" +
+                        "     { \"word\": \"từ ghép 2\", \"reading\": \"cách đọc hiragana\", \"meaning\": \"nghĩa tiếng Việt\" },\n" +
+                        "     { \"word\": \"từ ghép 3\", \"reading\": \"cách đọc hiragana\", \"meaning\": \"nghĩa tiếng Việt\" }\n" +
+                        "  ],\n" +
+                        "  \"exampleSentences\": [\n" +
+                        "     { \"ja\": \"câu ví dụ chứa chữ hán này\", \"reading\": \"cách đọc hiragana câu ví dụ\", \"vi\": \"dịch nghĩa tiếng Việt\" }\n" +
+                        "  ]\n" +
+                        "}",
+                        mainWord,
+                        vocab.getHanViet() != null ? vocab.getHanViet() : "",
+                        vocab.getMeaning() != null ? vocab.getMeaning() : "",
+                        level,
+                        mainWord
+                    );
+                } else {
+                    prompt = String.format(
+                        "Bạn là một chuyên gia biên soạn từ điển tiếng Nhật cao cấp. Hãy làm giàu thông tin và ĐÍNH CHÍNH CÁCH ĐỌC Hiragana/Katakana chuẩn xác nhất cho từ vựng sau bằng tiếng Việt:\n" +
+                        "Từ kanji/kana chính: \"%s\"\n" +
+                        "Cách đọc ban đầu (có thể sai): %s\n" +
+                        "Nghĩa ban đầu: %s\n" +
+                        "Cấp độ JLPT: %s\n\n" +
+                        "Yêu cầu dữ liệu cực kỳ chi tiết, chính xác. ĐẶC BIỆT CHÚ Ý: Kiểm tra kỹ từ kanji chính để cung cấp cách đọc Hiragana/Katakana chuẩn xác tuyệt đối trong trường \"reading\" (ví dụ từ 他 thì cách đọc chuẩn là ほか, nếu cách đọc ban đầu sai thì bắt buộc phải đính chính lại). Mọi giải thích, dịch ví dụ bắt buộc phải là tiếng Việt.\n" +
+                        "Hãy trả về JSON duy nhất, không markdown:\n" +
+                        "{\n" +
+                        "  \"word\": \"từ kanji hoặc kana chính xác\",\n" +
+                        "  \"reading\": \"cách đọc hiragana/katakana chuẩn xác nhất tuyệt đối (đã đính chính nếu cách đọc cũ sai)\",\n" +
+                        "  \"meaning\": \"nghĩa tiếng Việt chính xác\",\n" +
+                        "  \"hanViet\": \"âm Hán Việt (nếu có, viết hoa, ví dụ: THỰC SỰ)\",\n" +
+                        "  \"jlpt\": \"cấp độ JLPT từ N5 đến N1\",\n" +
+                        "  \"pitchAccent\": \"cách đánh trọng âm (ví dụ: しょくじ [0])\",\n" +
+                        "  \"wordType\": \"loại từ (noun, verb, i-adjective, na-adjective...)\",\n" +
+                        "  \"kanjiWords\": [\n" +
+                        "     { \"word\": \"từ ghép chứa kanji này\", \"reading\": \"cách đọc\", \"meaning\": \"nghĩa tiếng Việt\" }\n" +
+                        "  ],\n" +
+                        "  \"synonyms\": [\"từ đồng nghĩa 1\", \"từ đồng nghĩa 2\"],\n" +
+                        "  \"antonyms\": [\"từ trái nghĩa 1\", \"từ trái nghĩa 2\"],\n" +
+                        "  \"commonMistakes\": [\n" +
+                        "     { \"error\": \"sai lầm phổ biến\", \"fix\": \"cách sửa\" }\n" +
+                        "  ],\n" +
+                        "  \"exampleSentences\": [\n" +
+                        "     { \"ja\": \"câu ví dụ tiếng Nhật\", \"reading\": \"hiragana câu ví dụ\", \"vi\": \"dịch nghĩa tiếng Việt\" }\n" +
+                        "  ],\n" +
+                        "  \"collocations\": [\"cụm từ hay đi kèm 1\", \"cụm từ hay đi kèm 2\"],\n" +
+                        "  \"mnemonic\": \"mẹo nhớ chữ Hán hoặc từ vựng này. Hãy đưa ra mẹo nhớ cực kỳ sáng tạo, dễ nhớ, có thể dùng chiết tự các bộ thủ chữ Hán (kanji breakdown) hoặc liên tưởng âm thanh/hình ảnh thú vị, tránh giải thích khô khan.\",\n" +
+                        "  \"usageGuide\": \"hướng dẫn chi tiết cách dùng, sắc thái (nuance) và trường hợp sử dụng từ này trong thực tế bằng tiếng Việt (ví dụ: dùng trong hoàn cảnh trang trọng/thân mật, văn viết hay văn nói)\",\n" +
+                        "  \"conversationExamples\": [\n" +
+                        "     { \"speakerA\": \"hội thoại người A\", \"speakerB\": \"hội thoại người B (phản hồi)\", \"translationA\": \"dịch nghĩa A\", \"translationB\": \"dịch nghĩa B\" }\n" +
+                        "  ]\n" +
+                        "}",
+                        mainWord,
+                        vocab.getHiragana() != null ? vocab.getHiragana() : "",
+                        vocab.getMeaning() != null ? vocab.getMeaning() : "",
+                        level
+                    );
+                }
 
                 // Construct payload compatible with DeepSeek chat model
                 Map<String, Object> requestBodyMap = Map.of(
@@ -168,6 +210,13 @@ public class DeepSeekEnrichmentService {
                                     vocab.setWordType(contentNode.path("wordType").asText());
                                     vocab.setMnemonic(contentNode.path("mnemonic").asText());
                                     vocab.setUsageGuide(contentNode.path("usageGuide").asText());
+
+                                    if (contentNode.has("onReading") && !contentNode.path("onReading").isNull()) {
+                                        vocab.setOnReading(contentNode.path("onReading").asText());
+                                    }
+                                    if (contentNode.has("kunReading") && !contentNode.path("kunReading").isNull()) {
+                                        vocab.setKunReading(contentNode.path("kunReading").asText());
+                                    }
                                     
                                     if (contentNode.has("hanViet") && !contentNode.path("hanViet").isNull()) {
                                         vocab.setHanViet(contentNode.path("hanViet").asText());
