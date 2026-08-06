@@ -266,31 +266,6 @@ public class JlptN3DataLoader implements CommandLineRunner {
             logger.info("Imported Chapter {} Lesson {} into DB successfully.", chuong, bai);
         }
 
-        // Auto-repair corrupted entries in DB (Fixing misclassified vocabulary words)
-        try {
-            List<Vocabulary> allN3 = vocabularyRepository.findByLevel("N3_COURSE");
-            int repaired = 0;
-            for (Vocabulary v : allN3) {
-                if (v.getCategory() != null) {
-                    boolean isKanjiCat = v.getCategory().endsWith("- Kanji");
-                    if (!isKanjiCat && "KANJI".equalsIgnoreCase(v.getWordType())) {
-                        v.setWordType("N");
-                        vocabularyRepository.save(v);
-                        repaired++;
-                    } else if (isKanjiCat && !"KANJI".equalsIgnoreCase(v.getWordType())) {
-                        v.setWordType("KANJI");
-                        vocabularyRepository.save(v);
-                        repaired++;
-                    }
-                }
-            }
-            if (repaired > 0) {
-                logger.info("🛠️ Auto-repaired {} database entries with mismatched Kanji/Vocab wordTypes.", repaired);
-            }
-        } catch (Exception e) {
-            logger.warn("Auto-repair step error: {}", e.getMessage());
-        }
-
         logger.info("✅ JLPT N3 Data Import Finished! Imported {} Vocab, {} Kanji, {} Grammar.", importedVocab, importedKanji, importedGrammar);
 
         Map<String, Object> result = new HashMap<>();
