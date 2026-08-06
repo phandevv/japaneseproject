@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { 
   BookOpen, CheckCircle, XCircle, ChevronRight, ChevronLeft, RotateCcw, 
-  Trophy, ArrowLeft, Play, Sparkles, Layers, List, Award, 
+  Trophy, ArrowLeft, ArrowRight, Play, Sparkles, Layers, List, Award, 
   HelpCircle, AlertCircle, Volume2, Shuffle, Upload, FileText, Eye, EyeOff
 } from 'lucide-react';
 import { jlptN3Api, srsApi, vocabApi } from '../services/api';
