@@ -68,20 +68,40 @@ const JlptN3Page = () => {
   const [quizSetupError, setQuizSetupError] = useState('');
   const [elapsedSeconds, setElapsedSeconds] = useState(0);
 
-  // Quiz Timer Effect
+  // Quiz Timer Effect (Runs ONLY when quizState === 'playing' AND quizStatus === 'idle')
   useEffect(() => {
     let timer = null;
-    if (quizState === 'playing') {
-      timer = setInterval(() => {
-        setElapsedSeconds(prev => prev + 1);
-      }, 1000);
-    } else {
+    if (quizState === 'playing' && quizStatus === 'idle') {
+      setQuestionStartTime(Date.now());
       setElapsedSeconds(0);
+      timer = setInterval(() => {
+        setElapsedSeconds(prev => {
+          if (prev >= 30) {
+            clearInterval(timer);
+            return 30;
+          }
+          return prev + 1;
+        });
+      }, 1000);
     }
     return () => {
       if (timer) clearInterval(timer);
     };
-  }, [quizState, quizIndex]);
+  }, [quizState, quizIndex, quizStatus]);
+
+  // Enter Key Listener for automatically advancing to next question when answered
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (quizState === 'playing' && (quizStatus === 'correct' || quizStatus === 'incorrect')) {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          nextQuestion();
+        }
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [quizState, quizStatus, quizIndex, quizWords]);
 
   // Load Overview Data on mount
   const loadOverview = async () => {
