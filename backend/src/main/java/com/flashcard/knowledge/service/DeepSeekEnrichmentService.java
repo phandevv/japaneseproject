@@ -477,5 +477,100 @@ public class DeepSeekEnrichmentService {
         JsonNode root = objectMapper.readTree(response.body());
         return root.path("choices").get(0).path("message").path("content").asText();
     }
+
+    /**
+     * Evaluate typed quiz answer using Hybrid AI Semantic Evaluation.
+     * Step 1: Fast String / Synonym match (0ms)
+     * Step 2: Micro-prompt to DeepSeek AI (~0.15s - 0.25s)
+     */
+    public Map<String, Object> evaluateQuizAnswer(String targetAnswer, String userAnswer, String questionContext) {
+        if (targetAnswer == null || targetAnswer.trim().isEmpty() || userAnswer == null || userAnswer.trim().isEmpty()) {
+            return Map.of("correct", false, "matchType", "EMPTY", "explanation", "Vui lòng nhập đáp án.");
+        }
+
+        String normUser = normalizeText(userAnswer);
+
+        // Step 1: Direct or Fuzzy String Match (0ms)
+        String[] targetVariants = targetAnswer.split("[/,;|\n]+");
+        for (String variant : targetVariants) {
+            String normVar = normalizeText(variant);
+            if (normUser.equals(normVar)) {
+                return Map.of("correct", true, "matchType", "EXACT", "explanation", "Đáp án chính xác!");
+            }
+            if (isFuzzyMatch(normUser, normVar)) {
+                return Map.of("correct", true, "matchType", "FUZZY", "explanation", "Đáp án đúng (gõ tiệm cận)!");
+            }
+        }
+
+        // Step 2: AI Micro-Prompt Semantic Check via DeepSeek AI (~0.2s)
+        String apiKey = getApiKey();
+        if (apiKey == null || apiKey.trim().isEmpty()) {
+            return Map.of("correct", false, "matchType", "STRING_FAIL", "explanation", "Chưa khớp với đáp án mẫu.");
+        }
+
+        try {
+            String prompt = String.format(
+                "Bạn là một chuyên gia ngôn ngữ tiếng Nhật và tiếng Việt.\n" +
+                "Hãy kiểm tra xem câu trả lời của học viên có ĐÚNG NGHĨA / ĐỒNG NGHĨA HOẶC CHẤP NHẬN ĐƯỢC không khi dịch từ tiếng Nhật.\n\n" +
+                "Từ tiếng Nhật (ngữ cảnh): \"%s\"\n" +
+                "Đáp án chuẩn: \"%s\"\n" +
+                "Đáp án học viên gõ: \"%s\"\n\n" +
+                "Nếu đáp án của học viên đúng nghĩa, diễn đạt tương đương hoặc là từ đồng nghĩa chấp nhận được, hãy đánh giá correct=true.\n" +
+                "Trả về duy nhất JSON không markdown:\n" +
+                "{\"correct\": true hoặc false, \"explanation\": \"giải thích ngắn gọn 1 câu bằng tiếng Việt\"}",
+                questionContext != null ? questionContext : "",
+                targetAnswer,
+                userAnswer
+            );
+
+            String responseBody = callDeepSeekRaw(apiKey, prompt);
+            JsonNode root = objectMapper.readTree(cleanJsonContent(responseBody));
+            boolean correct = root.path("correct").asBoolean(false);
+            String explanation = root.path("explanation").asText(correct ? "Đồng nghĩa chấp nhận được!" : "Chưa chính xác.");
+
+            return Map.of(
+                "correct", correct,
+                "matchType", "AI_SEMANTIC",
+                "explanation", explanation
+            );
+        } catch (Exception e) {
+            log.error("Failed to evaluate quiz answer with DeepSeek AI: {}", e.getMessage());
+            return Map.of("correct", false, "matchType", "ERROR", "explanation", "Chưa khớp với đáp án mẫu.");
+        }
+    }
+
+    private String normalizeText(String text) {
+        if (text == null) return "";
+        return text.trim().toLowerCase()
+                .replaceAll("[\\s\\t\\n\\r]+", " ")
+                .replaceAll("^[\\p{Punct}\\s]+|[\\p{Punct}\\s]+$", "");
+    }
+
+    private boolean isFuzzyMatch(String s1, String s2) {
+        if (s1.equals(s2)) return true;
+        int dist = computeLevenshteinDistance(s1, s2);
+        return dist <= 1 && Math.max(s1.length(), s2.length()) > 3;
+    }
+
+    private int computeLevenshteinDistance(String s1, String s2) {
+        int[] costs = new int[s2.length() + 1];
+        for (int i = 0; i <= s1.length(); i++) {
+            int lastValue = i;
+            for (int j = 0; j <= s2.length(); j++) {
+                if (i == 0) costs[j] = j;
+                else {
+                    if (j > 0) {
+                        int newValue = costs[j - 1];
+                        if (s1.charAt(i - 1) != s2.charAt(j - 1))
+                            newValue = Math.min(Math.min(newValue, lastValue), costs[j]) + 1;
+                        costs[j - 1] = lastValue;
+                        lastValue = newValue;
+                    }
+                }
+            }
+            if (i > 0) costs[s2.length()] = lastValue;
+        }
+        return costs[s2.length()];
+    }
 }
 

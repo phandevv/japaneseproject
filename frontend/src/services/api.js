@@ -586,6 +586,14 @@ export const jlptN3Api = {
       }
     });
     return response.data;
+  },
+  evaluateAnswer: async (targetAnswer, userAnswer, questionContext = '') => {
+    const response = await axios.post(`${API_BASE_URL}/jlpt-n3/evaluate-answer`, {
+      targetAnswer,
+      userAnswer,
+      questionContext
+    });
+    return response.data;
   }
 };
 

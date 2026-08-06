@@ -1,6 +1,7 @@
 package com.flashcard.knowledge.controller;
 
 import com.flashcard.common.config.JlptN3DataLoader;
+import com.flashcard.knowledge.service.DeepSeekEnrichmentService;
 import com.flashcard.knowledge.service.JlptN3CourseService;
 import com.flashcard.user.model.User;
 import com.flashcard.user.repository.UserRepository;
@@ -19,13 +20,16 @@ public class JlptN3CourseController {
     private final JlptN3CourseService courseService;
     private final UserRepository userRepository;
     private final JlptN3DataLoader dataLoader;
+    private final DeepSeekEnrichmentService enrichmentService;
 
     public JlptN3CourseController(JlptN3CourseService courseService,
                                   UserRepository userRepository,
-                                  JlptN3DataLoader dataLoader) {
+                                  JlptN3DataLoader dataLoader,
+                                  DeepSeekEnrichmentService enrichmentService) {
         this.courseService = courseService;
         this.userRepository = userRepository;
         this.dataLoader = dataLoader;
+        this.enrichmentService = enrichmentService;
     }
 
     private Long getCurrentUserId() {
@@ -98,6 +102,20 @@ public class JlptN3CourseController {
     @PostMapping("/upload-json")
     public ResponseEntity<?> uploadJsonFiles(@RequestParam("files") org.springframework.web.multipart.MultipartFile[] files) {
         Map<String, Object> result = courseService.processUploadedJsonFiles(files);
+        return ResponseEntity.ok(result);
+    }
+
+    /**
+     * Evaluate typed quiz answer using Hybrid AI Semantic Evaluation.
+     * POST /api/jlpt-n3/evaluate-answer
+     */
+    @PostMapping("/evaluate-answer")
+    public ResponseEntity<?> evaluateAnswer(@RequestBody Map<String, String> body) {
+        String targetAnswer = body.getOrDefault("targetAnswer", "");
+        String userAnswer = body.getOrDefault("userAnswer", "");
+        String questionContext = body.getOrDefault("questionContext", "");
+
+        Map<String, Object> result = enrichmentService.evaluateQuizAnswer(targetAnswer, userAnswer, questionContext);
         return ResponseEntity.ok(result);
     }
 }

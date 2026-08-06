@@ -192,6 +192,8 @@ const JlptN3Page = () => {
   const [quizOptRangeEnd, setQuizOptRangeEnd] = useState(15);
   const [quizSetupError, setQuizSetupError] = useState('');
   const [elapsedSeconds, setElapsedSeconds] = useState(0);
+  const [checkingAiAnswer, setCheckingAiAnswer] = useState(false);
+  const [aiMatchExplanation, setAiMatchExplanation] = useState('');
 
   // Quiz Timer Effect (Runs ONLY when quizState === 'playing' AND quizStatus === 'idle')
   useEffect(() => {
@@ -543,6 +545,8 @@ const isContainsKanji = (str) => {
     setMistakes([]);
     setQuizResult(null);
     setQuizWordEnriched(null);
+    setAiMatchExplanation('');
+    setCheckingAiAnswer(false);
     setQuestionStartTime(Date.now());
     setQuizState('playing');
   };
@@ -556,24 +560,47 @@ const isContainsKanji = (str) => {
     return arr;
   };
 
-  const checkAnswer = (e) => {
+  const checkAnswer = async (e) => {
     if (e && e.preventDefault) e.preventDefault();
-    if (!userInput.trim()) return;
+    if (!userInput.trim() || checkingAiAnswer) return;
 
     const currentWord = quizWords[quizIndex];
     if (!currentWord) return;
 
     const inputClean = userInput.trim().toLowerCase();
     let isCorrect = false;
+    let explanation = '';
 
     if (quizQuestionType === 'vi-to-ja') {
       const kanjiClean = currentWord.kanji ? currentWord.kanji.trim().toLowerCase() : '';
       const hiraganaClean = currentWord.hiragana ? currentWord.hiragana.trim().toLowerCase() : '';
       isCorrect = (inputClean === kanjiClean || inputClean === hiraganaClean);
     } else {
-      // ja-to-vi mode: smart Vietnamese synonym & typo match
+      // ja-to-vi mode: Step 1 local match
       isCorrect = matchVietnameseAnswer(userInput, currentWord.meaning || '');
+      
+      // Step 2: Hybrid AI Semantic Evaluation if local match failed
+      if (!isCorrect) {
+        setCheckingAiAnswer(true);
+        try {
+          const evalRes = await jlptN3Api.evaluateAnswer(
+            currentWord.meaning || '',
+            userInput,
+            (currentWord.kanji || currentWord.hiragana) + (currentWord.hiragana ? ` (${currentWord.hiragana})` : '')
+          );
+          if (evalRes && evalRes.correct) {
+            isCorrect = true;
+            explanation = evalRes.explanation || '✨ DeepSeek AI chấp nhận từ đồng nghĩa!';
+          }
+        } catch (err) {
+          console.error("AI evaluation error:", err);
+        } finally {
+          setCheckingAiAnswer(false);
+        }
+      }
     }
+
+    setAiMatchExplanation(explanation);
 
     const finalElapsed = Math.min(30, (Date.now() - questionStartTime) / 1000);
     let quality = 1; // Forgot
@@ -638,6 +665,8 @@ const isContainsKanji = (str) => {
       setUserInput('');
       setQuizStatus('idle');
       setQuizWordEnriched(null);
+      setAiMatchExplanation('');
+      setCheckingAiAnswer(false);
       setQuestionStartTime(Date.now());
     } else {
       finishQuiz();
@@ -1503,6 +1532,7 @@ const isContainsKanji = (str) => {
                               <input
                                 type="text"
                                 autoFocus
+                                disabled={checkingAiAnswer}
                                 value={userInput}
                                 onChange={(e) => setUserInput(e.target.value)}
                                 placeholder={quizQuestionType === 'vi-to-ja' ? 'Nhập tiếng Nhật (Hiragana/Kanji)...' : 'Nhập nghĩa dịch Tiếng Việt...'}
@@ -1515,10 +1545,17 @@ const isContainsKanji = (str) => {
                                   backgroundColor: 'var(--surface-color)',
                                   color: 'var(--text-primary)',
                                   fontSize: '1.2rem',
+                                  opacity: checkingAiAnswer ? 0.7 : 1
                                 }}
                               />
-                              <button type="submit" className="btn btn-primary" style={{ padding: '16px 30px' }}>
-                                Kiểm tra ✓
+                              <button type="submit" disabled={checkingAiAnswer} className="btn btn-primary" style={{ padding: '16px 30px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                                {checkingAiAnswer ? (
+                                  <>
+                                    <Sparkles size={18} className="animate-spin" /> Đang thẩm định AI...
+                                  </>
+                                ) : (
+                                  'Kiểm tra ✓'
+                                )}
                               </button>
                             </form>
                           )}
@@ -1545,6 +1582,11 @@ const isContainsKanji = (str) => {
                                         {lastAssignedQuality === 4 ? 'Easy' : lastAssignedQuality === 3 ? 'Good' : 'Hard'} ({lastElapsedSeconds?.toFixed(1)}s)
                                       </span>
                                     </div>
+                                    {aiMatchExplanation && (
+                                      <div style={{ fontSize: '0.86rem', color: '#10b981', marginTop: '6px', fontWeight: '600', display: 'flex', alignItems: 'center', gap: '6px', backgroundColor: 'rgba(16, 185, 129, 0.1)', padding: '4px 10px', borderRadius: '6px' }}>
+                                        <Sparkles size={15} /> {aiMatchExplanation}
+                                      </div>
+                                    )}
                                     <p className="font-jp" style={{ fontSize: '1.3rem', marginTop: '10px', display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '10px' }}>
                                       {currentWord.kanji && <span>{currentWord.kanji} </span>}
                                       <span style={{ color: 'var(--text-secondary)' }}>({currentWord.hiragana})</span>
