@@ -566,6 +566,63 @@ const isContainsKanji = (str) => {
     setQuizState('playing');
   };
 
+  const checkAnswer = async (e) => {
+    if (e && e.preventDefault) e.preventDefault();
+    if (!userInput.trim() || checkingAiAnswer) return;
+
+    const currentWord = quizWords[quizIndex];
+    if (!currentWord) return;
+
+    const inputClean = userInput.trim().toLowerCase();
+    let isCorrect = false;
+    let explanation = '';
+
+    if (quizQuestionType === 'vi-to-ja') {
+      const kanjiClean = currentWord.kanji ? currentWord.kanji.trim().toLowerCase() : '';
+      const hiraganaClean = currentWord.hiragana ? currentWord.hiragana.trim().toLowerCase() : '';
+      isCorrect = (inputClean === kanjiClean || inputClean === hiraganaClean);
+    } else {
+      // ja-to-vi mode: Step 1 local match
+      isCorrect = matchVietnameseAnswer(userInput, currentWord.meaning || '');
+      
+      // Step 2: Hybrid AI Semantic Evaluation if local match failed
+      if (!isCorrect) {
+        setCheckingAiAnswer(true);
+        try {
+          const evalRes = await jlptN3Api.evaluateAnswer(
+            currentWord.meaning || '',
+            userInput,
+            (currentWord.kanji || currentWord.hiragana) + (currentWord.hiragana ? ` (${currentWord.hiragana})` : '')
+          );
+          if (evalRes && evalRes.correct) {
+            isCorrect = true;
+            explanation = evalRes.explanation || '✨ DeepSeek AI chấp nhận từ đồng nghĩa!';
+          }
+        } catch (err) {
+          console.error("AI evaluation error:", err);
+        } finally {
+          setCheckingAiAnswer(false);
+        }
+      }
+    }
+
+    setAiMatchExplanation(explanation);
+
+    const finalElapsed = Math.min(30, (Date.now() - questionStartTime) / 1000);
+    const quality = isCorrect ? (finalElapsed <= 3 ? 4 : finalElapsed <= 8 ? 3 : 2) : 1;
+    setLastAssignedQuality(quality);
+    setLastElapsedSeconds(finalElapsed);
+
+    if (isCorrect) {
+      setQuizStatus('correct');
+      setScore(s => s + 1);
+      speakWord(currentWord);
+    } else {
+      setQuizStatus('incorrect');
+      setQuizWords(prev => [...prev, currentWord]);
+    }
+  };
+
   const handleMcqSelect = (option) => {
     if (quizStatus !== 'idle') return;
     setSelectedOption(option);
@@ -573,7 +630,16 @@ const isContainsKanji = (str) => {
     const currentWord = quizWords[quizIndex];
     if (!currentWord) return;
 
-    const isCorrect = (option === currentWord.answer);
+    const normalizeOpt = (str) => String(str || '').replace(/^[A-D]\.\s*/i, '').trim().toLowerCase();
+    const optNorm = normalizeOpt(option);
+    const ansNorm = normalizeOpt(currentWord.answer);
+
+    const isCorrect = (
+      option === currentWord.answer ||
+      optNorm === ansNorm ||
+      option.trim().toLowerCase() === String(currentWord.answer || '').trim().toLowerCase() ||
+      (optNorm && ansNorm && (optNorm.includes(ansNorm) || ansNorm.includes(optNorm)))
+    );
 
     const finalElapsed = Math.min(30, (Date.now() - questionStartTime) / 1000);
     const quality = isCorrect ? (finalElapsed <= 3 ? 4 : finalElapsed <= 8 ? 3 : 2) : 1;
