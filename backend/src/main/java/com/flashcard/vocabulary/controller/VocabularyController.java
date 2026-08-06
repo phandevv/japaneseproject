@@ -165,7 +165,7 @@ public class VocabularyController {
      * POST /api/vocab/{id}/enrich
      */
     @PostMapping("/{id}/enrich")
-    public ResponseEntity<?> enrich(@PathVariable Long id) {
+    public ResponseEntity<?> enrich(@PathVariable Long id, @RequestParam(name = "force", defaultValue = "false") boolean force) {
         var existingOpt = service.getById(id);
         if (existingOpt.isEmpty()) {
             return ResponseEntity.notFound().build();
@@ -177,10 +177,21 @@ public class VocabularyController {
             && (existing.getCollocations() != null && !existing.getCollocations().isBlank())
             && (existing.getConversationExamples() != null && !existing.getConversationExamples().isBlank());
         
-        if (fullyEnriched) {
+        if (fullyEnriched && !force) {
             return ResponseEntity.ok(existing);
         }
         
+        if (force) {
+            try {
+                // Synchronously wait for DeepSeek enrichment when admin explicitly forces re-enrichment
+                Vocabulary updated = enrichmentService.enrichVocabulary(existing).get(25, java.util.concurrent.TimeUnit.SECONDS);
+                return ResponseEntity.ok(updated);
+            } catch (Exception e) {
+                log.error("Force enrichment failed for vocab ID {}: {}", id, e.getMessage());
+                return ResponseEntity.ok(existing);
+            }
+        }
+
         // Trigger targeted micro-enrichment for missing fields in background
         enrichmentService.enrichVocabulary(existing);
         

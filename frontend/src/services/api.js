@@ -241,9 +241,9 @@ export const vocabApi = {
     return response.data;
   },
 
-  // Enrich vocabulary word (lazy load examples and related Kanji words)
-  enrich: async (id) => {
-    const response = await axios.post(`${API_BASE_URL}/vocab/${id}/enrich`);
+  // Enrich vocabulary word (lazy load examples and related Kanji words, supports force=true for admin)
+  enrich: async (id, force = false) => {
+    const response = await axios.post(`${API_BASE_URL}/vocab/${id}/enrich${force ? '?force=true' : ''}`);
     return response.data;
   },
 

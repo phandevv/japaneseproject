@@ -1,10 +1,46 @@
-import { ArrowRight } from 'lucide-react';
-import { useState } from 'react';
+import { ArrowRight, Sparkles, RefreshCw } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { useAuth } from '../context/AuthContext';
+import { vocabApi } from '../services/api';
 
-export default function AiEnrichedTabbedView({ data }) {
+export default function AiEnrichedTabbedView({ data, onReEnriched }) {
+  const { user } = useAuth();
   const [activeCardTab, setActiveCardTab] = useState('core');
+  const [reEnriching, setReEnriching] = useState(false);
+  const [reEnrichSuccess, setReEnrichSuccess] = useState(false);
+  const [localData, setLocalData] = useState(null);
+
+  // Reset localData if parent data changes
+  useEffect(() => {
+    setLocalData(null);
+  }, [data?.id]);
 
   if (!data) return null;
+
+  const displayData = localData || data;
+
+  const isAdmin = user && (user.username === "admin" || user.role === "ADMIN" || user.roles?.includes("ADMIN") || user.roles?.includes("ROLE_ADMIN"));
+
+  const handleReEnrich = async (e) => {
+    if (e) e.stopPropagation();
+    if (!displayData || !displayData.id || reEnriching) return;
+    setReEnriching(true);
+    setReEnrichSuccess(false);
+
+    try {
+      const updated = await vocabApi.enrich(displayData.id, true);
+      setLocalData(updated);
+      setReEnrichSuccess(true);
+      if (onReEnriched) {
+        onReEnriched(updated);
+      }
+      setTimeout(() => setReEnrichSuccess(false), 3500);
+    } catch (err) {
+      console.error("Re-enrichment error:", err);
+    } finally {
+      setReEnriching(false);
+    }
+  };
 
   const parseJsonList = (val) => {
     if (!val) return [];
@@ -18,27 +54,55 @@ export default function AiEnrichedTabbedView({ data }) {
     }
   };
 
-  const synonyms = parseJsonList(data.synonyms);
-  const antonyms = parseJsonList(data.antonyms);
-  const collocations = parseJsonList(data.collocations);
-  const kanjiWords = parseJsonList(data.kanjiWords);
-  const exampleSentences = parseJsonList(data.exampleSentences);
-  const commonMistakes = parseJsonList(data.commonMistakes);
-  const conversations = parseJsonList(data.conversationExamples);
+  const synonyms = parseJsonList(displayData.synonyms);
+  const antonyms = parseJsonList(displayData.antonyms);
+  const collocations = parseJsonList(displayData.collocations);
+  const kanjiWords = parseJsonList(displayData.kanjiWords);
+  const exampleSentences = parseJsonList(displayData.exampleSentences);
+  const commonMistakes = parseJsonList(displayData.commonMistakes);
+  const conversations = parseJsonList(displayData.conversationExamples);
 
   // Fallback for old style data if exampleSentences is empty but sampleSentence exists
-  const hasOldSentence = !exampleSentences.length && data.sampleSentence;
+  const hasOldSentence = !exampleSentences.length && displayData.sampleSentence;
 
   return (
     <div className="knowledge-card vocabulary-card-modern enriched-tabbed-view animate-fade-in" style={{ marginTop: '0px', border: '1px solid var(--border-color)', borderRadius: '12px', overflow: 'hidden', background: 'var(--surface-color)', boxShadow: 'var(--shadow-sm)', minHeight: '480px', display: 'flex', flexDirection: 'column' }}>
       {/* Mini header for context details */}
-      <div style={{ padding: '10px 16px', borderBottom: '1px solid var(--border-color)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', backgroundColor: 'var(--surface-hover)' }}>
+      <div style={{ padding: '10px 16px', borderBottom: '1px solid var(--border-color)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', backgroundColor: 'var(--surface-hover)', gap: '8px' }}>
         <span style={{ fontSize: '0.82rem', color: 'var(--text-secondary)' }}>
-          🗣️ Phiên âm: <strong style={{ color: 'var(--accent-color)' }}>{data.pitchAccent || 'Chưa cập nhật'}</strong>
+          🗣️ Phiên âm: <strong style={{ color: 'var(--accent-color)' }}>{displayData.pitchAccent || 'Chưa cập nhật'}</strong>
         </span>
-        <span style={{ fontSize: '0.75rem', padding: '2px 8px', borderRadius: '4px', backgroundColor: 'var(--accent-light)', color: 'var(--accent-color)', fontWeight: '600' }}>
-          {data.wordType || 'Từ vựng'}
-        </span>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+          {isAdmin && displayData?.id && (
+            <button
+              type="button"
+              className="btn btn-secondary"
+              onClick={handleReEnrich}
+              disabled={reEnriching}
+              title="Gọi lại DeepSeek AI để bổ sung/tải lại dữ liệu bị thiếu"
+              style={{
+                padding: '4px 10px',
+                fontSize: '0.74rem',
+                borderRadius: '6px',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '5px',
+                color: reEnrichSuccess ? '#10b981' : '#f59e0b',
+                borderColor: reEnrichSuccess ? '#10b981' : '#f59e0b',
+                backgroundColor: reEnrichSuccess ? 'rgba(16, 185, 129, 0.12)' : 'rgba(245, 158, 11, 0.12)',
+                fontWeight: '600',
+                cursor: 'pointer',
+                transition: 'all 0.2s ease'
+              }}
+            >
+              <Sparkles size={13} style={{ animation: reEnriching ? 'spin 1s linear infinite' : 'none' }} />
+              {reEnriching ? 'Đang gọi DeepSeek...' : reEnrichSuccess ? 'Đã làm giàu!' : 'Nạp lại dữ liệu AI'}
+            </button>
+          )}
+          <span style={{ fontSize: '0.75rem', padding: '2px 8px', borderRadius: '4px', backgroundColor: 'var(--accent-light)', color: 'var(--accent-color)', fontWeight: '600' }}>
+            {displayData.wordType || 'Từ vựng'}
+          </span>
+        </div>
       </div>
 
       {/* Tabs */}
