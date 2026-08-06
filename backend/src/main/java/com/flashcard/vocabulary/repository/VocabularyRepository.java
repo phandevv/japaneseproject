@@ -19,6 +19,10 @@ public interface VocabularyRepository extends JpaRepository<Vocabulary, Long> {
     
     java.util.Optional<Vocabulary> findFirstByHiragana(String hiragana);
 
+    java.util.Optional<Vocabulary> findFirstByKanjiAndCategory(String kanji, String category);
+
+    java.util.Optional<Vocabulary> findFirstByHiraganaAndCategory(String hiragana, String category);
+
     java.util.Optional<Vocabulary> findFirstByRomaji(String romaji);
     
     java.util.Optional<Vocabulary> findByKanjiOrHiragana(String kanji, String hiragana);

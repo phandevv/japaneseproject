@@ -143,6 +143,9 @@ public class JlptN3DataLoader implements CommandLineRunner {
             int chuong = root.path("chuong").asInt(1);
             int bai = root.path("bai").asInt(1);
 
+            String vocabCategory = "Tổng ôn N3 - Chương " + chuong + " Bài " + bai;
+            String kanjiCategory = "Tổng ôn N3 - Chương " + chuong + " Bài " + bai + " - Kanji";
+
             // 1. Process Kanji (chu_han)
             if (root.has("chu_han") && root.get("chu_han").isArray()) {
                 for (JsonNode kNode : root.get("chu_han")) {
@@ -159,7 +162,7 @@ public class JlptN3DataLoader implements CommandLineRunner {
                         }
                     }
 
-                    Optional<Vocabulary> existingOpt = vocabularyRepository.findFirstByKanji(kanji);
+                    Optional<Vocabulary> existingOpt = vocabularyRepository.findFirstByKanjiAndCategory(kanji, kanjiCategory);
                     Vocabulary v = existingOpt.orElseGet(Vocabulary::new);
                     v.setKanji(kanji);
                     if (v.getHiragana() == null || v.getHiragana().isEmpty()) {
@@ -167,8 +170,9 @@ public class JlptN3DataLoader implements CommandLineRunner {
                     }
                     if (hanViet != null && !hanViet.isEmpty()) v.setHanViet(hanViet);
                     if (nghia != null && !nghia.isEmpty()) v.setMeaning(nghia);
+                    v.setWordType("KANJI");
                     v.setLevel("N3_COURSE");
-                    v.setCategory("Tổng ôn N3 - Chương " + chuong + " Bài " + bai);
+                    v.setCategory(kanjiCategory);
 
                     if (!tuVungList.isEmpty()) {
                         try {
@@ -191,9 +195,9 @@ public class JlptN3DataLoader implements CommandLineRunner {
                     String nghia = vNode.path("nghia").asText("").trim();
                     String viDu = vNode.path("vi_du").asText("").trim();
 
-                    Optional<Vocabulary> existingOpt = vocabularyRepository.findFirstByKanji(tu);
+                    Optional<Vocabulary> existingOpt = vocabularyRepository.findFirstByKanjiAndCategory(tu, vocabCategory);
                     if (existingOpt.isEmpty()) {
-                        existingOpt = vocabularyRepository.findFirstByHiragana(tu);
+                        existingOpt = vocabularyRepository.findFirstByHiraganaAndCategory(tu, vocabCategory);
                     }
                     Vocabulary v = existingOpt.orElseGet(Vocabulary::new);
 
@@ -211,10 +215,10 @@ public class JlptN3DataLoader implements CommandLineRunner {
                     }
 
                     if (nghia != null && !nghia.isEmpty()) v.setMeaning(nghia);
-                    if (loaiTu != null && !loaiTu.isEmpty()) v.setWordType(loaiTu);
+                    v.setWordType(loaiTu != null && !loaiTu.isEmpty() && !"KANJI".equalsIgnoreCase(loaiTu) ? loaiTu : "N");
                     if (viDu != null && !viDu.isEmpty()) v.setSampleSentence(viDu);
                     v.setLevel("N3_COURSE");
-                    v.setCategory("Tổng ôn N3 - Chương " + chuong + " Bài " + bai);
+                    v.setCategory(vocabCategory);
 
                     vocabularyRepository.save(v);
                     importedVocab++;
@@ -260,6 +264,31 @@ public class JlptN3DataLoader implements CommandLineRunner {
             }
 
             logger.info("Imported Chapter {} Lesson {} into DB successfully.", chuong, bai);
+        }
+
+        // Auto-repair corrupted entries in DB (Fixing misclassified vocabulary words)
+        try {
+            List<Vocabulary> allN3 = vocabularyRepository.findByLevel("N3_COURSE");
+            int repaired = 0;
+            for (Vocabulary v : allN3) {
+                if (v.getCategory() != null) {
+                    boolean isKanjiCat = v.getCategory().endsWith("- Kanji");
+                    if (!isKanjiCat && "KANJI".equalsIgnoreCase(v.getWordType())) {
+                        v.setWordType("N");
+                        vocabularyRepository.save(v);
+                        repaired++;
+                    } else if (isKanjiCat && !"KANJI".equalsIgnoreCase(v.getWordType())) {
+                        v.setWordType("KANJI");
+                        vocabularyRepository.save(v);
+                        repaired++;
+                    }
+                }
+            }
+            if (repaired > 0) {
+                logger.info("🛠️ Auto-repaired {} database entries with mismatched Kanji/Vocab wordTypes.", repaired);
+            }
+        } catch (Exception e) {
+            logger.warn("Auto-repair step error: {}", e.getMessage());
         }
 
         logger.info("✅ JLPT N3 Data Import Finished! Imported {} Vocab, {} Kanji, {} Grammar.", importedVocab, importedKanji, importedGrammar);

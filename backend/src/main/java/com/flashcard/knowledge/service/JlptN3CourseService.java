@@ -241,7 +241,7 @@ public class JlptN3CourseService {
                     item.put("mnemonic", v.getMnemonic());
                     item.put("exampleSentences", v.getExampleSentences());
 
-                    if ("Kanji".equalsIgnoreCase(v.getWordType()) || (v.getKanjiWords() != null && !v.getKanjiWords().isEmpty())) {
+                    if ("KANJI".equalsIgnoreCase(v.getWordType()) || (v.getCategory() != null && v.getCategory().contains("- Kanji"))) {
                         chuHanList.add(item);
                     } else {
                         tuVungList.add(item);
@@ -295,6 +295,9 @@ public class JlptN3CourseService {
         Map<String, Object> data = objectMapper.convertValue(root, Map.class);
         data.put("available", true);
 
+        String vocabCategory = "Tổng ôn N3 - Chương " + chapter + " Bài " + lesson;
+        String kanjiCategory = "Tổng ôn N3 - Chương " + chapter + " Bài " + lesson + " - Kanji";
+
         // Enrich tu_vung list items with database IDs & DeepSeek AI fields
         if (data.containsKey("tu_vung") && data.get("tu_vung") instanceof List) {
             @SuppressWarnings("unchecked")
@@ -302,9 +305,15 @@ public class JlptN3CourseService {
             for (Map<String, Object> vItem : vocabList) {
                 String tu = vItem.containsKey("tu") ? String.valueOf(vItem.get("tu")) : "";
                 if (!tu.isEmpty()) {
-                    Optional<Vocabulary> dbVocab = vocabularyRepository.findFirstByKanji(tu);
+                    Optional<Vocabulary> dbVocab = vocabularyRepository.findFirstByKanjiAndCategory(tu, vocabCategory);
                     if (dbVocab.isEmpty()) {
-                        dbVocab = vocabularyRepository.findFirstByHiragana(tu);
+                        dbVocab = vocabularyRepository.findFirstByHiraganaAndCategory(tu, vocabCategory);
+                    }
+                    if (dbVocab.isEmpty()) {
+                        dbVocab = vocabularyRepository.findFirstByKanji(tu);
+                        if (dbVocab.isPresent() && "KANJI".equalsIgnoreCase(dbVocab.get().getWordType())) {
+                            dbVocab = Optional.empty();
+                        }
                     }
 
                     Vocabulary v;
@@ -322,10 +331,11 @@ public class JlptN3CourseService {
                             v.setKanji(tu);
                         }
                         v.setMeaning(vItem.containsKey("nghia") ? String.valueOf(vItem.get("nghia")) : "");
-                        v.setWordType(vItem.containsKey("loai_tu") ? String.valueOf(vItem.get("loai_tu")) : "N");
+                        String lType = vItem.containsKey("loai_tu") ? String.valueOf(vItem.get("loai_tu")) : "N";
+                        v.setWordType(lType != null && !"KANJI".equalsIgnoreCase(lType) ? lType : "N");
                         v.setSampleSentence(vItem.containsKey("vi_du") ? String.valueOf(vItem.get("vi_du")) : "");
                         v.setLevel("N3_COURSE");
-                        v.setCategory("Tổng ôn N3 - Chương " + chapter + " Bài " + lesson);
+                        v.setCategory(vocabCategory);
                         v = vocabularyRepository.saveAndFlush(v);
                     }
 
@@ -358,16 +368,35 @@ public class JlptN3CourseService {
             for (Map<String, Object> kItem : kanjiList) {
                 String kanji = kItem.containsKey("kanji") ? String.valueOf(kItem.get("kanji")) : "";
                 if (!kanji.isEmpty()) {
-                    Optional<Vocabulary> dbKanji = vocabularyRepository.findFirstByKanji(kanji);
-                    if (dbKanji.isPresent()) {
-                        Vocabulary kVocab = dbKanji.get();
-                        kItem.put("id", kVocab.getId());
-                        if (kVocab.getPitchAccent() != null) kItem.put("pitchAccent", kVocab.getPitchAccent());
-                        if (kVocab.getMnemonic() != null) kItem.put("mnemonic", kVocab.getMnemonic());
-                        if (kVocab.getExampleSentences() != null) kItem.put("exampleSentences", kVocab.getExampleSentences());
-                        if (enrichmentService != null) {
-                            enrichmentService.enrichVocabulary(kVocab);
+                    Optional<Vocabulary> dbKanji = vocabularyRepository.findFirstByKanjiAndCategory(kanji, kanjiCategory);
+                    if (dbKanji.isEmpty()) {
+                        dbKanji = vocabularyRepository.findFirstByKanji(kanji);
+                        if (dbKanji.isPresent() && !"KANJI".equalsIgnoreCase(dbKanji.get().getWordType())) {
+                            dbKanji = Optional.empty();
                         }
+                    }
+
+                    Vocabulary kVocab;
+                    if (dbKanji.isPresent()) {
+                        kVocab = dbKanji.get();
+                    } else {
+                        kVocab = new Vocabulary();
+                        kVocab.setKanji(kanji);
+                        kVocab.setHiragana(kanji);
+                        kVocab.setMeaning(kItem.containsKey("nghia") ? String.valueOf(kItem.get("nghia")) : "");
+                        kVocab.setHanViet(kItem.containsKey("han_viet") ? String.valueOf(kItem.get("han_viet")) : "");
+                        kVocab.setWordType("KANJI");
+                        kVocab.setLevel("N3_COURSE");
+                        kVocab.setCategory(kanjiCategory);
+                        kVocab = vocabularyRepository.saveAndFlush(kVocab);
+                    }
+
+                    kItem.put("id", kVocab.getId());
+                    if (kVocab.getPitchAccent() != null) kItem.put("pitchAccent", kVocab.getPitchAccent());
+                    if (kVocab.getMnemonic() != null) kItem.put("mnemonic", kVocab.getMnemonic());
+                    if (kVocab.getExampleSentences() != null) kItem.put("exampleSentences", kVocab.getExampleSentences());
+                    if (enrichmentService != null) {
+                        enrichmentService.enrichVocabulary(kVocab);
                     }
                 }
             }
@@ -406,6 +435,9 @@ public class JlptN3CourseService {
                 int chuong = root.path("chuong").asInt(1);
                 int bai = root.path("bai").asInt(1);
 
+                String vocabCategory = "Tổng ôn N3 - Chương " + chuong + " Bài " + bai;
+                String kanjiCategory = "Tổng ôn N3 - Chương " + chuong + " Bài " + bai + " - Kanji";
+
                 // 1. Save uploaded file content persistently to uploads/n3/Chuong_{c}/Bai_{l}.json
                 Path targetDir = Paths.get("uploads", "n3", "Chuong_" + chuong);
                 Files.createDirectories(targetDir);
@@ -432,7 +464,7 @@ public class JlptN3CourseService {
                             }
                         }
 
-                        Optional<Vocabulary> existingOpt = vocabularyRepository.findFirstByKanji(kanji);
+                        Optional<Vocabulary> existingOpt = vocabularyRepository.findFirstByKanjiAndCategory(kanji, kanjiCategory);
                         Vocabulary v = existingOpt.orElseGet(Vocabulary::new);
                         v.setKanji(kanji);
                         if (v.getHiragana() == null || v.getHiragana().isEmpty()) {
@@ -440,8 +472,9 @@ public class JlptN3CourseService {
                         }
                         if (hanViet != null && !hanViet.isEmpty()) v.setHanViet(hanViet);
                         if (nghia != null && !nghia.isEmpty()) v.setMeaning(nghia);
+                        v.setWordType("KANJI");
                         v.setLevel("N3_COURSE");
-                        v.setCategory("Tổng ôn N3 - Chương " + chuong + " Bài " + bai);
+                        v.setCategory(kanjiCategory);
 
                         if (!tuVungList.isEmpty()) {
                             try {
@@ -464,9 +497,9 @@ public class JlptN3CourseService {
                         String nghia = vNode.path("nghia").asText("").trim();
                         String viDu = vNode.path("vi_du").asText("").trim();
 
-                        Optional<Vocabulary> existingOpt = vocabularyRepository.findFirstByKanji(tu);
+                        Optional<Vocabulary> existingOpt = vocabularyRepository.findFirstByKanjiAndCategory(tu, vocabCategory);
                         if (existingOpt.isEmpty()) {
-                            existingOpt = vocabularyRepository.findFirstByHiragana(tu);
+                            existingOpt = vocabularyRepository.findFirstByHiraganaAndCategory(tu, vocabCategory);
                         }
                         Vocabulary v = existingOpt.orElseGet(Vocabulary::new);
 
@@ -484,10 +517,10 @@ public class JlptN3CourseService {
                         }
 
                         if (nghia != null && !nghia.isEmpty()) v.setMeaning(nghia);
-                        if (loaiTu != null && !loaiTu.isEmpty()) v.setWordType(loaiTu);
+                        v.setWordType(loaiTu != null && !loaiTu.isEmpty() && !"KANJI".equalsIgnoreCase(loaiTu) ? loaiTu : "N");
                         if (viDu != null && !viDu.isEmpty()) v.setSampleSentence(viDu);
                         v.setLevel("N3_COURSE");
-                        v.setCategory("Tổng ôn N3 - Chương " + chuong + " Bài " + bai);
+                        v.setCategory(vocabCategory);
 
                         vocabularyRepository.save(v);
                         fileVocab++;
