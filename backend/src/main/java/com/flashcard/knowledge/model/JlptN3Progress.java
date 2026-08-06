@@ -22,6 +22,15 @@ public class JlptN3Progress {
     @Column(name = "lesson_id", nullable = false)
     private Integer lessonId;
 
+    @Column(name = "vocab_passed")
+    private Boolean vocabPassed = false;
+
+    @Column(name = "kanji_passed")
+    private Boolean kanjiPassed = false;
+
+    @Column(name = "grammar_passed")
+    private Boolean grammarPassed = false;
+
     @Column(name = "completed", nullable = false)
     private Boolean completed = false;
 
@@ -90,6 +99,30 @@ public class JlptN3Progress {
 
     public void setLessonId(Integer lessonId) {
         this.lessonId = lessonId;
+    }
+
+    public Boolean getVocabPassed() {
+        return vocabPassed != null ? vocabPassed : false;
+    }
+
+    public void setVocabPassed(Boolean vocabPassed) {
+        this.vocabPassed = vocabPassed;
+    }
+
+    public Boolean getKanjiPassed() {
+        return kanjiPassed != null ? kanjiPassed : false;
+    }
+
+    public void setKanjiPassed(Boolean kanjiPassed) {
+        this.kanjiPassed = kanjiPassed;
+    }
+
+    public Boolean getGrammarPassed() {
+        return grammarPassed != null ? grammarPassed : false;
+    }
+
+    public void setGrammarPassed(Boolean grammarPassed) {
+        this.grammarPassed = grammarPassed;
     }
 
     public Boolean getCompleted() {

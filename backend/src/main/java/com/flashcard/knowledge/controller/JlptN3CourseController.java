@@ -68,7 +68,7 @@ public class JlptN3CourseController {
     }
 
     /**
-     * Submit Quiz score for a specific lesson. Passes and completes if accuracy >= 90%.
+     * Submit Quiz score for a specific lesson component (vocab, kanji, grammar). Passes component if accuracy >= 90%.
      * POST /api/jlpt-n3/chapter/{chapter}/lesson/{lesson}/submit-quiz
      */
     @PostMapping("/chapter/{chapter}/lesson/{lesson}/submit-quiz")
@@ -79,10 +79,24 @@ public class JlptN3CourseController {
 
         int score = body.containsKey("score") ? ((Number) body.get("score")).intValue() : 0;
         int total = body.containsKey("total") ? ((Number) body.get("total")).intValue() : 0;
+        String quizCategory = body.containsKey("quizCategory") ? String.valueOf(body.get("quizCategory"))
+                            : body.containsKey("category") ? String.valueOf(body.get("category")) : "vocab";
 
         Long userId = getCurrentUserId();
-        Map<String, Object> result = courseService.submitQuiz(userId, chapter, lesson, score, total);
+        Map<String, Object> result = courseService.submitQuiz(userId, chapter, lesson, quizCategory, score, total);
         return ResponseEntity.ok(result);
+    }
+
+    /**
+     * Get or generate (ONCE via DeepSeek AI) 30 Multiple Choice Questions for Grammar points of a specific lesson.
+     * GET /api/jlpt-n3/chapter/{chapter}/lesson/{lesson}/grammar-quiz
+     */
+    @GetMapping("/chapter/{chapter}/lesson/{lesson}/grammar-quiz")
+    public ResponseEntity<?> getGrammarQuiz(
+            @PathVariable("chapter") int chapter,
+            @PathVariable("lesson") int lesson) {
+        java.util.List<Map<String, Object>> questions = courseService.getOrGenerateGrammarQuiz(chapter, lesson);
+        return ResponseEntity.ok(questions);
     }
 
     /**

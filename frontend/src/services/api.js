@@ -574,11 +574,16 @@ export const jlptN3Api = {
     const response = await axios.get(`${API_BASE_URL}/jlpt-n3/chapter/${chapter}/lesson/${lesson}`);
     return response.data;
   },
-  submitQuiz: async (chapter, lesson, score, total) => {
+  submitQuiz: async (chapter, lesson, quizCategory, score, total) => {
     const response = await axios.post(`${API_BASE_URL}/jlpt-n3/chapter/${chapter}/lesson/${lesson}/submit-quiz`, {
+      quizCategory,
       score,
       total
     });
+    return response.data;
+  },
+  getGrammarQuiz: async (chapter, lesson) => {
+    const response = await axios.get(`${API_BASE_URL}/jlpt-n3/chapter/${chapter}/lesson/${lesson}/grammar-quiz`);
     return response.data;
   },
   importData: async () => {

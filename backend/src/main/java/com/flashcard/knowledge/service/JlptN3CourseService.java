@@ -3,8 +3,10 @@ package com.flashcard.knowledge.service;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.flashcard.knowledge.model.GrammarCard;
+import com.flashcard.knowledge.model.JlptN3GrammarQuiz;
 import com.flashcard.knowledge.model.JlptN3Progress;
 import com.flashcard.knowledge.repository.GrammarCardRepository;
+import com.flashcard.knowledge.repository.JlptN3GrammarQuizRepository;
 import com.flashcard.knowledge.repository.JlptN3ProgressRepository;
 import com.flashcard.srs.repository.WordReviewRepository;
 import com.flashcard.vocabulary.model.Vocabulary;
@@ -35,6 +37,7 @@ public class JlptN3CourseService {
     private final VocabularyRepository vocabularyRepository;
     private final GrammarCardRepository grammarCardRepository;
     private final WordReviewRepository wordReviewRepository;
+    private final JlptN3GrammarQuizRepository grammarQuizRepository;
     private final DeepSeekEnrichmentService enrichmentService;
     private final ObjectMapper objectMapper;
 
@@ -43,12 +46,14 @@ public class JlptN3CourseService {
                                VocabularyRepository vocabularyRepository,
                                GrammarCardRepository grammarCardRepository,
                                WordReviewRepository wordReviewRepository,
+                               JlptN3GrammarQuizRepository grammarQuizRepository,
                                DeepSeekEnrichmentService enrichmentService,
                                ObjectMapper objectMapper) {
         this.progressRepository = progressRepository;
         this.vocabularyRepository = vocabularyRepository;
         this.grammarCardRepository = grammarCardRepository;
         this.wordReviewRepository = wordReviewRepository;
+        this.grammarQuizRepository = grammarQuizRepository;
         this.enrichmentService = enrichmentService;
         this.objectMapper = objectMapper;
     }
@@ -145,9 +150,15 @@ public class JlptN3CourseService {
                 JlptN3Progress progress = progressMap.get(key);
 
                 boolean isCompleted = progress != null && Boolean.TRUE.equals(progress.getCompleted());
+                boolean vocabPassed = progress != null && Boolean.TRUE.equals(progress.getVocabPassed());
+                boolean kanjiPassed = progress != null && Boolean.TRUE.equals(progress.getKanjiPassed());
+                boolean grammarPassed = progress != null && Boolean.TRUE.equals(progress.getGrammarPassed());
                 int bestScore = progress != null ? progress.getBestScore() : 0;
 
                 lessonData.put("completed", isCompleted);
+                lessonData.put("vocabPassed", vocabPassed);
+                lessonData.put("kanjiPassed", kanjiPassed);
+                lessonData.put("grammarPassed", grammarPassed);
                 lessonData.put("bestScore", bestScore);
 
                 if (isCompleted) {
@@ -626,16 +637,18 @@ public class JlptN3CourseService {
     }
 
     /**
-     * Submit Quiz Score for a lesson and update completion status if accuracy >= 90%.
+     * Submit Quiz Score for a lesson component (vocab, kanji, grammar) and update pass status if accuracy >= 90%.
+     * A lesson is 100% completed ONLY when all 3 components (vocab, kanji, grammar) are passed!
      */
     @Transactional
-    public Map<String, Object> submitQuiz(Long userId, int chapter, int lesson, int score, int total) {
+    public Map<String, Object> submitQuiz(Long userId, int chapter, int lesson, String quizCategory, int score, int total) {
         if (total <= 0) {
             throw new IllegalArgumentException("Tổng số câu hỏi phải lớn hơn 0");
         }
 
         int accuracy = Math.round((float) score * 100 / total);
         boolean passed = (accuracy >= 90);
+        String category = quizCategory != null ? quizCategory.trim().toLowerCase() : "vocab";
 
         JlptN3Progress progress = null;
         if (userId != null) {
@@ -647,23 +660,80 @@ public class JlptN3CourseService {
             }
 
             if (passed) {
+                if ("vocab".equals(category)) {
+                    progress.setVocabPassed(true);
+                } else if ("kanji".equals(category)) {
+                    progress.setKanjiPassed(true);
+                } else if ("grammar".equals(category)) {
+                    progress.setGrammarPassed(true);
+                }
+            }
+
+            // Lesson is fully completed ONLY when ALL 3 sub-components are passed!
+            if (Boolean.TRUE.equals(progress.getVocabPassed())
+                    && Boolean.TRUE.equals(progress.getKanjiPassed())
+                    && Boolean.TRUE.equals(progress.getGrammarPassed())) {
                 progress.setCompleted(true);
                 progress.setCompletedAt(LocalDateTime.now());
             }
 
-            progressRepository.save(progress);
+            progressRepository.saveAndFlush(progress);
         }
 
         Map<String, Object> result = new HashMap<>();
         result.put("chapterId", chapter);
         result.put("lessonId", lesson);
+        result.put("quizCategory", category);
         result.put("score", score);
         result.put("total", total);
         result.put("accuracy", accuracy);
         result.put("passed", passed);
+        result.put("vocabPassed", progress != null && Boolean.TRUE.equals(progress.getVocabPassed()));
+        result.put("kanjiPassed", progress != null && Boolean.TRUE.equals(progress.getKanjiPassed()));
+        result.put("grammarPassed", progress != null && Boolean.TRUE.equals(progress.getGrammarPassed()));
         result.put("completed", progress != null && Boolean.TRUE.equals(progress.getCompleted()));
         result.put("bestScore", progress != null ? progress.getBestScore() : accuracy);
 
         return result;
+    }
+
+    /**
+     * Fetch or generate (ONCE via DeepSeek AI) 30 Grammar Multiple-Choice Questions for a lesson.
+     */
+    @Transactional
+    public List<Map<String, Object>> getOrGenerateGrammarQuiz(int chapter, int lesson) {
+        Optional<JlptN3GrammarQuiz> existingOpt = grammarQuizRepository.findByChapterIdAndLessonId(chapter, lesson);
+        if (existingOpt.isPresent() && existingOpt.get().getQuestionsJson() != null && !existingOpt.get().getQuestionsJson().isBlank()) {
+            try {
+                @SuppressWarnings("unchecked")
+                List<Map<String, Object>> cachedList = objectMapper.readValue(existingOpt.get().getQuestionsJson(), List.class);
+                if (cachedList != null && !cachedList.isEmpty()) {
+                    return cachedList;
+                }
+            } catch (Exception e) {
+                log.error("Failed to parse cached grammar quiz questions for chapter {} lesson {}: {}", chapter, lesson, e.getMessage());
+            }
+        }
+
+        // Generate 30 questions via DeepSeek AI if not cached
+        Map<String, Object> lessonData = getLessonData(chapter, lesson);
+        @SuppressWarnings("unchecked")
+        List<Map<String, Object>> grammarList = (List<Map<String, Object>>) lessonData.getOrDefault("ngu_phap", Collections.emptyList());
+
+        String generatedJson = enrichmentService.generateGrammarQuiz30Questions(chapter, lesson, grammarList);
+        if (generatedJson != null && !generatedJson.equals("[]")) {
+            JlptN3GrammarQuiz quiz = existingOpt.orElseGet(() -> new JlptN3GrammarQuiz(chapter, lesson, generatedJson));
+            quiz.setQuestionsJson(generatedJson);
+            grammarQuizRepository.saveAndFlush(quiz);
+
+            try {
+                @SuppressWarnings("unchecked")
+                List<Map<String, Object>> questionsList = objectMapper.readValue(generatedJson, List.class);
+                return questionsList;
+            } catch (Exception e) {
+                log.error("Error reading generated quiz JSON: {}", e.getMessage());
+            }
+        }
+        return Collections.emptyList();
     }
 }

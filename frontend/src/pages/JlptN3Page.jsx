@@ -220,6 +220,8 @@ const JlptN3Page = () => {
   const [checkingAiAnswer, setCheckingAiAnswer] = useState(false);
   const [aiMatchExplanation, setAiMatchExplanation] = useState('');
   const [selectedGrammarModal, setSelectedGrammarModal] = useState(null);
+  const [loadingGrammarQuiz, setLoadingGrammarQuiz] = useState(false);
+  const [selectedOption, setSelectedOption] = useState('');
 
   // Quiz Timer Effect (Runs ONLY when quizState === 'playing' AND quizStatus === 'idle')
   useEffect(() => {
@@ -450,113 +452,99 @@ const isContainsKanji = (str) => {
     }
   };
 
-  const speakWord = (word) => {
-    if (!word) return;
-    const text = word.hiragana || word.kanji || word.tu || '';
-    if (!text) return;
-    const utterance = new SpeechSynthesisUtterance(text);
-    utterance.lang = 'ja-JP';
-    window.speechSynthesis.speak(utterance);
-  };
+  const startQuiz = async () => {
+    if (!lessonData) {
+      setQuizSetupError('Chưa có dữ liệu Bài học.');
+      return;
+    }
 
-  // Generate Quiz Questions from Lesson Data based on selected Options
-  const startQuiz = () => {
-    if (!lessonData) return;
     setQuizSetupError('');
 
-    let allPool = [];
-    if (lessonData.tu_vung && lessonData.tu_vung.length > 0) {
+    // Handle Grammar Category (30 AI Multiple Choice Questions - cached ONCE)
+    if (quizCategory === 'grammar') {
+      setLoadingGrammarQuiz(true);
+      try {
+        const questions = await jlptN3Api.getGrammarQuiz(selectedChapter, selectedLesson);
+        if (!questions || questions.length === 0) {
+          setQuizSetupError('Chưa có dữ liệu đề thi 30 câu ngữ pháp AI. Vui lòng kiểm tra kết nối DeepSeek!');
+          setLoadingGrammarQuiz(false);
+          return;
+        }
+
+        const mappedQuestions = questions.map((q, idx) => ({
+          id: q.id || idx + 1,
+          type: 'grammar_mcq',
+          question: q.question,
+          options: q.options || [],
+          answer: q.answer,
+          explanation: q.explanation || ''
+        }));
+
+        setQuizWords(mappedQuestions);
+        setInitialQuizWords(mappedQuestions);
+        setOriginalQuizLength(mappedQuestions.length);
+        setQuizIndex(0);
+        setQuizStatus('idle');
+        setUserInput('');
+        setSelectedOption('');
+        setScore(0);
+        setFailedWordIds(new Set());
+        setSeenWordIds(new Set());
+        setFirstAttemptQualities({});
+        setMistakes([]);
+        setQuizResult(null);
+        setQuizWordEnriched(null);
+        setAiMatchExplanation('');
+        setCheckingAiAnswer(false);
+        setQuestionStartTime(Date.now());
+        setQuizState('playing');
+      } catch (err) {
+        console.error("Failed to load grammar quiz:", err);
+        setQuizSetupError('Lỗi khi tải bài test ngữ pháp 30 câu AI.');
+      } finally {
+        setLoadingGrammarQuiz(false);
+      }
+      return;
+    }
+
+    // Handle Vocab or Kanji (100% items in category must be tested & accuracy >= 90%)
+    const pool = [];
+    if (quizCategory === 'vocab' && lessonData.tu_vung) {
       lessonData.tu_vung.forEach((v) => {
-        const isKanji = v.tu && isContainsKanji(v.tu);
-        allPool.push({
+        pool.push({
           id: v.id,
           type: 'vocab',
           category: 'Từ vựng',
-          kanji: isKanji ? v.tu : (v.kanji || v.tu || v.hiragana || ''),
-          hiragana: v.furigana || v.hiragana || v.tu || '',
-          meaning: v.nghia || v.meaning || '',
-          hanViet: v.am_han || v.han_viet || v.hanViet || '',
-          wordType: v.loai_tu || v.wordType || 'N',
-          sampleSentence: v.vi_du || v.sampleSentence || '',
-          pitchAccent: v.pitchAccent,
-          mnemonic: v.mnemonic,
-          synonyms: v.synonyms,
-          antonyms: v.antonyms,
-          exampleSentences: v.exampleSentences,
-          collocations: v.collocations,
-          commonMistakes: v.commonMistakes,
-          conversationExamples: v.conversationExamples,
-          usageGuide: v.usageGuide
+          kanji: v.tu_vung || v.tu || '',
+          hiragana: v.doc || v.reading || '',
+          meaning: v.y_nghia || v.meaning || '',
+          hanViet: v.am_han || v.hanViet || '',
+          wordType: 'Từ vựng',
+          sampleSentence: v.vi_du || v.sampleSentence || ''
         });
       });
-    }
-
-    if (lessonData.chu_han && lessonData.chu_han.length > 0) {
+    } else if (quizCategory === 'kanji' && lessonData.chu_han) {
       lessonData.chu_han.forEach((k) => {
-        allPool.push({
+        pool.push({
           id: k.id,
           type: 'kanji',
-          category: 'Kanji',
+          category: 'Chữ Hán',
           kanji: k.kanji || k.tu || '',
           hiragana: k.kanji || k.tu || '',
           meaning: k.nghia || k.meaning || '',
           hanViet: k.han_viet || k.am_han || k.hanViet || '',
-          wordType: 'Kanji',
-          sampleSentence: k.tu_vung ? (Array.isArray(k.tu_vung) ? k.tu_vung.join(', ') : k.tu_vung) : '',
-          pitchAccent: k.pitchAccent,
-          mnemonic: k.mnemonic,
-          exampleSentences: k.exampleSentences
+          wordType: 'Chữ Hán',
+          sampleSentence: k.tu_vung ? (Array.isArray(k.tu_vung) ? k.tu_vung.join(', ') : k.tu_vung) : ''
         });
       });
     }
 
-    if (lessonData.ngu_phap && lessonData.ngu_phap.length > 0) {
-      lessonData.ngu_phap.forEach((g) => {
-        allPool.push({
-          id: g.id,
-          type: 'grammar',
-          category: 'Ngữ pháp',
-          kanji: g.cau_truc || g.grammar || '',
-          hiragana: g.cau_truc || g.grammar || '',
-          meaning: g.y_nghia || g.meaning || '',
-          hanViet: '',
-          wordType: 'Ngữ pháp',
-          sampleSentence: g.vi_du ? (Array.isArray(g.vi_du) ? g.vi_du.join(' / ') : g.vi_du) : ''
-        });
-      });
-    }
-
-    if (allPool.length === 0) {
-      setQuizSetupError('Chưa có dữ liệu từ vựng/chữ Hán để tạo bài Quiz.');
+    if (pool.length === 0) {
+      setQuizSetupError(`Bài học này chưa có dữ liệu ${quizCategory === 'vocab' ? 'Từ vựng' : 'Chữ Hán'}.`);
       return;
     }
 
-    // Filter by selected category
-    const filteredPool = quizCategory === 'all'
-      ? allPool
-      : allPool.filter(w => w.type === quizCategory);
-
-    if (filteredPool.length === 0) {
-      const categoryLabel = quizCategory === 'vocab' ? 'Từ vựng' : quizCategory === 'kanji' ? 'Chữ Hán' : 'Ngữ pháp';
-      setQuizSetupError(`Bài học này chưa có dữ liệu ${categoryLabel}.`);
-      return;
-    }
-
-    let selectedWords = [];
-    if (quizOptType === 'all') {
-      selectedWords = shuffleArray(filteredPool);
-    } else if (quizOptType === 'random') {
-      const count = Math.min(filteredPool.length, Math.max(1, parseInt(quizOptRandomCount) || 15));
-      selectedWords = shuffleArray(filteredPool).slice(0, count);
-    } else if (quizOptType === 'range') {
-      const start = Math.max(1, parseInt(quizOptRangeStart) || 1) - 1;
-      const end = Math.min(parseInt(quizOptRangeEnd) || filteredPool.length, filteredPool.length);
-      if (start >= end) {
-        setQuizSetupError(`Khoảng câu hỏi không hợp lệ (từ ${start + 1} đến ${end}).`);
-        return;
-      }
-      selectedWords = filteredPool.slice(start, end);
-    }
+    const selectedWords = shuffleArray(pool);
 
     setQuizWords(selectedWords);
     setInitialQuizWords(selectedWords);
@@ -564,6 +552,7 @@ const isContainsKanji = (str) => {
     setQuizIndex(0);
     setQuizStatus('idle');
     setUserInput('');
+    setSelectedOption('');
     setScore(0);
     setFailedWordIds(new Set());
     setSeenWordIds(new Set());
@@ -577,6 +566,38 @@ const isContainsKanji = (str) => {
     setQuizState('playing');
   };
 
+  const handleMcqSelect = (option) => {
+    if (quizStatus !== 'idle') return;
+    setSelectedOption(option);
+    
+    const currentWord = quizWords[quizIndex];
+    if (!currentWord) return;
+
+    const isCorrect = (option === currentWord.answer);
+
+    const finalElapsed = Math.min(30, (Date.now() - questionStartTime) / 1000);
+    const quality = isCorrect ? (finalElapsed <= 3 ? 4 : finalElapsed <= 8 ? 3 : 2) : 1;
+    setLastAssignedQuality(quality);
+    setLastElapsedSeconds(finalElapsed);
+
+    if (isCorrect) {
+      setQuizStatus('correct');
+      setScore(s => s + 1);
+    } else {
+      setQuizStatus('incorrect');
+      setQuizWords(prev => [...prev, currentWord]);
+    }
+  };
+
+  const speakWord = (word) => {
+    if (!word) return;
+    const text = word.hiragana || word.kanji || word.tu || '';
+    if (!text) return;
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = 'ja-JP';
+    window.speechSynthesis.speak(utterance);
+  };
+
   const shuffleArray = (array) => {
     const arr = [...array];
     for (let i = arr.length - 1; i > 0; i--) {
@@ -586,109 +607,11 @@ const isContainsKanji = (str) => {
     return arr;
   };
 
-  const checkAnswer = async (e) => {
-    if (e && e.preventDefault) e.preventDefault();
-    if (!userInput.trim() || checkingAiAnswer) return;
-
-    const currentWord = quizWords[quizIndex];
-    if (!currentWord) return;
-
-    const inputClean = userInput.trim().toLowerCase();
-    let isCorrect = false;
-    let explanation = '';
-
-    if (quizQuestionType === 'vi-to-ja') {
-      const kanjiClean = currentWord.kanji ? currentWord.kanji.trim().toLowerCase() : '';
-      const hiraganaClean = currentWord.hiragana ? currentWord.hiragana.trim().toLowerCase() : '';
-      isCorrect = (inputClean === kanjiClean || inputClean === hiraganaClean);
-    } else {
-      // ja-to-vi mode: Step 1 local match
-      isCorrect = matchVietnameseAnswer(userInput, currentWord.meaning || '');
-      
-      // Step 2: Hybrid AI Semantic Evaluation if local match failed
-      if (!isCorrect) {
-        setCheckingAiAnswer(true);
-        try {
-          const evalRes = await jlptN3Api.evaluateAnswer(
-            currentWord.meaning || '',
-            userInput,
-            (currentWord.kanji || currentWord.hiragana) + (currentWord.hiragana ? ` (${currentWord.hiragana})` : '')
-          );
-          if (evalRes && evalRes.correct) {
-            isCorrect = true;
-            explanation = evalRes.explanation || '✨ DeepSeek AI chấp nhận từ đồng nghĩa!';
-          }
-        } catch (err) {
-          console.error("AI evaluation error:", err);
-        } finally {
-          setCheckingAiAnswer(false);
-        }
-      }
-    }
-
-    setAiMatchExplanation(explanation);
-
-    const finalElapsed = Math.min(30, (Date.now() - questionStartTime) / 1000);
-    let quality = 1; // Forgot
-    if (isCorrect) {
-      if (finalElapsed <= 3) {
-        quality = 4; // Easy
-      } else if (finalElapsed <= 8) {
-        quality = 3; // Good
-      } else {
-        quality = 2; // Hard
-      }
-    } else {
-      quality = 1; // Forgot
-    }
-    setLastAssignedQuality(quality);
-    setLastElapsedSeconds(finalElapsed);
-
-    if (!failedWordIds.has(currentWord.id)) {
-      setFirstAttemptQualities(prev => ({
-        ...prev,
-        [currentWord.id]: quality
-      }));
-    }
-
-    if (isCorrect) {
-      setQuizStatus('correct');
-      if (!failedWordIds.has(currentWord.id)) {
-        setScore(s => s + 1);
-        if (currentWord.id) {
-          srsApi.reviewWord(currentWord.id, quality).catch(console.error);
-        }
-      }
-      speakWord(currentWord);
-    } else {
-      setQuizStatus('incorrect');
-      setFailedWordIds(prev => {
-        const next = new Set(prev);
-        if (currentWord.id) next.add(currentWord.id);
-        return next;
-      });
-      setMistakes(prev => {
-        if (prev.some(m => m.id === currentWord.id || (m.kanji === currentWord.kanji && m.meaning === currentWord.meaning))) return prev;
-        return [...prev, currentWord];
-      });
-      // Re-queue failed word to end of quizWords list so user repeats until correct!
-      setQuizWords(prev => [...prev, currentWord]);
-    }
-
-    // Lazy load AI enrichment data for current word
-    if (currentWord.id) {
-      setLoadingQuizEnrich(true);
-      vocabApi.enrich(currentWord.id)
-        .then(res => setQuizWordEnriched(res))
-        .catch(() => setQuizWordEnriched(null))
-        .finally(() => setLoadingQuizEnrich(false));
-    }
-  };
-
   const nextQuestion = () => {
     if (quizIndex + 1 < quizWords.length) {
       setQuizIndex(i => i + 1);
       setUserInput('');
+      setSelectedOption('');
       setQuizStatus('idle');
       setQuizWordEnriched(null);
       setAiMatchExplanation('');
@@ -707,24 +630,19 @@ const isContainsKanji = (str) => {
 
     setSubmittingQuiz(true);
     try {
-      if (quizOptType === 'all' || isPassed) {
-        const res = await jlptN3Api.submitQuiz(selectedChapter, selectedLesson, firstTryScore, total);
-        setQuizResult({
-          score: firstTryScore,
-          total,
-          accuracy,
-          passed: isPassed,
-          backendMsg: res.message
-        });
-        loadOverview();
-      } else {
-        setQuizResult({
-          score: firstTryScore,
-          total,
-          accuracy,
-          passed: isPassed
-        });
-      }
+      const res = await jlptN3Api.submitQuiz(selectedChapter, selectedLesson, quizCategory, firstTryScore, total);
+      setQuizResult({
+        score: firstTryScore,
+        total,
+        accuracy,
+        passed: isPassed,
+        vocabPassed: res.vocabPassed,
+        kanjiPassed: res.kanjiPassed,
+        grammarPassed: res.grammarPassed,
+        completed: res.completed,
+        backendMsg: res.message
+      });
+      loadOverview();
       setQuizState('finished');
     } catch (err) {
       console.error("Error submitting quiz:", err);
@@ -1314,9 +1232,9 @@ const isContainsKanji = (str) => {
                       {/* Category Filter Selection */}
                       <div style={{ paddingBottom: '16px', borderBottom: '1px solid var(--border-color)' }}>
                         <label style={{ display: 'block', fontWeight: 600, marginBottom: '10px', fontSize: '0.95rem' }}>
-                          Loại nội dung muốn kiểm tra:
+                          Loại nội dung kiểm tra (Bắt buộc Hoàn thành & Đạt ≥90% cả 3 mục để Pass Bài học):
                         </label>
-                        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
                           {[
                             { value: 'all',     label: '📚 Tất cả',    desc: 'Từ vựng + Chữ Hán + Ngữ pháp' },
                             { value: 'vocab',   label: '🔤 Từ vựng',   desc: `${lessonData?.tu_vung?.length || 0} từ` },
@@ -1497,13 +1415,18 @@ const isContainsKanji = (str) => {
 
                       <button
                         onClick={startQuiz}
+                        disabled={loadingGrammarQuiz}
                         style={{
                           padding: '16px', borderRadius: '14px', border: 'none', background: 'var(--accent-color)',
                           color: 'white', fontWeight: 800, fontSize: '1.1rem', cursor: 'pointer',
                           display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px', marginTop: '10px'
                         }}
                       >
-                        <Play size={20} /> Bắt đầu Làm Quiz
+                        {loadingGrammarQuiz ? (
+                          <>✦ DeepSeek AI Đang Tạo Đề Thi 30 Câu Ngữ Pháp...</>
+                        ) : (
+                          <><Play size={20} /> Bắt đầu Làm Bài Test ({quizCategory === 'grammar' ? '30 Câu AI Ngữ Pháp' : quizCategory === 'vocab' ? 'Từ Vựng' : 'Chữ Hán'})</>
+                        )}
                       </button>
                     </div>
                   )}

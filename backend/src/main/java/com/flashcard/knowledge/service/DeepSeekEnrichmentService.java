@@ -38,7 +38,6 @@ public class DeepSeekEnrichmentService {
     private final ObjectMapper objectMapper;
     private final HttpClient httpClient;
 
-    @Autowired
     public DeepSeekEnrichmentService(VocabularyRepository vocabularyRepository, ObjectMapper objectMapper) {
         this(vocabularyRepository, null, objectMapper);
     }
@@ -692,6 +691,60 @@ public class DeepSeekEnrichmentService {
             if (i > 0) costs[s2.length()] = lastValue;
         }
         return costs[s2.length()];
+    }
+
+    /**
+     * Generate 30 N3 Multiple Choice Questions (MCQ) for Grammar points of a specific lesson.
+     */
+    public String generateGrammarQuiz30Questions(int chapter, int lesson, java.util.List<Map<String, Object>> grammarList) {
+        String apiKey = getApiKey();
+        if (apiKey == null) {
+            log.warn("DEEPSEEK_API_KEY is not configured for generating 30 grammar quiz questions.");
+            return "[]";
+        }
+
+        StringBuilder grammarInfo = new StringBuilder();
+        if (grammarList != null) {
+            for (Map<String, Object> g : grammarList) {
+                String struc = String.valueOf(g.getOrDefault("cau_truc", ""));
+                String meaning = String.valueOf(g.getOrDefault("y_nghia", ""));
+                grammarInfo.append("- ").append(struc).append(": ").append(meaning).append("\n");
+            }
+        }
+
+        String prompt = String.format(
+            "Bạn là chuyên gia biên soạn đề thi N3 tiếng Nhật.\n" +
+            "Nhiệm vụ: Tạo đúng 30 câu hỏi trắc nghiệm (MCQ) kiểm tra các điểm ngữ pháp JLPT N3 thuộc Chương %d Bài %d sau đây:\n\n" +
+            "DANH SÁCH NGỮ PHÁP MỤC TIÊU:\n%s\n\n" +
+            "YÊU CẦU ĐỀ THI:\n" +
+            "1. Đúng 30 câu hỏi trắc nghiệm tiếng Nhật tự nhiên, chuẩn phong cách đề thi JLPT N3.\n" +
+            "2. Mỗi câu hỏi điền từ vào vị trí (　　) có 4 lựa chọn A, B, C, D.\n" +
+            "3. Mọi Kanji trong câu hỏi PHẢI mở ngoặc đính kèm Furigana cách đọc Hiragana ngay sau đó (ví dụ: 日本(にほん)へ来(き)て...).\n" +
+            "4. Đưa ra giải thích chi tiết lý do chọn đáp án đúng bằng tiếng Việt.\n\n" +
+            "Trả về duy nhất 1 JSON Array gồm 30 phần tử (KHÔNG DÙNG MARKDOWN):\n" +
+            "[\n" +
+            "  {\n" +
+            "    \"id\": 1,\n" +
+            "    \"question\": \"日本(にほん)へ来(き)て（　　）、ずっとこの町(まち)に住(す)んでいます。\",\n" +
+            "    \"options\": [\"A. 以来\", \"B. から\", \"C. にかけて\", \"D. について\"],\n" +
+            "    \"answer\": \"A. 以来\",\n" +
+            "    \"explanation\": \"Cấu trúc V-て + 以来 biểu thị kể từ mốc thời gian trong quá khứ...\"\n" +
+            "  }\n" +
+            "]",
+            chapter, lesson, grammarInfo.toString()
+        );
+
+        try {
+            String rawText = callDeepSeekRaw(apiKey, prompt);
+            String cleanJson = cleanJsonContent(rawText);
+            JsonNode root = objectMapper.readTree(cleanJson);
+            if (root.isArray() && root.size() > 0) {
+                return objectMapper.writeValueAsString(root);
+            }
+        } catch (Exception e) {
+            log.error("Failed to generate 30 grammar quiz questions via DeepSeek: {}", e.getMessage());
+        }
+        return "[]";
     }
 }
 
