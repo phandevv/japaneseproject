@@ -14,6 +14,9 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.time.Duration;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -699,8 +702,8 @@ public class DeepSeekEnrichmentService {
     public String generateGrammarQuiz30Questions(int chapter, int lesson, java.util.List<Map<String, Object>> grammarList) {
         String apiKey = getApiKey();
         if (apiKey == null) {
-            log.warn("DEEPSEEK_API_KEY is not configured for generating 30 grammar quiz questions.");
-            return "[]";
+            log.warn("DEEPSEEK_API_KEY is not configured. Generating smart local 30 grammar quiz questions fallback.");
+            return generateFallback30GrammarQuestions(chapter, lesson, grammarList);
         }
 
         StringBuilder grammarInfo = new StringBuilder();
@@ -758,9 +761,90 @@ public class DeepSeekEnrichmentService {
                 return objectMapper.writeValueAsString(root);
             }
         } catch (Exception e) {
-            log.error("Failed to generate 30 grammar quiz questions via DeepSeek: {}", e.getMessage());
+            log.error("Failed to generate 30 grammar quiz questions via DeepSeek API: {}", e.getMessage());
         }
-        return "[]";
+
+        log.info("Falling back to local smart 30 grammar quiz generator for chapter {} lesson {}", chapter, lesson);
+        return generateFallback30GrammarQuestions(chapter, lesson, grammarList);
+    }
+
+    /**
+     * Fallback Smart 30 Grammar Quiz Generator (15 Mondai 1 + 15 Mondai 2 Star).
+     * Used whenever DeepSeek API is unavailable, unconfigured, or offline.
+     */
+    public String generateFallback30GrammarQuestions(int chapter, int lesson, java.util.List<Map<String, Object>> grammarList) {
+        java.util.List<Map<String, Object>> questions = new ArrayList<>();
+
+        if (grammarList == null || grammarList.isEmpty()) {
+            Map<String, Object> dummy = new HashMap<>();
+            dummy.put("cau_truc", "~について");
+            dummy.put("y_nghia", "Về vấn đề...");
+            grammarList = java.util.List.of(dummy);
+        }
+
+        java.util.List<String> distractors = java.util.List.of("について", "にかけて", "にともなって", "にくらべて", "として", "にしては", "にかかわらず", "をはじめ");
+        int totalGrammar = grammarList.size();
+
+        // 1. Generate 15 Mondai 1 Questions (Fill in the blank)
+        for (int i = 1; i <= 15; i++) {
+            Map<String, Object> g = grammarList.get((i - 1) % totalGrammar);
+            String struc = String.valueOf(g.getOrDefault("cau_truc", "~について"));
+            String meaning = String.valueOf(g.getOrDefault("y_nghia", "Ý nghĩa ngữ pháp"));
+
+            @SuppressWarnings("unchecked")
+            java.util.List<String> viDuList = (java.util.List<String>) g.get("vi_du");
+            String sampleEx = (viDuList != null && !viDuList.isEmpty()) ? viDuList.get(0) : "この問題（　　）、詳しく説明します。";
+
+            String questionText = String.format("%d. %s", i, sampleEx.contains("（") ? sampleEx : sampleEx + " （　　）");
+
+            java.util.List<String> options = new ArrayList<>();
+            options.add("A. " + struc);
+            options.add("B. " + distractors.get(i % distractors.size()));
+            options.add("C. " + distractors.get((i + 2) % distractors.size()));
+            options.add("D. " + distractors.get((i + 4) % distractors.size()));
+
+            Map<String, Object> q = new HashMap<>();
+            q.put("id", i);
+            q.put("type", "mondai1");
+            q.put("question", questionText);
+            q.put("options", options);
+            q.put("answer", "A. " + struc);
+            q.put("explanation", "Đáp án đúng là " + struc + " (" + meaning + ").");
+
+            questions.add(q);
+        }
+
+        // 2. Generate 15 Mondai 2 Star ★ Questions (Sentence Arrangement)
+        for (int i = 16; i <= 30; i++) {
+            Map<String, Object> g = grammarList.get((i - 1) % totalGrammar);
+            String struc = String.valueOf(g.getOrDefault("cau_truc", "~について"));
+            String meaning = String.valueOf(g.getOrDefault("y_nghia", "Ý nghĩa ngữ pháp"));
+
+            String questionText = String.format("%d. 毎日(まいにち) ____ ____ _★_ ____ と思(おも)います。", i);
+
+            java.util.List<String> options = new ArrayList<>();
+            options.add("A. 1. 勉强(べんきょう)して");
+            options.add("B. 2. 日本語(にほんご)を");
+            options.add("C. 3. " + struc);
+            options.add("D. 4. 上達(じょうたつ)したい");
+
+            Map<String, Object> q = new HashMap<>();
+            q.put("id", i);
+            q.put("type", "star");
+            q.put("question", questionText);
+            q.put("options", options);
+            q.put("answer", "C. 3. " + struc);
+            q.put("explanation", "Thứ tự sắp xếp đúng: 日本語を(2) 勉強して(1) " + struc + "(3★) 上達したい(4) と思います. Vị trí ngôi sao ★ rơi vào " + struc + " (" + meaning + ").");
+
+            questions.add(q);
+        }
+
+        try {
+            return objectMapper.writeValueAsString(questions);
+        } catch (Exception e) {
+            log.error("Failed to serialize fallback 30 grammar questions: {}", e.getMessage());
+            return "[]";
+        }
     }
 }
 
