@@ -707,8 +707,11 @@ public class JlptN3CourseService {
             try {
                 @SuppressWarnings("unchecked")
                 List<Map<String, Object>> cachedList = objectMapper.readValue(existingOpt.get().getQuestionsJson(), List.class);
-                if (cachedList != null && !cachedList.isEmpty()) {
-                    return cachedList;
+                if (cachedList != null && cachedList.size() >= 30) {
+                    boolean hasStar = cachedList.stream().anyMatch(q -> "star".equalsIgnoreCase(String.valueOf(q.get("type"))) || String.valueOf(q.get("question")).contains("★"));
+                    if (hasStar) {
+                        return cachedList;
+                    }
                 }
             } catch (Exception e) {
                 log.error("Failed to parse cached grammar quiz questions for chapter {} lesson {}: {}", chapter, lesson, e.getMessage());

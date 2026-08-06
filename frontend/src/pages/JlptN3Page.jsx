@@ -1474,53 +1474,95 @@ const isContainsKanji = (str) => {
                           )}
 
                           {/* Question Display Card */}
-                          <div className="card" style={{ padding: '40px', textAlign: 'center', marginBottom: '30px' }}>
-                            <p style={{ color: 'var(--text-secondary)', marginBottom: '15px' }}>
-                              {quizQuestionType === 'vi-to-ja' ? 'Hãy điền từ/đọc Tiếng Nhật của từ sau:' : 'Hãy điền nghĩa Tiếng Việt của từ sau:'}
-                            </p>
-                            <h2 className={quizQuestionType === 'ja-to-vi' ? 'font-jp' : ''} style={{ fontSize: quizQuestionType === 'ja-to-vi' ? '2.8rem' : '2.2rem', marginBottom: '20px', color: 'var(--text-primary)' }}>
-                              {quizQuestionType === 'vi-to-ja' ? currentWord.meaning : (currentWord.kanji || currentWord.hiragana)}
-                            </h2>
-                            {quizQuestionType === 'ja-to-vi' && currentWord.kanji && (quizStatus === 'correct' || quizStatus === 'incorrect') && (
-                              <p style={{ color: 'var(--accent-color)', fontSize: '1.2rem', marginBottom: '10px' }}>({currentWord.hiragana})</p>
-                            )}
-                            {quizQuestionType === 'vi-to-ja' && currentWord.hanViet && (
-                              <p style={{ color: 'var(--text-secondary)' }}>【{currentWord.hanViet}】</p>
+                          <div className="card" style={{ padding: '36px 40px', textAlign: 'left', marginBottom: '24px' }}>
+                            {currentWord.type === 'grammar_mcq' || currentWord.type === 'star' || quizCategory === 'grammar' ? (
+                              <div>
+                                <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '16px' }}>
+                                  <span style={{
+                                    fontSize: '0.82rem', fontWeight: 800, padding: '4px 12px', borderRadius: '8px',
+                                    backgroundColor: (currentWord.type === 'star' || currentWord.question?.includes('★')) ? 'rgba(245,158,11,0.15)' : 'rgba(37,99,235,0.12)',
+                                    color: (currentWord.type === 'star' || currentWord.question?.includes('★')) ? '#d97706' : 'var(--accent-color)',
+                                    border: `1px solid ${(currentWord.type === 'star' || currentWord.question?.includes('★')) ? 'rgba(245,158,11,0.3)' : 'rgba(37,99,235,0.3)'}`
+                                  }}>
+                                    {(currentWord.type === 'star' || currentWord.question?.includes('★'))
+                                      ? '⭐ Mondai 2: Dạng Ngôi Sao ★ (Sắp xếp từ chọn vị trí ★)'
+                                      : '📝 Mondai 1: Điền từ/Cấu trúc ngữ pháp đúng ( 　 )'}
+                                  </span>
+                                </div>
+                                <h2 className="font-jp" style={{ fontSize: '1.6rem', fontWeight: 700, lineHeight: 1.6, color: 'var(--text-primary)', margin: 0 }}>
+                                  {currentWord.question}
+                                </h2>
+                              </div>
+                            ) : (
+                              <div style={{ textAlign: 'center' }}>
+                                <p style={{ color: 'var(--text-secondary)', marginBottom: '15px' }}>
+                                  {quizQuestionType === 'vi-to-ja' ? 'Hãy điền từ/đọc Tiếng Nhật của từ sau:' : 'Hãy điền nghĩa Tiếng Việt của từ sau:'}
+                                </p>
+                                <h2 className={quizQuestionType === 'ja-to-vi' ? 'font-jp' : ''} style={{ fontSize: quizQuestionType === 'ja-to-vi' ? '2.8rem' : '2.2rem', marginBottom: '20px', color: 'var(--text-primary)' }}>
+                                  {quizQuestionType === 'vi-to-ja' ? currentWord.meaning : (currentWord.kanji || currentWord.hiragana)}
+                                </h2>
+                                {quizQuestionType === 'ja-to-vi' && currentWord.kanji && (quizStatus === 'correct' || quizStatus === 'incorrect') && (
+                                  <p style={{ color: 'var(--accent-color)', fontSize: '1.2rem', marginBottom: '10px' }}>({currentWord.hiragana})</p>
+                                )}
+                                {quizQuestionType === 'vi-to-ja' && currentWord.hanViet && (
+                                  <p style={{ color: 'var(--text-secondary)' }}>【{currentWord.hanViet}】</p>
+                                )}
+                              </div>
                             )}
                           </div>
 
-                          {/* Idle Form */}
+                          {/* Idle Form / MCQ Grid */}
                           {quizStatus === 'idle' && (
-                            <form onSubmit={checkAnswer} className="flex-center" style={{ gap: '10px' }}>
-                              <input
-                                type="text"
-                                autoFocus
-                                disabled={checkingAiAnswer}
-                                value={userInput}
-                                onChange={(e) => setUserInput(e.target.value)}
-                                placeholder={quizQuestionType === 'vi-to-ja' ? 'Nhập tiếng Nhật (Hiragana/Kanji)...' : 'Nhập nghĩa dịch Tiếng Việt...'}
-                                className={quizQuestionType === 'vi-to-ja' ? 'font-jp' : ''}
-                                style={{
-                                  flex: 1,
-                                  padding: '16px 20px',
-                                  borderRadius: '12px',
-                                  border: '1px solid var(--border-color)',
-                                  backgroundColor: 'var(--surface-color)',
-                                  color: 'var(--text-primary)',
-                                  fontSize: '1.2rem',
-                                  opacity: checkingAiAnswer ? 0.7 : 1
-                                }}
-                              />
-                              <button type="submit" disabled={checkingAiAnswer} className="btn btn-primary" style={{ padding: '16px 30px', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                                {checkingAiAnswer ? (
-                                  <>
-                                    <Sparkles size={18} className="animate-spin" /> Đang thẩm định AI...
-                                  </>
-                                ) : (
-                                  'Kiểm tra ✓'
-                                )}
-                              </button>
-                            </form>
+                            currentWord.type === 'grammar_mcq' || currentWord.type === 'star' || quizCategory === 'grammar' ? (
+                              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '14px', width: '100%', marginBottom: '24px' }}>
+                                {currentWord.options?.map((opt, oIdx) => (
+                                  <button
+                                    key={oIdx}
+                                    type="button"
+                                    onClick={() => handleMcqSelect(opt)}
+                                    className="font-jp card-hover"
+                                    style={{
+                                      padding: '18px 22px', borderRadius: '14px', border: '1.5px solid var(--border-color)',
+                                      backgroundColor: 'var(--surface-color)', color: 'var(--text-primary)', fontSize: '1.1rem',
+                                      fontWeight: 700, textAlign: 'left', cursor: 'pointer', transition: 'all 0.15s ease'
+                                    }}
+                                  >
+                                    {opt}
+                                  </button>
+                                ))}
+                              </div>
+                            ) : (
+                              <form onSubmit={checkAnswer} className="flex-center" style={{ gap: '10px' }}>
+                                <input
+                                  type="text"
+                                  autoFocus
+                                  disabled={checkingAiAnswer}
+                                  value={userInput}
+                                  onChange={(e) => setUserInput(e.target.value)}
+                                  placeholder={quizQuestionType === 'vi-to-ja' ? 'Nhập tiếng Nhật (Hiragana/Kanji)...' : 'Nhập nghĩa dịch Tiếng Việt...'}
+                                  className={quizQuestionType === 'vi-to-ja' ? 'font-jp' : ''}
+                                  style={{
+                                    flex: 1,
+                                    padding: '16px 20px',
+                                    borderRadius: '12px',
+                                    border: '1px solid var(--border-color)',
+                                    backgroundColor: 'var(--surface-color)',
+                                    color: 'var(--text-primary)',
+                                    fontSize: '1.2rem',
+                                    opacity: checkingAiAnswer ? 0.7 : 1
+                                  }}
+                                />
+                                <button type="submit" disabled={checkingAiAnswer} className="btn btn-primary" style={{ padding: '16px 30px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                                  {checkingAiAnswer ? (
+                                    <>
+                                      <Sparkles size={18} className="animate-spin" /> Đang thẩm định AI...
+                                    </>
+                                  ) : (
+                                    'Kiểm tra ✓'
+                                  )}
+                                </button>
+                              </form>
+                            )
                           )}
 
                           {/* Correct Card */}

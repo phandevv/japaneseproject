@@ -43,6 +43,12 @@ const FlashcardCard = ({ word, flipped, onFlip, onRateWord }) => {
       return;
     }
 
+    if (!word.id || isNaN(Number(word.id))) {
+      setEnriched(word);
+      setLoadingEnrich(false);
+      return;
+    }
+
     setEnriched(null);
     setLoadingEnrich(true);
 

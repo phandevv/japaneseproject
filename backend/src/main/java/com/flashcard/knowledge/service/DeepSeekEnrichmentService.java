@@ -713,22 +713,38 @@ public class DeepSeekEnrichmentService {
         }
 
         String prompt = String.format(
-            "Bạn là chuyên gia biên soạn đề thi N3 tiếng Nhật.\n" +
-            "Nhiệm vụ: Tạo đúng 30 câu hỏi trắc nghiệm (MCQ) kiểm tra các điểm ngữ pháp JLPT N3 thuộc Chương %d Bài %d sau đây:\n\n" +
+            "Bạn là chuyên gia biên soạn đề thi N3 tiếng Nhật theo chuẩn cấu trúc bài thi JLPT N3 chính thức.\n" +
+            "Nhiệm vụ: Tạo đúng 30 câu hỏi trắc nghiệm kiểm tra các điểm ngữ pháp JLPT N3 thuộc Chương %d Bài %d sau đây:\n\n" +
             "DANH SÁCH NGỮ PHÁP MỤC TIÊU:\n%s\n\n" +
-            "YÊU CẦU ĐỀ THI:\n" +
-            "1. Đúng 30 câu hỏi trắc nghiệm tiếng Nhật tự nhiên, chuẩn phong cách đề thi JLPT N3.\n" +
-            "2. Mỗi câu hỏi điền từ vào vị trí (　　) có 4 lựa chọn A, B, C, D.\n" +
-            "3. Mọi Kanji trong câu hỏi PHẢI mở ngoặc đính kèm Furigana cách đọc Hiragana ngay sau đó (ví dụ: 日本(にほん)へ来(き)て...).\n" +
-            "4. Đưa ra giải thích chi tiết lý do chọn đáp án đúng bằng tiếng Việt.\n\n" +
-            "Trả về duy nhất 1 JSON Array gồm 30 phần tử (KHÔNG DÙNG MARKDOWN):\n" +
+            "CẤU TRÚC BẮT BUỘC (GỒM 2 DẠNG CHUẨN JLPT N3):\n\n" +
+            "● DẠNG 1: CÂU 1 ĐẾN CÂU 15 (Mondai 1 - Điền ngữ pháp vào chỗ trống):\n" +
+            "  - Mỗi câu hỏi điền cấu trúc ngữ pháp đúng vào vị trí (　　).\n" +
+            "  - 4 lựa chọn A, B, C, D.\n" +
+            "  - Mọi Kanji trong câu PHẢI mở ngoặc đính kèm Furigana cách đọc Hiragana ngay sau đó (ví dụ: 日本(にほん)へ来(き)て...).\n" +
+            "  - Ghi \"type\": \"mondai1\".\n\n" +
+            "● DẠNG 2: CÂU 16 ĐẾN CÂU 30 (Mondai 2 - Sắp xếp câu tìm vị trí Ngôi Sao ★):\n" +
+            "  - Mỗi câu cho 1 câu tiếng Nhật có 4 vị trí gạch chân xáo trộn 1_ 2_ 3★_ 4_ trong đó vị trí thứ 3 là dấu Ngôi Sao ★ (ví dụ: 山田(やまだ)さんは ____ ____ _★_ ____ から、休(やす)むはずがない。).\n" +
+            "  - 4 lựa chọn A, B, C, D là 4 cụm từ xáo trộn (ví dụ: [\"A. 1. 元気(げんき)な\", \"B. 2. 理由(りゆう)\", \"C. 3. がない\", \"D. 4. はず\"]).\n" +
+            "  - Đáp án đúng \"answer\" PHẢI là cụm từ nằm đúng ở vị trí dấu Ngôi Sao ★ khi ghép câu đúng hoàn chỉnh (ví dụ: \"C. 3. がない\").\n" +
+            "  - Trong phần \"explanation\", ghi rõ thứ tự ghép câu đúng hoàn chỉnh và giải thích vị trí ngôi sao (ví dụ: \"Thứ tự đúng: 1-2-3-4 -> Câu hoàn chỉnh: ... -> Vị trí ngôi sao ★ là C. 3. がない\").\n" +
+            "  - Ghi \"type\": \"star\".\n\n" +
+            "Trả về duy nhất 1 JSON Array gồm đúng 30 phần tử (KHÔNG DÙNG MARKDOWN):\n" +
             "[\n" +
             "  {\n" +
             "    \"id\": 1,\n" +
-            "    \"question\": \"日本(にほん)へ来(き)て（　　）、ずっとこの町(まち)に住(す)んでいます。\",\n" +
-            "    \"options\": [\"A. 以来\", \"B. から\", \"C. にかけて\", \"D. について\"],\n" +
-            "    \"answer\": \"A. 以来\",\n" +
-            "    \"explanation\": \"Cấu trúc V-て + 以来 biểu thị kể từ mốc thời gian trong quá khứ...\"\n" +
+            "    \"type\": \"mondai1\",\n" +
+            "    \"question\": \"1. 日本(にほん)へ来(き)て（　　）、ずっとこの町(まち)に住(す)んでいます。\",\n" +
+            "    \"options\": [\"A. 以来(いらい)\", \"B. から\", \"C. にかけて\", \"D. について\"],\n" +
+            "    \"answer\": \"A. 以来(いらい)\",\n" +
+            "    \"explanation\": \"Cấu trúc V-て + 以来 biểu thị kể từ mốc thời gian...\"\n" +
+            "  },\n" +
+            "  {\n" +
+            "    \"id\": 16,\n" +
+            "    \"type\": \"star\",\n" +
+            "    \"question\": \"16. 山田(やまだ)さんは ____ ____ _★_ ____ から、休(やす)むはずがない。\",\n" +
+            "    \"options\": [\"A. 1. 元気(げんき)な\", \"B. 2. 理由(りゆう)\", \"C. 3. がない\", \"D. 4. はず\"],\n" +
+            "    \"answer\": \"C. 3. がない\",\n" +
+            "    \"explanation\": \"Thứ tự ghép đúng: 元気な (1) 理由 (2) がない (3) はず (4) から... -> Vị trí ngôi sao ★ là C. 3. がない\"\n" +
             "  }\n" +
             "]",
             chapter, lesson, grammarInfo.toString()
