@@ -326,14 +326,18 @@ public class JlptN3CourseService {
                     }
                     if (dbVocab.isEmpty()) {
                         dbVocab = vocabularyRepository.findFirstByKanji(tu);
-                        if (dbVocab.isPresent() && "KANJI".equalsIgnoreCase(dbVocab.get().getWordType())) {
-                            dbVocab = Optional.empty();
-                        }
+                    }
+                    if (dbVocab.isEmpty()) {
+                        dbVocab = vocabularyRepository.findFirstByHiragana(tu);
                     }
 
                     Vocabulary v;
                     if (dbVocab.isPresent()) {
                         v = dbVocab.get();
+                        if (v.getCategory() == null || v.getCategory().isBlank()) {
+                            v.setCategory(vocabCategory);
+                            v = vocabularyRepository.saveAndFlush(v);
+                        }
                     } else {
                         // Dynamically save missing N3 vocabulary into DB to assign a persistent ID
                         v = new Vocabulary();
@@ -371,7 +375,6 @@ public class JlptN3CourseService {
                     if (v.getUsageGuide() != null) vItem.put("usageGuide", v.getUsageGuide());
                     if (v.getKanjiWords() != null) vItem.put("kanjiWords", v.getKanjiWords());
 
-                    // Trigger DeepSeek AI enrichment in background if missing AI fields
                     if (enrichmentService != null) {
                         enrichmentService.enrichVocabulary(v);
                     }
@@ -389,14 +392,18 @@ public class JlptN3CourseService {
                     Optional<Vocabulary> dbKanji = vocabularyRepository.findFirstByKanjiAndCategory(kanji, kanjiCategory);
                     if (dbKanji.isEmpty()) {
                         dbKanji = vocabularyRepository.findFirstByKanji(kanji);
-                        if (dbKanji.isPresent() && !"KANJI".equalsIgnoreCase(dbKanji.get().getWordType())) {
-                            dbKanji = Optional.empty();
-                        }
+                    }
+                    if (dbKanji.isEmpty()) {
+                        dbKanji = vocabularyRepository.findFirstByHiragana(kanji);
                     }
 
                     Vocabulary kVocab;
                     if (dbKanji.isPresent()) {
                         kVocab = dbKanji.get();
+                        if (kVocab.getCategory() == null || kVocab.getCategory().isBlank()) {
+                            kVocab.setCategory(kanjiCategory);
+                            kVocab = vocabularyRepository.saveAndFlush(kVocab);
+                        }
                     } else {
                         kVocab = new Vocabulary();
                         kVocab.setKanji(kanji);
@@ -429,6 +436,50 @@ public class JlptN3CourseService {
 
                     if (enrichmentService != null) {
                         enrichmentService.enrichVocabulary(kVocab);
+                    }
+                }
+            }
+        }
+
+        // Enrich ngu_phap list items with database IDs & GrammarCard AI fields
+        if (data.containsKey("ngu_phap") && data.get("ngu_phap") instanceof List) {
+            @SuppressWarnings("unchecked")
+            List<Map<String, Object>> grammarList = (List<Map<String, Object>>) data.get("ngu_phap");
+            for (Map<String, Object> gItem : grammarList) {
+                String cauTruc = gItem.containsKey("cau_truc") ? String.valueOf(gItem.get("cau_truc")) : "";
+                if (!cauTruc.isEmpty()) {
+                    Optional<GrammarCard> dbGrammar = grammarCardRepository.findByGrammar(cauTruc);
+                    GrammarCard gCard;
+                    if (dbGrammar.isPresent()) {
+                        gCard = dbGrammar.get();
+                    } else {
+                        gCard = new GrammarCard();
+                        gCard.setGrammar(cauTruc);
+                        gCard.setMeaning(gItem.containsKey("y_nghia") ? String.valueOf(gItem.get("y_nghia")) : "");
+                        gCard.setFormation(gItem.containsKey("cach_chia") ? String.valueOf(gItem.get("cach_chia")) : "");
+                        gCard.setJlpt("N3");
+                        gCard.setWeekName("Chương " + chapter);
+                        gCard.setDayName("Bài " + lesson);
+                        if (gItem.containsKey("vi_du")) {
+                            try {
+                                gCard.setExamples(objectMapper.writeValueAsString(gItem.get("vi_du")));
+                            } catch (Exception e) {}
+                        }
+                        gCard = grammarCardRepository.saveAndFlush(gCard);
+                    }
+
+                    gItem.put("id", gCard.getId());
+                    if (gCard.getMeaning() != null) gItem.put("y_nghia", gCard.getMeaning());
+                    if (gCard.getFormation() != null) gItem.put("cach_chia", gCard.getFormation());
+                    if (gCard.getFormation() != null) gItem.put("formation", gCard.getFormation());
+                    if (gCard.getUsageGuide() != null) gItem.put("usageGuide", gCard.getUsageGuide());
+                    if (gCard.getSimilarGrammar() != null) gItem.put("similarGrammar", gCard.getSimilarGrammar());
+                    if (gCard.getDifference() != null) gItem.put("difference", gCard.getDifference());
+                    if (gCard.getCommonMistakes() != null) gItem.put("commonMistakes", gCard.getCommonMistakes());
+                    if (gCard.getExamples() != null) gItem.put("examples", gCard.getExamples());
+
+                    if (enrichmentService != null) {
+                        enrichmentService.enrichGrammarCard(gCard);
                     }
                 }
             }
