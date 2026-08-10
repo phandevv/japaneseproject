@@ -721,16 +721,19 @@ public class DeepSeekEnrichmentService {
             "DANH SÁCH NGỮ PHÁP MỤC TIÊU:\n%s\n\n" +
             "CẤU TRÚC BẮT BUỘC (GỒM 2 DẠNG CHUẨN JLPT N3):\n\n" +
             "● DẠNG 1: CÂU 1 ĐẾN CÂU 15 (Mondai 1 - Điền ngữ pháp vào chỗ trống):\n" +
-            "  - Mỗi câu hỏi điền cấu trúc ngữ pháp đúng vào vị trí (　　).\n" +
+            "  - Chỗ trống (　　) PHẢI nằm ĐÚNG CHỖ điểm ngữ pháp cần điền TRONG CÂU và TRƯỚC dấu chấm 。.\n" +
             "  - 4 lựa chọn A, B, C, D.\n" +
             "  - Mọi Kanji trong câu PHẢI mở ngoặc đính kèm Furigana cách đọc Hiragana ngay sau đó (ví dụ: 日本(にほん)へ来(き)て...).\n" +
             "  - Ghi \"type\": \"mondai1\".\n\n" +
             "● DẠNG 2: CÂU 16 ĐẾN CÂU 30 (Mondai 2 - Sắp xếp câu tìm vị trí Ngôi Sao ★):\n" +
             "  - Mỗi câu cho 1 câu tiếng Nhật có 4 vị trí gạch chân xáo trộn 1_ 2_ 3★_ 4_ trong đó vị trí thứ 3 là dấu Ngôi Sao ★ (ví dụ: 山田(やまだ)さんは ____ ____ _★_ ____ から、休(やす)むはずがない。).\n" +
-            "  - 4 lựa chọn A, B, C, D là 4 cụm từ xáo trộn (ví dụ: [\"A. 1. 元気(げんき)な\", \"B. 2. 理由(りゆう)\", \"C. 3. がない\", \"D. 4. はず\"]).\n" +
-            "  - Đáp án đúng \"answer\" PHẢI là cụm từ nằm đúng ở vị trí dấu Ngôi Sao ★ khi ghép câu đúng hoàn chỉnh (ví dụ: \"C. 3. がない\").\n" +
-            "  - Trong phần \"explanation\", ghi rõ thứ tự ghép câu đúng hoàn chỉnh và giải thích vị trí ngôi sao (ví dụ: \"Thứ tự đúng: 1-2-3-4 -> Câu hoàn chỉnh: ... -> Vị trí ngôi sao ★ là C. 3. がない\").\n" +
+            "  - 4 lựa chọn A, B, C, D là 4 cụm từ xáo trộn.\n" +
+            "  - Đáp án đúng \"answer\" PHẢI là cụm từ nằm đúng ở vị trí dấu Ngôi Sao ★ khi ghép câu đúng hoàn chỉnh.\n" +
             "  - Ghi \"type\": \"star\".\n\n" +
+            "● YÊU CẦU PHẦN GIẢI THÍCH (explanation) PHẢI ĐẦY ĐỦ TIẾNG VIỆT & NGẮN GỌN DỄ HIỂU:\n" +
+            "  1. Dịch nghĩa câu hỏi tiếng Nhật sang tiếng Việt.\n" +
+            "  2. Nêu rõ lý do chọn đáp án đúng (ý nghĩa & cách chia cấu trúc ngữ pháp).\n" +
+            "  3. GIẢI THÍCH NGẮN GỌN TẠI SAO CÁC ĐÁP ÁN CÒN LẠI SAI (ví dụ: B sai vì..., C sai vì..., D sai vì...).\n\n" +
             "Trả về duy nhất 1 JSON Array gồm đúng 30 phần tử (KHÔNG DÙNG MARKDOWN):\n" +
             "[\n" +
             "  {\n" +
@@ -739,7 +742,7 @@ public class DeepSeekEnrichmentService {
             "    \"question\": \"1. 日本(にほん)へ来(き)て（　　）、ずっとこの町(まち)に住(す)んでいます。\",\n" +
             "    \"options\": [\"A. 以来(いらい)\", \"B. から\", \"C. にかけて\", \"D. について\"],\n" +
             "    \"answer\": \"A. 以来(いらい)\",\n" +
-            "    \"explanation\": \"Cấu trúc V-て + 以来 biểu thị kể từ mốc thời gian...\"\n" +
+            "    \"explanation\": \"• Dịch nghĩa: Kể từ khi đến Nhật Bản, tôi sống suốt ở thành phố này.\\n• Đáp án A (以来) ĐÚNG: Cấu trúc Vて + 以来 biểu thị kể từ mốc thời gian trong quá khứ kéo dài liên tục.\\n• Tại sao các đáp án khác sai:\\n - B (から) sai: Vてから chỉ thể hiện thứ tự trước sau của hành động, không nhấn mạnh trạng thái kéo dài suốt đến nay.\\n - C (にかけて) sai: Dùng biểu thị phạm vi khoảng thời gian/không gian (từ A đến B).\\n - D (について) sai: Dùng với ý nghĩa 'về vấn đề...'\"\n" +
             "  },\n" +
             "  {\n" +
             "    \"id\": 16,\n" +
@@ -747,7 +750,7 @@ public class DeepSeekEnrichmentService {
             "    \"question\": \"16. 山田(やまだ)さんは ____ ____ _★_ ____ から、休(やす)むはずがない。\",\n" +
             "    \"options\": [\"A. 1. 元気(げんき)な\", \"B. 2. 理由(りゆう)\", \"C. 3. がない\", \"D. 4. はず\"],\n" +
             "    \"answer\": \"C. 3. がない\",\n" +
-            "    \"explanation\": \"Thứ tự ghép đúng: 元気な (1) 理由 (2) がない (3) はず (4) から... -> Vị trí ngôi sao ★ là C. 3. がない\"\n" +
+            "    \"explanation\": \"• Dịch nghĩa: Anh Yamada không có lý do gì để nghỉ cả.\\n• Thứ tự ghép câu đúng: 元気な (1) -> 理由 (2) -> がない (3★) -> はず (4) から.\\n• Đáp án C (3. がない) ĐÚNG vì nằm ở vị trí dấu Ngôi Sao ★.\\n• Tại sao các lựa chọn khác không ở vị trí ★:\\n - A (1. 元気な) đứng ở gạch thứ 1 bổ nghĩa cho 理由.\\n - B (2. 理由) đứng ở gạch thứ 2 đi cùng がない.\\n - D (4. はず) đứng ở gạch thứ 4 ngay trước から.\"\n" +
             "  }\n" +
             "]",
             chapter, lesson, grammarInfo.toString()
@@ -812,11 +815,25 @@ public class DeepSeekEnrichmentService {
 
             String questionText = String.format("%d. %s", i, formattedEx);
 
+            String d1 = distractors.get(i % distractors.size());
+            String d2 = distractors.get((i + 2) % distractors.size());
+            String d3 = distractors.get((i + 4) % distractors.size());
+
             java.util.List<String> options = new ArrayList<>();
             options.add("A. " + struc);
-            options.add("B. " + distractors.get(i % distractors.size()));
-            options.add("C. " + distractors.get((i + 2) % distractors.size()));
-            options.add("D. " + distractors.get((i + 4) % distractors.size()));
+            options.add("B. " + d1);
+            options.add("C. " + d2);
+            options.add("D. " + d3);
+
+            String explanationStr = String.format(
+                "• Dịch nghĩa: Câu hỏi kiểm tra cách dùng điểm ngữ pháp %s.\n" +
+                "• Đáp án A (%s) ĐÚNG: Cấu trúc %s biểu thị %s.\n" +
+                "• Tại sao các đáp án khác sai:\n" +
+                " - B (%s) sai: Không đúng mẫu ngữ pháp hoặc sai ý nghĩa ngữ cảnh trong câu.\n" +
+                " - C (%s) sai: Mang ý nghĩa khác, không phù hợp với cấu trúc ngữ pháp cần điền.\n" +
+                " - D (%s) sai: Sai cách kết hợp hoặc không đúng logic câu.",
+                struc, struc, struc, meaning, d1, d2, d3
+            );
 
             Map<String, Object> q = new HashMap<>();
             q.put("id", i);
@@ -824,7 +841,7 @@ public class DeepSeekEnrichmentService {
             q.put("question", questionText);
             q.put("options", options);
             q.put("answer", "A. " + struc);
-            q.put("explanation", "Đáp án đúng là " + struc + " (" + meaning + ").");
+            q.put("explanation", explanationStr);
 
             questions.add(q);
         }
@@ -843,13 +860,24 @@ public class DeepSeekEnrichmentService {
             options.add("C. 3. " + struc);
             options.add("D. 4. 上達(じょうたつ)したい");
 
+            String explanationStr = String.format(
+                "• Dịch nghĩa: Tôi nghĩ rằng mình muốn chăm chỉ học tiếng Nhật để trình độ mau nâng cao.\n" +
+                "• Thứ tự sắp xếp câu đúng: 日本語を(2) -> 勉強して(1) -> %s(3★) -> 上達したい(4) と思います.\n" +
+                "• Đáp án C (3. %s) ĐÚNG vì nằm ở vị trí gạch thứ 3 có dấu Ngôi Sao ★ (Cấu trúc %s: %s).\n" +
+                "• Tại sao các lựa chọn khác không ở vị trí ★:\n" +
+                " - A (1. 勉強して) sai vị trí ★: Đứng ở vị trí gạch số 2.\n" +
+                " - B (2. 日本語を) sai vị trí ★: Đứng ở vị trí gạch số 1.\n" +
+                " - D (4. 上達したい) sai vị trí ★: Đứng ở vị trí gạch số 4.",
+                struc, struc, struc, meaning
+            );
+
             Map<String, Object> q = new HashMap<>();
             q.put("id", i);
             q.put("type", "star");
             q.put("question", questionText);
             q.put("options", options);
             q.put("answer", "C. 3. " + struc);
-            q.put("explanation", "Thứ tự sắp xếp đúng: 日本語を(2) 勉強して(1) " + struc + "(3★) 上達したい(4) と思います. Vị trí ngôi sao ★ rơi vào " + struc + " (" + meaning + ").");
+            q.put("explanation", explanationStr);
 
             questions.add(q);
         }
