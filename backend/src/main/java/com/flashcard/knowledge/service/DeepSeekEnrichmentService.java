@@ -795,7 +795,22 @@ public class DeepSeekEnrichmentService {
             java.util.List<String> viDuList = (java.util.List<String>) g.get("vi_du");
             String sampleEx = (viDuList != null && !viDuList.isEmpty()) ? viDuList.get(0) : "この問題（　　）、詳しく説明します。";
 
-            String questionText = String.format("%d. %s", i, sampleEx.contains("（") ? sampleEx : sampleEx + " （　　）");
+            String cleanStruc = struc.replaceAll("^[~～]", "").trim();
+            String formattedEx = sampleEx;
+
+            if (formattedEx.contains("（")) {
+                // Already contains blank
+            } else if (!cleanStruc.isEmpty() && formattedEx.contains(cleanStruc)) {
+                formattedEx = formattedEx.replace(cleanStruc, "（　{nbsp}　）");
+            } else if (formattedEx.endsWith("。")) {
+                formattedEx = formattedEx.substring(0, formattedEx.length() - 1) + "（　{nbsp}　）。";
+            } else {
+                formattedEx = formattedEx + "（　{nbsp}　）";
+            }
+            // Replace placeholder string with clean blank
+            formattedEx = formattedEx.replace("{nbsp}", "");
+
+            String questionText = String.format("%d. %s", i, formattedEx);
 
             java.util.List<String> options = new ArrayList<>();
             options.add("A. " + struc);

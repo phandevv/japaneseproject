@@ -586,6 +586,10 @@ export const jlptN3Api = {
     const response = await axios.get(`${API_BASE_URL}/jlpt-n3/chapter/${chapter}/lesson/${lesson}/grammar-quiz`);
     return response.data;
   },
+  regenerateGrammarQuiz: async (chapter, lesson) => {
+    const response = await axios.post(`${API_BASE_URL}/jlpt-n3/chapter/${chapter}/lesson/${lesson}/grammar-quiz/regenerate`);
+    return response.data;
+  },
   importData: async () => {
     const response = await axios.post(`${API_BASE_URL}/jlpt-n3/import`);
     return response.data;

@@ -566,6 +566,53 @@ const isContainsKanji = (str) => {
     setQuizState('playing');
   };
 
+  const handleRegenerateGrammarQuiz = async () => {
+    if (!window.confirm("Bạn có chắc chắn muốn xóa bộ câu hỏi cũ và gọi AI sinh lại 30 câu hỏi mới (15 Mondai 1 + 15 Mondai 2 Star ★) cho bài này?")) return;
+    setLoadingGrammarQuiz(true);
+    setQuizSetupError('');
+    try {
+      const questions = await jlptN3Api.regenerateGrammarQuiz(selectedChapter, selectedLesson);
+      if (!questions || questions.length === 0) {
+        setQuizSetupError('Không thể tạo lại bộ 30 câu hỏi ngữ pháp AI. Vui lòng thử lại!');
+        setLoadingGrammarQuiz(false);
+        return;
+      }
+
+      const mappedQuestions = questions.map((q, idx) => ({
+        id: q.id || idx + 1,
+        type: q.type || (q.question?.includes('★') ? 'star' : 'grammar_mcq'),
+        question: q.question,
+        options: q.options || [],
+        answer: q.answer,
+        explanation: q.explanation || ''
+      }));
+
+      setQuizWords(mappedQuestions);
+      setInitialQuizWords(mappedQuestions);
+      setOriginalQuizLength(mappedQuestions.length);
+      setQuizIndex(0);
+      setQuizStatus('idle');
+      setUserInput('');
+      setSelectedOption('');
+      setScore(0);
+      setFailedWordIds(new Set());
+      setSeenWordIds(new Set());
+      setFirstAttemptQualities({});
+      setMistakes([]);
+      setQuizResult(null);
+      setQuizWordEnriched(null);
+      setAiMatchExplanation('');
+      setCheckingAiAnswer(false);
+      setQuestionStartTime(Date.now());
+      setQuizState('playing');
+    } catch (err) {
+      console.error("Failed to regenerate grammar quiz:", err);
+      setQuizSetupError('Lỗi khi gọi AI sinh lại đề thi ngữ pháp 30 câu.');
+    } finally {
+      setLoadingGrammarQuiz(false);
+    }
+  };
+
   const checkAnswer = async (e) => {
     if (e && e.preventDefault) e.preventDefault();
     if (!userInput.trim() || checkingAiAnswer) return;
@@ -1634,64 +1681,90 @@ const isContainsKanji = (str) => {
                           {/* Correct Card */}
                           {quizStatus === 'correct' && (
                             <div className="card animate-fade-in" style={{ backgroundColor: 'var(--success-light)', borderColor: 'var(--success-color)', padding: '24px' }}>
-                              <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', gap: '24px', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: '20px' }}>
-                                {/* Left Column: Word Info */}
-                                <div style={{ flex: '1 1 350px', display: 'flex', gap: '15px', alignItems: 'flex-start' }}>
-                                  <CheckCircle size={32} color="var(--success-color)" style={{ flexShrink: 0, marginTop: '2px' }} />
-                                  <div style={{ textAlign: 'left' }}>
-                                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                                      <h3 style={{ color: 'var(--success-color)', margin: 0 }}>Chính xác! 🎉</h3>
-                                      <span style={{ 
-                                        fontSize: '0.75rem', 
-                                        padding: '2px 8px', 
-                                        borderRadius: '8px', 
-                                        fontWeight: 600,
-                                        backgroundColor: lastAssignedQuality === 4 ? 'var(--success-light)' : lastAssignedQuality === 3 ? 'var(--accent-light)' : 'var(--warning-light)',
-                                        color: lastAssignedQuality === 4 ? 'var(--success-color)' : lastAssignedQuality === 3 ? 'var(--accent-color)' : 'var(--warning-color)',
-                                        border: '1px solid rgba(0,0,0,0.05)'
-                                      }}>
-                                        {lastAssignedQuality === 4 ? 'Easy' : lastAssignedQuality === 3 ? 'Good' : 'Hard'} ({lastElapsedSeconds?.toFixed(1)}s)
-                                      </span>
+                              {currentWord.type === 'grammar_mcq' || currentWord.type === 'star' || quizCategory === 'grammar' ? (
+                                <div style={{ textAlign: 'left', width: '100%' }}>
+                                  <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '10px' }}>
+                                    <CheckCircle size={28} color="var(--success-color)" />
+                                    <h3 style={{ color: 'var(--success-color)', margin: 0, fontSize: '1.3rem' }}>Chính xác! 🎉</h3>
+                                  </div>
+
+                                  <div style={{ marginTop: '8px', fontSize: '1.15rem', fontWeight: 700, color: 'var(--text-primary)' }}>
+                                    Đáp án đúng: <span style={{ color: '#10b981', backgroundColor: 'rgba(16,185,129,0.15)', padding: '4px 12px', borderRadius: '8px' }}>{currentWord.answer}</span>
+                                  </div>
+
+                                  {currentWord.explanation && (
+                                    <div style={{
+                                      marginTop: '14px', padding: '16px', borderRadius: '12px',
+                                      backgroundColor: 'rgba(16,185,129,0.08)', border: '1px solid rgba(16,185,129,0.25)',
+                                      lineHeight: 1.65, fontSize: '0.96rem', color: 'var(--text-primary)'
+                                    }}>
+                                      <div style={{ fontWeight: 800, color: '#059669', marginBottom: '6px', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                                        💡 Giải thích đáp án:
+                                      </div>
+                                      <div style={{ whiteSpace: 'pre-wrap' }}>{currentWord.explanation}</div>
                                     </div>
-                                    {aiMatchExplanation && (
-                                      <div style={{ fontSize: '0.86rem', color: '#10b981', marginTop: '6px', fontWeight: '600', display: 'flex', alignItems: 'center', gap: '6px', backgroundColor: 'rgba(16, 185, 129, 0.1)', padding: '4px 10px', borderRadius: '6px' }}>
-                                        <Sparkles size={15} /> {aiMatchExplanation}
+                                  )}
+                                </div>
+                              ) : (
+                                <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', gap: '24px', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: '20px' }}>
+                                  {/* Left Column: Word Info */}
+                                  <div style={{ flex: '1 1 350px', display: 'flex', gap: '15px', alignItems: 'flex-start' }}>
+                                    <CheckCircle size={32} color="var(--success-color)" style={{ flexShrink: 0, marginTop: '2px' }} />
+                                    <div style={{ textAlign: 'left' }}>
+                                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                                        <h3 style={{ color: 'var(--success-color)', margin: 0 }}>Chính xác! 🎉</h3>
+                                        <span style={{ 
+                                          fontSize: '0.75rem', 
+                                          padding: '2px 8px', 
+                                          borderRadius: '8px', 
+                                          fontWeight: 600,
+                                          backgroundColor: lastAssignedQuality === 4 ? 'var(--success-light)' : lastAssignedQuality === 3 ? 'var(--accent-light)' : 'var(--warning-light)',
+                                          color: lastAssignedQuality === 4 ? 'var(--success-color)' : lastAssignedQuality === 3 ? 'var(--accent-color)' : 'var(--warning-color)',
+                                          border: '1px solid rgba(0,0,0,0.05)'
+                                        }}>
+                                          {lastAssignedQuality === 4 ? 'Easy' : lastAssignedQuality === 3 ? 'Good' : 'Hard'} ({lastElapsedSeconds?.toFixed(1)}s)
+                                        </span>
+                                      </div>
+                                      {aiMatchExplanation && (
+                                        <div style={{ fontSize: '0.86rem', color: '#10b981', marginTop: '6px', fontWeight: '600', display: 'flex', alignItems: 'center', gap: '6px', backgroundColor: 'rgba(16, 185, 129, 0.1)', padding: '4px 10px', borderRadius: '6px' }}>
+                                          <Sparkles size={15} /> {aiMatchExplanation}
+                                        </div>
+                                      )}
+                                      <p className="font-jp" style={{ fontSize: '1.3rem', marginTop: '10px', display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '10px' }}>
+                                        {currentWord.kanji && <span>{currentWord.kanji} </span>}
+                                        <span style={{ color: 'var(--text-secondary)' }}>({currentWord.hiragana})</span>
+                                        <button 
+                                          type="button" 
+                                          onClick={() => speakWord(currentWord)} 
+                                          style={{ background: 'none', border: 'none', color: 'var(--text-secondary)', cursor: 'pointer', padding: '4px', display: 'flex', alignItems: 'center' }}
+                                        >
+                                          <Volume2 size={16} />
+                                        </button>
+                                      </p>
+                                      <p style={{ marginTop: '6px', fontSize: '1.05rem', color: 'var(--text-primary)', marginBottom: '4px' }}>
+                                        <strong>Nghĩa:</strong> {currentWord.meaning}
+                                      </p>
+                                      {currentWord.hanViet && (
+                                        <p style={{ marginTop: '4px', fontSize: '0.95rem', color: 'var(--text-secondary)' }}>
+                                          <strong>Hán Việt:</strong> 【{currentWord.hanViet}】
+                                        </p>
+                                      )}
+                                    </div>
+                                  </div>
+
+                                  {/* Right Column: AI Data */}
+                                  <div style={{ flex: '1 1 350px', width: '100%' }}>
+                                    {loadingQuizEnrich && (
+                                      <div style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', fontStyle: 'italic', padding: '10px', textAlign: 'left' }}>
+                                        Đang tải dữ liệu AI...
                                       </div>
                                     )}
-                                    <p className="font-jp" style={{ fontSize: '1.3rem', marginTop: '10px', display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '10px' }}>
-                                      {currentWord.kanji && <span>{currentWord.kanji} </span>}
-                                      <span style={{ color: 'var(--text-secondary)' }}>({currentWord.hiragana})</span>
-                                      <button 
-                                        type="button" 
-                                        onClick={() => speakWord(currentWord)} 
-                                        style={{ background: 'none', border: 'none', color: 'var(--text-secondary)', cursor: 'pointer', padding: '4px', display: 'flex', alignItems: 'center' }}
-                                      >
-                                        <Volume2 size={16} />
-                                      </button>
-                                    </p>
-                                    <p style={{ marginTop: '6px', fontSize: '1.05rem', color: 'var(--text-primary)', marginBottom: '4px' }}>
-                                      <strong>Nghĩa:</strong> {currentWord.meaning}
-                                    </p>
-                                    {currentWord.hanViet && (
-                                      <p style={{ marginTop: '4px', fontSize: '0.95rem', color: 'var(--text-secondary)' }}>
-                                        <strong>Hán Việt:</strong> 【{currentWord.hanViet}】
-                                      </p>
+                                    {(quizWordEnriched || currentWord) && (
+                                      <AiEnrichedTabbedView data={quizWordEnriched || currentWord} />
                                     )}
                                   </div>
                                 </div>
-
-                                {/* Right Column: AI Data */}
-                                <div style={{ flex: '1 1 350px', width: '100%' }}>
-                                  {loadingQuizEnrich && (
-                                    <div style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', fontStyle: 'italic', padding: '10px', textAlign: 'left' }}>
-                                      Đang tải dữ liệu AI...
-                                    </div>
-                                  )}
-                                  {(quizWordEnriched || currentWord) && (
-                                    <AiEnrichedTabbedView data={quizWordEnriched || currentWord} />
-                                  )}
-                                </div>
-                              </div>
+                              )}
 
                               <div style={{ display: 'flex', justifyContent: 'flex-end', borderTop: '1px solid var(--border-color)', paddingTop: '14px' }}>
                                 <button className="btn btn-primary" onClick={nextQuestion} style={{ padding: '10px 24px' }}>
@@ -1704,60 +1777,86 @@ const isContainsKanji = (str) => {
                           {/* Incorrect Card */}
                           {quizStatus === 'incorrect' && (
                             <div className="card animate-fade-in" style={{ backgroundColor: 'var(--danger-light)', borderColor: 'var(--danger-color)', padding: '24px' }}>
-                              <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', gap: '24px', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: '20px' }}>
-                                {/* Left Column: Word Info */}
-                                <div style={{ flex: '1 1 350px', display: 'flex', gap: '15px', alignItems: 'flex-start' }}>
-                                  <XCircle size={32} color="var(--danger-color)" style={{ flexShrink: 0, marginTop: '2px' }} />
-                                  <div style={{ textAlign: 'left' }}>
-                                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                                      <h3 style={{ color: 'var(--danger-color)', margin: 0 }}>Chưa chính xác ⚠️</h3>
-                                      <span style={{ 
-                                        fontSize: '0.75rem', 
-                                        padding: '2px 8px', 
-                                        borderRadius: '8px', 
-                                        fontWeight: 600,
-                                        backgroundColor: 'var(--danger-light)',
-                                        color: 'var(--danger-color)',
-                                        border: '1px solid rgba(0,0,0,0.05)'
-                                      }}>
-                                        Forgot ({lastElapsedSeconds?.toFixed(1)}s)
-                                      </span>
+                              {currentWord.type === 'grammar_mcq' || currentWord.type === 'star' || quizCategory === 'grammar' ? (
+                                <div style={{ textAlign: 'left', width: '100%' }}>
+                                  <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '10px' }}>
+                                    <XCircle size={28} color="var(--danger-color)" />
+                                    <h3 style={{ color: 'var(--danger-color)', margin: 0, fontSize: '1.3rem' }}>Chưa chính xác ⚠️</h3>
+                                  </div>
+
+                                  <div style={{ marginTop: '8px', fontSize: '1.15rem', fontWeight: 700, color: 'var(--text-primary)' }}>
+                                    Đáp án đúng: <span style={{ color: '#10b981', backgroundColor: 'rgba(16,185,129,0.15)', padding: '4px 12px', borderRadius: '8px' }}>{currentWord.answer}</span>
+                                  </div>
+
+                                  {currentWord.explanation && (
+                                    <div style={{
+                                      marginTop: '14px', padding: '16px', borderRadius: '12px',
+                                      backgroundColor: 'rgba(239,68,68,0.06)', border: '1px solid rgba(239,68,68,0.2)',
+                                      lineHeight: 1.65, fontSize: '0.96rem', color: 'var(--text-primary)'
+                                    }}>
+                                      <div style={{ fontWeight: 800, color: '#dc2626', marginBottom: '6px', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                                        💡 Giải thích đáp án chi tiết:
+                                      </div>
+                                      <div style={{ whiteSpace: 'pre-wrap' }}>{currentWord.explanation}</div>
                                     </div>
-                                    <p style={{ marginTop: '8px', color: 'var(--text-secondary)', fontSize: '0.9rem', marginBottom: '4px' }}>Đáp án đúng là:</p>
-                                    <p className="font-jp" style={{ fontSize: '1.3rem', marginTop: '4px', display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '10px' }}>
-                                      {currentWord.kanji && <span style={{ color: 'var(--success-color)' }}>{currentWord.kanji} </span>}
-                                      <span style={{ color: 'var(--success-color)' }}>({currentWord.hiragana})</span>
-                                      <button 
-                                        type="button" 
-                                        onClick={() => speakWord(currentWord)} 
-                                        style={{ background: 'none', border: 'none', color: 'var(--success-color)', cursor: 'pointer', padding: '4px', display: 'flex', alignItems: 'center' }}
-                                      >
-                                        <Volume2 size={16} />
-                                      </button>
-                                    </p>
-                                    <p style={{ marginTop: '6px', fontSize: '1.05rem', color: 'var(--text-primary)', marginBottom: '4px' }}>
-                                      <strong>Nghĩa:</strong> {currentWord.meaning}
-                                    </p>
-                                    {currentWord.hanViet && (
-                                      <p style={{ marginTop: '4px', fontSize: '0.95rem', color: 'var(--text-secondary)' }}>
-                                        <strong>Hán Việt:</strong> 【{currentWord.hanViet}】
+                                  )}
+                                </div>
+                              ) : (
+                                <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', gap: '24px', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: '20px' }}>
+                                  {/* Left Column: Word Info */}
+                                  <div style={{ flex: '1 1 350px', display: 'flex', gap: '15px', alignItems: 'flex-start' }}>
+                                    <XCircle size={32} color="var(--danger-color)" style={{ flexShrink: 0, marginTop: '2px' }} />
+                                    <div style={{ textAlign: 'left' }}>
+                                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                                        <h3 style={{ color: 'var(--danger-color)', margin: 0 }}>Chưa chính xác ⚠️</h3>
+                                        <span style={{ 
+                                          fontSize: '0.75rem', 
+                                          padding: '2px 8px', 
+                                          borderRadius: '8px', 
+                                          fontWeight: 600,
+                                          backgroundColor: 'var(--danger-light)',
+                                          color: 'var(--danger-color)',
+                                          border: '1px solid rgba(0,0,0,0.05)'
+                                        }}>
+                                          Forgot ({lastElapsedSeconds?.toFixed(1)}s)
+                                        </span>
+                                      </div>
+                                      <p style={{ marginTop: '8px', color: 'var(--text-secondary)', fontSize: '0.9rem', marginBottom: '4px' }}>Đáp án đúng là:</p>
+                                      <p className="font-jp" style={{ fontSize: '1.3rem', marginTop: '4px', display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '10px' }}>
+                                        {currentWord.kanji && <span style={{ color: 'var(--success-color)' }}>{currentWord.kanji} </span>}
+                                        <span style={{ color: 'var(--success-color)' }}>({currentWord.hiragana})</span>
+                                        <button 
+                                          type="button" 
+                                          onClick={() => speakWord(currentWord)} 
+                                          style={{ background: 'none', border: 'none', color: 'var(--success-color)', cursor: 'pointer', padding: '4px', display: 'flex', alignItems: 'center' }}
+                                        >
+                                          <Volume2 size={16} />
+                                        </button>
                                       </p>
+                                      <p style={{ marginTop: '6px', fontSize: '1.05rem', color: 'var(--text-primary)', marginBottom: '4px' }}>
+                                        <strong>Nghĩa:</strong> {currentWord.meaning}
+                                      </p>
+                                      {currentWord.hanViet && (
+                                        <p style={{ marginTop: '4px', fontSize: '0.95rem', color: 'var(--text-secondary)' }}>
+                                          <strong>Hán Việt:</strong> 【{currentWord.hanViet}】
+                                        </p>
+                                      )}
+                                    </div>
+                                  </div>
+
+                                  {/* Right Column: AI Data */}
+                                  <div style={{ flex: '1 1 350px', width: '100%' }}>
+                                    {loadingQuizEnrich && (
+                                      <div style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', fontStyle: 'italic', padding: '10px', textAlign: 'left' }}>
+                                        Đang tải dữ liệu AI...
+                                      </div>
+                                    )}
+                                    {(quizWordEnriched || currentWord) && (
+                                      <AiEnrichedTabbedView data={quizWordEnriched || currentWord} />
                                     )}
                                   </div>
                                 </div>
-
-                                {/* Right Column: AI Data */}
-                                <div style={{ flex: '1 1 350px', width: '100%' }}>
-                                  {loadingQuizEnrich && (
-                                    <div style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', fontStyle: 'italic', padding: '10px', textAlign: 'left' }}>
-                                      Đang tải dữ liệu AI...
-                                    </div>
-                                  )}
-                                  {(quizWordEnriched || currentWord) && (
-                                    <AiEnrichedTabbedView data={quizWordEnriched || currentWord} />
-                                  )}
-                                </div>
-                              </div>
+                              )}
 
                               <div style={{ display: 'flex', justifyContent: 'flex-end', borderTop: '1px solid var(--border-color)', paddingTop: '14px' }}>
                                 <button className="btn btn-primary" onClick={nextQuestion} style={{ padding: '10px 24px' }}>

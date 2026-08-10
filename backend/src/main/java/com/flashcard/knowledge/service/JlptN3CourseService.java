@@ -739,4 +739,33 @@ public class JlptN3CourseService {
         }
         return Collections.emptyList();
     }
+
+    /**
+     * Regenerate (force delete old cached questions and generate a new set) 30 Grammar Quiz Questions for a lesson.
+     */
+    @Transactional
+    public List<Map<String, Object>> regenerateGrammarQuiz(int chapter, int lesson) {
+        Optional<JlptN3GrammarQuiz> existingOpt = grammarQuizRepository.findByChapterIdAndLessonId(chapter, lesson);
+        existingOpt.ifPresent(grammarQuizRepository::delete);
+        grammarQuizRepository.flush();
+
+        Map<String, Object> lessonData = getLessonData(chapter, lesson);
+        @SuppressWarnings("unchecked")
+        List<Map<String, Object>> grammarList = (List<Map<String, Object>>) lessonData.getOrDefault("ngu_phap", Collections.emptyList());
+
+        String generatedJson = enrichmentService.generateGrammarQuiz30Questions(chapter, lesson, grammarList);
+        if (generatedJson != null && !generatedJson.equals("[]")) {
+            JlptN3GrammarQuiz quiz = new JlptN3GrammarQuiz(chapter, lesson, generatedJson);
+            grammarQuizRepository.saveAndFlush(quiz);
+
+            try {
+                @SuppressWarnings("unchecked")
+                List<Map<String, Object>> questionsList = objectMapper.readValue(generatedJson, List.class);
+                return questionsList;
+            } catch (Exception e) {
+                log.error("Error reading generated quiz JSON: {}", e.getMessage());
+            }
+        }
+        return Collections.emptyList();
+    }
 }

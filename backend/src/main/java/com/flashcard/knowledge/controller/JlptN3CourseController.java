@@ -100,6 +100,18 @@ public class JlptN3CourseController {
     }
 
     /**
+     * Force regenerate a fresh set of 30 Grammar Quiz Questions for a lesson (clears old cached questions).
+     * POST /api/jlpt-n3/chapter/{chapter}/lesson/{lesson}/grammar-quiz/regenerate
+     */
+    @PostMapping("/chapter/{chapter}/lesson/{lesson}/grammar-quiz/regenerate")
+    public ResponseEntity<?> regenerateGrammarQuiz(
+            @PathVariable("chapter") int chapter,
+            @PathVariable("lesson") int lesson) {
+        java.util.List<Map<String, Object>> questions = courseService.regenerateGrammarQuiz(chapter, lesson);
+        return ResponseEntity.ok(questions);
+    }
+
+    /**
      * Trigger importing all JLPT N3 course JSON files into system database (Vocabulary & Grammar tables).
      * POST /api/jlpt-n3/import
      */
