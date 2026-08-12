@@ -374,10 +374,6 @@ public class JlptN3CourseService {
                     if (v.getConversationExamples() != null) vItem.put("conversationExamples", v.getConversationExamples());
                     if (v.getUsageGuide() != null) vItem.put("usageGuide", v.getUsageGuide());
                     if (v.getKanjiWords() != null) vItem.put("kanjiWords", v.getKanjiWords());
-
-                    if (enrichmentService != null) {
-                        enrichmentService.enrichVocabulary(v);
-                    }
                 }
             }
         }
@@ -433,10 +429,6 @@ public class JlptN3CourseService {
                     if (kVocab.getConversationExamples() != null) kItem.put("conversationExamples", kVocab.getConversationExamples());
                     if (kVocab.getUsageGuide() != null) kItem.put("usageGuide", kVocab.getUsageGuide());
                     if (kVocab.getKanjiWords() != null) kItem.put("kanjiWords", kVocab.getKanjiWords());
-
-                    if (enrichmentService != null) {
-                        enrichmentService.enrichVocabulary(kVocab);
-                    }
                 }
             }
         }
@@ -477,10 +469,6 @@ public class JlptN3CourseService {
                     if (gCard.getDifference() != null) gItem.put("difference", gCard.getDifference());
                     if (gCard.getCommonMistakes() != null) gItem.put("commonMistakes", gCard.getCommonMistakes());
                     if (gCard.getExamples() != null) gItem.put("examples", gCard.getExamples());
-
-                    if (enrichmentService != null) {
-                        enrichmentService.enrichGrammarCard(gCard);
-                    }
                 }
             }
         }

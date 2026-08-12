@@ -29,6 +29,9 @@ export default function AiEnrichedTabbedView({ data, onReEnriched }) {
 
     try {
       const updated = await vocabApi.enrich(displayData.id, true);
+      if (data && typeof data === 'object') {
+        Object.assign(data, updated);
+      }
       setLocalData(updated);
       setReEnrichSuccess(true);
       if (onReEnriched) {
