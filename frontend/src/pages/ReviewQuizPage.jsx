@@ -474,7 +474,7 @@ const ReviewQuizPage = ({ mode = 'default', words: propWords = null, goBack }) =
           </>
         ) : (
           <p style={{ fontSize: '1.8rem', margin: 0, fontWeight: 600, lineHeight: 1.4, color: 'var(--text-primary)' }}>
-            {current.meaning}
+            {current.meaning || current.nghia || current.y_nghia || current.nghia_tieng_viet || (current.hanViet ? `【${current.hanViet}】` : '') || 'Gợi ý nghĩa Tiếng Việt'}
           </p>
         )}
       </div>

@@ -1115,7 +1115,9 @@ const DailyStudyPage = ({ level, stats, goBack }) => {
               {quizQuestionType === 'vi-to-ja' ? t.daily.quizPrompt : 'Hãy điền nghĩa Tiếng Việt của từ sau:'}
             </p>
             <h2 className={quizQuestionType === 'ja-to-vi' ? 'jp-text' : ''} style={{ fontSize: quizQuestionType === 'ja-to-vi' ? '2.8rem' : '2.2rem', marginBottom: '20px', color: 'var(--text-primary)' }}>
-              {quizQuestionType === 'vi-to-ja' ? currentWord.meaning : (currentWord.kanji || currentWord.hiragana)}
+              {quizQuestionType === 'vi-to-ja' 
+                ? (currentWord.meaning || currentWord.nghia || currentWord.y_nghia || currentWord.nghia_tieng_viet || (currentWord.hanViet ? `【${currentWord.hanViet}】` : '') || 'Gợi ý nghĩa Tiếng Việt') 
+                : (currentWord.kanji || currentWord.hiragana || currentWord.tu)}
             </h2>
             {quizQuestionType === 'ja-to-vi' && currentWord.kanji && (quizStatus === 'correct' || quizStatus === 'incorrect') && (
               <p style={{ color: 'var(--accent-color)', fontSize: '1.2rem', marginBottom: '10px' }}>({currentWord.hiragana})</p>
