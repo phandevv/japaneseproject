@@ -79,25 +79,6 @@ public class DeepSeekEnrichmentService {
             }
 
             try {
-                boolean missingUsageGuide = (vocab.getUsageGuide() == null || vocab.getUsageGuide().trim().isEmpty());
-                boolean missingMnemonic = (vocab.getMnemonic() == null || vocab.getMnemonic().trim().isEmpty());
-                boolean missingExamples = (vocab.getExampleSentences() == null || vocab.getExampleSentences().trim().isEmpty());
-
-                // If word is only missing usageGuide, execute targeted fast micro-prompt (< 0.25s)
-                if (missingUsageGuide && !missingMnemonic && !missingExamples) {
-                    String microPrompt = String.format(
-                        "Hãy giải thích chi tiết hướng dẫn sử dụng, sắc thái (nuance) và trường hợp dùng thực tế bằng tiếng Việt cho từ tiếng Nhật: \"%s\" (Cách đọc: %s, Nghĩa: %s). Trả về JSON duy nhất: {\"usageGuide\":\"...\"}",
-                        vocab.getKanji() != null && !vocab.getKanji().isEmpty() ? vocab.getKanji() : vocab.getHiragana(),
-                        vocab.getHiragana() != null ? vocab.getHiragana() : "",
-                        vocab.getMeaning() != null ? vocab.getMeaning() : ""
-                    );
-                    return executeMicroPrompt(vocab, apiKey, microPrompt, (node, v) -> {
-                        if (node.has("usageGuide")) {
-                            v.setUsageGuide(node.path("usageGuide").asText());
-                        }
-                    });
-                }
-
                 String level = vocab.getLevel() != null ? vocab.getLevel().trim().toUpperCase() : "N3";
                 String mainWord = vocab.getKanji() != null && !vocab.getKanji().isEmpty() ? vocab.getKanji() : vocab.getHiragana();
 
