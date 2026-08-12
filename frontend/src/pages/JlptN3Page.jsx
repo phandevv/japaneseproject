@@ -515,11 +515,11 @@ const isContainsKanji = (str) => {
           id: v.id,
           type: 'vocab',
           category: 'Từ vựng',
-          kanji: v.tu_vung || v.tu || '',
-          hiragana: v.doc || v.reading || '',
-          meaning: v.y_nghia || v.meaning || '',
-          hanViet: v.am_han || v.hanViet || '',
-          wordType: 'Từ vựng',
+          kanji: v.kanji || v.tu_vung || v.tu || '',
+          hiragana: v.hiragana || v.furigana || v.doc || v.reading || v.tu || '',
+          meaning: v.meaning || v.nghia || v.y_nghia || '',
+          hanViet: v.hanViet || v.han_viet || v.am_han || '',
+          wordType: v.loai_tu || v.wordType || 'Từ vựng',
           sampleSentence: v.vi_du || v.sampleSentence || ''
         });
       });
@@ -530,8 +530,8 @@ const isContainsKanji = (str) => {
           type: 'kanji',
           category: 'Chữ Hán',
           kanji: k.kanji || k.tu || '',
-          hiragana: k.kanji || k.tu || '',
-          meaning: k.nghia || k.meaning || '',
+          hiragana: k.hiragana || k.furigana || k.doc || k.kanji || k.tu || '',
+          meaning: k.meaning || k.nghia || k.y_nghia || '',
           hanViet: k.han_viet || k.am_han || k.hanViet || '',
           wordType: 'Chữ Hán',
           sampleSentence: k.tu_vung ? (Array.isArray(k.tu_vung) ? k.tu_vung.join(', ') : k.tu_vung) : ''
@@ -625,9 +625,39 @@ const isContainsKanji = (str) => {
     let explanation = '';
 
     if (quizQuestionType === 'vi-to-ja') {
-      const kanjiClean = currentWord.kanji ? currentWord.kanji.trim().toLowerCase() : '';
-      const hiraganaClean = currentWord.hiragana ? currentWord.hiragana.trim().toLowerCase() : '';
-      isCorrect = (inputClean === kanjiClean || inputClean === hiraganaClean);
+      const normInput = inputClean.replace(/[\s\u3000]+/g, '');
+      const candidates = [
+        currentWord.kanji,
+        currentWord.hiragana,
+        currentWord.furigana,
+        currentWord.tu,
+        currentWord.tu_vung,
+        currentWord.reading,
+        currentWord.doc
+      ].filter(Boolean).map(s => String(s).trim().toLowerCase().replace(/[\s\u3000]+/g, ''));
+
+      isCorrect = candidates.some(c => c && normInput === c);
+
+      if (!isCorrect) {
+        setCheckingAiAnswer(true);
+        try {
+          const targetContext = (currentWord.kanji || currentWord.hiragana || currentWord.tu || '') +
+            (currentWord.hiragana && currentWord.kanji !== currentWord.hiragana ? ` (${currentWord.hiragana})` : '');
+          const evalRes = await jlptN3Api.evaluateAnswer(
+            targetContext,
+            userInput,
+            `Nghĩa tiếng Việt: ${currentWord.meaning || ''}`
+          );
+          if (evalRes && evalRes.correct) {
+            isCorrect = true;
+            explanation = evalRes.explanation || '✨ DeepSeek AI chấp nhận từ/cách đọc tiếng Nhật này!';
+          }
+        } catch (err) {
+          console.error("AI evaluation error:", err);
+        } finally {
+          setCheckingAiAnswer(false);
+        }
+      }
     } else {
       // ja-to-vi mode: Step 1 local match
       isCorrect = matchVietnameseAnswer(userInput, currentWord.meaning || '');

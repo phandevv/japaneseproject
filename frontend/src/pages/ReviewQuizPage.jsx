@@ -226,9 +226,18 @@ const ReviewQuizPage = ({ mode = 'default', words: propWords = null, goBack }) =
     let isCorrect = false;
 
     if (questionType === 'vi-to-ja') {
-      const kanjiClean = current.kanji ? current.kanji.trim().toLowerCase() : '';
-      const hiraganaClean = current.hiragana ? current.hiragana.trim().toLowerCase() : '';
-      isCorrect = (inputClean === kanjiClean || inputClean === hiraganaClean);
+      const normInput = inputClean.replace(/[\s\u3000]+/g, '');
+      const candidates = [
+        current.kanji,
+        current.hiragana,
+        current.furigana,
+        current.tu,
+        current.tu_vung,
+        current.reading,
+        current.doc
+      ].filter(Boolean).map(s => String(s).trim().toLowerCase().replace(/[\s\u3000]+/g, ''));
+
+      isCorrect = candidates.some(c => c && normInput === c);
     } else {
       isCorrect = matchVietnameseAnswer(userInput, current.meaning || '');
     }

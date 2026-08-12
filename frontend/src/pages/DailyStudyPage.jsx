@@ -455,9 +455,18 @@ const DailyStudyPage = ({ level, stats, goBack }) => {
     let isCorrect = false;
 
     if (quizQuestionType === 'vi-to-ja') {
-      const kanjiClean = currentWord.kanji ? currentWord.kanji.trim().toLowerCase() : '';
-      const hiraganaClean = currentWord.hiragana ? currentWord.hiragana.trim().toLowerCase() : '';
-      isCorrect = (inputClean === kanjiClean || inputClean === hiraganaClean);
+      const normInput = inputClean.replace(/[\s\u3000]+/g, '');
+      const candidates = [
+        currentWord.kanji,
+        currentWord.hiragana,
+        currentWord.furigana,
+        currentWord.tu,
+        currentWord.tu_vung,
+        currentWord.reading,
+        currentWord.doc
+      ].filter(Boolean).map(s => String(s).trim().toLowerCase().replace(/[\s\u3000]+/g, ''));
+
+      isCorrect = candidates.some(c => c && normInput === c);
     } else {
       // ja-to-vi mode: smart Vietnamese synonym & typo match
       isCorrect = matchVietnameseAnswer(userInput, currentWord.meaning || '');
