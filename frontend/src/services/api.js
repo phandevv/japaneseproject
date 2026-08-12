@@ -263,6 +263,10 @@ export const srsApi = {
     const response = await axios.post(`${API_BASE_URL}/srs/review`, { vocabularyId, quality });
     return response.data;
   },
+  reviewGrammar: async (grammarId, quality) => {
+    const response = await axios.post(`${API_BASE_URL}/srs/review-grammar`, { grammarId, quality });
+    return response.data;
+  },
   getRandomLearnedWords: async (count = 20) => {
     const response = await axios.get(`${API_BASE_URL}/srs/learned/random?count=${count}`);
     return response.data;

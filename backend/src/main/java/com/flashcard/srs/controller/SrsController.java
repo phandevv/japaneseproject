@@ -11,14 +11,19 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Map;
 
+import com.flashcard.srs.service.GrammarSrsService;
+import com.flashcard.srs.model.GrammarReview;
+
 @RestController
 @RequestMapping("/api/srs")
 public class SrsController {
 
     private final SrsService srsService;
+    private final GrammarSrsService grammarSrsService;
 
-    public SrsController(SrsService srsService) {
+    public SrsController(SrsService srsService, GrammarSrsService grammarSrsService) {
         this.srsService = srsService;
+        this.grammarSrsService = grammarSrsService;
     }
 
     /**
@@ -35,7 +40,7 @@ public class SrsController {
     }
 
     /**
-     * Submit quality rating for a vocabulary card
+     * Submit quality rating for a vocabulary or grammar card
      * POST /api/srs/review
      */
     @PostMapping("/review")
@@ -46,16 +51,58 @@ public class SrsController {
         }
 
         Number vocabIdNum = (Number) body.get("vocabularyId");
+        Number grammarIdNum = (Number) body.get("grammarId");
         Number qualityNum = (Number) body.get("quality");
 
-        if (vocabIdNum == null || qualityNum == null) {
-            return ResponseEntity.badRequest().body(Map.of("error", "Missing vocabularyId or quality"));
+        if (qualityNum == null) {
+            return ResponseEntity.badRequest().body(Map.of("error", "Missing quality"));
         }
 
         try {
-            WordReview review = srsService.reviewWord(user, vocabIdNum.longValue(), qualityNum.intValue());
+            if (vocabIdNum != null) {
+                WordReview review = srsService.reviewWord(user, vocabIdNum.longValue(), qualityNum.intValue());
+                return ResponseEntity.ok(Map.of(
+                    "message", "Review saved",
+                    "nextReview", review.getNextReview().toString(),
+                    "intervalDays", review.getIntervalDays()
+                ));
+            } else if (grammarIdNum != null) {
+                GrammarReview review = grammarSrsService.reviewGrammar(user, grammarIdNum.longValue(), qualityNum.intValue());
+                return ResponseEntity.ok(Map.of(
+                    "message", "Grammar review saved",
+                    "nextReview", review.getNextReview().toString(),
+                    "intervalDays", review.getIntervalDays()
+                ));
+            } else {
+                return ResponseEntity.badRequest().body(Map.of("error", "Missing vocabularyId or grammarId"));
+            }
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
+        }
+    }
+
+    /**
+     * Submit quality rating for a grammar card
+     * POST /api/srs/review-grammar
+     */
+    @PostMapping("/review-grammar")
+    public ResponseEntity<?> reviewGrammar(@AuthenticationPrincipal User user,
+                                            @RequestBody Map<String, Object> body) {
+        if (user == null) {
+            return ResponseEntity.status(401).body(Map.of("error", "Unauthorized"));
+        }
+
+        Number grammarIdNum = (Number) body.get("grammarId");
+        Number qualityNum = (Number) body.get("quality");
+
+        if (grammarIdNum == null || qualityNum == null) {
+            return ResponseEntity.badRequest().body(Map.of("error", "Missing grammarId or quality"));
+        }
+
+        try {
+            GrammarReview review = grammarSrsService.reviewGrammar(user, grammarIdNum.longValue(), qualityNum.intValue());
             return ResponseEntity.ok(Map.of(
-                "message", "Review saved",
+                "message", "Grammar review saved",
                 "nextReview", review.getNextReview().toString(),
                 "intervalDays", review.getIntervalDays()
             ));

@@ -690,6 +690,16 @@ const isContainsKanji = (str) => {
     setLastAssignedQuality(quality);
     setLastElapsedSeconds(finalElapsed);
 
+    // Save SRS review rating to update learned status (is_learned / intervalDays > 0)
+    if (currentWord && currentWord.id) {
+      const isGrammarItem = (currentWord.type === 'grammar_mcq' || currentWord.type === 'star' || quizCategory === 'grammar' || currentWord.cau_truc);
+      if (isGrammarItem) {
+        srsApi.reviewGrammar(currentWord.id, quality).catch(console.error);
+      } else {
+        srsApi.reviewWord(currentWord.id, quality).catch(console.error);
+      }
+    }
+
     if (isCorrect) {
       setQuizStatus('correct');
       setScore(s => s + 1);
@@ -722,6 +732,16 @@ const isContainsKanji = (str) => {
     const quality = isCorrect ? (finalElapsed <= 3 ? 4 : finalElapsed <= 8 ? 3 : 2) : 1;
     setLastAssignedQuality(quality);
     setLastElapsedSeconds(finalElapsed);
+
+    // Save SRS review rating to update learned status (is_learned / intervalDays > 0)
+    if (currentWord && currentWord.id) {
+      const isGrammarItem = (currentWord.type === 'grammar_mcq' || currentWord.type === 'star' || quizCategory === 'grammar' || currentWord.cau_truc);
+      if (isGrammarItem) {
+        srsApi.reviewGrammar(currentWord.id, quality).catch(console.error);
+      } else {
+        srsApi.reviewWord(currentWord.id, quality).catch(console.error);
+      }
+    }
 
     if (isCorrect) {
       setQuizStatus('correct');
@@ -1152,6 +1172,16 @@ const isContainsKanji = (str) => {
                             word={currentFlashcardWord}
                             flipped={isFlipped}
                             onFlip={() => setIsFlipped(!isFlipped)}
+                            onRateWord={async (quality) => {
+                              if (currentFlashcardWord && currentFlashcardWord.id) {
+                                if (currentFlashcardWord.cau_truc || currentFlashcardWord.type === 'grammar') {
+                                  srsApi.reviewGrammar(currentFlashcardWord.id, quality).catch(console.error);
+                                } else {
+                                  srsApi.reviewWord(currentFlashcardWord.id, quality).catch(console.error);
+                                }
+                                nextFlashcard();
+                              }
+                            }}
                           />
                         </div>
                       )}
