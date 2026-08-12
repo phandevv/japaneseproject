@@ -213,9 +213,9 @@ public class DeepSeekEnrichmentService {
 
                                     JsonNode contentNode = objectMapper.readTree(contentJson);
                                     
-                                    // Fill in hiragana reading if missing or blank
+                                    // Always update hiragana reading with accurate Hiragana/Katakana reading from DeepSeek AI
                                     String aiReading = contentNode.path("reading").asText();
-                                    if ((vocab.getHiragana() == null || vocab.getHiragana().isBlank()) && aiReading != null && !aiReading.trim().isEmpty()) {
+                                    if (aiReading != null && !aiReading.trim().isEmpty() && !"null".equalsIgnoreCase(aiReading.trim())) {
                                         vocab.setHiragana(aiReading.trim());
                                     }
 
