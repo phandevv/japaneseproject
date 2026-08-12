@@ -51,6 +51,7 @@ public class KnowledgeService {
     private final SrsService srsService;
     private final GrammarSrsService grammarSrsService;
     private final DeepSeekEnrichmentService deepSeekEnrichmentService;
+    private final AiEnrichmentQueueService aiEnrichmentQueueService;
 
     // Bulkhead to protect AI APIs
     private final Semaphore bulkheadSemaphore = new Semaphore(50);
@@ -62,7 +63,7 @@ public class KnowledgeService {
                             GrammarReviewRepository grammarReviewRepository,
                             UserRepository userRepository,
                             ObjectMapper objectMapper) {
-        this(vocabularyRepository, grammarCardRepository, knowledgeVersionRepository, wordReviewRepository, grammarReviewRepository, userRepository, objectMapper, null, null, null);
+        this(vocabularyRepository, grammarCardRepository, knowledgeVersionRepository, wordReviewRepository, grammarReviewRepository, userRepository, objectMapper, null, null, null, null);
     }
 
     @Autowired
@@ -75,7 +76,8 @@ public class KnowledgeService {
                             ObjectMapper objectMapper,
                             @Autowired(required = false) SrsService srsService,
                             @Autowired(required = false) GrammarSrsService grammarSrsService,
-                            @Autowired(required = false) DeepSeekEnrichmentService deepSeekEnrichmentService) {
+                            @Autowired(required = false) DeepSeekEnrichmentService deepSeekEnrichmentService,
+                            @Autowired(required = false) AiEnrichmentQueueService aiEnrichmentQueueService) {
         this.vocabularyRepository = vocabularyRepository;
         this.grammarCardRepository = grammarCardRepository;
         this.knowledgeVersionRepository = knowledgeVersionRepository;
@@ -85,6 +87,7 @@ public class KnowledgeService {
         this.srsService = srsService;
         this.grammarSrsService = grammarSrsService;
         this.deepSeekEnrichmentService = deepSeekEnrichmentService;
+        this.aiEnrichmentQueueService = aiEnrichmentQueueService;
         this.objectMapper = objectMapper.copy()
                 .configure(com.fasterxml.jackson.core.JsonParser.Feature.ALLOW_UNQUOTED_CONTROL_CHARS, true)
                 .configure(com.fasterxml.jackson.core.JsonParser.Feature.ALLOW_BACKSLASH_ESCAPING_ANY_CHARACTER, true);
@@ -196,8 +199,9 @@ public class KnowledgeService {
                 || (v.getMnemonic() == null || v.getMnemonic().trim().isEmpty())
                 || (v.getExampleSentences() == null || v.getExampleSentences().trim().isEmpty());
 
-            if (isMissingFields && deepSeekEnrichmentService != null) {
-                // Trigger enrichment in background asynchronously without blocking (never call .get())
+            if (isMissingFields && aiEnrichmentQueueService != null && v.getId() != null) {
+                aiEnrichmentQueueService.enqueueVocabulary(v.getId(), false);
+            } else if (isMissingFields && deepSeekEnrichmentService != null) {
                 deepSeekEnrichmentService.enrichVocabulary(v);
             }
 

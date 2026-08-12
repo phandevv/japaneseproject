@@ -39,6 +39,7 @@ public class JlptN3CourseService {
     private final WordReviewRepository wordReviewRepository;
     private final JlptN3GrammarQuizRepository grammarQuizRepository;
     private final DeepSeekEnrichmentService enrichmentService;
+    private final AiEnrichmentQueueService aiEnrichmentQueueService;
     private final ObjectMapper objectMapper;
 
     @Autowired
@@ -48,6 +49,7 @@ public class JlptN3CourseService {
                                WordReviewRepository wordReviewRepository,
                                JlptN3GrammarQuizRepository grammarQuizRepository,
                                DeepSeekEnrichmentService enrichmentService,
+                               @Autowired(required = false) AiEnrichmentQueueService aiEnrichmentQueueService,
                                ObjectMapper objectMapper) {
         this.progressRepository = progressRepository;
         this.vocabularyRepository = vocabularyRepository;
@@ -55,6 +57,7 @@ public class JlptN3CourseService {
         this.wordReviewRepository = wordReviewRepository;
         this.grammarQuizRepository = grammarQuizRepository;
         this.enrichmentService = enrichmentService;
+        this.aiEnrichmentQueueService = aiEnrichmentQueueService;
         this.objectMapper = objectMapper;
     }
 
@@ -374,6 +377,13 @@ public class JlptN3CourseService {
                     if (v.getConversationExamples() != null) vItem.put("conversationExamples", v.getConversationExamples());
                     if (v.getUsageGuide() != null) vItem.put("usageGuide", v.getUsageGuide());
                     if (v.getKanjiWords() != null) vItem.put("kanjiWords", v.getKanjiWords());
+
+                    boolean isMissing = (v.getUsageGuide() == null || v.getUsageGuide().isBlank())
+                        || (v.getMnemonic() == null || v.getMnemonic().isBlank())
+                        || (v.getExampleSentences() == null || v.getExampleSentences().isBlank());
+                    if (isMissing && aiEnrichmentQueueService != null) {
+                        aiEnrichmentQueueService.enqueueVocabulary(v.getId(), false);
+                    }
                 }
             }
         }
@@ -429,6 +439,13 @@ public class JlptN3CourseService {
                     if (kVocab.getConversationExamples() != null) kItem.put("conversationExamples", kVocab.getConversationExamples());
                     if (kVocab.getUsageGuide() != null) kItem.put("usageGuide", kVocab.getUsageGuide());
                     if (kVocab.getKanjiWords() != null) kItem.put("kanjiWords", kVocab.getKanjiWords());
+
+                    boolean isKanjiMissing = (kVocab.getUsageGuide() == null || kVocab.getUsageGuide().isBlank())
+                        || (kVocab.getMnemonic() == null || kVocab.getMnemonic().isBlank())
+                        || (kVocab.getExampleSentences() == null || kVocab.getExampleSentences().isBlank());
+                    if (isKanjiMissing && aiEnrichmentQueueService != null) {
+                        aiEnrichmentQueueService.enqueueVocabulary(kVocab.getId(), false);
+                    }
                 }
             }
         }
@@ -469,6 +486,12 @@ public class JlptN3CourseService {
                     if (gCard.getDifference() != null) gItem.put("difference", gCard.getDifference());
                     if (gCard.getCommonMistakes() != null) gItem.put("commonMistakes", gCard.getCommonMistakes());
                     if (gCard.getExamples() != null) gItem.put("examples", gCard.getExamples());
+
+                    boolean isGrammarMissing = (gCard.getUsageGuide() == null || gCard.getUsageGuide().isBlank())
+                        || (gCard.getSimilarGrammar() == null || gCard.getSimilarGrammar().isBlank());
+                    if (isGrammarMissing && aiEnrichmentQueueService != null) {
+                        aiEnrichmentQueueService.enqueueGrammar(gCard.getId(), false);
+                    }
                 }
             }
         }

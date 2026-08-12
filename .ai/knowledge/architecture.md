@@ -23,6 +23,7 @@ graph TD
 * **Frontend (React)**: Gửi các yêu cầu HTTP/REST API đến Backend và render giao diện.
 * **Nginx Reverse Proxy**: Chuyển tiếp các request có tiền tố `/api` đến cổng `8080` (Backend) và trực tiếp phục vụ các tệp tĩnh (Frontend) từ thư mục Nginx.
 * **Backend (Spring Boot)**: Nhận yêu cầu, kiểm tra JWT, thực thi logic nghiệp vụ, ghi nhận lịch sử vào DB và cập nhật chỉ mục tìm kiếm Lucene trên đĩa cục bộ.
+* **Java 21 Virtual Thread AI Queue Service**: Hàng chờ `BlockingQueue` khử trùng lặp (Deduplicated Queue) kết hợp Virtual Thread Pool (`Executors.newVirtualThreadPerTaskExecutor()`, tối đa 10 luồng ảo song song) xử lý nạp/làm giàu dữ liệu AI ngầm (Background Async Enrichment) không làm gián đoạn trải nghiệm người dùng.
 
 ---
 

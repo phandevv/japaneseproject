@@ -14,6 +14,8 @@ import java.util.concurrent.CompletableFuture;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.flashcard.knowledge.service.AiEnrichmentQueueService;
+
 @RestController
 @RequestMapping("/api/vocab")
 public class VocabularyController {
@@ -22,10 +24,12 @@ public class VocabularyController {
 
     private final VocabularyService service;
     private final DeepSeekEnrichmentService enrichmentService;
+    private final AiEnrichmentQueueService queueService;
 
-    public VocabularyController(VocabularyService service, DeepSeekEnrichmentService enrichmentService) {
+    public VocabularyController(VocabularyService service, DeepSeekEnrichmentService enrichmentService, AiEnrichmentQueueService queueService) {
         this.service = service;
         this.enrichmentService = enrichmentService;
+        this.queueService = queueService;
     }
 
     /**
@@ -138,9 +142,9 @@ public class VocabularyController {
                         || (vocab.getMnemonic() == null || vocab.getMnemonic().isBlank())
                         || (vocab.getExampleSentences() == null || vocab.getExampleSentences().isBlank());
                     
-                    if (isMissingFields) {
-                        log.info("Vocabulary ID {} is missing fields (usageGuide/mnemonic/examples). Triggering targeted micro-enrichment...", id);
-                        enrichmentService.enrichVocabulary(vocab);
+                    if (isMissingFields && queueService != null) {
+                        log.info("Vocabulary ID {} is missing fields. Enqueueing Virtual Thread AI task...", id);
+                        queueService.enqueueVocabulary(id, false);
                     }
                     return ResponseEntity.ok(vocab);
                 })
@@ -161,7 +165,7 @@ public class VocabularyController {
 
     /**
      * Enrich vocabulary word (Kanji-words and sample sentence using DeepSeek)
-     * Triggered in background, returns immediately.
+     * Enqueues task into Virtual Thread Pool Queue.
      * POST /api/vocab/{id}/enrich
      */
     @PostMapping("/{id}/enrich")
@@ -181,19 +185,19 @@ public class VocabularyController {
             return ResponseEntity.ok(existing);
         }
         
-        if (force) {
-            try {
-                // Synchronously wait for DeepSeek enrichment when admin explicitly forces re-enrichment
-                Vocabulary updated = enrichmentService.enrichVocabulary(existing).get(25, java.util.concurrent.TimeUnit.SECONDS);
-                return ResponseEntity.ok(updated);
-            } catch (Exception e) {
-                log.error("Force enrichment failed for vocab ID {}: {}", id, e.getMessage());
-                return ResponseEntity.ok(existing);
+        if (queueService != null) {
+            AiEnrichmentQueueService.EnrichTask task = queueService.enqueueVocabulary(id, force);
+            if (force && task != null) {
+                try {
+                    Object result = task.getCompletionFuture().get(25, java.util.concurrent.TimeUnit.SECONDS);
+                    if (result instanceof Vocabulary v) {
+                        return ResponseEntity.ok(v);
+                    }
+                } catch (Exception e) {
+                    log.error("Force Virtual Thread enrichment failed for vocab ID {}: {}", id, e.getMessage());
+                }
             }
         }
-
-        // Trigger targeted micro-enrichment for missing fields in background
-        enrichmentService.enrichVocabulary(existing);
         
         // Return existing immediately so client renders fast
         return ResponseEntity.ok(existing);
