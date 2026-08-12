@@ -146,6 +146,9 @@ public class VocabularyController {
                         log.info("Vocabulary ID {} is missing fields. Enqueueing Virtual Thread AI task...", id);
                         queueService.enqueueVocabulary(id, false);
                     }
+                    if (queueService != null) {
+                        vocab.setIsEnriching(queueService.isEnriching(AiEnrichmentQueueService.TaskType.VOCABULARY, id));
+                    }
                     return ResponseEntity.ok(vocab);
                 })
                 .orElse(ResponseEntity.notFound().build());
@@ -182,6 +185,9 @@ public class VocabularyController {
             && (existing.getConversationExamples() != null && !existing.getConversationExamples().isBlank());
         
         if (fullyEnriched && !force) {
+            if (queueService != null) {
+                existing.setIsEnriching(queueService.isEnriching(AiEnrichmentQueueService.TaskType.VOCABULARY, id));
+            }
             return ResponseEntity.ok(existing);
         }
         
@@ -191,12 +197,14 @@ public class VocabularyController {
                 try {
                     Object result = task.getCompletionFuture().get(25, java.util.concurrent.TimeUnit.SECONDS);
                     if (result instanceof Vocabulary v) {
+                        v.setIsEnriching(false);
                         return ResponseEntity.ok(v);
                     }
                 } catch (Exception e) {
                     log.error("Force Virtual Thread enrichment failed for vocab ID {}: {}", id, e.getMessage());
                 }
             }
+            existing.setIsEnriching(queueService.isEnriching(AiEnrichmentQueueService.TaskType.VOCABULARY, id));
         }
         
         // Return existing immediately so client renders fast

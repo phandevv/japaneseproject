@@ -121,5 +121,11 @@ public class GrammarCard {
 
     public LocalDateTime getCreatedAt() { return createdAt; }
     public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
+
+    @Transient
+    private Boolean isEnriching;
+
+    public Boolean getIsEnriching() { return isEnriching; }
+    public void setIsEnriching(Boolean isEnriching) { this.isEnriching = isEnriching; }
 }
 

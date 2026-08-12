@@ -21,9 +21,11 @@ export default function AiEnrichedTabbedView({ data, onReEnriched }) {
 
   const isAdmin = user && (user.username === "admin" || user.role === "ADMIN" || user.roles?.includes("ADMIN") || user.roles?.includes("ROLE_ADMIN"));
 
+  const isCurrentlyCallingAi = reEnriching || displayData.isEnriching === true;
+
   const handleReEnrich = async (e) => {
     if (e) e.stopPropagation();
-    if (!displayData || !displayData.id || reEnriching) return;
+    if (!displayData || !displayData.id || isCurrentlyCallingAi) return;
     setReEnriching(true);
     setReEnrichSuccess(false);
 
@@ -95,8 +97,8 @@ export default function AiEnrichedTabbedView({ data, onReEnriched }) {
               type="button"
               className="btn btn-secondary"
               onClick={handleReEnrich}
-              disabled={reEnriching}
-              title="Gọi lại DeepSeek AI để bổ sung/tải lại dữ liệu bị thiếu"
+              disabled={isCurrentlyCallingAi}
+              title={isCurrentlyCallingAi ? "AI đang trong quá trình nạp dữ liệu ngầm..." : "Gọi lại DeepSeek AI để bổ sung/tải lại dữ liệu bị thiếu"}
               style={{
                 padding: '4px 10px',
                 fontSize: '0.74rem',
@@ -108,12 +110,13 @@ export default function AiEnrichedTabbedView({ data, onReEnriched }) {
                 borderColor: reEnrichSuccess ? '#10b981' : '#f59e0b',
                 backgroundColor: reEnrichSuccess ? 'rgba(16, 185, 129, 0.12)' : 'rgba(245, 158, 11, 0.12)',
                 fontWeight: '600',
-                cursor: 'pointer',
+                cursor: isCurrentlyCallingAi ? 'not-allowed' : 'pointer',
+                opacity: isCurrentlyCallingAi ? 0.75 : 1,
                 transition: 'all 0.2s ease'
               }}
             >
-              <Sparkles size={13} style={{ animation: reEnriching ? 'spin 1s linear infinite' : 'none' }} />
-              {reEnriching ? 'Đang gọi DeepSeek...' : reEnrichSuccess ? 'Đã làm giàu!' : 'Nạp lại dữ liệu AI'}
+              <Sparkles size={13} style={{ animation: isCurrentlyCallingAi ? 'spin 1s linear infinite' : 'none' }} />
+              {isCurrentlyCallingAi ? '⚡ Đang gọi DeepSeek...' : reEnrichSuccess ? 'Đã làm giàu!' : 'Nạp lại dữ liệu AI'}
             </button>
           )}
           <span style={{ fontSize: '0.75rem', padding: '2px 8px', borderRadius: '4px', backgroundColor: 'var(--accent-light)', color: 'var(--accent-color)', fontWeight: '600' }}>

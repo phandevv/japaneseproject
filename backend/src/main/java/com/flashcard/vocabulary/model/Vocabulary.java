@@ -177,5 +177,11 @@ public class Vocabulary {
 
     public String getExampleSentences() { return exampleSentences; }
     public void setExampleSentences(String exampleSentences) { this.exampleSentences = exampleSentences; }
+
+    @Transient
+    private Boolean isEnriching;
+
+    public Boolean getIsEnriching() { return isEnriching; }
+    public void setIsEnriching(Boolean isEnriching) { this.isEnriching = isEnriching; }
 }
 

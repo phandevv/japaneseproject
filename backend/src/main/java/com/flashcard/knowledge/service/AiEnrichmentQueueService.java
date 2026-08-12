@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;
+import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.*;
 
@@ -23,9 +24,9 @@ public class AiEnrichmentQueueService {
     private final VocabularyRepository vocabularyRepository;
     private final GrammarCardRepository grammarCardRepository;
 
-    // Deduplicated Task Queue
+    // Deduplicated Task Queue & Map tracking active/queued tasks
     private final BlockingQueue<EnrichTask> taskQueue = new LinkedBlockingQueue<>();
-    private final Set<String> activeKeys = ConcurrentHashMap.newKeySet();
+    private final Map<String, EnrichTask> activeTasks = new ConcurrentHashMap<>();
 
     // Java Virtual Thread Per Task Executor
     private ExecutorService virtualThreadExecutor;
@@ -104,38 +105,50 @@ public class AiEnrichmentQueueService {
     }
 
     /**
-     * Enqueue a Vocabulary item for background Virtual Thread AI enrichment
+     * Check if a Vocabulary/Grammar ID is currently queued or actively being enriched
+     */
+    public boolean isEnriching(TaskType type, Long id) {
+        if (id == null || type == null) return false;
+        return activeTasks.containsKey(type.name() + "_" + id);
+    }
+
+    /**
+     * Enqueue a Vocabulary item for background Virtual Thread AI enrichment.
+     * Guarantees that if an AI task is ALREADY active for this vocabId, it reuses the existing task!
      */
     public EnrichTask enqueueVocabulary(Long vocabId, boolean force) {
         if (vocabId == null) return null;
         String key = TaskType.VOCABULARY.name() + "_" + vocabId;
 
-        if (!force && activeKeys.contains(key)) {
-            log.debug("Vocab ID {} is already queued or enriching. Skipping duplicate.", vocabId);
-            return null;
+        EnrichTask existing = activeTasks.get(key);
+        if (existing != null) {
+            log.info("Vocab ID {} is ALREADY queued or enriching by AI. Reusing existing task to prevent duplicate AI calls.", vocabId);
+            return existing;
         }
 
-        activeKeys.add(key);
         EnrichTask task = new EnrichTask(TaskType.VOCABULARY, vocabId, force);
+        activeTasks.put(key, task);
         taskQueue.offer(task);
         log.info("Queued VOCABULARY ID {} for AI enrichment (Queue size: {})", vocabId, taskQueue.size());
         return task;
     }
 
     /**
-     * Enqueue a GrammarCard item for background Virtual Thread AI enrichment
+     * Enqueue a GrammarCard item for background Virtual Thread AI enrichment.
+     * Guarantees that if an AI task is ALREADY active for this grammarId, it reuses the existing task!
      */
     public EnrichTask enqueueGrammar(Long grammarId, boolean force) {
         if (grammarId == null) return null;
         String key = TaskType.GRAMMAR.name() + "_" + grammarId;
 
-        if (!force && activeKeys.contains(key)) {
-            log.debug("Grammar ID {} is already queued or enriching. Skipping duplicate.", grammarId);
-            return null;
+        EnrichTask existing = activeTasks.get(key);
+        if (existing != null) {
+            log.info("Grammar ID {} is ALREADY queued or enriching by AI. Reusing existing task to prevent duplicate AI calls.", grammarId);
+            return existing;
         }
 
-        activeKeys.add(key);
         EnrichTask task = new EnrichTask(TaskType.GRAMMAR, grammarId, force);
+        activeTasks.put(key, task);
         taskQueue.offer(task);
         log.info("Queued GRAMMAR ID {} for AI enrichment (Queue size: {})", grammarId, taskQueue.size());
         return task;
@@ -203,7 +216,7 @@ public class AiEnrichmentQueueService {
             log.error("Failed to process Virtual Thread task {}: {}", task.getKey(), e.getMessage());
             task.getCompletionFuture().completeExceptionally(e);
         } finally {
-            activeKeys.remove(task.getKey());
+            activeTasks.remove(task.getKey());
             concurrencySemaphore.release();
         }
     }
