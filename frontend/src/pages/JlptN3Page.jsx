@@ -1566,7 +1566,18 @@ const isContainsKanji = (str) => {
                         }}
                       >
                         {loadingGrammarQuiz ? (
-                          <>✦ DeepSeek AI Đang Tạo Đề Thi 30 Câu Ngữ Pháp...</>
+                          <>✦ DeepSeek AI Đang Tạo Đề Thi 30 Câu Ngữ Pháp...
+                          {(quizWordEnriched || currentWord) && (
+                            <AiEnrichedTabbedView 
+                              data={quizWordEnriched || currentWord} 
+                              onReEnriched={(updated) => {
+                                setQuizWordEnriched(updated);
+                                if (updated && updated.hiragana) {
+                                  setCurrentWord(prev => prev ? ({ ...prev, hiragana: updated.hiragana, reading: updated.hiragana }) : prev);
+                                }
+                              }}
+                            />
+                          )}</>
                         ) : (
                           <><Play size={20} /> Bắt đầu Làm Bài Test ({quizCategory === 'grammar' ? '30 Câu AI Ngữ Pháp' : quizCategory === 'vocab' ? 'Từ Vựng' : 'Chữ Hán'})</>
                         )}
