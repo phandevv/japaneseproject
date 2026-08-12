@@ -625,6 +625,7 @@ const isContainsKanji = (str) => {
     let explanation = '';
 
     if (quizQuestionType === 'vi-to-ja') {
+      // Direct exact string comparison for Japanese typing (0ms, no AI call needed)
       const normInput = inputClean.replace(/[\s\u3000]+/g, '');
       const candidates = [
         currentWord.kanji,
@@ -637,27 +638,6 @@ const isContainsKanji = (str) => {
       ].filter(Boolean).map(s => String(s).trim().toLowerCase().replace(/[\s\u3000]+/g, ''));
 
       isCorrect = candidates.some(c => c && normInput === c);
-
-      if (!isCorrect) {
-        setCheckingAiAnswer(true);
-        try {
-          const targetContext = (currentWord.kanji || currentWord.hiragana || currentWord.tu || '') +
-            (currentWord.hiragana && currentWord.kanji !== currentWord.hiragana ? ` (${currentWord.hiragana})` : '');
-          const evalRes = await jlptN3Api.evaluateAnswer(
-            targetContext,
-            userInput,
-            `Nghĩa tiếng Việt: ${currentWord.meaning || ''}`
-          );
-          if (evalRes && evalRes.correct) {
-            isCorrect = true;
-            explanation = evalRes.explanation || '✨ DeepSeek AI chấp nhận từ/cách đọc tiếng Nhật này!';
-          }
-        } catch (err) {
-          console.error("AI evaluation error:", err);
-        } finally {
-          setCheckingAiAnswer(false);
-        }
-      }
     } else {
       // ja-to-vi mode: Step 1 local match
       isCorrect = matchVietnameseAnswer(userInput, currentWord.meaning || '');
