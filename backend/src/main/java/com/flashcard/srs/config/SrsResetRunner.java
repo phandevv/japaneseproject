@@ -30,7 +30,10 @@ public class SrsResetRunner {
             Instant now = Instant.now();
             int updatedWords = wordReviewRepository.markAllReviewsAsDue(now);
             int updatedGrammar = grammarReviewRepository.markAllReviewsAsDue(now);
-            log.info("✅ Marked {} vocabulary reviews and {} grammar reviews as DUE for SRS morning review.", updatedWords, updatedGrammar);
+            int clampedWords = wordReviewRepository.clampInflatedIntervals();
+            int clampedGrammar = grammarReviewRepository.clampInflatedIntervals();
+            log.info("✅ Marked {} vocabulary reviews and {} grammar reviews as DUE. Clamped {} inflated records.", 
+                    updatedWords, updatedGrammar, (clampedWords + clampedGrammar));
         } catch (Exception e) {
             log.error("❌ Error marking SRS reviews as due on startup: {}", e.getMessage(), e);
         }

@@ -26,5 +26,10 @@ public interface GrammarReviewRepository extends JpaRepository<GrammarReview, Lo
     @org.springframework.transaction.annotation.Transactional
     @Query("UPDATE GrammarReview gr SET gr.nextReview = :now WHERE gr.nextReview > :now")
     int markAllReviewsAsDue(@Param("now") Instant now);
+
+    @org.springframework.data.jpa.repository.Modifying
+    @org.springframework.transaction.annotation.Transactional
+    @Query("UPDATE GrammarReview gr SET gr.intervalDays = 365 WHERE gr.intervalDays > 365")
+    int clampInflatedIntervals();
 }
 
