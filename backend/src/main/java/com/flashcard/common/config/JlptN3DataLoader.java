@@ -183,6 +183,7 @@ public class JlptN3DataLoader implements CommandLineRunner {
 
                     String hanViet = kNode.path("han_viet").asText("").trim();
                     String nghia = kNode.path("nghia").asText("").trim();
+                    String amDoc = kNode.path("am_doc").asText("").trim();
 
                     List<String> tuVungList = new ArrayList<>();
                     if (kNode.has("tu_vung") && kNode.get("tu_vung").isArray()) {
@@ -199,6 +200,7 @@ public class JlptN3DataLoader implements CommandLineRunner {
                     }
                     if (hanViet != null && !hanViet.isEmpty()) v.setHanViet(hanViet);
                     if (nghia != null && !nghia.isEmpty()) v.setMeaning(nghia);
+                    if (amDoc != null && !amDoc.isEmpty()) v.setRomaji(amDoc);
                     v.setWordType("KANJI");
                     v.setLevel("N3_COURSE");
                     v.setCategory(kanjiCategory);

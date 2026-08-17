@@ -250,6 +250,7 @@ public class JlptN3CourseService {
                     item.put("vi_du", v.getSampleSentence());
                     item.put("am_han", v.getHanViet());
                     item.put("han_viet", v.getHanViet());
+                    item.put("am_doc", v.getRomaji());
                     item.put("pitchAccent", v.getPitchAccent());
                     item.put("mnemonic", v.getMnemonic());
                     item.put("exampleSentences", v.getExampleSentences());
@@ -421,6 +422,7 @@ public class JlptN3CourseService {
                     if (kVocab.getHiragana() != null) kItem.put("hiragana", kVocab.getHiragana());
                     if (kVocab.getHanViet() != null) kItem.put("hanViet", kVocab.getHanViet());
                     if (kVocab.getHanViet() != null) kItem.put("han_viet", kVocab.getHanViet());
+                    if (kVocab.getRomaji() != null) kItem.put("am_doc", kVocab.getRomaji());
                     if (kVocab.getPitchAccent() != null) kItem.put("pitchAccent", kVocab.getPitchAccent());
                     if (kVocab.getOnReading() != null) kItem.put("onReading", kVocab.getOnReading());
                     if (kVocab.getKunReading() != null) kItem.put("kunReading", kVocab.getKunReading());
@@ -551,6 +553,7 @@ public class JlptN3CourseService {
 
                         String hanViet = kNode.path("han_viet").asText("").trim();
                         String nghia = kNode.path("nghia").asText("").trim();
+                        String amDoc = kNode.path("am_doc").asText("").trim();
 
                         List<String> tuVungList = new ArrayList<>();
                         if (kNode.has("tu_vung") && kNode.get("tu_vung").isArray()) {
@@ -567,6 +570,7 @@ public class JlptN3CourseService {
                         }
                         if (hanViet != null && !hanViet.isEmpty()) v.setHanViet(hanViet);
                         if (nghia != null && !nghia.isEmpty()) v.setMeaning(nghia);
+                        if (amDoc != null && !amDoc.isEmpty()) v.setRomaji(amDoc);
                         v.setWordType("KANJI");
                         v.setLevel("N3_COURSE");
                         v.setCategory(kanjiCategory);
