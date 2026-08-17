@@ -13,21 +13,23 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Map;
 import java.util.Optional;
 
+import com.flashcard.user.provider.UserDataProvider;
+
 @RestController
 @RequestMapping("/api/jlpt-n3")
 public class JlptN3CourseController {
 
     private final JlptN3CourseService courseService;
-    private final UserRepository userRepository;
+    private final UserDataProvider userDataProvider;
     private final JlptN3DataLoader dataLoader;
     private final DeepSeekEnrichmentService enrichmentService;
 
     public JlptN3CourseController(JlptN3CourseService courseService,
-                                  UserRepository userRepository,
+                                  UserDataProvider userDataProvider,
                                   JlptN3DataLoader dataLoader,
                                   DeepSeekEnrichmentService enrichmentService) {
         this.courseService = courseService;
-        this.userRepository = userRepository;
+        this.userDataProvider = userDataProvider;
         this.dataLoader = dataLoader;
         this.enrichmentService = enrichmentService;
     }
@@ -36,7 +38,7 @@ public class JlptN3CourseController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth != null && auth.isAuthenticated() && !"anonymousUser".equals(auth.getPrincipal())) {
             String username = auth.getName();
-            Optional<User> u = userRepository.findByUsername(username);
+            Optional<User> u = userDataProvider.findByUsername(username);
             if (u.isPresent()) {
                 return u.get().getId();
             }

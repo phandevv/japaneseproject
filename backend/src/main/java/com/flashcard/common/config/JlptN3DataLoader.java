@@ -18,10 +18,15 @@ import java.io.File;
 import java.io.InputStream;
 import java.util.*;
 
+import org.springframework.beans.factory.annotation.Value;
+
 @Component
 public class JlptN3DataLoader implements CommandLineRunner {
 
     private static final Logger logger = LoggerFactory.getLogger(JlptN3DataLoader.class);
+
+    @Value("${app.data.load.jlpt-n3:true}")
+    private boolean enabled;
 
     private final VocabularyDataProvider vocabularyDataProvider;
     private final KnowledgeDataProvider knowledgeDataProvider;
@@ -41,6 +46,14 @@ public class JlptN3DataLoader implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
+        if (!enabled) {
+            logger.info("JLPT N3 startup loader is disabled via config.");
+            return;
+        }
+        if (vocabularyDataProvider.findByCategory("N3_COURSE").size() > 0) {
+            logger.info("JLPT N3 Course data already loaded. Skipping startup import.");
+            return;
+        }
         importAllN3Data();
     }
 

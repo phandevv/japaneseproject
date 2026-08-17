@@ -1,24 +1,15 @@
 package com.flashcard;
 
-import com.flashcard.knowledge.repository.GrammarCardRepository;
-import com.flashcard.knowledge.repository.KnowledgeVersionRepository;
+import com.flashcard.knowledge.model.KnowledgeVersion;
+import com.flashcard.knowledge.provider.KnowledgeDataProvider;
 import com.flashcard.knowledge.service.KnowledgeService;
 import com.flashcard.srs.model.WordReview;
-import com.flashcard.srs.repository.GrammarReviewRepository;
-import com.flashcard.srs.repository.WordReviewRepository;
+import com.flashcard.srs.provider.SrsDataProvider;
 import com.flashcard.user.model.User;
-import com.flashcard.user.repository.UserRepository;
+import com.flashcard.user.provider.UserDataProvider;
 import com.flashcard.vocabulary.model.Vocabulary;
-import com.flashcard.vocabulary.repository.VocabularyRepository;
+import com.flashcard.vocabulary.provider.VocabularyDataProvider;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
-
-
-
-
-
-
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -30,47 +21,43 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-
-
 import static org.mockito.Mockito.*;
 
 class KnowledgeServiceTest {
 
-    private VocabularyRepository vocabularyRepository;
-    private GrammarCardRepository grammarCardRepository;
-    private KnowledgeVersionRepository knowledgeVersionRepository;
-    private WordReviewRepository wordReviewRepository;
-    private GrammarReviewRepository grammarReviewRepository;
-    private UserRepository userRepository;
+    private VocabularyDataProvider vocabularyDataProvider;
+    private KnowledgeDataProvider knowledgeDataProvider;
+    private SrsDataProvider srsDataProvider;
+    private UserDataProvider userDataProvider;
     private ObjectMapper objectMapper;
     private KnowledgeService knowledgeService;
     private User testUser;
 
     @BeforeEach
     void setUp() {
-        vocabularyRepository = Mockito.mock(VocabularyRepository.class);
-        grammarCardRepository = Mockito.mock(GrammarCardRepository.class);
-        knowledgeVersionRepository = Mockito.mock(KnowledgeVersionRepository.class);
-        wordReviewRepository = Mockito.mock(WordReviewRepository.class);
-        grammarReviewRepository = Mockito.mock(GrammarReviewRepository.class);
-        userRepository = Mockito.mock(UserRepository.class);
+        vocabularyDataProvider = Mockito.mock(VocabularyDataProvider.class);
+        knowledgeDataProvider = Mockito.mock(KnowledgeDataProvider.class);
+        srsDataProvider = Mockito.mock(SrsDataProvider.class);
+        userDataProvider = Mockito.mock(UserDataProvider.class);
         objectMapper = new ObjectMapper();
 
         knowledgeService = new KnowledgeService(
-                vocabularyRepository,
-                grammarCardRepository,
-                knowledgeVersionRepository,
-                wordReviewRepository,
-                grammarReviewRepository,
-                userRepository,
-                objectMapper
+                vocabularyDataProvider,
+                knowledgeDataProvider,
+                srsDataProvider,
+                userDataProvider,
+                objectMapper,
+                null,
+                null,
+                null,
+                null
         );
 
         testUser = new User();
         testUser.setId(1L);
         testUser.setUsername("test-user");
 
-        when(userRepository.findById(1L)).thenReturn(Optional.of(testUser));
+        when(userDataProvider.findById(1L)).thenReturn(Optional.of(testUser));
     }
 
     @Test
@@ -92,9 +79,9 @@ class KnowledgeServiceTest {
         data.put("conversationExamples", List.of());
         data.put("exampleSentences", List.of(Map.of("ja", "将来の夢", "reading", "しょうらいのゆめ", "vi", "Ước mơ tương lai")));
 
-        when(vocabularyRepository.findFirstByKanji("将来")).thenReturn(Optional.empty());
-        when(vocabularyRepository.save(any(Vocabulary.class))).thenAnswer(invocation -> invocation.getArgument(0));
-        when(wordReviewRepository.findByUserAndVocabulary(any(User.class), any(Vocabulary.class))).thenReturn(Optional.empty());
+        when(vocabularyDataProvider.findFirstByKanji("将来")).thenReturn(Optional.empty());
+        when(vocabularyDataProvider.save(any(Vocabulary.class))).thenAnswer(invocation -> invocation.getArgument(0));
+        when(srsDataProvider.findByUserAndVocabulary(any(User.class), any(Vocabulary.class))).thenReturn(Optional.empty());
 
         // Act
         Vocabulary saved = knowledgeService.saveVocabulary(data, testUser);
@@ -108,9 +95,9 @@ class KnowledgeServiceTest {
         assertEquals("noun", saved.getWordType());
         assertEquals("将来の夢", saved.getSampleSentence());
         
-        verify(vocabularyRepository).save(any(Vocabulary.class));
-        verify(wordReviewRepository).save(any(WordReview.class));
-        verify(knowledgeVersionRepository, never()).save(any());
+        verify(vocabularyDataProvider).save(any(Vocabulary.class));
+        verify(srsDataProvider).saveWordReview(any(WordReview.class));
+        verify(knowledgeDataProvider, never()).saveVersion(any());
     }
 
     @Test
@@ -133,11 +120,11 @@ class KnowledgeServiceTest {
         data.put("pitchAccent", "しょうらい [1]");
         data.put("mnemonic", "mẹo nhớ");
 
-        when(vocabularyRepository.findFirstByKanji("将来")).thenReturn(Optional.of(existingVocab));
-        when(vocabularyRepository.save(any(Vocabulary.class))).thenAnswer(invocation -> invocation.getArgument(0));
-        when(knowledgeVersionRepository.findByEntityTypeAndEntityIdOrderByVersionNumberDesc("VOCABULARY", 99L))
+        when(vocabularyDataProvider.findFirstByKanji("将来")).thenReturn(Optional.of(existingVocab));
+        when(vocabularyDataProvider.save(any(Vocabulary.class))).thenAnswer(invocation -> invocation.getArgument(0));
+        when(knowledgeDataProvider.findVersions("VOCABULARY", 99L))
                 .thenReturn(List.of());
-        when(wordReviewRepository.findByUserAndVocabulary(any(User.class), any(Vocabulary.class)))
+        when(srsDataProvider.findByUserAndVocabulary(any(User.class), any(Vocabulary.class)))
                 .thenReturn(Optional.of(new WordReview(testUser, existingVocab)));
 
         // Act
@@ -149,8 +136,8 @@ class KnowledgeServiceTest {
         assertEquals("tương lai xa", saved.getMeaning()); // Updated because user is ADMIN
         
         // Should trigger version history logging
-        verify(knowledgeVersionRepository).save(any());
-        verify(vocabularyRepository).save(any(Vocabulary.class));
+        verify(knowledgeDataProvider).saveVersion(any());
+        verify(vocabularyDataProvider).save(any(Vocabulary.class));
     }
 
     @Test
@@ -169,9 +156,9 @@ class KnowledgeServiceTest {
         data.put("reading", "しょうらい");
         data.put("meaning", "nghĩa mới từ AI");
 
-        when(vocabularyRepository.findFirstByKanji("将来")).thenReturn(Optional.of(existingVocab));
-        when(vocabularyRepository.save(any(Vocabulary.class))).thenAnswer(invocation -> invocation.getArgument(0));
-        when(wordReviewRepository.findByUserAndVocabulary(any(User.class), any(Vocabulary.class)))
+        when(vocabularyDataProvider.findFirstByKanji("将来")).thenReturn(Optional.of(existingVocab));
+        when(vocabularyDataProvider.save(any(Vocabulary.class))).thenAnswer(invocation -> invocation.getArgument(0));
+        when(srsDataProvider.findByUserAndVocabulary(any(User.class), any(Vocabulary.class)))
                 .thenReturn(Optional.of(new WordReview(testUser, existingVocab)));
 
         // Act
@@ -183,6 +170,6 @@ class KnowledgeServiceTest {
         assertEquals("nghĩa mới từ AI", saved.getMeaning()); // Updated enrichment data in place
         
         // Version history must NOT be created for non-admin
-        verify(knowledgeVersionRepository, never()).save(any());
+        verify(knowledgeDataProvider, never()).saveVersion(any());
     }
 }

@@ -15,7 +15,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+
 @Component
+@ConditionalOnProperty(name = "app.data.load.grammar", havingValue = "true", matchIfMissing = true)
 public class GrammarDataLoader implements CommandLineRunner {
 
     private static final Logger logger = LoggerFactory.getLogger(GrammarDataLoader.class);

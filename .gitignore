@@ -29,6 +29,9 @@ data/logs/
 # Backend local H2 database (never commit — file is locked by running server)
 backend/data/*.mv.db
 backend/data/*.trace.db
+Vocabulary/
+backend/Vocabulary/
+backend/data/lucene-index/
 
 # macOS
 .DS_Store

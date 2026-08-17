@@ -18,7 +18,10 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+
 @Component
+@ConditionalOnProperty(name = "app.data.load.excel", havingValue = "true", matchIfMissing = true)
 public class ExcelDataLoader implements CommandLineRunner {
 
     private static final Logger logger = LoggerFactory.getLogger(ExcelDataLoader.class);
