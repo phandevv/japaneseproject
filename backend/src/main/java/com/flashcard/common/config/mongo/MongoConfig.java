@@ -25,6 +25,19 @@ public class MongoConfig {
 
     @Bean
     @ConditionalOnProperty(name = "app.database.type", havingValue = "mongodb")
+    public MongoDatabaseFactory mongoDatabaseFactory(
+            @org.springframework.beans.factory.annotation.Value("${spring.data.mongodb.uri:${MONGO_DB_URL:}}") String uri,
+            @org.springframework.beans.factory.annotation.Value("${spring.data.mongodb.database:${MONGO_DB_NAME:japanesedb}}") String dbName) {
+        if (uri != null && !uri.isBlank()) {
+            com.mongodb.ConnectionString cs = new com.mongodb.ConnectionString(uri);
+            String database = (cs.getDatabase() != null && !cs.getDatabase().isBlank()) ? cs.getDatabase() : dbName;
+            return new SimpleMongoClientDatabaseFactory(com.mongodb.client.MongoClients.create(cs), database);
+        }
+        return new SimpleMongoClientDatabaseFactory("mongodb://localhost:27017/" + dbName);
+    }
+
+    @Bean
+    @ConditionalOnProperty(name = "app.database.type", havingValue = "mongodb")
     public MongoTransactionManager transactionManager(MongoDatabaseFactory dbFactory) {
         return new MongoTransactionManager(dbFactory);
     }

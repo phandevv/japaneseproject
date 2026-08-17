@@ -11,7 +11,8 @@ services:
       - SPRING_PROFILES_ACTIVE=${SPRING_PROFILES_ACTIVE:-prod}
       - APP_DATABASE_TYPE=${APP_DATABASE_TYPE:-mongodb}
       - MONGO_DB_URL=${MONGO_DB_URL:-}
-      - SPRING_DATA_MONGODB_URI=${SPRING_DATA_MONGODB_URI:-${MONGO_DB_URL:-mongodb+srv://myjsdb:qwertyuiopqaz@myjsdb.dhfyvpg.mongodb.net/japanesedb?retryWrites=true&w=majority&appName=MyJsDB}}
+      - MONGO_DB_NAME=${MONGO_DB_NAME:-japanesedb}
+      - SPRING_DATA_MONGODB_URI=${SPRING_DATA_MONGODB_URI:-${MONGO_DB_URL:-}}
       - JWT_SECRET=${JWT_SECRET:-CHANGE_ME_IN_PRODUCTION}
       - CORS_ORIGINS=${CORS_ORIGINS:-https://phandeptrai.id.vn}
       - DB_USER=${DB_USER:-sa}
