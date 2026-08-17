@@ -34,12 +34,14 @@ public class UserMongoDataProvider implements UserDataProvider {
 
     @Override
     public Optional<User> findByUsername(String username) {
-        return userMongoRepository.findByUsername(username).map(this::toUser);
+        if (username == null) return Optional.empty();
+        return userMongoRepository.findByUsernameIgnoreCase(username.trim()).map(this::toUser);
     }
 
     @Override
     public boolean existsByUsername(String username) {
-        return userMongoRepository.existsByUsername(username);
+        if (username == null) return false;
+        return userMongoRepository.existsByUsernameIgnoreCase(username.trim());
     }
 
     @Override
