@@ -216,7 +216,6 @@ const JlptN3Page = () => {
   const [quizOptRangeStart, setQuizOptRangeStart] = useState(1);
   const [quizOptRangeEnd, setQuizOptRangeEnd] = useState(15);
   const [quizSetupError, setQuizSetupError] = useState('');
-  const [elapsedSeconds, setElapsedSeconds] = useState(0);
   const [checkingAiAnswer, setCheckingAiAnswer] = useState(false);
   const [aiMatchExplanation, setAiMatchExplanation] = useState('');
   const [selectedGrammarModal, setSelectedGrammarModal] = useState(null);
@@ -225,25 +224,11 @@ const JlptN3Page = () => {
   const [quizReviewList, setQuizReviewList] = useState([]);
   const [quizReviewFilter, setQuizReviewFilter] = useState('all'); // 'all' | 'mistakes' | 'correct'
 
-  // Quiz Timer Effect (Runs ONLY when quizState === 'playing' AND quizStatus === 'idle')
+  // Initialize Question Start Time when question changes
   useEffect(() => {
-    let timer = null;
     if (quizState === 'playing' && quizStatus === 'idle') {
       setQuestionStartTime(Date.now());
-      setElapsedSeconds(0);
-      timer = setInterval(() => {
-        setElapsedSeconds(prev => {
-          if (prev >= 30) {
-            clearInterval(timer);
-            return 30;
-          }
-          return prev + 1;
-        });
-      }, 1000);
     }
-    return () => {
-      if (timer) clearInterval(timer);
-    };
   }, [quizState, quizIndex, quizStatus]);
 
   // Enter Key Listener for automatically advancing to next question when answered
@@ -1398,6 +1383,7 @@ const isContainsKanji = (str) => {
                           {formattedVocabWords.map((word, index) => (
                             <tr
                               key={word.id}
+                              className="virtual-row"
                               onClick={() => setDetailModalIndex(index)}
                               style={{
                                 borderBottom: '1px solid var(--border-color)',
@@ -1436,7 +1422,7 @@ const isContainsKanji = (str) => {
                             borderRadius: '14px', padding: '16px 20px', display: 'flex', gap: '16px', alignItems: 'flex-start',
                             cursor: 'pointer', transition: 'all 0.2s ease'
                           }}
-                          className="card-hover"
+                          className="card-hover virtual-card"
                         >
                           <div style={{ width: '56px', height: '56px', borderRadius: '12px', background: 'rgba(37,99,235,0.08)', color: 'var(--accent-color)', fontSize: '2.2rem', fontWeight: 800, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                             {k.kanji}
@@ -1469,7 +1455,7 @@ const isContainsKanji = (str) => {
                             borderRadius: '14px', padding: '18px 20px', display: 'flex', flexDirection: 'column', gap: '8px',
                             cursor: 'pointer', transition: 'all 0.2s ease'
                           }}
-                          className="card-hover"
+                          className="card-hover virtual-card"
                         >
                           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '8px' }}>
                             <span style={{ fontSize: '1.25rem', fontWeight: 800, color: 'var(--accent-color)' }}>{g.cau_truc}</span>

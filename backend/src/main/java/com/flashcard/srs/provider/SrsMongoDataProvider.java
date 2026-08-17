@@ -187,6 +187,30 @@ public class SrsMongoDataProvider implements SrsDataProvider {
     }
 
     @Override
+    public List<WordReview> saveAllWordReviews(List<WordReview> reviews) {
+        if (reviews == null || reviews.isEmpty()) return Collections.emptyList();
+        List<WordReviewDoc> docs = new ArrayList<>();
+        for (WordReview wr : reviews) {
+            WordReviewDoc doc;
+            if (wr.getId() == null) {
+                wr.setId(sequenceGeneratorService.generateSequence("word_reviews_seq"));
+                doc = toWordReviewDoc(wr);
+            } else {
+                doc = wordReviewMongoRepository.findById(wr.getId()).orElseGet(() -> toWordReviewDoc(wr));
+                updateDocFromWordReview(doc, wr);
+            }
+            docs.add(doc);
+        }
+        List<WordReviewDoc> saved = wordReviewMongoRepository.saveAll(docs);
+        List<WordReview> result = new ArrayList<>();
+        for (int i = 0; i < saved.size(); i++) {
+            WordReview wr = reviews.get(i);
+            result.add(toWordReview(saved.get(i), wr.getUser(), wr.getVocabulary()));
+        }
+        return result;
+    }
+
+    @Override
     public void saveReviewLog(ReviewLog log) {
         if (log.getId() == null) {
             log.setId(sequenceGeneratorService.generateSequence("review_logs_seq"));

@@ -15,6 +15,12 @@ public class NotificationService {
 
     private final NotificationDataProvider notificationDataProvider;
 
+    private final com.github.benmanes.caffeine.cache.Cache<Long, Long> unreadCountCache =
+            com.github.benmanes.caffeine.cache.Caffeine.newBuilder()
+                    .expireAfterWrite(java.time.Duration.ofSeconds(30))
+                    .maximumSize(10000)
+                    .build();
+
     public NotificationService(NotificationDataProvider notificationDataProvider) {
         this.notificationDataProvider = notificationDataProvider;
     }
@@ -22,7 +28,11 @@ public class NotificationService {
     @Transactional
     public Notification createNotification(User user, String title, String message, String type, Long relatedEntityId) {
         Notification notification = new Notification(user, title, message, type, relatedEntityId);
-        return notificationDataProvider.save(notification);
+        Notification saved = notificationDataProvider.save(notification);
+        if (user != null && user.getId() != null) {
+            unreadCountCache.invalidate(user.getId());
+        }
+        return saved;
     }
 
     public Page<Notification> getUserNotifications(Long userId, Pageable pageable) {
@@ -30,7 +40,9 @@ public class NotificationService {
     }
 
     public long getUnreadCount(Long userId) {
-        return notificationDataProvider.countUnreadByUserId(userId);
+        if (userId == null) return 0L;
+        Long count = unreadCountCache.get(userId, id -> notificationDataProvider.countUnreadByUserId(id));
+        return count != null ? count : 0L;
     }
 
     @Transactional
@@ -39,16 +51,19 @@ public class NotificationService {
             if (notification.getUser() != null && notification.getUser().getId().equals(userId)) {
                 notification.setRead(true);
                 notificationDataProvider.save(notification);
+                unreadCountCache.invalidate(userId);
             }
         });
     }
 
     @Transactional
     public void markAllAsRead(Long userId) {
+        if (userId == null) return;
         List<Notification> unread = notificationDataProvider.findUnreadByUserId(userId);
         for (Notification n : unread) {
             n.setRead(true);
         }
         notificationDataProvider.saveAll(unread);
+        unreadCountCache.invalidate(userId);
     }
 }

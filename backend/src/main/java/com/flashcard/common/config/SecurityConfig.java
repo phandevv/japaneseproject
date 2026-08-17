@@ -1,8 +1,5 @@
 package com.flashcard.common.config;
 
-import com.flashcard.knowledge.model.Conversation;
-import com.flashcard.knowledge.model.Feedback;
-import com.flashcard.vocabulary.model.Vocabulary;
 import io.github.bucket4j.Bandwidth;
 import io.github.bucket4j.Bucket;
 import jakarta.servlet.FilterChain;
@@ -84,8 +81,9 @@ public class SecurityConfig {
                 .requestMatchers(HttpMethod.DELETE, "/api/vocab/**").hasRole("ADMIN")
                 .requestMatchers("/api/import/**").hasRole("ADMIN")
                 
-                // ── Vocabulary Reading (Public / Authenticated) ──────────────
+                // ── Vocabulary & Course Reading (Public / Authenticated) ──────────────
                 .requestMatchers(HttpMethod.GET, "/api/vocab/**").permitAll()
+                .requestMatchers(HttpMethod.GET, "/api/jlpt-n3/**").permitAll()
                 
                 // ── Feedback/Error Reports (Submit: Authenticated, View/Update: Admin) ─────
                 .requestMatchers(HttpMethod.POST, "/api/feedbacks").authenticated()

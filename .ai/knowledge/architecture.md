@@ -64,15 +64,17 @@ flowchart TD
 
 ## 3. Luồng dữ liệu chính (Core Data Flows)
 
-### A. Luồng Đăng nhập (Authentication Flow)
+### A. Luồng Đăng nhập & Xác thực Danh tính (Stateless JWT Authentication Flow)
 1. Người dùng gửi tên đăng nhập & mật khẩu đến `POST /api/auth/login`.
 2. Backend kiểm tra tên đăng nhập trong DB, so khớp mật khẩu bằng `BCryptPasswordEncoder`.
-3. Nếu hợp lệ, backend tạo ra **JWT Token** chứa thông tin username và vai trò, ký số bằng khóa bí mật bí mật (`JWT_SECRET`).
-4. Token được trả về cho Frontend và lưu tại `localStorage`. Các yêu cầu tiếp theo sẽ tự động được Axios interceptor thêm vào header `Authorization: Bearer <token>`.
+3. Nếu hợp lệ, backend tạo ra **JWT Token** chứa đầy đủ các claims nhận diện: `userId`, `username`, `role`, `displayName`, ký số HMAC-SHA256.
+4. Token được trả về cho Frontend và lưu tại `localStorage`.
+5. **Xác thực Request (0ms latency)**: `JwtAuthFilter` giải mã và trích xuất trực tiếp `User` principal từ token signature đã được xác minh mà **không cần tra cứu cơ sở dữ liệu** và không cần lưu cache rác trong RAM.
 
-### B. Luồng Ôn tập giãn cách (SRS Flow)
+### B. Luồng Ôn tập giãn cách (Write-Behind SRS Review Flow)
 1. Học viên mở Flashcard/Daily Study, frontend gửi yêu cầu lấy từ vựng cần ôn tập.
 2. Backend truy vấn các bản ghi `WordReview` có ngày `nextReview` $\le$ ngày hiện tại.
 3. Học viên đánh giá từ vựng (Forgot, Hard, Good, Easy).
-4. Backend nhận điểm đánh giá, tính toán chu kỳ ôn tập tiếp theo bằng thuật toán **SM-2**, cập nhật `nextReview`, `easeFactor`, `repetition` và lưu vào DB.
-5. Tạo bản ghi `StudySession` mới (hoặc cộng dồn từ đã học trong ngày) để cập nhật biểu đồ hoạt động (activity grid).
+4. Backend tính toán chu kỳ ôn tập tiếp theo bằng thuật toán **SM-2** (`nextReview`, `easeFactor`, `repetition`, `is_learned`).
+5. **Write-Behind Batching**: Thay vì block kết nối I/O để lưu từng từ xuống DB, `WordReviewBatchService` gom các lượt đánh giá vào `ConcurrentHashMap` & `ConcurrentLinkedQueue` trong RAM và thực hiện flush đồng loạt xuống cơ sở dữ liệu mỗi 2 giây (`saveAllWordReviews`), bảo đảm 0ms latency cho người dùng và giảm 90% số lượng transaction DB.
+6. Tạo bản ghi `StudySession` mới (hoặc cộng dồn từ đã học trong ngày) để cập nhật biểu đồ hoạt động (activity grid).

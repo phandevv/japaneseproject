@@ -92,6 +92,8 @@ public class AuthService {
                 .withIssuer(ISSUER)
                 .withClaim("userId", user.getId())
                 .withClaim("username", user.getUsername())
+                .withClaim("role", user.getRole() != null ? user.getRole() : "USER")
+                .withClaim("displayName", user.getDisplayName() != null ? user.getDisplayName() : "")
                 .withClaim("type", type)
                 .withExpiresAt(new Date(System.currentTimeMillis() + expirationMs))
                 .sign(Algorithm.HMAC256(jwtSecret));

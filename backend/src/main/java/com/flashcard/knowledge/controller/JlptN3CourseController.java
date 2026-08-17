@@ -4,7 +4,6 @@ import com.flashcard.common.config.JlptN3DataLoader;
 import com.flashcard.knowledge.service.DeepSeekEnrichmentService;
 import com.flashcard.knowledge.service.JlptN3CourseService;
 import com.flashcard.user.model.User;
-import com.flashcard.user.repository.UserRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -37,6 +36,9 @@ public class JlptN3CourseController {
     private Long getCurrentUserId() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth != null && auth.isAuthenticated() && !"anonymousUser".equals(auth.getPrincipal())) {
+            if (auth.getPrincipal() instanceof User user) {
+                return user.getId();
+            }
             String username = auth.getName();
             Optional<User> u = userDataProvider.findByUsername(username);
             if (u.isPresent()) {

@@ -1,33 +1,34 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense, lazy } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import Sidebar from './components/Sidebar';
 import Header from './components/Header';
-import HomePage from './pages/HomePage';
-import FlashcardPage from './pages/FlashcardPage';
-import SearchPage from './pages/SearchPage';
-import DailyStudyPage from './pages/DailyStudyPage';
-import AuthPage from './pages/AuthPage';
-import VocabAdminPage from './pages/VocabAdminPage';
-import StudyStatsPage from './pages/StudyStatsPage';
 import { useAuth } from './context/AuthContext';
-
-import SrsListPage from './pages/SrsListPage';
 import FeedbackModal from './components/FeedbackModal';
-import FeedbackAdminPage from './pages/FeedbackAdminPage';
-import AiEnrichmentAdminPage from './pages/AiEnrichmentAdminPage';
 import AIChatWidget from './components/AIChatWidget';
-import KnowledgeBasePage from './pages/KnowledgeBasePage';
-import ConversationTutorPage from './pages/ConversationTutorPage';
-import ReviewHubPage from './pages/ReviewHubPage';
-import GamesHubPage from './pages/GamesHubPage';
-import MemoryMatchGame from './pages/MemoryMatchGame';
-import FallingWordsGame from './pages/FallingWordsGame';
-import WordConnectGame from './pages/WordConnectGame';
-import UserProfilePage from './pages/UserProfilePage';
-import AchievementsPage from './pages/AchievementsPage';
-import GrammarPage from './pages/GrammarPage';
-import MasterReviewPage from './pages/MasterReviewPage';
-import JlptN3Page from './pages/JlptN3Page';
+
+// Code Splitting via React.lazy
+const HomePage = lazy(() => import('./pages/HomePage'));
+const FlashcardPage = lazy(() => import('./pages/FlashcardPage'));
+const SearchPage = lazy(() => import('./pages/SearchPage'));
+const DailyStudyPage = lazy(() => import('./pages/DailyStudyPage'));
+const AuthPage = lazy(() => import('./pages/AuthPage'));
+const VocabAdminPage = lazy(() => import('./pages/VocabAdminPage'));
+const StudyStatsPage = lazy(() => import('./pages/StudyStatsPage'));
+const SrsListPage = lazy(() => import('./pages/SrsListPage'));
+const FeedbackAdminPage = lazy(() => import('./pages/FeedbackAdminPage'));
+const AiEnrichmentAdminPage = lazy(() => import('./pages/AiEnrichmentAdminPage'));
+const KnowledgeBasePage = lazy(() => import('./pages/KnowledgeBasePage'));
+const ConversationTutorPage = lazy(() => import('./pages/ConversationTutorPage'));
+const ReviewHubPage = lazy(() => import('./pages/ReviewHubPage'));
+const GamesHubPage = lazy(() => import('./pages/GamesHubPage'));
+const MemoryMatchGame = lazy(() => import('./pages/MemoryMatchGame'));
+const FallingWordsGame = lazy(() => import('./pages/FallingWordsGame'));
+const WordConnectGame = lazy(() => import('./pages/WordConnectGame'));
+const UserProfilePage = lazy(() => import('./pages/UserProfilePage'));
+const AchievementsPage = lazy(() => import('./pages/AchievementsPage'));
+const GrammarPage = lazy(() => import('./pages/GrammarPage'));
+const MasterReviewPage = lazy(() => import('./pages/MasterReviewPage'));
+const JlptN3Page = lazy(() => import('./pages/JlptN3Page'));
 
 const getTodayKey = () => new Date().toISOString().slice(0, 10);
 
@@ -501,7 +502,13 @@ function App() {
             onLogout={handleLogout}
           />
         )}
-        {renderPage()}
+        <Suspense fallback={
+          <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '50vh' }}>
+            <div style={{ width: '36px', height: '36px', border: '3px solid rgba(99, 102, 241, 0.2)', borderTopColor: '#6366f1', borderRadius: '50%', animation: 'spin 0.8s linear infinite' }} />
+          </div>
+        }>
+          {renderPage()}
+        </Suspense>
       </main>
       {showFeedbackModal && <FeedbackModal onClose={() => setShowFeedbackModal(false)} />}
       <AIChatWidget />

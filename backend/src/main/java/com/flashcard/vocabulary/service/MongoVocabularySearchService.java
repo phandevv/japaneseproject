@@ -29,7 +29,7 @@ public class MongoVocabularySearchService {
     public Page<VocabularyDoc> search(String keyword, Pageable pageable) {
         if (keyword == null || keyword.trim().isEmpty()) {
             Query query = new Query().with(pageable);
-            long total = mongoTemplate.count(new Query(), VocabularyDoc.class);
+            long total = mongoTemplate.getCollection("vocabularies").estimatedDocumentCount();
             List<VocabularyDoc> list = mongoTemplate.find(query, VocabularyDoc.class);
             return new PageImpl<>(list, pageable, total);
         }

@@ -1,6 +1,5 @@
 package com.flashcard.srs.provider;
 
-import com.flashcard.knowledge.model.GrammarCard;
 import com.flashcard.srs.model.*;
 import com.flashcard.user.model.User;
 import com.flashcard.vocabulary.model.Vocabulary;
@@ -28,6 +27,7 @@ public interface SrsDataProvider {
     Page<WordReview> findByUserAndLastReviewedAtBetweenAndRatingIn(User user, Instant start, Instant end, List<Integer> ratings, Pageable pageable);
     List<WordReview> findMorningReviewQueue(User user, Instant dueThreshold, Instant yesterdayStart, Instant yesterdayEnd);
     WordReview saveWordReview(WordReview review);
+    List<WordReview> saveAllWordReviews(List<WordReview> reviews);
     void saveReviewLog(ReviewLog log);
     void deleteWordReview(WordReview review);
     void deleteWordReviewsByVocabularies(List<Vocabulary> vocabularies);

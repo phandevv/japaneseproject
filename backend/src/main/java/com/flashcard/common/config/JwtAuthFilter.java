@@ -65,14 +65,23 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             if (type == null || "access".equals(type)) {
                 Long userId = jwt.getClaim("userId").asLong();
                 if (userId != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-                    userDataProvider.findById(userId).ifPresent(user -> {
-                        String userRole = user.getRole() != null ? user.getRole().toUpperCase() : "USER";
-                        SimpleGrantedAuthority authority = new SimpleGrantedAuthority("ROLE_" + userRole);
-                        var authToken = new UsernamePasswordAuthenticationToken(
-                                user, null, List.of(authority));
-                        authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                        SecurityContextHolder.getContext().setAuthentication(authToken);
-                    });
+                    // Extract claims directly from JWT — 100% stateless, zero DB query, zero memory cache
+                    String username = jwt.getClaim("username").asString();
+                    String roleClaim = jwt.getClaim("role").asString();
+                    String role = (roleClaim != null && !roleClaim.isBlank()) ? roleClaim.toUpperCase() : "USER";
+                    String displayName = jwt.getClaim("displayName").asString();
+
+                    User user = new User();
+                    user.setId(userId);
+                    user.setUsername(username != null ? username : "user" + userId);
+                    user.setRole(role);
+                    user.setDisplayName(displayName != null ? displayName : user.getUsername());
+
+                    SimpleGrantedAuthority authority = new SimpleGrantedAuthority("ROLE_" + role);
+                    var authToken = new UsernamePasswordAuthenticationToken(
+                            user, null, List.of(authority));
+                    authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                    SecurityContextHolder.getContext().setAuthentication(authToken);
                 }
             }
         } catch (JWTVerificationException ignored) {

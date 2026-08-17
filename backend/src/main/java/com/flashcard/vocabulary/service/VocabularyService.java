@@ -90,19 +90,28 @@ public class VocabularyService {
         return v;
     }
 
+    private final com.github.benmanes.caffeine.cache.Cache<String, Page<Vocabulary>> searchCache =
+            com.github.benmanes.caffeine.cache.Caffeine.newBuilder()
+                    .expireAfterWrite(java.time.Duration.ofMinutes(5))
+                    .maximumSize(1000)
+                    .build();
+
     @CacheEvict(value = {"vocabulary", "vocabulary-level"}, allEntries = true)
     public Vocabulary save(Vocabulary vocabulary) {
+        searchCache.invalidateAll();
         return dataProvider.save(vocabulary);
     }
 
     @CacheEvict(value = {"vocabulary", "vocabulary-level"}, allEntries = true)
     public void deleteById(Long id) {
+        searchCache.invalidateAll();
         dataProvider.deleteById(id);
     }
 
     @Transactional(readOnly = true)
     public Page<Vocabulary> search(String keyword, Pageable pageable) {
-        return dataProvider.search(keyword, pageable);
+        String key = (keyword == null ? "" : keyword.trim().toLowerCase()) + "_" + pageable.getPageNumber() + "_" + pageable.getPageSize();
+        return searchCache.get(key, k -> dataProvider.search(keyword, pageable));
     }
 
     public Map<String, Object> getStats() {

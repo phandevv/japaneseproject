@@ -13,6 +13,7 @@ import org.springframework.stereotype.Component;
 
 import java.time.Instant;
 import java.time.LocalDate;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -103,6 +104,12 @@ public class SrsJpaDataProvider implements SrsDataProvider {
     @Override
     public WordReview saveWordReview(WordReview review) {
         return wordReviewRepository.save(review);
+    }
+
+    @Override
+    public List<WordReview> saveAllWordReviews(List<WordReview> reviews) {
+        if (reviews == null || reviews.isEmpty()) return Collections.emptyList();
+        return wordReviewRepository.saveAll(reviews);
     }
 
     @Override

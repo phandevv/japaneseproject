@@ -25,6 +25,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Service
@@ -43,6 +44,24 @@ public class JlptN3CourseService {
 
     public void clearLessonCache() {
         lessonDataCache.clear();
+    }
+
+    @jakarta.annotation.PostConstruct
+    public void warmupLessonCache() {
+        // Asynchronously pre-populate in-memory cache for all lessons in the background
+        CompletableFuture.runAsync(() -> {
+            log.info("Starting background cache warmup for JLPT N3 lessons...");
+            for (int c = 1; c <= 9; c++) {
+                for (int l = 1; l <= 3; l++) {
+                    try {
+                        getLessonData(c, l);
+                    } catch (Exception e) {
+                        log.debug("Cache warmup skipped for Chapter {} Lesson {}: {}", c, l, e.getMessage());
+                    }
+                }
+            }
+            log.info("JLPT N3 lesson cache warmup completed! ({} lessons cached)", lessonDataCache.size());
+        });
     }
 
     @Autowired
@@ -66,7 +85,11 @@ public class JlptN3CourseService {
      * Resolve the JSON file location from filesystem if available.
      */
     private File getLessonJsonFile(int chapter, int lesson) {
-        String fileName = String.format("Chuong%d_Bai%d_Data.json", chapter, lesson);
+        String[] candidateFileNames = {
+            String.format("Chuong%d_Bai%d_Data_v2.json", chapter, lesson),
+            String.format("Chuong%d_Bai%d_Data_2.json", chapter, lesson),
+            String.format("Chuong%d_Bai%d_Data.json", chapter, lesson)
+        };
         String chapterDirName = String.format("Chuong %d", chapter);
 
         String[] candidateBaseDirs = {
@@ -77,10 +100,12 @@ public class JlptN3CourseService {
         };
 
         for (String baseDir : candidateBaseDirs) {
-            Path path = Paths.get(baseDir, chapterDirName, fileName);
-            File file = path.toFile();
-            if (file.exists() && file.isFile()) {
-                return file;
+            for (String fileName : candidateFileNames) {
+                Path path = Paths.get(baseDir, chapterDirName, fileName);
+                File file = path.toFile();
+                if (file.exists() && file.isFile()) {
+                    return file;
+                }
             }
         }
         return null;
@@ -101,16 +126,15 @@ public class JlptN3CourseService {
         return null;
     }
 
-    private boolean isLessonDataAvailable(int chapter, int lesson) {
+    private boolean isLessonDataAvailableFast(int chapter, int lesson, Set<String> dbAvailableCategories) {
         if (getUploadedFile(chapter, lesson) != null) return true;
         if (getLessonJsonFile(chapter, lesson) != null) return true;
         if (isResourceAvailable(chapter, lesson)) return true;
 
-        List<Vocabulary> dbVocabs = vocabularyDataProvider.getByLevel("N3_COURSE");
-        for (Vocabulary v : dbVocabs) {
-            if (v.getCategory() != null) {
-                String cat = v.getCategory();
-                if (cat.contains("Chương " + chapter) && cat.contains("Bài " + lesson)) {
+        if (dbAvailableCategories != null) {
+            String matchKey = "Chương " + chapter + " Bài " + lesson;
+            for (String cat : dbAvailableCategories) {
+                if (cat.contains(matchKey)) {
                     return true;
                 }
             }
@@ -127,6 +151,22 @@ public class JlptN3CourseService {
         for (JlptN3Progress p : userProgressList) {
             String key = p.getChapterId() + "_" + p.getLessonId();
             progressMap.put(key, p);
+        }
+
+        // Cache lesson availability in memory to avoid repeated DB scans
+        Set<String> dbCategories = null;
+        if (lessonDataCache.isEmpty()) {
+            dbCategories = new HashSet<>();
+            try {
+                List<Vocabulary> dbVocabs = vocabularyDataProvider.getByLevel("N3_COURSE");
+                for (Vocabulary v : dbVocabs) {
+                    if (v.getCategory() != null) {
+                        dbCategories.add(v.getCategory());
+                    }
+                }
+            } catch (Exception e) {
+                log.warn("Failed to prefetch DB categories for overview: {}", e.getMessage());
+            }
         }
 
         List<Map<String, Object>> chapters = new ArrayList<>();
@@ -147,7 +187,7 @@ public class JlptN3CourseService {
                 lessonData.put("chapterId", c);
                 lessonData.put("title", "Bài " + l);
 
-                boolean available = isLessonDataAvailable(c, l);
+                boolean available = isLessonDataAvailableFast(c, l, dbCategories);
                 lessonData.put("available", available);
 
                 String key = c + "_" + l;
@@ -328,7 +368,7 @@ public class JlptN3CourseService {
         // BATCH PRE-FETCH: Fetch all existing vocabs, kanjis, and grammars in 3 single queries (eliminates N+1 DB calls)
         List<Vocabulary> existingVocabs = vocabularyDataProvider.findByCategory(vocabCategory);
         List<Vocabulary> existingKanjis = vocabularyDataProvider.findByCategory(kanjiCategory);
-        List<GrammarCard> existingGrammars = knowledgeDataProvider.findGrammarByJlpt("N3");
+        List<GrammarCard> existingGrammars = knowledgeDataProvider.findGrammarByJlptAndWeekAndDay("N3", "Chương " + chapter, "Bài " + lesson);
 
         Map<String, Vocabulary> vocabMap = new HashMap<>();
         for (Vocabulary v : existingVocabs) {

@@ -19,15 +19,26 @@ public class SrsService {
     private final VocabularyDataProvider vocabularyDataProvider;
     private final StudySessionHelper studySessionHelper;
     private final SpacedRepetitionAlgorithm spacedRepetitionAlgorithm;
+    private final WordReviewBatchService wordReviewBatchService;
 
     public SrsService(SrsDataProvider srsDataProvider,
                       VocabularyDataProvider vocabularyDataProvider,
                       StudySessionHelper studySessionHelper,
                       SpacedRepetitionAlgorithm spacedRepetitionAlgorithm) {
+        this(srsDataProvider, vocabularyDataProvider, studySessionHelper, spacedRepetitionAlgorithm, new WordReviewBatchService(srsDataProvider));
+    }
+
+    @org.springframework.beans.factory.annotation.Autowired
+    public SrsService(SrsDataProvider srsDataProvider,
+                      VocabularyDataProvider vocabularyDataProvider,
+                      StudySessionHelper studySessionHelper,
+                      SpacedRepetitionAlgorithm spacedRepetitionAlgorithm,
+                      WordReviewBatchService wordReviewBatchService) {
         this.srsDataProvider = srsDataProvider;
         this.vocabularyDataProvider = vocabularyDataProvider;
         this.studySessionHelper = studySessionHelper;
         this.spacedRepetitionAlgorithm = spacedRepetitionAlgorithm;
+        this.wordReviewBatchService = wordReviewBatchService;
     }
 
     /**
@@ -62,8 +73,11 @@ public class SrsService {
         Vocabulary vocab = vocabularyDataProvider.getById(vocabularyId)
                 .orElseThrow(() -> new IllegalArgumentException("Vocabulary word not found"));
 
-        WordReview review = srsDataProvider.findByUserAndVocabulary(user, vocab)
-                .orElseGet(() -> new WordReview(user, vocab));
+        WordReview review = wordReviewBatchService.getPendingReview(user != null ? user.getId() : null, vocab.getId());
+        if (review == null) {
+            review = srsDataProvider.findByUserAndVocabulary(user, vocab)
+                    .orElseGet(() -> new WordReview(user, vocab));
+        }
 
         ReviewRating rating = ReviewRating.fromValue(quality);
 
@@ -73,18 +87,18 @@ public class SrsService {
 
         spacedRepetitionAlgorithm.calculateNextState(review, rating);
 
-        WordReview savedReview = srsDataProvider.saveWordReview(review);
-
         // Create Review Log
-        ReviewLog reviewLog = new ReviewLog(savedReview, rating);
+        ReviewLog reviewLog = new ReviewLog(review, rating);
         reviewLog.setStateBefore(stateBefore);
-        reviewLog.setStateAfter(savedReview.getState());
+        reviewLog.setStateAfter(review.getState());
         reviewLog.setDifficultyBefore(difficultyBefore);
-        reviewLog.setDifficultyAfter(savedReview.getDifficulty());
+        reviewLog.setDifficultyAfter(review.getDifficulty());
         reviewLog.setStabilityBefore(stabilityBefore);
-        reviewLog.setStabilityAfter(savedReview.getStability());
+        reviewLog.setStabilityAfter(review.getStability());
         reviewLog.setDurationMs(0);
-        srsDataProvider.saveReviewLog(reviewLog);
+
+        // Enqueue to batch service (write-behind flush in batches)
+        wordReviewBatchService.queueWordReview(review, reviewLog);
 
         // Sync wordsStudied count for today's StudySession
         java.time.ZoneId zone = java.time.ZoneId.of("Asia/Ho_Chi_Minh");
@@ -96,7 +110,7 @@ public class SrsService {
 
         updateStudySessionWithRetry(user, nowZoned.toLocalDate(), (int) uniqueCount, null, null, null);
 
-        return savedReview;
+        return review;
     }
 
     private void updateStudySessionWithRetry(User user, java.time.LocalDate date, int wordsStudied, Integer addCorrect, Integer addTotal, Boolean freeze) {
