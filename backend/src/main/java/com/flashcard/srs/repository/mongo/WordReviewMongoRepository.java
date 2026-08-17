@@ -26,7 +26,7 @@ public interface WordReviewMongoRepository extends MongoRepository<WordReviewDoc
 
     List<WordReviewDoc> findByUserId(Long userId);
 
-    @Query("{'userId': ?0, 'lastReviewedAt': {'$gte': ?1, '$lt': ?2}, 'lastRating': {'$gte': 3}}")
+    @Query(value = "{'userId': ?0, 'lastReviewedAt': {'$gte': ?1, '$lt': ?2}, 'lastRating': {'$gte': 3}}", count = true)
     long countUniqueReviewedToday(Long userId, Instant start, Instant end);
 
     Page<WordReviewDoc> findByUserIdAndLastReviewedAtBetween(Long userId, Instant start, Instant end, Pageable pageable);
