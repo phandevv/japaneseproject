@@ -2,7 +2,7 @@ package com.flashcard.user.service;
 
 import com.flashcard.user.model.User;
 import com.flashcard.user.model.UserSetting;
-import com.flashcard.user.repository.UserSettingRepository;
+import com.flashcard.user.provider.UserDataProvider;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -11,15 +11,15 @@ import java.util.Optional;
 @Service
 public class UserSettingService {
 
-    private final UserSettingRepository settingRepository;
+    private final UserDataProvider userDataProvider;
 
-    public UserSettingService(UserSettingRepository settingRepository) {
-        this.settingRepository = settingRepository;
+    public UserSettingService(UserDataProvider userDataProvider) {
+        this.userDataProvider = userDataProvider;
     }
 
     @Transactional(readOnly = true)
     public int getWordsPerDay(User user, String level) {
-        Optional<UserSetting> settingOpt = settingRepository.findByUserAndLevel(user, level);
+        Optional<UserSetting> settingOpt = userDataProvider.getSettingByUserAndLevel(user, level);
         return settingOpt.map(UserSetting::getWordsPerDay).orElse(20);
     }
 
@@ -28,7 +28,7 @@ public class UserSettingService {
         if (wordsPerDay <= 0) {
             throw new IllegalArgumentException("Words per day must be greater than 0");
         }
-        Optional<UserSetting> settingOpt = settingRepository.findByUserAndLevel(user, level);
+        Optional<UserSetting> settingOpt = userDataProvider.getSettingByUserAndLevel(user, level);
         UserSetting setting;
         if (settingOpt.isPresent()) {
             setting = settingOpt.get();
@@ -36,17 +36,17 @@ public class UserSettingService {
         } else {
             setting = new UserSetting(user, level, wordsPerDay);
         }
-        return settingRepository.save(setting);
+        return userDataProvider.saveSetting(setting);
     }
 
     @Transactional(readOnly = true)
     public UserSetting getSettingEntity(User user, String level) {
-        return settingRepository.findByUserAndLevel(user, level).orElse(null);
+        return userDataProvider.getSettingByUserAndLevel(user, level).orElse(null);
     }
 
     @Transactional
     public UserSetting markDayCompleted(User user, String level, int day) {
-        UserSetting setting = settingRepository.findByUserAndLevel(user, level)
+        UserSetting setting = userDataProvider.getSettingByUserAndLevel(user, level)
                 .orElseGet(() -> new UserSetting(user, level, 20));
         String days = setting.getCompletedDays();
         if (days == null) {
@@ -58,7 +58,6 @@ public class UserSettingService {
         }
         daySet.add(String.valueOf(day));
         setting.setCompletedDays(String.join(",", daySet));
-        return settingRepository.save(setting);
+        return userDataProvider.saveSetting(setting);
     }
 }
-

@@ -4,16 +4,16 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.flashcard.knowledge.model.GrammarCard;
 import com.flashcard.knowledge.model.KnowledgeVersion;
-import com.flashcard.vocabulary.model.Vocabulary;
-import com.flashcard.user.model.User;
-import com.flashcard.srs.model.WordReview;
+import com.flashcard.knowledge.provider.KnowledgeDataProvider;
 import com.flashcard.srs.model.GrammarReview;
-import com.flashcard.knowledge.repository.GrammarCardRepository;
-import com.flashcard.knowledge.repository.KnowledgeVersionRepository;
-import com.flashcard.vocabulary.repository.VocabularyRepository;
-import com.flashcard.srs.repository.WordReviewRepository;
-import com.flashcard.srs.repository.GrammarReviewRepository;
-import com.flashcard.user.repository.UserRepository;
+import com.flashcard.srs.model.WordReview;
+import com.flashcard.srs.provider.SrsDataProvider;
+import com.flashcard.srs.service.GrammarSrsService;
+import com.flashcard.srs.service.SrsService;
+import com.flashcard.user.model.User;
+import com.flashcard.user.provider.UserDataProvider;
+import com.flashcard.vocabulary.model.Vocabulary;
+import com.flashcard.vocabulary.provider.VocabularyDataProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,27 +25,19 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.time.Duration;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.concurrent.Semaphore;
 import java.util.stream.Collectors;
-
-import com.flashcard.srs.service.SrsService;
-import com.flashcard.srs.service.GrammarSrsService;
 
 @Service
 public class KnowledgeService {
 
     private static final Logger log = LoggerFactory.getLogger(KnowledgeService.class);
 
-    private final VocabularyRepository vocabularyRepository;
-    private final GrammarCardRepository grammarCardRepository;
-    private final KnowledgeVersionRepository knowledgeVersionRepository;
-    private final WordReviewRepository wordReviewRepository;
-    private final GrammarReviewRepository grammarReviewRepository;
-    private final UserRepository userRepository;
+    private final VocabularyDataProvider vocabularyDataProvider;
+    private final KnowledgeDataProvider knowledgeDataProvider;
+    private final SrsDataProvider srsDataProvider;
+    private final UserDataProvider userDataProvider;
     private final ObjectMapper objectMapper;
     private final HttpClient httpClient;
     private final SrsService srsService;
@@ -56,34 +48,20 @@ public class KnowledgeService {
     // Bulkhead to protect AI APIs
     private final Semaphore bulkheadSemaphore = new Semaphore(50);
 
-    public KnowledgeService(VocabularyRepository vocabularyRepository,
-                            GrammarCardRepository grammarCardRepository,
-                            KnowledgeVersionRepository knowledgeVersionRepository,
-                            WordReviewRepository wordReviewRepository,
-                            GrammarReviewRepository grammarReviewRepository,
-                            UserRepository userRepository,
-                            ObjectMapper objectMapper) {
-        this(vocabularyRepository, grammarCardRepository, knowledgeVersionRepository, wordReviewRepository, grammarReviewRepository, userRepository, objectMapper, null, null, null, null);
-    }
-
     @Autowired
-    public KnowledgeService(VocabularyRepository vocabularyRepository,
-                            GrammarCardRepository grammarCardRepository,
-                            KnowledgeVersionRepository knowledgeVersionRepository,
-                            WordReviewRepository wordReviewRepository,
-                            GrammarReviewRepository grammarReviewRepository,
-                            UserRepository userRepository,
+    public KnowledgeService(VocabularyDataProvider vocabularyDataProvider,
+                            KnowledgeDataProvider knowledgeDataProvider,
+                            SrsDataProvider srsDataProvider,
+                            UserDataProvider userDataProvider,
                             ObjectMapper objectMapper,
                             @Autowired(required = false) SrsService srsService,
                             @Autowired(required = false) GrammarSrsService grammarSrsService,
                             @Autowired(required = false) DeepSeekEnrichmentService deepSeekEnrichmentService,
                             @Autowired(required = false) AiEnrichmentQueueService aiEnrichmentQueueService) {
-        this.vocabularyRepository = vocabularyRepository;
-        this.grammarCardRepository = grammarCardRepository;
-        this.knowledgeVersionRepository = knowledgeVersionRepository;
-        this.wordReviewRepository = wordReviewRepository;
-        this.grammarReviewRepository = grammarReviewRepository;
-        this.userRepository = userRepository;
+        this.vocabularyDataProvider = vocabularyDataProvider;
+        this.knowledgeDataProvider = knowledgeDataProvider;
+        this.srsDataProvider = srsDataProvider;
+        this.userDataProvider = userDataProvider;
         this.srsService = srsService;
         this.grammarSrsService = grammarSrsService;
         this.deepSeekEnrichmentService = deepSeekEnrichmentService;
@@ -154,14 +132,14 @@ public class KnowledgeService {
             boolean exists = false;
             Long id = null;
             if ("grammar".equalsIgnoreCase(type)) {
-                Optional<GrammarCard> gc = grammarCardRepository.findByGrammar(normalized);
+                Optional<GrammarCard> gc = knowledgeDataProvider.findGrammarByGrammar(normalized);
                 exists = gc.isPresent();
                 if (exists) id = gc.get().getId();
             } else {
                 // Find by Kanji or Hiragana
-                Optional<Vocabulary> vc = vocabularyRepository.findFirstByKanji(normalized);
+                Optional<Vocabulary> vc = vocabularyDataProvider.findFirstByKanji(normalized);
                 if (vc.isEmpty()) {
-                    vc = vocabularyRepository.findFirstByHiragana(normalized);
+                    vc = vocabularyDataProvider.findFirstByHiragana(normalized);
                 }
                 exists = vc.isPresent();
                 if (exists) id = vc.get().getId();
@@ -185,12 +163,9 @@ public class KnowledgeService {
         String trimmed = input.trim();
 
         // 1. Fast Local DB Lookup check (< 5ms)
-        Optional<Vocabulary> existingVocab = vocabularyRepository.findFirstByKanji(trimmed);
+        Optional<Vocabulary> existingVocab = vocabularyDataProvider.findFirstByKanji(trimmed);
         if (existingVocab.isEmpty()) {
-            existingVocab = vocabularyRepository.findFirstByHiragana(trimmed);
-        }
-        if (existingVocab.isEmpty()) {
-            existingVocab = vocabularyRepository.findFirstByRomaji(trimmed);
+            existingVocab = vocabularyDataProvider.findFirstByHiragana(trimmed);
         }
         if (existingVocab.isPresent()) {
             Vocabulary v = existingVocab.get();
@@ -236,7 +211,7 @@ public class KnowledgeService {
             return res;
         }
 
-        Optional<GrammarCard> existingGrammar = grammarCardRepository.findByGrammar(trimmed);
+        Optional<GrammarCard> existingGrammar = knowledgeDataProvider.findGrammarByGrammar(trimmed);
         if (existingGrammar.isPresent()) {
             GrammarCard g = existingGrammar.get();
 
@@ -269,7 +244,7 @@ public class KnowledgeService {
                             JsonNode contentNode = objectMapper.readTree(contentStr);
                             if (contentNode.has("usageGuide")) {
                                 g.setUsageGuide(contentNode.path("usageGuide").asText());
-                                grammarCardRepository.save(g);
+                                knowledgeDataProvider.saveGrammar(g);
                             }
                         }
                     }
@@ -314,7 +289,7 @@ public class KnowledgeService {
             String prompt = String.format(
                 "Bạn là từ điển tiếng Nhật cao cấp. Hãy phân tích từ vựng/ngữ pháp \"%s\" và trả về duy nhất 1 JSON raw bằng tiếng Việt:\n" +
                 "{\n" +
-                "  \"type\": \"vocabulary\",\n" +
+                "  \"type\": \"vocabulary hoặc grammar\",\n" +
                 "  \"normalizedInput\": \"%s\",\n" +
                 "  \"word\": \"%s\",\n" +
                 "  \"reading\": \"hiragana/katakana cách đọc chính xác\",\n" +
@@ -376,13 +351,13 @@ public class KnowledgeService {
                 boolean exists = false;
                 Long id = null;
                 if ("grammar".equalsIgnoreCase(type)) {
-                    Optional<GrammarCard> gc = grammarCardRepository.findByGrammar(normalized);
+                    Optional<GrammarCard> gc = knowledgeDataProvider.findGrammarByGrammar(normalized);
                     exists = gc.isPresent();
                     if (exists) id = gc.get().getId();
                 } else {
-                    Optional<Vocabulary> vc = vocabularyRepository.findFirstByKanji(normalized);
+                    Optional<Vocabulary> vc = vocabularyDataProvider.findFirstByKanji(normalized);
                     if (vc.isEmpty()) {
-                        vc = vocabularyRepository.findFirstByHiragana(normalized);
+                        vc = vocabularyDataProvider.findFirstByHiragana(normalized);
                     }
                     exists = vc.isPresent();
                     if (exists) id = vc.get().getId();
@@ -963,15 +938,15 @@ public class KnowledgeService {
         // Deduplication Check (Smart matching by Kanji and Hiragana columns to avoid double insert)
         Optional<Vocabulary> existing = Optional.empty();
         if (word != null && !word.trim().isEmpty()) {
-            existing = vocabularyRepository.findFirstByKanji(word.trim());
+            existing = vocabularyDataProvider.findFirstByKanji(word.trim());
             if (existing.isEmpty()) {
-                existing = vocabularyRepository.findFirstByHiragana(word.trim());
+                existing = vocabularyDataProvider.findFirstByHiragana(word.trim());
             }
         }
         if (existing.isEmpty() && reading != null && !reading.trim().isEmpty()) {
-            existing = vocabularyRepository.findFirstByHiragana(reading.trim());
+            existing = vocabularyDataProvider.findFirstByHiragana(reading.trim());
             if (existing.isEmpty()) {
-                existing = vocabularyRepository.findFirstByKanji(reading.trim());
+                existing = vocabularyDataProvider.findFirstByKanji(reading.trim());
             }
         }
 
@@ -1025,15 +1000,15 @@ public class KnowledgeService {
             vocab.setSampleTranslation(sampleTranslation);
         }
 
-        Vocabulary savedVocab = vocabularyRepository.save(vocab);
+        Vocabulary savedVocab = vocabularyDataProvider.save(vocab);
 
         // Check if WordReview link exists
-        User managedUser = userRepository.findById(user.getId())
+        User managedUser = userDataProvider.findById(user.getId())
                 .orElseThrow(() -> new IllegalArgumentException("Không tìm thấy người dùng."));
-        Optional<WordReview> existingReview = wordReviewRepository.findByUserAndVocabulary(managedUser, savedVocab);
+        Optional<WordReview> existingReview = srsDataProvider.findByUserAndVocabulary(managedUser, savedVocab);
         if (existingReview.isEmpty()) {
             WordReview newReview = new WordReview(managedUser, savedVocab);
-            wordReviewRepository.save(newReview);
+            srsDataProvider.saveWordReview(newReview);
 
             // Auto-mark with quality 1 for newly added items only
             if (srsService != null) {
@@ -1067,7 +1042,7 @@ public class KnowledgeService {
         String readingPassage = (String) data.get("readingPassage");
         String quizzes = objectMapper.writeValueAsString(data.get("quizzes"));
 
-        Optional<GrammarCard> existing = grammarCardRepository.findByGrammar(grammar);
+        Optional<GrammarCard> existing = knowledgeDataProvider.findGrammarByGrammar(grammar);
         GrammarCard grammarCard;
 
         boolean isAdminUser = isAdmin(user);
@@ -1112,15 +1087,15 @@ public class KnowledgeService {
             grammarCard.setLessonTitle((String) data.get("lessonTitle"));
         }
 
-        GrammarCard savedGrammar = grammarCardRepository.save(grammarCard);
+        GrammarCard savedGrammar = knowledgeDataProvider.saveGrammar(grammarCard);
 
         // Check if GrammarReview link exists
-        User managedUser = userRepository.findById(user.getId())
+        User managedUser = userDataProvider.findById(user.getId())
                 .orElseThrow(() -> new IllegalArgumentException("Không tìm thấy người dùng."));
-        Optional<GrammarReview> existingReview = grammarReviewRepository.findByUserIdAndGrammarCardId(managedUser.getId(), savedGrammar.getId());
+        Optional<GrammarReview> existingReview = srsDataProvider.findGrammarReview(managedUser.getId(), savedGrammar.getId());
         if (existingReview.isEmpty()) {
             GrammarReview newReview = new GrammarReview(managedUser, savedGrammar);
-            grammarReviewRepository.save(newReview);
+            srsDataProvider.saveGrammarReview(newReview);
 
             // Auto-mark with quality 1 for newly added items only
             if (grammarSrsService != null) {
@@ -1137,7 +1112,7 @@ public class KnowledgeService {
 
     private String getLastWeekNameForJlpt(String jlpt) {
         String level = (jlpt != null && !jlpt.isEmpty()) ? jlpt : "N3";
-        List<String> weeks = grammarCardRepository.findDistinctWeeksByJlpt(level);
+        List<String> weeks = knowledgeDataProvider.findDistinctWeeksByJlpt(level);
         if (weeks != null && !weeks.isEmpty()) {
             return weeks.get(weeks.size() - 1);
         }
@@ -1146,7 +1121,7 @@ public class KnowledgeService {
 
     private String getLastDayNameForWeek(String jlpt, String weekName) {
         String level = (jlpt != null && !jlpt.isEmpty()) ? jlpt : "N3";
-        List<String> days = grammarCardRepository.findDistinctDaysByJlptAndWeek(level, weekName);
+        List<String> days = knowledgeDataProvider.findDistinctDaysByJlptAndWeek(level, weekName);
         if (days != null && !days.isEmpty()) {
             return days.get(days.size() - 1);
         }
@@ -1158,14 +1133,13 @@ public class KnowledgeService {
      */
     private void saveVersionHistory(String type, Long id, Object entity, String operator) {
         try {
-            List<KnowledgeVersion> versions = knowledgeVersionRepository
-                    .findByEntityTypeAndEntityIdOrderByVersionNumberDesc(type, id);
+            List<KnowledgeVersion> versions = knowledgeDataProvider.findVersions(type, id);
             int nextVersionNum = versions.isEmpty() ? 1 : versions.get(0).getVersionNumber() + 1;
 
             String contentJson = objectMapper.writeValueAsString(entity);
 
             KnowledgeVersion kv = new KnowledgeVersion(type, id, nextVersionNum, contentJson, operator);
-            knowledgeVersionRepository.save(kv);
+            knowledgeDataProvider.saveVersion(kv);
         } catch (Exception e) {
             log.error("Failed to save history version: {}", e.getMessage());
         }
@@ -1184,8 +1158,9 @@ public class KnowledgeService {
      */
     @Transactional(readOnly = true)
     public List<Vocabulary> getSavedVocabulary(User user) {
-        return wordReviewRepository.findAllByUserFetchVocabulary(user).stream()
+        return srsDataProvider.findAllByUser(user).stream()
                 .map(WordReview::getVocabulary)
+                .filter(Objects::nonNull)
                 .collect(Collectors.toList());
     }
 
@@ -1194,8 +1169,9 @@ public class KnowledgeService {
      */
     @Transactional(readOnly = true)
     public List<GrammarCard> getSavedGrammar(User user) {
-        return grammarReviewRepository.findByUserIdFetchGrammarCard(user.getId()).stream()
+        return srsDataProvider.findGrammarReviewsByUser(user.getId()).stream()
                 .map(GrammarReview::getGrammarCard)
+                .filter(Objects::nonNull)
                 .collect(Collectors.toList());
     }
 
@@ -1204,10 +1180,10 @@ public class KnowledgeService {
      */
     @Transactional
     public void deleteSavedVocabulary(User user, Long vocabId) {
-        Vocabulary vocab = vocabularyRepository.findById(vocabId)
+        Vocabulary vocab = vocabularyDataProvider.getById(vocabId)
                 .orElseThrow(() -> new IllegalArgumentException("Từ vựng không tồn tại."));
-        wordReviewRepository.findByUserAndVocabulary(user, vocab)
-                .ifPresent(wordReviewRepository::delete);
+        srsDataProvider.findByUserAndVocabulary(user, vocab)
+                .ifPresent(srsDataProvider::deleteWordReview);
     }
 
     /**
@@ -1215,8 +1191,8 @@ public class KnowledgeService {
      */
     @Transactional
     public void deleteSavedGrammar(User user, Long grammarId) {
-        grammarReviewRepository.findByUserIdAndGrammarCardId(user.getId(), grammarId)
-                .ifPresent(grammarReviewRepository::delete);
+        srsDataProvider.findGrammarReview(user.getId(), grammarId)
+                .ifPresent(srsDataProvider::deleteGrammarReview);
     }
 
     /**
@@ -1228,7 +1204,7 @@ public class KnowledgeService {
                 log.info("Starting background full AI enrichment for type: {}, id: {}, term: {}", type, id, term);
                 if ("grammar".equalsIgnoreCase(type)) {
                     Map<String, Object> fullData = enrichGrammar(term);
-                    Optional<GrammarCard> optCard = grammarCardRepository.findById(id);
+                    Optional<GrammarCard> optCard = knowledgeDataProvider.findGrammarById(id);
                     if (optCard.isPresent()) {
                         GrammarCard card = optCard.get();
                         String usageDesc = (String) fullData.get("usageDesc");
@@ -1251,12 +1227,12 @@ public class KnowledgeService {
                         if (readingPassage != null && !readingPassage.trim().isEmpty()) card.setReadingPassage(readingPassage);
                         if (quizzes != null && !quizzes.trim().isEmpty() && !"null".equalsIgnoreCase(quizzes)) card.setQuizzes(quizzes);
 
-                        grammarCardRepository.save(card);
+                        knowledgeDataProvider.saveGrammar(card);
                         log.info("Completed background full AI enrichment for GrammarCard ID: {}", id);
                     }
                 } else {
                     Map<String, Object> fullData = enrichVocabulary(term);
-                    Optional<Vocabulary> optVocab = vocabularyRepository.findById(id);
+                    Optional<Vocabulary> optVocab = vocabularyDataProvider.getById(id);
                     if (optVocab.isPresent()) {
                         Vocabulary vocab = optVocab.get();
                         String pitchAccent = (String) fullData.get("pitchAccent");
@@ -1287,7 +1263,7 @@ public class KnowledgeService {
                         if (conversationExamples != null && !conversationExamples.trim().isEmpty() && !"null".equalsIgnoreCase(conversationExamples)) vocab.setConversationExamples(conversationExamples);
                         if (exampleSentencesJson != null && !exampleSentencesJson.trim().isEmpty() && !"null".equalsIgnoreCase(exampleSentencesJson)) vocab.setExampleSentences(exampleSentencesJson);
 
-                        vocabularyRepository.save(vocab);
+                        vocabularyDataProvider.save(vocab);
                         log.info("Completed background full AI enrichment for Vocabulary ID: {}", id);
                     }
                 }

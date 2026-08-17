@@ -16,6 +16,10 @@ public interface GrammarCardRepository extends JpaRepository<GrammarCard, Long> 
     Optional<GrammarCard> findByGrammar(String grammar);
 
     List<GrammarCard> findByJlpt(String jlpt);
+    Page<GrammarCard> findByJlpt(String jlpt, Pageable pageable);
+
+    @Query("SELECT g FROM GrammarCard g WHERE LOWER(g.grammar) LIKE LOWER(CONCAT('%', :kw, '%')) OR LOWER(g.meaning) LIKE LOWER(CONCAT('%', :kw, '%'))")
+    Page<GrammarCard> searchByKeyword(@Param("kw") String keyword, Pageable pageable);
 
     List<GrammarCard> findByJlptAndWeekName(String jlpt, String weekName);
 

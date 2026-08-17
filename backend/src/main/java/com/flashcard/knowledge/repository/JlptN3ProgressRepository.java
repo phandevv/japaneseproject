@@ -11,6 +11,6 @@ import java.util.Optional;
 public interface JlptN3ProgressRepository extends JpaRepository<JlptN3Progress, Long> {
 
     List<JlptN3Progress> findByUserId(Long userId);
-
+    List<JlptN3Progress> findByUserIdAndChapterId(Long userId, Integer chapterId);
     Optional<JlptN3Progress> findByUserIdAndChapterIdAndLessonId(Long userId, Integer chapterId, Integer lessonId);
 }

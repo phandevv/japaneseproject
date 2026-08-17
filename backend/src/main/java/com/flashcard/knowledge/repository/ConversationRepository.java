@@ -14,6 +14,7 @@ import java.util.Optional;
 public interface ConversationRepository extends JpaRepository<Conversation, Long> {
 
     List<Conversation> findByUserIdOrderByCreatedAtDesc(Long userId);
+    Optional<Conversation> findByIdAndUserId(Long id, Long userId);
 
     @Query("SELECT c FROM Conversation c WHERE c.user.id = :userId AND c.status = 'ACTIVE'")
     Optional<Conversation> findActiveConversationByUserId(@Param("userId") Long userId);

@@ -9,5 +9,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface FeedbackRepository extends JpaRepository<Feedback, Long> {
     Page<Feedback> findAllByOrderByCreatedAtDesc(Pageable pageable);
+    java.util.List<Feedback> findByUserIdOrderByCreatedAtDesc(Long userId);
+    java.util.List<Feedback> findByStatusOrderByCreatedAtDesc(String status);
 }
 

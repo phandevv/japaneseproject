@@ -1,8 +1,8 @@
 package com.flashcard.srs.service;
 
-import com.flashcard.user.model.User;
 import com.flashcard.srs.model.StudySession;
-import com.flashcard.srs.repository.StudySessionRepository;
+import com.flashcard.srs.provider.SrsDataProvider;
+import com.flashcard.user.model.User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,17 +12,17 @@ import java.time.LocalDate;
 @Service
 public class StudySessionHelper {
 
-    private final StudySessionRepository sessionRepository;
+    private final SrsDataProvider srsDataProvider;
 
-    public StudySessionHelper(StudySessionRepository sessionRepository) {
-        this.sessionRepository = sessionRepository;
+    public StudySessionHelper(SrsDataProvider srsDataProvider) {
+        this.srsDataProvider = srsDataProvider;
     }
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public StudySession saveOrUpdateSessionWithNewTransaction(User user, LocalDate date, int wordsStudied, Integer addCorrect, Integer addTotal, Boolean freeze) {
-        StudySession session = sessionRepository.findByUserAndStudyDate(user, date)
+        StudySession session = srsDataProvider.findStudySession(user, date)
                 .orElseGet(() -> new StudySession(user, date));
-        
+
         session.setWordsStudied(wordsStudied);
         if (addCorrect != null) {
             session.setCorrectAnswers(session.getCorrectAnswers() + addCorrect);
@@ -33,8 +33,7 @@ public class StudySessionHelper {
         if (freeze != null) {
             session.setStreakFrozen(freeze);
         }
-        
-        return sessionRepository.saveAndFlush(session);
+
+        return srsDataProvider.saveStudySession(session);
     }
 }
-

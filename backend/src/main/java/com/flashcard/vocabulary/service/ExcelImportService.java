@@ -1,7 +1,7 @@
 package com.flashcard.vocabulary.service;
 
 import com.flashcard.vocabulary.model.Vocabulary;
-import com.flashcard.vocabulary.repository.VocabularyRepository;
+import com.flashcard.vocabulary.provider.VocabularyDataProvider;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.slf4j.Logger;
@@ -17,10 +17,10 @@ import java.util.List;
 public class ExcelImportService {
 
     private static final Logger logger = LoggerFactory.getLogger(ExcelImportService.class);
-    private final VocabularyRepository repository;
+    private final VocabularyDataProvider dataProvider;
 
-    public ExcelImportService(VocabularyRepository repository) {
-        this.repository = repository;
+    public ExcelImportService(VocabularyDataProvider dataProvider) {
+        this.dataProvider = dataProvider;
     }
 
     public int importExcelFile(MultipartFile file) throws Exception {
@@ -40,7 +40,7 @@ public class ExcelImportService {
             int batchSize = 500;
             for (int i = 0; i < allVocab.size(); i += batchSize) {
                 int end = Math.min(i + batchSize, allVocab.size());
-                repository.saveAll(allVocab.subList(i, end));
+                dataProvider.saveAll(allVocab.subList(i, end));
             }
 
             logger.info("Total vocabulary loaded: {}", allVocab.size());

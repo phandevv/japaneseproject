@@ -5,12 +5,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.flashcard.knowledge.model.GrammarCard;
 import com.flashcard.knowledge.model.JlptN3GrammarQuiz;
 import com.flashcard.knowledge.model.JlptN3Progress;
-import com.flashcard.knowledge.repository.GrammarCardRepository;
-import com.flashcard.knowledge.repository.JlptN3GrammarQuizRepository;
-import com.flashcard.knowledge.repository.JlptN3ProgressRepository;
-import com.flashcard.srs.repository.WordReviewRepository;
+import com.flashcard.knowledge.provider.JlptN3DataProvider;
+import com.flashcard.knowledge.provider.KnowledgeDataProvider;
+import com.flashcard.srs.provider.SrsDataProvider;
 import com.flashcard.vocabulary.model.Vocabulary;
-import com.flashcard.vocabulary.repository.VocabularyRepository;
+import com.flashcard.vocabulary.provider.VocabularyDataProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +23,6 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -33,29 +31,26 @@ public class JlptN3CourseService {
 
     private static final Logger log = LoggerFactory.getLogger(JlptN3CourseService.class);
 
-    private final JlptN3ProgressRepository progressRepository;
-    private final VocabularyRepository vocabularyRepository;
-    private final GrammarCardRepository grammarCardRepository;
-    private final WordReviewRepository wordReviewRepository;
-    private final JlptN3GrammarQuizRepository grammarQuizRepository;
+    private final JlptN3DataProvider jlptN3DataProvider;
+    private final VocabularyDataProvider vocabularyDataProvider;
+    private final KnowledgeDataProvider knowledgeDataProvider;
+    private final SrsDataProvider srsDataProvider;
     private final DeepSeekEnrichmentService enrichmentService;
     private final AiEnrichmentQueueService aiEnrichmentQueueService;
     private final ObjectMapper objectMapper;
 
     @Autowired
-    public JlptN3CourseService(JlptN3ProgressRepository progressRepository,
-                               VocabularyRepository vocabularyRepository,
-                               GrammarCardRepository grammarCardRepository,
-                               WordReviewRepository wordReviewRepository,
-                               JlptN3GrammarQuizRepository grammarQuizRepository,
+    public JlptN3CourseService(JlptN3DataProvider jlptN3DataProvider,
+                               VocabularyDataProvider vocabularyDataProvider,
+                               KnowledgeDataProvider knowledgeDataProvider,
+                               SrsDataProvider srsDataProvider,
                                DeepSeekEnrichmentService enrichmentService,
                                @Autowired(required = false) AiEnrichmentQueueService aiEnrichmentQueueService,
                                ObjectMapper objectMapper) {
-        this.progressRepository = progressRepository;
-        this.vocabularyRepository = vocabularyRepository;
-        this.grammarCardRepository = grammarCardRepository;
-        this.wordReviewRepository = wordReviewRepository;
-        this.grammarQuizRepository = grammarQuizRepository;
+        this.jlptN3DataProvider = jlptN3DataProvider;
+        this.vocabularyDataProvider = vocabularyDataProvider;
+        this.knowledgeDataProvider = knowledgeDataProvider;
+        this.srsDataProvider = srsDataProvider;
         this.enrichmentService = enrichmentService;
         this.aiEnrichmentQueueService = aiEnrichmentQueueService;
         this.objectMapper = objectMapper;
@@ -105,7 +100,7 @@ public class JlptN3CourseService {
         if (getLessonJsonFile(chapter, lesson) != null) return true;
         if (isResourceAvailable(chapter, lesson)) return true;
 
-        List<Vocabulary> dbVocabs = vocabularyRepository.findByLevel("N3_COURSE");
+        List<Vocabulary> dbVocabs = vocabularyDataProvider.getByLevel("N3_COURSE");
         for (Vocabulary v : dbVocabs) {
             if (v.getCategory() != null) {
                 String cat = v.getCategory();
@@ -121,7 +116,7 @@ public class JlptN3CourseService {
      * Get Course Overview of 9 Chapters and 27 Lessons, including progress for the user.
      */
     public Map<String, Object> getCourseOverview(Long userId) {
-        List<JlptN3Progress> userProgressList = userId != null ? progressRepository.findByUserId(userId) : Collections.emptyList();
+        List<JlptN3Progress> userProgressList = userId != null ? jlptN3DataProvider.findProgressByUser(userId) : Collections.emptyList();
         Map<String, JlptN3Progress> progressMap = new HashMap<>();
         for (JlptN3Progress p : userProgressList) {
             String key = p.getChapterId() + "_" + p.getLessonId();
@@ -233,8 +228,8 @@ public class JlptN3CourseService {
 
         // Strategy 4: Fallback to Database content if JSON files are not on disk/classpath
         if (root == null) {
-            List<Vocabulary> dbVocabs = vocabularyRepository.findByLevel("N3_COURSE");
-            List<GrammarCard> dbGrammars = grammarCardRepository.findAll();
+            List<Vocabulary> dbVocabs = vocabularyDataProvider.getByLevel("N3_COURSE");
+            List<GrammarCard> dbGrammars = knowledgeDataProvider.findAllGrammar();
 
             List<Map<String, Object>> chuHanList = new ArrayList<>();
             List<Map<String, Object>> tuVungList = new ArrayList<>();
@@ -323,15 +318,15 @@ public class JlptN3CourseService {
             for (Map<String, Object> vItem : vocabList) {
                 String tu = vItem.containsKey("tu") ? String.valueOf(vItem.get("tu")) : "";
                 if (!tu.isEmpty()) {
-                    Optional<Vocabulary> dbVocab = vocabularyRepository.findFirstByKanjiAndCategory(tu, vocabCategory);
+                    Optional<Vocabulary> dbVocab = vocabularyDataProvider.findFirstByKanjiAndCategory(tu, vocabCategory);
                     if (dbVocab.isEmpty()) {
-                        dbVocab = vocabularyRepository.findFirstByHiraganaAndCategory(tu, vocabCategory);
+                        dbVocab = vocabularyDataProvider.findFirstByHiraganaAndCategory(tu, vocabCategory);
                     }
                     if (dbVocab.isEmpty()) {
-                        dbVocab = vocabularyRepository.findFirstByKanji(tu);
+                        dbVocab = vocabularyDataProvider.findFirstByKanji(tu);
                     }
                     if (dbVocab.isEmpty()) {
-                        dbVocab = vocabularyRepository.findFirstByHiragana(tu);
+                        dbVocab = vocabularyDataProvider.findFirstByHiragana(tu);
                     }
 
                     Vocabulary v;
@@ -339,10 +334,9 @@ public class JlptN3CourseService {
                         v = dbVocab.get();
                         if (v.getCategory() == null || v.getCategory().isBlank()) {
                             v.setCategory(vocabCategory);
-                            v = vocabularyRepository.saveAndFlush(v);
+                            v = vocabularyDataProvider.save(v);
                         }
                     } else {
-                        // Dynamically save missing N3 vocabulary into DB to assign a persistent ID
                         v = new Vocabulary();
                         boolean isKanji = tu.codePoints().anyMatch(Character::isIdeographic);
                         if (isKanji) {
@@ -358,7 +352,7 @@ public class JlptN3CourseService {
                         v.setSampleSentence(vItem.containsKey("vi_du") ? String.valueOf(vItem.get("vi_du")) : "");
                         v.setLevel("N3_COURSE");
                         v.setCategory(vocabCategory);
-                        v = vocabularyRepository.saveAndFlush(v);
+                        v = vocabularyDataProvider.save(v);
                     }
 
                     vItem.put("id", v.getId());
@@ -395,12 +389,12 @@ public class JlptN3CourseService {
             for (Map<String, Object> kItem : kanjiList) {
                 String kanji = kItem.containsKey("kanji") ? String.valueOf(kItem.get("kanji")) : "";
                 if (!kanji.isEmpty()) {
-                    Optional<Vocabulary> dbKanji = vocabularyRepository.findFirstByKanjiAndCategory(kanji, kanjiCategory);
+                    Optional<Vocabulary> dbKanji = vocabularyDataProvider.findFirstByKanjiAndCategory(kanji, kanjiCategory);
                     if (dbKanji.isEmpty()) {
-                        dbKanji = vocabularyRepository.findFirstByKanji(kanji);
+                        dbKanji = vocabularyDataProvider.findFirstByKanji(kanji);
                     }
                     if (dbKanji.isEmpty()) {
-                        dbKanji = vocabularyRepository.findFirstByHiragana(kanji);
+                        dbKanji = vocabularyDataProvider.findFirstByHiragana(kanji);
                     }
 
                     Vocabulary kVocab;
@@ -408,7 +402,7 @@ public class JlptN3CourseService {
                         kVocab = dbKanji.get();
                         if (kVocab.getCategory() == null || kVocab.getCategory().isBlank()) {
                             kVocab.setCategory(kanjiCategory);
-                            kVocab = vocabularyRepository.saveAndFlush(kVocab);
+                            kVocab = vocabularyDataProvider.save(kVocab);
                         }
                     } else {
                         kVocab = new Vocabulary();
@@ -419,7 +413,7 @@ public class JlptN3CourseService {
                         kVocab.setWordType("KANJI");
                         kVocab.setLevel("N3_COURSE");
                         kVocab.setCategory(kanjiCategory);
-                        kVocab = vocabularyRepository.saveAndFlush(kVocab);
+                        kVocab = vocabularyDataProvider.save(kVocab);
                     }
 
                     kItem.put("id", kVocab.getId());
@@ -457,7 +451,7 @@ public class JlptN3CourseService {
             for (Map<String, Object> gItem : grammarList) {
                 String cauTruc = gItem.containsKey("cau_truc") ? String.valueOf(gItem.get("cau_truc")) : "";
                 if (!cauTruc.isEmpty()) {
-                    Optional<GrammarCard> dbGrammar = grammarCardRepository.findByGrammar(cauTruc);
+                    Optional<GrammarCard> dbGrammar = knowledgeDataProvider.findGrammarByGrammar(cauTruc);
                     GrammarCard gCard;
                     if (dbGrammar.isPresent()) {
                         gCard = dbGrammar.get();
@@ -474,21 +468,17 @@ public class JlptN3CourseService {
                                 gCard.setExamples(objectMapper.writeValueAsString(gItem.get("vi_du")));
                             } catch (Exception e) {}
                         }
-                        gCard = grammarCardRepository.saveAndFlush(gCard);
+                        gCard = knowledgeDataProvider.saveGrammar(gCard);
                     }
 
                     gItem.put("id", gCard.getId());
-                    if (gCard.getMeaning() != null) gItem.put("y_nghia", gCard.getMeaning());
-                    if (gCard.getFormation() != null) gItem.put("cach_chia", gCard.getFormation());
-                    if (gCard.getFormation() != null) gItem.put("formation", gCard.getFormation());
-                    if (gCard.getUsageGuide() != null) gItem.put("usageGuide", gCard.getUsageGuide());
-                    if (gCard.getSimilarGrammar() != null) gItem.put("similarGrammar", gCard.getSimilarGrammar());
-                    if (gCard.getDifference() != null) gItem.put("difference", gCard.getDifference());
-                    if (gCard.getCommonMistakes() != null) gItem.put("commonMistakes", gCard.getCommonMistakes());
-                    if (gCard.getExamples() != null) gItem.put("examples", gCard.getExamples());
+                    if (gCard.getFormation() != null) gItem.put("structure", gCard.getFormation());
+                    if (gCard.getUsageDesc() != null) gItem.put("explanation", gCard.getUsageDesc());
+                    if (gCard.getUsageGuide() != null) gItem.put("notes", gCard.getUsageGuide());
 
-                    boolean isGrammarMissing = (gCard.getUsageGuide() == null || gCard.getUsageGuide().isBlank())
-                        || (gCard.getSimilarGrammar() == null || gCard.getSimilarGrammar().isBlank());
+                    boolean isGrammarMissing = (gCard.getUsageDesc() == null || gCard.getUsageDesc().isBlank())
+                        || (gCard.getFormation() == null || gCard.getFormation().isBlank())
+                        || (gCard.getUsageGuide() == null || gCard.getUsageGuide().isBlank());
                     if (isGrammarMissing && aiEnrichmentQueueService != null) {
                         aiEnrichmentQueueService.enqueueGrammar(gCard.getId(), false);
                     }
@@ -500,7 +490,7 @@ public class JlptN3CourseService {
     }
 
     /**
-     * Dynamically process JSON files uploaded via File Picker (No hardcoded paths!)
+     * Dynamically process JSON files uploaded via File Picker
      */
     @Transactional
     public Map<String, Object> processUploadedJsonFiles(MultipartFile[] files) {
@@ -532,16 +522,15 @@ public class JlptN3CourseService {
                 String vocabCategory = "Tổng ôn N3 - Chương " + chuong + " Bài " + bai;
                 String kanjiCategory = "Tổng ôn N3 - Chương " + chuong + " Bài " + bai + " - Kanji";
 
-                // Clean up any stale records from previous uploads for this specific chapter & lesson category
-                List<Vocabulary> oldVocab = vocabularyRepository.findByCategory(vocabCategory);
+                List<Vocabulary> oldVocab = vocabularyDataProvider.findByCategory(vocabCategory);
                 if (oldVocab != null && !oldVocab.isEmpty()) {
-                    wordReviewRepository.deleteByVocabularyIn(oldVocab);
-                    vocabularyRepository.deleteAll(oldVocab);
+                    srsDataProvider.deleteWordReviewsByVocabularies(oldVocab);
+                    vocabularyDataProvider.deleteAll(oldVocab);
                 }
-                List<Vocabulary> oldKanji = vocabularyRepository.findByCategory(kanjiCategory);
+                List<Vocabulary> oldKanji = vocabularyDataProvider.findByCategory(kanjiCategory);
                 if (oldKanji != null && !oldKanji.isEmpty()) {
-                    wordReviewRepository.deleteByVocabularyIn(oldKanji);
-                    vocabularyRepository.deleteAll(oldKanji);
+                    srsDataProvider.deleteWordReviewsByVocabularies(oldKanji);
+                    vocabularyDataProvider.deleteAll(oldKanji);
                 }
 
                 // 1. Save uploaded file content persistently to uploads/n3/Chuong_{c}/Bai_{l}.json
@@ -570,7 +559,7 @@ public class JlptN3CourseService {
                             }
                         }
 
-                        Optional<Vocabulary> existingOpt = vocabularyRepository.findFirstByKanjiAndCategory(kanji, kanjiCategory);
+                        Optional<Vocabulary> existingOpt = vocabularyDataProvider.findFirstByKanjiAndCategory(kanji, kanjiCategory);
                         Vocabulary v = existingOpt.orElseGet(Vocabulary::new);
                         v.setKanji(kanji);
                         if (v.getHiragana() == null || v.getHiragana().isEmpty()) {
@@ -588,7 +577,7 @@ public class JlptN3CourseService {
                             } catch (Exception ignored) {}
                         }
 
-                        vocabularyRepository.save(v);
+                        vocabularyDataProvider.save(v);
                         fileKanji++;
                     }
                 }
@@ -603,9 +592,9 @@ public class JlptN3CourseService {
                         String nghia = vNode.path("nghia").asText("").trim();
                         String viDu = vNode.path("vi_du").asText("").trim();
 
-                        Optional<Vocabulary> existingOpt = vocabularyRepository.findFirstByKanjiAndCategory(tu, vocabCategory);
+                        Optional<Vocabulary> existingOpt = vocabularyDataProvider.findFirstByKanjiAndCategory(tu, vocabCategory);
                         if (existingOpt.isEmpty()) {
-                            existingOpt = vocabularyRepository.findFirstByHiraganaAndCategory(tu, vocabCategory);
+                            existingOpt = vocabularyDataProvider.findFirstByHiraganaAndCategory(tu, vocabCategory);
                         }
                         Vocabulary v = existingOpt.orElseGet(Vocabulary::new);
 
@@ -628,7 +617,7 @@ public class JlptN3CourseService {
                         v.setLevel("N3_COURSE");
                         v.setCategory(vocabCategory);
 
-                        vocabularyRepository.save(v);
+                        vocabularyDataProvider.save(v);
                         fileVocab++;
                     }
                 }
@@ -649,7 +638,7 @@ public class JlptN3CourseService {
                             }
                         }
 
-                        Optional<GrammarCard> existingOpt = grammarCardRepository.findByGrammar(cauTruc);
+                        Optional<GrammarCard> existingOpt = knowledgeDataProvider.findGrammarByGrammar(cauTruc);
                         GrammarCard g = existingOpt.orElseGet(GrammarCard::new);
 
                         g.setGrammar(cauTruc);
@@ -666,7 +655,7 @@ public class JlptN3CourseService {
                             } catch (Exception ignored) {}
                         }
 
-                        grammarCardRepository.save(g);
+                        knowledgeDataProvider.saveGrammar(g);
                         fileGrammar++;
                     }
                 }
@@ -683,24 +672,20 @@ public class JlptN3CourseService {
             }
         }
 
-        vocabularyRepository.flush();
-        grammarCardRepository.flush();
         log.info("Persisted to DB: {} files, {} vocab, {} kanji, {} grammar.", processedFilesCount, importedVocab, importedKanji, importedGrammar);
 
         Map<String, Object> response = new HashMap<>();
         response.put("success", true);
-        response.put("processedFiles", processedFilesCount);
+        response.put("processedFilesCount", processedFilesCount);
         response.put("importedVocab", importedVocab);
         response.put("importedKanji", importedKanji);
         response.put("importedGrammar", importedGrammar);
         response.put("details", details);
-
         return response;
     }
 
     /**
      * Submit Quiz Score for a lesson component (vocab, kanji, grammar) and update pass status if accuracy >= 90%.
-     * A lesson is 100% completed ONLY when all 3 components (vocab, kanji, grammar) are passed!
      */
     @Transactional
     public Map<String, Object> submitQuiz(Long userId, int chapter, int lesson, String quizCategory, int score, int total) {
@@ -714,7 +699,7 @@ public class JlptN3CourseService {
 
         JlptN3Progress progress = null;
         if (userId != null) {
-            progress = progressRepository.findByUserIdAndChapterIdAndLessonId(userId, chapter, lesson)
+            progress = jlptN3DataProvider.findProgress(userId, chapter, lesson)
                     .orElseGet(() -> new JlptN3Progress(userId, chapter, lesson, false, 0));
 
             if (accuracy > progress.getBestScore()) {
@@ -731,7 +716,6 @@ public class JlptN3CourseService {
                 }
             }
 
-            // Lesson is fully completed ONLY when ALL 3 sub-components are passed!
             if (Boolean.TRUE.equals(progress.getVocabPassed())
                     && Boolean.TRUE.equals(progress.getKanjiPassed())
                     && Boolean.TRUE.equals(progress.getGrammarPassed())) {
@@ -739,7 +723,7 @@ public class JlptN3CourseService {
                 progress.setCompletedAt(LocalDateTime.now());
             }
 
-            progressRepository.saveAndFlush(progress);
+            jlptN3DataProvider.saveProgress(progress);
         }
 
         Map<String, Object> result = new HashMap<>();
@@ -764,7 +748,7 @@ public class JlptN3CourseService {
      */
     @Transactional
     public List<Map<String, Object>> getOrGenerateGrammarQuiz(int chapter, int lesson) {
-        Optional<JlptN3GrammarQuiz> existingOpt = grammarQuizRepository.findByChapterIdAndLessonId(chapter, lesson);
+        Optional<JlptN3GrammarQuiz> existingOpt = jlptN3DataProvider.findQuiz(chapter, lesson);
         if (existingOpt.isPresent() && existingOpt.get().getQuestionsJson() != null && !existingOpt.get().getQuestionsJson().isBlank()) {
             try {
                 @SuppressWarnings("unchecked")
@@ -789,7 +773,7 @@ public class JlptN3CourseService {
         if (generatedJson != null && !generatedJson.equals("[]")) {
             JlptN3GrammarQuiz quiz = existingOpt.orElseGet(() -> new JlptN3GrammarQuiz(chapter, lesson, generatedJson));
             quiz.setQuestionsJson(generatedJson);
-            grammarQuizRepository.saveAndFlush(quiz);
+            jlptN3DataProvider.saveQuiz(quiz);
 
             try {
                 @SuppressWarnings("unchecked")
@@ -803,14 +787,10 @@ public class JlptN3CourseService {
     }
 
     /**
-     * Regenerate (force delete old cached questions and generate a new set) 30 Grammar Quiz Questions for a lesson.
+     * Regenerate 30 Grammar Quiz Questions for a lesson.
      */
     @Transactional
     public List<Map<String, Object>> regenerateGrammarQuiz(int chapter, int lesson) {
-        Optional<JlptN3GrammarQuiz> existingOpt = grammarQuizRepository.findByChapterIdAndLessonId(chapter, lesson);
-        existingOpt.ifPresent(grammarQuizRepository::delete);
-        grammarQuizRepository.flush();
-
         Map<String, Object> lessonData = getLessonData(chapter, lesson);
         @SuppressWarnings("unchecked")
         List<Map<String, Object>> grammarList = (List<Map<String, Object>>) lessonData.getOrDefault("ngu_phap", Collections.emptyList());
@@ -818,7 +798,7 @@ public class JlptN3CourseService {
         String generatedJson = enrichmentService.generateGrammarQuiz30Questions(chapter, lesson, grammarList);
         if (generatedJson != null && !generatedJson.equals("[]")) {
             JlptN3GrammarQuiz quiz = new JlptN3GrammarQuiz(chapter, lesson, generatedJson);
-            grammarQuizRepository.saveAndFlush(quiz);
+            jlptN3DataProvider.saveQuiz(quiz);
 
             try {
                 @SuppressWarnings("unchecked")

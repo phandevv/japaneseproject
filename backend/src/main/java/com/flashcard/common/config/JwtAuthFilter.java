@@ -5,7 +5,7 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.auth0.jwt.interfaces.JWTVerifier;
-import com.flashcard.user.repository.UserRepository;
+import com.flashcard.user.provider.UserDataProvider;
 import com.flashcard.user.service.OnlineUserService;
 import com.flashcard.user.model.User;
 import jakarta.servlet.FilterChain;
@@ -36,11 +36,11 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
     private static final String ISSUER = "JapaneseProject";
 
-    private final UserRepository userRepository;
+    private final UserDataProvider userDataProvider;
     private final OnlineUserService onlineUserService;
 
-    public JwtAuthFilter(UserRepository userRepository, OnlineUserService onlineUserService) {
-        this.userRepository = userRepository;
+    public JwtAuthFilter(UserDataProvider userDataProvider, OnlineUserService onlineUserService) {
+        this.userDataProvider = userDataProvider;
         this.onlineUserService = onlineUserService;
     }
 
@@ -65,7 +65,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             if (type == null || "access".equals(type)) {
                 Long userId = jwt.getClaim("userId").asLong();
                 if (userId != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-                    userRepository.findById(userId).ifPresent(user -> {
+                    userDataProvider.findById(userId).ifPresent(user -> {
                         String userRole = user.getRole() != null ? user.getRole().toUpperCase() : "USER";
                         SimpleGrantedAuthority authority = new SimpleGrantedAuthority("ROLE_" + userRole);
                         var authToken = new UsernamePasswordAuthenticationToken(

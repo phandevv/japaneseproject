@@ -1,16 +1,18 @@
 package com.flashcard.user.service;
 
-import com.flashcard.common.config.JwtAuthFilter;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.interfaces.DecodedJWT;
+import com.auth0.jwt.interfaces.JWTVerifier;
 import com.flashcard.user.model.User;
-import com.flashcard.user.repository.UserRepository;
+import com.flashcard.user.provider.UserDataProvider;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
+import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -21,7 +23,7 @@ import java.util.Optional;
 @Service
 public class AuthService {
 
-    private final UserRepository userRepository;
+    private final UserDataProvider userDataProvider;
     private final PasswordEncoder passwordEncoder;
 
     @Value("${jwt.secret:JapaneseProjectSuperSecretKeyToken123!456}")
@@ -31,8 +33,8 @@ public class AuthService {
     private static final long ACCESS_EXPIRATION_MS = 15 * 60 * 1000; // 15 minutes
     private static final long REFRESH_EXPIRATION_MS = 7L * 24 * 60 * 60 * 1000; // 7 days
 
-    public AuthService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
-        this.userRepository = userRepository;
+    public AuthService(UserDataProvider userDataProvider, PasswordEncoder passwordEncoder) {
+        this.userDataProvider = userDataProvider;
         this.passwordEncoder = passwordEncoder;
     }
 
@@ -41,44 +43,44 @@ public class AuthService {
         if (username == null || username.isBlank() || password == null || password.isBlank()) {
             throw new IllegalArgumentException("Username and password cannot be empty");
         }
-        if (userRepository.findByUsername(username.trim()).isPresent()) {
+        if (userDataProvider.findByUsername(username.trim()).isPresent()) {
             throw new IllegalArgumentException("Username already exists");
         }
         User user = new User(username.trim(), passwordEncoder.encode(password));
-        return userRepository.save(user);
+        return userDataProvider.save(user);
     }
 
-    public java.util.Map<String, String> login(String username, String password) {
+    public Map<String, String> login(String username, String password) {
         if (username == null || password == null) {
             throw new IllegalArgumentException("Username and password cannot be empty");
         }
-        Optional<User> userOpt = userRepository.findByUsername(username.trim());
+        Optional<User> userOpt = userDataProvider.findByUsername(username.trim());
         if (userOpt.isEmpty() || !passwordEncoder.matches(password, userOpt.get().getPassword())) {
             throw new IllegalArgumentException("Invalid username or password");
         }
         User user = userOpt.get();
         String accessToken = generateToken(user, ACCESS_EXPIRATION_MS, "access");
         String refreshToken = generateToken(user, REFRESH_EXPIRATION_MS, "refresh");
-        return java.util.Map.of("token", accessToken, "refreshToken", refreshToken);
+        return Map.of("token", accessToken, "refreshToken", refreshToken);
     }
 
     public String refreshAccessToken(String refreshToken) {
         try {
             Algorithm algorithm = Algorithm.HMAC256(jwtSecret);
-            com.auth0.jwt.interfaces.JWTVerifier verifier = JWT.require(algorithm).withIssuer(ISSUER).build();
-            com.auth0.jwt.interfaces.DecodedJWT jwt = verifier.verify(refreshToken);
-            
+            JWTVerifier verifier = JWT.require(algorithm).withIssuer(ISSUER).build();
+            DecodedJWT jwt = verifier.verify(refreshToken);
+
             String type = jwt.getClaim("type").asString();
             if (!"refresh".equals(type)) {
                 throw new IllegalArgumentException("Invalid token type");
             }
-            
+
             Long userId = jwt.getClaim("userId").asLong();
-            
+
             // Check if user still exists
-            User user = userRepository.findById(userId)
+            User user = userDataProvider.findById(userId)
                     .orElseThrow(() -> new IllegalArgumentException("User not found"));
-                    
+
             return generateToken(user, ACCESS_EXPIRATION_MS, "access");
         } catch (Exception e) {
             throw new IllegalArgumentException("Invalid or expired refresh token: " + e.getMessage());
@@ -96,12 +98,12 @@ public class AuthService {
     }
 
     public User getUserByUsername(String username) {
-        return userRepository.findByUsername(username).orElse(null);
+        return userDataProvider.findByUsername(username).orElse(null);
     }
 
     @Transactional
     public User updateProfile(User user, String displayName, String address, String phone, String occupation, String avatar, String coverPhoto) {
-        User existingUser = userRepository.findById(user.getId())
+        User existingUser = userDataProvider.findById(user.getId())
                 .orElseThrow(() -> new IllegalArgumentException("User not found"));
         existingUser.setDisplayName(displayName);
         existingUser.setAddress(address);
@@ -109,7 +111,6 @@ public class AuthService {
         existingUser.setOccupation(occupation);
         existingUser.setAvatar(avatar);
         existingUser.setCoverPhoto(coverPhoto);
-        return userRepository.save(existingUser);
+        return userDataProvider.save(existingUser);
     }
 }
-

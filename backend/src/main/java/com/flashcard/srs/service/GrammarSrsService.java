@@ -1,10 +1,10 @@
 package com.flashcard.srs.service;
 
 import com.flashcard.knowledge.model.GrammarCard;
+import com.flashcard.knowledge.provider.KnowledgeDataProvider;
 import com.flashcard.srs.model.GrammarReview;
+import com.flashcard.srs.provider.SrsDataProvider;
 import com.flashcard.user.model.User;
-import com.flashcard.knowledge.repository.GrammarCardRepository;
-import com.flashcard.srs.repository.GrammarReviewRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,20 +13,20 @@ import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
 public class GrammarSrsService {
 
-    private final GrammarReviewRepository grammarReviewRepository;
-    private final GrammarCardRepository grammarCardRepository;
+    private final SrsDataProvider srsDataProvider;
+    private final KnowledgeDataProvider knowledgeDataProvider;
 
     @Autowired
-    public GrammarSrsService(GrammarReviewRepository grammarReviewRepository,
-                             GrammarCardRepository grammarCardRepository) {
-        this.grammarReviewRepository = grammarReviewRepository;
-        this.grammarCardRepository = grammarCardRepository;
+    public GrammarSrsService(SrsDataProvider srsDataProvider,
+                             KnowledgeDataProvider knowledgeDataProvider) {
+        this.srsDataProvider = srsDataProvider;
+        this.knowledgeDataProvider = knowledgeDataProvider;
     }
 
     /**
@@ -34,7 +34,7 @@ public class GrammarSrsService {
      */
     @Transactional(readOnly = true)
     public long getDueCount(User user) {
-        List<GrammarReview> reviews = grammarReviewRepository.findByUserId(user.getId());
+        List<GrammarReview> reviews = srsDataProvider.findGrammarReviewsByUser(user.getId());
         Instant now = Instant.now();
         return reviews.stream()
                 .filter(r -> r.getNextReview().isBefore(now))
@@ -46,11 +46,12 @@ public class GrammarSrsService {
      */
     @Transactional(readOnly = true)
     public List<GrammarCard> getDueGrammar(User user) {
-        List<GrammarReview> reviews = grammarReviewRepository.findByUserId(user.getId());
+        List<GrammarReview> reviews = srsDataProvider.findGrammarReviewsByUser(user.getId());
         Instant now = Instant.now();
         return reviews.stream()
                 .filter(r -> r.getNextReview().isBefore(now))
                 .map(GrammarReview::getGrammarCard)
+                .filter(Objects::nonNull)
                 .collect(Collectors.toList());
     }
 
@@ -64,10 +65,10 @@ public class GrammarSrsService {
             throw new IllegalArgumentException("Quality rating must be between 1 and 4");
         }
 
-        GrammarCard grammarCard = grammarCardRepository.findById(grammarId)
+        GrammarCard grammarCard = knowledgeDataProvider.findGrammarById(grammarId)
                 .orElseThrow(() -> new IllegalArgumentException("Grammar card not found"));
 
-        GrammarReview review = grammarReviewRepository.findByUserIdAndGrammarCardId(user.getId(), grammarId)
+        GrammarReview review = srsDataProvider.findGrammarReview(user.getId(), grammarId)
                 .orElseGet(() -> new GrammarReview(user, grammarCard));
 
         // Map 1-4 scale to SM-2 0-5 scale
@@ -123,7 +124,7 @@ public class GrammarSrsService {
                 : Instant.now().plus(intervalDays, ChronoUnit.DAYS);
         review.setNextReview(nextReview);
 
-        return grammarReviewRepository.save(review);
+        return srsDataProvider.saveGrammarReview(review);
     }
 
     /**
@@ -131,7 +132,9 @@ public class GrammarSrsService {
      */
     @Transactional(readOnly = true)
     public List<GrammarCard> getRandomLearnedGrammar(User user, int count) {
-        List<GrammarReview> learned = grammarReviewRepository.findByUserIdAndIsLearned(user.getId(), true);
+        List<GrammarReview> learned = srsDataProvider.findGrammarReviewsByUser(user.getId()).stream()
+                .filter(GrammarReview::isLearned)
+                .collect(Collectors.toList());
         if (learned.isEmpty()) {
             return Collections.emptyList();
         }
@@ -139,7 +142,7 @@ public class GrammarSrsService {
         return learned.stream()
                 .limit(count)
                 .map(GrammarReview::getGrammarCard)
+                .filter(Objects::nonNull)
                 .collect(Collectors.toList());
     }
 }
-

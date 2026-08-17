@@ -8,5 +8,6 @@ import java.util.List;
 @Repository
 public interface KnowledgeVersionRepository extends JpaRepository<KnowledgeVersion, Long> {
     List<KnowledgeVersion> findByEntityTypeAndEntityIdOrderByVersionNumberDesc(String entityType, Long entityId);
+    java.util.Optional<KnowledgeVersion> findTopByEntityTypeAndEntityIdOrderByVersionNumberDesc(String entityType, Long entityId);
 }
 

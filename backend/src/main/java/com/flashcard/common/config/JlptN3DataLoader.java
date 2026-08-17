@@ -3,10 +3,10 @@ package com.flashcard.common.config;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.flashcard.knowledge.model.GrammarCard;
-import com.flashcard.knowledge.repository.GrammarCardRepository;
-import com.flashcard.srs.repository.WordReviewRepository;
+import com.flashcard.knowledge.provider.KnowledgeDataProvider;
+import com.flashcard.srs.provider.SrsDataProvider;
 import com.flashcard.vocabulary.model.Vocabulary;
-import com.flashcard.vocabulary.repository.VocabularyRepository;
+import com.flashcard.vocabulary.provider.VocabularyDataProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,19 +23,19 @@ public class JlptN3DataLoader implements CommandLineRunner {
 
     private static final Logger logger = LoggerFactory.getLogger(JlptN3DataLoader.class);
 
-    private final VocabularyRepository vocabularyRepository;
-    private final GrammarCardRepository grammarCardRepository;
-    private final WordReviewRepository wordReviewRepository;
+    private final VocabularyDataProvider vocabularyDataProvider;
+    private final KnowledgeDataProvider knowledgeDataProvider;
+    private final SrsDataProvider srsDataProvider;
     private final ObjectMapper objectMapper;
 
     @Autowired
-    public JlptN3DataLoader(VocabularyRepository vocabularyRepository,
-                            GrammarCardRepository grammarCardRepository,
-                            WordReviewRepository wordReviewRepository,
+    public JlptN3DataLoader(VocabularyDataProvider vocabularyDataProvider,
+                            KnowledgeDataProvider knowledgeDataProvider,
+                            SrsDataProvider srsDataProvider,
                             ObjectMapper objectMapper) {
-        this.vocabularyRepository = vocabularyRepository;
-        this.grammarCardRepository = grammarCardRepository;
-        this.wordReviewRepository = wordReviewRepository;
+        this.vocabularyDataProvider = vocabularyDataProvider;
+        this.knowledgeDataProvider = knowledgeDataProvider;
+        this.srsDataProvider = srsDataProvider;
         this.objectMapper = objectMapper;
     }
 
@@ -151,15 +151,15 @@ public class JlptN3DataLoader implements CommandLineRunner {
             String kanjiCategory = "Tổng ôn N3 - Chương " + chuong + " Bài " + bai + " - Kanji";
 
             // Clean up any old stale data for this specific category before importing afresh
-            List<Vocabulary> oldVocab = vocabularyRepository.findByCategory(vocabCategory);
+            List<Vocabulary> oldVocab = vocabularyDataProvider.findByCategory(vocabCategory);
             if (oldVocab != null && !oldVocab.isEmpty()) {
-                wordReviewRepository.deleteByVocabularyIn(oldVocab);
-                vocabularyRepository.deleteAll(oldVocab);
+                srsDataProvider.deleteWordReviewsByVocabularies(oldVocab);
+                vocabularyDataProvider.deleteAll(oldVocab);
             }
-            List<Vocabulary> oldKanji = vocabularyRepository.findByCategory(kanjiCategory);
+            List<Vocabulary> oldKanji = vocabularyDataProvider.findByCategory(kanjiCategory);
             if (oldKanji != null && !oldKanji.isEmpty()) {
-                wordReviewRepository.deleteByVocabularyIn(oldKanji);
-                vocabularyRepository.deleteAll(oldKanji);
+                srsDataProvider.deleteWordReviewsByVocabularies(oldKanji);
+                vocabularyDataProvider.deleteAll(oldKanji);
             }
 
             // 1. Process Kanji (chu_han)
@@ -178,7 +178,7 @@ public class JlptN3DataLoader implements CommandLineRunner {
                         }
                     }
 
-                    Optional<Vocabulary> existingOpt = vocabularyRepository.findFirstByKanjiAndCategory(kanji, kanjiCategory);
+                    Optional<Vocabulary> existingOpt = vocabularyDataProvider.findFirstByKanjiAndCategory(kanji, kanjiCategory);
                     Vocabulary v = existingOpt.orElseGet(Vocabulary::new);
                     v.setKanji(kanji);
                     if (v.getHiragana() == null || v.getHiragana().isEmpty()) {
@@ -196,7 +196,7 @@ public class JlptN3DataLoader implements CommandLineRunner {
                         } catch (Exception ignored) {}
                     }
 
-                    vocabularyRepository.save(v);
+                    vocabularyDataProvider.save(v);
                     importedKanji++;
                 }
             }
@@ -211,9 +211,9 @@ public class JlptN3DataLoader implements CommandLineRunner {
                     String nghia = vNode.path("nghia").asText("").trim();
                     String viDu = vNode.path("vi_du").asText("").trim();
 
-                    Optional<Vocabulary> existingOpt = vocabularyRepository.findFirstByKanjiAndCategory(tu, vocabCategory);
+                    Optional<Vocabulary> existingOpt = vocabularyDataProvider.findFirstByKanjiAndCategory(tu, vocabCategory);
                     if (existingOpt.isEmpty()) {
-                        existingOpt = vocabularyRepository.findFirstByHiraganaAndCategory(tu, vocabCategory);
+                        existingOpt = vocabularyDataProvider.findFirstByHiraganaAndCategory(tu, vocabCategory);
                     }
                     Vocabulary v = existingOpt.orElseGet(Vocabulary::new);
 
@@ -236,7 +236,7 @@ public class JlptN3DataLoader implements CommandLineRunner {
                     v.setLevel("N3_COURSE");
                     v.setCategory(vocabCategory);
 
-                    vocabularyRepository.save(v);
+                    vocabularyDataProvider.save(v);
                     importedVocab++;
                 }
             }
@@ -257,7 +257,7 @@ public class JlptN3DataLoader implements CommandLineRunner {
                         }
                     }
 
-                    Optional<GrammarCard> existingOpt = grammarCardRepository.findByGrammar(cauTruc);
+                    Optional<GrammarCard> existingOpt = knowledgeDataProvider.findGrammarByGrammar(cauTruc);
                     GrammarCard g = existingOpt.orElseGet(GrammarCard::new);
 
                     g.setGrammar(cauTruc);
@@ -274,7 +274,7 @@ public class JlptN3DataLoader implements CommandLineRunner {
                         } catch (Exception ignored) {}
                     }
 
-                    grammarCardRepository.save(g);
+                    knowledgeDataProvider.saveGrammar(g);
                     importedGrammar++;
                 }
             }

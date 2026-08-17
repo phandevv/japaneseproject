@@ -1,8 +1,7 @@
 package com.flashcard.common.config;
 
-import com.flashcard.user.model.User;
 import com.flashcard.vocabulary.model.Vocabulary;
-import com.flashcard.vocabulary.repository.VocabularyRepository;
+import com.flashcard.vocabulary.provider.VocabularyDataProvider;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.slf4j.Logger;
@@ -23,9 +22,9 @@ import java.util.List;
 public class ExcelDataLoader implements CommandLineRunner {
 
     private static final Logger logger = LoggerFactory.getLogger(ExcelDataLoader.class);
-    private final VocabularyRepository repository;
+    private final VocabularyDataProvider repository;
 
-    public ExcelDataLoader(VocabularyRepository repository) {
+    public ExcelDataLoader(VocabularyDataProvider repository) {
         this.repository = repository;
     }
 
