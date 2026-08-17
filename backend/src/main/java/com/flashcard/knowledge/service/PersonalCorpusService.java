@@ -103,8 +103,9 @@ public class PersonalCorpusService {
             );
 
             Map<String, Object> requestBodyMap = Map.of(
-                "model", "deepseek-v4-flash",
-                "max_tokens", 30000,
+                "model", "deepseek-chat",
+                "max_tokens", 1500,
+                "temperature", 0.1,
                 "response_format", Map.of("type", "json_object"),
                 "messages", new Object[]{
                     Map.of("role", "system", "content", "Bạn là trợ lý giảng dạy tiếng Nhật. Bạn chỉ phản hồi bằng định dạng JSON."),
@@ -178,8 +179,9 @@ public class PersonalCorpusService {
             );
 
             Map<String, Object> requestBodyMap = Map.of(
-                "model", "deepseek-v4-flash",
-                "max_tokens", 30000,
+                "model", "deepseek-chat",
+                "max_tokens", 1500,
+                "temperature", 0.1,
                 "response_format", Map.of("type", "json_object"),
                 "messages", new Object[]{
                     Map.of("role", "system", "content", "Bạn là trợ lý tạo hội thoại tiếng Nhật. Phản hồi dạng JSON."),
@@ -260,6 +262,29 @@ public class PersonalCorpusService {
         String apiKey = System.getenv("DEEPSEEK_API_KEY");
         if (apiKey == null || apiKey.trim().isEmpty()) {
             apiKey = System.getProperty("DEEPSEEK_API_KEY");
+        }
+        if (apiKey == null || apiKey.trim().isEmpty()) {
+            try {
+                java.nio.file.Path envPath = java.nio.file.Paths.get(".env");
+                if (!java.nio.file.Files.exists(envPath)) {
+                    envPath = java.nio.file.Paths.get("../.env");
+                }
+                if (!java.nio.file.Files.exists(envPath)) {
+                    envPath = java.nio.file.Paths.get("../../.env");
+                }
+                if (java.nio.file.Files.exists(envPath)) {
+                    for (String line : java.nio.file.Files.readAllLines(envPath)) {
+                        line = line.trim();
+                        if (line.startsWith("DEEPSEEK_API_KEY=")) {
+                            apiKey = line.substring("DEEPSEEK_API_KEY=".length()).trim();
+                            if (apiKey.startsWith("\"") && apiKey.endsWith("\"")) {
+                                apiKey = apiKey.substring(1, apiKey.length() - 1);
+                            }
+                            break;
+                        }
+                    }
+                }
+            } catch (Exception ignored) {}
         }
         return (apiKey == null || apiKey.trim().isEmpty()) ? null : apiKey;
     }

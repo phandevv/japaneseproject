@@ -26,7 +26,8 @@ import org.springframework.http.HttpStatus;
 import java.util.concurrent.CompletableFuture;
 
 import com.flashcard.knowledge.model.GrammarCard;
-import com.flashcard.knowledge.repository.GrammarCardRepository;
+import com.flashcard.vocabulary.provider.VocabularyDataProvider;
+import com.flashcard.knowledge.provider.KnowledgeDataProvider;
 
 @Service
 public class DeepSeekEnrichmentService {
@@ -36,21 +37,21 @@ public class DeepSeekEnrichmentService {
     // Bulkhead Pattern: limit concurrent AI requests to 50 to protect server resources
     private final Semaphore bulkheadSemaphore = new Semaphore(50);
 
-    private final VocabularyRepository vocabularyRepository;
-    private final GrammarCardRepository grammarCardRepository;
+    private final VocabularyDataProvider vocabularyDataProvider;
+    private final KnowledgeDataProvider knowledgeDataProvider;
     private final ObjectMapper objectMapper;
     private final HttpClient httpClient;
 
-    public DeepSeekEnrichmentService(VocabularyRepository vocabularyRepository, ObjectMapper objectMapper) {
-        this(vocabularyRepository, null, objectMapper);
+    public DeepSeekEnrichmentService(VocabularyDataProvider vocabularyDataProvider, ObjectMapper objectMapper) {
+        this(vocabularyDataProvider, null, objectMapper);
     }
 
     @Autowired
-    public DeepSeekEnrichmentService(VocabularyRepository vocabularyRepository,
-                                  @Autowired(required = false) GrammarCardRepository grammarCardRepository,
+    public DeepSeekEnrichmentService(VocabularyDataProvider vocabularyDataProvider,
+                                  @Autowired(required = false) KnowledgeDataProvider knowledgeDataProvider,
                                   ObjectMapper objectMapper) {
-        this.vocabularyRepository = vocabularyRepository;
-        this.grammarCardRepository = grammarCardRepository;
+        this.vocabularyDataProvider = vocabularyDataProvider;
+        this.knowledgeDataProvider = knowledgeDataProvider;
         this.objectMapper = objectMapper;
         this.httpClient = HttpClient.newBuilder()
                 .connectTimeout(Duration.ofSeconds(10))
@@ -66,12 +67,7 @@ public class DeepSeekEnrichmentService {
             ));
         }
         try {
-            // Retrieve API key from environment variable
-            String apiKey = System.getenv("DEEPSEEK_API_KEY");
-            if (apiKey == null || apiKey.trim().isEmpty()) {
-                apiKey = System.getProperty("DEEPSEEK_API_KEY");
-            }
-
+            String apiKey = getApiKey();
             if (apiKey == null || apiKey.trim().isEmpty()) {
                 log.warn("DEEPSEEK_API_KEY is not set. Skipping enrichment.");
                 bulkheadSemaphore.release();
@@ -166,10 +162,12 @@ public class DeepSeekEnrichmentService {
 
                 // Construct payload compatible with DeepSeek chat model
                 Map<String, Object> requestBodyMap = Map.of(
-                    "model", "deepseek-v4-flash",
+                    "model", "deepseek-chat",
+                    "max_tokens", 8192,
+                    "temperature", 0.1,
                     "response_format", Map.of("type", "json_object"),
                     "messages", new Object[]{
-                        Map.of("role", "system", "content", "Bạn là một trợ lý chuyên gia tiếng Nhật. Bạn phản hồi duy nhất bằng định dạng JSON. Tất cả nội dung dịch nghĩa và giải thích nghĩa BẮT BUỘC phải viết bằng tiếng Việt (không được dùng tiếng Anh hay tiếng Trung Quốc)."),
+                        Map.of("role", "system", "content", "Bạn là một trợ lý chuyên gia tiếng Nhật. Bạn phản hồi duy nhất bằng định dạng JSON. Tất cả nội dung dịch nghĩa và giải thích nghĩa BẮT BUỘC phải viết bằng tiếng Việt."),
                         Map.of("role", "user", "content", prompt)
                     }
                 );
@@ -235,7 +233,7 @@ public class DeepSeekEnrichmentService {
                                         vocab.setSampleTranslation(firstEx.path("vi").asText());
                                     }
 
-                                    return vocabularyRepository.saveAndFlush(vocab);
+                                     return vocabularyDataProvider.save(vocab);
                                 } else {
                                     log.error("DeepSeek API responded with error status: {}, body: {}", response.statusCode(), response.body());
                                 }
@@ -307,7 +305,7 @@ public class DeepSeekEnrichmentService {
             );
 
             HttpRequest request = HttpRequest.newBuilder()
-                    .uri(URI.create("https://api.deepseek.com/v1/chat/completions"))
+                    .uri(URI.create("https://api.deepseek.com/chat/completions"))
                     .header("Content-Type", "application/json")
                     .header("Authorization", "Bearer " + apiKey)
                     .timeout(Duration.ofSeconds(30))
@@ -315,8 +313,8 @@ public class DeepSeekEnrichmentService {
                         objectMapper.writeValueAsString(Map.of(
                             "model", "deepseek-chat",
                             "messages", java.util.List.of(Map.of("role", "user", "content", prompt)),
-                            "max_tokens", 2048,
-                            "temperature", 0.3
+                            "max_tokens", 8192,
+                            "temperature", 0.1
                         ))
                     ))
                     .build();
@@ -352,8 +350,8 @@ public class DeepSeekEnrichmentService {
                                     grammarCard.setExamples(objectMapper.writeValueAsString(contentNode.path("examples")));
                                 }
 
-                                if (grammarCardRepository != null) {
-                                    return grammarCardRepository.saveAndFlush(grammarCard);
+                                if (knowledgeDataProvider != null) {
+                                    return knowledgeDataProvider.saveGrammar(grammarCard);
                                 }
                             }
                         } catch (Exception e) {
@@ -376,8 +374,9 @@ public class DeepSeekEnrichmentService {
     private CompletableFuture<Vocabulary> executeMicroPrompt(Vocabulary vocab, String apiKey, String prompt, java.util.function.BiConsumer<JsonNode, Vocabulary> mapper) {
         try {
             Map<String, Object> requestBodyMap = Map.of(
-                "model", "deepseek-v4-flash",
+                "model", "deepseek-chat",
                 "max_tokens", 150,
+                "temperature", 0.1,
                 "response_format", Map.of("type", "json_object"),
                 "messages", new Object[]{
                     Map.of("role", "system", "content", "Bạn là trợ lý từ điển tiếng Nhật. Phản hồi duy nhất bằng định dạng JSON bằng tiếng Việt."),
@@ -401,7 +400,7 @@ public class DeepSeekEnrichmentService {
                                 contentJson = cleanJsonContent(contentJson);
                                 JsonNode contentNode = objectMapper.readTree(contentJson);
                                 mapper.accept(contentNode, vocab);
-                                return vocabularyRepository.save(vocab);
+                                return vocabularyDataProvider.save(vocab);
                             }
                         } catch (Exception e) {
                             log.error("Micro-prompt parse error: {}", e.getMessage());
@@ -413,6 +412,27 @@ public class DeepSeekEnrichmentService {
             bulkheadSemaphore.release();
             return CompletableFuture.completedFuture(vocab);
         }
+    }
+
+    public CompletableFuture<Vocabulary> enrichMissingHanViet(Vocabulary vocab) {
+        if (vocab.getHanViet() != null && !vocab.getHanViet().trim().isEmpty()) {
+            return CompletableFuture.completedFuture(vocab);
+        }
+        String apiKey = getApiKey();
+        if (apiKey == null) {
+            return CompletableFuture.completedFuture(vocab);
+        }
+        String word = vocab.getKanji() != null && !vocab.getKanji().isBlank() ? vocab.getKanji() : vocab.getHiragana();
+        String prompt = String.format(
+            "Cung cấp âm Hán Việt chuẩn viết hoa cho từ/chữ Hán tiếng Nhật \"%s\" (Nghĩa: %s). Trả về duy nhất JSON không markdown: {\"hanViet\": \"ÂM HÁN VIỆT\"}",
+            word,
+            vocab.getMeaning() != null ? vocab.getMeaning() : ""
+        );
+        return executeMicroPrompt(vocab, apiKey, prompt, (node, v) -> {
+            if (node.has("hanViet") && !node.path("hanViet").isNull()) {
+                v.setHanViet(node.path("hanViet").asText().trim().toUpperCase());
+            }
+        });
     }
 
     private String cleanJsonContent(String content) {
@@ -551,7 +571,30 @@ public class DeepSeekEnrichmentService {
             apiKey = System.getProperty("DEEPSEEK_API_KEY");
         }
         if (apiKey == null || apiKey.trim().isEmpty()) {
-            log.warn("DEEPSEEK_API_KEY is not set. Returning fallback.");
+            try {
+                java.nio.file.Path envPath = java.nio.file.Paths.get(".env");
+                if (!java.nio.file.Files.exists(envPath)) {
+                    envPath = java.nio.file.Paths.get("../.env");
+                }
+                if (!java.nio.file.Files.exists(envPath)) {
+                    envPath = java.nio.file.Paths.get("../../.env");
+                }
+                if (java.nio.file.Files.exists(envPath)) {
+                    for (String line : java.nio.file.Files.readAllLines(envPath)) {
+                        line = line.trim();
+                        if (line.startsWith("DEEPSEEK_API_KEY=")) {
+                            apiKey = line.substring("DEEPSEEK_API_KEY=".length()).trim();
+                            if (apiKey.startsWith("\"") && apiKey.endsWith("\"")) {
+                                apiKey = apiKey.substring(1, apiKey.length() - 1);
+                            }
+                            break;
+                        }
+                    }
+                }
+            } catch (Exception ignored) {}
+        }
+        if (apiKey == null || apiKey.trim().isEmpty()) {
+            log.warn("DEEPSEEK_API_KEY is not set in env or .env file. Returning fallback.");
             return null;
         }
         return apiKey;

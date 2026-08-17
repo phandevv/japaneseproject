@@ -222,6 +222,8 @@ const JlptN3Page = () => {
   const [selectedGrammarModal, setSelectedGrammarModal] = useState(null);
   const [loadingGrammarQuiz, setLoadingGrammarQuiz] = useState(false);
   const [selectedOption, setSelectedOption] = useState('');
+  const [quizReviewList, setQuizReviewList] = useState([]);
+  const [quizReviewFilter, setQuizReviewFilter] = useState('all'); // 'all' | 'mistakes' | 'correct'
 
   // Quiz Timer Effect (Runs ONLY when quizState === 'playing' AND quizStatus === 'idle')
   useEffect(() => {
@@ -275,6 +277,35 @@ const JlptN3Page = () => {
     loadOverview();
   }, []);
 
+  const resetQuizState = () => {
+    setQuizState('setup');
+    setQuizWords([]);
+    setInitialQuizWords([]);
+    setQuizIndex(0);
+    setQuizStatus('idle');
+    setUserInput('');
+    setSelectedOption('');
+    setScore(0);
+    setFailedWordIds(new Set());
+    setSeenWordIds(new Set());
+    setFirstAttemptQualities({});
+    setMistakes([]);
+    setQuizReviewList([]);
+    setQuizReviewFilter('needs_review');
+    setQuizResult(null);
+    setQuizWordEnriched(null);
+    setAiMatchExplanation('');
+    setCheckingAiAnswer(false);
+    setQuizSetupError('');
+  };
+
+  const handleTabClick = (tabKey) => {
+    if (tabKey !== 'quiz') {
+      resetQuizState();
+    }
+    setActiveTab(tabKey);
+  };
+
   // Load specific Lesson Data when selected
   const openLesson = async (chapterId, lessonId) => {
     setSelectedChapter(chapterId);
@@ -282,7 +313,7 @@ const JlptN3Page = () => {
     setPhase('lesson');
     setActiveTab('flashcard');
     setLoadingLesson(true);
-    setQuizState('setup');
+    resetQuizState();
     setDetailModalIndex(null);
 
     try {
@@ -308,7 +339,8 @@ const isContainsKanji = (str) => {
       return {
         id: v.id || (idx + 1000),
         kanji: isKanji ? v.tu : (v.kanji || v.tu || v.hiragana || ''),
-        hiragana: v.furigana || v.hiragana || v.tu || '',
+        hiragana: v.cach_doc || v.furigana || v.hiragana || (isKanji ? '' : v.tu) || '',
+        romaji: v.cach_doc || v.romaji || '',
         meaning: v.nghia || v.meaning || '',
         hanViet: v.am_han || v.han_viet || v.hanViet || '',
         wordType: v.loai_tu || v.wordType || 'N',
@@ -333,7 +365,7 @@ const isContainsKanji = (str) => {
     return lessonData.chu_han.map((k, idx) => ({
       id: k.id || (idx + 2000),
       kanji: k.kanji || k.tu || '',
-      hiragana: k.kanji || k.tu || '',
+      hiragana: k.am_doc || k.kanji || k.tu || '',
       meaning: k.nghia || k.meaning || '',
       hanViet: k.han_viet || k.am_han || k.hanViet || '',
       romaji: k.am_doc || '',
@@ -358,7 +390,8 @@ const isContainsKanji = (str) => {
         items.push({
           id: v.id || `vocab-${idx}`,
           kanji: isKanji ? v.tu : (v.kanji || v.tu || v.hiragana || ''),
-          hiragana: v.furigana || v.hiragana || v.tu || '',
+          hiragana: v.cach_doc || v.furigana || v.hiragana || (isKanji ? '' : v.tu) || '',
+          romaji: v.cach_doc || v.romaji || '',
           meaning: v.nghia || v.meaning || '',
           hanViet: v.am_han || v.han_viet || v.hanViet || '',
           wordType: v.loai_tu || v.wordType || 'N',
@@ -385,7 +418,7 @@ const isContainsKanji = (str) => {
         items.push({
           id: k.id || `kanji-${idx}`,
           kanji: k.kanji || k.tu || '',
-          hiragana: k.kanji || k.tu || '',
+          hiragana: k.am_doc || k.kanji || k.tu || '',
           meaning: k.nghia || k.meaning || '',
           hanViet: k.han_viet || k.am_han || k.hanViet || '',
           romaji: k.am_doc || '',
@@ -454,6 +487,21 @@ const isContainsKanji = (str) => {
     }
   };
 
+  const currentCategoryPoolCount = useMemo(() => {
+    if (!lessonData) return 0;
+    if (quizCategory === 'vocab') return lessonData.tu_vung?.length || 0;
+    if (quizCategory === 'kanji') return lessonData.chu_han?.length || 0;
+    if (quizCategory === 'grammar') return 30;
+    return (lessonData.tu_vung?.length || 0) + (lessonData.chu_han?.length || 0) + (lessonData.ngu_phap?.length || 0);
+  }, [lessonData, quizCategory]);
+
+  useEffect(() => {
+    setQuizOptRangeStart(1);
+    const count = currentCategoryPoolCount || 15;
+    setQuizOptRangeEnd(count);
+    setQuizOptRandomCount(Math.min(15, count));
+  }, [currentCategoryPoolCount]);
+
   const startQuiz = async () => {
     if (!lessonData) {
       setQuizSetupError('Chưa có dữ liệu Bài học.');
@@ -462,13 +510,13 @@ const isContainsKanji = (str) => {
 
     setQuizSetupError('');
 
-    // Handle Grammar Category (30 AI Multiple Choice Questions - cached ONCE)
+    // 1. Handle Grammar Category (30 Multiple Choice Questions)
     if (quizCategory === 'grammar') {
       setLoadingGrammarQuiz(true);
       try {
         const questions = await jlptN3Api.getGrammarQuiz(selectedChapter, selectedLesson);
         if (!questions || questions.length === 0) {
-          setQuizSetupError('Chưa có dữ liệu đề thi 30 câu ngữ pháp AI. Vui lòng kiểm tra kết nối DeepSeek!');
+          setQuizSetupError('Chưa có dữ liệu đề thi 30 câu ngữ pháp. Vui lòng thử lại!');
           setLoadingGrammarQuiz(false);
           return;
         }
@@ -482,9 +530,33 @@ const isContainsKanji = (str) => {
           explanation: q.explanation || ''
         }));
 
-        setQuizWords(mappedQuestions);
-        setInitialQuizWords(mappedQuestions);
-        setOriginalQuizLength(mappedQuestions.length);
+        let selectedQuestions = [];
+        if (quizOptType === 'all') {
+          selectedQuestions = [...mappedQuestions];
+        } else if (quizOptType === 'random') {
+          const count = parseInt(quizOptRandomCount, 10);
+          if (isNaN(count) || count <= 0 || count > mappedQuestions.length) {
+            setQuizSetupError(`Vui lòng nhập số câu hợp lệ (1 - ${mappedQuestions.length})`);
+            setLoadingGrammarQuiz(false);
+            return;
+          }
+          selectedQuestions = shuffleArray(mappedQuestions).slice(0, count);
+        } else if (quizOptType === 'range') {
+          const start = parseInt(quizOptRangeStart, 10);
+          const end = parseInt(quizOptRangeEnd, 10);
+          if (isNaN(start) || isNaN(end) || start <= 0 || end > mappedQuestions.length || start > end) {
+            setQuizSetupError(`Khoảng câu hỏi không hợp lệ (Từ 1 đến ${mappedQuestions.length})`);
+            setLoadingGrammarQuiz(false);
+            return;
+          }
+          selectedQuestions = mappedQuestions.slice(start - 1, end);
+        }
+
+        const finalQuestions = shuffleArray(selectedQuestions);
+
+        setQuizWords(finalQuestions);
+        setInitialQuizWords(finalQuestions);
+        setOriginalQuizLength(finalQuestions.length);
         setQuizIndex(0);
         setQuizStatus('idle');
         setUserInput('');
@@ -494,6 +566,8 @@ const isContainsKanji = (str) => {
         setSeenWordIds(new Set());
         setFirstAttemptQualities({});
         setMistakes([]);
+        setQuizReviewList([]);
+        setQuizReviewFilter('all');
         setQuizResult(null);
         setQuizWordEnriched(null);
         setAiMatchExplanation('');
@@ -502,16 +576,16 @@ const isContainsKanji = (str) => {
         setQuizState('playing');
       } catch (err) {
         console.error("Failed to load grammar quiz:", err);
-        setQuizSetupError('Lỗi khi tải bài test ngữ pháp 30 câu AI.');
+        setQuizSetupError('Lỗi khi tải bài test ngữ pháp 30 câu.');
       } finally {
         setLoadingGrammarQuiz(false);
       }
       return;
     }
 
-    // Handle Vocab or Kanji (100% items in category must be tested & accuracy >= 90%)
+    // 2. Handle Vocab, Kanji, or All
     const pool = [];
-    if (quizCategory === 'vocab' && lessonData.tu_vung) {
+    if ((quizCategory === 'vocab' || quizCategory === 'all') && lessonData.tu_vung) {
       lessonData.tu_vung.forEach((v) => {
         pool.push({
           id: v.id,
@@ -522,10 +596,13 @@ const isContainsKanji = (str) => {
           meaning: v.meaning || v.nghia || v.y_nghia || '',
           hanViet: v.hanViet || v.han_viet || v.am_han || '',
           wordType: v.loai_tu || v.wordType || 'Từ vựng',
-          sampleSentence: v.vi_du || v.sampleSentence || ''
+          sampleSentence: v.vi_du || v.sampleSentence || '',
+          mnemonic: v.mnemonic || '',
+          usageGuide: v.usageGuide || ''
         });
       });
-    } else if (quizCategory === 'kanji' && lessonData.chu_han) {
+    }
+    if ((quizCategory === 'kanji' || quizCategory === 'all') && lessonData.chu_han) {
       lessonData.chu_han.forEach((k) => {
         pool.push({
           id: k.id,
@@ -536,21 +613,43 @@ const isContainsKanji = (str) => {
           meaning: k.meaning || k.nghia || k.y_nghia || '',
           hanViet: k.han_viet || k.am_han || k.hanViet || '',
           wordType: 'Chữ Hán',
-          sampleSentence: k.tu_vung ? (Array.isArray(k.tu_vung) ? k.tu_vung.join(', ') : k.tu_vung) : ''
+          sampleSentence: k.tu_vung ? (Array.isArray(k.tu_vung) ? k.tu_vung.join(', ') : k.tu_vung) : '',
+          mnemonic: k.mnemonic || '',
+          usageGuide: k.usageGuide || ''
         });
       });
     }
 
     if (pool.length === 0) {
-      setQuizSetupError(`Bài học này chưa có dữ liệu ${quizCategory === 'vocab' ? 'Từ vựng' : 'Chữ Hán'}.`);
+      setQuizSetupError(`Bài học này chưa có dữ liệu ${quizCategory === 'vocab' ? 'Từ vựng' : quizCategory === 'kanji' ? 'Chữ Hán' : 'nội dung'}.`);
       return;
     }
 
-    const selectedWords = shuffleArray(pool);
+    let selectedWords = [];
+    if (quizOptType === 'all') {
+      selectedWords = [...pool];
+    } else if (quizOptType === 'random') {
+      const count = parseInt(quizOptRandomCount, 10);
+      if (isNaN(count) || count <= 0 || count > pool.length) {
+        setQuizSetupError(`Vui lòng nhập số câu hợp lệ (1 - ${pool.length})`);
+        return;
+      }
+      selectedWords = shuffleArray(pool).slice(0, count);
+    } else if (quizOptType === 'range') {
+      const start = parseInt(quizOptRangeStart, 10);
+      const end = parseInt(quizOptRangeEnd, 10);
+      if (isNaN(start) || isNaN(end) || start <= 0 || end > pool.length || start > end) {
+        setQuizSetupError(`Khoảng câu hỏi không hợp lệ (Từ 1 đến ${pool.length})`);
+        return;
+      }
+      selectedWords = pool.slice(start - 1, end);
+    }
 
-    setQuizWords(selectedWords);
-    setInitialQuizWords(selectedWords);
-    setOriginalQuizLength(selectedWords.length);
+    const finalWords = shuffleArray(selectedWords);
+
+    setQuizWords(finalWords);
+    setInitialQuizWords(finalWords);
+    setOriginalQuizLength(finalWords.length);
     setQuizIndex(0);
     setQuizStatus('idle');
     setUserInput('');
@@ -560,6 +659,8 @@ const isContainsKanji = (str) => {
     setSeenWordIds(new Set());
     setFirstAttemptQualities({});
     setMistakes([]);
+    setQuizReviewList([]);
+    setQuizReviewFilter('all');
     setQuizResult(null);
     setQuizWordEnriched(null);
     setAiMatchExplanation('');
@@ -601,6 +702,8 @@ const isContainsKanji = (str) => {
       setSeenWordIds(new Set());
       setFirstAttemptQualities({});
       setMistakes([]);
+      setQuizReviewList([]);
+      setQuizReviewFilter('all');
       setQuizResult(null);
       setQuizWordEnriched(null);
       setAiMatchExplanation('');
@@ -615,19 +718,18 @@ const isContainsKanji = (str) => {
     }
   };
 
-  const checkAnswer = async (e) => {
+  const checkAnswer = (e) => {
     if (e && e.preventDefault) e.preventDefault();
-    if (!userInput.trim() || checkingAiAnswer) return;
+    if (!userInput.trim()) return;
 
     const currentWord = quizWords[quizIndex];
     if (!currentWord) return;
 
     const inputClean = userInput.trim().toLowerCase();
     let isCorrect = false;
-    let explanation = '';
 
     if (quizQuestionType === 'vi-to-ja') {
-      // Direct exact string comparison for Japanese typing (0ms, no AI call needed)
+      // Direct exact string comparison for Japanese typing (0ms)
       const normInput = inputClean.replace(/[\s\u3000]+/g, '');
       const candidates = [
         currentWord.kanji,
@@ -641,36 +743,49 @@ const isContainsKanji = (str) => {
 
       isCorrect = candidates.some(c => c && normInput === c);
     } else {
-      // ja-to-vi mode: Step 1 local match
+      // ja-to-vi mode: Fast local matching without DeepSeek AI call
       isCorrect = matchVietnameseAnswer(userInput, currentWord.meaning || '');
-      
-      // Step 2: Hybrid AI Semantic Evaluation if local match failed
-      if (!isCorrect) {
-        setCheckingAiAnswer(true);
-        try {
-          const evalRes = await jlptN3Api.evaluateAnswer(
-            currentWord.meaning || '',
-            userInput,
-            (currentWord.kanji || currentWord.hiragana) + (currentWord.hiragana ? ` (${currentWord.hiragana})` : '')
-          );
-          if (evalRes && evalRes.correct) {
-            isCorrect = true;
-            explanation = evalRes.explanation || '✨ DeepSeek AI chấp nhận từ đồng nghĩa!';
-          }
-        } catch (err) {
-          console.error("AI evaluation error:", err);
-        } finally {
-          setCheckingAiAnswer(false);
-        }
-      }
     }
 
-    setAiMatchExplanation(explanation);
+    setAiMatchExplanation('');
 
     const finalElapsed = Math.min(30, (Date.now() - questionStartTime) / 1000);
     const quality = isCorrect ? (finalElapsed <= 3 ? 4 : finalElapsed <= 8 ? 3 : 2) : 1;
     setLastAssignedQuality(quality);
     setLastElapsedSeconds(finalElapsed);
+
+    const questionDisplay = (
+      quizQuestionType === 'vi-to-ja'
+        ? (currentWord.meaning || '')
+        : (currentWord.kanji ? `${currentWord.kanji} (${currentWord.hiragana})` : currentWord.hiragana)
+    );
+    const expectedAns = (
+      quizQuestionType === 'vi-to-ja'
+        ? (currentWord.kanji ? `${currentWord.kanji} (${currentWord.hiragana})` : currentWord.hiragana)
+        : (currentWord.meaning || '')
+    );
+    const explanationText = (
+      currentWord.explanation ||
+      currentWord.usageGuide ||
+      currentWord.mnemonic ||
+      currentWord.sampleSentence ||
+      (currentWord.hanViet ? `Âm Hán Việt: 【${currentWord.hanViet}】` : '') ||
+      ''
+    );
+
+    const reviewItem = {
+      id: currentWord.id || quizIndex,
+      word: currentWord,
+      question: questionDisplay,
+      userAnswer: userInput,
+      correctAnswer: expectedAns,
+      explanation: explanationText,
+      isCorrect: isCorrect,
+      elapsedSeconds: finalElapsed,
+      category: currentWord.category || currentWord.type || quizCategory
+    };
+
+    setQuizReviewList(prev => [...prev, reviewItem]);
 
     // Save SRS review rating to update learned status (is_learned / intervalDays > 0)
     if (currentWord && currentWord.id) {
@@ -688,6 +803,7 @@ const isContainsKanji = (str) => {
       speakWord(currentWord);
     } else {
       setQuizStatus('incorrect');
+      setMistakes(prev => [...prev, reviewItem]);
       setQuizWords(prev => [...prev, currentWord]);
     }
   };
@@ -715,6 +831,20 @@ const isContainsKanji = (str) => {
     setLastAssignedQuality(quality);
     setLastElapsedSeconds(finalElapsed);
 
+    const reviewItem = {
+      id: currentWord.id || quizIndex,
+      word: currentWord,
+      question: currentWord.question,
+      userAnswer: option,
+      correctAnswer: currentWord.answer,
+      explanation: currentWord.explanation || '',
+      isCorrect: isCorrect,
+      elapsedSeconds: finalElapsed,
+      category: 'grammar'
+    };
+
+    setQuizReviewList(prev => [...prev, reviewItem]);
+
     // Save SRS review rating to update learned status (is_learned / intervalDays > 0)
     if (currentWord && currentWord.id) {
       const isGrammarItem = (currentWord.type === 'grammar_mcq' || currentWord.type === 'star' || quizCategory === 'grammar' || currentWord.cau_truc);
@@ -730,6 +860,7 @@ const isContainsKanji = (str) => {
       setScore(s => s + 1);
     } else {
       setQuizStatus('incorrect');
+      setMistakes(prev => [...prev, reviewItem]);
       setQuizWords(prev => [...prev, currentWord]);
     }
   };
@@ -816,7 +947,7 @@ const isContainsKanji = (str) => {
     setUploadingFiles(true);
     try {
       const res = await jlptN3Api.uploadJsonFiles(selectedFiles);
-      let summaryText = `🎉 Tải lên & Nạp dữ liệu thành công ${res.processedFiles} tệp JSON!\n\n` +
+      let summaryText = `🎉 Tải lên & Nạp dữ liệu thành công ${res.processedFilesCount} tệp JSON!\n\n` +
         `• ${res.importedVocab} từ vựng mới/cập nhật\n` +
         `• ${res.importedKanji} chữ Hán mới/cập nhật\n` +
         `• ${res.importedGrammar} mẫu ngữ pháp mới/cập nhật\n\n` +
@@ -1072,7 +1203,7 @@ const isContainsKanji = (str) => {
               {/* Study Mode Navigation Tabs */}
               <div style={{ display: 'flex', background: 'var(--surface-color)', padding: '6px', borderRadius: '14px', border: '1px solid var(--border-color)' }}>
                 <button
-                  onClick={() => setActiveTab('flashcard')}
+                  onClick={() => handleTabClick('flashcard')}
                   style={{
                     flex: 1, padding: '12px', borderRadius: '10px', border: 'none',
                     fontWeight: 700, fontSize: '0.95rem', cursor: 'pointer',
@@ -1084,7 +1215,7 @@ const isContainsKanji = (str) => {
                   <Layers size={18} /> Thẻ Ghi Nhớ (Flashcard)
                 </button>
                 <button
-                  onClick={() => setActiveTab('list')}
+                  onClick={() => handleTabClick('list')}
                   style={{
                     flex: 1, padding: '12px', borderRadius: '10px', border: 'none',
                     fontWeight: 700, fontSize: '0.95rem', cursor: 'pointer',
@@ -1096,7 +1227,7 @@ const isContainsKanji = (str) => {
                   <List size={18} /> Danh Sách Chi Tiết & AI
                 </button>
                 <button
-                  onClick={() => setActiveTab('quiz')}
+                  onClick={() => handleTabClick('quiz')}
                   style={{
                     flex: 1, padding: '12px', borderRadius: '10px', border: 'none',
                     fontWeight: 700, fontSize: '0.95rem', cursor: 'pointer',
@@ -1314,6 +1445,11 @@ const isContainsKanji = (str) => {
                             <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px' }}>
                               <span style={{ fontWeight: 800, color: 'var(--text-primary)', fontSize: '1.05rem' }}>{k.hanViet}</span>
                             </div>
+                            {k.romaji && (
+                              <div style={{ fontSize: '0.85rem', color: 'var(--accent-color)', fontWeight: 600, marginBottom: '4px' }}>
+                                Âm đọc: {k.romaji}
+                              </div>
+                            )}
                             {!hideMeanings && <div style={{ fontSize: '0.92rem', color: 'var(--success-color)', fontWeight: 600, marginBottom: '6px' }}>{k.meaning}</div>}
                             <span style={{ fontSize: '0.75rem', color: 'var(--accent-color)', fontWeight: 600 }}>Xem nét viết & DeepSeek AI ➔</span>
                           </div>
@@ -1591,7 +1727,7 @@ const isContainsKanji = (str) => {
                             />
                           )}</>
                         ) : (
-                          <><Play size={20} /> Bắt đầu Làm Bài Test ({quizCategory === 'grammar' ? '30 Câu AI Ngữ Pháp' : quizCategory === 'vocab' ? 'Từ Vựng' : 'Chữ Hán'})</>
+                          <><Play size={20} /> Bắt đầu Làm Bài Test ({quizCategory === 'grammar' ? 'Ngữ Pháp' : quizCategory === 'vocab' ? 'Từ Vựng' : quizCategory === 'kanji' ? 'Chữ Hán' : 'Tất cả'})</>
                         )}
                       </button>
                     </div>
@@ -1926,7 +2062,8 @@ const isContainsKanji = (str) => {
 
                   {/* QUIZ FINISHED SCREEN */}
                   {quizState === 'finished' && quizResult && (
-                    <div style={{ background: 'var(--surface-color)', border: '1px solid var(--border-color)', borderRadius: '24px', padding: '36px', maxWidth: '640px', width: '100%', textAlign: 'center', display: 'flex', flexDirection: 'column', gap: '20px' }}>
+                    <div style={{ background: 'var(--surface-color)', border: '1px solid var(--border-color)', borderRadius: '24px', padding: '36px', maxWidth: '820px', width: '100%', textAlign: 'center', display: 'flex', flexDirection: 'column', gap: '24px', boxShadow: 'var(--shadow-md)' }} className="animate-fade-in">
+                      {/* Top Header Result */}
                       <div style={{
                         width: '80px', height: '80px', borderRadius: '50%',
                         background: quizResult.passed ? 'linear-gradient(135deg, #10b981, #059669)' : 'linear-gradient(135deg, #ef4444, #f59e0b)',
@@ -1940,30 +2077,223 @@ const isContainsKanji = (str) => {
                         <h2 style={{ margin: '0 0 6px 0', fontSize: '1.8rem', color: 'var(--text-primary)' }}>
                           {quizResult.passed ? 'Chúc mừng! Đã đạt tiêu chuẩn Hoàn thành! 🎉' : 'Chưa đạt chỉ tiêu (≥ 90%) ⚠️'}
                         </h2>
-                        <div style={{ fontSize: '3rem', fontWeight: 900, color: quizResult.passed ? '#10b981' : '#ef4444' }}>
+                        <div style={{ fontSize: '3.2rem', fontWeight: 900, color: quizResult.passed ? '#10b981' : '#ef4444', lineHeight: 1.1 }}>
                           {quizResult.accuracy}%
                         </div>
-                        <p style={{ margin: '4px 0 0 0', color: 'var(--text-secondary)', fontSize: '1rem' }}>
-                          Đúng {quizResult.score} / {quizResult.total} câu hỏi
+                        <p style={{ margin: '6px 0 0 0', color: 'var(--text-secondary)', fontSize: '1.05rem', fontWeight: 500 }}>
+                          Chính xác <strong>{quizResult.score}</strong> / <strong>{quizResult.total}</strong> câu hỏi
+                          {quizReviewList.length > 0 && ` • Tổng lượt làm: ${quizReviewList.length} lượt`}
                         </p>
                       </div>
 
-                      {mistakes.length > 0 && (
-                        <div style={{ textAlign: 'left', background: 'var(--surface-hover)', borderRadius: '16px', padding: '20px' }}>
-                          <h3 style={{ fontSize: '1.05rem', margin: '0 0 12px 0', color: '#ef4444' }}>
-                            Các câu trả lời chưa đúng ({mistakes.length}):
-                          </h3>
-                          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', maxHeight: '200px', overflowY: 'auto' }}>
-                            {mistakes.map((m, idx) => (
-                              <div key={idx} style={{ padding: '8px 12px', background: 'var(--surface-color)', borderRadius: '8px', fontSize: '0.9rem', display: 'flex', justifyContent: 'space-between' }}>
-                                <span className="font-jp" style={{ fontWeight: 700 }}>{m.ja} {m.hiragana ? `(${m.hiragana})` : ''}</span>
-                                <span style={{ color: 'var(--text-secondary)' }}>{m.vi}</span>
-                              </div>
-                            ))}
-                          </div>
-                        </div>
-                      )}
+                      {/* Filter Bar */}
+                      {quizReviewList.length > 0 && (() => {
+                        const wrongCount = quizReviewList.filter(item => !item.isCorrect).length;
+                        const slowCount = quizReviewList.filter(item => item.isCorrect && item.elapsedSeconds && item.elapsedSeconds > 8).length;
+                        const needsReviewCount = quizReviewList.filter(item => !item.isCorrect || (item.elapsedSeconds && item.elapsedSeconds > 8)).length;
 
+                        return (
+                          <div style={{ display: 'flex', gap: '8px', background: 'var(--surface-hover)', padding: '6px', borderRadius: '12px', width: '100%', boxSizing: 'border-box', flexWrap: 'wrap' }}>
+                            <button
+                              type="button"
+                              onClick={() => setQuizReviewFilter('needs_review')}
+                              style={{
+                                flex: '1 1 140px', padding: '8px 12px', borderRadius: '8px', border: 'none',
+                                background: (quizReviewFilter === 'needs_review' || !quizReviewFilter || quizReviewFilter === 'all') ? 'var(--surface-color)' : 'transparent',
+                                color: (quizReviewFilter === 'needs_review' || !quizReviewFilter || quizReviewFilter === 'all') ? '#ef4444' : 'var(--text-secondary)',
+                                fontWeight: (quizReviewFilter === 'needs_review' || !quizReviewFilter || quizReviewFilter === 'all') ? 700 : 500, cursor: 'pointer',
+                                boxShadow: (quizReviewFilter === 'needs_review' || !quizReviewFilter || quizReviewFilter === 'all') ? 'var(--shadow-sm)' : 'none',
+                                transition: 'all 0.2s ease', fontSize: '0.86rem'
+                              }}
+                            >
+                              ⚠️ Cần ôn lại ({needsReviewCount})
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() => setQuizReviewFilter('mistakes')}
+                              style={{
+                                flex: '1 1 120px', padding: '8px 12px', borderRadius: '8px', border: 'none',
+                                background: quizReviewFilter === 'mistakes' ? 'var(--surface-color)' : 'transparent',
+                                color: quizReviewFilter === 'mistakes' ? '#dc2626' : 'var(--text-secondary)',
+                                fontWeight: quizReviewFilter === 'mistakes' ? 700 : 500, cursor: 'pointer',
+                                boxShadow: quizReviewFilter === 'mistakes' ? 'var(--shadow-sm)' : 'none',
+                                transition: 'all 0.2s ease', fontSize: '0.86rem'
+                              }}
+                            >
+                              ❌ Làm sai ({wrongCount})
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() => setQuizReviewFilter('slow')}
+                              style={{
+                                flex: '1 1 120px', padding: '8px 12px', borderRadius: '8px', border: 'none',
+                                background: quizReviewFilter === 'slow' ? 'var(--surface-color)' : 'transparent',
+                                color: quizReviewFilter === 'slow' ? '#f59e0b' : 'var(--text-secondary)',
+                                fontWeight: quizReviewFilter === 'slow' ? 700 : 500, cursor: 'pointer',
+                                boxShadow: quizReviewFilter === 'slow' ? 'var(--shadow-sm)' : 'none',
+                                transition: 'all 0.2s ease', fontSize: '0.86rem'
+                              }}
+                            >
+                              ⏱️ Chậm &gt; 8s ({slowCount})
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() => setQuizReviewFilter('full_all')}
+                              style={{
+                                flex: '1 1 110px', padding: '8px 12px', borderRadius: '8px', border: 'none',
+                                background: quizReviewFilter === 'full_all' ? 'var(--surface-color)' : 'transparent',
+                                color: quizReviewFilter === 'full_all' ? 'var(--accent-color)' : 'var(--text-secondary)',
+                                fontWeight: quizReviewFilter === 'full_all' ? 700 : 500, cursor: 'pointer',
+                                boxShadow: quizReviewFilter === 'full_all' ? 'var(--shadow-sm)' : 'none',
+                                transition: 'all 0.2s ease', fontSize: '0.86rem'
+                              }}
+                            >
+                              📚 Xem tất cả ({quizReviewList.length})
+                            </button>
+                          </div>
+                        );
+                      })()}
+
+                      {/* Detailed Questions & Explanations List */}
+                      {quizReviewList.length > 0 && (() => {
+                        const filteredItems = quizReviewList.filter(item => {
+                          if (quizReviewFilter === 'mistakes') return !item.isCorrect;
+                          if (quizReviewFilter === 'slow') return item.isCorrect && item.elapsedSeconds && item.elapsedSeconds > 8;
+                          if (quizReviewFilter === 'full_all') return true;
+                          // Default: 'needs_review' (Chỉ liệt kê các câu làm sai HOẶC câu có thời gian phản xạ > 8s)
+                          return !item.isCorrect || (item.elapsedSeconds && item.elapsedSeconds > 8);
+                        });
+
+                        if (filteredItems.length === 0) {
+                          return (
+                            <div style={{ textAlign: 'center', padding: '28px 20px', background: 'rgba(16,185,129,0.08)', borderRadius: '16px', border: '1.5px solid rgba(16,185,129,0.25)' }}>
+                              <div style={{ fontSize: '1.25rem', fontWeight: 800, color: '#10b981', marginBottom: '6px' }}>
+                                🎉 Xuất sắc! Không có câu nào cần ôn tập lại!
+                              </div>
+                              <div style={{ color: 'var(--text-secondary)', fontSize: '0.92rem' }}>
+                                Bạn đã trả lời đúng tất cả các câu hỏi và đạt phản xạ siêu tốc (tất cả đều dưới 8 giây).
+                              </div>
+                            </div>
+                          );
+                        }
+
+                        return (
+                          <div style={{ textAlign: 'left', display: 'flex', flexDirection: 'column', gap: '14px', maxHeight: '440px', overflowY: 'auto', paddingRight: '4px' }} className="custom-scrollbar">
+                            {filteredItems.map((item, idx) => {
+                              const w = item.word || {};
+                              const isSlow = item.elapsedSeconds && item.elapsedSeconds > 8;
+
+                              return (
+                                <div key={idx} style={{
+                                  padding: '16px 18px', borderRadius: '14px',
+                                  border: `1.5px solid ${!item.isCorrect ? 'rgba(239,68,68,0.35)' : isSlow ? 'rgba(245,158,11,0.35)' : 'rgba(16,185,129,0.3)'}`,
+                                  backgroundColor: !item.isCorrect ? 'rgba(239,68,68,0.04)' : isSlow ? 'rgba(245,158,11,0.04)' : 'rgba(16,185,129,0.04)',
+                                  display: 'flex', flexDirection: 'column', gap: '10px'
+                                }}>
+                                  {/* Header: Question Status, Elapsed Time & Question Index */}
+                                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '10px' }}>
+                                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
+                                      {!item.isCorrect ? (
+                                        <span style={{ display: 'inline-flex', alignItems: 'center', gap: '4px', color: '#ef4444', fontWeight: 700, fontSize: '0.84rem', background: 'rgba(239,68,68,0.12)', padding: '2px 8px', borderRadius: '6px' }}>
+                                          <XCircle size={14} /> Chưa chính xác
+                                        </span>
+                                      ) : isSlow ? (
+                                        <span style={{ display: 'inline-flex', alignItems: 'center', gap: '4px', color: '#d97706', fontWeight: 700, fontSize: '0.84rem', background: 'rgba(245,158,11,0.14)', padding: '2px 8px', borderRadius: '6px' }}>
+                                          ⏱️ Phản xạ chậm ({item.elapsedSeconds.toFixed(1)}s &gt; 8s)
+                                        </span>
+                                      ) : (
+                                        <span style={{ display: 'inline-flex', alignItems: 'center', gap: '4px', color: '#10b981', fontWeight: 700, fontSize: '0.84rem', background: 'rgba(16,185,129,0.12)', padding: '2px 8px', borderRadius: '6px' }}>
+                                          <CheckCircle size={14} /> Đúng ({item.elapsedSeconds ? `${item.elapsedSeconds.toFixed(1)}s` : ''})
+                                        </span>
+                                      )}
+                                      <span style={{ fontWeight: 600, fontSize: '0.84rem', color: 'var(--text-secondary)' }}>Câu #{idx + 1}</span>
+                                    </div>
+                                    {w.hiragana && (
+                                      <button
+                                        type="button"
+                                        onClick={() => speakWord(w)}
+                                        style={{ background: 'none', border: 'none', color: 'var(--accent-color)', cursor: 'pointer', padding: '2px 6px', display: 'flex', alignItems: 'center', gap: '4px', fontSize: '0.8rem' }}
+                                        title="Phát âm từ vựng"
+                                      >
+                                        <Volume2 size={15} /> Nghe
+                                      </button>
+                                    )}
+                                  </div>
+
+                                  {/* Question Content */}
+                                  <div className="font-jp" style={{ fontSize: '1.15rem', fontWeight: 700, color: 'var(--text-primary)' }}>
+                                    {item.question}
+                                  </div>
+
+                                  {/* User answer vs Correct answer */}
+                                  <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', fontSize: '0.92rem' }}>
+                                    <div>
+                                      <span style={{ color: 'var(--text-secondary)' }}>Bạn đã chọn / nhập: </span>
+                                      <strong style={{ color: item.isCorrect ? (isSlow ? '#d97706' : '#10b981') : '#ef4444' }}>
+                                        {item.userAnswer || '(Để trống)'}
+                                      </strong>
+                                    </div>
+                                    <div>
+                                      <span style={{ color: 'var(--text-secondary)' }}>Đáp án chính xác: </span>
+                                      <strong style={{ color: '#10b981' }}>{item.correctAnswer}</strong>
+                                    </div>
+                                  </div>
+
+                                  {/* Rich Explanation Box */}
+                                  {(item.explanation || w.mnemonic || w.usageGuide || w.sampleSentence || w.hanViet) && (
+                                    <div style={{
+                                      padding: '12px 14px', borderRadius: '10px',
+                                      backgroundColor: 'var(--surface-color)',
+                                      border: '1px solid var(--border-color)',
+                                      display: 'flex', flexDirection: 'column', gap: '6px', fontSize: '0.88rem'
+                                    }}>
+                                      <div style={{ fontWeight: 700, color: 'var(--accent-color)', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                                        💡 Giải thích & Chi tiết:
+                                      </div>
+
+                                      {/* Grammar Explanation */}
+                                      {item.explanation && (
+                                        <div style={{ color: 'var(--text-primary)', lineHeight: 1.5, whiteSpace: 'pre-line' }}>
+                                          {item.explanation}
+                                        </div>
+                                      )}
+
+                                      {/* Han Viet */}
+                                      {w.hanViet && (
+                                        <div style={{ color: 'var(--text-secondary)' }}>
+                                          <strong>Âm Hán Việt:</strong> 【{w.hanViet}】
+                                        </div>
+                                      )}
+
+                                      {/* Sample Sentence */}
+                                      {(w.sampleSentence || w.vi_du) && (
+                                        <div style={{ color: 'var(--text-primary)', marginTop: '2px' }}>
+                                          <strong>Ví dụ mẫu: </strong>
+                                          <span className="font-jp">{w.sampleSentence || w.vi_du}</span>
+                                        </div>
+                                      )}
+
+                                      {/* Mnemonic / Usage Guide */}
+                                      {w.mnemonic && (
+                                        <div style={{ color: 'var(--text-secondary)', fontStyle: 'italic' }}>
+                                          <strong>Mẹo nhớ:</strong> {w.mnemonic}
+                                        </div>
+                                      )}
+                                      {w.usageGuide && (
+                                        <div style={{ color: 'var(--text-secondary)' }}>
+                                          <strong>Lưu ý sử dụng:</strong> {w.usageGuide}
+                                        </div>
+                                      )}
+                                    </div>
+                                  )}
+                                </div>
+                              );
+                            })}
+                          </div>
+                        );
+                      })()}
+
+                      {/* Action Buttons */}
                       <div style={{ display: 'flex', gap: '12px', justifyContent: 'center', marginTop: '10px', flexWrap: 'wrap' }}>
                         <button
                           onClick={startQuiz}
@@ -1972,7 +2302,7 @@ const isContainsKanji = (str) => {
                           <RotateCcw size={16} /> Làm lại Quiz
                         </button>
                         <button
-                          onClick={() => setActiveTab('flashcard')}
+                          onClick={() => handleTabClick('flashcard')}
                           style={{ padding: '14px 22px', borderRadius: '12px', border: '1px solid var(--border-color)', background: 'var(--surface-hover)', fontWeight: 700, cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: '6px' }}
                         >
                           <BookOpen size={16} /> Ôn thẻ Flashcard

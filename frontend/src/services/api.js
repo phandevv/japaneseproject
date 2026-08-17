@@ -162,6 +162,17 @@ export const userSettingsApi = {
 };
 
 export const vocabApi = {
+  // Get all vocabulary paginated
+  getAll: async (page = 0, size = 20) => {
+    try {
+      const response = await axios.get(`${API_BASE_URL}/vocab?page=${page}&size=${size}`);
+      return response.data;
+    } catch (error) {
+      console.error("Error fetching all vocab:", error);
+      throw error;
+    }
+  },
+
   // Get overall stats
   getStats: async () => {
     try {
@@ -173,7 +184,7 @@ export const vocabApi = {
     }
   },
 
-  // Get paginated vocabulary for a specific level (Daily Mode)
+  // Get paginated vocabulary for a specific level (Daily Mode / Admin Mode)
   getByLevelPaginated: async (level, page = 0, size = 20) => {
     try {
       const response = await axios.get(`${API_BASE_URL}/vocab/level/${level}?page=${page}&size=${size}`);

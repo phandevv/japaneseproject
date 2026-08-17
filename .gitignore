@@ -32,6 +32,8 @@ backend/data/*.trace.db
 Vocabulary/
 backend/Vocabulary/
 backend/data/lucene-index/
+uploads/
+backend/uploads/
 
 # macOS
 .DS_Store

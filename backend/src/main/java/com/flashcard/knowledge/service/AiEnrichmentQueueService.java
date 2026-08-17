@@ -4,6 +4,8 @@ import com.flashcard.vocabulary.model.Vocabulary;
 import com.flashcard.vocabulary.repository.VocabularyRepository;
 import com.flashcard.knowledge.model.GrammarCard;
 import com.flashcard.knowledge.repository.GrammarCardRepository;
+import com.flashcard.vocabulary.provider.VocabularyDataProvider;
+import com.flashcard.knowledge.provider.KnowledgeDataProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +14,6 @@ import org.springframework.stereotype.Service;
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;
 import java.util.Map;
-import java.util.Set;
 import java.util.concurrent.*;
 
 @Service
@@ -21,8 +22,8 @@ public class AiEnrichmentQueueService {
     private static final Logger log = LoggerFactory.getLogger(AiEnrichmentQueueService.class);
 
     private final DeepSeekEnrichmentService enrichmentService;
-    private final VocabularyRepository vocabularyRepository;
-    private final GrammarCardRepository grammarCardRepository;
+    private final VocabularyDataProvider vocabularyDataProvider;
+    private final KnowledgeDataProvider knowledgeDataProvider;
 
     // Deduplicated Task Queue & Map tracking active/queued tasks
     private final BlockingQueue<EnrichTask> taskQueue = new LinkedBlockingQueue<>();
@@ -78,11 +79,11 @@ public class AiEnrichmentQueueService {
 
     @Autowired
     public AiEnrichmentQueueService(DeepSeekEnrichmentService enrichmentService,
-                                   VocabularyRepository vocabularyRepository,
-                                   GrammarCardRepository grammarCardRepository) {
+                                   VocabularyDataProvider vocabularyDataProvider,
+                                   @Autowired(required = false) KnowledgeDataProvider knowledgeDataProvider) {
         this.enrichmentService = enrichmentService;
-        this.vocabularyRepository = vocabularyRepository;
-        this.grammarCardRepository = grammarCardRepository;
+        this.vocabularyDataProvider = vocabularyDataProvider;
+        this.knowledgeDataProvider = knowledgeDataProvider;
     }
 
     @PostConstruct
@@ -181,14 +182,21 @@ public class AiEnrichmentQueueService {
                 task.getKey(), 10 - concurrencySemaphore.availablePermits());
 
             if (task.getType() == TaskType.VOCABULARY) {
-                Vocabulary vocab = vocabularyRepository.findById(task.getId()).orElse(null);
+                Vocabulary vocab = vocabularyDataProvider.getById(task.getId()).orElse(null);
                 if (vocab != null) {
+                    boolean isMissingHanViet = (vocab.getHanViet() == null || vocab.getHanViet().isBlank());
                     boolean isMissingFields = (vocab.getUsageGuide() == null || vocab.getUsageGuide().isBlank())
                         || (vocab.getMnemonic() == null || vocab.getMnemonic().isBlank())
-                        || (vocab.getExampleSentences() == null || vocab.getExampleSentences().isBlank());
+                        || (vocab.getExampleSentences() == null || vocab.getExampleSentences().isBlank())
+                        || isMissingHanViet;
 
                     if (task.isForce() || isMissingFields) {
-                        Vocabulary enriched = enrichmentService.enrichVocabulary(vocab).get(30, TimeUnit.SECONDS);
+                        Vocabulary enriched;
+                        if (!task.isForce() && isMissingHanViet && (vocab.getUsageGuide() != null && !vocab.getUsageGuide().isBlank())) {
+                            enriched = enrichmentService.enrichMissingHanViet(vocab).get(15, TimeUnit.SECONDS);
+                        } else {
+                            enriched = enrichmentService.enrichVocabulary(vocab).get(30, TimeUnit.SECONDS);
+                        }
                         task.getCompletionFuture().complete(enriched);
                     } else {
                         task.getCompletionFuture().complete(vocab);
@@ -197,7 +205,7 @@ public class AiEnrichmentQueueService {
                     task.getCompletionFuture().complete(null);
                 }
             } else if (task.getType() == TaskType.GRAMMAR) {
-                GrammarCard gCard = grammarCardRepository.findById(task.getId()).orElse(null);
+                GrammarCard gCard = knowledgeDataProvider != null ? knowledgeDataProvider.findGrammarById(task.getId()).orElse(null) : null;
                 if (gCard != null) {
                     boolean isMissingFields = (gCard.getUsageGuide() == null || gCard.getUsageGuide().isBlank())
                         || (gCard.getSimilarGrammar() == null || gCard.getSimilarGrammar().isBlank());

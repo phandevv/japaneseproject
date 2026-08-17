@@ -99,6 +99,29 @@ public class DeepSeekProvider implements AIProvider {
         if (apiKey == null || apiKey.trim().isEmpty()) {
             apiKey = System.getProperty("DEEPSEEK_API_KEY");
         }
+        if (apiKey == null || apiKey.trim().isEmpty()) {
+            try {
+                java.nio.file.Path envPath = java.nio.file.Paths.get(".env");
+                if (!java.nio.file.Files.exists(envPath)) {
+                    envPath = java.nio.file.Paths.get("../.env");
+                }
+                if (!java.nio.file.Files.exists(envPath)) {
+                    envPath = java.nio.file.Paths.get("../../.env");
+                }
+                if (java.nio.file.Files.exists(envPath)) {
+                    for (String line : java.nio.file.Files.readAllLines(envPath)) {
+                        line = line.trim();
+                        if (line.startsWith("DEEPSEEK_API_KEY=")) {
+                            apiKey = line.substring("DEEPSEEK_API_KEY=".length()).trim();
+                            if (apiKey.startsWith("\"") && apiKey.endsWith("\"")) {
+                                apiKey = apiKey.substring(1, apiKey.length() - 1);
+                            }
+                            break;
+                        }
+                    }
+                }
+            } catch (Exception ignored) {}
+        }
         return (apiKey == null || apiKey.trim().isEmpty()) ? null : apiKey;
     }
 }

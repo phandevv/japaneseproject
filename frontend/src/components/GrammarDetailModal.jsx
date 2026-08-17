@@ -16,9 +16,10 @@ const GrammarDetailModal = ({ grammarCard, onClose, onReEnriched }) => {
   if (!grammarCard) return null;
 
   const data = localData || grammarCard;
+  const isCurrentlyCallingAi = reEnriching || data.isEnriching === true;
 
   const handleReEnrich = async () => {
-    if (!data || !data.id || reEnriching) return;
+    if (!data || !data.id || isCurrentlyCallingAi) return;
     setReEnriching(true);
     setReEnrichSuccess(false);
     try {
@@ -96,24 +97,27 @@ const GrammarDetailModal = ({ grammarCard, onClose, onReEnriched }) => {
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
             <button
               onClick={handleReEnrich}
-              disabled={reEnriching}
+              disabled={isCurrentlyCallingAi}
+              title={isCurrentlyCallingAi ? "AI đang làm giàu dữ liệu..." : "Nạp dữ liệu AI chuyên sâu"}
               className="btn btn-secondary"
               style={{
                 fontSize: '0.82rem', padding: '6px 14px', borderRadius: '10px',
-                display: 'flex', alignItems: 'center', gap: '6px', cursor: 'pointer',
+                display: 'flex', alignItems: 'center', gap: '6px',
+                cursor: isCurrentlyCallingAi ? 'not-allowed' : 'pointer',
+                opacity: isCurrentlyCallingAi ? 0.75 : 1,
                 backgroundColor: reEnrichSuccess ? 'var(--success-light)' : 'rgba(37,99,235,0.08)',
                 color: reEnrichSuccess ? 'var(--success-color)' : 'var(--accent-color)',
                 border: '1px solid rgba(37,99,235,0.2)'
               }}
             >
-              {reEnriching ? (
+              {isCurrentlyCallingAi ? (
                 <RefreshCw size={14} className="animate-spin" />
               ) : reEnrichSuccess ? (
                 <CheckCircle size={14} />
               ) : (
                 <Sparkles size={14} />
               )}
-              {reEnriching ? 'AI Đang phân tích...' : reEnrichSuccess ? 'Đã nạp xong!' : 'Nạp dữ liệu AI'}
+              {isCurrentlyCallingAi ? '⚡ AI Đang làm giàu...' : reEnrichSuccess ? 'Đã nạp xong!' : 'Nạp dữ liệu AI'}
             </button>
 
             <button

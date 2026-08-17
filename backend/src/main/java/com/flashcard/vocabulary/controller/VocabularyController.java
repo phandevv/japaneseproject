@@ -52,6 +52,9 @@ public class VocabularyController {
             @PathVariable String level,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "50") int size) {
+        if ("ALL".equalsIgnoreCase(level)) {
+            return ResponseEntity.ok(service.getAll(PageRequest.of(page, size)));
+        }
         return ResponseEntity.ok(service.getByLevel(level, PageRequest.of(page, size)));
     }
 
@@ -72,7 +75,7 @@ public class VocabularyController {
     public ResponseEntity<List<Vocabulary>> getRandom(
             @RequestParam(required = false) String level,
             @RequestParam(defaultValue = "20") int count) {
-        if (level != null && !level.isEmpty()) {
+        if (level != null && !level.isEmpty() && !"ALL".equalsIgnoreCase(level)) {
             return ResponseEntity.ok(service.getRandomByLevel(level, count));
         }
         return ResponseEntity.ok(service.getRandom(count));
@@ -121,11 +124,27 @@ public class VocabularyController {
         return service.getById(id).map(existing -> {
             existing.setKanji(vocabulary.getKanji());
             existing.setHiragana(vocabulary.getHiragana());
+            existing.setRomaji(vocabulary.getRomaji());
             existing.setHanViet(vocabulary.getHanViet());
             existing.setMeaning(vocabulary.getMeaning());
             existing.setWordType(vocabulary.getWordType());
             existing.setLevel(vocabulary.getLevel());
             existing.setCategory(vocabulary.getCategory());
+            existing.setKanjiWords(vocabulary.getKanjiWords());
+            existing.setSampleSentence(vocabulary.getSampleSentence());
+            existing.setSampleTranslation(vocabulary.getSampleTranslation());
+            existing.setSampleReading(vocabulary.getSampleReading());
+            existing.setPitchAccent(vocabulary.getPitchAccent());
+            existing.setSynonyms(vocabulary.getSynonyms());
+            existing.setAntonyms(vocabulary.getAntonyms());
+            existing.setCommonMistakes(vocabulary.getCommonMistakes());
+            existing.setCollocations(vocabulary.getCollocations());
+            existing.setMnemonic(vocabulary.getMnemonic());
+            existing.setConversationExamples(vocabulary.getConversationExamples());
+            existing.setExampleSentences(vocabulary.getExampleSentences());
+            existing.setUsageGuide(vocabulary.getUsageGuide());
+            existing.setOnReading(vocabulary.getOnReading());
+            existing.setKunReading(vocabulary.getKunReading());
             return ResponseEntity.ok(service.save(existing));
         }).orElse(ResponseEntity.notFound().build());
     }
@@ -182,7 +201,8 @@ public class VocabularyController {
             && (existing.getMnemonic() != null && !existing.getMnemonic().isBlank())
             && (existing.getExampleSentences() != null && !existing.getExampleSentences().isBlank())
             && (existing.getCollocations() != null && !existing.getCollocations().isBlank())
-            && (existing.getConversationExamples() != null && !existing.getConversationExamples().isBlank());
+            && (existing.getConversationExamples() != null && !existing.getConversationExamples().isBlank())
+            && (existing.getHanViet() != null && !existing.getHanViet().isBlank());
         
         if (fullyEnriched && !force) {
             if (queueService != null) {
@@ -195,7 +215,7 @@ public class VocabularyController {
             AiEnrichmentQueueService.EnrichTask task = queueService.enqueueVocabulary(id, force);
             if (force && task != null) {
                 try {
-                    Object result = task.getCompletionFuture().get(25, java.util.concurrent.TimeUnit.SECONDS);
+                    Object result = task.getCompletionFuture().get(45, java.util.concurrent.TimeUnit.SECONDS);
                     if (result instanceof Vocabulary v) {
                         v.setIsEnriching(false);
                         return ResponseEntity.ok(v);

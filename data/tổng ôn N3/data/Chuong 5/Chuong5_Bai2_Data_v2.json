@@ -1,0 +1,738 @@
+{
+    "chuong": 5,
+    "bai": 2,
+    "chu_han": [
+        {
+            "kanji": "給",
+            "am_doc": "キュウ",
+            "han_viet": "CẤP",
+            "nghia": "cung cấp, phân phát",
+            "tu_vung": [
+                "支給 (cấp phát, chu cấp)",
+                "給食 (suất ăn ở trường, cơ quan)",
+                "給料 (tiền lương)"
+            ]
+        },
+        {
+            "kanji": "結",
+            "am_doc": "ケツ / むす・ぶ",
+            "han_viet": "KẾT",
+            "nghia": "kết nối, buộc, thắt",
+            "tu_vung": [
+                "結ぶ (buộc, kết nối, ký kết)",
+                "結果 (kết quả)",
+                "結論 (kết luận)",
+                "結局 (kết cục, cuối cùng)",
+                "結婚式 (lễ cưới)",
+                "結構 (khá, tốt, đủ rồi)"
+            ]
+        },
+        {
+            "kanji": "級",
+            "am_doc": "キュウ",
+            "han_viet": "CẤP",
+            "nghia": "cấp bậc, mức độ",
+            "tu_vung": [
+                "上級 (cao cấp)",
+                "中級 (trung cấp)",
+                "高級 (cao cấp, sang trọng)",
+                "同級生 (bạn cùng lớp, bạn cùng khóa)"
+            ]
+        },
+        {
+            "kanji": "絵",
+            "am_doc": "カイ、エ",
+            "han_viet": "HỘI",
+            "nghia": "tranh, hình vẽ",
+            "tu_vung": [
+                "絵 (tranh, hình vẽ)",
+                "絵本 (sách tranh, truyện tranh cho trẻ em)",
+                "絵画 (hội họa, bức tranh)"
+            ]
+        },
+        {
+            "kanji": "続",
+            "am_doc": "ゾク / つづ・ける、つづ・く",
+            "han_viet": "TỤC",
+            "nghia": "tiếp tục",
+            "tu_vung": [
+                "続ける (tiếp tục)",
+                "続く (tiếp diễn, kéo dài)",
+                "続き (phần tiếp theo, sự tiếp tục)",
+                "続々と (liên tiếp, liên tục)"
+            ]
+        },
+        {
+            "kanji": "組",
+            "am_doc": "ソ / く・む、くみ",
+            "han_viet": "TỔ",
+            "nghia": "tổ chức, nhóm, lắp ráp",
+            "tu_vung": [
+                "組む (kết hợp, hợp tác, bắt chéo (tay/ chân))",
+                "組み立てる (lắp ráp, tổ chức)",
+                "番組 (chương trình)"
+            ]
+        },
+        {
+            "kanji": "約",
+            "am_doc": "ヤク",
+            "han_viet": "ƯỚC",
+            "nghia": "lời hứa, ước lượng",
+            "tu_vung": [
+                "約 (khoảng, xấp xỉ)",
+                "予約 (đặt trước, đặt chỗ)",
+                "約束 (lời hứa, hẹn)",
+                "節約 (tiết kiệm)",
+                "契約 (hợp đồng, giao kèo)"
+            ]
+        },
+        {
+            "kanji": "的",
+            "am_doc": "テキ / まと",
+            "han_viet": "ĐÍCH",
+            "nghia": "mục tiêu, mang tính",
+            "tu_vung": [
+                "目的 (mục đích)",
+                "印象的 (một cách ấn tượng)",
+                "一般的 (mang tính phổ biến, thông thường)",
+                "自動的 (một cách tự động)"
+            ]
+        },
+        {
+            "kanji": "均",
+            "am_doc": "キン",
+            "han_viet": "QUÂN",
+            "nghia": "trung bình, đều",
+            "tu_vung": [
+                "平均 (bình quân)"
+            ]
+        },
+        {
+            "kanji": "圧",
+            "am_doc": "アツ",
+            "han_viet": "ÁP",
+            "nghia": "áp lực, áp suất",
+            "tu_vung": [
+                "血圧 (huyết áp)",
+                "高血圧 (huyết áp cao)",
+                "低血圧 (huyết áp thấp)"
+            ]
+        },
+        {
+            "kanji": "在",
+            "am_doc": "ザイ",
+            "han_viet": "TẠI",
+            "nghia": "tồn tại, ở, hiện diện",
+            "tu_vung": [
+                "現在 (hiện tại, bây giờ)",
+                "滞在 (lưu trú, tạm trú)"
+            ]
+        },
+        {
+            "kanji": "幸",
+            "am_doc": "コウ / しあわ・せ、さいわ・い、さち",
+            "han_viet": "HẠNH",
+            "nghia": "hạnh phúc, may mắn",
+            "tu_vung": [
+                "幸せ (hạnh phúc)",
+                "幸運 (may mắn)"
+            ]
+        },
+        {
+            "kanji": "塩",
+            "am_doc": "エン / しお",
+            "han_viet": "DIÊM",
+            "nghia": "muối",
+            "tu_vung": [
+                "塩 (muối)"
+            ]
+        }
+    ],
+    "tu_vung": [
+        {
+            "tu": "癖",
+            "cach_doc": "くせ",
+            "loai_tu": "N",
+            "nghia": "tật, thói quen, nếp, quăn",
+            "vi_du": "息子はつめをかむ癖がなかなか直らない。/ 私の髪の毛は癖があってまっすぐではない。"
+        },
+        {
+            "tu": "腕",
+            "cach_doc": "うで",
+            "loai_tu": "N",
+            "nghia": "cánh tay",
+            "vi_du": "机の角に腕を強くぶつけた。"
+        },
+        {
+            "tu": "番組",
+            "cach_doc": "ばんぐみ",
+            "loai_tu": "N",
+            "nghia": "chương trình",
+            "vi_du": "この番組は20年前から続いている。/ 毎朝ニュース番組を見ています。"
+        },
+        {
+            "tu": "血圧",
+            "cach_doc": "けつあつ",
+            "loai_tu": "N",
+            "nghia": "huyết áp",
+            "vi_du": "私は血圧が低くて、急に立ち上がるとめまいがする。/ 運動すると血圧が上がる。"
+        },
+        {
+            "tu": "目的",
+            "cach_doc": "もくてき",
+            "loai_tu": "N",
+            "nghia": "mục đích",
+            "vi_du": "最近は、目的もなく大学に行く人が多い。/ 外国語は、目的を持って勉強すると上達しやすい。"
+        },
+        {
+            "tu": "代金",
+            "cach_doc": "だいきん",
+            "loai_tu": "N",
+            "nghia": "tiền hàng, tiền trả (cho hàng hoá, dịch vụ)",
+            "vi_du": "あちらのレジで商品の代金を払ってください。/ 代金の支払いは現金のみです。"
+        },
+        {
+            "tu": "代理人",
+            "cach_doc": "だいりにん",
+            "loai_tu": "N",
+            "nghia": "người đại diện",
+            "vi_du": "本人の代わりに、代理人が契約の手続きを行った。"
+        },
+        {
+            "tu": "家具",
+            "cach_doc": "かぐ",
+            "loai_tu": "N",
+            "nghia": "đồ nội thất",
+            "vi_du": "この部屋には家具がほとんどありません。"
+        },
+        {
+            "tu": "部品",
+            "cach_doc": "ぶひん",
+            "loai_tu": "N",
+            "nghia": "linh kiện, bộ phận",
+            "vi_du": "車の調子が悪かったが、部品を交換したら直った。/ 私は工場で機械の部品を組み立てる仕事をしています。"
+        },
+        {
+            "tu": "成人",
+            "cach_doc": "せいじん",
+            "loai_tu": "N",
+            "nghia": "người trưởng thành",
+            "vi_du": "日本では18歳から成人です。/ 息子が成人になったのを祝って、家族で寿司を食べに行ってきた。"
+        },
+        {
+            "tu": "状態",
+            "cach_doc": "じょうたい",
+            "loai_tu": "N",
+            "nghia": "trạng thái, tình trạng",
+            "vi_du": "父は健康状態があまりよくないので、飛行機に乗るのは難しい。/ 会社の経営状態がよくないため、社員が減らされる可能性がある。"
+        },
+        {
+            "tu": "ボーナス",
+            "cach_doc": "ボーナス",
+            "loai_tu": "N",
+            "nghia": "tiền thưởng (bonus)",
+            "vi_du": "今期は会社の業績がよかったため、ボーナスが増えた。"
+        },
+        {
+            "tu": "ライト",
+            "cach_doc": "ライト",
+            "loai_tu": "N",
+            "nghia": "ánh sáng, đèn (light)",
+            "vi_du": "この部屋のライトは暗いので、電球を換えたほうがいいです。"
+        },
+        {
+            "tu": "ポイント",
+            "cach_doc": "ポイント",
+            "loai_tu": "N",
+            "nghia": "điểm, trọng điểm (point)",
+            "vi_du": "授業で大事なポイントを、先生がわかりやすく説明してくれた。/ このカードで買い物すると、ポイントが貯まる。"
+        },
+        {
+            "tu": "プロ",
+            "cach_doc": "プロ",
+            "loai_tu": "N",
+            "nghia": "chuyên gia, chuyên nghiệp (pro/professional)",
+            "vi_du": "彼はプロのサッカー選手です。"
+        },
+        {
+            "tu": "チャイム",
+            "cach_doc": "チャイム",
+            "loai_tu": "N",
+            "nghia": "chuông (chime)",
+            "vi_du": "授業のチャイムが鳴る前に、席に着くようにしています。"
+        },
+        {
+            "tu": "正式",
+            "cach_doc": "せいしき",
+            "loai_tu": "A/N",
+            "nghia": "chính thức",
+            "vi_du": "新商品が9月1日に発売されることが正式に発表された。"
+        },
+        {
+            "tu": "幸せ",
+            "cach_doc": "しあわせ",
+            "loai_tu": "A/N",
+            "nghia": "hạnh phúc",
+            "vi_du": "家族と一緒に過ごす時間が、一番幸せです。/ お金持ちがみんな幸せとは限らない。"
+        },
+        {
+            "tu": "幸運",
+            "cach_doc": "こううん",
+            "loai_tu": "A/N",
+            "nghia": "may mắn",
+            "vi_du": "試合開始直前に雨が止んだのは幸運だった。"
+        },
+        {
+            "tu": "組み立てる",
+            "cach_doc": "くみたてる",
+            "loai_tu": "V",
+            "nghia": "lắp ráp, lắp ghép",
+            "vi_du": "説明書を見ながら、本棚を組み立てた。"
+        },
+        {
+            "tu": "助ける",
+            "cach_doc": "たすける",
+            "loai_tu": "V",
+            "nghia": "giúp, giúp đỡ, cứu",
+            "vi_du": "川で溺れていた猫を助けた。/ 人を助けるために、医者になった。"
+        },
+        {
+            "tu": "空く",
+            "cach_doc": "あく",
+            "loai_tu": "V",
+            "nghia": "trống, vắng, rảnh (thời gian), thủng",
+            "vi_du": "店内は人がいっぱいで、空いている席はなかった。/ 土曜日の夜、空いていますか。/ ズボンのひざの部分に穴が空いてしまった。"
+        },
+        {
+            "tu": "鳴る",
+            "cach_doc": "なる",
+            "loai_tu": "V",
+            "nghia": "reo, kêu",
+            "vi_du": "目覚まし時計が鳴る音で目が覚めた。/ 雷が鳴って、その後すぐに雨が降り始めた。"
+        },
+        {
+            "tu": "鳴らす",
+            "cach_doc": "ならす",
+            "loai_tu": "V",
+            "nghia": "bấm, rung (chuông, còi,...)",
+            "vi_du": "前の車がなかなか進まないので、クラクションを鳴らした。/ 電話を何回も鳴らしたが、彼は電話に出なかった。"
+        },
+        {
+            "tu": "植える",
+            "cach_doc": "うえる",
+            "loai_tu": "V",
+            "nghia": "trồng",
+            "vi_du": "庭には木だけでなく、花も植えたい。"
+        },
+        {
+            "tu": "分ける",
+            "cach_doc": "わける",
+            "loai_tu": "V",
+            "nghia": "chia, tách, phân chia",
+            "vi_du": "クラスを半分に分けて、それぞれで話し合いをさせた。/ 母からもらったお菓子を兄弟で分けた。"
+        },
+        {
+            "tu": "話しかける",
+            "cach_doc": "はなしかける",
+            "loai_tu": "V",
+            "nghia": "bắt chuyện",
+            "vi_du": "マスクをした怪しい男に話しかけられた。/ 彼はいつも忙しそうなので、話しかけにくい。"
+        },
+        {
+            "tu": "隠れる",
+            "cach_doc": "かくれる",
+            "loai_tu": "V",
+            "nghia": "trốn, ẩn nấp",
+            "vi_du": "誰かがドアの後ろに隠れている。/ 私の高校はアルバイト禁止だったが、隠れてしていた。"
+        },
+        {
+            "tu": "描く",
+            "cach_doc": "えがく",
+            "loai_tu": "V",
+            "nghia": "vẽ, miêu tả, khắc họa",
+            "vi_du": "私は、絵を描くのが好きです。/ この画家は、よく自然の風景を描く。/ この小説は、主人公の複雑な感情を見事に描いている。"
+        },
+        {
+            "tu": "誘う",
+            "cach_doc": "さそう",
+            "loai_tu": "V",
+            "nghia": "mời, rủ",
+            "vi_du": "彼氏を誘ってピザを食べに行った。/ 彼からのデートの誘いを断った。"
+        },
+        {
+            "tu": "予約",
+            "cach_doc": "よやく",
+            "loai_tu": "N/V",
+            "nghia": "đặt trước, hẹn trước",
+            "vi_du": "旅行に行く前に、ホテルを予約しておく。/ この美容院はインターネットで予約できる。"
+        },
+        {
+            "tu": "節約",
+            "cach_doc": "せつやく",
+            "loai_tu": "N/V",
+            "nghia": "tiết kiệm",
+            "vi_du": "給料日前は、節約して生活している。/ 電気代を節約するために、なるべくエアコンを使わないようにしている。"
+        },
+        {
+            "tu": "契約",
+            "cach_doc": "けいやく",
+            "loai_tu": "N/V",
+            "nghia": "hợp đồng",
+            "vi_du": "契約書にサインをしてください。/ 3年間のマンション賃貸契約をした。"
+        },
+        {
+            "tu": "滞在",
+            "cach_doc": "たいざい",
+            "loai_tu": "N/V",
+            "nghia": "lưu trú",
+            "vi_du": "彼は、日本に滞在したことがある。/ 二週間ほど、イタリアに滞在する予定だ。"
+        },
+        {
+            "tu": "感動",
+            "cach_doc": "かんどう",
+            "loai_tu": "N/V",
+            "nghia": "cảm động, xúc động",
+            "vi_du": "富士山の美しさに感動した。/ この映画を見たときの感動を、他の人にも伝えたい。"
+        },
+        {
+            "tu": "成功",
+            "cach_doc": "せいこう",
+            "loai_tu": "N/V",
+            "nghia": "thành công",
+            "vi_du": "成功した人の話を聞くのは面白い。/ 実験は3回目でやっと成功した。"
+        },
+        {
+            "tu": "完成",
+            "cach_doc": "かんせい",
+            "loai_tu": "N/V",
+            "nghia": "hoàn thành, hoàn thiện",
+            "vi_du": "この映画は6年かかって、やっと完成した。/ 新しい道路は来年完成するそうだ。"
+        },
+        {
+            "tu": "プラス",
+            "cach_doc": "プラス",
+            "loai_tu": "N/V",
+            "nghia": "cộng, thêm (plus)",
+            "vi_du": "夕食にサラダをプラスするだけで、健康的になります。"
+        },
+        {
+            "tu": "マイナス",
+            "cach_doc": "マイナス",
+            "loai_tu": "N/V",
+            "nghia": "trừ, âm (minus)",
+            "vi_du": "今年の売り上げは、去年よりマイナスだった"
+        },
+        {
+            "tu": "まさか",
+            "cach_doc": "まさか",
+            "loai_tu": "PT",
+            "nghia": "không thể ngờ, không tin nổi",
+            "vi_du": "まさか、宝くじに当たるなんて思わなかった/ まさか、彼女が犯人だったなんて。"
+        },
+        {
+            "tu": "まるで",
+            "cach_doc": "まるで",
+            "loai_tu": "PT",
+            "nghia": "cứ như là, y như",
+            "vi_du": "まだ9月なのに、まるで真冬のようだ。/ 有名人と会えるなんてまるで夢みたいだ。"
+        },
+        {
+            "tu": "ちっとも",
+            "cach_doc": "ちっとも",
+            "loai_tu": "PT",
+            "nghia": "hoàn toàn...không, không.. một chút gì (thường đi cùng thể phủ định)",
+            "vi_du": "テレビが気になり、ちっとも仕事が進まない。/ この料理はちっともおいしくない。"
+        },
+        {
+            "tu": "ちょうど",
+            "cach_doc": "ちょうど",
+            "loai_tu": "PT",
+            "nghia": "vừa đúng, vừa đủ, đúng lúc",
+            "vi_du": "駅に着いたら、ちょうど電車が来た。/ 今ちょうど晩ご飯を作っているところ。"
+        },
+        {
+            "tu": "ちゃんと",
+            "cach_doc": "ちゃんと",
+            "loai_tu": "PT",
+            "nghia": "nghiêm túc, chỉn chu",
+            "vi_du": "ちゃんと仕事をしてください。/ 面接にはちゃんとした服装で行く。"
+        },
+        {
+            "tu": "つい",
+            "cach_doc": "つい",
+            "loai_tu": "PT",
+            "nghia": "lỡ, vô tình",
+            "vi_du": "楽しくて、つい話しすぎてしまった。/ 給料日は、つい買い物しすぎてしまう。"
+        },
+        {
+            "tu": "ついさっき",
+            "cach_doc": "ついさっき",
+            "loai_tu": "PT",
+            "nghia": "mới vừa rồi",
+            "vi_du": "ついさっき、彼と会ったばかりだ。"
+        },
+        {
+            "tu": "ついに",
+            "cach_doc": "ついに",
+            "loai_tu": "PT",
+            "nghia": "cuối cùng thì, sau một thời gian dài",
+            "vi_du": "長い間勉強して、ついに試験に合格した。/ 夢がついに実現した。"
+        },
+        {
+            "tu": "普段",
+            "cach_doc": "ふだん",
+            "loai_tu": "PT/N",
+            "nghia": "thường, bình thường",
+            "vi_du": "普段はあまり運動をしません。"
+        },
+        {
+            "tu": "途中で",
+            "cach_doc": "とちゅうで",
+            "loai_tu": "PT",
+            "nghia": "giữa chừng",
+            "vi_du": "会議の途中で電話が鳴った。"
+        },
+        {
+            "tu": "からから",
+            "cach_doc": "からから",
+            "loai_tu": "PT",
+            "nghia": "khô khốc, khô cứng",
+            "vi_du": "のどがからからに渇く。/ 洗濯物がからからに乾いた。"
+        },
+        {
+            "tu": "ぐうぐう",
+            "cach_doc": "ぐうぐう",
+            "loai_tu": "PT",
+            "nghia": "khò khò (ngủ say), ùng ục (bụng đói)",
+            "vi_du": "彼はぐうぐう寝ている。/ お腹がぐうぐう鳴っている。"
+        },
+        {
+            "tu": "ぐらぐら",
+            "cach_doc": "ぐらぐら",
+            "loai_tu": "PT",
+            "nghia": "lắc lư, lung lay",
+            "vi_du": "地震で家がぐらぐら揺れた。"
+        },
+        {
+            "tu": "ざあざあ",
+            "cach_doc": "ざあざあ",
+            "loai_tu": "PT",
+            "nghia": "(mưa) rào rào, xối xả",
+            "vi_du": "雨がざあざあ降っている。"
+        },
+        {
+            "tu": "ずきずき",
+            "cach_doc": "ずきずき",
+            "loai_tu": "PT",
+            "nghia": "đau giật từng cơn, đau theo nhịp mạch đập",
+            "vi_du": "歯がずきずき痛む。/ 傷口がずきずきしてきた。"
+        },
+        {
+            "tu": "そろそろ",
+            "cach_doc": "そろそろ",
+            "loai_tu": "PT",
+            "nghia": "sắp sửa, chuẩn bị",
+            "vi_du": "空が明るくなってきたので、そろそろ雨が止みそうだ。/ そろそろ帰ろうか。"
+        },
+        {
+            "tu": "ちかちか",
+            "cach_doc": "ちかちか",
+            "loai_tu": "PT",
+            "nghia": "nhấp nháy (ánh sáng)",
+            "vi_du": "あの看板は、ちかちかして見づらい。"
+        },
+        {
+            "tu": "ぶつぶつ",
+            "cach_doc": "ぶつぶつ",
+            "loai_tu": "PT",
+            "nghia": "lầm bầm, càu nhàu",
+            "vi_du": "彼はぶつぶつ文句を言っている。"
+        },
+        {
+            "tu": "さらさら",
+            "cach_doc": "さらさら",
+            "loai_tu": "PT",
+            "nghia": "mềm mượt, xào xạc",
+            "vi_du": "風で葉がさらさらと揺れた。/ 彼女はさらさらの髪の毛が自慢だ。"
+        },
+        {
+            "tu": "だぶだぶ",
+            "cach_doc": "だぶだぶ",
+            "loai_tu": "PT",
+            "nghia": "rộng thùng thình, lỏng lẻo",
+            "vi_du": "彼はだぶだぶのシャツを着ていて、だらしない。"
+        },
+        {
+            "tu": "ぴかぴか",
+            "cach_doc": "ぴかぴか",
+            "loai_tu": "PT",
+            "nghia": "lấp lánh, sáng bóng",
+            "vi_du": "新しい靴はぴかぴかだ。/ 車がぴかぴかに磨かれている。"
+        },
+        {
+            "tu": "ぺこぺこ",
+            "cach_doc": "ぺこぺこ",
+            "loai_tu": "PT",
+            "nghia": "đói cồn cào, lia lịa (cúi đầu), khúm núm",
+            "vi_du": "お腹がぺこぺこだ。/ 彼はぺこぺこして謝っていた。"
+        },
+        {
+            "tu": "のろのろ",
+            "cach_doc": "のろのろ",
+            "loai_tu": "PT",
+            "nghia": "chậm chạp, lề mề",
+            "vi_du": "前の車がのろのろ運転していて邪魔だ。"
+        },
+        {
+            "tu": "はらはら",
+            "cach_doc": "はらはら",
+            "loai_tu": "PT",
+            "nghia": "rơi lả tả, bồn chồn, lo lắng, sốt ruột",
+            "vi_du": "桜の花びらがはらはらと落ちている。/ 映画のラストシーンで、主人公が死ぬのではないかと、はらはらした。"
+        },
+        {
+            "tu": "ふらふら",
+            "cach_doc": "ふらふら",
+            "loai_tu": "PT",
+            "nghia": "không ổn định, choáng váng, lảo đảo",
+            "vi_du": "彼は考え方がふらふらしていて、信用できない。/ 暑すぎて、頭がふらふらする。"
+        },
+        {
+            "tu": "ぶらぶら",
+            "cach_doc": "ぶらぶら",
+            "loai_tu": "PT",
+            "nghia": "đong đưa, lủng lẳng, rảnh rỗi, không làm gì, lang thang",
+            "vi_du": "子供たちは椅子に座って、足をぶらぶらさせている。/ 彼は仕事もしないでぶらぶらしている。/ 公園をぶらぶら散歩した。"
+        },
+        {
+            "tu": "わくわく",
+            "cach_doc": "わくわく",
+            "loai_tu": "PT",
+            "nghia": "hồi hộp, háo hức",
+            "vi_du": "これから彼女と会うのが楽しみでわくわくしている。"
+        },
+        {
+            "tu": "うろうろ",
+            "cach_doc": "うろうろ",
+            "loai_tu": "PT",
+            "nghia": "lang thang, loanh quanh",
+            "vi_du": "道に迷ってしまって、30分くらいうろうろしていた。"
+        },
+        {
+            "tu": "いらいら",
+            "cach_doc": "いらいら",
+            "loai_tu": "PT",
+            "nghia": "nóng ruột, khó chịu",
+            "vi_du": "何度も待たされて、いらいらしてきた。"
+        },
+        {
+            "tu": "がらがら",
+            "cach_doc": "がらがら",
+            "loai_tu": "PT",
+            "nghia": "vắng tanh vắng ngắt, (giọng) khàn",
+            "vi_du": "平日の昼だったので、バスの中はがらがらだった。/ 風邪で声ががらがらになった。"
+        },
+        {
+            "tu": "ぐちゃぐちゃ",
+            "cach_doc": "ぐちゃぐちゃ",
+            "loai_tu": "PT",
+            "nghia": "bừa bộn, lộn xộn; nhão nhoét",
+            "vi_du": "情報が多すぎて、頭の中がぐちゃぐちゃになった。/ 大雨でグラウンドがぐちゃぐちゃになった。"
+        },
+        {
+            "tu": "とうとう",
+            "cach_doc": "とうとう",
+            "loai_tu": "PT",
+            "nghia": "cuối cùng, rốt cuộc",
+            "vi_du": "古いパソコンが、とうとう動かなくなった。/ 長かった試験期間が、とうとう終わった。"
+        },
+        {
+            "tu": "どんどん",
+            "cach_doc": "どんどん",
+            "loai_tu": "PT",
+            "nghia": "(phát triển, thay đổi) nhanh chóng, mau lẹ, (hành động) nhanh, mạnh mẽ, dứt khoát",
+            "vi_du": "薬を変えたら、体調がどんどんよくなった。/ 山道をどんどん進む。"
+        },
+        {
+            "tu": "次々",
+            "cach_doc": "つぎつぎ",
+            "loai_tu": "PT",
+            "nghia": "lần lượt, liên tiếp",
+            "vi_du": "30歳に近づくと、友達が次々に結婚していく/ 会議では次々と質問が出てきた。"
+        },
+        {
+            "tu": "続々",
+            "cach_doc": "ぞくぞく",
+            "loai_tu": "PT",
+            "nghia": "hết cái này đến cái kia, người này đến người khác",
+            "vi_du": "お昼ごろから、続々とお客さんが来た。"
+        },
+        {
+            "tu": "的",
+            "cach_doc": "てき",
+            "loai_tu": "Hậu tố",
+            "nghia": "mang tính",
+            "vi_du": "一般的 (phổ biến, thông thường) / 社会的 (mang tính xã hội) / 政治的 (mang tính chính trị)"
+        },
+        {
+            "tu": "代",
+            "cach_doc": "だい",
+            "loai_tu": "Hậu tố",
+            "nghia": "phí, chi phí (thường là số tiền phải trả cho hàng hóa, dịch vụ)",
+            "vi_du": "水道代 (tiền nước) / ガス代 (tiền gas) / 昼食代 (tiền bữa trưa)"
+        }
+    ],
+    "ngu_phap": [
+        {
+            "cau_truc": "~てからでないと / ~てからでなければ",
+            "y_nghia": "Phải V1 rồi mới V2/ Nếu không V1 thì không V2 được. Diễn tả hành động vế sau chỉ xảy ra khi hành động vế trước đã xảy ra/kết thúc.",
+            "cach_chia": "V1て + からでないと V2 / からでなければ V2ない",
+            "vi_du": [
+                "私は子供たちが学校に行ってからでないと、自由に過ごせない。",
+                "私の家では、お祈りをしてからでないと、食事を始めることができない。",
+                "このことは課長に聞いてからでないと、決められない。",
+                "勉強してからでないと、試験に落ちるよ。"
+            ]
+        },
+        {
+            "cau_truc": "〜てはじめて",
+            "y_nghia": "Kể từ sau khi... thì mới/ Chỉ sau khi... mới. Kể từ sau khi làm một việc thì mới hiểu ra/ làm được một điều gì đó.",
+            "cach_chia": "Vて + はじめて",
+            "vi_du": [
+                "この本を3回読んではじめて、内容を理解することができた。",
+                "失ってはじめて、彼女の大切さが身に染みてわかった。",
+                "会社員になってはじめて、お金を稼ぐ大切さを学んだ。"
+            ]
+        },
+        {
+            "cau_truc": "~てもらってもいいですか",
+            "y_nghia": "V giúp tôi được không?/ Bạn có thể V giúp tôi không? Dùng để nhờ vả người khác làm điều gì đó cho mình.",
+            "cach_chia": "Vて + もらってもいいですか",
+            "vi_du": [
+                "母親:今日、私の代わりに、犬の散歩に行ってもらってもいい? 腰が痛くて･･･ 息子:わかった。行っておくよ。",
+                "コンタクトを落としちゃって･･･。悪いんだけど、一緒に探してもらってもいい?",
+                "すみません。このパン、交換してもらってもいいですか。賞味期限が切れていたんです。"
+            ]
+        },
+        {
+            "cau_truc": "~てよかった",
+            "y_nghia": "May mà đã... Cảm thấy thật tốt hoặc may mắn khi đã thực hiện điều nào đó, hoặc khi một trạng thái nào đó đã xảy ra.",
+            "cach_chia": "Vて/Nで / Aくて/Aなで + よかった",
+            "vi_du": [
+                "今日は晴れてよかったね。これで安心してハイキングに行けるね。",
+                "映画館で安く映画を見られたときは、学生でよかったと思いました。",
+                "日本に来て、日本文化への理解が深まりました。日本に来てよかったです。"
+            ]
+        },
+        {
+            "cau_truc": "~てしかたがない / ~てしょうがない",
+            "y_nghia": "Rất.../ Vô cùng... Diễn tả trạng thái cơ thể/ cảm xúc cực kì, rất, vô cùng... của người nói.",
+            "cach_chia": "Vて/Vたくて / Aくて / Aなで + しかたがない / しょうがない",
+            "vi_du": [
+                "友達の誕生日パーティーに来たが、つまらないので帰りたくてしょうがない。",
+                "彼女に会えると思うと、嬉しくてしかたがない。",
+                "最近はあまり寝れなくて、会社に行くのが嫌でしかたがない。"
+            ]
+        }
+    ]
+}

@@ -99,7 +99,9 @@ public class KnowledgeService {
             );
 
             Map<String, Object> requestBodyMap = Map.of(
-                "model", "deepseek-v4-flash",
+                "model", "deepseek-chat",
+                "max_tokens", 250,
+                "temperature", 0.1,
                 "response_format", Map.of("type", "json_object"),
                 "messages", new Object[]{
                     Map.of("role", "system", "content", "Bạn là công cụ phân tích từ vựng/ngữ pháp tiếng Nhật. Chỉ phản hồi bằng định dạng JSON."),
@@ -510,7 +512,9 @@ public class KnowledgeService {
             );
 
             Map<String, Object> requestBodyMap = Map.of(
-                "model", "deepseek-v4-flash",
+                "model", "deepseek-chat",
+                "max_tokens", 800,
+                "temperature", 0.1,
                 "response_format", Map.of("type", "json_object"),
                 "messages", new Object[]{
                     Map.of("role", "system", "content", "Bạn là biên tập viên từ điển tiếng Nhật. Bạn chỉ phản hồi bằng định dạng JSON."),
@@ -567,7 +571,9 @@ public class KnowledgeService {
             );
 
             Map<String, Object> requestBodyMap = Map.of(
-                "model", "deepseek-v4-flash",
+                "model", "deepseek-chat",
+                "max_tokens", 250,
+                "temperature", 0.1,
                 "response_format", Map.of("type", "json_object"),
                 "messages", new Object[]{
                     Map.of("role", "system", "content", "Bạn là từ điển tiếng Nhật siêu tốc. Chỉ trả về định dạng JSON ngắn gọn duy nhất."),
@@ -624,7 +630,9 @@ public class KnowledgeService {
             );
 
             Map<String, Object> requestBodyMap = Map.of(
-                "model", "deepseek-v4-flash",
+                "model", "deepseek-chat",
+                "max_tokens", 300,
+                "temperature", 0.1,
                 "response_format", Map.of("type", "json_object"),
                 "messages", new Object[]{
                     Map.of("role", "system", "content", "Bạn là công cụ tra cứu ngữ pháp tiếng Nhật siêu tốc. Chỉ trả về định dạng JSON ngắn gọn duy nhất."),
@@ -699,7 +707,9 @@ public class KnowledgeService {
             );
 
             Map<String, Object> requestBodyMap = Map.of(
-                "model", "deepseek-v4-flash",
+                "model", "deepseek-chat",
+                "max_tokens", 1200,
+                "temperature", 0.1,
                 "response_format", Map.of("type", "json_object"),
                 "messages", new Object[]{
                     Map.of("role", "system", "content", "Bạn là biên tập viên ngữ pháp tiếng Nhật. Bạn chỉ phản hồi bằng định dạng JSON."),
@@ -829,10 +839,10 @@ public class KnowledgeService {
             // json_object mode forces DeepSeek to buffer until full JSON is ready — killing real-time streaming.
             // Instead stream freely and parse JSON from the accumulated content at the end.
             Map<String, Object> requestBodyMap = new java.util.LinkedHashMap<>();
-            requestBodyMap.put("model", "deepseek-v4-flash");
+            requestBodyMap.put("model", "deepseek-chat");
             requestBodyMap.put("stream", true);
-            requestBodyMap.put("temperature", 1.0);
-            requestBodyMap.put("max_tokens", 2000);
+            requestBodyMap.put("temperature", 0.2);
+            requestBodyMap.put("max_tokens", 1000);
             requestBodyMap.put("messages", new Object[]{
                 Map.of("role", "system", "content", "Bạn là biên tập viên tiếng Nhật. Bạn CHỈ phản hồi bằng một đối tượng JSON hợp lệ duy nhất, không có văn bản nào khác bên ngoài."),
                 Map.of("role", "user", "content", prompt)
@@ -1149,6 +1159,29 @@ public class KnowledgeService {
         String apiKey = System.getenv("DEEPSEEK_API_KEY");
         if (apiKey == null || apiKey.trim().isEmpty()) {
             apiKey = System.getProperty("DEEPSEEK_API_KEY");
+        }
+        if (apiKey == null || apiKey.trim().isEmpty()) {
+            try {
+                java.nio.file.Path envPath = java.nio.file.Paths.get(".env");
+                if (!java.nio.file.Files.exists(envPath)) {
+                    envPath = java.nio.file.Paths.get("../.env");
+                }
+                if (!java.nio.file.Files.exists(envPath)) {
+                    envPath = java.nio.file.Paths.get("../../.env");
+                }
+                if (java.nio.file.Files.exists(envPath)) {
+                    for (String line : java.nio.file.Files.readAllLines(envPath)) {
+                        line = line.trim();
+                        if (line.startsWith("DEEPSEEK_API_KEY=")) {
+                            apiKey = line.substring("DEEPSEEK_API_KEY=".length()).trim();
+                            if (apiKey.startsWith("\"") && apiKey.endsWith("\"")) {
+                                apiKey = apiKey.substring(1, apiKey.length() - 1);
+                            }
+                            break;
+                        }
+                    }
+                }
+            } catch (Exception ignored) {}
         }
         return (apiKey == null || apiKey.trim().isEmpty()) ? null : apiKey;
     }

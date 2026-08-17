@@ -635,15 +635,14 @@ const KanjiDetailModal = ({ words, initialIndex = 0, onClose, vocab }) => {
   useEffect(() => {
     if (!word) return;
 
+    // Render available word details immediately to eliminate UI flicker
+    setEnriched(word);
+
     if (hasRichEnrichment(word)) {
-      setEnriched(word);
       return;
     }
 
     if (!word.id) return;
-
-    setEnriched(null);
-    setLoadingEnrich(true);
 
     let active = true;
     let pollInterval = null;
@@ -658,20 +657,30 @@ const KanjiDetailModal = ({ words, initialIndex = 0, onClose, vocab }) => {
           setEnriched(data);
           setLoadingEnrich(false);
         } else {
-          // Start polling every 1.5s until database is updated
+          // Start polling every 1.5s (max 5 attempts / 7.5s) until database is updated
+          let pollAttempts = 0;
           pollInterval = setInterval(() => {
+            pollAttempts++;
+            if (pollAttempts >= 5) {
+              if (pollInterval) clearInterval(pollInterval);
+              setLoadingEnrich(false);
+              return;
+            }
             vocabApi.getById(word.id)
               .then(pollData => {
                 if (!active) return;
-                if (hasRichEnrichment(pollData)) {
+                if (hasRichEnrichment(pollData) || pollData.isEnriching === false) {
                   Object.assign(word, pollData);
-
                   setEnriched(pollData);
                   setLoadingEnrich(false);
-                  clearInterval(pollInterval);
+                  if (pollInterval) clearInterval(pollInterval);
                 }
               })
-              .catch(err => console.error("Failed to poll vocabulary details:", err));
+              .catch(err => {
+                console.error("Failed to poll vocabulary details:", err);
+                if (pollInterval) clearInterval(pollInterval);
+                setLoadingEnrich(false);
+              });
           }, 1500);
         }
       })

@@ -46,15 +46,7 @@ public class JlptN3DataLoader implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        if (!enabled) {
-            logger.info("JLPT N3 startup loader is disabled via config.");
-            return;
-        }
-        if (vocabularyDataProvider.findByCategory("N3_COURSE").size() > 0) {
-            logger.info("JLPT N3 Course data already loaded. Skipping startup import.");
-            return;
-        }
-        importAllN3Data();
+        logger.info("JLPT N3 automatic startup import is disabled. Use manual upload to import data.");
     }
 
     public static File findN3DataDirectory() {

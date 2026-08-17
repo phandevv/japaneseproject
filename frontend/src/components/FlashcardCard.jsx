@@ -49,8 +49,8 @@ const FlashcardCard = ({ word, flipped, onFlip, onRateWord }) => {
       return;
     }
 
-    setEnriched(null);
-    setLoadingEnrich(true);
+    // Display available word details immediately to eliminate UI flicker
+    setEnriched(word);
 
     let active = true;
     let pollInterval = null;
@@ -78,12 +78,19 @@ const FlashcardCard = ({ word, flipped, onFlip, onRateWord }) => {
           setEnriched(data);
           setLoadingEnrich(false);
         } else {
-          // Start polling every 1.5s until database is updated
+          // Start polling every 1.5s (max 5 attempts / 7.5s) until database is updated
+          let pollAttempts = 0;
           pollInterval = setInterval(() => {
+            pollAttempts++;
+            if (pollAttempts >= 5) {
+              if (pollInterval) clearInterval(pollInterval);
+              setLoadingEnrich(false);
+              return;
+            }
             vocabApi.getById(word.id)
               .then(pollData => {
                 if (!active) return;
-                if (hasRichEnrichment(pollData)) {
+                if (hasRichEnrichment(pollData) || pollData.isEnriching === false) {
                   word.pitchAccent = pollData.pitchAccent;
                   word.wordType = pollData.wordType;
                   word.mnemonic = pollData.mnemonic;
@@ -100,10 +107,14 @@ const FlashcardCard = ({ word, flipped, onFlip, onRateWord }) => {
 
                   setEnriched(pollData);
                   setLoadingEnrich(false);
-                  clearInterval(pollInterval);
+                  if (pollInterval) clearInterval(pollInterval);
                 }
               })
-              .catch(err => console.error("Failed to poll vocabulary details:", err));
+              .catch(err => {
+                console.error("Failed to poll vocabulary details:", err);
+                if (pollInterval) clearInterval(pollInterval);
+                setLoadingEnrich(false);
+              });
           }, 1500);
         }
       })
@@ -286,7 +297,7 @@ const FlashcardCard = ({ word, flipped, onFlip, onRateWord }) => {
             </div>
 
             {/* Right Column: AI Rich Data Section */}
-            <div className="flashcard-back-right hide-scrollbar" style={{ overflowY: 'auto' }} onClick={e => e.stopPropagation()}>
+            <div className="flashcard-back-right hide-scrollbar" style={{ overflowY: 'auto', flex: 1, minWidth: 0 }} onClick={e => e.stopPropagation()}>
               {loadingEnrich && (
                 <div style={{ 
                   color: 'var(--accent-color)', 

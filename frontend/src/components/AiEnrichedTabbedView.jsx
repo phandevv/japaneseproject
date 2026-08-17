@@ -71,9 +71,9 @@ export default function AiEnrichedTabbedView({ data, onReEnriched }) {
   const hasOldSentence = !exampleSentences.length && displayData.sampleSentence;
 
   return (
-    <div className="knowledge-card vocabulary-card-modern enriched-tabbed-view animate-fade-in" style={{ marginTop: '0px', border: '1px solid var(--border-color)', borderRadius: '12px', overflow: 'hidden', background: 'var(--surface-color)', boxShadow: 'var(--shadow-sm)', minHeight: '480px', display: 'flex', flexDirection: 'column' }}>
+    <div className="knowledge-card vocabulary-card-modern enriched-tabbed-view animate-fade-in" onClick={(e) => e.stopPropagation()} style={{ marginTop: '0px', border: '1px solid var(--border-color)', borderRadius: '12px', overflow: 'hidden', background: 'var(--surface-color)', boxShadow: 'var(--shadow-sm)', height: '100%', width: '100%', minWidth: '100%', boxSizing: 'border-box', display: 'flex', flexDirection: 'column', flex: 1 }}>
       {/* Mini header for context details */}
-      <div style={{ padding: '10px 16px', borderBottom: '1px solid var(--border-color)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', backgroundColor: 'var(--surface-hover)', gap: '8px', flexWrap: 'wrap' }}>
+      <div style={{ padding: '10px 16px', borderBottom: '1px solid var(--border-color)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', backgroundColor: 'var(--surface-hover)', gap: '8px', flexWrap: 'wrap', flexShrink: 0, width: '100%', boxSizing: 'border-box' }} onClick={(e) => e.stopPropagation()}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px', flexWrap: 'wrap' }}>
           {displayData.onReading && (
             <span style={{ fontSize: '0.82rem', color: 'var(--text-secondary)' }}>
@@ -126,39 +126,39 @@ export default function AiEnrichedTabbedView({ data, onReEnriched }) {
       </div>
 
       {/* Tabs */}
-      <div className="card-nav-tabs hide-scrollbar" style={{ display: 'flex', borderBottom: '1px solid var(--border-color)', background: 'var(--surface-color)', overflowY: 'hidden', overflowX: 'auto', scrollbarWidth: 'none' }}>
+      <div className="card-nav-tabs hide-scrollbar" onClick={(e) => e.stopPropagation()} style={{ display: 'flex', borderBottom: '1px solid var(--border-color)', background: 'var(--surface-color)', overflowY: 'hidden', overflowX: 'auto', scrollbarWidth: 'none', flexShrink: 0, width: '100%', boxSizing: 'border-box' }}>
         <button 
           type="button"
           className={`card-nav-btn ${activeCardTab === 'core' ? 'active' : ''}`}
-          onClick={() => setActiveCardTab('core')}
-          style={{ flex: 1, padding: '10px', background: 'none', border: 'none', borderBottom: activeCardTab === 'core' ? '2px solid var(--accent-color)' : 'none', color: activeCardTab === 'core' ? 'var(--accent-color)' : 'var(--text-secondary)', cursor: 'pointer', fontSize: '0.8rem', fontWeight: activeCardTab === 'core' ? 'bold' : 'normal', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '4px' }}
+          onClick={(e) => { e.stopPropagation(); setActiveCardTab('core'); }}
+          style={{ flex: 1, padding: '10px', background: 'none', border: 'none', borderBottom: activeCardTab === 'core' ? '2px solid var(--accent-color)' : '2px solid transparent', color: activeCardTab === 'core' ? 'var(--accent-color)' : 'var(--text-secondary)', cursor: 'pointer', fontSize: '0.8rem', fontWeight: '600', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '4px', transition: 'color 0.2s ease, border-color 0.2s ease' }}
         >
           <span>📖</span> Cốt lõi & Ghi nhớ
         </button>
         <button 
           type="button"
           className={`card-nav-btn ${activeCardTab === 'context' ? 'active' : ''}`}
-          onClick={() => setActiveCardTab('context')}
-          style={{ flex: 1, padding: '10px', background: 'none', border: 'none', borderBottom: activeCardTab === 'context' ? '2px solid var(--accent-color)' : 'none', color: activeCardTab === 'context' ? 'var(--accent-color)' : 'var(--text-secondary)', cursor: 'pointer', fontSize: '0.8rem', fontWeight: activeCardTab === 'context' ? 'bold' : 'normal', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '4px' }}
+          onClick={(e) => { e.stopPropagation(); setActiveCardTab('context'); }}
+          style={{ flex: 1, padding: '10px', background: 'none', border: 'none', borderBottom: activeCardTab === 'context' ? '2px solid var(--accent-color)' : '2px solid transparent', color: activeCardTab === 'context' ? 'var(--accent-color)' : 'var(--text-secondary)', cursor: 'pointer', fontSize: '0.8rem', fontWeight: '600', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '4px', transition: 'color 0.2s ease, border-color 0.2s ease' }}
         >
           <span>📝</span> Ngữ cảnh & Ví dụ
         </button>
         <button 
           type="button"
           className={`card-nav-btn ${activeCardTab === 'practice' ? 'active' : ''}`}
-          onClick={() => setActiveCardTab('practice')}
-          style={{ flex: 1, padding: '10px', background: 'none', border: 'none', borderBottom: activeCardTab === 'practice' ? '2px solid var(--accent-color)' : 'none', color: activeCardTab === 'practice' ? 'var(--accent-color)' : 'var(--text-secondary)', cursor: 'pointer', fontSize: '0.8rem', fontWeight: activeCardTab === 'practice' ? 'bold' : 'normal', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '4px' }}
+          onClick={(e) => { e.stopPropagation(); setActiveCardTab('practice'); }}
+          style={{ flex: 1, padding: '10px', background: 'none', border: 'none', borderBottom: activeCardTab === 'practice' ? '2px solid var(--accent-color)' : '2px solid transparent', color: activeCardTab === 'practice' ? 'var(--accent-color)' : 'var(--text-secondary)', cursor: 'pointer', fontSize: '0.8rem', fontWeight: '600', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '4px', transition: 'color 0.2s ease, border-color 0.2s ease' }}
         >
           <span>✍️</span> Luyện tập & Lưu ý
         </button>
       </div>
 
       {/* Content */}
-      <div style={{ padding: '14px 16px', height: '420px', minHeight: '420px', overflowY: 'auto', textAlign: 'left', flex: 1 }} className="custom-scrollbar">
+      <div style={{ padding: '14px 16px', flex: 1, height: 0, overflowY: 'scroll', scrollbarGutter: 'stable', textAlign: 'left', width: '100%', boxSizing: 'border-box' }} className="custom-scrollbar">
         {activeCardTab === 'core' && (
-          <div className="card-tab-content animate-fade-in" style={{ display: 'flex', flexDirection: 'column', gap: '14px', minHeight: '380px' }}>
+          <div className="card-tab-content" style={{ display: 'flex', flexDirection: 'column', gap: '14px', minHeight: '100%', width: '100%', boxSizing: 'border-box' }}>
             {displayData.usageGuide && (
-              <div style={{ padding: '12px 14px', background: 'rgba(37,99,235,0.06)', borderRadius: '10px', border: '1px solid rgba(37,99,235,0.18)' }}>
+              <div style={{ padding: '12px 14px', background: 'rgba(37,99,235,0.06)', borderRadius: '10px', border: '1px solid rgba(37,99,235,0.18)', width: '100%', boxSizing: 'border-box' }}>
                 <h5 style={{ margin: '0 0 6px 0', fontSize: '0.85rem', color: 'var(--accent-color)', fontWeight: '700', display: 'flex', alignItems: 'center', gap: '6px' }}>
                   📌 Hướng dẫn sử dụng & Trường hợp dùng
                 </h5>
@@ -167,18 +167,18 @@ export default function AiEnrichedTabbedView({ data, onReEnriched }) {
             )}
 
             {displayData.mnemonic && (
-              <div>
+              <div style={{ width: '100%', boxSizing: 'border-box' }}>
                 <h5 style={{ margin: '0 0 6px 0', fontSize: '0.85rem', color: 'var(--accent-color)', fontWeight: '600' }}>💡 Mẹo nhớ từ (Mnemonic)</h5>
                 <p style={{ margin: 0, fontSize: '0.88rem', color: 'var(--text-primary)', lineHeight: 1.5 }}>{displayData.mnemonic}</p>
               </div>
             )}
 
             {kanjiWords.length > 0 && (
-              <div>
+              <div style={{ width: '100%', boxSizing: 'border-box' }}>
                 <h5 style={{ margin: '0 0 6px 0', fontSize: '0.85rem', color: 'var(--success-color)', fontWeight: '600' }}>🔍 Các từ ghép liên quan</h5>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', width: '100%' }}>
                   {kanjiWords.map((k, idx) => (
-                    <div key={idx} style={{ display: 'flex', alignItems: 'center', fontSize: '1rem', gap: '8px', borderBottom: '1px dashed var(--border-color)', paddingBottom: '6px' }}>
+                    <div key={idx} style={{ display: 'flex', alignItems: 'center', fontSize: '1rem', gap: '8px', borderBottom: '1px dashed var(--border-color)', paddingBottom: '6px', width: '100%', boxSizing: 'border-box' }}>
                       <span className="font-jp" style={{ fontWeight: 'bold', color: 'var(--text-primary)', fontSize: '1.35rem' }}>{k.word}</span>
                       <span style={{ color: 'var(--text-secondary)', fontSize: '0.92rem' }}>({k.reading})</span>
                       <ArrowRight size={12} style={{ color: 'var(--text-muted)' }} />
@@ -190,7 +190,7 @@ export default function AiEnrichedTabbedView({ data, onReEnriched }) {
             )}
 
             {(synonyms.length > 0 || antonyms.length > 0) && (
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', padding: '10px', background: 'var(--surface-hover)', borderRadius: '8px' }}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', padding: '10px', background: 'var(--surface-hover)', borderRadius: '8px', width: '100%', boxSizing: 'border-box' }}>
                 {synonyms.length > 0 && (
                   <div>
                     <h5 style={{ margin: '0 0 4px 0', fontSize: '0.8rem', color: 'var(--text-secondary)', fontWeight: '600' }}>🟢 Đồng nghĩa</h5>
@@ -211,7 +211,7 @@ export default function AiEnrichedTabbedView({ data, onReEnriched }) {
             )}
 
             {!displayData.mnemonic && kanjiWords.length === 0 && synonyms.length === 0 && antonyms.length === 0 && !displayData.usageGuide && (
-              <div style={{ color: 'var(--text-muted)', fontSize: '0.85rem', fontStyle: 'italic', textAlign: 'center', minHeight: '260px', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'var(--surface-hover)', borderRadius: '10px', padding: '20px' }}>
+              <div style={{ color: 'var(--text-muted)', fontSize: '0.85rem', fontStyle: 'italic', textAlign: 'center', minHeight: '380px', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'var(--surface-hover)', borderRadius: '10px', padding: '20px', width: '100%', boxSizing: 'border-box' }}>
                 Không có thêm thông tin cốt lõi nào khác.
               </div>
             )}
@@ -219,21 +219,21 @@ export default function AiEnrichedTabbedView({ data, onReEnriched }) {
         )}
 
         {activeCardTab === 'context' && (
-          <div className="card-tab-content animate-fade-in" style={{ display: 'flex', flexDirection: 'column', gap: '14px', minHeight: '380px' }}>
+          <div className="card-tab-content animate-fade-in" style={{ display: 'flex', flexDirection: 'column', gap: '14px', minHeight: '100%', width: '100%', boxSizing: 'border-box' }}>
             {(exampleSentences.length > 0 || hasOldSentence) && (
-              <div>
+              <div style={{ width: '100%', boxSizing: 'border-box' }}>
                 <h5 style={{ margin: '0 0 8px 0', fontSize: '0.85rem', color: 'var(--accent-color)', fontWeight: '600' }}>📝 Câu ví dụ mẫu</h5>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', width: '100%' }}>
                   {exampleSentences.length > 0 ? (
                     exampleSentences.map((ex, i) => (
-                       <div key={i} style={{ padding: '10px 14px', background: 'var(--surface-hover)', borderRadius: '6px', borderLeft: '3px solid var(--accent-color)' }}>
+                       <div key={i} style={{ padding: '10px 14px', background: 'var(--surface-hover)', borderRadius: '6px', borderLeft: '3px solid var(--accent-color)', width: '100%', boxSizing: 'border-box' }}>
                         <div className="font-jp" style={{ fontWeight: 'bold', fontSize: '1.5rem', color: 'var(--text-primary)', marginBottom: '4px', letterSpacing: '0.02em' }}>{ex.ja}</div>
                         <div style={{ fontSize: '0.95rem', color: 'var(--text-secondary)', marginBottom: '4px', fontStyle: 'italic' }}>{ex.reading}</div>
                         <div style={{ fontSize: '1.02rem', color: 'var(--success-color)', fontWeight: '500' }}>{ex.vi}</div>
                       </div>
                     ))
                   ) : (
-                    <div style={{ padding: '10px 14px', background: 'var(--surface-hover)', borderRadius: '6px', borderLeft: '3px solid var(--accent-color)' }}>
+                    <div style={{ padding: '10px 14px', background: 'var(--surface-hover)', borderRadius: '6px', borderLeft: '3px solid var(--accent-color)', width: '100%', boxSizing: 'border-box' }}>
                       <div className="font-jp" style={{ fontWeight: 'bold', fontSize: '1.5rem', color: 'var(--text-primary)', marginBottom: '4px', letterSpacing: '0.02em' }}>{displayData.sampleSentence}</div>
                       <div style={{ fontSize: '0.95rem', color: 'var(--text-secondary)', marginBottom: '4px', fontStyle: 'italic' }}>{displayData.sampleReading}</div>
                       <div style={{ fontSize: '1.02rem', color: 'var(--success-color)', fontWeight: '500' }}>{displayData.sampleTranslation}</div>
@@ -244,7 +244,7 @@ export default function AiEnrichedTabbedView({ data, onReEnriched }) {
             )}
 
             {collocations.length > 0 && (
-              <div>
+              <div style={{ width: '100%', boxSizing: 'border-box' }}>
                 <h5 style={{ margin: '0 0 6px 0', fontSize: '0.85rem', color: 'var(--success-color)', fontWeight: '600' }}>📚 Cụm từ hay dùng</h5>
                 <ul style={{ margin: 0, paddingLeft: '20px', fontSize: '0.85rem', color: 'var(--text-primary)', lineHeight: 1.6 }}>
                   {collocations.map((c, i) => <li key={i}>{c}</li>)}
@@ -253,11 +253,11 @@ export default function AiEnrichedTabbedView({ data, onReEnriched }) {
             )}
 
             {conversations.length > 0 && (
-              <div>
+              <div style={{ width: '100%', boxSizing: 'border-box' }}>
                 <h5 style={{ margin: '0 0 8px 0', fontSize: '0.85rem', color: 'var(--accent-color)', fontWeight: '600' }}>💬 Hội thoại thực tế</h5>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', width: '100%' }}>
                   {conversations.map((con, i) => (
-                    <div key={i} style={{ padding: '8px 10px', background: 'var(--surface-hover)', borderRadius: '6px', fontSize: '0.82rem' }}>
+                    <div key={i} style={{ padding: '8px 10px', background: 'var(--surface-hover)', borderRadius: '6px', fontSize: '0.82rem', width: '100%', boxSizing: 'border-box' }}>
                       <div style={{ marginBottom: '6px' }}>
                         <strong>A:</strong> {con.speakerA}
                         <div style={{ color: 'var(--text-muted)', fontSize: '0.78rem' }}>{con.translationA}</div>
@@ -273,7 +273,7 @@ export default function AiEnrichedTabbedView({ data, onReEnriched }) {
             )}
 
             {!exampleSentences.length && !hasOldSentence && !collocations.length && !conversations.length && (
-              <div style={{ color: 'var(--text-muted)', fontSize: '0.85rem', fontStyle: 'italic', textAlign: 'center', minHeight: '260px', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'var(--surface-hover)', borderRadius: '10px', padding: '20px' }}>
+              <div style={{ color: 'var(--text-muted)', fontSize: '0.85rem', fontStyle: 'italic', textAlign: 'center', minHeight: '380px', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'var(--surface-hover)', borderRadius: '10px', padding: '20px', width: '100%', boxSizing: 'border-box' }}>
                 Không tìm thấy câu ví dụ hoặc ngữ cảnh ứng dụng nào.
               </div>
             )}
@@ -281,13 +281,13 @@ export default function AiEnrichedTabbedView({ data, onReEnriched }) {
         )}
 
         {activeCardTab === 'practice' && (
-          <div className="card-tab-content animate-fade-in" style={{ display: 'flex', flexDirection: 'column', gap: '14px', minHeight: '380px' }}>
+          <div className="card-tab-content animate-fade-in" style={{ display: 'flex', flexDirection: 'column', gap: '14px', minHeight: '100%', width: '100%', boxSizing: 'border-box' }}>
             {commonMistakes.length > 0 ? (
-              <div>
+              <div style={{ width: '100%', boxSizing: 'border-box' }}>
                 <h5 style={{ margin: '0 0 8px 0', fontSize: '0.85rem', color: 'var(--danger-color)', fontWeight: '600' }}>⚠️ Lỗi thường gặp (Common Mistakes)</h5>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', width: '100%' }}>
                   {commonMistakes.map((m, idx) => (
-                    <div key={idx} style={{ padding: '8px 12px', background: 'var(--surface-hover)', borderRadius: '6px', fontSize: '0.82rem' }}>
+                    <div key={idx} style={{ padding: '8px 12px', background: 'var(--surface-hover)', borderRadius: '6px', fontSize: '0.82rem', width: '100%', boxSizing: 'border-box' }}>
                       <div style={{ color: 'var(--danger-color)', marginBottom: '2px', fontWeight: '500' }}>❌ {m.error}</div>
                       <div style={{ color: 'var(--success-color)', fontWeight: '500' }}>✅ {m.fix}</div>
                     </div>
@@ -295,7 +295,7 @@ export default function AiEnrichedTabbedView({ data, onReEnriched }) {
                 </div>
               </div>
             ) : (
-              <div style={{ color: 'var(--text-muted)', fontSize: '0.85rem', fontStyle: 'italic', textAlign: 'center', minHeight: '260px', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'var(--surface-hover)', borderRadius: '10px', padding: '20px' }}>
+              <div style={{ color: 'var(--text-muted)', fontSize: '0.85rem', fontStyle: 'italic', textAlign: 'center', minHeight: '380px', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'var(--surface-hover)', borderRadius: '10px', padding: '20px', width: '100%', boxSizing: 'border-box' }}>
                 ✨ Tuyệt vời! Không có lỗi sai phổ biến nào được ghi nhận cho từ vựng này.
               </div>
             )}
