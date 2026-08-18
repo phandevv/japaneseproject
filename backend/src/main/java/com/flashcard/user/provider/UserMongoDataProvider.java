@@ -11,7 +11,9 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Component
 @ConditionalOnProperty(name = "app.database.type", havingValue = "mongodb")
@@ -36,6 +38,15 @@ public class UserMongoDataProvider implements UserDataProvider {
     public Optional<User> findByUsername(String username) {
         if (username == null) return Optional.empty();
         return userMongoRepository.findByUsernameIgnoreCase(username.trim()).map(this::toUser);
+    }
+
+    @Override
+    public List<User> findByUsernameIn(List<String> usernames) {
+        if (usernames == null || usernames.isEmpty()) return List.of();
+        return userMongoRepository.findByUsernameIgnoreCaseIn(usernames)
+                .stream()
+                .map(this::toUser)
+                .collect(Collectors.toList());
     }
 
     @Override

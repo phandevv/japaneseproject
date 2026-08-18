@@ -3,11 +3,13 @@ package com.flashcard.user.provider;
 import com.flashcard.user.model.User;
 import com.flashcard.user.model.UserSetting;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface UserDataProvider {
     Optional<User> findById(Long id);
     Optional<User> findByUsername(String username);
+    List<User> findByUsernameIn(List<String> usernames);
     boolean existsByUsername(String username);
     User save(User user);
     long count();

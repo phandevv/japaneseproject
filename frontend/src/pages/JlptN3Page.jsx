@@ -710,6 +710,9 @@ const isContainsKanji = (str) => {
     const currentWord = quizWords[quizIndex];
     if (!currentWord) return;
 
+    const questionKey = String(currentWord.id || currentWord.kanji || currentWord.tu || currentWord.question || quizIndex);
+    const isFirstAttempt = !seenWordIds.has(questionKey);
+
     const inputClean = userInput.trim().toLowerCase();
     let isCorrect = false;
 
@@ -759,7 +762,7 @@ const isContainsKanji = (str) => {
     );
 
     const reviewItem = {
-      id: currentWord.id || quizIndex,
+      id: questionKey,
       word: currentWord,
       question: questionDisplay,
       userAnswer: userInput,
@@ -767,28 +770,43 @@ const isContainsKanji = (str) => {
       explanation: explanationText,
       isCorrect: isCorrect,
       elapsedSeconds: finalElapsed,
-      category: currentWord.category || currentWord.type || quizCategory
+      category: currentWord.category || currentWord.type || quizCategory,
+      isRetry: !isFirstAttempt
     };
 
-    setQuizReviewList(prev => [...prev, reviewItem]);
+    // ONLY SCORE AND RECORD RESULTS ON THE FIRST ATTEMPT
+    if (isFirstAttempt) {
+      setSeenWordIds(prev => new Set(prev).add(questionKey));
+      setFirstAttemptQualities(prev => ({
+        ...prev,
+        [questionKey]: { isCorrect, elapsedSeconds: finalElapsed, quality }
+      }));
+      setQuizReviewList(prev => [...prev, reviewItem]);
 
-    // Save SRS review rating to update learned status (is_learned / intervalDays > 0)
-    if (currentWord && currentWord.id) {
-      const isGrammarItem = (currentWord.type === 'grammar_mcq' || currentWord.type === 'star' || quizCategory === 'grammar' || currentWord.cau_truc);
-      if (isGrammarItem) {
-        srsApi.reviewGrammar(currentWord.id, quality).catch(console.error);
+      // Save SRS review rating on first attempt only
+      if (currentWord && currentWord.id) {
+        const isGrammarItem = (currentWord.type === 'grammar_mcq' || currentWord.type === 'star' || quizCategory === 'grammar' || currentWord.cau_truc);
+        if (isGrammarItem) {
+          srsApi.reviewGrammar(currentWord.id, quality).catch(console.error);
+        } else {
+          srsApi.reviewWord(currentWord.id, quality).catch(console.error);
+        }
+      }
+
+      if (isCorrect) {
+        setScore(s => s + 1);
       } else {
-        srsApi.reviewWord(currentWord.id, quality).catch(console.error);
+        setFailedWordIds(prev => new Set(prev).add(questionKey));
+        setMistakes(prev => [...prev, reviewItem]);
       }
     }
 
     if (isCorrect) {
       setQuizStatus('correct');
-      setScore(s => s + 1);
       speakWord(currentWord);
     } else {
       setQuizStatus('incorrect');
-      setMistakes(prev => [...prev, reviewItem]);
+      // Re-enqueue word at the end to practice until memorized
       setQuizWords(prev => [...prev, currentWord]);
     }
   };
@@ -799,6 +817,9 @@ const isContainsKanji = (str) => {
     
     const currentWord = quizWords[quizIndex];
     if (!currentWord) return;
+
+    const questionKey = String(currentWord.id || currentWord.question || quizIndex);
+    const isFirstAttempt = !seenWordIds.has(questionKey);
 
     const normalizeOpt = (str) => String(str || '').replace(/^[A-D]\.\s*/i, '').trim().toLowerCase();
     const optNorm = normalizeOpt(option);
@@ -817,7 +838,7 @@ const isContainsKanji = (str) => {
     setLastElapsedSeconds(finalElapsed);
 
     const reviewItem = {
-      id: currentWord.id || quizIndex,
+      id: questionKey,
       word: currentWord,
       question: currentWord.question,
       userAnswer: option,
@@ -825,27 +846,42 @@ const isContainsKanji = (str) => {
       explanation: currentWord.explanation || '',
       isCorrect: isCorrect,
       elapsedSeconds: finalElapsed,
-      category: 'grammar'
+      category: 'grammar',
+      isRetry: !isFirstAttempt
     };
 
-    setQuizReviewList(prev => [...prev, reviewItem]);
+    // ONLY SCORE AND RECORD RESULTS ON THE FIRST ATTEMPT
+    if (isFirstAttempt) {
+      setSeenWordIds(prev => new Set(prev).add(questionKey));
+      setFirstAttemptQualities(prev => ({
+        ...prev,
+        [questionKey]: { isCorrect, elapsedSeconds: finalElapsed, quality }
+      }));
+      setQuizReviewList(prev => [...prev, reviewItem]);
 
-    // Save SRS review rating to update learned status (is_learned / intervalDays > 0)
-    if (currentWord && currentWord.id) {
-      const isGrammarItem = (currentWord.type === 'grammar_mcq' || currentWord.type === 'star' || quizCategory === 'grammar' || currentWord.cau_truc);
-      if (isGrammarItem) {
-        srsApi.reviewGrammar(currentWord.id, quality).catch(console.error);
+      // Save SRS review rating on first attempt only
+      if (currentWord && currentWord.id) {
+        const isGrammarItem = (currentWord.type === 'grammar_mcq' || currentWord.type === 'star' || quizCategory === 'grammar' || currentWord.cau_truc);
+        if (isGrammarItem) {
+          srsApi.reviewGrammar(currentWord.id, quality).catch(console.error);
+        } else {
+          srsApi.reviewWord(currentWord.id, quality).catch(console.error);
+        }
+      }
+
+      if (isCorrect) {
+        setScore(s => s + 1);
       } else {
-        srsApi.reviewWord(currentWord.id, quality).catch(console.error);
+        setFailedWordIds(prev => new Set(prev).add(questionKey));
+        setMistakes(prev => [...prev, reviewItem]);
       }
     }
 
     if (isCorrect) {
       setQuizStatus('correct');
-      setScore(s => s + 1);
     } else {
       setQuizStatus('incorrect');
-      setMistakes(prev => [...prev, reviewItem]);
+      // Re-enqueue question at the end to practice until memorized
       setQuizWords(prev => [...prev, currentWord]);
     }
   };
@@ -887,15 +923,30 @@ const isContainsKanji = (str) => {
     const firstTryScore = score;
     const total = originalQuizLength;
     const accuracy = total > 0 ? Math.round((firstTryScore / total) * 100) : 0;
-    const isPassed = accuracy >= 90;
+
+    // Calculate Average Response Time for unique questions (First Attempts)
+    const qualityEntries = Object.values(firstAttemptQualities);
+    const totalElapsed = qualityEntries.reduce((sum, q) => sum + (q.elapsedSeconds || 0), 0);
+    const avgElapsed = qualityEntries.length > 0 ? (totalElapsed / qualityEntries.length) : 0;
+    const isSpeedGood = avgElapsed <= 8.0;
+
+    // Pass condition: Option is 'all', accuracy >= 80%, and average response time is Good (<= 8s)
+    const isScopeAll = (quizOptType === 'all');
+    const isPassed = isScopeAll && accuracy >= 80 && isSpeedGood;
 
     setSubmittingQuiz(true);
     try {
-      const res = await jlptN3Api.submitQuiz(selectedChapter, selectedLesson, quizCategory, firstTryScore, total);
+      let res = {};
+      if (isPassed) {
+        res = await jlptN3Api.submitQuiz(selectedChapter, selectedLesson, quizCategory, firstTryScore, total);
+      }
       setQuizResult({
         score: firstTryScore,
         total,
         accuracy,
+        avgElapsed,
+        isSpeedGood,
+        isScopeAll,
         passed: isPassed,
         vocabPassed: res.vocabPassed,
         kanjiPassed: res.kanjiPassed,
@@ -911,6 +962,9 @@ const isContainsKanji = (str) => {
         score: firstTryScore,
         total,
         accuracy,
+        avgElapsed,
+        isSpeedGood,
+        isScopeAll,
         passed: isPassed
       });
       setQuizState('finished');
@@ -2061,15 +2115,42 @@ const isContainsKanji = (str) => {
 
                       <div>
                         <h2 style={{ margin: '0 0 6px 0', fontSize: '1.8rem', color: 'var(--text-primary)' }}>
-                          {quizResult.passed ? 'Chúc mừng! Đã đạt tiêu chuẩn Hoàn thành! 🎉' : 'Chưa đạt chỉ tiêu (≥ 90%) ⚠️'}
+                          {quizResult.passed 
+                            ? 'Chúc mừng! Đã đạt tiêu chuẩn Hoàn thành (PASS)! 🎉' 
+                            : !quizResult.isScopeAll
+                              ? 'Đã hoàn thành bài kiểm tra theo phạm vi! 🎯'
+                              : 'Chưa đạt chỉ tiêu Hoàn thành (≥ 80% & phản xạ ≤ 8s) ⚠️'}
                         </h2>
                         <div style={{ fontSize: '3.2rem', fontWeight: 900, color: quizResult.passed ? '#10b981' : '#ef4444', lineHeight: 1.1 }}>
                           {quizResult.accuracy}%
                         </div>
-                        <p style={{ margin: '6px 0 0 0', color: 'var(--text-secondary)', fontSize: '1.05rem', fontWeight: 500 }}>
-                          Chính xác <strong>{quizResult.score}</strong> / <strong>{quizResult.total}</strong> câu hỏi
-                          {quizReviewList.length > 0 && ` • Tổng lượt làm: ${quizReviewList.length} lượt`}
+                        <p style={{ margin: '6px 0 4px 0', color: 'var(--text-primary)', fontSize: '1.1rem', fontWeight: 600 }}>
+                          Chính xác lần đầu: <strong style={{ color: 'var(--accent-color)' }}>{quizResult.score}</strong> / <strong>{quizResult.total}</strong> câu hỏi
                         </p>
+                        <p style={{ margin: '2px 0 0 0', color: 'var(--text-secondary)', fontSize: '0.95rem', fontWeight: 500 }}>
+                          ⏱️ Tốc độ trung bình: <strong>{quizResult.avgElapsed ? quizResult.avgElapsed.toFixed(1) : 0}s / câu</strong> 
+                          {' • '} 
+                          <span style={{ 
+                            fontWeight: 700, 
+                            color: quizResult.isSpeedGood ? '#10b981' : '#f59e0b',
+                            backgroundColor: quizResult.isSpeedGood ? 'rgba(16,185,129,0.1)' : 'rgba(245,158,11,0.1)',
+                            padding: '2px 8px', borderRadius: '6px'
+                          }}>
+                            {quizResult.isSpeedGood ? '⚡ Đạt chuẩn Good (≤ 8s)' : '⚠️ Cần cải thiện (> 8s)'}
+                          </span>
+                        </p>
+                        {!quizResult.isScopeAll && (
+                          <div style={{ marginTop: '12px', padding: '10px 16px', borderRadius: '10px', backgroundColor: 'rgba(37,99,235,0.08)', color: 'var(--accent-color)', fontSize: '0.88rem', fontWeight: 500 }}>
+                            💡 <em>Lưu ý: Để được tính PASS bài học trên bản đồ tiến độ, hãy chọn chế độ <strong>"Kiểm tra tất cả các từ trong ngày"</strong>.</em>
+                          </div>
+                        )}
+                        {quizResult.isScopeAll && quizResult.passed && (
+                          <div style={{ marginTop: '12px', padding: '10px 16px', borderRadius: '10px', backgroundColor: 'rgba(16,185,129,0.1)', color: '#059669', fontSize: '0.92rem', fontWeight: 700 }}>
+                            {quizResult.completed 
+                              ? `🏆 Chúc mừng! Bạn đã hoàn thành 100% tất cả các mục (Từ vựng, Chữ Hán, Ngữ pháp) của Bài ${selectedLesson}!`
+                              : `✅ Đã PASS mục ${quizCategory === 'vocab' ? 'Từ vựng' : quizCategory === 'kanji' ? 'Chữ Hán' : quizCategory === 'grammar' ? 'Ngữ pháp' : 'bài học'}!`}
+                          </div>
+                        )}
                       </div>
 
                       {/* Filter Bar */}

@@ -783,7 +783,7 @@ public class JlptN3CourseService {
         }
 
         int accuracy = Math.round((float) score * 100 / total);
-        boolean passed = (accuracy >= 90);
+        boolean passed = (accuracy >= 80);
         String category = quizCategory != null ? quizCategory.trim().toLowerCase() : "vocab";
 
         JlptN3Progress progress = null;

@@ -2,9 +2,9 @@ package com.flashcard.user.controller;
 
 import com.flashcard.analytics.service.AnalyticsService;
 import com.flashcard.srs.model.WordReview;
-import com.flashcard.srs.repository.WordReviewRepository;
+import com.flashcard.srs.provider.SrsDataProvider;
 import com.flashcard.user.model.User;
-import com.flashcard.user.repository.UserRepository;
+import com.flashcard.user.provider.UserDataProvider;
 import com.flashcard.user.service.OnlineUserService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -30,18 +30,18 @@ import java.util.stream.Collectors;
 public class UserController {
 
     private final OnlineUserService onlineUserService;
-    private final UserRepository userRepository;
+    private final UserDataProvider userDataProvider;
     private final AnalyticsService analyticsService;
-    private final WordReviewRepository wordReviewRepository;
+    private final SrsDataProvider srsDataProvider;
 
     public UserController(OnlineUserService onlineUserService,
-                          UserRepository userRepository,
+                          UserDataProvider userDataProvider,
                           AnalyticsService analyticsService,
-                          WordReviewRepository wordReviewRepository) {
+                          SrsDataProvider srsDataProvider) {
         this.onlineUserService = onlineUserService;
-        this.userRepository = userRepository;
+        this.userDataProvider = userDataProvider;
         this.analyticsService = analyticsService;
-        this.wordReviewRepository = wordReviewRepository;
+        this.srsDataProvider = srsDataProvider;
     }
 
     @GetMapping("/online")
@@ -53,7 +53,7 @@ public class UserController {
                 .filter(id -> !id.contains(".") && !id.contains(":"))
                 .collect(Collectors.toList());
 
-        List<User> activeUsers = userRepository.findByUsernameIn(usernames);
+        List<User> activeUsers = userDataProvider.findByUsernameIn(usernames);
 
         List<Map<String, Object>> userProfiles = activeUsers.stream().map(user -> {
             Map<String, Object> profile = new HashMap<>();
@@ -63,7 +63,7 @@ public class UserController {
             profile.put("coverPhoto", user.getCoverPhoto());
             profile.put("occupation", user.getOccupation());
             profile.put("streak", analyticsService.calculateStreak(user));
-            profile.put("learnedCount", wordReviewRepository.countLearnedWords(user));
+            profile.put("learnedCount", srsDataProvider.countLearnedWords(user));
             return profile;
         }).collect(Collectors.toList());
 
@@ -72,7 +72,7 @@ public class UserController {
 
     @GetMapping("/{username}")
     public ResponseEntity<?> getUserProfile(@PathVariable String username) {
-        Optional<User> optionalUser = userRepository.findByUsername(username);
+        Optional<User> optionalUser = userDataProvider.findByUsername(username);
         if (optionalUser.isPresent()) {
             User user = optionalUser.get();
             Map<String, Object> profile = new HashMap<>();
@@ -83,7 +83,7 @@ public class UserController {
             profile.put("occupation", user.getOccupation());
             profile.put("address", user.getAddress());
             profile.put("streak", analyticsService.calculateStreak(user));
-            profile.put("learnedCount", wordReviewRepository.countLearnedWords(user));
+            profile.put("learnedCount", srsDataProvider.countLearnedWords(user));
             return ResponseEntity.ok(profile);
         } else {
             return ResponseEntity.notFound().build();
@@ -123,23 +123,23 @@ public class UserController {
         Page<WordReview> reviewsPage;
         
         if ("perfect".equalsIgnoreCase(tab)) {
-            reviewsPage = wordReviewRepository.findByUserAndLastReviewedAtBetweenAndRatingIn(user, start, end, List.of(5), pageRequest);
+            reviewsPage = srsDataProvider.findByUserAndLastReviewedAtBetweenAndRatingIn(user, start, end, List.of(5), pageRequest);
         } else if ("good".equalsIgnoreCase(tab)) {
-            reviewsPage = wordReviewRepository.findByUserAndLastReviewedAtBetweenAndRatingIn(user, start, end, List.of(4), pageRequest);
+            reviewsPage = srsDataProvider.findByUserAndLastReviewedAtBetweenAndRatingIn(user, start, end, List.of(4), pageRequest);
         } else if ("hard".equalsIgnoreCase(tab)) {
-            reviewsPage = wordReviewRepository.findByUserAndLastReviewedAtBetweenAndRatingIn(user, start, end, List.of(1, 2, 3), pageRequest);
+            reviewsPage = srsDataProvider.findByUserAndLastReviewedAtBetweenAndRatingIn(user, start, end, List.of(1, 2, 3), pageRequest);
         } else if ("fail".equalsIgnoreCase(tab)) {
-            reviewsPage = wordReviewRepository.findByUserAndLastReviewedAtBetweenAndRatingIn(user, start, end, List.of(0), pageRequest);
+            reviewsPage = srsDataProvider.findByUserAndLastReviewedAtBetweenAndRatingIn(user, start, end, List.of(0), pageRequest);
         } else {
-            reviewsPage = wordReviewRepository.findByUserAndLastReviewedAtBetween(user, start, end, pageRequest);
+            reviewsPage = srsDataProvider.findByUserAndLastReviewedAtBetween(user, start, end, pageRequest);
         }
         
         List<Map<String, Object>> responseList = reviewsPage.getContent().stream().map(wr -> {
             Map<String, Object> map = new HashMap<>();
-            map.put("id", wr.getVocabulary().getId());
-            map.put("kanji", wr.getVocabulary().getKanji());
-            map.put("hiragana", wr.getVocabulary().getHiragana());
-            map.put("meaning", wr.getVocabulary().getMeaning());
+            map.put("id", wr.getVocabulary() != null ? wr.getVocabulary().getId() : null);
+            map.put("kanji", wr.getVocabulary() != null ? wr.getVocabulary().getKanji() : null);
+            map.put("hiragana", wr.getVocabulary() != null ? wr.getVocabulary().getHiragana() : null);
+            map.put("meaning", wr.getVocabulary() != null ? wr.getVocabulary().getMeaning() : null);
             map.put("lastRating", wr.getLastRating());
             map.put("lastReviewedAt", wr.getLastReviewedAt());
             return map;
