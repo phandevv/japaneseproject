@@ -27,6 +27,7 @@ import java.time.LocalDateTime;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
 @Service
 public class JlptN3CourseService {
@@ -127,19 +128,17 @@ public class JlptN3CourseService {
     }
 
     private boolean isLessonDataAvailableFast(int chapter, int lesson, Set<String> dbAvailableCategories) {
-        if (getUploadedFile(chapter, lesson) != null) return true;
-        if (getLessonJsonFile(chapter, lesson) != null) return true;
-        if (isResourceAvailable(chapter, lesson)) return true;
-
         if (dbAvailableCategories != null) {
             String matchKey = "Chương " + chapter + " Bài " + lesson;
             for (String cat : dbAvailableCategories) {
-                if (cat.contains(matchKey)) {
+                if (cat != null && cat.contains(matchKey)) {
                     return true;
                 }
             }
         }
-        return false;
+        if (getUploadedFile(chapter, lesson) != null) return true;
+        if (getLessonJsonFile(chapter, lesson) != null) return true;
+        return isResourceAvailable(chapter, lesson);
     }
 
     /**
@@ -153,20 +152,23 @@ public class JlptN3CourseService {
             progressMap.put(key, p);
         }
 
-        // Cache lesson availability in memory to avoid repeated DB scans
-        Set<String> dbCategories = null;
-        if (lessonDataCache.isEmpty()) {
-            dbCategories = new HashSet<>();
-            try {
-                List<Vocabulary> dbVocabs = vocabularyDataProvider.getByLevel("N3_COURSE");
-                for (Vocabulary v : dbVocabs) {
-                    if (v.getCategory() != null) {
-                        dbCategories.add(v.getCategory());
-                    }
+        // Cache lesson availability directly from Database
+        Set<String> dbCategories = new HashSet<>();
+        try {
+            List<Vocabulary> dbVocabs = vocabularyDataProvider.getByLevel("N3_COURSE");
+            for (Vocabulary v : dbVocabs) {
+                if (v.getCategory() != null) {
+                    dbCategories.add(v.getCategory());
                 }
-            } catch (Exception e) {
-                log.warn("Failed to prefetch DB categories for overview: {}", e.getMessage());
             }
+            List<GrammarCard> dbGrammars = knowledgeDataProvider.findAllGrammar();
+            for (GrammarCard g : dbGrammars) {
+                if (g.getWeekName() != null && g.getDayName() != null) {
+                    dbCategories.add(g.getWeekName() + " " + g.getDayName());
+                }
+            }
+        } catch (Exception e) {
+            log.warn("Failed to prefetch DB categories for overview: {}", e.getMessage());
         }
 
         List<Map<String, Object>> chapters = new ArrayList<>();
@@ -231,6 +233,7 @@ public class JlptN3CourseService {
 
     /**
      * Get details for a specific Chapter and Lesson (Kanji, Vocab, Grammar).
+     * DATABASE-FIRST: Loads directly from MongoDB collections.
      */
     public Map<String, Object> getLessonData(int chapter, int lesson) {
         String cacheKey = chapter + "_" + lesson;
@@ -239,9 +242,109 @@ public class JlptN3CourseService {
             return cached;
         }
 
-        JsonNode root = null;
+        String vocabCategory = "Tổng ôn N3 - Chương " + chapter + " Bài " + lesson;
+        String kanjiCategory = "Tổng ôn N3 - Chương " + chapter + " Bài " + lesson + " - Kanji";
 
-        // Strategy 1: Check user-uploaded JSON file first
+        // Strategy 1 (Primary): Fetch directly from Database
+        List<Vocabulary> dbVocabs = vocabularyDataProvider.findByCategory(vocabCategory);
+        List<Vocabulary> dbKanjis = vocabularyDataProvider.findByCategory(kanjiCategory);
+        List<GrammarCard> dbGrammars = knowledgeDataProvider.findGrammarByJlptAndWeekAndDay("N3", "Chương " + chapter, "Bài " + lesson);
+
+        if (dbGrammars.isEmpty()) {
+            dbGrammars = knowledgeDataProvider.findAllGrammar().stream()
+                    .filter(g -> (g.getWeekName() != null && g.getWeekName().contains("Chương " + chapter)) &&
+                                 (g.getDayName() != null && g.getDayName().contains("Bài " + lesson)))
+                    .collect(Collectors.toList());
+        }
+
+        if (!dbVocabs.isEmpty() || !dbKanjis.isEmpty() || !dbGrammars.isEmpty()) {
+            List<Map<String, Object>> tuVungList = new ArrayList<>();
+            for (Vocabulary v : dbVocabs) {
+                Map<String, Object> item = new HashMap<>();
+                item.put("id", v.getId());
+                item.put("tu", v.getKanji() != null && !v.getKanji().isBlank() ? v.getKanji() : v.getHiragana());
+                item.put("kanji", v.getKanji());
+                item.put("furigana", v.getHiragana());
+                item.put("hiragana", v.getHiragana());
+                item.put("nghia", v.getMeaning());
+                item.put("meaning", v.getMeaning());
+                item.put("loai_tu", v.getWordType() != null ? v.getWordType() : "N");
+                item.put("vi_du", v.getSampleSentence());
+                item.put("sampleSentence", v.getSampleSentence());
+                item.put("hanViet", v.getHanViet());
+                item.put("am_han", v.getHanViet());
+                item.put("pitchAccent", v.getPitchAccent());
+                item.put("mnemonic", v.getMnemonic());
+                item.put("exampleSentences", v.getExampleSentences());
+                item.put("synonyms", v.getSynonyms());
+                item.put("antonyms", v.getAntonyms());
+                item.put("collocations", v.getCollocations());
+                item.put("commonMistakes", v.getCommonMistakes());
+                item.put("conversationExamples", v.getConversationExamples());
+                item.put("usageGuide", v.getUsageGuide());
+                item.put("kanjiWords", v.getKanjiWords());
+                tuVungList.add(item);
+            }
+
+            List<Map<String, Object>> chuHanList = new ArrayList<>();
+            for (Vocabulary k : dbKanjis) {
+                Map<String, Object> kItem = new HashMap<>();
+                kItem.put("id", k.getId());
+                kItem.put("kanji", k.getKanji());
+                kItem.put("han_viet", k.getHanViet());
+                kItem.put("hanViet", k.getHanViet());
+                kItem.put("am_han", k.getHanViet());
+                kItem.put("am_on", k.getOnReading());
+                kItem.put("onReading", k.getOnReading());
+                kItem.put("am_kun", k.getKunReading());
+                kItem.put("kunReading", k.getKunReading());
+                kItem.put("nghia", k.getMeaning());
+                kItem.put("meaning", k.getMeaning());
+                kItem.put("mnemonic", k.getMnemonic());
+                kItem.put("kanjiWords", k.getKanjiWords());
+                kItem.put("exampleSentences", k.getExampleSentences());
+                kItem.put("usageGuide", k.getUsageGuide());
+                chuHanList.add(kItem);
+            }
+
+            List<Map<String, Object>> nguPhapList = new ArrayList<>();
+            for (GrammarCard g : dbGrammars) {
+                Map<String, Object> gItem = new HashMap<>();
+                gItem.put("id", g.getId());
+                gItem.put("cau_truc", g.getGrammar());
+                gItem.put("grammar", g.getGrammar());
+                gItem.put("y_nghia", g.getMeaning());
+                gItem.put("meaning", g.getMeaning());
+                gItem.put("cach_chia", g.getFormation());
+                gItem.put("formation", g.getFormation());
+                gItem.put("usageGuide", g.getUsageGuide());
+                gItem.put("usageDesc", g.getUsageDesc());
+                gItem.put("difference", g.getDifference());
+                gItem.put("similarGrammar", g.getSimilarGrammar());
+                gItem.put("commonMistakes", g.getCommonMistakes());
+                if (g.getExamples() != null && !g.getExamples().isBlank()) {
+                    try {
+                        gItem.put("vi_du", objectMapper.readValue(g.getExamples(), List.class));
+                    } catch (Exception e) {
+                        gItem.put("vi_du", List.of(g.getExamples()));
+                    }
+                }
+                nguPhapList.add(gItem);
+            }
+
+            Map<String, Object> dbRes = new HashMap<>();
+            dbRes.put("chuong", chapter);
+            dbRes.put("bai", lesson);
+            dbRes.put("available", true);
+            dbRes.put("chu_han", chuHanList);
+            dbRes.put("tu_vung", tuVungList);
+            dbRes.put("ngu_phap", nguPhapList);
+            lessonDataCache.put(cacheKey, dbRes);
+            return dbRes;
+        }
+
+        // Strategy 2: Fallback to filesystem / user-uploaded JSON file
+        JsonNode root = null;
         File uploadedFile = getUploadedFile(chapter, lesson);
         if (uploadedFile != null) {
             try {
@@ -251,7 +354,6 @@ public class JlptN3CourseService {
             }
         }
 
-        // Strategy 2: Try reading from filesystem
         if (root == null) {
             File jsonFile = getLessonJsonFile(chapter, lesson);
             if (jsonFile != null && jsonFile.exists()) {
@@ -263,7 +365,6 @@ public class JlptN3CourseService {
             }
         }
 
-        // Strategy 3: Fallback to Classpath resource
         if (root == null) {
             String resourcePath = String.format("data/n3/Chuong %d/Chuong%d_Bai%d_Data.json", chapter, chapter, lesson);
             try {
@@ -275,74 +376,6 @@ public class JlptN3CourseService {
                 }
             } catch (Exception e) {
                 log.warn("Failed to read Classpath resource {}: {}", resourcePath, e.getMessage());
-            }
-        }
-
-        // Strategy 4: Fallback to Database content if JSON files are not on disk/classpath
-        if (root == null) {
-            List<Vocabulary> dbVocabs = vocabularyDataProvider.getByLevel("N3_COURSE");
-            List<GrammarCard> dbGrammars = knowledgeDataProvider.findAllGrammar();
-
-            List<Map<String, Object>> chuHanList = new ArrayList<>();
-            List<Map<String, Object>> tuVungList = new ArrayList<>();
-            List<Map<String, Object>> nguPhapList = new ArrayList<>();
-
-            for (Vocabulary v : dbVocabs) {
-                if (v.getCategory() != null && 
-                    v.getCategory().contains("Chương " + chapter) && 
-                    v.getCategory().contains("Bài " + lesson)) {
-                    Map<String, Object> item = new HashMap<>();
-                    item.put("id", v.getId());
-                    item.put("tu", v.getKanji() != null ? v.getKanji() : v.getHiragana());
-                    item.put("kanji", v.getKanji());
-                    item.put("furigana", v.getHiragana());
-                    item.put("hiragana", v.getHiragana());
-                    item.put("nghia", v.getMeaning());
-                    item.put("loai_tu", v.getWordType());
-                    item.put("vi_du", v.getSampleSentence());
-                    item.put("am_han", v.getHanViet());
-                    item.put("han_viet", v.getHanViet());
-                    item.put("am_doc", v.getRomaji());
-                    item.put("pitchAccent", v.getPitchAccent());
-                    item.put("mnemonic", v.getMnemonic());
-                    item.put("exampleSentences", v.getExampleSentences());
-
-                    if ("KANJI".equalsIgnoreCase(v.getWordType()) || (v.getCategory() != null && v.getCategory().contains("- Kanji"))) {
-                        chuHanList.add(item);
-                    } else {
-                        tuVungList.add(item);
-                    }
-                }
-            }
-
-            for (GrammarCard g : dbGrammars) {
-                if ((g.getDayName() != null && g.getDayName().contains("Bài " + lesson) && g.getWeekName() != null && g.getWeekName().contains("Chương " + chapter)) ||
-                    (g.getWeekName() != null && g.getWeekName().contains("Chương " + chapter) && g.getDayName() != null && g.getDayName().contains("Bài " + lesson))) {
-                    Map<String, Object> gItem = new HashMap<>();
-                    gItem.put("cau_truc", g.getGrammar());
-                    gItem.put("y_nghia", g.getMeaning());
-                    gItem.put("cach_chia", g.getFormation());
-                    if (g.getExamples() != null) {
-                        try {
-                            gItem.put("vi_du", objectMapper.readValue(g.getExamples(), List.class));
-                        } catch (Exception e) {
-                            gItem.put("vi_du", List.of(g.getExamples()));
-                        }
-                    }
-                    nguPhapList.add(gItem);
-                }
-            }
-
-            if (!tuVungList.isEmpty() || !chuHanList.isEmpty() || !nguPhapList.isEmpty()) {
-                Map<String, Object> dbRes = new HashMap<>();
-                dbRes.put("chuong", chapter);
-                dbRes.put("bai", lesson);
-                dbRes.put("available", true);
-                dbRes.put("chu_han", chuHanList);
-                dbRes.put("tu_vung", tuVungList);
-                dbRes.put("ngu_phap", nguPhapList);
-                lessonDataCache.put(cacheKey, dbRes);
-                return dbRes;
             }
         }
 
@@ -361,9 +394,6 @@ public class JlptN3CourseService {
         @SuppressWarnings("unchecked")
         Map<String, Object> data = objectMapper.convertValue(root, Map.class);
         data.put("available", true);
-
-        String vocabCategory = "Tổng ôn N3 - Chương " + chapter + " Bài " + lesson;
-        String kanjiCategory = "Tổng ôn N3 - Chương " + chapter + " Bài " + lesson + " - Kanji";
 
         // BATCH PRE-FETCH: Fetch all existing vocabs, kanjis, and grammars in 3 single queries (eliminates N+1 DB calls)
         List<Vocabulary> existingVocabs = vocabularyDataProvider.findByCategory(vocabCategory);
