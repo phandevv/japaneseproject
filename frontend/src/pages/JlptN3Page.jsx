@@ -194,6 +194,7 @@ const JlptN3Page = () => {
   const [quizStatus, setQuizStatus] = useState('idle'); // 'idle' | 'correct' | 'incorrect'
   const [userInput, setUserInput] = useState('');
   const [lastAssignedQuality, setLastAssignedQuality] = useState(1);
+  const [elapsedSeconds, setElapsedSeconds] = useState(0);
   const [lastElapsedSeconds, setLastElapsedSeconds] = useState(0);
   const [failedWordIds, setFailedWordIds] = useState(new Set());
   const [seenWordIds, setSeenWordIds] = useState(new Set());
@@ -224,11 +225,24 @@ const JlptN3Page = () => {
   const [quizReviewList, setQuizReviewList] = useState([]);
   const [quizReviewFilter, setQuizReviewFilter] = useState('all'); // 'all' | 'mistakes' | 'correct'
 
-  // Initialize Question Start Time when question changes
+  // Timer effect for real-time elapsed seconds counter during quiz
   useEffect(() => {
+    let interval = null;
     if (quizState === 'playing' && quizStatus === 'idle') {
+      setElapsedSeconds(0);
       setQuestionStartTime(Date.now());
+      interval = setInterval(() => {
+        setElapsedSeconds(prev => {
+          if (prev >= 30) return 30;
+          return prev + 1;
+        });
+      }, 1000);
+    } else {
+      if (interval) clearInterval(interval);
     }
+    return () => {
+      if (interval) clearInterval(interval);
+    };
   }, [quizState, quizIndex, quizStatus]);
 
   // Enter Key Listener for automatically advancing to next question when answered
