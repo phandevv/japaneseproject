@@ -1,0 +1,667 @@
+{
+    "chuong": 2,
+    "bai": 1,
+    "chu_han": [
+        {
+            "kanji": "干",
+            "han_viet": "CAN",
+            "nghia": "phơi khô, cạn",
+            "tu_vung": [
+                "干す (phơi, làm khô)"
+            ]
+        },
+        {
+            "kanji": "刊",
+            "han_viet": "SAN",
+            "nghia": "phát hành, xuất bản",
+            "tu_vung": [
+                "週刊誌 (tạp chí tuần, tạp chí xuất bản hàng tuần)",
+                "朝刊 (báo sáng, báo phát hành vào buổi sáng)"
+            ]
+        },
+        {
+            "kanji": "平",
+            "han_viet": "BÌNH",
+            "nghia": "bằng phẳng, hòa bình",
+            "tu_vung": [
+                "平均 (bình quân, trung bình)",
+                "平日 (ngày thường)",
+                "平和 (hòa bình, yên bình)",
+                "平気 (bình tĩnh, thản nhiên, không hề hấn gì)",
+                "平凡 (bình thường, tầm thường, không có gì đặc biệt)",
+                "平方メートル (mét vuông)"
+            ]
+        },
+        {
+            "kanji": "汗",
+            "han_viet": "HÃN",
+            "nghia": "mồ hôi",
+            "tu_vung": [
+                "汗 (mồ hôi)"
+            ]
+        },
+        {
+            "kanji": "泣",
+            "han_viet": "KHẤP",
+            "nghia": "khóc",
+            "tu_vung": [
+                "泣く (khóc, rơi nước mắt)"
+            ]
+        },
+        {
+            "kanji": "泊",
+            "han_viet": "BẠC",
+            "nghia": "trọ lại, neo đậu",
+            "tu_vung": [
+                "泊まる (trọ lại, ở lại qua đêm)"
+            ]
+        },
+        {
+            "kanji": "舌",
+            "han_viet": "THIỆT",
+            "nghia": "lưỡi",
+            "tu_vung": [
+                "舌 (lưỡi)"
+            ]
+        },
+        {
+            "kanji": "活",
+            "han_viet": "HOẠT",
+            "nghia": "sống, hoạt động",
+            "tu_vung": [
+                "活動 (hoạt động, sự vận động)",
+                "活気 (sự sôi động, náo nhiệt, đầy sức sống)",
+                "活躍 (hoạt động năng nổ, thành công trong lĩnh vực nào đó)",
+                "生活費 (chi phí sinh hoạt, tiền sinh hoạt hàng ngày)"
+            ]
+        },
+        {
+            "kanji": "辞",
+            "han_viet": "TỪ",
+            "nghia": "từ bỏ, từ chức",
+            "tu_vung": [
+                "辞める (từ bỏ, nghỉ việc, thôi học)",
+                "お辞儀 (cúi chào)",
+                "辞書 (từ điển)"
+            ]
+        },
+        {
+            "kanji": "固",
+            "han_viet": "CỐ",
+            "nghia": "cứng, cố định",
+            "tu_vung": [
+                "固い (cứng (đầu), cứng nhắc)",
+                "固まる (đông lại, cứng lại, trở nên vững chắc)"
+            ]
+        },
+        {
+            "kanji": "個",
+            "han_viet": "CÁ",
+            "nghia": "cá nhân, từng cái",
+            "tu_vung": [
+                "個人 (cá nhân, mỗi người riêng lẻ)"
+            ]
+        },
+        {
+            "kanji": "苦",
+            "han_viet": "KHỔ",
+            "nghia": "đau khổ, đắng",
+            "tu_vung": [
+                "苦しむ (đau khổ, khổ sở, vật lộn với điều gì đó)",
+                "苦しい (khó chịu, đau đớn, khổ sở)",
+                "苦い (đắng)",
+                "苦労 (gian khổ, vất vả, khó khăn)"
+            ]
+        },
+        {
+            "kanji": "適",
+            "han_viet": "THÍCH",
+            "nghia": "thích hợp, phù hợp",
+            "tu_vung": [
+                "適当 (phù hợp, thích hợp)"
+            ]
+        }
+    ],
+    "tu_vung": [
+        {
+            "tu": "汗",
+            "loai_tu": "N",
+            "nghia": "mồ hôi",
+            "vi_du": "汗で服がびしょびしょになった。/ お風呂で汗を流す。/ 運動をして、たくさん汗をかいた。"
+        },
+        {
+            "tu": "週刊誌",
+            "loai_tu": "N",
+            "nghia": "tạp chí hàng tuần",
+            "vi_du": "週刊誌で、有名な歌手が結婚したことを知った。/ 姉は毎週、週刊誌を買って読んでいる。"
+        },
+        {
+            "tu": "朝刊",
+            "loai_tu": "N",
+            "nghia": "báo sáng",
+            "vi_du": "父は毎朝、コーヒーを飲みながら朝刊を読む。"
+        },
+        {
+            "tu": "辞書",
+            "loai_tu": "N",
+            "nghia": "từ điển",
+            "vi_du": "辞書を引いて言葉の意味を調べる。"
+        },
+        {
+            "tu": "生活費",
+            "loai_tu": "N",
+            "nghia": "chi phí sinh hoạt",
+            "vi_du": "もらったボーナスは、生活費にするつもりだ。"
+        },
+        {
+            "tu": "個人",
+            "loai_tu": "N",
+            "nghia": "cá nhân, riêng tư",
+            "vi_du": "チーム競技よりも個人競技のほうが好きだ。"
+        },
+        {
+            "tu": "人間",
+            "loai_tu": "N",
+            "nghia": "nhân loại, con người",
+            "vi_du": "人間は一人では生きていけないと言われている。"
+        },
+        {
+            "tu": "馬",
+            "loai_tu": "N",
+            "nghia": "con ngựa",
+            "vi_du": "この牧場では、馬に乗る体験ができる。"
+        },
+        {
+            "tu": "体温",
+            "loai_tu": "N",
+            "nghia": "nhiệt độ cơ thể",
+            "vi_du": "体温を上げると、病気になりにくいそうだ。"
+        },
+        {
+            "tu": "違い",
+            "loai_tu": "N",
+            "nghia": "sự khác nhau",
+            "vi_du": "考え方の違いからけんかになることがある。"
+        },
+        {
+            "tu": "文化",
+            "loai_tu": "N",
+            "nghia": "văn hóa",
+            "vi_du": "日本人の恋人といると、文化の違いを感じる。/ 日本のお城が文化遺産として登録されている。"
+        },
+        {
+            "tu": "考え",
+            "loai_tu": "N",
+            "nghia": "suy nghĩ",
+            "vi_du": "散歩中によくいい考えが浮かぶ。/ 彼女はちゃんと自分の考えを持っている。"
+        },
+        {
+            "tu": "思い",
+            "loai_tu": "N",
+            "nghia": "cảm xúc, suy nghĩ",
+            "vi_du": "母に感謝の思いを伝える。"
+        },
+        {
+            "tu": "風景",
+            "loai_tu": "N",
+            "nghia": "phong cảnh, khung cảnh",
+            "vi_du": "窓から見える風景が好きです。"
+        },
+        {
+            "tu": "年齢",
+            "loai_tu": "N",
+            "nghia": "tuổi tác",
+            "vi_du": "この仕事に年齢制限はありません。"
+        },
+        {
+            "tu": "料金",
+            "loai_tu": "N",
+            "nghia": "phí, tiền cước",
+            "vi_du": "子供は料金が半額です。"
+        },
+        {
+            "tu": "両親",
+            "loai_tu": "N",
+            "nghia": "bố mẹ",
+            "vi_du": "両親は厳しいので、私に一人暮らしをさせてくれません。"
+        },
+        {
+            "tu": "職業",
+            "loai_tu": "N",
+            "nghia": "nghề nghiệp",
+            "vi_du": "将来、どんな職業に就きたいですか。"
+        },
+        {
+            "tu": "大雪",
+            "loai_tu": "N",
+            "nghia": "tuyết rơi nhiều",
+            "vi_du": "昨日は大雪で電車が止まりました。"
+        },
+        {
+            "tu": "大雨",
+            "loai_tu": "N",
+            "nghia": "mưa to",
+            "vi_du": "天気予報が外れて大雨が降った。"
+        },
+        {
+            "tu": "環境",
+            "loai_tu": "N",
+            "nghia": "môi trường",
+            "vi_du": "今の職場の環境はとてもいい。/ 自然環境を保護する。"
+        },
+        {
+            "tu": "点数",
+            "loai_tu": "N",
+            "nghia": "điểm số",
+            "vi_du": "テストの点数が悪くて、がっかりした。"
+        },
+        {
+            "tu": "香り",
+            "loai_tu": "N",
+            "nghia": "hương thơm",
+            "vi_du": "彼女の髪からシャンプーの香りがした。"
+        },
+        {
+            "tu": "身長",
+            "loai_tu": "N",
+            "nghia": "chiều cao",
+            "vi_du": "去年よりも身長が伸びていた。/ 病院で、身長と体重を測る。"
+        },
+        {
+            "tu": "体重",
+            "loai_tu": "N",
+            "nghia": "cân nặng",
+            "vi_du": "食べすぎて体重が増えた。/ 医者に、体重が重いので、運動するように言われた"
+        },
+        {
+            "tu": "舌",
+            "loai_tu": "N",
+            "nghia": "lưỡi",
+            "vi_du": "熱いお茶を飲んで、舌をやけどしてしまった。/ 舌は食べ物の味を感じるところだ。"
+        },
+        {
+            "tu": "胸",
+            "loai_tu": "N",
+            "nghia": "ngực",
+            "vi_du": "首相はナイフで胸を刺されて死亡した。"
+        },
+        {
+            "tu": "量",
+            "loai_tu": "N",
+            "nghia": "lượng (khối lượng, số lượng, thể tích,...)",
+            "vi_du": "米の生産量が一番多い国は中国だ。"
+        },
+        {
+            "tu": "以降",
+            "loai_tu": "N",
+            "nghia": "sau đó, từ đó trở đi",
+            "vi_du": "11月25日以降、新しい社屋に入ることができる。"
+        },
+        {
+            "tu": "以外",
+            "loai_tu": "N",
+            "nghia": "ngoài ra, ngoại trừ",
+            "vi_du": "野菜はにんじん以外何でも食べられます。"
+        },
+        {
+            "tu": "マナー",
+            "loai_tu": "N",
+            "nghia": "phép lịch sự, cách ứng xử, lễ nghi",
+            "vi_du": "電車の中では電話しないのが日本のマナーです。"
+        },
+        {
+            "tu": "アンケート",
+            "loai_tu": "N",
+            "nghia": "bản điều tra, khảo sát",
+            "vi_du": "アンケートに答えるとポイントがもらえる。"
+        },
+        {
+            "tu": "メニュー",
+            "loai_tu": "N",
+            "nghia": "thực đơn",
+            "vi_du": "アレルギーがあるお客様には特別なメニューをご用意します。"
+        },
+        {
+            "tu": "ストレス",
+            "loai_tu": "N",
+            "nghia": "căng thẳng",
+            "vi_du": "最近、仕事が忙しくてストレスが溜まっている。"
+        },
+        {
+            "tu": "貧乏",
+            "loai_tu": "N/A",
+            "nghia": "nghèo",
+            "vi_du": "貧乏な家庭で育ちました。"
+        },
+        {
+            "tu": "不満",
+            "loai_tu": "N/A",
+            "nghia": "bất mãn, không hài lòng",
+            "vi_du": "今の生活に不満な点はない。/ 連絡をくれない恋人に対し、不満を持っている。"
+        },
+        {
+            "tu": "平凡",
+            "loai_tu": "A",
+            "nghia": "bình thường, tầm thường",
+            "vi_du": "私はお金持ちではない、平凡な家庭で育った。/ 平凡な日常が続いて、つまらない。/ 彼はどこにでもいる平凡な人です。"
+        },
+        {
+            "tu": "適当",
+            "loai_tu": "A",
+            "nghia": "phù hợp, thích hợp, qua loa, đại khái",
+            "vi_du": "その本は適当な場所にしまってください。/ 適当な人には仕事を任せられない。"
+        },
+        {
+            "tu": "様々",
+            "loai_tu": "A",
+            "nghia": "đa dạng",
+            "vi_du": "世界には様々な言語がある。"
+        },
+        {
+            "tu": "美しい",
+            "loai_tu": "A",
+            "nghia": "đẹp",
+            "vi_du": "この島の景色はとても美しい。"
+        },
+        {
+            "tu": "苦しい",
+            "loai_tu": "A",
+            "nghia": "khó chịu, đau đớn, khổ sở, khó mà ~, không thoải mái để ~",
+            "vi_du": "仕事がなくて、生活が苦しい。/ 暑い夜は、寝苦しい。/ いいわけをするなんて、見苦しい。"
+        },
+        {
+            "tu": "決める",
+            "loai_tu": "V",
+            "nghia": "quyết định, ấn định",
+            "vi_du": "残り時間1分でゴールを決めた。/ 朝はパンを食べると決めている。"
+        },
+        {
+            "tu": "表す",
+            "loai_tu": "V",
+            "nghia": "biểu thị, thể hiện",
+            "vi_du": "彼女への気持ちを歌で表します。"
+        },
+        {
+            "tu": "守る",
+            "loai_tu": "V",
+            "nghia": "bảo vệ",
+            "vi_du": "紫外線から肌を守る。/ 親が子供を守るのは当然のことだ。/ 約束は必ず守りましょう。"
+        },
+        {
+            "tu": "下げる",
+            "loai_tu": "V",
+            "nghia": "giảm, hạ, cúi xuống, dọn xuống",
+            "vi_du": "勉強しているので、テレビの音量を下げてください/ 食べ終わった皿を下げる。"
+        },
+        {
+            "tu": "減らす",
+            "loai_tu": "V",
+            "nghia": "làm giảm",
+            "vi_du": "無駄な時間を減らす。/ 健康のためにお酒を飲む量を減らした。/ 太ってしまったから、3キロくらい体重を減らしたい。"
+        },
+        {
+            "tu": "味わう",
+            "loai_tu": "V",
+            "nghia": "nếm, thưởng thức, trải nghiệm",
+            "vi_du": "久しぶりに日本料理を味わう。/ 大きな苦しみを味わう。"
+        },
+        {
+            "tu": "違う",
+            "loai_tu": "V",
+            "nghia": "khác, sai",
+            "vi_du": "考え方は人によって違う。/ この服の色は、写真で見たのと違う。/ この道は目的地へ行く道とは違う。"
+        },
+        {
+            "tu": "払う",
+            "loai_tu": "V",
+            "nghia": "trả (tiền), phủi, xua tan, xua đi, dành (sự chú ý, quan tâm)",
+            "vi_du": "コンビニで電気代を払った。/ 服に付いたほこりを払って落とした。/ 父親なら、子供の様子にもっと注意を払うべきだ。"
+        },
+        {
+            "tu": "深まる",
+            "loai_tu": "V",
+            "nghia": "trở nên sâu sắc hơn",
+            "vi_du": "友達とのきずなが深まる。/ 話を聞いて理解が深まった。"
+        },
+        {
+            "tu": "集める",
+            "loai_tu": "V",
+            "nghia": "gom, thu thập, tập hợp",
+            "vi_du": "外国の切手を集めております。/ 研究のためにデータを集める。"
+        },
+        {
+            "tu": "高まる",
+            "loai_tu": "V",
+            "nghia": "tăng lên, cao lên",
+            "vi_du": "あの歌手はテレビに出たことで人気が高まった。"
+        },
+        {
+            "tu": "高める",
+            "loai_tu": "V",
+            "nghia": "làm tăng lên, làm cao lên",
+            "vi_du": "試合前に気持ちを高める。/ 運動をして身体能力を高める。"
+        },
+        {
+            "tu": "泊まる",
+            "loai_tu": "V",
+            "nghia": "trọ lại, ở lại qua đêm",
+            "vi_du": "私が泊まっているホテルの部屋から、富士山が見えます。"
+        },
+        {
+            "tu": "干す",
+            "loai_tu": "V",
+            "nghia": "phơi",
+            "vi_du": "雨の日が続いて、なかなか洗濯物が外に干せない。/ 私は下着や靴下は部屋の中に干している。"
+        },
+        {
+            "tu": "得る",
+            "loai_tu": "V",
+            "nghia": "đạt được, có được, nhận được",
+            "vi_du": "参加者全員の了承を得て、委員長になった。/ お客様からの信頼を得る。"
+        },
+        {
+            "tu": "眠る",
+            "loai_tu": "V",
+            "nghia": "ngủ",
+            "vi_du": "猫は毎日12時間から16時間眠るらしい"
+        },
+        {
+            "tu": "固まる",
+            "loai_tu": "V",
+            "nghia": "đông lại, cứng lại, trở nên vững chắc",
+            "vi_du": "ゼリーが冷蔵庫で固まった。/ 発表のとき、緊張で体が固まった。"
+        },
+        {
+            "tu": "辞める",
+            "loai_tu": "V",
+            "nghia": "nghỉ (việc), từ chức, thôi (học)",
+            "vi_du": "事件の責任を取るために、木村氏は社長を辞めた。/ お金が足りなくなって、大学を辞めなければいけなくなった"
+        },
+        {
+            "tu": "指導",
+            "loai_tu": "N/V",
+            "nghia": "chỉ đạo, hướng dẫn",
+            "vi_du": "先生にスピーチコンテストの指導をしてもらった。"
+        },
+        {
+            "tu": "協力",
+            "loai_tu": "N/V",
+            "nghia": "hợp tác, chung sức",
+            "vi_du": "友達に協力を求める。/ 協力して早く仕事を終わらせる。"
+        },
+        {
+            "tu": "休憩",
+            "loai_tu": "N/V",
+            "nghia": "giải lao",
+            "vi_du": "あそこのカフェで休憩しましょう"
+        },
+        {
+            "tu": "交流",
+            "loai_tu": "N/V",
+            "nghia": "giao lưu, trao đổi",
+            "vi_du": "この県は、隣の県との交流が盛んだ。/ 私の町では、外国人と交流するイベントがよく開かれている。"
+        },
+        {
+            "tu": "注目",
+            "loai_tu": "N/V",
+            "nghia": "sự chú ý, quan tâm",
+            "vi_du": "新しいスマートフォンに注目が集まる。/ 彼女はとてもきれいなので、どこに行っても注目される。"
+        },
+        {
+            "tu": "計算",
+            "loai_tu": "N/V",
+            "nghia": "tính toán",
+            "vi_du": "会計の前に支払う金額を計算する。/ 簡単な計算にも時間がかかってしまう。"
+        },
+        {
+            "tu": "出場",
+            "loai_tu": "N/V",
+            "nghia": "tham gia (thi đấu, trình diễn)",
+            "vi_du": "サッカーの試合に出場する。"
+        },
+        {
+            "tu": "キャンセル",
+            "loai_tu": "N/V",
+            "nghia": "hủy (cancel)",
+            "vi_du": "具合が悪くなったので、レストランの予約をキャンセルした。/ 飛行機の予約をキャンセルした場合、キャンセル料が発生します。"
+        },
+        {
+            "tu": "平均",
+            "loai_tu": "N/V",
+            "nghia": "bình quân, trung bình",
+            "vi_du": "テストはいつも平均点くらいだ。"
+        },
+        {
+            "tu": "活動",
+            "loai_tu": "N/V",
+            "nghia": "hoạt động",
+            "vi_du": "春になると虫が活動を始める。/ 彼は、日本人にベトナムの文化を紹介する活動をしている。/ この音楽グループは昔は人気があったが、今は活動していない。"
+        },
+        {
+            "tu": "活躍",
+            "loai_tu": "N/V",
+            "nghia": "hoạt động năng nổ, thành công trong lĩnh vực nào đó",
+            "vi_du": "今日の試合では活躍できた。/ 娘は運動会で大活躍した。/ 彼はアメリカで、野球選手として活躍している。"
+        },
+        {
+            "tu": "お辞儀",
+            "loai_tu": "N/V",
+            "nghia": "cúi chào",
+            "vi_du": "社長がお見えになったので、椅子から立ち上がってお辞儀をしました。/ 時と場合によって、お辞儀の深さを変える必要がある/ 腰を痛めたので、お辞儀ができない。"
+        },
+        {
+            "tu": "苦労",
+            "loai_tu": "N/V",
+            "nghia": "gian khổ, vất vả, khó khăn",
+            "vi_du": "子供のころは、家が貧乏で苦労した。/ 今の仕事を見つけるのに苦労した。"
+        },
+        {
+            "tu": "調査",
+            "loai_tu": "N/V",
+            "nghia": "điều tra, khảo sát",
+            "vi_du": "日本に来る留学生について調査を行った。"
+        },
+        {
+            "tu": "選挙",
+            "loai_tu": "N/V",
+            "nghia": "bầu cử",
+            "vi_du": "この国では、20歳を過ぎると、選挙権がある。"
+        },
+        {
+            "tu": "優勝",
+            "loai_tu": "N/V",
+            "nghia": "vô địch, quán quân",
+            "vi_du": "優勝を目指して毎日厳しい練習を続ける。"
+        },
+        {
+            "tu": "不足",
+            "loai_tu": "N/V",
+            "nghia": "thiếu hụt, thiếu thốn",
+            "vi_du": "栄養が不足すると病気になりやすくなる"
+        },
+        {
+            "tu": "急に",
+            "loai_tu": "PT",
+            "nghia": "bất chợt, đột ngột, đột nhiên",
+            "vi_du": "赤ちゃんが急に泣き出した。"
+        },
+        {
+            "tu": "決して",
+            "loai_tu": "PT",
+            "nghia": "quyết không, nhất định",
+            "vi_du": "この試合だけは、決して最後まで諦めない。/ 彼女は私を決してうらぎらない。"
+        }
+    ],
+    "ngu_phap": [
+        {
+            "cau_truc": "~によって(1)",
+            "y_nghia": "Bằng.../ Thông qua... Chỉ công cụ hoặc phương thức để thực hiện một việc gì đó.",
+            "cach_chia": "N1 / Vること + によって / により / による + N2",
+            "vi_du": [
+                "毎日日本語を練習することによって、日本語が上達します。",
+                "この薬を飲むことによって、風邪が治るかもしれない。",
+                "スマートフォンによって、多くの情報が簡単に手に入るようになった。"
+            ]
+        },
+        {
+            "cau_truc": "~によって(2)",
+            "y_nghia": "Vì.../ Do... Chỉ nguyên nhân hoặc lý do dẫn đến một sự việc nào đó.",
+            "cach_chia": "N1 / Vること + によって / により / による + N2",
+            "vi_du": [
+                "今日は台風によって、学校が休みになった。",
+                "今朝の大雨によって、会社に着くのが遅れた。",
+                "彼はたくさんタバコを吸ったことによって、病気になった。"
+            ]
+        },
+        {
+            "cau_truc": "~によって(3)",
+            "y_nghia": "Tùy vào N/ Tùy theo N",
+            "cach_chia": "N + によって",
+            "vi_du": [
+                "この店は時間によってメニューが変わる。",
+                "行く場所によって、着て行く洋服を考えた方がいい。",
+                "言葉や文化は国によって違うので、とても面白い。"
+            ]
+        },
+        {
+            "cau_truc": "~ことで",
+            "y_nghia": "Bằng việc... / Thông qua việc... / Nhờ việc...",
+            "cach_chia": "Vる + ことで",
+            "vi_du": [
+                "食事の量を減らすことで、1か月に3キロくらい痩せられるはずだ。",
+                "毎日お弁当を持って来ることで、生活費を少なくすることができる。",
+                "2か所でアルバイトをすることで、大学のお金を払っている。"
+            ]
+        },
+        {
+            "cau_truc": "~おかげで",
+            "y_nghia": "Nhờ có... Diễn tả nhờ một lý do hay sự giúp đỡ nào đó mà có được kết quả tốt đẹp.",
+            "cach_chia": "普通形 / Aな/Aなである / Nの/Nである + おかげ",
+            "vi_du": [
+                "私が高校を卒業できたのは、先生達のおかげです。",
+                "会社が家から近いおかげで、休憩の時帰ることができる。",
+                "いつもより早く寝たおかげか、今日はとても調子がいい。"
+            ]
+        },
+        {
+            "cau_truc": "~せいで",
+            "y_nghia": "Chỉ tại.../ Tại vì... Chỉ nguyên nhân dẫn đến kết quả xấu, mang sắc thái phàn nàn, trách móc.",
+            "cach_chia": "普通形 / Aな/Aなである / Nの/Nである + せい",
+            "vi_du": [
+                "暑くなってきたせいでよく喉が乾き、水ばかりを飲んでいる。",
+                "今日の試合で負けたのはみんなのせいじゃなくて、全部私のせいだ。",
+                "この村は不便なせいか、最近は住む人が全然いなくなった。"
+            ]
+        },
+        {
+            "cau_truc": "~ことから",
+            "y_nghia": "Xuất phát từ.../ Vì lý do...",
+            "cach_chia": "普通形 / Aな/Aなである / Nである + ことから",
+            "vi_du": [
+                "安全な人生を送ってほしいことから、子供に「AN」と名付けました。",
+                "道が濡れていることから、昨晩雨が降ったことが分かる。",
+                "彼女は時間があっても勉強しなかったことから、今回の試験の点数が悪くなったそうです。"
+            ]
+        }
+    ]
+}

@@ -1,0 +1,731 @@
+{
+    "chuong": 8,
+    "bai": 3,
+    "chu_han": [
+        {
+            "kanji": "昨",
+            "han_viet": "TẠC",
+            "nghia": "hôm qua, trước đây",
+            "tu_vung": [
+                "昨日 (hôm qua)",
+                "昨年 (năm ngoái)",
+                "昨夜 (tối qua, đêm qua)"
+            ]
+        },
+        {
+            "kanji": "普",
+            "han_viet": "PHỔ",
+            "nghia": "phổ thông, thông thường",
+            "tu_vung": [
+                "普通 (bình thường)",
+                "普段 (thường ngày, thông thường)"
+            ]
+        },
+        {
+            "kanji": "増",
+            "han_viet": "TĂNG",
+            "nghia": "tăng lên",
+            "tu_vung": [
+                "増える (tăng lên)",
+                "増やす (làm tăng, thêm vào)",
+                "増加 (sự gia tăng)",
+                "増減 (sự tăng giảm)"
+            ]
+        },
+        {
+            "kanji": "量",
+            "han_viet": "LƯỢNG",
+            "nghia": "số lượng, khối lượng",
+            "tu_vung": [
+                "量る (đo lường, cân đo)",
+                "大量 (số lượng lớn)",
+                "多量 (lượng nhiều)",
+                "~量 (lượng)",
+                "運動量 (lượng vận động)",
+                "仕事量 (lượng công việc)",
+                "消費量 (lượng tiêu dùng)"
+            ]
+        },
+        {
+            "kanji": "裏",
+            "han_viet": "LÝ",
+            "nghia": "mặt trái, phía sau",
+            "tu_vung": [
+                "裏 (mặt sau, phía sau)",
+                "裏側 (mặt sau, phía trái ngược)"
+            ]
+        },
+        {
+            "kanji": "確",
+            "han_viet": "XÁC",
+            "nghia": "xác nhận, chính xác",
+            "tu_vung": [
+                "確かめる (xác nhận, kiểm tra)",
+                "確か (chắc chắn; hình như)",
+                "確かに (chắc chắn là, công nhận là)",
+                "確認 (xác nhận)",
+                "正確 (chính xác)",
+                "確実 (chắc chắn)",
+                "明確 (rõ ràng, minh bạch)"
+            ]
+        },
+        {
+            "kanji": "岩",
+            "han_viet": "NHAM",
+            "nghia": "đá, nham thạch",
+            "tu_vung": [
+                "岩 (đá, tảng đá)"
+            ]
+        },
+        {
+            "kanji": "官",
+            "han_viet": "QUAN",
+            "nghia": "quan chức, chính quyền",
+            "tu_vung": [
+                "警官 (cảnh sát)"
+            ]
+        },
+        {
+            "kanji": "追",
+            "han_viet": "TRUY",
+            "nghia": "đuổi theo, theo đuổi",
+            "tu_vung": [
+                "追う (đuổi theo, theo đuổi)",
+                "追い越す (vượt qua)",
+                "追いつく (đuổi kịp)",
+                "追い抜く (vượt mặt, vượt qua)"
+            ]
+        },
+        {
+            "kanji": "師",
+            "han_viet": "SƯ",
+            "nghia": "thầy, giáo viên",
+            "tu_vung": [
+                "医師 (bác sĩ)",
+                "教師 (giáo viên)",
+                "美容師 (chuyên viên thẩm mỹ, thợ làm tóc)",
+                "看護師 (y tá, điều dưỡng)"
+            ]
+        },
+        {
+            "kanji": "形",
+            "han_viet": "HÌNH",
+            "nghia": "hình dáng, hình thức",
+            "tu_vung": [
+                "形 (hình dạng)"
+            ]
+        },
+        {
+            "kanji": "型",
+            "han_viet": "HÌNH",
+            "nghia": "kiểu, mẫu",
+            "tu_vung": [
+                "血液型 (nhóm máu)",
+                "大型 (loại lớn, cỡ lớn)",
+                "髪型 (kiểu tóc)"
+            ]
+        }
+    ],
+    "tu_vung": [
+        {
+            "tu": "箸",
+            "loai_tu": "N",
+            "nghia": "đũa, đôi đũa",
+            "vi_du": "箸で食べ物を刺すのは下品だ。"
+        },
+        {
+            "tu": "柱",
+            "loai_tu": "N",
+            "nghia": "cột, trụ",
+            "vi_du": "柱の数を増やせば、建物はより丈夫で壊れにくくなる。/ 父は一家の柱として、毎日一生懸命働いてくれている。"
+        },
+        {
+            "tu": "幅",
+            "loai_tu": "N",
+            "nghia": "chiều rộng, bề ngang",
+            "vi_du": "この道路は幅が狭いので、車がすれ違えない。/ うちのクラスには色々な学生がいて、年齢の幅も広い/ この店では、幅広い商品を扱っている。"
+        },
+        {
+            "tu": "街",
+            "loai_tu": "N",
+            "nghia": "khu phố, phố",
+            "vi_du": "銀座は、歴史ある立派な建物がたくさんある街だ。"
+        },
+        {
+            "tu": "大型",
+            "loai_tu": "N",
+            "nghia": "loại lớn, cỡ lớn",
+            "vi_du": "大型の台風が日本に近づいているそうだ。/ うちの犬は大型犬なので、力が強くて散歩が大変だ。/ 大型連休の間は、道路も電車も非常に混む。"
+        },
+        {
+            "tu": "髪型",
+            "loai_tu": "N",
+            "nghia": "kiểu tóc",
+            "vi_du": "気分を変えたいので、髪型を変えてみることにした。"
+        },
+        {
+            "tu": "正面",
+            "loai_tu": "N",
+            "nghia": "mặt trước, chính diện",
+            "vi_du": "このビルへは、正面の玄関から入ってください。/ 昨日この道で、居眠り運転をしていた車が、他の車と正面衝突したそうだ。/ 彼らは問題に正面から向き合わなければならない。"
+        },
+        {
+            "tu": "番地",
+            "loai_tu": "N",
+            "nghia": "số lô đất (trong địa chỉ của Nhật Bản)",
+            "vi_du": "住所を書くときは、番地を間違えないように気を付けましょう。"
+        },
+        {
+            "tu": "地球",
+            "loai_tu": "N",
+            "nghia": "trái đất",
+            "vi_du": "地球は太陽の周りを回っている。"
+        },
+        {
+            "tu": "野球",
+            "loai_tu": "N",
+            "nghia": "bóng chày",
+            "vi_du": "息子の将来の夢は、野球の選手になることだそうだ。"
+        },
+        {
+            "tu": "卓球",
+            "loai_tu": "N",
+            "nghia": "bóng bàn",
+            "vi_du": "祖父は卓球が好きで、よく近所の卓球クラブに行っている。"
+        },
+        {
+            "tu": "順番",
+            "loai_tu": "N",
+            "nghia": "thứ tự, lượt",
+            "vi_du": "これからテストを返しますから、順番に取りに来てください。/ 自分の発表の順番が来るまで、落ち着かない。"
+        },
+        {
+            "tu": "根",
+            "loai_tu": "N",
+            "nghia": "gốc, rễ, bản chất, nền tảng",
+            "vi_du": "木の根が邪魔で、地面に穴が掘れない。"
+        },
+        {
+            "tu": "屋根",
+            "loai_tu": "N",
+            "nghia": "mái nhà",
+            "vi_du": "台風の強い風で、屋根が壊れてしまった"
+        },
+        {
+            "tu": "娘",
+            "loai_tu": "N",
+            "nghia": "con gái",
+            "vi_du": "弟には、息子が1人と娘が1人いる。"
+        },
+        {
+            "tu": "一人娘",
+            "loai_tu": "N",
+            "nghia": "con gái duy nhất",
+            "vi_du": "大事な一人娘を留学させるのは、親としてとても心配だろう。"
+        },
+        {
+            "tu": "患者",
+            "loai_tu": "N",
+            "nghia": "bệnh nhân",
+            "vi_du": "この病院の医者は、患者一人一人を丁寧に診察している。"
+        },
+        {
+            "tu": "包丁",
+            "loai_tu": "N",
+            "nghia": "dao làm bếp",
+            "vi_du": "娘はまだ小さいので、包丁を使わせるのは心配だ"
+        },
+        {
+            "tu": "季節",
+            "loai_tu": "N",
+            "nghia": "mùa",
+            "vi_du": "この庭には、季節ごとに色々な花が咲く。"
+        },
+        {
+            "tu": "人口",
+            "loai_tu": "N",
+            "nghia": "dân số",
+            "vi_du": "世界の人口はこれからも増え続けるそうだ。"
+        },
+        {
+            "tu": "勢い",
+            "loai_tu": "N",
+            "nghia": "khí thế, tinh thần hăng hái, sức mạnh, quyền lực",
+            "vi_du": "このチームは今勢いがあるので、もしかしたら優勝するかもしれない。/ 津波の勢いはとても強く、1メートルの高さでも大人の男性が流される。"
+        },
+        {
+            "tu": "従業員",
+            "loai_tu": "N",
+            "nghia": "nhân viên",
+            "vi_du": "この会社には社員、アルバイトなどを合わせて2000人以上の従業員がいる。"
+        },
+        {
+            "tu": "月日",
+            "loai_tu": "N",
+            "nghia": "ngày tháng",
+            "vi_du": "月日が流れるのは早いもので、この前小学生になった甥がもう中学生だ。"
+        },
+        {
+            "tu": "日時",
+            "loai_tu": "N",
+            "nghia": "ngày giờ",
+            "vi_du": "会議の日時が決まったら、連絡してください。"
+        },
+        {
+            "tu": "日中",
+            "loai_tu": "N",
+            "nghia": "ban ngày",
+            "vi_du": "今日はとても暑いので、日中は外に出ないほうがいいですよ。"
+        },
+        {
+            "tu": "半日",
+            "loai_tu": "N",
+            "nghia": "nửa ngày",
+            "vi_du": "病院に行ったらとても混んでいて、診察から薬をもらうまで半日かかってしまった。"
+        },
+        {
+            "tu": "手品",
+            "loai_tu": "N",
+            "nghia": "ảo thuật",
+            "vi_du": "テレビで手品を見たが、まるで魔法のようだった"
+        },
+        {
+            "tu": "鉄道",
+            "loai_tu": "N",
+            "nghia": "đường sắt",
+            "vi_du": "この地域では、鉄道が重要な交通手段だ。"
+        },
+        {
+            "tu": "関心",
+            "loai_tu": "N",
+            "nghia": "quan tâm",
+            "vi_du": "日本の文化に関心があるので、日本語を勉強しています。"
+        },
+        {
+            "tu": "天国",
+            "loai_tu": "N",
+            "nghia": "thiên đường",
+            "vi_du": "祖父は、人は死んだら天国に行くと信じていた。"
+        },
+        {
+            "tu": "天井",
+            "loai_tu": "N",
+            "nghia": "trần nhà",
+            "vi_du": "この家はとても古いので、天井が低い。"
+        },
+        {
+            "tu": "出入り",
+            "loai_tu": "N",
+            "nghia": "ra vào",
+            "vi_du": "このコンサートは、途中の出入りが自由です。"
+        },
+        {
+            "tu": "灯台",
+            "loai_tu": "N",
+            "nghia": "hải đăng",
+            "vi_du": "この灯台は、船が安全に港にはいるために建てられた。"
+        },
+        {
+            "tu": "特色",
+            "loai_tu": "N",
+            "nghia": "đặc sắc, nổi bật, đặc trưng",
+            "vi_du": "ベトナムは広いので、料理も地域ごとに特色がある。"
+        },
+        {
+            "tu": "特長",
+            "loai_tu": "N",
+            "nghia": "ưu điểm, lợi thế",
+            "vi_du": "この機械の特長は、操作が簡単なことです。"
+        },
+        {
+            "tu": "並木",
+            "loai_tu": "N",
+            "nghia": "hàng cây",
+            "vi_du": "この大学には、いちょう並木があって、秋はとてもきれいだ。"
+        },
+        {
+            "tu": "東洋",
+            "loai_tu": "N",
+            "nghia": "phương Đông",
+            "vi_du": "日本や中国などの、東洋の文化に興味があります。"
+        },
+        {
+            "tu": "南北",
+            "loai_tu": "N",
+            "nghia": "nam bắc",
+            "vi_du": "日本もベトナムも、南北に長い形をしている。"
+        },
+        {
+            "tu": "農業",
+            "loai_tu": "N",
+            "nghia": "nông nghiệp",
+            "vi_du": "北海道には広い土地があるので、農業が盛んだ。"
+        },
+        {
+            "tu": "灰色",
+            "loai_tu": "N",
+            "nghia": "màu xám",
+            "vi_du": "灰色のジャケットはどんな服にも合わせやすいので、1枚持っておくと便利だ。"
+        },
+        {
+            "tu": "働き",
+            "loai_tu": "N",
+            "nghia": "công việc, hoạt động, chức năng",
+            "vi_du": "私の働きが認められて、給料が上がった。/ ビタミンCは、鉄分の吸収を助ける働きがある。"
+        },
+        {
+            "tu": "ねずみ",
+            "loai_tu": "N",
+            "nghia": "con chuột",
+            "vi_du": "台所に置いておいたパンがねずみに食べられた。"
+        },
+        {
+            "tu": "展覧会",
+            "loai_tu": "N",
+            "nghia": "cuộc triển lãm, trưng bày",
+            "vi_du": "私は絵を見るのが好きなので、よく展覧会に行く。"
+        },
+        {
+            "tu": "新記録",
+            "loai_tu": "N",
+            "nghia": "kỷ lục mới",
+            "vi_du": "この大会で、1000メートル走の日本新記録が出た。"
+        },
+        {
+            "tu": "請求書",
+            "loai_tu": "N",
+            "nghia": "hóa đơn yêu cầu thanh toán",
+            "vi_du": "請求書の金額が間違っているようなので、修正していただけますか。"
+        },
+        {
+            "tu": "出来事",
+            "loai_tu": "N",
+            "nghia": "sự kiện, sự việc",
+            "vi_du": "日本に来てから、色々な出来事があった。"
+        },
+        {
+            "tu": "仲良し",
+            "loai_tu": "N",
+            "nghia": "thân thiết",
+            "vi_du": "田中さんと高木さんは仲良しだ。"
+        },
+        {
+            "tu": "東南アジア",
+            "loai_tu": "N",
+            "nghia": "Đông Nam Á",
+            "vi_du": "多くの日本企業が、東南アジアに工場を建てている。"
+        },
+        {
+            "tu": "問い合わせ",
+            "loai_tu": "N",
+            "nghia": "hỏi đáp, liên hệ",
+            "vi_du": "市役所のホームページに、問い合わせ先の電話番号が載っている。"
+        },
+        {
+            "tu": "サラリーマン",
+            "loai_tu": "N",
+            "nghia": "nhân viên công ty (salaryman)",
+            "vi_du": "私の父は、東京の会社で働いているサラリーマンだ。"
+        },
+        {
+            "tu": "カメラマン",
+            "loai_tu": "N",
+            "nghia": "thợ ảnh (cameraman)",
+            "vi_du": "弟はプロのカメラマンで、時々私の写真も撮ってくれる。"
+        },
+        {
+            "tu": "デジタル",
+            "loai_tu": "N",
+            "nghia": "kỹ thuật số (digital)",
+            "vi_du": "私はアナログ時計より、デジタル時計のほうが見やすくて好きだ。"
+        },
+        {
+            "tu": "ビデオ",
+            "loai_tu": "N",
+            "nghia": "video",
+            "vi_du": "子供の成長をビデオで記録している。"
+        },
+        {
+            "tu": "ファックス",
+            "loai_tu": "N",
+            "nghia": "máy fax (fax)",
+            "vi_du": "最近はメールで何でも送れるので、ファックスを使う家庭はほとんどない。"
+        },
+        {
+            "tu": "プリンター",
+            "loai_tu": "N",
+            "nghia": "máy in (printer)",
+            "vi_du": "自分の家で印刷したいので、プリンターを買った"
+        },
+        {
+            "tu": "ロボット",
+            "loai_tu": "N",
+            "nghia": "robot",
+            "vi_du": "この前レストランに行ったら、ロボットが料理を運んでいた。"
+        },
+        {
+            "tu": "カーナビ",
+            "loai_tu": "N",
+            "nghia": "hệ thống định vị ô tô (car navigation system)",
+            "vi_du": "道がわからないので、カーナビの案内に従って走ることにした。"
+        },
+        {
+            "tu": "スイッチ",
+            "loai_tu": "N",
+            "nghia": "công tắc (switch)",
+            "vi_du": "電気のスイッチは、ドアの横にあります。"
+        },
+        {
+            "tu": "ダイヤル",
+            "loai_tu": "N",
+            "nghia": "núm vặn, mặt số (dial)",
+            "vi_du": "昔の電話は、ダイヤルを回してかけていた"
+        },
+        {
+            "tu": "レンズ",
+            "loai_tu": "N",
+            "nghia": "ống kính (lens)",
+            "vi_du": "写真がうまく撮れないと思ったら、カメラのレンズが汚れていた。"
+        },
+        {
+            "tu": "アルミホイル",
+            "loai_tu": "N",
+            "nghia": "giấy bạc (aluminum foil)",
+            "vi_du": "じゃがいもは、アルミホイルで包んで焼くとおいしいですよ。"
+        },
+        {
+            "tu": "プログラム",
+            "loai_tu": "N",
+            "nghia": "chương trình, lập trình (program)",
+            "vi_du": "コンサートが始まるまで、プログラムを見ていよう。/ 兄はコンピューターのプログラムを作る仕事をしている。"
+        },
+        {
+            "tu": "羨ましい",
+            "loai_tu": "A",
+            "nghia": "ghen tị, thèm muốn",
+            "vi_du": "友達の家は私の家の2倍の大きさだそうで、羨ましい。/ 何でもできる彼が羨ましい。"
+        },
+        {
+            "tu": "求める",
+            "loai_tu": "V",
+            "nghia": "yêu cầu, tìm kiếm, mưu cầu",
+            "vi_du": "会社は優秀な人材を求めている。/ 彼は常に新しい知識を求めて勉強している。"
+        },
+        {
+            "tu": "流す",
+            "loai_tu": "V",
+            "nghia": "làm chảy, xả (nước), đổ (mồ hôi), rơi (nước mắt), cuốn theo, lan truyền, phát (nhạc)",
+            "vi_du": "トイレの水を1度流すと、約8リットルの水を使用することになる。/ 彼女は合格の知らせを聞いて、涙を流して喜んだ。/ 台風で川の水が増えて、橋が流された。/ 静かすぎるので、何か音楽を流そう。/ いいかげんな噂を流すのはよくない。"
+        },
+        {
+            "tu": "流れる",
+            "loai_tu": "V",
+            "nghia": "chảy, trôi đi, rơi (mồ hôi, nước mắt), bị cuốn, sự vật hiện tượng chuyển động như dòng chảy, lan truyền, được phát (nhạc), trôi qua (thời gian)",
+            "vi_du": "県と県の間に、大きな川が流れている。/ 激しい運動をして、額から汗が流れ落ちた。/ 桜の花びらが、川を流れていく。/ 電気が流れる方向を確認してください。/ 最近、変な噂が流れている。/ あの日から、もう20年の月日が流れた"
+        },
+        {
+            "tu": "なくなる",
+            "loai_tu": "V",
+            "nghia": "bị mất, hết",
+            "vi_du": "お金を使いすぎて、財布に1円もなくなってしまった/ ちょっと目を離したら、財布がなくなっていた。"
+        },
+        {
+            "tu": "なくす",
+            "loai_tu": "V",
+            "nghia": "làm mất",
+            "vi_du": "来年から、学校の制服をなくすことにした。/ 今日出かけている間に、定期券をなくしてしまった。"
+        },
+        {
+            "tu": "生える",
+            "loai_tu": "V",
+            "nghia": "mọc lên, sinh sôi, nảy nở, phát triển",
+            "vi_du": "庭に草が生えたので、取った。"
+        },
+        {
+            "tu": "近づく",
+            "loai_tu": "V",
+            "nghia": "tiếp cận, tới gần",
+            "vi_du": "台風の日に、川に近づいてはいけない"
+        },
+        {
+            "tu": "刺さる",
+            "loai_tu": "V",
+            "nghia": "đâm, chích",
+            "vi_du": "喉に魚の骨が刺さって、痛かった。/ 彼の言葉が、胸に刺さった。"
+        },
+        {
+            "tu": "統計",
+            "loai_tu": "N/V",
+            "nghia": "thống kê",
+            "vi_du": "国民の生活を知るために、数年に1度全国で統計を取っている。"
+        },
+        {
+            "tu": "入力",
+            "loai_tu": "N/V",
+            "nghia": "nhập vào, đưa vào",
+            "vi_du": "この列に、数字を入力していってください。"
+        },
+        {
+            "tu": "売買",
+            "loai_tu": "N/V",
+            "nghia": "mua bán",
+            "vi_du": "土地の売買は、手続きが複雑で難しい。/ この市場では、毎朝新鮮な魚が売買されている。"
+        },
+        {
+            "tu": "変化",
+            "loai_tu": "N/V",
+            "nghia": "thay đổi",
+            "vi_du": "この季節は、気温の変化が激しい。/ この問題についての人々の考え方は、最近変化してきたようだ。"
+        },
+        {
+            "tu": "録音",
+            "loai_tu": "N/V",
+            "nghia": "ghi âm",
+            "vi_du": "私は歌の練習のために、自分の声を録音している。"
+        },
+        {
+            "tu": "録画",
+            "loai_tu": "N/V",
+            "nghia": "ghi hình, quay video",
+            "vi_du": "大好きなドラマは毎週録画して、何回も見ている。"
+        },
+        {
+            "tu": "訓練",
+            "loai_tu": "N/V",
+            "nghia": "huấn luyện, rèn luyện",
+            "vi_du": "友達は犬を訓練する仕事をしている。/ 消防士の友人は、いつもきびしい訓練を受けているそうだ。"
+        },
+        {
+            "tu": "流行",
+            "loai_tu": "N/V",
+            "nghia": "phổ biến, thịnh hành, lan truyền",
+            "vi_du": "最近の流行を知るために、ファッション雑誌を買った。/ インフルエンザが流行しているそうなので、皆さんも気を付けてください。"
+        },
+        {
+            "tu": "合流",
+            "loai_tu": "N/V",
+            "nghia": "hợp lưu (dòng chảy), nhập nhóm, nhập đoàn",
+            "vi_du": "これら2つの川は、海の近くで合流する。/ 高橋さんは出張中なので、社員旅行には途中から合流するそうです。"
+        },
+        {
+            "tu": "早退",
+            "loai_tu": "N/V",
+            "nghia": "về sớm",
+            "vi_du": "具合が悪かったので、今日は早退させてもらった。"
+        },
+        {
+            "tu": "退学",
+            "loai_tu": "N/V",
+            "nghia": "bỏ học, thôi học",
+            "vi_du": "コンビニで商品を盗んで、高校を退学になった。/ お金がなかったので、大学を退学して働き始めた。"
+        },
+        {
+            "tu": "拡大",
+            "loai_tu": "N/V",
+            "nghia": "mở rộng, phóng to",
+            "vi_du": "祖母は目が悪いので、新聞を読むときはいつも拡大鏡を使っている。/ 最近、アメリカへの輸出が拡大しているそうだ。"
+        },
+        {
+            "tu": "動作",
+            "loai_tu": "N/V",
+            "nghia": "động tác, hành động, thao tác",
+            "vi_du": "年を取ると、動作が遅くなるものだ/ 昨日から、パソコンの動作がおかしい。"
+        },
+        {
+            "tu": "反省",
+            "loai_tu": "N/V",
+            "nghia": "kiểm điểm, rút kinh nghiệm",
+            "vi_du": "彼は自分の行いを反省して、もう二度とやらないと言っている。/ どうしてうまく行かなかったか、原因を考えるために反省会をしよう。"
+        },
+        {
+            "tu": "クリック",
+            "loai_tu": "N/V",
+            "nghia": "cú nhấp chuột (click)",
+            "vi_du": "マウスでここをクリックすると、知りたい情報がでてきます。/ お楽しみいただけましたら、クリックによる1票お願いいたします!"
+        },
+        {
+            "tu": "ノック",
+            "loai_tu": "N/V",
+            "nghia": "gõ (cửa) (knock)",
+            "vi_du": "玄関で大きなノックの音がした。/ 私の部屋に入る前には必ずノックしてください。"
+        },
+        {
+            "tu": "~師",
+            "loai_tu": "Hậu tố",
+            "nghia": "người làm nghề, chuyên gia hoặc bậc thầy trong một lĩnh vực",
+            "vi_du": "詐欺師 (kẻ lừa đảo) / 看護師 (điều dưỡng) / 美容師 (thợ làm tóc)"
+        }
+    ],
+    "ngu_phap": [
+        {
+            "cau_truc": "~ていく",
+            "y_nghia": "Diễn tả trạng thái thay đổi từ bây giờ về sau, hoặc hành động xảy ra liên tục từ bây giờ về sau. Hoặc diễn tả hành động có hướng di chuyển ra xa khỏi người nói.",
+            "cach_chia": "Vて + いく",
+            "vi_du": [
+                "今日も寒いだが、明日からももっと寒くなっていくだろう。",
+                "具合が悪い息子を、病院へ連れていく。",
+                "私は運動のために、毎日会社まで歩いていく。"
+            ]
+        },
+        {
+            "cau_truc": "~てくる",
+            "y_nghia": "Diễn tả một trạng thái thay đổi từ quá khứ đến hiện tại, hoặc hành động kéo dài từ quá khứ đến hiện tại. Hoặc đi làm gì đó rồi quay về, hoặc hướng di chuyển đến gần người nói.",
+            "cach_chia": "Vて + くる",
+            "vi_du": [
+                "ベトナムへ来て1か月が経ち、だんだん生活に慣れてきた。",
+                "私は小学生の時からずっと、サッカーをしてきた。",
+                "いきなり、どこから野良猫が飛び出してきて、びっくりしました。"
+            ]
+        },
+        {
+            "cau_truc": "~とともに (1)",
+            "y_nghia": "Cùng.../ Cùng với... (Diễn tả sự vật, sự việc cùng với nhau, hoặc sự hợp tác, đồng hành giữa người với người. Ít dùng trong giao tiếp hằng ngày).",
+            "cach_chia": "N + とともに",
+            "vi_du": [
+                "家族とともに、海外で新しい生活を始めた。",
+                "手紙とともに故郷への切符が送られてきた。",
+                "薬局で薬をもらうと、薬とともに薬の説明書がついてくる。"
+            ]
+        },
+        {
+            "cau_truc": "~とともに (2)",
+            "y_nghia": "Đồng thời.../ Vừa... vừa... (Diễn tả 2 hành động xảy ra đồng thời, cùng lúc. Hoặc vừa là trạng thái 1, vừa là trạng thái 2).",
+            "cach_chia": "Vる/Aい / Aなである / N/Nである + とともに",
+            "vi_du": [
+                "新しい仕事を始めるときは、いつもわくわくするとともに、不安でもある。",
+                "グループのリーダーとして皆をまとめるとともに、どんな苦労も乗り越えていきたいと思う。",
+                "子育てが終わって、安心するとともに寂しさも感じる。"
+            ]
+        },
+        {
+            "cau_truc": "~とともに (3)",
+            "y_nghia": "Càng... càng.../ Cùng với... thì... (Diễn tả một điều gì đó thay đổi thì một điều khác cũng thay đổi theo).",
+            "cach_chia": "Vる / N + とともに",
+            "vi_du": [
+                "季節の変化とともに木の葉の色も変わる。",
+                "国際化とともに、この国でも英語を話せる人が増えてきた。",
+                "AIの発達とともに、人間の働き方も変わっていくだろう。"
+            ]
+        },
+        {
+            "cau_truc": "~につれて",
+            "y_nghia": "Cùng với... thì... (Khi một điều gì đó thay đổi thì một điều khác cũng thay đổi theo chiều hướng tương ứng).",
+            "cach_chia": "Vる / N + につれて",
+            "vi_du": [
+                "春が近づくにつれて、少しずつ気温が上がってきた。",
+                "時間がたつにつれて、雨は弱くなっていった。",
+                "年を取るにつれて、体力がなくなる。"
+            ]
+        },
+        {
+            "cau_truc": "~も~ば、〜も",
+            "y_nghia": "Cả N1, N2 đều... (Liệt kê tính chất song song, hoặc nhiều mặt của 1 hiện tượng).",
+            "cach_chia": "N1 も Vば/Aければ/Aな/Nなら N2 も",
+            "vi_du": [
+                "外で運動するのが好きな子もいれば、室内で静かに遊ぶのが好きな子もいる。",
+                "私は勉強も苦手なら運動も苦手で、自分のことが嫌になる。",
+                "この町には、コンビニもなければ、スーパーもない。"
+            ]
+        }
+    ]
+}

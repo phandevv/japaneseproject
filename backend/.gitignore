@@ -33,4 +33,5 @@ build/
 .vscode/
 
 ### Application Data ###
-data/
+/data/
+!src/main/resources/data/
