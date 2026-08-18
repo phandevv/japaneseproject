@@ -96,8 +96,7 @@ public class JlptN3CourseService {
         String[] candidateBaseDirs = {
             "data/tổng ôn N3/data",
             "data/tong on N3/data",
-            "../data/tổng ôn N3/data",
-            "c:/Users/bbqdd/Documents/_my/japaneseproject/data/tổng ôn N3/data"
+            "../data/tổng ôn N3/data"
         };
 
         for (String baseDir : candidateBaseDirs) {
