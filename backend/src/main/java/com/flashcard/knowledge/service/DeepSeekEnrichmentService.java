@@ -59,6 +59,33 @@ public class DeepSeekEnrichmentService {
     }
 
     public CompletableFuture<Vocabulary> enrichVocabulary(Vocabulary vocab) {
+        if (vocab == null) {
+            return CompletableFuture.completedFuture(null);
+        }
+
+        boolean hasUsage = vocab.getUsageGuide() != null && !vocab.getUsageGuide().isBlank();
+        boolean hasMnemonic = vocab.getMnemonic() != null && !vocab.getMnemonic().isBlank();
+        boolean hasExamples = vocab.getExampleSentences() != null && !vocab.getExampleSentences().isBlank() && !"[]".equals(vocab.getExampleSentences().trim()) && !"null".equals(vocab.getExampleSentences().trim());
+        boolean isMissingHanViet = vocab.getHanViet() == null || vocab.getHanViet().isBlank();
+
+        // 1. Chia nhỏ gọi riêng: Nếu chỉ thiếu Hán Việt -> Gọi micro-prompt siêu nhẹ (~30 tokens)
+        if (hasUsage && hasMnemonic && isMissingHanViet) {
+            log.info("Vocab ID {} đã có hầu hết thông tin, CHỈ THIẾU Hán Việt. Kích hoạt micro-prompt lấy Hán Việt viết hoa...", vocab.getId());
+            return enrichMissingHanViet(vocab);
+        }
+
+        // 2. Chia nhỏ gọi riêng: Nếu chỉ thiếu Mẹo nhớ -> Gọi micro-prompt mẹo nhớ (~50 tokens)
+        if (hasUsage && hasExamples && !isMissingHanViet && !hasMnemonic) {
+            log.info("Vocab ID {} CHỈ THIẾU Mẹo nhớ. Kích hoạt micro-prompt mẹo nhớ...", vocab.getId());
+            return enrichMissingMnemonic(vocab);
+        }
+
+        // 3. Chia nhỏ gọi riêng: Nếu chỉ thiếu Hướng dẫn dùng -> Gọi micro-prompt hướng dẫn (~80 tokens)
+        if (hasMnemonic && hasExamples && !isMissingHanViet && !hasUsage) {
+            log.info("Vocab ID {} CHỈ THIẾU Hướng dẫn sử dụng. Kích hoạt micro-prompt hướng dẫn...", vocab.getId());
+            return enrichMissingUsageGuide(vocab);
+        }
+
         if (!bulkheadSemaphore.tryAcquire()) {
             log.warn("Bulkhead rejected AI request for vocabulary ID: {} because concurrent limit of 50 is exceeded.", vocab.getId());
             return CompletableFuture.failedFuture(new ResponseStatusException(
@@ -85,32 +112,22 @@ public class DeepSeekEnrichmentService {
                 String prompt;
                 if (isKanjiItem) {
                     prompt = String.format(
-                        "Bạn là một chuyên gia biên soạn từ điển Chữ Hán (Kanji) tiếng Nhật cao cấp. Hãy phân tích và làm giàu ĐẦY ĐỦ THÔNG TIN cho chữ Hán sau bằng tiếng Việt:\n" +
-                        "Chữ Hán (Kanji): \"%s\"\n" +
-                        "Âm Hán Việt hiện tại: %s\n" +
-                        "Nghĩa hiện tại: %s\n" +
-                        "Cấp độ JLPT: %s\n\n" +
-                        "Yêu cầu dữ liệu cực kỳ chi tiết, chuẩn xác 100%%. BẮT BUỘC cung cấp đầy đủ Âm On (onReading katakana) và Âm Kun (kunReading hiragana). Mọi giải thích, dịch ví dụ BẮT BUỘC bằng tiếng Việt.\n" +
-                        "Hãy trả về JSON duy nhất, không markdown:\n" +
+                        "Phân tích chữ Hán \"%s\" (Âm Hán Việt: %s, Nghĩa: %s, JLPT: %s).\n" +
+                        "QUY TẮC BẮT BUỘC: Mọi giải thích nghĩa, mẹo nhớ, hướng dẫn dùng, dịch nghĩa ví dụ BẮT BUỘC viết bằng 100%% TIẾNG VIỆT, tuyệt đối không giải thích bằng tiếng Nhật hay tiếng Trung. Âm Hán Việt phải VIẾT HOA TOÀN BỘ.\n" +
+                        "Trả về JSON duy nhất không markdown:\n" +
                         "{\n" +
                         "  \"word\": \"%s\",\n" +
-                        "  \"hanViet\": \"Âm Hán Việt chuẩn viết hoa (ví dụ: NGHI)\",\n" +
-                        "  \"onReading\": \"Âm On bằng Katakana (ví dụ: ギ)\",\n" +
-                        "  \"kunReading\": \"Âm Kun bằng Hiragana (ví dụ: うたが.う)\",\n" +
-                        "  \"reading\": \"Âm On: ギ | Âm Kun: うたが.う\",\n" +
-                        "  \"meaning\": \"nghĩa tiếng Việt đầy đủ chính xác\",\n" +
-                        "  \"pitchAccent\": \"Âm On: ギ / Âm Kun: うた가.う\",\n" +
+                        "  \"hanViet\": \"Âm Hán Việt viết hoa (ví dụ: KHÍ)\",\n" +
+                        "  \"onReading\": \"Âm On katakana (ví dụ: カン)\",\n" +
+                        "  \"kunReading\": \"Âm Kun hiragana (ví dụ: ほ.す)\",\n" +
+                        "  \"reading\": \"Âm On / Âm Kun\",\n" +
+                        "  \"meaning\": \"Nghĩa tiếng Việt chuẩn xác\",\n" +
+                        "  \"pitchAccent\": \"Trọng âm\",\n" +
                         "  \"wordType\": \"KANJI\",\n" +
-                        "  \"mnemonic\": \"Mẹo nhớ chữ Hán này cực kỳ sáng tạo, chiết tự các bộ thủ (kanji breakdown) và liên tưởng âm thanh/hình ảnh thú vị bằng tiếng Việt.\",\n" +
-                        "  \"usageGuide\": \"Giải thích bộ thủ cấu thành, sắc thái nghĩa, các từ hay ghép cùng và trường hợp sử dụng thực tế bằng tiếng Việt.\",\n" +
-                        "  \"kanjiWords\": [\n" +
-                        "     { \"word\": \"từ ghép 1\", \"reading\": \"cách đọc hiragana\", \"meaning\": \"nghĩa tiếng Việt\" },\n" +
-                        "     { \"word\": \"từ ghép 2\", \"reading\": \"cách đọc hiragana\", \"meaning\": \"nghĩa tiếng Việt\" },\n" +
-                        "     { \"word\": \"từ ghép 3\", \"reading\": \"cách đọc hiragana\", \"meaning\": \"nghĩa tiếng Việt\" }\n" +
-                        "  ],\n" +
-                        "  \"exampleSentences\": [\n" +
-                        "     { \"ja\": \"câu ví dụ chứa chữ hán này\", \"reading\": \"cách đọc hiragana câu ví dụ\", \"vi\": \"dịch nghĩa tiếng Việt\" }\n" +
-                        "  ]\n" +
+                        "  \"mnemonic\": \"Mẹo nhớ chiết tự bộ thủ bằng tiếng Việt ngắn gọn dễ hiểu\",\n" +
+                        "  \"usageGuide\": \"Giải thích nghĩa và hoàn cảnh sử dụng bằng 100%% tiếng Việt\",\n" +
+                        "  \"kanjiWords\": [{\"word\": \"từ ghép tiếng Nhật\", \"reading\": \"cách đọc\", \"meaning\": \"nghĩa tiếng Việt\"}],\n" +
+                        "  \"exampleSentences\": [{\"ja\": \"câu ví dụ tiếng Nhật\", \"reading\": \"cách đọc\", \"vi\": \"dịch nghĩa tiếng Việt\"}]\n" +
                         "}",
                         mainWord,
                         vocab.getHanViet() != null ? vocab.getHanViet() : "",
@@ -120,54 +137,43 @@ public class DeepSeekEnrichmentService {
                     );
                 } else {
                     prompt = String.format(
-                        "Bạn là một chuyên gia biên soạn từ điển tiếng Nhật cao cấp. Hãy làm giàu thông tin và ĐÍNH CHÍNH CÁCH ĐỌC Hiragana/Katakana chuẩn xác nhất cho từ vựng sau bằng tiếng Việt:\n" +
-                        "Từ kanji/kana chính: \"%s\"\n" +
-                        "Cách đọc ban đầu (có thể sai): %s\n" +
-                        "Nghĩa ban đầu: %s\n" +
-                        "Cấp độ JLPT: %s\n\n" +
-                        "Yêu cầu dữ liệu cực kỳ chi tiết, chính xác. ĐẶC BIỆT CHÚ Ý: Kiểm tra kỹ từ kanji chính để cung cấp cách đọc Hiragana/Katakana chuẩn xác tuyệt đối trong trường \"reading\" (ví dụ từ 他 thì cách đọc chuẩn là ほか, nếu cách đọc ban đầu sai thì bắt buộc phải đính chính lại). Mọi giải thích, dịch ví dụ bắt buộc phải là tiếng Việt.\n" +
-                        "Hãy trả về JSON duy nhất, không markdown:\n" +
+                        "Làm giàu từ vựng \"%s\" (Cách đọc: %s, Nghĩa: %s, JLPT: %s).\n" +
+                        "QUY TẮC BẮT BUỘC: Toàn bộ các trường meaning, hanViet, mnemonic, usageGuide, commonMistakes (error và fix), kanjiWords (meaning), exampleSentences (vi), conversationExamples (translationA và translationB) BẮT BUỘC VIẾT BẰNG 100%% TIẾNG VIỆT, tuyệt đối không giải thích bằng tiếng Nhật hay tiếng Trung.\n" +
+                        "Trả về JSON duy nhất không markdown:\n" +
                         "{\n" +
-                        "  \"word\": \"từ kanji hoặc kana chính xác\",\n" +
-                        "  \"reading\": \"cách đọc hiragana/katakana chuẩn xác nhất tuyệt đối (đã đính chính nếu cách đọc cũ sai)\",\n" +
-                        "  \"meaning\": \"nghĩa tiếng Việt chính xác\",\n" +
-                        "  \"hanViet\": \"âm Hán Việt (nếu có, viết hoa, ví dụ: THỰC SỰ)\",\n" +
-                        "  \"jlpt\": \"cấp độ JLPT từ N5 đến N1\",\n" +
-                        "  \"pitchAccent\": \"cách đánh trọng âm (ví dụ: しょくじ [0])\",\n" +
-                        "  \"wordType\": \"loại từ (noun, verb, i-adjective, na-adjective...)\",\n" +
-                        "  \"kanjiWords\": [\n" +
-                        "     { \"word\": \"từ ghép chứa kanji này\", \"reading\": \"cách đọc\", \"meaning\": \"nghĩa tiếng Việt\" }\n" +
-                        "  ],\n" +
+                        "  \"word\": \"%s\",\n" +
+                        "  \"reading\": \"cách đọc hiragana/katakana chuẩn xác tuyệt đối\",\n" +
+                        "  \"meaning\": \"nghĩa tiếng Việt chính xác đầy đủ\",\n" +
+                        "  \"hanViet\": \"âm Hán Việt (nếu có, viết hoa)\",\n" +
+                        "  \"jlpt\": \"cấp độ JLPT\",\n" +
+                        "  \"pitchAccent\": \"trọng âm (ví dụ: しょくじ [0])\",\n" +
+                        "  \"wordType\": \"loại từ\",\n" +
+                        "  \"kanjiWords\": [{\"word\": \"từ ghép tiếng Nhật\", \"reading\": \"cách đọc\", \"meaning\": \"nghĩa tiếng Việt\"}],\n" +
                         "  \"synonyms\": [\"từ đồng nghĩa 1\", \"từ đồng nghĩa 2\"],\n" +
                         "  \"antonyms\": [\"từ trái nghĩa 1\", \"từ trái nghĩa 2\"],\n" +
-                        "  \"commonMistakes\": [\n" +
-                        "     { \"error\": \"sai lầm phổ biến\", \"fix\": \"cách sửa\" }\n" +
-                        "  ],\n" +
-                        "  \"exampleSentences\": [\n" +
-                        "     { \"ja\": \"câu ví dụ tiếng Nhật\", \"reading\": \"hiragana câu ví dụ\", \"vi\": \"dịch nghĩa tiếng Việt\" }\n" +
-                        "  ],\n" +
-                        "  \"collocations\": [\"cụm từ hay đi kèm 1\", \"cụm từ hay đi kèm 2\"],\n" +
-                        "  \"mnemonic\": \"mẹo nhớ chữ Hán hoặc từ vựng này. Hãy đưa ra mẹo nhớ cực kỳ sáng tạo, dễ nhớ, có thể dùng chiết tự các bộ thủ chữ Hán (kanji breakdown) hoặc liên tưởng âm thanh/hình ảnh thú vị, tránh giải thích khô khan.\",\n" +
-                        "  \"usageGuide\": \"hướng dẫn chi tiết cách dùng, sắc thái (nuance) và trường hợp sử dụng từ này trong thực tế bằng tiếng Việt (ví dụ: dùng trong hoàn cảnh trang trọng/thân mật, văn viết hay văn nói)\",\n" +
-                        "  \"conversationExamples\": [\n" +
-                        "     { \"speakerA\": \"hội thoại người A\", \"speakerB\": \"hội thoại người B (phản hồi)\", \"translationA\": \"dịch nghĩa A\", \"translationB\": \"dịch nghĩa B\" }\n" +
-                        "  ]\n" +
+                        "  \"commonMistakes\": [{\"error\": \"lỗi thường gặp viết bằng tiếng Việt\", \"fix\": \"cách dùng đúng viết bằng tiếng Việt\"}],\n" +
+                        "  \"exampleSentences\": [{\"ja\": \"câu ví dụ tiếng Nhật\", \"reading\": \"cách đọc hiragana\", \"vi\": \"dịch nghĩa tiếng Việt\"}],\n" +
+                        "  \"collocations\": [\"cụm từ hay đi kèm 1\", \"cụm từ 2\"],\n" +
+                        "  \"mnemonic\": \"mẹo nhớ ngắn gọn bằng tiếng Việt dễ thuộc\",\n" +
+                        "  \"usageGuide\": \"hướng dẫn cách dùng, ngữ cảnh và sắc thái bằng 100%% tiếng Việt\",\n" +
+                        "  \"conversationExamples\": [{\"speakerA\": \"câu thoại A tiếng Nhật\", \"speakerB\": \"câu thoại B tiếng Nhật\", \"translationA\": \"dịch tiếng Việt A\", \"translationB\": \"dịch tiếng Việt B\"}]\n" +
                         "}",
                         mainWord,
                         vocab.getHiragana() != null ? vocab.getHiragana() : "",
                         vocab.getMeaning() != null ? vocab.getMeaning() : "",
-                        level
+                        level,
+                        mainWord
                     );
                 }
 
-                // Construct payload compatible with DeepSeek chat model
+                // Construct payload compatible with DeepSeek chat model (Prompt Caching enabled)
                 Map<String, Object> requestBodyMap = Map.of(
                     "model", "deepseek-chat",
-                    "max_tokens", 8192,
+                    "max_tokens", 1200,
                     "temperature", 0.1,
                     "response_format", Map.of("type", "json_object"),
                     "messages", new Object[]{
-                        Map.of("role", "system", "content", "Bạn là một trợ lý chuyên gia tiếng Nhật. Bạn phản hồi duy nhất bằng định dạng JSON. Tất cả nội dung dịch nghĩa và giải thích nghĩa BẮT BUỘC phải viết bằng tiếng Việt."),
+                        Map.of("role", "system", "content", "Bạn là trợ lý từ điển tiếng Nhật cao cấp cho người Việt. BẮT BUỘC: Mọi giải thích, dịch nghĩa, mẹo nhớ, hướng dẫn sử dụng, phân biệt và sửa lỗi PHẢI viết bằng 100% TIẾNG VIỆT, tuyệt đối không dùng tiếng Nhật hoặc tiếng Trung trong các trường giải thích. Phản hồi duy nhất bằng JSON hợp lệ."),
                         Map.of("role", "user", "content", prompt)
                     }
                 );
@@ -278,24 +284,20 @@ public class DeepSeekEnrichmentService {
             }
 
             String prompt = String.format(
-                "Bạn là một chuyên gia ngữ pháp tiếng Nhật hàng đầu.\n" +
-                "Nhiệm vụ: Giải thích chi tiết và phân tích toàn diện điểm ngữ pháp sau.\n\n" +
-                "Cấu trúc ngữ pháp: \"%s\"\n" +
-                "Ý nghĩa hiện tại: \"%s\"\n" +
-                "Cấp độ: \"%s\"\n\n" +
-                "Hãy trả về duy nhất JSON (không dùng markdown):\n" +
+                "Phân tích điểm ngữ pháp \"%s\" (Ý nghĩa: %s, JLPT: %s).\n" +
+                "QUY TẮC BẮT BUỘC: Toàn bộ các trường meaning, formation, usageGuide, similarGrammar, difference, commonMistakes, và trường vi trong examples BẮT BUỘC VIẾT BẰNG 100%% TIẾNG VIỆT, tuyệt đối không giải thích bằng tiếng Nhật hay tiếng Trung.\n" +
+                "Trả về duy nhất JSON không markdown:\n" +
                 "{\n" +
                 "  \"grammar\": \"%s\",\n" +
-                "  \"meaning\": \"Ý nghĩa tổng quát ngắn gọn chuẩn xác\",\n" +
-                "  \"formation\": \"Công thức/Cấu trúc kết hợp chi tiết (ví dụ: V-て + 以来 / N + につき / V-る + にあたって)\",\n" +
-                "  \"usageGuide\": \"Giải thích chi tiết sắc thái, hoàn cảnh sử dụng & lưu ý khi dùng (văn viết/văn nói, trang trọng hay thân mật, biểu thị cảm xúc gì)\",\n" +
-                "  \"similarGrammar\": \"Các điểm ngữ pháp tương tự hoặc dễ gây nhầm lẫn\",\n" +
-                "  \"difference\": \"Phân biệt cụ thể sắc thái khác nhau giữa cấu trúc này với các cấu trúc tương tự\",\n" +
-                "  \"commonMistakes\": \"Các lỗi phổ biến học viên hay gặp phải (kèm cách dùng sai vs đúng)\",\n" +
+                "  \"meaning\": \"Ý nghĩa tổng quát chuẩn xác bằng tiếng Việt\",\n" +
+                "  \"formation\": \"Công thức kết hợp ngắn gọn\",\n" +
+                "  \"usageGuide\": \"Giải thích sắc thái, hoàn cảnh sử dụng & lưu ý bằng 100%% tiếng Việt\",\n" +
+                "  \"similarGrammar\": \"Điểm ngữ pháp tương tự\",\n" +
+                "  \"difference\": \"Phân biệt sắc thái khác nhau bằng tiếng Việt\",\n" +
+                "  \"commonMistakes\": \"Lỗi phổ biến học viên hay gặp phải và cách tránh bằng tiếng Việt\",\n" +
                 "  \"examples\": [\n" +
-                "    {\"ja\": \"Câu ví dụ tiếng Nhật 1 (có Furigana mở ngoặc cho Kanji)\", \"reading\": \"Cách đọc Hiragana\", \"vi\": \"Dịch nghĩa tiếng Việt\"},\n" +
-                "    {\"ja\": \"Câu ví dụ 2\", \"reading\": \"Cách đọc Hiragana\", \"vi\": \"Dịch nghĩa tiếng Việt\"},\n" +
-                "    {\"ja\": \"Câu ví dụ 3\", \"reading\": \"Cách đọc Hiragana\", \"vi\": \"Dịch nghĩa tiếng Việt\"}\n" +
+                "    {\"ja\": \"Ví dụ tiếng Nhật 1\", \"reading\": \"cách đọc hiragana\", \"vi\": \"dịch nghĩa tiếng Việt\"},\n" +
+                "    {\"ja\": \"Ví dụ tiếng Nhật 2\", \"reading\": \"cách đọc hiragana\", \"vi\": \"dịch nghĩa tiếng Việt\"}\n" +
                 "  ]\n" +
                 "}",
                 grammarCard.getGrammar(),
@@ -312,8 +314,11 @@ public class DeepSeekEnrichmentService {
                     .POST(HttpRequest.BodyPublishers.ofString(
                         objectMapper.writeValueAsString(Map.of(
                             "model", "deepseek-chat",
-                            "messages", java.util.List.of(Map.of("role", "user", "content", prompt)),
-                            "max_tokens", 8192,
+                            "messages", java.util.List.of(
+                                Map.of("role", "system", "content", "Bạn là chuyên gia ngữ pháp tiếng Nhật cao cấp cho người Việt. BẮT BUỘC: Mọi giải thích, dịch nghĩa, cấu trúc, phân biệt và sửa lỗi PHẢI viết bằng 100% TIẾNG VIỆT, tuyệt đối không dùng tiếng Nhật hoặc tiếng Trung trong các trường giải thích. Phản hồi duy nhất bằng JSON hợp lệ."),
+                                Map.of("role", "user", "content", prompt)
+                            ),
+                            "max_tokens", 1200,
                             "temperature", 0.1
                         ))
                     ))
@@ -416,6 +421,7 @@ public class DeepSeekEnrichmentService {
 
     public CompletableFuture<Vocabulary> enrichMissingHanViet(Vocabulary vocab) {
         if (vocab.getHanViet() != null && !vocab.getHanViet().trim().isEmpty()) {
+            vocab.setHanViet(vocab.getHanViet().trim().toUpperCase(java.util.Locale.ROOT));
             return CompletableFuture.completedFuture(vocab);
         }
         String apiKey = getApiKey();
@@ -424,13 +430,65 @@ public class DeepSeekEnrichmentService {
         }
         String word = vocab.getKanji() != null && !vocab.getKanji().isBlank() ? vocab.getKanji() : vocab.getHiragana();
         String prompt = String.format(
-            "Cung cấp âm Hán Việt chuẩn viết hoa cho từ/chữ Hán tiếng Nhật \"%s\" (Nghĩa: %s). Trả về duy nhất JSON không markdown: {\"hanViet\": \"ÂM HÁN VIỆT\"}",
+            "Cung cấp âm Hán Việt chuẩn VIẾT HOA TOÀN BỘ cho từ tiếng Nhật \"%s\" (Nghĩa: %s). Ví dụ: GIÁN CÁCH, THỰC SỰ, TÂN TIẾN. Bắt buộc viết hoa toàn bộ. Trả về duy nhất JSON: {\"hanViet\": \"ÂM HÁN VIỆT VIẾT HOA\"}",
             word,
             vocab.getMeaning() != null ? vocab.getMeaning() : ""
         );
         return executeMicroPrompt(vocab, apiKey, prompt, (node, v) -> {
             if (node.has("hanViet") && !node.path("hanViet").isNull()) {
-                v.setHanViet(node.path("hanViet").asText().trim().toUpperCase());
+                String hv = node.path("hanViet").asText().trim();
+                if (!hv.isEmpty() && !"null".equalsIgnoreCase(hv)) {
+                    v.setHanViet(hv.toUpperCase(java.util.Locale.ROOT));
+                }
+            }
+        });
+    }
+
+    public CompletableFuture<Vocabulary> enrichMissingMnemonic(Vocabulary vocab) {
+        if (vocab.getMnemonic() != null && !vocab.getMnemonic().trim().isEmpty()) {
+            return CompletableFuture.completedFuture(vocab);
+        }
+        String apiKey = getApiKey();
+        if (apiKey == null) {
+            return CompletableFuture.completedFuture(vocab);
+        }
+        String word = vocab.getKanji() != null && !vocab.getKanji().isBlank() ? vocab.getKanji() : vocab.getHiragana();
+        String prompt = String.format(
+            "Tạo 1 mẹo nhớ ngắn gọn bằng 100%% tiếng Việt dễ hiểu (chiết tự hoặc liên tưởng) cho từ tiếng Nhật \"%s\" (Nghĩa: %s, Hán Việt: %s). Tuyệt đối không dùng tiếng Nhật/Trung giải thích. Trả về duy nhất JSON: {\"mnemonic\": \"Mẹo nhớ bằng tiếng Việt...\"}",
+            word,
+            vocab.getMeaning() != null ? vocab.getMeaning() : "",
+            vocab.getHanViet() != null ? vocab.getHanViet() : ""
+        );
+        return executeMicroPrompt(vocab, apiKey, prompt, (node, v) -> {
+            if (node.has("mnemonic") && !node.path("mnemonic").isNull()) {
+                String mn = node.path("mnemonic").asText().trim();
+                if (!mn.isEmpty() && !"null".equalsIgnoreCase(mn)) {
+                    v.setMnemonic(mn);
+                }
+            }
+        });
+    }
+
+    public CompletableFuture<Vocabulary> enrichMissingUsageGuide(Vocabulary vocab) {
+        if (vocab.getUsageGuide() != null && !vocab.getUsageGuide().trim().isEmpty()) {
+            return CompletableFuture.completedFuture(vocab);
+        }
+        String apiKey = getApiKey();
+        if (apiKey == null) {
+            return CompletableFuture.completedFuture(vocab);
+        }
+        String word = vocab.getKanji() != null && !vocab.getKanji().isBlank() ? vocab.getKanji() : vocab.getHiragana();
+        String prompt = String.format(
+            "Giải thích ngắn gọn ngữ cảnh, sắc thái và cách dùng bằng 100%% TIẾNG VIỆT cho từ tiếng Nhật \"%s\" (Nghĩa: %s). Tuyệt đối không dùng tiếng Nhật/Trung. Trả về duy nhất JSON: {\"usageGuide\": \"Hướng dẫn bằng tiếng Việt...\"}",
+            word,
+            vocab.getMeaning() != null ? vocab.getMeaning() : ""
+        );
+        return executeMicroPrompt(vocab, apiKey, prompt, (node, v) -> {
+            if (node.has("usageGuide") && !node.path("usageGuide").isNull()) {
+                String ug = node.path("usageGuide").asText().trim();
+                if (!ug.isEmpty() && !"null".equalsIgnoreCase(ug)) {
+                    v.setUsageGuide(ug);
+                }
             }
         });
     }

@@ -401,7 +401,10 @@ const MasterReviewPage = ({ goBack }) => {
     setAnsweredStatus(null);
     setQuizWordEnriched(null);
     setLoadingQuizEnrich(false);
+    setQuestionStartTime(Date.now());
   }, [phase, quizIndex, quizWords, quizFormat, forgottenWords, allWords]);
+
+  const [questionStartTime, setQuestionStartTime] = useState(Date.now());
 
   // Quiz Choice Handler
   const handleQuizChoice = (choice) => {
@@ -411,11 +414,14 @@ const MasterReviewPage = ({ goBack }) => {
     const isCorrect = choice.id === current.id;
     setAnsweredStatus(isCorrect ? 'correct' : 'incorrect');
 
+    const elapsed = Math.min(30, (Date.now() - questionStartTime) / 1000);
+    const quality = isCorrect ? (elapsed <= 3 ? 4 : elapsed <= 8 ? 3 : 2) : 1;
+
     if (isCorrect) {
       setQuizScore(s => s + 1);
       setCorrectlyAnsweredWordIds(prev => new Set(prev).add(current.id));
-      srsApi.reviewWord(current.id, 3).catch(console.error);
-      analyticsApi.logSession(0, 1, 1).catch(console.error);
+      srsApi.reviewWord(current.id, quality).catch(console.error);
+      analyticsApi.logSession(1, 1, 1).catch(console.error);
       speakWord(current);
     } else {
       setQuizMistakes(m => m + 1);
@@ -458,12 +464,15 @@ const MasterReviewPage = ({ goBack }) => {
 
     setAnsweredStatus(isCorrect ? 'correct' : 'incorrect');
 
+    const elapsed = Math.min(30, (Date.now() - questionStartTime) / 1000);
+    const quality = isCorrect ? (elapsed <= 3 ? 4 : elapsed <= 8 ? 3 : 2) : 1;
+
     if (isCorrect) {
       setTypingStatus('correct');
       setQuizScore(s => s + 1);
       setCorrectlyAnsweredWordIds(prev => new Set(prev).add(current.id));
-      srsApi.reviewWord(current.id, 4).catch(console.error);
-      analyticsApi.logSession(0, 1, 1).catch(console.error);
+      srsApi.reviewWord(current.id, quality).catch(console.error);
+      analyticsApi.logSession(1, 1, 1).catch(console.error);
       speakWord(current);
     } else {
       setTypingStatus('incorrect');

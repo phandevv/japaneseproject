@@ -67,7 +67,8 @@ public class JlptN3CourseController {
     public ResponseEntity<?> getLessonData(
             @PathVariable("chapter") int chapter,
             @PathVariable("lesson") int lesson) {
-        Map<String, Object> lessonData = courseService.getLessonData(chapter, lesson);
+        Long userId = getCurrentUserId();
+        Map<String, Object> lessonData = courseService.getLessonData(userId, chapter, lesson);
         return ResponseEntity.ok(lessonData);
     }
 

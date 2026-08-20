@@ -96,13 +96,13 @@ public class VocabularyService {
                     .maximumSize(1000)
                     .build();
 
-    @CacheEvict(value = {"vocabulary", "vocabulary-level"}, allEntries = true)
+    @CacheEvict(value = {"vocabulary", "vocabulary-level", "vocab-stats"}, allEntries = true)
     public Vocabulary save(Vocabulary vocabulary) {
         searchCache.invalidateAll();
         return dataProvider.save(vocabulary);
     }
 
-    @CacheEvict(value = {"vocabulary", "vocabulary-level"}, allEntries = true)
+    @CacheEvict(value = {"vocabulary", "vocabulary-level", "vocab-stats"}, allEntries = true)
     public void deleteById(Long id) {
         searchCache.invalidateAll();
         dataProvider.deleteById(id);
@@ -114,6 +114,7 @@ public class VocabularyService {
         return searchCache.get(key, k -> dataProvider.search(keyword, pageable));
     }
 
+    @Cacheable(value = "vocab-stats", key = "'all'")
     public Map<String, Object> getStats() {
         return dataProvider.getStats();
     }

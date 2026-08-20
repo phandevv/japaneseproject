@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { X, ChevronLeft, ChevronRight, Volume2, RefreshCw, PenLine, Eraser, Eye, EyeOff, RotateCcw } from 'lucide-react';
+import { X, ChevronLeft, ChevronRight, Volume2, RefreshCw, PenLine, Eraser, Eye, EyeOff, RotateCcw, Pencil, Check } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
+import { useAuth } from '../context/AuthContext';
 import { vocabApi } from '../services/api';
 import AiEnrichedTabbedView from './AiEnrichedTabbedView';
 
@@ -571,6 +572,9 @@ const KanjiPracticeCanvas = ({ word, onBack }) => {
    ───────────────────────────────────────────── */
 const KanjiDetailModal = ({ words, initialIndex = 0, onClose, vocab }) => {
   useLanguage();
+  const { user } = useAuth();
+  const isAdmin = user && (user.username === "admin" || user.role === "ADMIN" || user.roles?.includes("ADMIN") || user.roles?.includes("ROLE_ADMIN"));
+
   const effectiveWords = (words && words.length > 0) ? words : (vocab ? [vocab] : []);
   const [currentIndex, setCurrentIndex] = useState(initialIndex || 0);
   const [slideDir, setSlideDir]         = useState(null);
@@ -588,6 +592,51 @@ const KanjiDetailModal = ({ words, initialIndex = 0, onClose, vocab }) => {
   const [loadingEnrich, setLoadingEnrich] = useState(false);
   const [showStrokes, setShowStrokes] = useState(false);
   const [strokeCountMap, setStrokeCountMap] = useState({});
+
+  // Admin inline editing for Left Column components
+  const [editingLeftSection, setEditingLeftSection] = useState(null);
+  const [editLeftDraft, setEditLeftDraft] = useState({});
+  const [savingLeftEdit, setSavingLeftEdit] = useState(false);
+  const [editLeftSuccess, setEditLeftSuccess] = useState(null);
+
+  const startEditingLeft = (section, initialDraft) => {
+    setEditingLeftSection(section);
+    setEditLeftDraft(initialDraft);
+  };
+
+  const cancelEditingLeft = () => {
+    setEditingLeftSection(null);
+    setEditLeftDraft({});
+  };
+
+  const saveLeftEditing = async (fieldsToSave) => {
+    if (!word?.id) return;
+    setSavingLeftEdit(true);
+    try {
+      const payload = {
+        ...word,
+        ...(enriched || {}),
+        ...fieldsToSave
+      };
+      if (payload.hanViet) {
+        payload.hanViet = String(payload.hanViet).trim().toUpperCase();
+      }
+
+      const saved = await vocabApi.update(word.id, payload);
+      Object.assign(word, saved);
+      setEnriched(saved);
+      const savedSec = editingLeftSection;
+      setEditingLeftSection(null);
+      setEditLeftDraft({});
+      setEditLeftSuccess(savedSec);
+      setTimeout(() => setEditLeftSuccess(null), 2500);
+    } catch (err) {
+      console.error("Failed to save left section edit:", err);
+      alert("Lỗi khi lưu: " + (err.response?.data?.message || err.message));
+    } finally {
+      setSavingLeftEdit(false);
+    }
+  };
 
   useEffect(() => {
     setShowStrokes(false);
@@ -642,14 +691,15 @@ const KanjiDetailModal = ({ words, initialIndex = 0, onClose, vocab }) => {
       return;
     }
 
-    if (!word.id) return;
+    const targetWordId = word.id;
+    if (!targetWordId) return;
 
     let active = true;
     let pollInterval = null;
 
-    vocabApi.enrich(word.id)
+    vocabApi.enrich(targetWordId)
       .then(data => {
-        if (!active) return;
+        if (!active || word?.id !== targetWordId || !data || data.id !== targetWordId) return;
         if (hasRichEnrichment(data)) {
           // Mutate parent object to cache enrichment
           Object.assign(word, data);
@@ -666,9 +716,9 @@ const KanjiDetailModal = ({ words, initialIndex = 0, onClose, vocab }) => {
               setLoadingEnrich(false);
               return;
             }
-            vocabApi.getById(word.id)
+            vocabApi.getById(targetWordId)
               .then(pollData => {
-                if (!active) return;
+                if (!active || word?.id !== targetWordId || !pollData || pollData.id !== targetWordId) return;
                 if (hasRichEnrichment(pollData) || pollData.isEnriching === false) {
                   Object.assign(word, pollData);
                   setEnriched(pollData);
@@ -854,6 +904,31 @@ const KanjiDetailModal = ({ words, initialIndex = 0, onClose, vocab }) => {
                   minHeight: '350px',
                   boxSizing: 'border-box'
                 }}>
+                  {/* Admin Edit button in top-left */}
+                  {isAdmin && (
+                    <div style={{ position: 'absolute', top: '14px', left: '14px', zIndex: 2 }}>
+                      <button
+                        type="button"
+                        onClick={() => startEditingLeft('mainWord', { kanji: word.kanji || '', hiragana: word.hiragana || '', level: word.level || '' })}
+                        style={{
+                          background: editLeftSuccess === 'mainWord' ? 'rgba(16, 185, 129, 0.15)' : 'rgba(37,99,235,0.1)',
+                          border: `1px solid ${editLeftSuccess === 'mainWord' ? '#10b981' : 'rgba(37,99,235,0.25)'}`,
+                          borderRadius: '5px',
+                          color: editLeftSuccess === 'mainWord' ? '#10b981' : 'var(--accent-color)',
+                          padding: '3px 8px',
+                          fontSize: '0.72rem',
+                          cursor: 'pointer',
+                          display: 'inline-flex',
+                          alignItems: 'center',
+                          gap: '4px',
+                          fontWeight: 600
+                        }}
+                      >
+                        {editLeftSuccess === 'mainWord' ? <><Check size={11} /> Đã lưu</> : <><Pencil size={11} /> Sửa từ</>}
+                      </button>
+                    </div>
+                  )}
+
                   {/* Level Badge in top-right */}
                   <span className="level-badge" style={{ 
                     position: 'absolute', 
@@ -867,40 +942,79 @@ const KanjiDetailModal = ({ words, initialIndex = 0, onClose, vocab }) => {
                     {word.level} Level
                   </span>
 
-                  {/* Reading (Hiragana) & Pronounce */}
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '4px' }}>
-                    {word.kanji && word.hiragana && (
-                      <div style={{ 
-                        fontFamily: 'var(--font-jp)', 
-                        fontSize: '1.25rem', 
-                        color: 'var(--text-secondary)', 
-                        opacity: 0.85,
-                        letterSpacing: '0.04em'
-                      }}>
-                        {word.hiragana}
+                  {/* Inline Editor for Main Word */}
+                  {editingLeftSection === 'mainWord' ? (
+                    <div style={{ width: '100%', padding: '10px', background: 'var(--surface-color)', borderRadius: '12px', border: '1px solid var(--accent-color)', textAlign: 'left', marginBottom: '14px' }}>
+                      <div style={{ marginBottom: '8px' }}>
+                        <label style={{ fontSize: '0.75rem', fontWeight: 600, color: 'var(--text-secondary)' }}>Từ Kanji</label>
+                        <input 
+                          type="text" 
+                          value={editLeftDraft.kanji || ''} 
+                          onChange={(e) => setEditLeftDraft(prev => ({ ...prev, kanji: e.target.value }))}
+                          style={{ width: '100%', padding: '6px 8px', borderRadius: '5px', border: '1px solid var(--border-color)', background: 'var(--surface-hover)', color: 'var(--text-primary)', fontSize: '0.88rem' }}
+                        />
                       </div>
-                    )}
-                    <button onClick={handleSpeak} style={{
-                      background: 'rgba(239, 68, 68, 0.1)', border: 'none', cursor: 'pointer', borderRadius: '50%',
-                      color: 'var(--accent-color)', padding: '6px', display: 'flex', alignItems: 'center', transition: 'all 0.2s'
-                    }} title="Phát âm" onMouseEnter={e => e.currentTarget.style.background = 'rgba(239, 68, 68, 0.2)'} onMouseLeave={e => e.currentTarget.style.background = 'rgba(239, 68, 68, 0.1)'}>
-                      <Volume2 size={18} />
-                    </button>
-                  </div>
+                      <div style={{ marginBottom: '8px' }}>
+                        <label style={{ fontSize: '0.75rem', fontWeight: 600, color: 'var(--text-secondary)' }}>Cách đọc Hiragana</label>
+                        <input 
+                          type="text" 
+                          value={editLeftDraft.hiragana || ''} 
+                          onChange={(e) => setEditLeftDraft(prev => ({ ...prev, hiragana: e.target.value }))}
+                          style={{ width: '100%', padding: '6px 8px', borderRadius: '5px', border: '1px solid var(--border-color)', background: 'var(--surface-hover)', color: 'var(--text-primary)', fontSize: '0.88rem' }}
+                        />
+                      </div>
+                      <div style={{ marginBottom: '10px' }}>
+                        <label style={{ fontSize: '0.75rem', fontWeight: 600, color: 'var(--text-secondary)' }}>Level (N5/N4/N3/N2/N1)</label>
+                        <input 
+                          type="text" 
+                          value={editLeftDraft.level || ''} 
+                          onChange={(e) => setEditLeftDraft(prev => ({ ...prev, level: e.target.value }))}
+                          style={{ width: '100%', padding: '6px 8px', borderRadius: '5px', border: '1px solid var(--border-color)', background: 'var(--surface-hover)', color: 'var(--text-primary)', fontSize: '0.88rem' }}
+                        />
+                      </div>
+                      <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '6px' }}>
+                        <button type="button" onClick={cancelEditingLeft} disabled={savingLeftEdit} style={{ padding: '4px 10px', borderRadius: '5px', border: '1px solid var(--border-color)', background: 'var(--surface-color)', color: 'var(--text-secondary)', fontSize: '0.78rem', cursor: 'pointer' }}>Hủy</button>
+                        <button type="button" onClick={() => saveLeftEditing(editLeftDraft)} disabled={savingLeftEdit} style={{ padding: '4px 12px', borderRadius: '5px', border: 'none', background: 'var(--accent-color)', color: 'white', fontWeight: 600, fontSize: '0.78rem', cursor: 'pointer' }}>{savingLeftEdit ? 'Đang lưu...' : 'Lưu'}</button>
+                      </div>
+                    </div>
+                  ) : (
+                    <>
+                      {/* Reading (Hiragana) & Pronounce */}
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '4px' }}>
+                        {word.kanji && word.hiragana && (
+                          <div style={{ 
+                            fontFamily: 'var(--font-jp)', 
+                            fontSize: '1.25rem', 
+                            color: 'var(--text-secondary)', 
+                            opacity: 0.85,
+                            letterSpacing: '0.04em'
+                          }}>
+                            {word.hiragana}
+                          </div>
+                        )}
+                        <button onClick={handleSpeak} style={{
+                          background: 'rgba(239, 68, 68, 0.1)', border: 'none', cursor: 'pointer', borderRadius: '50%',
+                          color: 'var(--accent-color)', padding: '6px', display: 'flex', alignItems: 'center', transition: 'all 0.2s'
+                        }} title="Phát âm" onMouseEnter={e => e.currentTarget.style.background = 'rgba(239, 68, 68, 0.2)'} onMouseLeave={e => e.currentTarget.style.background = 'rgba(239, 68, 68, 0.1)'}>
+                          <Volume2 size={18} />
+                        </button>
+                      </div>
 
-                  {/* Main Kanji Text */}
-                  <div key={`k-${currentIndex}`} style={{
-                    fontFamily: 'var(--font-jp)',
-                    fontSize: kanjiCount > 3 ? '3.8rem' : kanjiCount > 1 ? '4.5rem' : '5.2rem',
-                    fontWeight: 900, 
-                    lineHeight: 1.1, 
-                    marginBottom: '28px',
-                    color: 'var(--text-primary)',
-                    animation: 'kanjiPop 0.4s cubic-bezier(0.34,1.56,0.64,1) forwards',
-                    letterSpacing: '-1px'
-                  }}>
-                    {word.kanji || word.hiragana}
-                  </div>
+                      {/* Main Kanji Text */}
+                      <div key={`k-${currentIndex}`} style={{
+                        fontFamily: 'var(--font-jp)',
+                        fontSize: kanjiCount > 3 ? '3.8rem' : kanjiCount > 1 ? '4.5rem' : '5.2rem',
+                        fontWeight: 900, 
+                        lineHeight: 1.1, 
+                        marginBottom: '28px',
+                        color: 'var(--text-primary)',
+                        animation: 'kanjiPop 0.4s cubic-bezier(0.34,1.56,0.64,1) forwards',
+                        letterSpacing: '-1px'
+                      }}>
+                        {word.kanji || word.hiragana}
+                      </div>
+                    </>
+                  )}
 
                   {/* Dynamic Area: Kanji Cards or Stroke Order Display */}
                   {showStrokes && word.kanji ? (
@@ -1013,8 +1127,47 @@ const KanjiDetailModal = ({ words, initialIndex = 0, onClose, vocab }) => {
                     minHeight: '94px',
                     boxSizing: 'border-box'
                   }}>
-                    <span style={{ fontSize: '0.7rem', textTransform: 'uppercase', letterSpacing: '0.08em', color: 'var(--text-secondary)', fontWeight: 'bold', marginBottom: '6px' }}>Ý nghĩa</span>
-                    <span style={{ fontSize: '1.2rem', fontWeight: 'bold', color: 'var(--success-color)', lineHeight: 1.3 }}>{word.meaning}</span>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '6px' }}>
+                      <span style={{ fontSize: '0.7rem', textTransform: 'uppercase', letterSpacing: '0.08em', color: 'var(--text-secondary)', fontWeight: 'bold' }}>Ý nghĩa</span>
+                      {isAdmin && (
+                        <button
+                          type="button"
+                          onClick={() => startEditingLeft('meaning', { meaning: word.meaning || '' })}
+                          style={{
+                            background: editLeftSuccess === 'meaning' ? 'rgba(16, 185, 129, 0.15)' : 'rgba(37,99,235,0.1)',
+                            border: `1px solid ${editLeftSuccess === 'meaning' ? '#10b981' : 'rgba(37,99,235,0.25)'}`,
+                            borderRadius: '4px',
+                            color: editLeftSuccess === 'meaning' ? '#10b981' : 'var(--accent-color)',
+                            padding: '1px 6px',
+                            fontSize: '0.7rem',
+                            cursor: 'pointer',
+                            display: 'inline-flex',
+                            alignItems: 'center',
+                            gap: '3px',
+                            fontWeight: 600
+                          }}
+                        >
+                          {editLeftSuccess === 'meaning' ? <><Check size={10} /> Đã lưu</> : <><Pencil size={10} /> Sửa</>}
+                        </button>
+                      )}
+                    </div>
+
+                    {editingLeftSection === 'meaning' ? (
+                      <div>
+                        <textarea 
+                          value={editLeftDraft.meaning || ''} 
+                          onChange={(e) => setEditLeftDraft({ meaning: e.target.value })}
+                          rows={2}
+                          style={{ width: '100%', padding: '6px 8px', borderRadius: '5px', border: '1px solid var(--accent-color)', background: 'var(--surface-color)', color: 'var(--text-primary)', fontSize: '0.92rem' }}
+                        />
+                        <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '6px', marginTop: '4px' }}>
+                          <button type="button" onClick={cancelEditingLeft} disabled={savingLeftEdit} style={{ padding: '3px 8px', borderRadius: '4px', border: '1px solid var(--border-color)', background: 'var(--surface-color)', color: 'var(--text-secondary)', fontSize: '0.75rem', cursor: 'pointer' }}>Hủy</button>
+                          <button type="button" onClick={() => saveLeftEditing({ meaning: editLeftDraft.meaning })} disabled={savingLeftEdit} style={{ padding: '3px 10px', borderRadius: '4px', border: 'none', background: 'var(--accent-color)', color: 'white', fontWeight: 600, fontSize: '0.75rem', cursor: 'pointer' }}>{savingLeftEdit ? '...' : 'Lưu'}</button>
+                        </div>
+                      </div>
+                    ) : (
+                      <span style={{ fontSize: '1.2rem', fontWeight: 'bold', color: 'var(--success-color)', lineHeight: 1.3 }}>{word.meaning}</span>
+                    )}
                   </div>
 
                   {/* HanViet & WordType Box */}
@@ -1030,15 +1183,62 @@ const KanjiDetailModal = ({ words, initialIndex = 0, onClose, vocab }) => {
                     minHeight: '94px',
                     boxSizing: 'border-box'
                   }}>
-                    <span style={{ fontSize: '0.7rem', textTransform: 'uppercase', letterSpacing: '0.08em', color: 'var(--text-secondary)', fontWeight: 'bold', marginBottom: '6px' }}>Hán Việt & Từ loại</span>
-                    <div>
-                      {word.hanViet && (
-                        <div style={{ fontSize: '1.25rem', fontWeight: 'bold', color: 'var(--text-primary)', marginBottom: '2px' }}>【{word.hanViet}】</div>
-                      )}
-                      {word.wordType && (
-                        <div style={{ fontSize: '0.78rem', color: 'var(--text-secondary)', fontStyle: 'italic' }}>{word.wordType}</div>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '6px' }}>
+                      <span style={{ fontSize: '0.7rem', textTransform: 'uppercase', letterSpacing: '0.08em', color: 'var(--text-secondary)', fontWeight: 'bold' }}>Hán Việt & Từ loại</span>
+                      {isAdmin && (
+                        <button
+                          type="button"
+                          onClick={() => startEditingLeft('hanVietWordType', { hanViet: word.hanViet || '', wordType: word.wordType || '' })}
+                          style={{
+                            background: editLeftSuccess === 'hanVietWordType' ? 'rgba(16, 185, 129, 0.15)' : 'rgba(37,99,235,0.1)',
+                            border: `1px solid ${editLeftSuccess === 'hanVietWordType' ? '#10b981' : 'rgba(37,99,235,0.25)'}`,
+                            borderRadius: '4px',
+                            color: editLeftSuccess === 'hanVietWordType' ? '#10b981' : 'var(--accent-color)',
+                            padding: '1px 6px',
+                            fontSize: '0.7rem',
+                            cursor: 'pointer',
+                            display: 'inline-flex',
+                            alignItems: 'center',
+                            gap: '3px',
+                            fontWeight: 600
+                          }}
+                        >
+                          {editLeftSuccess === 'hanVietWordType' ? <><Check size={10} /> Đã lưu</> : <><Pencil size={10} /> Sửa</>}
+                        </button>
                       )}
                     </div>
+
+                    {editingLeftSection === 'hanVietWordType' ? (
+                      <div>
+                        <input 
+                          type="text" 
+                          placeholder="Hán Việt (VIẾT HOA)" 
+                          value={editLeftDraft.hanViet || ''} 
+                          onChange={(e) => setEditLeftDraft(prev => ({ ...prev, hanViet: e.target.value.toUpperCase() }))}
+                          style={{ width: '100%', padding: '4px 6px', borderRadius: '4px', border: '1px solid var(--border-color)', background: 'var(--surface-color)', color: 'var(--text-primary)', fontSize: '0.82rem', marginBottom: '4px', textTransform: 'uppercase' }}
+                        />
+                        <input 
+                          type="text" 
+                          placeholder="Từ loại (vd: Danh từ, Động từ)" 
+                          value={editLeftDraft.wordType || ''} 
+                          onChange={(e) => setEditLeftDraft(prev => ({ ...prev, wordType: e.target.value }))}
+                          style={{ width: '100%', padding: '4px 6px', borderRadius: '4px', border: '1px solid var(--border-color)', background: 'var(--surface-color)', color: 'var(--text-primary)', fontSize: '0.82rem' }}
+                        />
+                        <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '6px', marginTop: '4px' }}>
+                          <button type="button" onClick={cancelEditingLeft} disabled={savingLeftEdit} style={{ padding: '3px 8px', borderRadius: '4px', border: '1px solid var(--border-color)', background: 'var(--surface-color)', color: 'var(--text-secondary)', fontSize: '0.75rem', cursor: 'pointer' }}>Hủy</button>
+                          <button type="button" onClick={() => saveLeftEditing(editLeftDraft)} disabled={savingLeftEdit} style={{ padding: '3px 10px', borderRadius: '4px', border: 'none', background: 'var(--accent-color)', color: 'white', fontWeight: 600, fontSize: '0.75rem', cursor: 'pointer' }}>{savingLeftEdit ? '...' : 'Lưu'}</button>
+                        </div>
+                      </div>
+                    ) : (
+                      <div>
+                        {word.hanViet && (
+                          <div style={{ fontSize: '1.25rem', fontWeight: 'bold', color: 'var(--text-primary)', marginBottom: '2px' }}>【{word.hanViet}】</div>
+                        )}
+                        {word.wordType && (
+                          <div style={{ fontSize: '0.78rem', color: 'var(--text-secondary)', fontStyle: 'italic' }}>{word.wordType}</div>
+                        )}
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>

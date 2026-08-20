@@ -35,5 +35,8 @@ backend/data/lucene-index/
 uploads/
 backend/uploads/
 
+# Temporary / scratch scripts
+scratch/
+
 # macOS
 .DS_Store

@@ -69,7 +69,13 @@ export const OnlineUsersWidget = ({ onUserClick }) => {
                   title={u.displayName || u.username}
                 >
                   {u.avatar ? (
-                    <img src={getMediaUrl(u.avatar)} alt="avatar" style={{ width: 32, height: 32, borderRadius: '50%', objectFit: 'cover' }} />
+                    (u.avatar.startsWith('data:image') || u.avatar.startsWith('http') || u.avatar.startsWith('/')) ? (
+                      <img src={getMediaUrl(u.avatar)} alt="avatar" style={{ width: 32, height: 32, borderRadius: '50%', objectFit: 'cover' }} />
+                    ) : (
+                      <div style={{ width: 32, height: 32, borderRadius: '50%', background: 'var(--surface-hover)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1rem' }}>
+                        {u.avatar}
+                      </div>
+                    )
                   ) : (
                     <div style={{ width: 32, height: 32, borderRadius: '50%', background: 'var(--border-color)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--text-secondary)' }}>
                       <UserIcon size={16} />

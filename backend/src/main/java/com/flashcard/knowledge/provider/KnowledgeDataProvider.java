@@ -7,6 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 public interface KnowledgeDataProvider {
@@ -20,6 +21,8 @@ public interface KnowledgeDataProvider {
     List<GrammarCard> saveAllGrammar(List<GrammarCard> grammarCards);
     long countGrammar();
     Page<GrammarCard> searchGrammar(String keyword, Pageable pageable);
+    Page<GrammarCard> searchGrammarCards(String jlpt, String weekName, String dayName, String query, Pageable pageable);
+    List<Map<String, Object>> getGrammarNavigation(String jlpt);
     List<String> findDistinctWeeksByJlpt(String jlpt);
     List<String> findDistinctDaysByJlptAndWeek(String jlpt, String weekName);
 

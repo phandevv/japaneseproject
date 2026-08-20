@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { ArrowLeft, FileQuestion, CheckCircle, XCircle, Eye, EyeOff, Keyboard, ListFilter, Send, RefreshCw, Volume2 } from 'lucide-react';
 import MascotLoader from '../components/MascotLoader';
-import { srsApi, studyApi, analyticsApi } from '../services/api';
+import { srsApi, studyApi, analyticsApi, vocabApi } from '../services/api';
 
 // ── Smart Vietnamese Synonym Matching Helpers ─────────────────────────────────
 const VIETNAMESE_SYNONYMS = [
@@ -141,13 +141,23 @@ const ReviewQuizPage = ({ mode = 'default', words: propWords = null, goBack }) =
           rawData = propWords;
         } else if (mode === 'morning') {
           const resp = await studyApi.getQueue();
-          if (resp && resp.queue) {
-            rawData = resp.queue.map(q => q.vocabulary).filter(Boolean);
+          if (resp && resp.queue && resp.queue.length > 0) {
+            rawData = resp.queue.map(q => q.vocabulary || q).filter(Boolean);
+          } else {
+            rawData = await srsApi.getRandomLearnedWords(20);
           }
         } else if (mode === 'today') {
           rawData = await srsApi.getTodayReviewed();
+          if (!rawData || rawData.length === 0) {
+            rawData = await srsApi.getRandomLearnedWords(20);
+          }
         } else {
           rawData = await srsApi.getRandomLearnedWords(20);
+        }
+
+        if (!rawData || rawData.length === 0) {
+          const fallbackData = await vocabApi.getRandom('N5', 20).catch(() => []);
+          rawData = Array.isArray(fallbackData) ? fallbackData : [];
         }
 
         if (!rawData || rawData.length === 0) {
@@ -158,7 +168,12 @@ const ReviewQuizPage = ({ mode = 'default', words: propWords = null, goBack }) =
         }
       } catch (e) {
         console.error('Failed to load words for ReviewQuizPage:', e);
-        setWords([]);
+        try {
+          const fallbackData = await vocabApi.getRandom('N5', 20).catch(() => []);
+          setWords(Array.isArray(fallbackData) ? fallbackData : []);
+        } catch {
+          setWords([]);
+        }
       } finally {
         setLoading(false);
       }
@@ -166,11 +181,15 @@ const ReviewQuizPage = ({ mode = 'default', words: propWords = null, goBack }) =
     loadWords();
   }, [mode, propWords]);
 
+  const [questionStartTime, setQuestionStartTime] = useState(Date.now());
+
   // 2. Prepare Choices whenever quizIndex or words change
   useEffect(() => {
     if (words.length === 0) return;
     const current = words[quizIndex];
     if (!current) return;
+
+    setQuestionStartTime(Date.now());
 
     if (quizFormat === 'choice') {
       const others = words.filter((_, i) => i !== quizIndex);
@@ -194,11 +213,13 @@ const ReviewQuizPage = ({ mode = 'default', words: propWords = null, goBack }) =
     setSelectedChoice(choice);
     const current = words[quizIndex];
     const isCorrect = choice.id === current.id;
+    const elapsed = Math.min(30, (Date.now() - questionStartTime) / 1000);
+    const quality = isCorrect ? (elapsed <= 3 ? 4 : elapsed <= 8 ? 3 : 2) : 1;
 
     if (isCorrect) {
       setScore(s => s + 1);
-      srsApi.reviewWord(current.id, 3).catch(console.error);
-      analyticsApi.logSession(0, 1, 1).catch(console.error);
+      srsApi.reviewWord(current.id, quality).catch(console.error);
+      analyticsApi.logSession(1, 1, 1).catch(console.error);
       speakWord(current);
     } else {
       setMistakes(m => m + 1);
@@ -242,11 +263,14 @@ const ReviewQuizPage = ({ mode = 'default', words: propWords = null, goBack }) =
       isCorrect = matchVietnameseAnswer(userInput, current.meaning || '');
     }
 
+    const elapsed = Math.min(30, (Date.now() - questionStartTime) / 1000);
+    const quality = isCorrect ? (elapsed <= 3 ? 4 : elapsed <= 8 ? 3 : 2) : 1;
+
     if (isCorrect) {
       setTypingStatus('correct');
       setScore(s => s + 1);
-      srsApi.reviewWord(current.id, 4).catch(console.error);
-      analyticsApi.logSession(0, 1, 1).catch(console.error);
+      srsApi.reviewWord(current.id, quality).catch(console.error);
+      analyticsApi.logSession(1, 1, 1).catch(console.error);
       speakWord(current);
     } else {
       setTypingStatus('incorrect');

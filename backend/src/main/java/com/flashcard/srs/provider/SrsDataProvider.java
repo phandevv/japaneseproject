@@ -19,6 +19,8 @@ public interface SrsDataProvider {
     long countDueWordReviews(User user, Instant time);
     long countLearnedWords(User user);
     List<Map<String, Object>> getLearnedLeaderboard(Pageable pageable);
+    List<Map<String, Object>> getTodayLeaderboard(LocalDate date, Pageable pageable);
+    List<Map<String, Object>> getStreakLeaderboard(Pageable pageable);
     List<WordReview> findAllLearnedByUser(User user);
     List<Vocabulary> findLearnedVocabulariesByUser(User user, Pageable pageable);
     List<WordReview> findAllByUser(User user);

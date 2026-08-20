@@ -99,7 +99,28 @@ public class SrsMongoDataProvider implements SrsDataProvider {
         return wordReviewMongoRepository.countByUserIdAndIntervalDaysGreaterThan(user.getId(), 0);
     }
 
+    private Map<Long, UserDoc> getUserMap(Collection<Long> userIds) {
+        if (userIds == null || userIds.isEmpty()) return Collections.emptyMap();
+        List<UserDoc> users = userMongoRepository.findAllById(userIds);
+        Map<Long, UserDoc> map = new HashMap<>();
+        for (UserDoc u : users) {
+            if (u.getId() != null) map.put(u.getId(), u);
+        }
+        return map;
+    }
+
+    private String formatAvatar(UserDoc user) {
+        if (user == null || user.getAvatar() == null) return null;
+        String av = user.getAvatar().trim();
+        if (av.isEmpty()) return null;
+        if (av.startsWith("data:image") || av.length() > 50) {
+            return "/api/users/" + user.getUsername() + "/avatar";
+        }
+        return av;
+    }
+
     @Override
+    @org.springframework.cache.annotation.Cacheable(value = "leaderboard", key = "'learned'")
     public List<Map<String, Object>> getLearnedLeaderboard(Pageable pageable) {
         MatchOperation match = Aggregation.match(Criteria.where("intervalDays").gt(0));
         GroupOperation group = Aggregation.group("userId").count().as("learnedCount");
@@ -108,21 +129,114 @@ public class SrsMongoDataProvider implements SrsDataProvider {
 
         AggregationResults<Map> results = mongoTemplate.aggregate(agg, "word_reviews", Map.class);
         List<Map<String, Object>> leaderboard = new ArrayList<>();
+        List<Long> userIds = new ArrayList<>();
+
+        for (Map row : results.getMappedResults()) {
+            Number userIdNum = (Number) row.get("_id");
+            if (userIdNum != null) {
+                userIds.add(userIdNum.longValue());
+            }
+        }
+
+        Map<Long, UserDoc> userMap = getUserMap(userIds);
 
         for (Map row : results.getMappedResults()) {
             Number userIdNum = (Number) row.get("_id");
             Number learnedCountNum = (Number) row.get("learnedCount");
             if (userIdNum != null) {
                 Long uid = userIdNum.longValue();
-                Optional<UserDoc> userOpt = userMongoRepository.findById(uid);
+                UserDoc user = userMap.get(uid);
                 Map<String, Object> entry = new HashMap<>();
-                entry.put("username", userOpt.map(UserDoc::getUsername).orElse("User_" + uid));
-                entry.put("avatar", userOpt.map(UserDoc::getAvatar).orElse(null));
+                entry.put("username", user != null ? user.getUsername() : "User_" + uid);
+                entry.put("avatar", formatAvatar(user));
                 entry.put("learnedCount", learnedCountNum != null ? learnedCountNum.longValue() : 0L);
                 leaderboard.add(entry);
             }
         }
         return leaderboard;
+    }
+
+    @Override
+    @org.springframework.cache.annotation.Cacheable(value = "leaderboard", key = "'today_' + #date.toString()")
+    public List<Map<String, Object>> getTodayLeaderboard(LocalDate date, Pageable pageable) {
+        List<Map<String, Object>> leaderboard = new ArrayList<>();
+
+        List<StudySessionDoc> allSessions = studySessionMongoRepository.findAll();
+        Map<Long, Integer> userTodayWords = new HashMap<>();
+
+        for (StudySessionDoc s : allSessions) {
+            if (s.getUserId() != null && s.getStudyDate() != null && s.getStudyDate().equals(date) && s.getWordsStudied() > 0) {
+                userTodayWords.merge(s.getUserId(), s.getWordsStudied(), Math::max);
+            }
+        }
+
+        if (!userTodayWords.isEmpty()) {
+            Map<Long, UserDoc> userMap = getUserMap(userTodayWords.keySet());
+            List<Map.Entry<Long, Integer>> sortedEntries = new ArrayList<>(userTodayWords.entrySet());
+            sortedEntries.sort((a, b) -> Integer.compare(b.getValue(), a.getValue()));
+
+            for (Map.Entry<Long, Integer> entry : sortedEntries) {
+                Long uid = entry.getKey();
+                UserDoc user = userMap.get(uid);
+                Map<String, Object> map = new HashMap<>();
+                map.put("username", user != null ? user.getUsername() : "User_" + uid);
+                map.put("avatar", formatAvatar(user));
+                map.put("wordsStudied", entry.getValue());
+                leaderboard.add(map);
+            }
+        }
+        return leaderboard.stream().limit(pageable.getPageSize()).collect(Collectors.toList());
+    }
+
+    @Override
+    @org.springframework.cache.annotation.Cacheable(value = "leaderboard", key = "'streak'")
+    public List<Map<String, Object>> getStreakLeaderboard(Pageable pageable) {
+        List<UserDoc> users = userMongoRepository.findAll();
+        List<StudySessionDoc> allSessions = studySessionMongoRepository.findAll();
+        Map<Long, List<StudySessionDoc>> userSessionsMap = new HashMap<>();
+
+        for (StudySessionDoc s : allSessions) {
+            if (s.getUserId() != null) {
+                userSessionsMap.computeIfAbsent(s.getUserId(), k -> new ArrayList<>()).add(s);
+            }
+        }
+
+        List<Map<String, Object>> streakList = new ArrayList<>();
+        LocalDate today = LocalDate.now(java.time.ZoneId.of("Asia/Ho_Chi_Minh"));
+        LocalDate yesterday = today.minusDays(1);
+
+        for (UserDoc u : users) {
+            List<StudySessionDoc> sessions = userSessionsMap.getOrDefault(u.getId(), Collections.emptyList());
+            Set<LocalDate> dateSet = new HashSet<>();
+            for (StudySessionDoc s : sessions) {
+                if (s.getWordsStudied() > 0 || s.isStreakFrozen()) {
+                    if (s.getStudyDate() != null) {
+                        dateSet.add(s.getStudyDate());
+                    }
+                }
+            }
+
+            int streak = 0;
+            LocalDate checkDate = today;
+            if (!dateSet.contains(checkDate)) {
+                checkDate = yesterday;
+            }
+            while (dateSet.contains(checkDate)) {
+                streak++;
+                checkDate = checkDate.minusDays(1);
+            }
+
+            if (streak > 0) {
+                Map<String, Object> entry = new HashMap<>();
+                entry.put("username", u.getUsername());
+                entry.put("avatar", formatAvatar(u));
+                entry.put("streak", streak);
+                streakList.add(entry);
+            }
+        }
+
+        streakList.sort((a, b) -> Integer.compare((Integer) b.get("streak"), (Integer) a.get("streak")));
+        return streakList.stream().limit(pageable.getPageSize()).collect(Collectors.toList());
     }
 
     @Override
@@ -279,7 +393,11 @@ public class SrsMongoDataProvider implements SrsDataProvider {
 
     @Override
     public Optional<StudySession> findStudySession(User user, LocalDate date) {
-        return studySessionMongoRepository.findByUserIdAndStudyDate(user.getId(), date)
+        if (user == null || user.getId() == null || date == null) return Optional.empty();
+        List<StudySessionDoc> docs = studySessionMongoRepository.findByUserIdOrderByStudyDateDesc(user.getId());
+        return docs.stream()
+                .filter(d -> d.getStudyDate() != null && d.getStudyDate().equals(date))
+                .findFirst()
                 .map(doc -> toStudySession(doc, user));
     }
 
@@ -287,8 +405,21 @@ public class SrsMongoDataProvider implements SrsDataProvider {
     public StudySession saveStudySession(StudySession session) {
         StudySessionDoc doc;
         if (session.getId() == null) {
-            session.setId(sequenceGeneratorService.generateSequence("study_sessions_seq"));
-            doc = toStudySessionDoc(session);
+            Optional<StudySessionDoc> existing = Optional.empty();
+            if (session.getUser() != null && session.getUser().getId() != null && session.getStudyDate() != null) {
+                List<StudySessionDoc> userDocs = studySessionMongoRepository.findByUserIdOrderByStudyDateDesc(session.getUser().getId());
+                existing = userDocs.stream()
+                        .filter(d -> d.getStudyDate() != null && d.getStudyDate().equals(session.getStudyDate()))
+                        .findFirst();
+            }
+            if (existing.isPresent()) {
+                doc = existing.get();
+                session.setId(doc.getId());
+                updateDocFromStudySession(doc, session);
+            } else {
+                session.setId(sequenceGeneratorService.generateSequence("study_sessions_seq"));
+                doc = toStudySessionDoc(session);
+            }
         } else {
             doc = studySessionMongoRepository.findById(session.getId()).orElseGet(() -> toStudySessionDoc(session));
             updateDocFromStudySession(doc, session);
@@ -299,12 +430,20 @@ public class SrsMongoDataProvider implements SrsDataProvider {
 
     @Override
     public List<StudySession> findStudySessionsBetween(User user, LocalDate start, LocalDate end) {
-        List<StudySessionDoc> docs = studySessionMongoRepository.findByUserIdAndStudyDateBetweenOrderByStudyDateAsc(user.getId(), start, end);
-        return docs.stream().map(doc -> toStudySession(doc, user)).collect(Collectors.toList());
+        if (user == null || user.getId() == null) return Collections.emptyList();
+        List<StudySessionDoc> docs = studySessionMongoRepository.findByUserIdOrderByStudyDateDesc(user.getId());
+        return docs.stream()
+                .map(doc -> toStudySession(doc, user))
+                .filter(s -> s != null && s.getStudyDate() != null
+                        && !s.getStudyDate().isBefore(start)
+                        && !s.getStudyDate().isAfter(end))
+                .sorted(Comparator.comparing(StudySession::getStudyDate))
+                .collect(Collectors.toList());
     }
 
     @Override
     public List<StudySession> findAllStudySessions(User user) {
+        if (user == null || user.getId() == null) return Collections.emptyList();
         List<StudySessionDoc> docs = studySessionMongoRepository.findByUserIdOrderByStudyDateDesc(user.getId());
         return docs.stream().map(doc -> toStudySession(doc, user)).collect(Collectors.toList());
     }

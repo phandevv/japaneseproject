@@ -213,15 +213,15 @@ public class VocabularyController {
         
         if (queueService != null) {
             AiEnrichmentQueueService.EnrichTask task = queueService.enqueueVocabulary(id, force);
-            if (force && task != null) {
+            if (task != null) {
                 try {
-                    Object result = task.getCompletionFuture().get(45, java.util.concurrent.TimeUnit.SECONDS);
+                    Object result = task.getCompletionFuture().get(25, java.util.concurrent.TimeUnit.SECONDS);
                     if (result instanceof Vocabulary v) {
                         v.setIsEnriching(false);
                         return ResponseEntity.ok(v);
                     }
                 } catch (Exception e) {
-                    log.error("Force Virtual Thread enrichment failed for vocab ID {}: {}", id, e.getMessage());
+                    log.error("Virtual Thread enrichment timed out or failed for vocab ID {}: {}", id, e.getMessage());
                 }
             }
             existing.setIsEnriching(queueService.isEnriching(AiEnrichmentQueueService.TaskType.VOCABULARY, id));

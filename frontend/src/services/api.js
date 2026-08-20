@@ -50,6 +50,37 @@ const processQueue = (error, token = null) => {
   failedQueue = [];
 };
 
+export const clearAuthAndForceLogout = () => {
+  if (typeof window === 'undefined') return;
+  // 1. Clear all authentication storage
+  localStorage.removeItem('token');
+  localStorage.removeItem('refreshToken');
+  localStorage.removeItem('username');
+  localStorage.removeItem('role');
+  localStorage.removeItem('displayName');
+  localStorage.removeItem('address');
+  localStorage.removeItem('phone');
+  localStorage.removeItem('occupation');
+  localStorage.removeItem('avatar');
+  localStorage.removeItem('coverPhoto');
+  try {
+    sessionStorage.clear();
+  } catch (e) {}
+
+  // 2. Remove default Authorization header
+  delete axios.defaults.headers.common['Authorization'];
+
+  // 3. Dispatch auth-logout event to reset AuthContext state instantly
+  window.dispatchEvent(new Event('auth-logout'));
+
+  // 4. Force redirect back to home / login view cleanly
+  if (window.location.pathname !== '/' && window.location.pathname !== '/login') {
+    window.location.href = '/';
+  } else {
+    window.location.reload();
+  }
+};
+
 // Intercept authentication errors (401/403) to automatically refresh access token or log out
 axios.interceptors.response.use(response => {
   return response;
@@ -60,7 +91,8 @@ axios.interceptors.response.use(response => {
       (error.response.status === 401 || error.response.status === 403) && 
       !originalRequest._retry && 
       originalRequest.url && 
-      !originalRequest.url.includes('/auth/refresh')
+      !originalRequest.url.includes('/auth/refresh') &&
+      !originalRequest.url.includes('/auth/login')
   ) {
     if (isRefreshing) {
       return new Promise((resolve, reject) => {
@@ -79,49 +111,89 @@ axios.interceptors.response.use(response => {
     isRefreshing = true;
 
     const refreshToken = localStorage.getItem('refreshToken');
-    if (refreshToken) {
-      return new Promise((resolve, reject) => {
-        axios.post(`${API_BASE_URL}/auth/refresh`, { refreshToken })
-          .then(({ data }) => {
-            localStorage.setItem('token', data.token);
-            axios.defaults.headers.common['Authorization'] = 'Bearer ' + data.token;
-            originalRequest.headers['Authorization'] = 'Bearer ' + data.token;
-            
-            // Dispatch custom event to notify AuthContext to update token state
-            if (typeof window !== 'undefined') {
-              window.dispatchEvent(new Event('token-refreshed'));
-            }
-
-            processQueue(null, data.token);
-            resolve(axios(originalRequest));
-          })
-          .catch((err) => {
-            processQueue(err, null);
-            localStorage.removeItem('token');
-            localStorage.removeItem('refreshToken');
-            localStorage.removeItem('username');
-            
-            if (typeof window !== 'undefined') {
-              window.dispatchEvent(new Event('token-refreshed'));
-              window.location.reload();
-            }
-            reject(err);
-          })
-          .then(() => {
-            isRefreshing = false;
-          });
-      });
-    } else {
-      localStorage.removeItem('token');
-      localStorage.removeItem('username');
-      if (typeof window !== 'undefined') {
-        window.dispatchEvent(new Event('token-refreshed'));
-        window.location.reload();
-      }
+    if (!refreshToken) {
+      isRefreshing = false;
+      clearAuthAndForceLogout();
+      return Promise.reject(error);
     }
+
+    return new Promise((resolve, reject) => {
+      axios.post(`${API_BASE_URL}/auth/refresh`, { refreshToken })
+        .then(({ data }) => {
+          if (!data || !data.token) {
+            throw new Error('Invalid refresh response: no token returned');
+          }
+          localStorage.setItem('token', data.token);
+          axios.defaults.headers.common['Authorization'] = 'Bearer ' + data.token;
+          originalRequest.headers['Authorization'] = 'Bearer ' + data.token;
+          
+          // Dispatch custom event to notify AuthContext to update token state
+          if (typeof window !== 'undefined') {
+            window.dispatchEvent(new Event('token-refreshed'));
+          }
+
+          processQueue(null, data.token);
+          resolve(axios(originalRequest));
+        })
+        .catch((err) => {
+          processQueue(err, null);
+          clearAuthAndForceLogout();
+          reject(err);
+        })
+        .finally(() => {
+          isRefreshing = false;
+        });
+    });
   }
   return Promise.reject(error);
 });
+
+// ── In-Flight Request Deduplicator & Short-Lived SWR Cache ──
+const inFlightRequests = new Map();
+const responseCache = new Map();
+
+export const cachedGet = async (url, config = {}, ttlMs = 15000) => {
+  const cacheKey = `GET:${url}:${JSON.stringify(config.params || {})}`;
+  const now = Date.now();
+
+  // 1. Check valid memory cache
+  const cached = responseCache.get(cacheKey);
+  if (cached && (now - cached.timestamp < ttlMs)) {
+    return cached.data;
+  }
+
+  // 2. Check in-flight pending promise
+  if (inFlightRequests.has(cacheKey)) {
+    return inFlightRequests.get(cacheKey);
+  }
+
+  // 3. Make HTTP request
+  const requestPromise = axios.get(url, config)
+    .then(res => {
+      responseCache.set(cacheKey, { data: res.data, timestamp: Date.now() });
+      inFlightRequests.delete(cacheKey);
+      return res.data;
+    })
+    .catch(err => {
+      inFlightRequests.delete(cacheKey);
+      throw err;
+    });
+
+  inFlightRequests.set(cacheKey, requestPromise);
+  return requestPromise;
+};
+
+export const clearApiCache = (urlPrefix = '') => {
+  if (!urlPrefix) {
+    responseCache.clear();
+    return;
+  }
+  for (const key of responseCache.keys()) {
+    if (key.includes(urlPrefix)) {
+      responseCache.delete(key);
+    }
+  }
+};
 
 export const authApi = {
   register: async (username, password) => {
@@ -130,33 +202,41 @@ export const authApi = {
   },
   login: async (username, password) => {
     const response = await axios.post(`${API_BASE_URL}/auth/login`, { username, password });
+    clearApiCache();
     return response.data;
   },
   logout: async () => {
     const response = await axios.post(`${API_BASE_URL}/auth/logout`);
+    clearApiCache();
     return response.data;
   },
   updateProfile: async (profileData) => {
     const response = await axios.put(`${API_BASE_URL}/auth/profile`, profileData);
+    clearApiCache('/users/');
+    clearApiCache('/analytics/');
     return response.data;
   }
 };
 
 export const userSettingsApi = {
   getSetting: async (level) => {
-    const response = await axios.get(`${API_BASE_URL}/user/settings/${level}`);
-    return response.data;
+    return cachedGet(`${API_BASE_URL}/user/settings/${level}`, {}, 30000);
   },
   saveSetting: async (level, wordsPerDay) => {
     const response = await axios.post(`${API_BASE_URL}/user/settings`, { level, wordsPerDay });
+    clearApiCache('/user/settings');
     return response.data;
   },
   markDayCompleted: async (level, day) => {
     const response = await axios.post(`${API_BASE_URL}/user/settings/complete-day`, { level, day });
+    clearApiCache('/user/settings');
+    clearApiCache('/analytics/');
     return response.data;
   },
   completeDay: async (level, day) => {
     const response = await axios.post(`${API_BASE_URL}/user/settings/complete-day`, { level, day });
+    clearApiCache('/user/settings');
+    clearApiCache('/analytics/');
     return response.data;
   }
 };
@@ -164,24 +244,12 @@ export const userSettingsApi = {
 export const vocabApi = {
   // Get all vocabulary paginated
   getAll: async (page = 0, size = 20) => {
-    try {
-      const response = await axios.get(`${API_BASE_URL}/vocab?page=${page}&size=${size}`);
-      return response.data;
-    } catch (error) {
-      console.error("Error fetching all vocab:", error);
-      throw error;
-    }
+    return cachedGet(`${API_BASE_URL}/vocab`, { params: { page, size } }, 15000);
   },
 
   // Get overall stats
   getStats: async () => {
-    try {
-      const response = await axios.get(`${API_BASE_URL}/vocab/stats`);
-      return response.data;
-    } catch (error) {
-      console.error("Error fetching stats:", error);
-      throw error;
-    }
+    return cachedGet(`${API_BASE_URL}/vocab/stats`, {}, 60000);
   },
 
   // Get paginated vocabulary for a specific level (Daily Mode / Admin Mode)
@@ -312,8 +380,7 @@ export const studyApi = {
 
 export const analyticsApi = {
   getDashboard: async () => {
-    const response = await axios.get(`${API_BASE_URL}/analytics/dashboard`);
-    return response.data;
+    return cachedGet(`${API_BASE_URL}/analytics/dashboard`, {}, 10000);
   },
   logSession: async (wordsStudied, correctAnswers, totalQuestions) => {
     const d = new Date();
@@ -328,10 +395,12 @@ export const analyticsApi = {
       totalQuestions,
       date: localDateStr
     });
+    clearApiCache('/analytics/dashboard');
     return response.data;
   },
   activateStreakFreeze: async () => {
     const response = await axios.post(`${API_BASE_URL}/analytics/streak-freeze`);
+    clearApiCache('/analytics/dashboard');
     return response.data;
   }
 };
@@ -339,33 +408,34 @@ export const analyticsApi = {
 export const feedbackApi = {
   submit: async (title, content, type) => {
     const response = await axios.post(`${API_BASE_URL}/feedbacks`, { title, content, type });
+    clearApiCache('/feedbacks');
     return response.data;
   },
   getAll: async (page = 0, size = 20) => {
-    const response = await axios.get(`${API_BASE_URL}/feedbacks?page=${page}&size=${size}`);
-    return response.data;
+    return cachedGet(`${API_BASE_URL}/feedbacks`, { params: { page, size } }, 15000);
   },
   updateStatus: async (id, status) => {
     const response = await axios.put(`${API_BASE_URL}/feedbacks/${id}/status`, { status });
+    clearApiCache('/feedbacks');
     return response.data;
   }
 };
 
 export const notificationApi = {
   getNotifications: async (page = 0, size = 20) => {
-    const response = await axios.get(`${API_BASE_URL}/notifications?page=${page}&size=${size}`);
-    return response.data;
+    return cachedGet(`${API_BASE_URL}/notifications`, { params: { page, size } }, 15000);
   },
   getUnreadCount: async () => {
-    const response = await axios.get(`${API_BASE_URL}/notifications/unread-count`);
-    return response.data;
+    return cachedGet(`${API_BASE_URL}/notifications/unread-count`, {}, 20000);
   },
   markAsRead: async (id) => {
     const response = await axios.put(`${API_BASE_URL}/notifications/${id}/read`);
+    clearApiCache('/notifications');
     return response.data;
   },
   markAllAsRead: async () => {
     const response = await axios.put(`${API_BASE_URL}/notifications/read-all`);
+    clearApiCache('/notifications');
     return response.data;
   }
 };
@@ -476,6 +546,7 @@ export const knowledgeApi = {
    */
   save: async (type, data) => {
     const response = await axios.post(`${API_BASE_URL}/knowledge/save`, { type, data });
+    clearApiCache('/knowledge/saved');
     return response.data;
   },
   /**
@@ -496,21 +567,20 @@ export const knowledgeApi = {
    * Get all vocabulary words saved by the user.
    */
   getSavedVocabulary: async () => {
-    const response = await axios.get(`${API_BASE_URL}/knowledge/saved/vocabulary`);
-    return response.data;
+    return cachedGet(`${API_BASE_URL}/knowledge/saved/vocabulary`, {}, 20000);
   },
   /**
    * Get all grammar cards saved by the user.
    */
   getSavedGrammar: async () => {
-    const response = await axios.get(`${API_BASE_URL}/knowledge/saved/grammar`);
-    return response.data;
+    return cachedGet(`${API_BASE_URL}/knowledge/saved/grammar`, {}, 20000);
   },
   /**
    * Delete vocabulary card from personal knowledge base.
    */
   deleteSavedVocabulary: async (id) => {
     const response = await axios.delete(`${API_BASE_URL}/knowledge/saved/vocabulary/${id}`);
+    clearApiCache('/knowledge/saved');
     return response.data;
   },
   /**
@@ -518,32 +588,30 @@ export const knowledgeApi = {
    */
   deleteSavedGrammar: async (id) => {
     const response = await axios.delete(`${API_BASE_URL}/knowledge/saved/grammar/${id}`);
+    clearApiCache('/knowledge/saved');
     return response.data;
   }
 };
 
 export const usersApi = {
   getOnlineUsers: async () => {
-    const response = await axios.get(`${API_BASE_URL}/users/online`);
-    return response.data;
+    return cachedGet(`${API_BASE_URL}/users/online`, {}, 15000);
   },
   getUserProfile: async (username) => {
-    const response = await axios.get(`${API_BASE_URL}/users/${username}`);
-    return response.data;
+    return cachedGet(`${API_BASE_URL}/users/${username}`, {}, 20000);
   },
   studyHistoryDetails: async (range, tab = 'all', page = 0, size = 30) => {
-    const response = await axios.get(`${API_BASE_URL}/users/me/study-history-details?range=${range}&tab=${tab}&page=${page}&size=${size}`);
-    return response.data;
+    return cachedGet(`${API_BASE_URL}/users/me/study-history-details?range=${range}&tab=${tab}&page=${page}&size=${size}`, {}, 15000);
   }
 };
 
 export const achievementApi = {
   getAchievements: async () => {
-    const response = await axios.get(`${API_BASE_URL}/achievements`);
-    return response.data;
+    return cachedGet(`${API_BASE_URL}/achievements`, {}, 30000);
   },
   checkAchievements: async () => {
     const response = await axios.post(`${API_BASE_URL}/achievements/check`);
+    clearApiCache('/achievements');
     return response.data;
   }
 };
@@ -557,37 +625,32 @@ export const grammarApi = {
     if (query) params.append('query', query);
     params.append('page', page);
     params.append('size', size);
-    const response = await axios.get(`${API_BASE_URL}/grammar?${params.toString()}`);
-    return response.data;
+    return cachedGet(`${API_BASE_URL}/grammar?${params.toString()}`, {}, 30000);
   },
   getNavigation: async (jlpt = 'N3') => {
-    const response = await axios.get(`${API_BASE_URL}/grammar/navigation?jlpt=${jlpt}`);
-    return response.data;
+    return cachedGet(`${API_BASE_URL}/grammar/navigation?jlpt=${jlpt}`, {}, 60000);
   },
   getGrammarDetail: async (id) => {
-    const response = await axios.get(`${API_BASE_URL}/grammar/${id}`);
-    return response.data;
+    return cachedGet(`${API_BASE_URL}/grammar/${id}`, {}, 60000);
   },
   getById: async (id) => {
-    const response = await axios.get(`${API_BASE_URL}/grammar/${id}`);
-    return response.data;
+    return cachedGet(`${API_BASE_URL}/grammar/${id}`, {}, 60000);
   },
   enrich: async (id, force = false) => {
     const response = await axios.post(`${API_BASE_URL}/grammar/${id}/enrich`, null, {
       params: { force }
     });
+    clearApiCache('/grammar');
     return response.data;
   }
 };
 
 export const jlptN3Api = {
   getCourseOverview: async () => {
-    const response = await axios.get(`${API_BASE_URL}/jlpt-n3/overview`);
-    return response.data;
+    return cachedGet(`${API_BASE_URL}/jlpt-n3/overview`, {}, 30000);
   },
   getLessonData: async (chapter, lesson) => {
-    const response = await axios.get(`${API_BASE_URL}/jlpt-n3/chapter/${chapter}/lesson/${lesson}`);
-    return response.data;
+    return cachedGet(`${API_BASE_URL}/jlpt-n3/chapter/${chapter}/lesson/${lesson}`, {}, 60000);
   },
   submitQuiz: async (chapter, lesson, quizCategory, score, total) => {
     const response = await axios.post(`${API_BASE_URL}/jlpt-n3/chapter/${chapter}/lesson/${lesson}/submit-quiz`, {
@@ -595,18 +658,21 @@ export const jlptN3Api = {
       score,
       total
     });
+    clearApiCache('/jlpt-n3/overview');
+    clearApiCache('/analytics/dashboard');
     return response.data;
   },
   getGrammarQuiz: async (chapter, lesson) => {
-    const response = await axios.get(`${API_BASE_URL}/jlpt-n3/chapter/${chapter}/lesson/${lesson}/grammar-quiz`);
-    return response.data;
+    return cachedGet(`${API_BASE_URL}/jlpt-n3/chapter/${chapter}/lesson/${lesson}/grammar-quiz`, {}, 60000);
   },
   regenerateGrammarQuiz: async (chapter, lesson) => {
     const response = await axios.post(`${API_BASE_URL}/jlpt-n3/chapter/${chapter}/lesson/${lesson}/grammar-quiz/regenerate`);
+    clearApiCache('/jlpt-n3/chapter');
     return response.data;
   },
   importData: async () => {
     const response = await axios.post(`${API_BASE_URL}/jlpt-n3/import`);
+    clearApiCache('/jlpt-n3');
     return response.data;
   },
   uploadJsonFiles: async (fileList) => {
@@ -619,6 +685,7 @@ export const jlptN3Api = {
         'Content-Type': 'multipart/form-data'
       }
     });
+    clearApiCache('/jlpt-n3');
     return response.data;
   },
   evaluateAnswer: async (targetAnswer, userAnswer, questionContext = '') => {

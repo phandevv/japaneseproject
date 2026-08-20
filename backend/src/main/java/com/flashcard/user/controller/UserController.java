@@ -44,6 +44,44 @@ public class UserController {
         this.srsDataProvider = srsDataProvider;
     }
 
+    private String formatAvatar(User user) {
+        if (user == null || user.getAvatar() == null) return null;
+        String av = user.getAvatar().trim();
+        if (av.isEmpty()) return null;
+        if (av.startsWith("data:image") || av.length() > 50) {
+            return "/api/users/" + user.getUsername() + "/avatar";
+        }
+        return av;
+    }
+
+    @GetMapping("/{username}/avatar")
+    public ResponseEntity<?> getUserAvatar(@PathVariable String username) {
+        Optional<User> opt = userDataProvider.findByUsername(username);
+        if (opt.isEmpty() || opt.get().getAvatar() == null) {
+            return ResponseEntity.notFound().build();
+        }
+        String avatar = opt.get().getAvatar();
+        if (avatar.startsWith("data:image/")) {
+            try {
+                int commaIdx = avatar.indexOf(',');
+                String meta = avatar.substring(5, commaIdx);
+                String mimeType = meta.split(";")[0];
+                String base64Data = avatar.substring(commaIdx + 1);
+                byte[] imageBytes = java.util.Base64.getDecoder().decode(base64Data);
+                return ResponseEntity.ok()
+                        .header(org.springframework.http.HttpHeaders.CACHE_CONTROL, "public, max-age=86400")
+                        .header(org.springframework.http.HttpHeaders.CONTENT_TYPE, mimeType)
+                        .body(imageBytes);
+            } catch (Exception e) {
+                return ResponseEntity.notFound().build();
+            }
+        }
+        return ResponseEntity.ok()
+                .header(org.springframework.http.HttpHeaders.CACHE_CONTROL, "public, max-age=86400")
+                .header(org.springframework.http.HttpHeaders.CONTENT_TYPE, "text/plain;charset=UTF-8")
+                .body(avatar);
+    }
+
     @GetMapping("/online")
     public ResponseEntity<?> getOnlineUsers() {
         List<String> onlineIdentifiers = onlineUserService.getOnlineUsers();
@@ -59,8 +97,7 @@ public class UserController {
             Map<String, Object> profile = new HashMap<>();
             profile.put("username", user.getUsername());
             profile.put("displayName", user.getDisplayName());
-            profile.put("avatar", user.getAvatar());
-            profile.put("coverPhoto", user.getCoverPhoto());
+            profile.put("avatar", formatAvatar(user));
             profile.put("occupation", user.getOccupation());
             profile.put("streak", analyticsService.calculateStreak(user));
             profile.put("learnedCount", srsDataProvider.countLearnedWords(user));

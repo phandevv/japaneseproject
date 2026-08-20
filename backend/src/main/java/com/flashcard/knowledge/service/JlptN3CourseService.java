@@ -13,6 +13,8 @@ import com.flashcard.vocabulary.provider.VocabularyDataProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,7 +22,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.InputStream;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
@@ -42,9 +43,43 @@ public class JlptN3CourseService {
     private final AiEnrichmentQueueService aiEnrichmentQueueService;
     private final ObjectMapper objectMapper;
     private final Map<String, Map<String, Object>> lessonDataCache = new ConcurrentHashMap<>();
+    private volatile Set<String> cachedDbCategories = null;
+    private volatile long lastCategoriesFetchTime = 0L;
+    private static final long CATEGORIES_CACHE_TTL_MS = 10 * 60 * 1000L; // 10 minutes
 
+    @CacheEvict(value = "jlpt-overview", allEntries = true)
     public void clearLessonCache() {
         lessonDataCache.clear();
+        cachedDbCategories = null;
+    }
+
+    private Set<String> getDbCategoriesFast() {
+        long now = System.currentTimeMillis();
+        Set<String> cached = cachedDbCategories;
+        if (cached != null && (now - lastCategoriesFetchTime < CATEGORIES_CACHE_TTL_MS)) {
+            return cached;
+        }
+        Set<String> dbCategories = new HashSet<>();
+        try {
+            List<Vocabulary> dbVocabs = vocabularyDataProvider.getByLevel("N3_COURSE");
+            for (Vocabulary v : dbVocabs) {
+                if (v.getCategory() != null) {
+                    dbCategories.add(v.getCategory());
+                }
+            }
+            List<GrammarCard> dbGrammars = knowledgeDataProvider.findAllGrammar();
+            for (GrammarCard g : dbGrammars) {
+                if (g.getWeekName() != null && g.getDayName() != null) {
+                    dbCategories.add(g.getWeekName() + " " + g.getDayName());
+                }
+            }
+            cachedDbCategories = dbCategories;
+            lastCategoriesFetchTime = now;
+            return dbCategories;
+        } catch (Exception e) {
+            log.warn("Failed to prefetch DB categories: {}", e.getMessage());
+            return cached != null ? cached : dbCategories;
+        }
     }
 
     @jakarta.annotation.PostConstruct
@@ -52,6 +87,7 @@ public class JlptN3CourseService {
         // Asynchronously pre-populate in-memory cache for all lessons in the background
         CompletableFuture.runAsync(() -> {
             log.info("Starting background cache warmup for JLPT N3 lessons...");
+            getDbCategoriesFast();
             for (int c = 1; c <= 9; c++) {
                 for (int l = 1; l <= 3; l++) {
                     try {
@@ -143,6 +179,7 @@ public class JlptN3CourseService {
     /**
      * Get Course Overview of 9 Chapters and 27 Lessons, including progress for the user.
      */
+    @Cacheable(value = "jlpt-overview", key = "(#userId != null ? #userId : 0)")
     public Map<String, Object> getCourseOverview(Long userId) {
         List<JlptN3Progress> userProgressList = userId != null ? jlptN3DataProvider.findProgressByUser(userId) : Collections.emptyList();
         Map<String, JlptN3Progress> progressMap = new HashMap<>();
@@ -152,23 +189,7 @@ public class JlptN3CourseService {
         }
 
         // Cache lesson availability directly from Database
-        Set<String> dbCategories = new HashSet<>();
-        try {
-            List<Vocabulary> dbVocabs = vocabularyDataProvider.getByLevel("N3_COURSE");
-            for (Vocabulary v : dbVocabs) {
-                if (v.getCategory() != null) {
-                    dbCategories.add(v.getCategory());
-                }
-            }
-            List<GrammarCard> dbGrammars = knowledgeDataProvider.findAllGrammar();
-            for (GrammarCard g : dbGrammars) {
-                if (g.getWeekName() != null && g.getDayName() != null) {
-                    dbCategories.add(g.getWeekName() + " " + g.getDayName());
-                }
-            }
-        } catch (Exception e) {
-            log.warn("Failed to prefetch DB categories for overview: {}", e.getMessage());
-        }
+        Set<String> dbCategories = getDbCategoriesFast();
 
         List<Map<String, Object>> chapters = new ArrayList<>();
         int totalLessons = 27;
@@ -235,10 +256,16 @@ public class JlptN3CourseService {
      * DATABASE-FIRST: Loads directly from MongoDB collections.
      */
     public Map<String, Object> getLessonData(int chapter, int lesson) {
+        return getLessonData(null, chapter, lesson);
+    }
+
+    public Map<String, Object> getLessonData(Long userId, int chapter, int lesson) {
         String cacheKey = chapter + "_" + lesson;
         Map<String, Object> cached = lessonDataCache.get(cacheKey);
         if (cached != null) {
-            return cached;
+            Map<String, Object> copy = new HashMap<>(cached);
+            attachUserProgress(copy, userId, chapter, lesson);
+            return copy;
         }
 
         String vocabCategory = "Tổng ôn N3 - Chương " + chapter + " Bài " + lesson;
@@ -339,7 +366,9 @@ public class JlptN3CourseService {
             dbRes.put("tu_vung", tuVungList);
             dbRes.put("ngu_phap", nguPhapList);
             lessonDataCache.put(cacheKey, dbRes);
-            return dbRes;
+            Map<String, Object> copy = new HashMap<>(dbRes);
+            attachUserProgress(copy, userId, chapter, lesson);
+            return copy;
         }
 
         // Strategy 2: Fallback to filesystem / user-uploaded JSON file
@@ -600,7 +629,36 @@ public class JlptN3CourseService {
         }
 
         lessonDataCache.put(cacheKey, data);
-        return data;
+        Map<String, Object> copy = new HashMap<>(data);
+        attachUserProgress(copy, userId, chapter, lesson);
+        return copy;
+    }
+
+    private void attachUserProgress(Map<String, Object> target, Long userId, int chapter, int lesson) {
+        if (target == null) return;
+        boolean vocabPassed = false;
+        boolean kanjiPassed = false;
+        boolean grammarPassed = false;
+        boolean completed = false;
+        int bestScore = 0;
+
+        if (userId != null && jlptN3DataProvider != null) {
+            Optional<JlptN3Progress> progOpt = jlptN3DataProvider.findProgress(userId, chapter, lesson);
+            if (progOpt.isPresent()) {
+                JlptN3Progress p = progOpt.get();
+                vocabPassed = Boolean.TRUE.equals(p.getVocabPassed());
+                kanjiPassed = Boolean.TRUE.equals(p.getKanjiPassed());
+                grammarPassed = Boolean.TRUE.equals(p.getGrammarPassed());
+                completed = Boolean.TRUE.equals(p.getCompleted());
+                bestScore = p.getBestScore() != null ? p.getBestScore() : 0;
+            }
+        }
+
+        target.put("vocabPassed", vocabPassed);
+        target.put("kanjiPassed", kanjiPassed);
+        target.put("grammarPassed", grammarPassed);
+        target.put("completed", completed);
+        target.put("bestScore", bestScore);
     }
 
     /**
@@ -806,6 +864,7 @@ public class JlptN3CourseService {
      * Submit Quiz Score for a lesson component (vocab, kanji, grammar) and update pass status if accuracy >= 90%.
      */
     @Transactional
+    @CacheEvict(value = "jlpt-overview", allEntries = true)
     public Map<String, Object> submitQuiz(Long userId, int chapter, int lesson, String quizCategory, int score, int total) {
         if (total <= 0) {
             throw new IllegalArgumentException("Tổng số câu hỏi phải lớn hơn 0");
@@ -830,6 +889,10 @@ public class JlptN3CourseService {
                 } else if ("kanji".equals(category)) {
                     progress.setKanjiPassed(true);
                 } else if ("grammar".equals(category)) {
+                    progress.setGrammarPassed(true);
+                } else if ("all".equals(category)) {
+                    progress.setVocabPassed(true);
+                    progress.setKanjiPassed(true);
                     progress.setGrammarPassed(true);
                 }
             }

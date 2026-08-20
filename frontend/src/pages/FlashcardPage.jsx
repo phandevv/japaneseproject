@@ -21,7 +21,7 @@ const levelColors = {
 };
 
 const DEFAULT_LEVEL_COUNTS = {
-  N5: 600, N4: 700, N3: 800, N2: 900, N1: 1000, TU_LAY: 200, TRO_TU: 100, MIMIKARA_N3: 880
+  N5: 730, N4: 969, N3: 822, N2: 1724, N1: 3107, TU_LAY: 75, TRO_TU: 189
 };
 
 const FlashcardPage = ({ level: initialLevel, isSrs = false, stats, goBack, onDailyStudy, isLearnedStudy = false }) => {
@@ -150,17 +150,31 @@ const FlashcardPage = ({ level: initialLevel, isSrs = false, stats, goBack, onDa
       } else if (isLearnedStudy) {
         if (activeLevel === 'TODAY') {
           data = await srsApi.getTodayReviewed();
+          if (!data || data.length === 0) {
+            data = await srsApi.getRandomLearnedWords(50);
+          }
         } else {
           data = await srsApi.getRandomLearnedWords(50);
         }
       }
+
+      if (!data || data.length === 0) {
+        const fallbackData = await vocabApi.getRandom('N5', 20).catch(() => []);
+        data = Array.isArray(fallbackData) ? fallbackData : [];
+      }
+
       setWords(data || []);
       setCurrentIndex(0);
       setFlipped(false);
       setSeenWordIds(new Set());
     } catch (error) {
       console.error("Failed to fetch srs/learned words:", error);
-      setWords([]);
+      try {
+        const fallbackData = await vocabApi.getRandom('N5', 20).catch(() => []);
+        setWords(Array.isArray(fallbackData) ? fallbackData : []);
+      } catch {
+        setWords([]);
+      }
     } finally {
       setLoading(false);
     }
@@ -283,7 +297,7 @@ const FlashcardPage = ({ level: initialLevel, isSrs = false, stats, goBack, onDa
     if (isAuthenticated) {
       try {
         await srsApi.reviewWord(currentWord.id, quality);
-        await analyticsApi.logSession(isNew ? 1 : 0, quality >= 3 ? 1 : 0, 1);
+        await analyticsApi.logSession(1, quality >= 3 ? 1 : 0, 1);
       } catch (error) {
         console.error("Failed to save SRS review:", error);
       }

@@ -30,7 +30,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
-@Configuration
+@Configuration(proxyBeanMethods = false)
 @EnableWebSecurity
 public class SecurityConfig {
 
@@ -84,6 +84,7 @@ public class SecurityConfig {
                 // ── Vocabulary & Course Reading (Public / Authenticated) ──────────────
                 .requestMatchers(HttpMethod.GET, "/api/vocab/**").permitAll()
                 .requestMatchers(HttpMethod.GET, "/api/jlpt-n3/**").permitAll()
+                .requestMatchers(HttpMethod.GET, "/api/users/*/avatar").permitAll()
                 
                 // ── Feedback/Error Reports (Submit: Authenticated, View/Update: Admin) ─────
                 .requestMatchers(HttpMethod.POST, "/api/feedbacks").authenticated()

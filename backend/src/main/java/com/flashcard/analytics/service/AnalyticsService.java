@@ -7,16 +7,18 @@ import com.flashcard.srs.service.StudySessionHelper;
 import com.flashcard.user.model.User;
 import com.flashcard.user.provider.UserDataProvider;
 import com.flashcard.user.service.OnlineUserService;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CompletableFuture;
 
 @Service
 public class AnalyticsService {
@@ -43,13 +45,15 @@ public class AnalyticsService {
      * Record or update study session statistics for a specific local date
      */
     @Transactional
+    @CacheEvict(value = {"dashboard", "leaderboard"}, allEntries = true)
     public StudySession recordSession(User user, int wordsStudied, int correctAnswers, int totalQuestions, LocalDate date) {
         ZoneId zone = ZoneId.of("Asia/Ho_Chi_Minh");
         java.time.Instant start = date.atStartOfDay(zone).toInstant();
         java.time.Instant end = date.plusDays(1).atStartOfDay(zone).toInstant();
         long uniqueCount = srsDataProvider.countUniqueReviewedToday(user, start, end);
+        int finalWordsStudied = Math.max(wordsStudied, (int) uniqueCount);
 
-        return updateStudySessionWithRetry(user, date, (int) uniqueCount, correctAnswers, totalQuestions, null);
+        return updateStudySessionWithRetry(user, date, finalWordsStudied, correctAnswers, totalQuestions, null);
     }
 
     private StudySession updateStudySessionWithRetry(User user, LocalDate date, int wordsStudied, Integer addCorrect, Integer addTotal, Boolean freeze) {
@@ -70,91 +74,86 @@ public class AnalyticsService {
     }
 
     /**
-     * Calculate study streak based on active study sessions in Vietnam timezone
+     * Calculate current streak of consecutive days studied.
      */
-    @Transactional(readOnly = true)
     public int calculateStreak(User user) {
         List<StudySession> sessions = srsDataProvider.findAllStudySessions(user);
         if (sessions.isEmpty()) {
             return 0;
         }
 
-        List<StudySession> activeSessions = sessions;
         LocalDate today = LocalDate.now(ZoneId.of("Asia/Ho_Chi_Minh"));
-        LocalDate expectedDate = today;
-        int streak = 0;
+        LocalDate yesterday = today.minusDays(1);
 
-        LocalDate mostRecentDate = activeSessions.get(0).getStudyDate();
-        if (!mostRecentDate.equals(today) && !mostRecentDate.equals(today.minusDays(1))) {
-            return 0;
-        }
-
-        if (mostRecentDate.equals(today.minusDays(1))) {
-            expectedDate = today.minusDays(1);
-        }
-
-        for (StudySession session : activeSessions) {
-            LocalDate date = session.getStudyDate();
-            if (date.equals(expectedDate)) {
-                streak++;
-                expectedDate = expectedDate.minusDays(1);
-            } else if (date.isBefore(expectedDate)) {
-                break;
+        java.util.Set<LocalDate> dateSet = new java.util.HashSet<>();
+        for (StudySession session : sessions) {
+            if (session.getStudyDate() != null && (session.getWordsStudied() > 0 || session.isStreakFrozen())) {
+                dateSet.add(session.getStudyDate());
             }
+        }
+
+        int streak = 0;
+        LocalDate checkDate = today;
+        if (!dateSet.contains(checkDate)) {
+            checkDate = yesterday;
+        }
+        while (dateSet.contains(checkDate)) {
+            streak++;
+            checkDate = checkDate.minusDays(1);
         }
 
         return streak;
     }
 
     /**
-     * Get dashboard stats aggregate including leaderboard, online count, and freeze status
+     * Get dashboard stats aggregate including leaderboard, online count, and freeze status.
+     * Parallelized via CompletableFuture for instant response times.
      */
     @Transactional(readOnly = true)
+    @Cacheable(value = "dashboard", key = "#user.id")
     public Map<String, Object> getDashboardStats(User user) {
-        Map<String, Object> stats = new HashMap<>();
-
-        long dueCount = srsService.getDueCount(user);
-        long learnedCount = srsDataProvider.countLearnedWords(user);
-        int currentStreak = calculateStreak(user);
-
         LocalDate today = LocalDate.now(ZoneId.of("Asia/Ho_Chi_Minh"));
-        int wordsStudiedToday = srsDataProvider.findStudySession(user, today)
-                .map(StudySession::getWordsStudied)
-                .orElse(0);
+        LocalDate startDate = today.minusDays(364);
 
-        boolean streakFrozenToday = srsDataProvider.findStudySession(user, today)
-                .map(StudySession::isStreakFrozen)
-                .orElse(false);
+        // Run independent queries concurrently
+        CompletableFuture<Long> dueCountFuture = CompletableFuture.supplyAsync(() -> srsService.getDueCount(user));
+        CompletableFuture<Long> learnedCountFuture = CompletableFuture.supplyAsync(() -> srsDataProvider.countLearnedWords(user));
+        CompletableFuture<Integer> streakFuture = CompletableFuture.supplyAsync(() -> calculateStreak(user));
+        CompletableFuture<List<StudySession>> historyFuture = CompletableFuture.supplyAsync(() -> srsDataProvider.findStudySessionsBetween(user, startDate, today));
+        CompletableFuture<Long> totalUsersFuture = CompletableFuture.supplyAsync(() -> userDataProvider.count());
+        CompletableFuture<List<Map<String, Object>>> todayLeaderboardFuture = CompletableFuture.supplyAsync(() -> srsDataProvider.getTodayLeaderboard(today, PageRequest.of(0, 10)));
+        CompletableFuture<List<Map<String, Object>>> learnedLeaderboardFuture = CompletableFuture.supplyAsync(() -> srsDataProvider.getLearnedLeaderboard(PageRequest.of(0, 10)));
+        CompletableFuture<List<Map<String, Object>>> streakLeaderboardFuture = CompletableFuture.supplyAsync(() -> srsDataProvider.getStreakLeaderboard(PageRequest.of(0, 10)));
 
-        stats.put("dueCount", dueCount);
-        stats.put("learnedCount", learnedCount);
+        // Today session info
+        StudySession todaySession = srsDataProvider.findStudySession(user, today).orElse(null);
+        int wordsStudiedToday = todaySession != null ? todaySession.getWordsStudied() : 0;
+        boolean streakFrozenToday = todaySession != null && todaySession.isStreakFrozen();
+
+        // Wait for all futures
+        CompletableFuture.allOf(
+                dueCountFuture, learnedCountFuture, streakFuture, historyFuture,
+                totalUsersFuture, todayLeaderboardFuture, learnedLeaderboardFuture, streakLeaderboardFuture
+        ).join();
+
+        Map<String, Object> stats = new HashMap<>();
+        stats.put("dueCount", dueCountFuture.join());
+        stats.put("learnedCount", learnedCountFuture.join());
         stats.put("wordsStudiedToday", wordsStudiedToday);
-        stats.put("streak", currentStreak);
+        stats.put("streak", streakFuture.join());
         stats.put("streakFrozenToday", streakFrozenToday);
         stats.put("onlineCount", onlineUserService.getOnlineCount());
-        stats.put("totalUsers", userDataProvider.count());
-        stats.put("leaderboard", new ArrayList<>());
-        stats.put("learnedLeaderboard", srsDataProvider.getLearnedLeaderboard(PageRequest.of(0, 10)));
-
-        // Streak leaderboard
-        List<Map<String, Object>> streakLeaderboard = new ArrayList<>();
-        Map<String, Object> userStreak = new HashMap<>();
-        userStreak.put("username", user.getUsername());
-        userStreak.put("avatar", user.getAvatar());
-        userStreak.put("streak", currentStreak);
-        streakLeaderboard.add(userStreak);
-        stats.put("streakLeaderboard", streakLeaderboard);
-
-        // Fetch last 365 days of study history in Vietnam timezone
-        LocalDate startDate = today.minusDays(364);
-        List<StudySession> recentSessions = srsDataProvider.findStudySessionsBetween(user, startDate, today);
-
-        stats.put("history", recentSessions);
+        stats.put("totalUsers", totalUsersFuture.join());
+        stats.put("leaderboard", todayLeaderboardFuture.join());
+        stats.put("learnedLeaderboard", learnedLeaderboardFuture.join());
+        stats.put("streakLeaderboard", streakLeaderboardFuture.join());
+        stats.put("history", historyFuture.join());
 
         return stats;
     }
 
     @Transactional
+    @CacheEvict(value = {"dashboard", "leaderboard"}, allEntries = true)
     public StudySession activateStreakFreeze(User user) {
         LocalDate today = LocalDate.now(ZoneId.of("Asia/Ho_Chi_Minh"));
         ZoneId zone = ZoneId.of("Asia/Ho_Chi_Minh");

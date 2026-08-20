@@ -26,17 +26,20 @@ public class StudyController {
     private final SpacedRepetitionAlgorithm spacedRepetitionAlgorithm;
     private final ReviewLogRepository reviewLogRepository;
     private final com.flashcard.srs.repository.WordReviewRepository wordReviewRepository;
+    private final com.flashcard.vocabulary.provider.VocabularyDataProvider vocabularyDataProvider;
 
     public StudyController(SchedulerService schedulerService,
                            LearningStrategyService learningStrategyService,
                            SpacedRepetitionAlgorithm spacedRepetitionAlgorithm,
                            ReviewLogRepository reviewLogRepository,
-                           com.flashcard.srs.repository.WordReviewRepository wordReviewRepository) {
+                           com.flashcard.srs.repository.WordReviewRepository wordReviewRepository,
+                           com.flashcard.vocabulary.provider.VocabularyDataProvider vocabularyDataProvider) {
         this.schedulerService = schedulerService;
         this.learningStrategyService = learningStrategyService;
         this.spacedRepetitionAlgorithm = spacedRepetitionAlgorithm;
         this.reviewLogRepository = reviewLogRepository;
         this.wordReviewRepository = wordReviewRepository;
+        this.vocabularyDataProvider = vocabularyDataProvider;
     }
 
     /**
@@ -82,6 +85,7 @@ public class StudyController {
      * GET /api/study/today-reviewed
      * Returns the list of distinct vocabulary words reviewed TODAY by the authenticated user
      * across Flashcards, Quizzes, AI Exercises, and Knowledge Entry.
+     * Includes automatic fallback to recent/learned/recommended words when today has not started.
      */
     @GetMapping("/today-reviewed")
     public ResponseEntity<?> getTodayReviewed(@AuthenticationPrincipal User user) {
@@ -115,15 +119,64 @@ public class StudyController {
 
         if (logWords != null) {
             for (Vocabulary v : logWords) {
-                if (v != null && seenIds.add(v.getId())) {
+                if (v != null && v.getId() != null && seenIds.add(v.getId())) {
                     result.add(v);
                 }
             }
         }
         if (reviewWords != null) {
             for (WordReview wr : reviewWords) {
-                if (wr != null && wr.getVocabulary() != null && seenIds.add(wr.getVocabulary().getId())) {
+                if (wr != null && wr.getVocabulary() != null && wr.getVocabulary().getId() != null && seenIds.add(wr.getVocabulary().getId())) {
                     result.add(wr.getVocabulary());
+                }
+            }
+        }
+
+        // 4. Fallback: Nếu hôm nay chưa có lượt ôn nào, tìm từ đã ôn trong 48 giờ gần nhất
+        if (result.isEmpty()) {
+            ZonedDateTime recentStart = todayStart.minusDays(1);
+            List<WordReview> recentReviews = wordReviewRepository.findByUserAndLastReviewedAtBetween(
+                    user,
+                    recentStart.toInstant(),
+                    todayEnd.toInstant(),
+                    org.springframework.data.domain.Pageable.unpaged()
+            ).getContent();
+
+            if (recentReviews != null) {
+                for (WordReview wr : recentReviews) {
+                    if (wr != null && wr.getVocabulary() != null && wr.getVocabulary().getId() != null && seenIds.add(wr.getVocabulary().getId())) {
+                        result.add(wr.getVocabulary());
+                    }
+                }
+            }
+        }
+
+        // 5. Fallback: Nếu vẫn rỗng, lấy danh sách từ đã học gần nhất của user
+        if (result.isEmpty()) {
+            List<Vocabulary> learned = wordReviewRepository.findLearnedVocabulariesByUser(
+                    user,
+                    org.springframework.data.domain.PageRequest.of(0, 30)
+            );
+            if (learned != null) {
+                for (Vocabulary v : learned) {
+                    if (v != null && v.getId() != null && seenIds.add(v.getId())) {
+                        result.add(v);
+                    }
+                }
+            }
+        }
+
+        // 6. Fallback cuối: Nếu là user mới chưa học từ nào, gợi ý 20 từ vựng để ôn tập
+        if (result.isEmpty()) {
+            List<Vocabulary> fallbackVocabs = vocabularyDataProvider.getRandom(20);
+            if (fallbackVocabs == null || fallbackVocabs.isEmpty()) {
+                fallbackVocabs = vocabularyDataProvider.getRandomByLevel("N5", 20);
+            }
+            if (fallbackVocabs != null) {
+                for (Vocabulary v : fallbackVocabs) {
+                    if (v != null && v.getId() != null && seenIds.add(v.getId())) {
+                        result.add(v);
+                    }
                 }
             }
         }

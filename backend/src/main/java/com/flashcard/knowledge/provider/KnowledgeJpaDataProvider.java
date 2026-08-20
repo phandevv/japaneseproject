@@ -13,6 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Component
@@ -80,6 +81,25 @@ public class KnowledgeJpaDataProvider implements KnowledgeDataProvider {
     @Override
     public Page<GrammarCard> searchGrammar(String keyword, Pageable pageable) {
         return grammarCardRepository.searchByKeyword(keyword, pageable);
+    }
+
+    @Override
+    public Page<GrammarCard> searchGrammarCards(String jlpt, String weekName, String dayName, String query, Pageable pageable) {
+        return grammarCardRepository.searchGrammarCards(jlpt, weekName, dayName, query, pageable);
+    }
+
+    @Override
+    public List<Map<String, Object>> getGrammarNavigation(String jlpt) {
+        List<String> weeks = findDistinctWeeksByJlpt(jlpt);
+        List<Map<String, Object>> navList = new java.util.ArrayList<>();
+        for (String week : weeks) {
+            List<String> days = findDistinctDaysByJlptAndWeek(jlpt, week);
+            Map<String, Object> weekObj = new java.util.LinkedHashMap<>();
+            weekObj.put("week", week);
+            weekObj.put("days", days);
+            navList.add(weekObj);
+        }
+        return navList;
     }
 
     @Override

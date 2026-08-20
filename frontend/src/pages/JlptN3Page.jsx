@@ -953,6 +953,16 @@ const isContainsKanji = (str) => {
       let res = {};
       if (isPassed) {
         res = await jlptN3Api.submitQuiz(selectedChapter, selectedLesson, quizCategory, firstTryScore, total);
+        if (res) {
+          setLessonData(prev => prev ? ({
+            ...prev,
+            vocabPassed: res.vocabPassed !== undefined ? res.vocabPassed : (quizCategory === 'vocab' || quizCategory === 'all' ? true : prev.vocabPassed),
+            kanjiPassed: res.kanjiPassed !== undefined ? res.kanjiPassed : (quizCategory === 'kanji' || quizCategory === 'all' ? true : prev.kanjiPassed),
+            grammarPassed: res.grammarPassed !== undefined ? res.grammarPassed : (quizCategory === 'grammar' || quizCategory === 'all' ? true : prev.grammarPassed),
+            completed: res.completed !== undefined ? res.completed : prev.completed,
+            bestScore: res.bestScore || Math.max(prev.bestScore || 0, accuracy)
+          }) : prev);
+        }
       }
       setQuizResult({
         score: firstTryScore,
@@ -962,11 +972,11 @@ const isContainsKanji = (str) => {
         isSpeedGood,
         isScopeAll,
         passed: isPassed,
-        vocabPassed: res.vocabPassed,
-        kanjiPassed: res.kanjiPassed,
-        grammarPassed: res.grammarPassed,
-        completed: res.completed,
-        backendMsg: res.message
+        vocabPassed: res?.vocabPassed,
+        kanjiPassed: res?.kanjiPassed,
+        grammarPassed: res?.grammarPassed,
+        completed: res?.completed,
+        backendMsg: res?.message
       });
       loadOverview();
       setQuizState('finished');
@@ -1015,7 +1025,7 @@ const isContainsKanji = (str) => {
     }
   };
 
-  const getLessonBadge = (completed, bestScore, available) => {
+  const getLessonBadge = (completed, bestScore, available, vocabPassed, kanjiPassed, grammarPassed) => {
     if (!available) {
       return (
         <span style={{ fontSize: '0.75rem', padding: '3px 10px', borderRadius: '12px', background: 'var(--surface-hover)', color: 'var(--text-muted)', fontWeight: 600 }}>
@@ -1023,10 +1033,19 @@ const isContainsKanji = (str) => {
         </span>
       );
     }
-    if (completed) {
+    const isCompleted = completed || (vocabPassed && kanjiPassed && grammarPassed);
+    if (isCompleted) {
+      return (
+        <span style={{ fontSize: '0.78rem', padding: '3px 10px', borderRadius: '12px', background: 'linear-gradient(135deg, rgba(16,185,129,0.18), rgba(5,150,105,0.25))', color: '#059669', fontWeight: 800, border: '1px solid rgba(16,185,129,0.3)', display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
+          <CheckCircle size={13} /> Hoàn thành 100% (Pass 3/3)
+        </span>
+      );
+    }
+    const passedCount = (vocabPassed ? 1 : 0) + (kanjiPassed ? 1 : 0) + (grammarPassed ? 1 : 0);
+    if (passedCount > 0) {
       return (
         <span style={{ fontSize: '0.78rem', padding: '3px 10px', borderRadius: '12px', background: 'rgba(16,185,129,0.12)', color: '#10b981', fontWeight: 700, display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
-          <CheckCircle size={13} /> Hoàn thành ({bestScore}%)
+          ✓ Đã Pass {passedCount}/3 mục
         </span>
       );
     }
@@ -1173,38 +1192,91 @@ const isContainsKanji = (str) => {
                     {/* Lessons Grid (if expanded) */}
                     {isExpanded && (
                       <div style={{ padding: '0 24px 20px 24px', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '14px', marginTop: '10px' }}>
-                        {ch.lessons?.map((les) => (
-                          <div 
-                            key={les.id}
-                            onClick={() => les.available && openLesson(ch.id, les.id)}
-                            style={{
-                              padding: '16px 20px', borderRadius: '14px',
-                              border: '1px solid var(--border-color)',
-                              background: les.available ? 'var(--surface-color)' : 'var(--surface-hover)',
-                              cursor: les.available ? 'pointer' : 'not-allowed',
-                              display: 'flex', flexDirection: 'column', gap: '12px',
-                              opacity: les.available ? 1 : 0.65,
-                              transition: 'all 0.2s ease'
-                            }}
-                            className={les.available ? 'card-hover' : ''}
-                          >
-                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                              <h4 style={{ margin: 0, fontSize: '1.05rem', color: 'var(--text-primary)' }}>
-                                Bài {les.id}
-                              </h4>
-                              {getLessonBadge(les.completed, les.bestScore, les.available)}
-                            </div>
+                        {ch.lessons?.map((les) => {
+                          const isLessonCompleted = les.completed || (les.vocabPassed && les.kanjiPassed && les.grammarPassed);
+                          const passedCount = (les.vocabPassed ? 1 : 0) + (les.kanjiPassed ? 1 : 0) + (les.grammarPassed ? 1 : 0);
 
-                            <div style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                              <span>Hán tự, Từ vựng, Ngữ pháp</span>
-                              {les.available && (
-                                <span style={{ color: 'var(--accent-color)', fontWeight: 600, display: 'inline-flex', alignItems: 'center', gap: '2px' }}>
-                                  Học ngay <ChevronRight size={14} />
+                          return (
+                            <div 
+                              key={les.id}
+                              onClick={() => les.available && openLesson(ch.id, les.id)}
+                              style={{
+                                padding: '16px 20px', borderRadius: '16px',
+                                border: isLessonCompleted 
+                                  ? '1.5px solid #10b981' 
+                                  : passedCount > 0 
+                                    ? '1.5px solid rgba(16,185,129,0.45)' 
+                                    : '1px solid var(--border-color)',
+                                background: !les.available 
+                                  ? 'var(--surface-hover)' 
+                                  : isLessonCompleted 
+                                    ? 'linear-gradient(135deg, rgba(16,185,129,0.09) 0%, rgba(16,185,129,0.02) 100%)' 
+                                    : passedCount > 0 
+                                      ? 'linear-gradient(135deg, rgba(37,99,235,0.05) 0%, rgba(16,185,129,0.03) 100%)' 
+                                      : 'var(--surface-color)',
+                                boxShadow: isLessonCompleted ? '0 4px 14px rgba(16,185,129,0.12)' : 'none',
+                                cursor: les.available ? 'pointer' : 'not-allowed',
+                                display: 'flex', flexDirection: 'column', gap: '12px',
+                                opacity: les.available ? 1 : 0.65,
+                                transition: 'all 0.25s ease'
+                              }}
+                              className={les.available ? 'card-hover' : ''}
+                            >
+                              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                                  <span style={{ 
+                                    width: '24px', height: '24px', borderRadius: '50%', 
+                                    background: isLessonCompleted ? '#10b981' : passedCount > 0 ? 'var(--accent-color)' : 'var(--surface-hover)', 
+                                    color: isLessonCompleted || passedCount > 0 ? 'white' : 'var(--text-secondary)',
+                                    fontSize: '0.75rem', fontWeight: 800, display: 'inline-flex', alignItems: 'center', justifyContent: 'center' 
+                                  }}>
+                                    {les.id}
+                                  </span>
+                                  <h4 style={{ margin: 0, fontSize: '1.05rem', color: isLessonCompleted ? '#059669' : 'var(--text-primary)', fontWeight: 700 }}>
+                                    Bài {les.id} {isLessonCompleted && '🎉'}
+                                  </h4>
+                                </div>
+                                {getLessonBadge(les.completed, les.bestScore, les.available, les.vocabPassed, les.kanjiPassed, les.grammarPassed)}
+                              </div>
+
+                              {/* Component Pills (Từ vựng, Hán tự, Ngữ pháp) with Pass Status */}
+                              <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap', alignItems: 'center' }}>
+                                <span style={{
+                                  fontSize: '0.74rem', padding: '3px 8px', borderRadius: '6px', fontWeight: 600,
+                                  background: les.vocabPassed ? 'rgba(16,185,129,0.15)' : 'var(--surface-hover)',
+                                  color: les.vocabPassed ? '#059669' : 'var(--text-muted)',
+                                  border: `1px solid ${les.vocabPassed ? 'rgba(16,185,129,0.3)' : 'transparent'}`
+                                }}>
+                                  {les.vocabPassed ? '✓ Từ vựng' : 'Từ vựng'}
                                 </span>
-                              )}
+                                <span style={{
+                                  fontSize: '0.74rem', padding: '3px 8px', borderRadius: '6px', fontWeight: 600,
+                                  background: les.kanjiPassed ? 'rgba(16,185,129,0.15)' : 'var(--surface-hover)',
+                                  color: les.kanjiPassed ? '#059669' : 'var(--text-muted)',
+                                  border: `1px solid ${les.kanjiPassed ? 'rgba(16,185,129,0.3)' : 'transparent'}`
+                                }}>
+                                  {les.kanjiPassed ? '✓ Hán tự' : 'Hán tự'}
+                                </span>
+                                <span style={{
+                                  fontSize: '0.74rem', padding: '3px 8px', borderRadius: '6px', fontWeight: 600,
+                                  background: les.grammarPassed ? 'rgba(16,185,129,0.15)' : 'var(--surface-hover)',
+                                  color: les.grammarPassed ? '#059669' : 'var(--text-muted)',
+                                  border: `1px solid ${les.grammarPassed ? 'rgba(16,185,129,0.3)' : 'transparent'}`
+                                }}>
+                                  {les.grammarPassed ? '✓ Ngữ pháp' : 'Ngữ pháp'}
+                                </span>
+                              </div>
+
+                              <div style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', display: 'flex', alignItems: 'center', justifyContent: 'flex-end', borderTop: '1px solid var(--border-color)', paddingTop: '8px', marginTop: '2px' }}>
+                                {les.available && (
+                                  <span style={{ color: isLessonCompleted ? '#10b981' : 'var(--accent-color)', fontWeight: 600, display: 'inline-flex', alignItems: 'center', gap: '2px', fontSize: '0.82rem' }}>
+                                    {isLessonCompleted ? 'Ôn tập lại' : 'Vào học ngay'} <ChevronRight size={14} />
+                                  </span>
+                                )}
+                              </div>
                             </div>
-                          </div>
-                        ))}
+                          );
+                        })}
                       </div>
                     )}
                   </div>
@@ -1235,13 +1307,42 @@ const isContainsKanji = (str) => {
               <ArrowLeft size={16} /> Danh sách Chương
             </button>
 
-            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-              <span style={{ fontSize: '1.15rem', fontWeight: 700, color: 'var(--text-primary)' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
+              <span style={{ fontSize: '1.2rem', fontWeight: 800, color: 'var(--text-primary)' }}>
                 Chương {selectedChapter} - Bài {selectedLesson}
               </span>
-              {lessonData?.completed && (
-                <span style={{ fontSize: '0.78rem', padding: '3px 10px', borderRadius: '12px', background: 'rgba(16,185,129,0.12)', color: '#10b981', fontWeight: 700 }}>
-                  ✓ Đã đạt ≥90%
+
+              {/* Progress Chips for Vocab, Kanji, Grammar */}
+              <div style={{ display: 'flex', gap: '6px', alignItems: 'center' }}>
+                <span style={{
+                  fontSize: '0.75rem', padding: '3px 8px', borderRadius: '6px', fontWeight: 700,
+                  background: lessonData?.vocabPassed ? 'rgba(16,185,129,0.15)' : 'var(--surface-hover)',
+                  color: lessonData?.vocabPassed ? '#059669' : 'var(--text-muted)',
+                  border: `1px solid ${lessonData?.vocabPassed ? '#10b981' : 'transparent'}`
+                }}>
+                  {lessonData?.vocabPassed ? '✓ Từ vựng (Đã Pass)' : 'Từ vựng (Chưa pass)'}
+                </span>
+                <span style={{
+                  fontSize: '0.75rem', padding: '3px 8px', borderRadius: '6px', fontWeight: 700,
+                  background: lessonData?.kanjiPassed ? 'rgba(16,185,129,0.15)' : 'var(--surface-hover)',
+                  color: lessonData?.kanjiPassed ? '#059669' : 'var(--text-muted)',
+                  border: `1px solid ${lessonData?.kanjiPassed ? '#10b981' : 'transparent'}`
+                }}>
+                  {lessonData?.kanjiPassed ? '✓ Hán tự (Đã Pass)' : 'Hán tự (Chưa pass)'}
+                </span>
+                <span style={{
+                  fontSize: '0.75rem', padding: '3px 8px', borderRadius: '6px', fontWeight: 700,
+                  background: lessonData?.grammarPassed ? 'rgba(16,185,129,0.15)' : 'var(--surface-hover)',
+                  color: lessonData?.grammarPassed ? '#059669' : 'var(--text-muted)',
+                  border: `1px solid ${lessonData?.grammarPassed ? '#10b981' : 'transparent'}`
+                }}>
+                  {lessonData?.grammarPassed ? '✓ Ngữ pháp (Đã Pass)' : 'Ngữ pháp (Chưa pass)'}
+                </span>
+              </div>
+
+              {(lessonData?.completed || (lessonData?.vocabPassed && lessonData?.kanjiPassed && lessonData?.grammarPassed)) && (
+                <span style={{ fontSize: '0.82rem', padding: '4px 12px', borderRadius: '12px', background: 'linear-gradient(135deg, #10b981, #059669)', color: 'white', fontWeight: 800, boxShadow: '0 2px 8px rgba(16,185,129,0.3)', display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
+                  🏆 ĐÃ PASS NGÀY HỌC (3/3)
                 </span>
               )}
             </div>
@@ -1301,23 +1402,31 @@ const isContainsKanji = (str) => {
                 <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '20px', padding: '10px 0' }}>
                   
                   {/* Category Filter */}
-                  <div style={{ display: 'flex', gap: '8px', background: 'var(--surface-hover)', padding: '4px', borderRadius: '10px' }}>
-                    {['all', 'vocab', 'kanji', 'grammar'].map((cat) => (
+                  <div style={{ display: 'flex', gap: '8px', background: 'var(--surface-hover)', padding: '4px', borderRadius: '12px', flexWrap: 'wrap', justifyContent: 'center' }}>
+                    {[
+                      { cat: 'all', label: 'Tất cả', isPassed: lessonData?.completed || (lessonData?.vocabPassed && lessonData?.kanjiPassed && lessonData?.grammarPassed) },
+                      { cat: 'vocab', label: 'Từ vựng', isPassed: lessonData?.vocabPassed },
+                      { cat: 'kanji', label: 'Hán tự', isPassed: lessonData?.kanjiPassed },
+                      { cat: 'grammar', label: 'Ngữ pháp', isPassed: lessonData?.grammarPassed }
+                    ].map(({ cat, label, isPassed }) => (
                       <button
                         key={cat}
                         onClick={() => setFlashcardCategory(cat)}
                         style={{
-                          padding: '6px 14px', borderRadius: '8px', border: 'none', fontSize: '0.85rem', fontWeight: 600,
+                          padding: '6px 14px', borderRadius: '8px', border: isPassed ? '1px solid #10b981' : '1px solid transparent', fontSize: '0.85rem', fontWeight: 700,
                           cursor: 'pointer',
-                          background: flashcardCategory === cat ? 'var(--surface-color)' : 'transparent',
-                          color: flashcardCategory === cat ? 'var(--accent-color)' : 'var(--text-secondary)',
-                          boxShadow: flashcardCategory === cat ? '0 1px 4px rgba(0,0,0,0.08)' : 'none'
+                          background: flashcardCategory === cat 
+                            ? (isPassed ? '#10b981' : 'var(--accent-color)') 
+                            : (isPassed ? 'rgba(16,185,129,0.12)' : 'transparent'),
+                          color: flashcardCategory === cat 
+                            ? 'white' 
+                            : (isPassed ? '#059669' : 'var(--text-secondary)'),
+                          boxShadow: flashcardCategory === cat ? '0 1px 4px rgba(0,0,0,0.12)' : 'none',
+                          display: 'inline-flex', alignItems: 'center', gap: '4px',
+                          transition: 'all 0.2s ease'
                         }}
                       >
-                        {cat === 'all' && 'Tất cả'}
-                        {cat === 'vocab' && 'Từ vựng'}
-                        {cat === 'kanji' && 'Hán tự'}
-                        {cat === 'grammar' && 'Ngữ pháp'}
+                        {isPassed && <span>✓</span>} {label}
                       </button>
                     ))}
                   </div>
@@ -1387,37 +1496,49 @@ const isContainsKanji = (str) => {
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
                   
                   {/* List Sub-Tab Switcher */}
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid var(--border-color)', paddingBottom: '10px' }}>
-                    <div style={{ display: 'flex', gap: '10px' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid var(--border-color)', paddingBottom: '10px', flexWrap: 'wrap', gap: '8px' }}>
+                    <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
                       <button
                         onClick={() => setListSubTab('vocab')}
                         style={{
-                          padding: '8px 16px', borderRadius: '8px', border: 'none', fontWeight: 700, cursor: 'pointer',
-                          background: listSubTab === 'vocab' ? 'rgba(37,99,235,0.1)' : 'transparent',
-                          color: listSubTab === 'vocab' ? 'var(--accent-color)' : 'var(--text-secondary)'
+                          padding: '8px 16px', borderRadius: '8px', border: lessonData?.vocabPassed ? '1px solid #10b981' : 'none', fontWeight: 700, cursor: 'pointer',
+                          background: listSubTab === 'vocab' 
+                            ? (lessonData?.vocabPassed ? 'rgba(16,185,129,0.2)' : 'rgba(37,99,235,0.1)') 
+                            : (lessonData?.vocabPassed ? 'rgba(16,185,129,0.08)' : 'transparent'),
+                          color: lessonData?.vocabPassed ? '#059669' : (listSubTab === 'vocab' ? 'var(--accent-color)' : 'var(--text-secondary)'),
+                          display: 'inline-flex', alignItems: 'center', gap: '6px'
                         }}
                       >
-                        Từ Vựng ({lessonData?.tu_vung?.length || 0})
+                        {lessonData?.vocabPassed && <span>✓</span>} Từ Vựng ({lessonData?.tu_vung?.length || 0})
+                        {lessonData?.vocabPassed && <span style={{ fontSize: '0.7rem', padding: '1px 6px', borderRadius: '4px', background: '#10b981', color: 'white' }}>Đã Pass</span>}
                       </button>
                       <button
                         onClick={() => setListSubTab('kanji')}
                         style={{
-                          padding: '8px 16px', borderRadius: '8px', border: 'none', fontWeight: 700, cursor: 'pointer',
-                          background: listSubTab === 'kanji' ? 'rgba(37,99,235,0.1)' : 'transparent',
-                          color: listSubTab === 'kanji' ? 'var(--accent-color)' : 'var(--text-secondary)'
+                          padding: '8px 16px', borderRadius: '8px', border: lessonData?.kanjiPassed ? '1px solid #10b981' : 'none', fontWeight: 700, cursor: 'pointer',
+                          background: listSubTab === 'kanji' 
+                            ? (lessonData?.kanjiPassed ? 'rgba(16,185,129,0.2)' : 'rgba(37,99,235,0.1)') 
+                            : (lessonData?.kanjiPassed ? 'rgba(16,185,129,0.08)' : 'transparent'),
+                          color: lessonData?.kanjiPassed ? '#059669' : (listSubTab === 'kanji' ? 'var(--accent-color)' : 'var(--text-secondary)'),
+                          display: 'inline-flex', alignItems: 'center', gap: '6px'
                         }}
                       >
-                        Hán Tự ({lessonData?.chu_han?.length || 0})
+                        {lessonData?.kanjiPassed && <span>✓</span>} Hán Tự ({lessonData?.chu_han?.length || 0})
+                        {lessonData?.kanjiPassed && <span style={{ fontSize: '0.7rem', padding: '1px 6px', borderRadius: '4px', background: '#10b981', color: 'white' }}>Đã Pass</span>}
                       </button>
                       <button
                         onClick={() => setListSubTab('grammar')}
                         style={{
-                          padding: '8px 16px', borderRadius: '8px', border: 'none', fontWeight: 700, cursor: 'pointer',
-                          background: listSubTab === 'grammar' ? 'rgba(37,99,235,0.1)' : 'transparent',
-                          color: listSubTab === 'grammar' ? 'var(--accent-color)' : 'var(--text-secondary)'
+                          padding: '8px 16px', borderRadius: '8px', border: lessonData?.grammarPassed ? '1px solid #10b981' : 'none', fontWeight: 700, cursor: 'pointer',
+                          background: listSubTab === 'grammar' 
+                            ? (lessonData?.grammarPassed ? 'rgba(16,185,129,0.2)' : 'rgba(37,99,235,0.1)') 
+                            : (lessonData?.grammarPassed ? 'rgba(16,185,129,0.08)' : 'transparent'),
+                          color: lessonData?.grammarPassed ? '#059669' : (listSubTab === 'grammar' ? 'var(--accent-color)' : 'var(--text-secondary)'),
+                          display: 'inline-flex', alignItems: 'center', gap: '6px'
                         }}
                       >
-                        Ngữ Pháp ({lessonData?.ngu_phap?.length || 0})
+                        {lessonData?.grammarPassed && <span>✓</span>} Ngữ Pháp ({lessonData?.ngu_phap?.length || 0})
+                        {lessonData?.grammarPassed && <span style={{ fontSize: '0.7rem', padding: '1px 6px', borderRadius: '4px', background: '#10b981', color: 'white' }}>Đã Pass</span>}
                       </button>
                     </div>
 
@@ -1581,30 +1702,47 @@ const isContainsKanji = (str) => {
                         </label>
                         <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
                           {[
-                            { value: 'all',     label: '📚 Tất cả',    desc: 'Từ vựng + Chữ Hán + Ngữ pháp' },
-                            { value: 'vocab',   label: '🔤 Từ vựng',   desc: `${lessonData?.tu_vung?.length || 0} từ` },
-                            { value: 'kanji',   label: '漢 Chữ Hán',   desc: `${lessonData?.chu_han?.length || 0} chữ` },
-                            { value: 'grammar', label: '📝 Ngữ pháp',  desc: `${lessonData?.ngu_phap?.length || 0} cấu trúc` },
-                          ].map(opt => (
-                            <label key={opt.value} style={{
-                              display: 'flex', alignItems: 'center', gap: '10px', padding: '12px 14px', borderRadius: '12px',
-                              border: `1.5px solid ${quizCategory === opt.value ? 'var(--accent-color)' : 'var(--border-color)'}`,
-                              backgroundColor: quizCategory === opt.value ? 'rgba(37,99,235,0.06)' : 'transparent',
-                              cursor: 'pointer', transition: 'all 0.15s ease'
-                            }}>
-                              <input
-                                type="radio"
-                                name="quizCategoryJlpt"
-                                value={opt.value}
-                                checked={quizCategory === opt.value}
-                                onChange={() => setQuizCategory(opt.value)}
-                              />
-                              <div>
-                                <div style={{ fontWeight: 700, fontSize: '0.92rem' }}>{opt.label}</div>
-                                <div style={{ fontSize: '0.78rem', color: 'var(--text-secondary)', marginTop: '2px' }}>{opt.desc}</div>
-                              </div>
-                            </label>
-                          ))}
+                            { value: 'all',     label: '📚 Tất cả các nội dung trong ngày',    desc: 'Từ vựng + Chữ Hán + Ngữ pháp', isPassed: lessonData?.completed || (lessonData?.vocabPassed && lessonData?.kanjiPassed && lessonData?.grammarPassed) },
+                            { value: 'vocab',   label: '🔤 Từ vựng',   desc: `${lessonData?.tu_vung?.length || 0} từ vựng`, isPassed: lessonData?.vocabPassed },
+                            { value: 'kanji',   label: '漢 Chữ Hán (Kanji)',   desc: `${lessonData?.chu_han?.length || 0} chữ Hán`, isPassed: lessonData?.kanjiPassed },
+                            { value: 'grammar', label: '📝 Ngữ pháp',  desc: `${lessonData?.ngu_phap?.length || 0} cấu trúc ngữ pháp`, isPassed: lessonData?.grammarPassed },
+                          ].map(opt => {
+                            const isSelected = quizCategory === opt.value;
+                            return (
+                              <label key={opt.value} style={{
+                                display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '12px 14px', borderRadius: '12px',
+                                border: isSelected 
+                                  ? (opt.isPassed ? '1.5px solid #10b981' : '1.5px solid var(--accent-color)') 
+                                  : (opt.isPassed ? '1.5px solid rgba(16,185,129,0.35)' : '1px solid var(--border-color)'),
+                                backgroundColor: isSelected 
+                                  ? (opt.isPassed ? 'rgba(16,185,129,0.1)' : 'rgba(37,99,235,0.06)') 
+                                  : (opt.isPassed ? 'rgba(16,185,129,0.04)' : 'transparent'),
+                                cursor: 'pointer', transition: 'all 0.15s ease'
+                              }}>
+                                <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                                  <input
+                                    type="radio"
+                                    name="quizCategoryJlpt"
+                                    value={opt.value}
+                                    checked={isSelected}
+                                    onChange={() => setQuizCategory(opt.value)}
+                                  />
+                                  <div>
+                                    <div style={{ fontWeight: 700, fontSize: '0.94rem', color: opt.isPassed ? '#059669' : 'var(--text-primary)' }}>
+                                      {opt.label}
+                                    </div>
+                                    <div style={{ fontSize: '0.78rem', color: 'var(--text-secondary)', marginTop: '2px' }}>{opt.desc}</div>
+                                  </div>
+                                </div>
+
+                                {opt.isPassed && (
+                                  <span style={{ fontSize: '0.75rem', padding: '2px 8px', borderRadius: '6px', background: '#10b981', color: 'white', fontWeight: 700, display: 'inline-flex', alignItems: 'center', gap: '3px' }}>
+                                    ✓ Đã Pass
+                                  </span>
+                                )}
+                              </label>
+                            );
+                          })}
                         </div>
                       </div>
 

@@ -67,6 +67,17 @@ public class SrsJpaDataProvider implements SrsDataProvider {
     }
 
     @Override
+    public List<Map<String, Object>> getTodayLeaderboard(LocalDate date, Pageable pageable) {
+        List<Map<String, Object>> list = studySessionRepository.getLeaderboardForDate(date, pageable);
+        return list != null ? list : Collections.emptyList();
+    }
+
+    @Override
+    public List<Map<String, Object>> getStreakLeaderboard(Pageable pageable) {
+        return Collections.emptyList();
+    }
+
+    @Override
     public List<WordReview> findAllLearnedByUser(User user) {
         return wordReviewRepository.findAllLearnedByUser(user);
     }

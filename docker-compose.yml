@@ -16,9 +16,9 @@ services:
       - JWT_SECRET=${JWT_SECRET:-CHANGE_ME_IN_PRODUCTION}
       - CORS_ORIGINS=${CORS_ORIGINS:-https://phandeptrai.id.vn}
       - DB_USER=${DB_USER:-sa}
-      - DB_PASSWORD=${DB_PASSWORD:-}
       - DEEPSEEK_API_KEY=${DEEPSEEK_API_KEY}
       - SENTRY_DSN=${SENTRY_DSN}
+      - REDIS_URL=${REDIS_URL:-}
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:8080/actuator/health"]

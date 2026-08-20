@@ -7,8 +7,10 @@ const formatTime = (seconds) => {
   return `${m}:${s < 10 ? '0' : ''}${s}`;
 };
 
-const PodiumLeaderboard = ({ data = [], type = 'score' }) => {
-  if (!data || data.length === 0) {
+const PodiumLeaderboard = ({ data = [], scores, type = 'score' }) => {
+  const list = (scores && scores.length > 0) ? scores : (data || []);
+
+  if (!list || list.length === 0) {
     return (
       <div className="glass-card" style={{ padding: '30px', textAlign: 'center', height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
         <Medal size={48} color="#ccc" style={{ marginBottom: '15px' }} />
@@ -22,11 +24,11 @@ const PodiumLeaderboard = ({ data = [], type = 'score' }) => {
 
   // Ensure we have up to 10
   const top3 = [
-    data[1] || null, // Rank 2 (Left)
-    data[0] || null, // Rank 1 (Center)
-    data[2] || null  // Rank 3 (Right)
+    list[1] || null, // Rank 2 (Left)
+    list[0] || null, // Rank 1 (Center)
+    list[2] || null  // Rank 3 (Right)
   ];
-  const rest = data.slice(3, 10);
+  const rest = list.slice(3, 10);
 
   const getMetricDisplay = (item) => {
     if (!item) return '';

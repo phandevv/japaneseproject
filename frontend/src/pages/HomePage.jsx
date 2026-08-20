@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { vocabApi, analyticsApi } from '../services/api';
+import { vocabApi, analyticsApi, getMediaUrl } from '../services/api';
 import { Sparkles, Play, BookOpen, Globe, Users, Video, ShieldCheck, Brain, Flame, CheckCircle2, BarChart2, ShieldAlert, Trophy, Snowflake, Calendar, List, Check, Star, ArrowRight } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
 import { useAuth } from '../context/AuthContext';
@@ -81,27 +81,18 @@ const HomePage = ({ user: propUser, startStudy, streak, onLoginClick, onLogout, 
 
         if (!active) return;
         if (vocabStatsRes) setStats(vocabStatsRes);
-        if (dashRes) setDashboardData(dashRes);
-        setLoading(false);
+        if (dashRes) {
+          setDashboardData(dashRes);
+          if (user && dashRes.streak > 0) {
+            const todayStr = new Date().toLocaleDateString('vi-VN');
+            const lastShown = localStorage.getItem(`lastStreakDate_${user.username}`);
+            const sessionShown = sessionStorage.getItem('streakModalShown');
 
-        if (user) {
-          const todayStr = new Date().toLocaleDateString('vi-VN');
-          const lastShown = localStorage.getItem(`lastStreakDate_${user.username}`);
-          const sessionShown = sessionStorage.getItem('streakModalShown');
-
-          if (lastShown !== todayStr || !sessionShown) {
-            analyticsApi.logSession(0)
-              .then(() => analyticsApi.getDashboard())
-              .then(updatedDash => {
-                if (!active || !updatedDash) return;
-                setDashboardData(updatedDash);
-                if (updatedDash.streak > 0) {
-                  setShowStreakModal(true);
-                  localStorage.setItem(`lastStreakDate_${user.username}`, todayStr);
-                  sessionStorage.setItem('streakModalShown', 'true');
-                }
-              })
-              .catch(err => console.error("Error logging daily visit:", err));
+            if (lastShown !== todayStr || !sessionShown) {
+              setShowStreakModal(true);
+              localStorage.setItem(`lastStreakDate_${user.username}`, todayStr);
+              sessionStorage.setItem('streakModalShown', 'true');
+            }
           }
         }
       } catch (error) {
@@ -145,7 +136,16 @@ const HomePage = ({ user: propUser, startStudy, streak, onLoginClick, onLogout, 
     const histMap = {};
     if (Array.isArray(dashboardData.history)) {
       dashboardData.history.forEach(session => {
-        histMap[session.studyDate] = session;
+        if (!session) return;
+        let dateKey = '';
+        if (typeof session.studyDate === 'string') {
+          dateKey = session.studyDate.slice(0, 10);
+        } else if (session.studyDate && typeof session.studyDate === 'object') {
+          dateKey = session.studyDate.toISOString ? session.studyDate.toISOString().slice(0, 10) : String(session.studyDate).slice(0, 10);
+        }
+        if (dateKey) {
+          histMap[dateKey] = session;
+        }
       });
     }
     const now = new Date();
@@ -609,19 +609,19 @@ const HomePage = ({ user: propUser, startStudy, streak, onLoginClick, onLogout, 
                                   fontWeight: 'bold',
                                   overflow: 'hidden'
                                 }}>
-                                  {item.avatar && item.avatar.startsWith('data:image') ? (
+                                  {item.avatar && (item.avatar.startsWith('data:image') || item.avatar.startsWith('http') || item.avatar.startsWith('/')) ? (
                                     <img
-                                      src={item.avatar}
+                                      src={getMediaUrl(item.avatar)}
                                       alt="avatar"
                                       style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                                     />
                                   ) : (
-                                    item.avatar ? item.avatar : item.username[0].toUpperCase()
+                                    item.avatar ? item.avatar : (item.username?.[0]?.toUpperCase() || 'U')
                                   )}
                                 </div>
 
                                 <span style={{ fontWeight: index === 0 ? 600 : 500, color: 'var(--text-primary)' }}>
-                                  {item.username} {user && item.username === user.username && <span style={{ fontSize: '0.75rem', color: 'var(--accent-color)', marginLeft: '4px' }}>(Bạn)</span>}
+                                  {item.username || 'Người dùng'} {user && item.username === user.username && <span style={{ fontSize: '0.75rem', color: 'var(--accent-color)', marginLeft: '4px' }}>(Bạn)</span>}
                                 </span>
                               </div>
                               <span style={{ fontWeight: 'bold', color: 'var(--success-color)' }}>
@@ -675,19 +675,19 @@ const HomePage = ({ user: propUser, startStudy, streak, onLoginClick, onLogout, 
                                   fontWeight: 'bold',
                                   overflow: 'hidden'
                                 }}>
-                                  {item.avatar && item.avatar.startsWith('data:image') ? (
+                                  {item.avatar && (item.avatar.startsWith('data:image') || item.avatar.startsWith('http') || item.avatar.startsWith('/')) ? (
                                     <img
-                                      src={item.avatar}
+                                      src={getMediaUrl(item.avatar)}
                                       alt="avatar"
                                       style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                                     />
                                   ) : (
-                                    item.avatar ? item.avatar : item.username[0].toUpperCase()
+                                    item.avatar ? item.avatar : (item.username?.[0]?.toUpperCase() || 'U')
                                   )}
                                 </div>
 
                                 <span style={{ fontWeight: index === 0 ? 600 : 500, color: 'var(--text-primary)' }}>
-                                  {item.username} {user && item.username === user.username && <span style={{ fontSize: '0.75rem', color: 'var(--accent-color)', marginLeft: '4px' }}>(Bạn)</span>}
+                                  {item.username || 'Người dùng'} {user && item.username === user.username && <span style={{ fontSize: '0.75rem', color: 'var(--accent-color)', marginLeft: '4px' }}>(Bạn)</span>}
                                 </span>
                               </div>
                               <span style={{ fontWeight: 'bold', color: 'var(--success-color)' }}>
@@ -741,19 +741,19 @@ const HomePage = ({ user: propUser, startStudy, streak, onLoginClick, onLogout, 
                                   fontWeight: 'bold',
                                   overflow: 'hidden'
                                 }}>
-                                  {item.avatar && item.avatar.startsWith('data:image') ? (
+                                  {item.avatar && (item.avatar.startsWith('data:image') || item.avatar.startsWith('http') || item.avatar.startsWith('/')) ? (
                                     <img
-                                      src={item.avatar}
+                                      src={getMediaUrl(item.avatar)}
                                       alt="avatar"
                                       style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                                     />
                                   ) : (
-                                    item.avatar ? item.avatar : item.username[0].toUpperCase()
+                                    item.avatar ? item.avatar : (item.username?.[0]?.toUpperCase() || 'U')
                                   )}
                                 </div>
 
                                 <span style={{ fontWeight: index === 0 ? 600 : 500, color: 'var(--text-primary)' }}>
-                                  {item.username} {user && item.username === user.username && <span style={{ fontSize: '0.75rem', color: 'var(--accent-color)', marginLeft: '4px' }}>(Bạn)</span>}
+                                  {item.username || 'Người dùng'} {user && item.username === user.username && <span style={{ fontSize: '0.75rem', color: 'var(--accent-color)', marginLeft: '4px' }}>(Bạn)</span>}
                                 </span>
                               </div>
                               <span style={{ fontWeight: 'bold', color: 'var(--success-color)' }}>

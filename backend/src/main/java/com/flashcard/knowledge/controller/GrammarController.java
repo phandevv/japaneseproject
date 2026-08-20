@@ -1,7 +1,7 @@
 package com.flashcard.knowledge.controller;
 
 import com.flashcard.knowledge.model.GrammarCard;
-import com.flashcard.knowledge.repository.GrammarCardRepository;
+import com.flashcard.knowledge.provider.KnowledgeDataProvider;
 import com.flashcard.knowledge.service.DeepSeekEnrichmentService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,13 +24,13 @@ public class GrammarController {
 
     private static final Logger log = LoggerFactory.getLogger(GrammarController.class);
 
-    private final GrammarCardRepository grammarCardRepository;
+    private final KnowledgeDataProvider knowledgeDataProvider;
     private final DeepSeekEnrichmentService enrichmentService;
 
     @Autowired
-    public GrammarController(GrammarCardRepository grammarCardRepository,
+    public GrammarController(KnowledgeDataProvider knowledgeDataProvider,
                              DeepSeekEnrichmentService enrichmentService) {
-        this.grammarCardRepository = grammarCardRepository;
+        this.knowledgeDataProvider = knowledgeDataProvider;
         this.enrichmentService = enrichmentService;
     }
 
@@ -48,7 +48,7 @@ public class GrammarController {
             @RequestParam(name = "size", defaultValue = "50") int size) {
 
         Pageable pageable = PageRequest.of(page, size, Sort.by("id").ascending());
-        Page<GrammarCard> resultPage = grammarCardRepository.searchGrammarCards(jlpt, week, day, query, pageable);
+        Page<GrammarCard> resultPage = knowledgeDataProvider.searchGrammarCards(jlpt, week, day, query, pageable);
 
         Map<String, Object> response = new HashMap<>();
         response.put("content", resultPage.getContent());
@@ -64,19 +64,9 @@ public class GrammarController {
      * GET /api/grammar/navigation?jlpt=N3
      */
     @GetMapping("/navigation")
+    @org.springframework.cache.annotation.Cacheable(value = "grammar-navigation", key = "(#jlpt != null ? #jlpt : 'N3')")
     public ResponseEntity<?> getNavigation(@RequestParam(name = "jlpt", defaultValue = "N3") String jlpt) {
-        List<String> weeks = grammarCardRepository.findDistinctWeeksByJlpt(jlpt);
-        List<Map<String, Object>> navList = new ArrayList<>();
-
-        for (String week : weeks) {
-            List<String> days = grammarCardRepository.findDistinctDaysByJlptAndWeek(jlpt, week);
-            Map<String, Object> weekObj = new HashMap<>();
-            weekObj.put("week", week);
-            weekObj.put("days", days);
-            navList.add(weekObj);
-        }
-
-        return ResponseEntity.ok(navList);
+        return ResponseEntity.ok(knowledgeDataProvider.getGrammarNavigation(jlpt));
     }
 
     /**
@@ -85,7 +75,7 @@ public class GrammarController {
      */
     @GetMapping("/{id}")
     public ResponseEntity<?> getGrammarDetail(@PathVariable(name = "id") Long id) {
-        return grammarCardRepository.findById(id)
+        return knowledgeDataProvider.findGrammarById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
@@ -96,7 +86,7 @@ public class GrammarController {
      */
     @PostMapping("/{id}/enrich")
     public ResponseEntity<?> enrichGrammar(@PathVariable(name = "id") Long id, @RequestParam(name = "force", defaultValue = "false") boolean force) {
-        java.util.Optional<GrammarCard> existingOpt = grammarCardRepository.findById(id);
+        java.util.Optional<GrammarCard> existingOpt = knowledgeDataProvider.findGrammarById(id);
         if (existingOpt.isEmpty()) {
             return ResponseEntity.notFound().build();
         }

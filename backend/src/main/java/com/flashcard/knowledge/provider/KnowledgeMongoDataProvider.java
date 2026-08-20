@@ -15,12 +15,13 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 @Component
@@ -31,16 +32,19 @@ public class KnowledgeMongoDataProvider implements KnowledgeDataProvider {
     private final FeedbackMongoRepository feedbackMongoRepository;
     private final KnowledgeVersionMongoRepository knowledgeVersionMongoRepository;
     private final SequenceGeneratorService sequenceGeneratorService;
+    private final MongoTemplate mongoTemplate;
 
     @Autowired
     public KnowledgeMongoDataProvider(GrammarCardMongoRepository grammarCardMongoRepository,
                                       FeedbackMongoRepository feedbackMongoRepository,
                                       KnowledgeVersionMongoRepository knowledgeVersionMongoRepository,
-                                      SequenceGeneratorService sequenceGeneratorService) {
+                                      SequenceGeneratorService sequenceGeneratorService,
+                                      MongoTemplate mongoTemplate) {
         this.grammarCardMongoRepository = grammarCardMongoRepository;
         this.feedbackMongoRepository = feedbackMongoRepository;
         this.knowledgeVersionMongoRepository = knowledgeVersionMongoRepository;
         this.sequenceGeneratorService = sequenceGeneratorService;
+        this.mongoTemplate = mongoTemplate;
     }
 
     @Override
@@ -115,10 +119,67 @@ public class KnowledgeMongoDataProvider implements KnowledgeDataProvider {
     }
 
     @Override
+    public Page<GrammarCard> searchGrammarCards(String jlpt, String weekName, String dayName, String query, Pageable pageable) {
+        Query q = new Query();
+        if (jlpt != null && !jlpt.trim().isEmpty()) {
+            q.addCriteria(Criteria.where("jlpt").is(jlpt.trim()));
+        }
+        if (weekName != null && !weekName.trim().isEmpty()) {
+            q.addCriteria(Criteria.where("weekName").is(weekName.trim()));
+        }
+        if (dayName != null && !dayName.trim().isEmpty()) {
+            q.addCriteria(Criteria.where("dayName").is(dayName.trim()));
+        }
+        if (query != null && !query.trim().isEmpty()) {
+            String regex = "(?i).*" + Pattern.quote(query.trim()) + ".*";
+            Criteria orCrit = new Criteria().orOperator(
+                    Criteria.where("grammar").regex(regex),
+                    Criteria.where("meaning").regex(regex),
+                    Criteria.where("usageDesc").regex(regex),
+                    Criteria.where("formation").regex(regex),
+                    Criteria.where("lessonTitle").regex(regex)
+            );
+            q.addCriteria(orCrit);
+        }
+        long total = mongoTemplate.count(q, GrammarCardDoc.class);
+        q.with(pageable);
+        List<GrammarCardDoc> docs = mongoTemplate.find(q, GrammarCardDoc.class);
+        List<GrammarCard> list = docs.stream().map(this::toGrammarCard).collect(Collectors.toList());
+        return new PageImpl<>(list, pageable, total);
+    }
+
+    @Override
+    public List<Map<String, Object>> getGrammarNavigation(String jlpt) {
+        List<GrammarCardDoc> allCards = grammarCardMongoRepository.findByJlpt(jlpt != null ? jlpt.trim() : "N3");
+        Map<String, Set<String>> weekToDays = new LinkedHashMap<>();
+
+        for (GrammarCardDoc doc : allCards) {
+            String week = doc.getWeekName();
+            String day = doc.getDayName();
+            if (week != null && !week.trim().isEmpty() && !week.equalsIgnoreCase("null")) {
+                weekToDays.computeIfAbsent(week.trim(), k -> new LinkedHashSet<>());
+                if (day != null && !day.trim().isEmpty() && !day.equalsIgnoreCase("null")) {
+                    weekToDays.get(week.trim()).add(day.trim());
+                }
+            }
+        }
+
+        List<Map<String, Object>> navList = new ArrayList<>();
+        for (Map.Entry<String, Set<String>> entry : weekToDays.entrySet()) {
+            Map<String, Object> weekObj = new LinkedHashMap<>();
+            weekObj.put("week", entry.getKey());
+            weekObj.put("days", new ArrayList<>(entry.getValue()));
+            navList.add(weekObj);
+        }
+        return navList;
+    }
+
+    @Override
     public List<String> findDistinctWeeksByJlpt(String jlpt) {
         return grammarCardMongoRepository.findByJlpt(jlpt).stream()
                 .map(GrammarCardDoc::getWeekName)
                 .filter(Objects::nonNull)
+                .filter(s -> !s.trim().isEmpty())
                 .distinct()
                 .sorted()
                 .collect(Collectors.toList());
@@ -127,9 +188,10 @@ public class KnowledgeMongoDataProvider implements KnowledgeDataProvider {
     @Override
     public List<String> findDistinctDaysByJlptAndWeek(String jlpt, String weekName) {
         return grammarCardMongoRepository.findByJlpt(jlpt).stream()
-                .filter(g -> weekName.equals(g.getWeekName()))
+                .filter(g -> weekName != null && weekName.equals(g.getWeekName()))
                 .map(GrammarCardDoc::getDayName)
                 .filter(Objects::nonNull)
+                .filter(s -> !s.trim().isEmpty())
                 .distinct()
                 .sorted()
                 .collect(Collectors.toList());

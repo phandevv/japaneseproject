@@ -5,6 +5,7 @@ import com.flashcard.srs.provider.SrsDataProvider;
 import com.flashcard.user.model.User;
 import com.flashcard.vocabulary.model.Vocabulary;
 import com.flashcard.vocabulary.provider.VocabularyDataProvider;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,6 +15,8 @@ import java.util.stream.Collectors;
 
 @Service
 public class SrsService {
+
+    private static final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(SrsService.class);
 
     private final SrsDataProvider srsDataProvider;
     private final VocabularyDataProvider vocabularyDataProvider;
@@ -65,6 +68,7 @@ public class SrsService {
      * @param quality rating from user: 1 (Again), 2 (Hard), 3 (Good), 4 (Easy)
      */
     @Transactional
+    @CacheEvict(value = {"dashboard", "leaderboard"}, allEntries = true)
     public WordReview reviewWord(User user, Long vocabularyId, int quality) {
         if (quality < 1 || quality > 4) {
             throw new IllegalArgumentException("Quality rating must be between 1 and 4");
@@ -97,8 +101,13 @@ public class SrsService {
         reviewLog.setStabilityAfter(review.getStability());
         reviewLog.setDurationMs(0);
 
-        // Enqueue to batch service (write-behind flush in batches)
-        wordReviewBatchService.queueWordReview(review, reviewLog);
+        // Save WordReview and Log synchronously to ensure immediate database consistency & counts
+        review = srsDataProvider.saveWordReview(review);
+        try {
+            srsDataProvider.saveReviewLog(reviewLog);
+        } catch (Exception e) {
+            log.warn("Failed to save review log: {}", e.getMessage());
+        }
 
         // Sync wordsStudied count for today's StudySession
         java.time.ZoneId zone = java.time.ZoneId.of("Asia/Ho_Chi_Minh");
@@ -136,7 +145,19 @@ public class SrsService {
     @Transactional(readOnly = true)
     public List<Vocabulary> getRandomLearnedVocabulary(User user, int count) {
         List<Vocabulary> learnedVocabs = srsDataProvider.findLearnedVocabulariesByUser(user, org.springframework.data.domain.PageRequest.of(0, Math.max(count * 5, 100)));
-        if (learnedVocabs.isEmpty()) {
+        if (learnedVocabs == null || learnedVocabs.isEmpty()) {
+            learnedVocabs = srsDataProvider.findAllByUser(user).stream()
+                    .map(WordReview::getVocabulary)
+                    .filter(java.util.Objects::nonNull)
+                    .collect(Collectors.toList());
+        }
+        if (learnedVocabs == null || learnedVocabs.isEmpty()) {
+            learnedVocabs = vocabularyDataProvider.getRandom(count * 2);
+        }
+        if (learnedVocabs == null || learnedVocabs.isEmpty()) {
+            learnedVocabs = vocabularyDataProvider.getRandomByLevel("N5", count * 2);
+        }
+        if (learnedVocabs == null || learnedVocabs.isEmpty()) {
             return java.util.Collections.emptyList();
         }
         List<Vocabulary> shuffled = new java.util.ArrayList<>(learnedVocabs);

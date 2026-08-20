@@ -35,15 +35,24 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   useEffect(() => {
+    const handleAuthLogout = () => {
+      setToken(null);
+      setUser(null);
+    };
     const handleTokenRefresh = () => {
       const newToken = localStorage.getItem('token');
       setToken(newToken);
+      if (!newToken) {
+        setUser(null);
+      }
     };
     if (typeof window !== 'undefined') {
+      window.addEventListener('auth-logout', handleAuthLogout);
       window.addEventListener('token-refreshed', handleTokenRefresh);
     }
     return () => {
       if (typeof window !== 'undefined') {
+        window.removeEventListener('auth-logout', handleAuthLogout);
         window.removeEventListener('token-refreshed', handleTokenRefresh);
       }
     };
