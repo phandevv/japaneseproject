@@ -1,15 +1,36 @@
 import React, { useState, useEffect } from 'react';
-import { srsApi } from '../services/api';
-import { Search, ChevronLeft, Volume2, ArrowLeft, Calendar, Brain, Clock } from 'lucide-react';
+import { srsApi, vocabApi } from '../services/api';
+import { Search, ChevronLeft, Volume2, ArrowLeft, Calendar, Brain, Clock, Trash2 } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
+import { useAuth } from '../context/AuthContext';
 import MascotLoader from '../components/MascotLoader';
 
 export default function SrsListPage({ goBack }) {
   const { t, lang } = useLanguage();
+  const { user } = useAuth();
+  const isAdmin = Boolean(user && (user.username === 'admin' || user.role === 'ADMIN' || user.roles?.includes('ADMIN') || user.roles?.includes('ROLE_ADMIN')));
+
   const [reviews, setReviews] = useState([]);
   const [filteredReviews, setFilteredReviews] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
+  const [deletingId, setDeletingId] = useState(null);
+
+  const handleDeleteWord = async (id, e) => {
+    if (e) e.stopPropagation();
+    if (!window.confirm('Bạn có chắc chắn muốn xóa từ vựng này khỏi hệ thống không?')) return;
+    setDeletingId(id);
+    try {
+      await vocabApi.delete(id);
+      setReviews(prev => prev.filter(r => r.vocabulary?.id !== id));
+      setFilteredReviews(prev => prev.filter(r => r.vocabulary?.id !== id));
+    } catch (err) {
+      console.error('Xóa từ vựng thất bại:', err);
+      alert('Xóa từ vựng thất bại: ' + (err.response?.data?.message || err.message));
+    } finally {
+      setDeletingId(null);
+    }
+  };
 
   useEffect(() => {
     const fetchSrsList = async () => {
@@ -150,6 +171,11 @@ export default function SrsListPage({ goBack }) {
           <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', minWidth: '800px' }}>
             <thead>
               <tr style={{ borderBottom: '1px solid var(--border-color)', backgroundColor: 'rgba(0, 0, 0, 0.15)' }}>
+                {isAdmin && (
+                  <th style={{ padding: '16px 14px', width: '50px', textAlign: 'center', fontWeight: 600, color: 'var(--text-secondary)', fontSize: '0.85rem', textTransform: 'uppercase' }}>
+                    Xóa
+                  </th>
+                )}
                 <th style={{ padding: '16px 20px', fontWeight: 600, color: 'var(--text-secondary)', fontSize: '0.85rem', textTransform: 'uppercase' }}>
                   {t.srsList.colVocab}
                 </th>
@@ -186,6 +212,30 @@ export default function SrsListPage({ goBack }) {
                     onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.02)'}
                     onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
                   >
+                    {/* Admin Delete Button */}
+                    {isAdmin && (
+                      <td style={{ padding: '16px 14px', textAlign: 'center' }}>
+                        <button
+                          type="button"
+                          className="btn-icon"
+                          onClick={(e) => handleDeleteWord(v.id, e)}
+                          disabled={deletingId === v.id}
+                          title="Xóa từ vựng khỏi hệ thống"
+                          style={{
+                            width: '32px',
+                            height: '32px',
+                            borderRadius: '8px',
+                            border: '1px solid rgba(239, 68, 68, 0.3)',
+                            color: '#ef4444',
+                            backgroundColor: 'rgba(239, 68, 68, 0.08)',
+                            cursor: deletingId === v.id ? 'not-allowed' : 'pointer'
+                          }}
+                        >
+                          <Trash2 size={14} />
+                        </button>
+                      </td>
+                    )}
+
                     {/* Kanji / Hiragana */}
                     <td style={{ padding: '16px 20px' }}>
                       <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>

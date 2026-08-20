@@ -1,16 +1,44 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { vocabApi } from '../services/api';
-import { Search as SearchIcon, Loader, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Search as SearchIcon, Loader, ChevronLeft, ChevronRight, Trash2 } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
+import { useAuth } from '../context/AuthContext';
 import MascotCorners from '../components/MascotCorners';
 import '../styles/SearchPage.css';
 
 const SearchPage = () => {
   const { t } = useLanguage();
+  const { user } = useAuth();
+  const isAdmin = Boolean(user && (user.username === 'admin' || user.role === 'ADMIN' || user.roles?.includes('ADMIN') || user.roles?.includes('ROLE_ADMIN')));
+
   const [query, setQuery] = useState('');
   const [results, setResults] = useState(null);
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(0);
+  const [deletingId, setDeletingId] = useState(null);
+
+  const handleDeleteWord = async (id, e) => {
+    if (e) e.stopPropagation();
+    if (!window.confirm('Bạn có chắc chắn muốn xóa từ vựng này khỏi hệ thống không?')) return;
+    
+    setDeletingId(id);
+    try {
+      await vocabApi.delete(id);
+      setResults(prev => {
+        if (!prev || !prev.content) return prev;
+        return {
+          ...prev,
+          content: prev.content.filter(w => w.id !== id),
+          totalElements: Math.max(0, (prev.totalElements || 1) - 1)
+        };
+      });
+    } catch (err) {
+      console.error('Xóa từ vựng thất bại:', err);
+      alert('Xóa từ vựng thất bại: ' + (err.response?.data?.message || err.message));
+    } finally {
+      setDeletingId(null);
+    }
+  };
 
   // Generate sakura petals once
   const sakuraPetals = useMemo(() =>
@@ -113,7 +141,47 @@ const SearchPage = () => {
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
             {results.content.map((word) => (
-              <div key={word.id} className="search-result-card">
+              <div key={word.id} className="search-result-card" style={{ display: 'flex', alignItems: 'center' }}>
+                {isAdmin && (
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginRight: '4px' }}>
+                    <button
+                      type="button"
+                      className="btn-icon"
+                      onClick={(e) => handleDeleteWord(word.id, e)}
+                      disabled={deletingId === word.id}
+                      title="Xóa từ vựng khỏi hệ thống (Admin)"
+                      style={{
+                        width: '36px',
+                        height: '36px',
+                        minWidth: '36px',
+                        borderRadius: '10px',
+                        border: '1px solid rgba(239, 68, 68, 0.3)',
+                        color: '#ef4444',
+                        backgroundColor: 'rgba(239, 68, 68, 0.08)',
+                        cursor: deletingId === word.id ? 'not-allowed' : 'pointer',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        transition: 'all 0.2s'
+                      }}
+                      onMouseEnter={(e) => {
+                        if (deletingId !== word.id) {
+                          e.currentTarget.style.backgroundColor = '#ef4444';
+                          e.currentTarget.style.color = '#fff';
+                        }
+                      }}
+                      onMouseLeave={(e) => {
+                        if (deletingId !== word.id) {
+                          e.currentTarget.style.backgroundColor = 'rgba(239, 68, 68, 0.08)';
+                          e.currentTarget.style.color = '#ef4444';
+                        }
+                      }}
+                    >
+                      <Trash2 size={16} />
+                    </button>
+                  </div>
+                )}
+
                 <div className="search-kanji-section">
                   <span className="search-kanji-main jp-text">{word.kanji || word.hiragana}</span>
                   {word.kanji && <span className="search-kanji-reading jp-text">{word.hiragana}</span>}

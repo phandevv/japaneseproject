@@ -386,6 +386,7 @@ const VocabAdminPage = ({ goBack }) => {
           <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', fontSize: '0.92rem' }}>
             <thead style={{ backgroundColor: 'var(--surface-hover)', color: 'var(--text-secondary)', borderBottom: '1.5px solid var(--border-color)' }}>
               <tr>
+                <th style={{ padding: '14px 18px', width: '50px', textAlign: 'center' }}>Xóa</th>
                 <th style={{ padding: '14px 18px', width: '50px' }}>#ID</th>
                 <th style={{ padding: '14px 18px' }}>Từ vựng (Kanji / Kana)</th>
                 <th style={{ padding: '14px 18px' }}>Hán Việt</th>
@@ -399,7 +400,7 @@ const VocabAdminPage = ({ goBack }) => {
             <tbody>
               {vocabList.length === 0 ? (
                 <tr>
-                  <td colSpan={8} style={{ padding: '50px 20px', textAlign: 'center', color: 'var(--text-secondary)' }}>
+                  <td colSpan={9} style={{ padding: '50px 20px', textAlign: 'center', color: 'var(--text-secondary)' }}>
                     Không tìm thấy từ vựng nào phù hợp với bộ lọc hiện tại.
                   </td>
                 </tr>
@@ -410,6 +411,16 @@ const VocabAdminPage = ({ goBack }) => {
 
                   return (
                     <tr key={word.id} style={{ borderBottom: '1px solid var(--border-color)', transition: 'background 0.15s ease' }} className="table-row-hover">
+                      <td style={{ padding: '12px 18px', textAlign: 'center' }}>
+                        <button 
+                          className="btn-icon" 
+                          onClick={() => handleDelete(word.id)}
+                          title="Xóa từ vựng"
+                          style={{ width: '32px', height: '32px', border: '1px solid rgba(239,68,68,0.25)', color: '#ef4444', background: 'rgba(239,68,68,0.08)', borderRadius: '8px' }}
+                        >
+                          <Trash2 size={14} />
+                        </button>
+                      </td>
                       <td style={{ padding: '12px 18px', color: 'var(--text-secondary)', fontSize: '0.8rem' }}>
                         #{word.id}
                       </td>
