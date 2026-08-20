@@ -38,9 +38,17 @@ public class AnalyticsController {
      */
     @PostMapping("/session")
     public ResponseEntity<?> logSession(@AuthenticationPrincipal User user,
+                                         @RequestHeader(value = "X-Timezone", required = false, defaultValue = "Asia/Ho_Chi_Minh") String timezoneHeader,
                                          @RequestBody Map<String, Object> body) {
         if (user == null) {
             return ResponseEntity.status(401).body(Map.of("error", "Unauthorized"));
+        }
+
+        java.time.ZoneId zone;
+        try {
+            zone = java.time.ZoneId.of(timezoneHeader);
+        } catch (Exception e) {
+            zone = java.time.ZoneId.of("Asia/Ho_Chi_Minh");
         }
 
         Number wordsStudied = (Number) body.getOrDefault("wordsStudied", 0);
@@ -50,7 +58,7 @@ public class AnalyticsController {
         String dateStr = (String) body.get("date");
         java.time.LocalDate date = (dateStr != null) 
                 ? java.time.LocalDate.parse(dateStr) 
-                : java.time.LocalDate.now(java.time.ZoneId.of("Asia/Ho_Chi_Minh"));
+                : java.time.LocalDate.now(zone);
 
         StudySession session = analyticsService.recordSession(
                 user,

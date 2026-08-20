@@ -25,11 +25,19 @@ export const getMediaUrl = (path) => {
   }
   return path;
 };
-// Automatically attach JWT/Session Token to all requests if present
+// Automatically attach JWT/Session Token & Client Timezone to all requests if present
 axios.interceptors.request.use(config => {
   const token = localStorage.getItem('token');
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
+  }
+  try {
+    const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    if (tz) {
+      config.headers['X-Timezone'] = tz;
+    }
+  } catch (e) {
+    // fallback
   }
   return config;
 }, error => {
