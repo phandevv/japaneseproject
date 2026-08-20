@@ -141,9 +141,31 @@ const SearchPage = () => {
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
             {results.content.map((word) => (
-              <div key={word.id} className="search-result-card" style={{ display: 'flex', alignItems: 'center' }}>
+              <div key={word.id} className="search-result-card" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                <div style={{ display: 'flex', gap: '24px', alignItems: 'stretch', flex: 1 }}>
+                  <div className="search-kanji-section">
+                    <span className="search-kanji-main jp-text">{word.kanji || word.hiragana}</span>
+                    {word.kanji && <span className="search-kanji-reading jp-text">{word.hiragana}</span>}
+                  </div>
+
+                  <div className="search-info-section" style={{ flex: 1 }}>
+                    <span className="search-meaning">{word.meaning}</span>
+                    <div className="search-meta-row">
+                      <span className="search-level-badge">{word.level}</span>
+                      {word.hanViet && (
+                        <span className="search-hanviet">
+                          {t.search.hanViet}: {word.hanViet}
+                        </span>
+                      )}
+                      {word.wordType && (
+                        <span className="search-wordtype">{word.wordType}</span>
+                      )}
+                    </div>
+                  </div>
+                </div>
+
                 {isAdmin && (
-                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginRight: '4px' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginLeft: '16px' }}>
                     <button
                       type="button"
                       className="btn-icon"
@@ -151,9 +173,9 @@ const SearchPage = () => {
                       disabled={deletingId === word.id}
                       title="Xóa từ vựng khỏi hệ thống (Admin)"
                       style={{
-                        width: '36px',
-                        height: '36px',
-                        minWidth: '36px',
+                        width: '38px',
+                        height: '38px',
+                        minWidth: '38px',
                         borderRadius: '10px',
                         border: '1px solid rgba(239, 68, 68, 0.3)',
                         color: '#ef4444',
@@ -181,26 +203,6 @@ const SearchPage = () => {
                     </button>
                   </div>
                 )}
-
-                <div className="search-kanji-section">
-                  <span className="search-kanji-main jp-text">{word.kanji || word.hiragana}</span>
-                  {word.kanji && <span className="search-kanji-reading jp-text">{word.hiragana}</span>}
-                </div>
-
-                <div className="search-info-section">
-                  <span className="search-meaning">{word.meaning}</span>
-                  <div className="search-meta-row">
-                    <span className="search-level-badge">{word.level}</span>
-                    {word.hanViet && (
-                      <span className="search-hanviet">
-                        {t.search.hanViet}: {word.hanViet}
-                      </span>
-                    )}
-                    {word.wordType && (
-                      <span className="search-wordtype">{word.wordType}</span>
-                    )}
-                  </div>
-                </div>
               </div>
             ))}
 

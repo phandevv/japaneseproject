@@ -171,11 +171,6 @@ export default function SrsListPage({ goBack }) {
           <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', minWidth: '800px' }}>
             <thead>
               <tr style={{ borderBottom: '1px solid var(--border-color)', backgroundColor: 'rgba(0, 0, 0, 0.15)' }}>
-                {isAdmin && (
-                  <th style={{ padding: '16px 14px', width: '50px', textAlign: 'center', fontWeight: 600, color: 'var(--text-secondary)', fontSize: '0.85rem', textTransform: 'uppercase' }}>
-                    Xóa
-                  </th>
-                )}
                 <th style={{ padding: '16px 20px', fontWeight: 600, color: 'var(--text-secondary)', fontSize: '0.85rem', textTransform: 'uppercase' }}>
                   {t.srsList.colVocab}
                 </th>
@@ -194,6 +189,11 @@ export default function SrsListPage({ goBack }) {
                 <th style={{ padding: '16px 20px', fontWeight: 600, color: 'var(--text-secondary)', fontSize: '0.85rem', textTransform: 'uppercase', textAlign: 'center' }}>
                   Trạng thái
                 </th>
+                {isAdmin && (
+                  <th style={{ padding: '16px 14px', width: '60px', textAlign: 'center', fontWeight: 600, color: 'var(--text-secondary)', fontSize: '0.85rem', textTransform: 'uppercase' }}>
+                    Thao tác
+                  </th>
+                )}
               </tr>
             </thead>
             <tbody>
@@ -212,30 +212,6 @@ export default function SrsListPage({ goBack }) {
                     onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.02)'}
                     onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
                   >
-                    {/* Admin Delete Button */}
-                    {isAdmin && (
-                      <td style={{ padding: '16px 14px', textAlign: 'center' }}>
-                        <button
-                          type="button"
-                          className="btn-icon"
-                          onClick={(e) => handleDeleteWord(v.id, e)}
-                          disabled={deletingId === v.id}
-                          title="Xóa từ vựng khỏi hệ thống"
-                          style={{
-                            width: '32px',
-                            height: '32px',
-                            borderRadius: '8px',
-                            border: '1px solid rgba(239, 68, 68, 0.3)',
-                            color: '#ef4444',
-                            backgroundColor: 'rgba(239, 68, 68, 0.08)',
-                            cursor: deletingId === v.id ? 'not-allowed' : 'pointer'
-                          }}
-                        >
-                          <Trash2 size={14} />
-                        </button>
-                      </td>
-                    )}
-
                     {/* Kanji / Hiragana */}
                     <td style={{ padding: '16px 20px' }}>
                       <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>

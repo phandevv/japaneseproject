@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import { vocabApi } from '../services/api';
+import React, { useState, useEffect, useMemo } from 'react';
+import { vocabApi, jlptN3Api } from '../services/api';
 import { 
   ArrowLeft, Plus, Edit, Trash2, Search, X, ChevronLeft, ChevronRight, 
-  Sparkles, Volume2, RefreshCw, Layers, CheckCircle2, AlertCircle, Eye
+  Sparkles, Volume2, RefreshCw, Layers, CheckCircle2, AlertCircle, Eye,
+  BookOpen, Filter, GraduationCap, Tag, Sparkle
 } from 'lucide-react';
 import MascotLoader from '../components/MascotLoader';
 
@@ -14,16 +15,66 @@ const LEVEL_OPTIONS = [
   { value: 'N2', label: 'N2' },
   { value: 'N1', label: 'N1' },
   { value: 'TU_LAY', label: 'Từ láy' },
-  { value: 'TRO_TU', label: 'Trợ từ' }
+  { value: 'TRO_TU', label: 'Trợ từ' },
+  { value: 'N3_COURSE', label: 'N3 Khóa học' }
+];
+
+const N3_CHAPTERS = [
+  { id: 1, title: 'Chương 1: Cuộc sống hàng ngày' },
+  { id: 2, title: 'Chương 2: Gia đình & Bạn bè' },
+  { id: 3, title: 'Chương 3: Giao tiếp & Xã hội' },
+  { id: 4, title: 'Chương 4: Nơi làm việc & Kinh doanh' },
+  { id: 5, title: 'Chương 5: Học tập & Trường học' },
+  { id: 6, title: 'Chương 6: Tự nhiên & Môi trường' },
+  { id: 7, title: 'Chương 7: Sức khỏe & Y tế' },
+  { id: 8, title: 'Chương 8: Du lịch & Giao thông' },
+  { id: 9, title: 'Chương 9: Văn hóa & Giải trí' }
+];
+
+const N3_LESSONS = [
+  { id: 1, title: 'Bài 1' },
+  { id: 2, title: 'Bài 2' },
+  { id: 3, title: 'Bài 3' }
+];
+
+const WORD_TYPE_OPTIONS = [
+  { value: 'ALL', label: 'Tất cả loại từ' },
+  { value: 'Danh từ', label: 'Danh từ' },
+  { value: 'Động từ', label: 'Động từ' },
+  { value: 'Tính từ đuôi な', label: 'Tính từ な' },
+  { value: 'Tính từ đuôi い', label: 'Tính từ い' },
+  { value: 'Phó từ', label: 'Phó từ' },
+  { value: 'Trợ từ', label: 'Trợ từ' },
+  { value: 'Liên từ', label: 'Liên từ' }
+];
+
+const AI_STATUS_OPTIONS = [
+  { value: 'ALL', label: 'Tất cả trạng thái AI' },
+  { value: 'ENRICHED', label: '✨ Đã làm giàu AI' },
+  { value: 'UNENRICHED', label: 'Chưa làm giàu AI' }
 ];
 
 const VocabAdminPage = ({ goBack }) => {
+  // Management View Mode: 'course_n3' | 'level' | 'word_type' | 'ai_status'
+  const [viewMode, setViewMode] = useState('course_n3');
+
+  // N3 Course Mode States
+  const [selectedChapter, setSelectedChapter] = useState(1);
+  const [selectedLesson, setSelectedLesson] = useState(1);
+  const [n3SubFilter, setN3SubFilter] = useState('all'); // 'all' | 'vocab' | 'kanji'
+  const [n3LessonData, setN3LessonData] = useState(null);
+
+  // Level & Global List States
   const [vocabList, setVocabList] = useState([]);
   const [page, setPage] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
   const [totalElements, setTotalElements] = useState(0);
   const [loading, setLoading] = useState(false);
   const [selectedLevel, setSelectedLevel] = useState('ALL');
+  const [selectedWordType, setSelectedWordType] = useState('ALL');
+  const [selectedAiStatus, setSelectedAiStatus] = useState('ALL');
+
+  // Search States
   const [searchQuery, setSearchQuery] = useState('');
   const [submittedQuery, setSubmittedQuery] = useState('');
   const [stats, setStats] = useState(null);
@@ -71,7 +122,22 @@ const VocabAdminPage = ({ goBack }) => {
     loadStats();
   }, []);
 
-  const fetchVocab = async () => {
+  // Fetch N3 Course Lesson Data
+  const fetchN3Lesson = async () => {
+    setLoading(true);
+    try {
+      const data = await jlptN3Api.getLessonData(selectedChapter, selectedLesson);
+      setN3LessonData(data);
+    } catch (err) {
+      console.error("Failed to load N3 lesson data:", err);
+      setStatusMessage({ type: 'error', text: 'Không thể tải dữ liệu Bài học N3' });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Fetch Level Paginated Data
+  const fetchVocabByLevel = async () => {
     setLoading(true);
     try {
       let response;
@@ -91,13 +157,68 @@ const VocabAdminPage = ({ goBack }) => {
   };
 
   useEffect(() => {
-    fetchVocab();
-  }, [page, submittedQuery, selectedLevel]);
+    if (viewMode === 'course_n3') {
+      fetchN3Lesson();
+    } else {
+      fetchVocabByLevel();
+    }
+  }, [viewMode, selectedChapter, selectedLesson, page, submittedQuery, selectedLevel]);
+
+  // Filtered words for N3 Course View
+  const displayedN3Words = useMemo(() => {
+    if (!n3LessonData) return [];
+    let items = [];
+    if (n3SubFilter === 'vocab') {
+      items = n3LessonData.vocabulary || [];
+    } else if (n3SubFilter === 'kanji') {
+      items = n3LessonData.kanji || [];
+    } else {
+      items = [...(n3LessonData.vocabulary || []), ...(n3LessonData.kanji || [])];
+    }
+
+    if (searchQuery.trim()) {
+      const q = searchQuery.toLowerCase().trim();
+      items = items.filter(w => 
+        (w.kanji && w.kanji.toLowerCase().includes(q)) ||
+        (w.hiragana && w.hiragana.toLowerCase().includes(q)) ||
+        (w.meaning && w.meaning.toLowerCase().includes(q)) ||
+        (w.hanViet && w.hanViet.toLowerCase().includes(q))
+      );
+    }
+
+    if (selectedAiStatus === 'ENRICHED') {
+      items = items.filter(w => Boolean(w.sampleSentence || w.mnemonic || w.usageGuide || w.pitchAccent));
+    } else if (selectedAiStatus === 'UNENRICHED') {
+      items = items.filter(w => !Boolean(w.sampleSentence || w.mnemonic || w.usageGuide || w.pitchAccent));
+    }
+
+    if (selectedWordType !== 'ALL') {
+      items = items.filter(w => w.wordType && w.wordType.includes(selectedWordType));
+    }
+
+    return items;
+  }, [n3LessonData, n3SubFilter, searchQuery, selectedAiStatus, selectedWordType]);
+
+  // Filtered words for Level View
+  const displayedLevelWords = useMemo(() => {
+    let items = vocabList;
+    if (selectedAiStatus === 'ENRICHED') {
+      items = items.filter(w => Boolean(w.sampleSentence || w.mnemonic || w.usageGuide || w.pitchAccent));
+    } else if (selectedAiStatus === 'UNENRICHED') {
+      items = items.filter(w => !Boolean(w.sampleSentence || w.mnemonic || w.usageGuide || w.pitchAccent));
+    }
+    if (selectedWordType !== 'ALL') {
+      items = items.filter(w => w.wordType && w.wordType.includes(selectedWordType));
+    }
+    return items;
+  }, [vocabList, selectedAiStatus, selectedWordType]);
 
   const handleSearchSubmit = (e) => {
     e.preventDefault();
-    setPage(0);
-    setSubmittedQuery(searchQuery);
+    if (viewMode !== 'course_n3') {
+      setPage(0);
+      setSubmittedQuery(searchQuery);
+    }
   };
 
   const handleLevelChange = (level) => {
@@ -116,6 +237,13 @@ const VocabAdminPage = ({ goBack }) => {
 
   const handleOpenAdd = () => {
     setEditingId(null);
+    const defaultCategory = viewMode === 'course_n3' 
+      ? `Tổng ôn N3 - Chương ${selectedChapter} Bài ${selectedLesson}` 
+      : '';
+    const defaultLevel = viewMode === 'course_n3' 
+      ? 'N3_COURSE' 
+      : (selectedLevel !== 'ALL' ? selectedLevel : 'N5');
+
     setFormData({
       kanji: '',
       hiragana: '',
@@ -123,8 +251,8 @@ const VocabAdminPage = ({ goBack }) => {
       hanViet: '',
       meaning: '',
       wordType: '',
-      level: selectedLevel !== 'ALL' ? selectedLevel : 'N5',
-      category: '',
+      level: defaultLevel,
+      category: defaultCategory,
       pitchAccent: '',
       sampleSentence: '',
       sampleTranslation: '',
@@ -173,7 +301,11 @@ const VocabAdminPage = ({ goBack }) => {
     setEnrichingIds(prev => new Set(prev).add(id));
     try {
       const enriched = await vocabApi.enrich(id, true);
-      setVocabList(prev => prev.map(item => (item.id === id ? { ...item, ...enriched } : item)));
+      if (viewMode === 'course_n3') {
+        fetchN3Lesson();
+      } else {
+        setVocabList(prev => prev.map(item => (item.id === id ? { ...item, ...enriched } : item)));
+      }
       setStatusMessage({ type: 'success', text: `✨ Làm giàu dữ liệu AI cho từ vựng thành công!` });
       setTimeout(() => setStatusMessage(null), 3500);
     } catch (err) {
@@ -207,8 +339,7 @@ const VocabAdminPage = ({ goBack }) => {
           meaning: enriched.meaning || prev.meaning
         }));
       } else {
-        // Temporary create or prompt info
-        setFormError('Lưu từ vựng trước, sau đó bấm nút Làm giàu AI để DeepSeek tự động phân tích chi tiết.');
+        setFormError('Vui lòng lưu từ vựng trước, sau đó bấm nút Làm giàu AI để DeepSeek tự động phân tích chi tiết.');
       }
     } catch (err) {
       setFormError('Lỗi kết nối AI: ' + (err.response?.data?.error || err.message));
@@ -239,7 +370,11 @@ const VocabAdminPage = ({ goBack }) => {
         setStatusMessage({ type: 'success', text: 'Thêm từ vựng mới thành công!' });
       }
       setShowModal(false);
-      fetchVocab();
+      if (viewMode === 'course_n3') {
+        fetchN3Lesson();
+      } else {
+        fetchVocabByLevel();
+      }
       loadStats();
       setTimeout(() => setStatusMessage(null), 3000);
     } catch (error) {
@@ -248,11 +383,15 @@ const VocabAdminPage = ({ goBack }) => {
   };
 
   const handleDelete = async (id) => {
-    if (!window.confirm('Bạn có chắc chắn muốn xoá từ vựng này không?')) return;
+    if (!window.confirm('Bạn có chắc chắn muốn xoá từ vựng này khỏi hệ thống không?')) return;
     try {
       await vocabApi.delete(id);
       setStatusMessage({ type: 'success', text: 'Đã xoá từ vựng thành công!' });
-      fetchVocab();
+      if (viewMode === 'course_n3') {
+        fetchN3Lesson();
+      } else {
+        fetchVocabByLevel();
+      }
       loadStats();
       setTimeout(() => setStatusMessage(null), 3000);
     } catch (error) {
@@ -260,8 +399,10 @@ const VocabAdminPage = ({ goBack }) => {
     }
   };
 
+  const currentList = viewMode === 'course_n3' ? displayedN3Words : displayedLevelWords;
+
   return (
-    <div className="container animate-fade-in" style={{ padding: '30px 20px', maxWidth: '1240px' }}>
+    <div className="container animate-fade-in" style={{ padding: '30px 20px', maxWidth: '1280px' }}>
       
       {/* Top Notification Toast */}
       {statusMessage && (
@@ -289,57 +430,223 @@ const VocabAdminPage = ({ goBack }) => {
             </h2>
             <div style={{ fontSize: '0.88rem', color: 'var(--text-secondary)', marginTop: '2px' }}>
               Tổng số từ vựng hệ thống: <strong>{totalElements.toLocaleString()}</strong> từ
+              {viewMode === 'course_n3' && n3LessonData && (
+                <span style={{ marginLeft: '12px', color: 'var(--accent-color)', fontWeight: 600 }}>
+                  • Đang xem: Chương {selectedChapter} - Bài {selectedLesson} ({currentList.length} từ)
+                </span>
+              )}
             </div>
           </div>
         </div>
 
         <div style={{ display: 'flex', gap: '10px' }}>
-          <button className="btn btn-secondary" onClick={() => { fetchVocab(); loadStats(); }} title="Tải lại danh sách">
+          <button 
+            className="btn btn-secondary" 
+            onClick={() => { 
+              if (viewMode === 'course_n3') fetchN3Lesson(); 
+              else fetchVocabByLevel(); 
+              loadStats(); 
+            }} 
+            title="Tải lại danh sách"
+          >
             <RefreshCw size={16} className={loading ? 'animate-spin' : ''} />
           </button>
           <button className="btn btn-primary" onClick={handleOpenAdd} style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-            <Plus size={18} /> Thêm từ mới
+            <Plus size={18} /> {viewMode === 'course_n3' ? `Thêm từ vào Bài ${selectedLesson}` : 'Thêm từ mới'}
           </button>
         </div>
       </div>
 
-      {/* Level Filter Tabs */}
-      <div style={{ display: 'flex', gap: '8px', overflowX: 'auto', paddingBottom: '12px', marginBottom: '16px' }}>
-        {LEVEL_OPTIONS.map(opt => {
-          const isSelected = selectedLevel === opt.value;
-          const count = stats && stats[opt.value] ? stats[opt.value] : null;
-          return (
-            <button
-              key={opt.value}
-              type="button"
-              onClick={() => handleLevelChange(opt.value)}
-              style={{
-                padding: '8px 16px', borderRadius: '10px',
-                border: isSelected ? '1.5px solid var(--accent-color)' : '1px solid var(--border-color)',
-                backgroundColor: isSelected ? 'var(--accent-color)' : 'var(--surface-color)',
-                color: isSelected ? 'white' : 'var(--text-primary)',
-                fontWeight: isSelected ? 700 : 500, fontSize: '0.9rem',
-                cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: '6px',
-                transition: 'all 0.15s ease', whiteSpace: 'nowrap'
-              }}
-            >
-              <span>{opt.label}</span>
-              {count !== null && (
-                <span style={{
-                  fontSize: '0.75rem', padding: '1px 6px', borderRadius: '6px',
-                  backgroundColor: isSelected ? 'rgba(255,255,255,0.25)' : 'var(--surface-hover)',
-                  color: isSelected ? 'white' : 'var(--text-secondary)'
-                }}>
-                  {count}
-                </span>
-              )}
-            </button>
-          );
-        })}
+      {/* ═══ VIEW MODE SELECTOR (QUẢN LÝ THEO NHIỀU KIỂU) ═══ */}
+      <div style={{ 
+        display: 'flex', 
+        gap: '10px', 
+        marginBottom: '20px', 
+        backgroundColor: 'var(--surface-color)', 
+        padding: '8px', 
+        borderRadius: '16px',
+        border: '1px solid var(--border-color)',
+        boxShadow: 'var(--shadow-sm)',
+        overflowX: 'auto'
+      }}>
+        <button
+          type="button"
+          onClick={() => { setViewMode('course_n3'); setPage(0); }}
+          style={{
+            flex: 1, padding: '10px 16px', borderRadius: '12px', border: 'none',
+            backgroundColor: viewMode === 'course_n3' ? 'var(--accent-color)' : 'transparent',
+            color: viewMode === 'course_n3' ? 'white' : 'var(--text-secondary)',
+            fontWeight: 700, fontSize: '0.92rem', cursor: 'pointer',
+            display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px',
+            transition: 'all 0.2s', whiteSpace: 'nowrap'
+          }}
+        >
+          <GraduationCap size={18} /> 🎓 Theo Khóa học N3 (Chương & Bài)
+        </button>
+
+        <button
+          type="button"
+          onClick={() => { setViewMode('level'); setPage(0); }}
+          style={{
+            flex: 1, padding: '10px 16px', borderRadius: '12px', border: 'none',
+            backgroundColor: viewMode === 'level' ? 'var(--accent-color)' : 'transparent',
+            color: viewMode === 'level' ? 'white' : 'var(--text-secondary)',
+            fontWeight: 700, fontSize: '0.92rem', cursor: 'pointer',
+            display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px',
+            transition: 'all 0.2s', whiteSpace: 'nowrap'
+          }}
+        >
+          <Layers size={18} /> 📊 Theo Cấp độ JLPT (N5 - N1)
+        </button>
       </div>
 
-      {/* Filter / Search Bar */}
-      <form onSubmit={handleSearchSubmit} style={{ 
+      {/* ═══ CONDITIONAL FILTER CONTROLS ═══ */}
+      {viewMode === 'course_n3' ? (
+        /* 🎓 N3 COURSE CONTROLS: CHAPTER & LESSON SELECTOR */
+        <div className="card" style={{ padding: '18px 22px', marginBottom: '20px', borderRadius: '16px', border: '1px solid var(--border-color)' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+            
+            {/* Chapters Pills / Selector */}
+            <div>
+              <div style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', fontWeight: 700, marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+                Chọn Chương (1 - 9):
+              </div>
+              <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+                {N3_CHAPTERS.map(ch => {
+                  const isSel = selectedChapter === ch.id;
+                  return (
+                    <button
+                      key={ch.id}
+                      type="button"
+                      onClick={() => setSelectedChapter(ch.id)}
+                      style={{
+                        padding: '8px 16px', borderRadius: '10px',
+                        border: isSel ? '1.5px solid var(--accent-color)' : '1px solid var(--border-color)',
+                        backgroundColor: isSel ? 'var(--accent-color)' : 'var(--surface-hover)',
+                        color: isSel ? 'white' : 'var(--text-primary)',
+                        fontWeight: isSel ? 700 : 500, fontSize: '0.88rem',
+                        cursor: 'pointer', transition: 'all 0.15s'
+                      }}
+                    >
+                      {ch.title}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* Lesson & Sub-filter Row */}
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '14px', borderTop: '1px solid var(--border-color)', paddingTop: '14px' }}>
+              
+              {/* Lessons Selection */}
+              <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                <span style={{ fontSize: '0.88rem', fontWeight: 600, color: 'var(--text-secondary)' }}>Chọn Bài:</span>
+                {N3_LESSONS.map(les => {
+                  const isSel = selectedLesson === les.id;
+                  return (
+                    <button
+                      key={les.id}
+                      type="button"
+                      onClick={() => setSelectedLesson(les.id)}
+                      style={{
+                        padding: '6px 16px', borderRadius: '8px',
+                        border: isSel ? '1.5px solid var(--accent-color)' : '1px solid var(--border-color)',
+                        backgroundColor: isSel ? 'rgba(37,99,235,0.15)' : 'var(--surface-color)',
+                        color: isSel ? 'var(--accent-color)' : 'var(--text-primary)',
+                        fontWeight: 700, fontSize: '0.88rem',
+                        cursor: 'pointer', transition: 'all 0.15s'
+                      }}
+                    >
+                      {les.title}
+                    </button>
+                  );
+                })}
+              </div>
+
+              {/* Sub Filter (All / Vocab / Kanji) */}
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <span style={{ fontSize: '0.88rem', fontWeight: 600, color: 'var(--text-secondary)' }}>Phân loại:</span>
+                <button
+                  type="button"
+                  onClick={() => setN3SubFilter('all')}
+                  style={{
+                    padding: '5px 12px', borderRadius: '8px', fontSize: '0.82rem', fontWeight: 600,
+                    border: '1px solid var(--border-color)', cursor: 'pointer',
+                    backgroundColor: n3SubFilter === 'all' ? 'var(--accent-color)' : 'transparent',
+                    color: n3SubFilter === 'all' ? 'white' : 'var(--text-secondary)'
+                  }}
+                >
+                  Tất cả ({n3LessonData ? ((n3LessonData.vocabulary?.length || 0) + (n3LessonData.kanji?.length || 0)) : 0})
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setN3SubFilter('vocab')}
+                  style={{
+                    padding: '5px 12px', borderRadius: '8px', fontSize: '0.82rem', fontWeight: 600,
+                    border: '1px solid var(--border-color)', cursor: 'pointer',
+                    backgroundColor: n3SubFilter === 'vocab' ? 'var(--accent-color)' : 'transparent',
+                    color: n3SubFilter === 'vocab' ? 'white' : 'var(--text-secondary)'
+                  }}
+                >
+                  Từ vựng ({n3LessonData?.vocabulary?.length || 0})
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setN3SubFilter('kanji')}
+                  style={{
+                    padding: '5px 12px', borderRadius: '8px', fontSize: '0.82rem', fontWeight: 600,
+                    border: '1px solid var(--border-color)', cursor: 'pointer',
+                    backgroundColor: n3SubFilter === 'kanji' ? 'var(--accent-color)' : 'transparent',
+                    color: n3SubFilter === 'kanji' ? 'white' : 'var(--text-secondary)'
+                  }}
+                >
+                  Chữ Hán Kanji ({n3LessonData?.kanji?.length || 0})
+                </button>
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+      ) : (
+        /* 📊 LEVEL SELECTION TABS */
+        <div style={{ display: 'flex', gap: '8px', overflowX: 'auto', paddingBottom: '12px', marginBottom: '16px' }}>
+          {LEVEL_OPTIONS.map(opt => {
+            const isSelected = selectedLevel === opt.value;
+            const count = stats && stats[opt.value] ? stats[opt.value] : null;
+            return (
+              <button
+                key={opt.value}
+                type="button"
+                onClick={() => handleLevelChange(opt.value)}
+                style={{
+                  padding: '8px 16px', borderRadius: '10px',
+                  border: isSelected ? '1.5px solid var(--accent-color)' : '1px solid var(--border-color)',
+                  backgroundColor: isSelected ? 'var(--accent-color)' : 'var(--surface-color)',
+                  color: isSelected ? 'white' : 'var(--text-primary)',
+                  fontWeight: isSelected ? 700 : 500, fontSize: '0.9rem',
+                  cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: '6px',
+                  transition: 'all 0.15s ease', whiteSpace: 'nowrap'
+                }}
+              >
+                <span>{opt.label}</span>
+                {count !== null && (
+                  <span style={{
+                    fontSize: '0.75rem', padding: '1px 6px', borderRadius: '6px',
+                    backgroundColor: isSelected ? 'rgba(255,255,255,0.25)' : 'var(--surface-hover)',
+                    color: isSelected ? 'white' : 'var(--text-secondary)'
+                  }}>
+                    {count}
+                  </span>
+                )}
+              </button>
+            );
+          })}
+        </div>
+      )}
+
+      {/* ═══ COMBINED SEARCH & MULTI-FILTER BAR ═══ */}
+      <div style={{ 
         display: 'flex', 
         gap: '12px', 
         marginBottom: '20px',
@@ -347,13 +654,15 @@ const VocabAdminPage = ({ goBack }) => {
         padding: '12px 18px',
         borderRadius: '14px',
         border: '1px solid var(--border-color)',
-        boxShadow: 'var(--shadow-sm)'
+        boxShadow: 'var(--shadow-sm)',
+        flexWrap: 'wrap'
       }}>
-        <div style={{ flex: 1, display: 'flex', alignItems: 'center', gap: '10px' }}>
+        {/* Search Input */}
+        <form onSubmit={handleSearchSubmit} style={{ flex: '1 1 300px', display: 'flex', alignItems: 'center', gap: '10px' }}>
           <Search size={18} color="var(--text-secondary)" />
           <input 
             type="text"
-            placeholder="Tìm kiếm theo Kanji, Hiragana, Nghĩa, Hán Việt hoặc Chủ đề..."
+            placeholder={viewMode === 'course_n3' ? "Lọc nhanh theo Kanji, Hiragana, Nghĩa trong Bài này..." : "Tìm kiếm theo Kanji, Hiragana, Nghĩa, Hán Việt hoặc Chủ đề..."}
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             style={{
@@ -370,13 +679,38 @@ const VocabAdminPage = ({ goBack }) => {
               <X size={16} />
             </button>
           )}
-        </div>
-        <button type="submit" className="btn btn-secondary" style={{ padding: '8px 22px' }}>
-          Tìm kiếm
-        </button>
-      </form>
+        </form>
 
-      {/* Vocabulary Table */}
+        {/* Word Type Filter */}
+        <select
+          value={selectedWordType}
+          onChange={(e) => setSelectedWordType(e.target.value)}
+          style={{
+            padding: '8px 12px', borderRadius: '8px', border: '1px solid var(--border-color)',
+            backgroundColor: 'var(--surface-hover)', color: 'var(--text-primary)', fontSize: '0.85rem', fontWeight: 600, outline: 'none'
+          }}
+        >
+          {WORD_TYPE_OPTIONS.map(wt => (
+            <option key={wt.value} value={wt.value}>{wt.label}</option>
+          ))}
+        </select>
+
+        {/* AI Status Filter */}
+        <select
+          value={selectedAiStatus}
+          onChange={(e) => setSelectedAiStatus(e.target.value)}
+          style={{
+            padding: '8px 12px', borderRadius: '8px', border: '1px solid var(--border-color)',
+            backgroundColor: 'var(--surface-hover)', color: 'var(--text-primary)', fontSize: '0.85rem', fontWeight: 600, outline: 'none'
+          }}
+        >
+          {AI_STATUS_OPTIONS.map(ai => (
+            <option key={ai.value} value={ai.value}>{ai.label}</option>
+          ))}
+        </select>
+      </div>
+
+      {/* ═══ VOCABULARY TABLE (NÚT XÓA Ở BÊN PHẢI CÙNG) ═══ */}
       <div className="card" style={{ padding: 0, overflowX: 'auto', marginBottom: '20px', borderRadius: '16px', border: '1px solid var(--border-color)' }}>
         {loading ? (
           <div style={{ padding: '40px' }}>
@@ -386,41 +720,30 @@ const VocabAdminPage = ({ goBack }) => {
           <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', fontSize: '0.92rem' }}>
             <thead style={{ backgroundColor: 'var(--surface-hover)', color: 'var(--text-secondary)', borderBottom: '1.5px solid var(--border-color)' }}>
               <tr>
-                <th style={{ padding: '14px 18px', width: '50px', textAlign: 'center' }}>Xóa</th>
-                <th style={{ padding: '14px 18px', width: '50px' }}>#ID</th>
+                <th style={{ padding: '14px 18px', width: '60px' }}>#ID</th>
                 <th style={{ padding: '14px 18px' }}>Từ vựng (Kanji / Kana)</th>
                 <th style={{ padding: '14px 18px' }}>Hán Việt</th>
                 <th style={{ padding: '14px 18px' }}>Nghĩa tiếng Việt</th>
                 <th style={{ padding: '14px 18px' }}>Loại từ / Chủ đề</th>
                 <th style={{ padding: '14px 18px' }}>Cấp độ</th>
                 <th style={{ padding: '14px 18px' }}>Dữ liệu AI</th>
-                <th style={{ padding: '14px 18px', textAlign: 'center' }}>Thao tác</th>
+                <th style={{ padding: '14px 18px', textAlign: 'center', width: '140px' }}>Thao tác</th>
               </tr>
             </thead>
             <tbody>
-              {vocabList.length === 0 ? (
+              {currentList.length === 0 ? (
                 <tr>
-                  <td colSpan={9} style={{ padding: '50px 20px', textAlign: 'center', color: 'var(--text-secondary)' }}>
+                  <td colSpan={8} style={{ padding: '50px 20px', textAlign: 'center', color: 'var(--text-secondary)' }}>
                     Không tìm thấy từ vựng nào phù hợp với bộ lọc hiện tại.
                   </td>
                 </tr>
               ) : (
-                vocabList.map((word) => {
+                currentList.map((word) => {
                   const isEnriched = Boolean(word.sampleSentence || word.mnemonic || word.usageGuide || word.pitchAccent);
                   const isEnriching = enrichingIds.has(word.id);
 
                   return (
                     <tr key={word.id} style={{ borderBottom: '1px solid var(--border-color)', transition: 'background 0.15s ease' }} className="table-row-hover">
-                      <td style={{ padding: '12px 18px', textAlign: 'center' }}>
-                        <button 
-                          className="btn-icon" 
-                          onClick={() => handleDelete(word.id)}
-                          title="Xóa từ vựng"
-                          style={{ width: '32px', height: '32px', border: '1px solid rgba(239,68,68,0.25)', color: '#ef4444', background: 'rgba(239,68,68,0.08)', borderRadius: '8px' }}
-                        >
-                          <Trash2 size={14} />
-                        </button>
-                      </td>
                       <td style={{ padding: '12px 18px', color: 'var(--text-secondary)', fontSize: '0.8rem' }}>
                         #{word.id}
                       </td>
@@ -489,6 +812,8 @@ const VocabAdminPage = ({ goBack }) => {
                           </span>
                         )}
                       </td>
+                      
+                      {/* Thao tác ở BÊN PHẢI CÙNG */}
                       <td style={{ padding: '12px 18px' }}>
                         <div style={{ display: 'flex', justifyContent: 'center', gap: '8px' }}>
                           <button 
@@ -527,8 +852,8 @@ const VocabAdminPage = ({ goBack }) => {
         )}
       </div>
 
-      {/* Pagination Controls */}
-      {totalPages > 1 && !loading && (
+      {/* Pagination Controls (Only in Level mode) */}
+      {viewMode === 'level' && totalPages > 1 && !loading && (
         <div className="flex-center" style={{ gap: '16px', marginTop: '10px' }}>
           <button 
             className="btn btn-secondary" 
@@ -570,7 +895,7 @@ const VocabAdminPage = ({ goBack }) => {
 
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px', borderBottom: '1px solid var(--border-color)', paddingBottom: '12px' }}>
               <h3 style={{ fontSize: '1.35rem', margin: 0, fontWeight: 700 }}>
-                {editingId ? `Sửa thông tin từ vựng #${editingId}` : 'Thêm từ vựng mới'}
+                {editingId ? `Sửa thông tin từ vựng #${editingId}` : (viewMode === 'course_n3' ? `Thêm từ vào Chương ${selectedChapter} Bài ${selectedLesson}` : 'Thêm từ vựng mới')}
               </h3>
               {editingId && (
                 <button
@@ -702,6 +1027,7 @@ const VocabAdminPage = ({ goBack }) => {
                         <option value="N3">N3</option>
                         <option value="N2">N2</option>
                         <option value="N1">N1</option>
+                        <option value="N3_COURSE">N3 Khóa học</option>
                         <option value="TU_LAY">Từ láy</option>
                         <option value="TRO_TU">Trợ từ</option>
                       </select>
@@ -722,7 +1048,7 @@ const VocabAdminPage = ({ goBack }) => {
                         type="text"
                         value={formData.category}
                         onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-                        placeholder="VD: Ăn uống, Đời sống"
+                        placeholder="VD: Tổng ôn N3 - Chương 1 Bài 1"
                         style={{ width: '100%', padding: '10px 14px', borderRadius: '8px', border: '1px solid var(--border-color)', backgroundColor: 'var(--surface-color)', color: 'var(--text-primary)' }}
                       />
                     </div>
