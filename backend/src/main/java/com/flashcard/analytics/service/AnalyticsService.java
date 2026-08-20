@@ -130,6 +130,15 @@ public class AnalyticsService {
         int wordsStudiedToday = todaySession != null ? todaySession.getWordsStudied() : 0;
         boolean streakFrozenToday = todaySession != null && todaySession.isStreakFrozen();
 
+        if (wordsStudiedToday == 0) {
+            java.time.Instant start = today.atStartOfDay(ZoneId.of("Asia/Ho_Chi_Minh")).toInstant();
+            java.time.Instant end = today.plusDays(1).atStartOfDay(ZoneId.of("Asia/Ho_Chi_Minh")).toInstant();
+            long uniqueCount = srsDataProvider.countUniqueReviewedToday(user, start, end);
+            if (uniqueCount > 0) {
+                wordsStudiedToday = (int) uniqueCount;
+            }
+        }
+
         // Wait for all futures
         CompletableFuture.allOf(
                 dueCountFuture, learnedCountFuture, streakFuture, historyFuture,
