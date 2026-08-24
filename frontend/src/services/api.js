@@ -693,9 +693,11 @@ export const jlptN3Api = {
     const response = await axios.post(`${API_BASE_URL}/jlpt-n3/upload-json`, formData, {
       headers: {
         'Content-Type': 'multipart/form-data'
-      }
+      },
+      timeout: 120000
     });
     clearApiCache('/jlpt-n3');
+    clearApiCache('/vocab');
     return response.data;
   },
   evaluateAnswer: async (targetAnswer, userAnswer, questionContext = '') => {

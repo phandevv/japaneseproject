@@ -420,6 +420,8 @@ public class JlptN3CourseService {
                     vocabularyDataProvider.deleteAll(oldKanji);
                 }
 
+                List<Vocabulary> toSaveVocabs = new ArrayList<>();
+                List<GrammarCard> toSaveGrammars = new ArrayList<>();
                 int fileVocab = 0;
                 int fileKanji = 0;
                 int fileGrammar = 0;
@@ -444,8 +446,7 @@ public class JlptN3CourseService {
                             }
                         }
 
-                        Optional<Vocabulary> existingOpt = vocabularyDataProvider.findFirstByKanjiAndCategory(kanji, kanjiCategory);
-                        Vocabulary v = existingOpt.orElseGet(Vocabulary::new);
+                        Vocabulary v = new Vocabulary();
                         v.setKanji(kanji);
                         if (amDoc != null && !amDoc.isEmpty()) {
                             v.setRomaji(amDoc);
@@ -459,7 +460,7 @@ public class JlptN3CourseService {
                             } else {
                                 v.setKunReading(amDoc.trim());
                             }
-                        } else if (v.getHiragana() == null || v.getHiragana().isEmpty()) {
+                        } else {
                             v.setHiragana(kanji);
                         }
                         if (hanViet != null && !hanViet.isEmpty()) v.setHanViet(hanViet);
@@ -474,7 +475,7 @@ public class JlptN3CourseService {
                             } catch (Exception ignored) {}
                         }
 
-                        vocabularyDataProvider.save(v);
+                        toSaveVocabs.add(v);
                         fileKanji++;
                     }
                 }
@@ -508,25 +509,14 @@ public class JlptN3CourseService {
                         if (hanViet.isEmpty()) hanViet = vNode.path("hanViet").asText("").trim();
                         if (hanViet.isEmpty()) hanViet = vNode.path("am_han").asText("").trim();
 
-                        Optional<Vocabulary> existingOpt = vocabularyDataProvider.findFirstByKanjiAndCategory(tu, vocabCategory);
-                        if (existingOpt.isEmpty()) {
-                            existingOpt = vocabularyDataProvider.findFirstByHiraganaAndCategory(tu, vocabCategory);
-                        }
-                        Vocabulary v = existingOpt.orElseGet(Vocabulary::new);
-
+                        Vocabulary v = new Vocabulary();
                         boolean isKanji = tu.codePoints().anyMatch(Character::isIdeographic);
                         if (isKanji) {
                             v.setKanji(tu);
-                            if (cachDoc != null && !cachDoc.isEmpty()) {
-                                v.setHiragana(cachDoc);
-                            } else if (v.getHiragana() == null || v.getHiragana().isEmpty() || v.getHiragana().equals(tu)) {
-                                v.setHiragana(tu);
-                            }
+                            v.setHiragana(cachDoc != null && !cachDoc.isEmpty() ? cachDoc : tu);
                         } else {
                             v.setHiragana(tu);
-                            if (v.getKanji() == null || v.getKanji().isEmpty()) {
-                                v.setKanji(tu);
-                            }
+                            v.setKanji(tu);
                         }
 
                         if (nghia != null && !nghia.isEmpty()) v.setMeaning(nghia);
@@ -536,7 +526,7 @@ public class JlptN3CourseService {
                         v.setLevel("N3_COURSE");
                         v.setCategory(vocabCategory);
 
-                        vocabularyDataProvider.save(v);
+                        toSaveVocabs.add(v);
                         fileVocab++;
                     }
                 }
@@ -557,9 +547,7 @@ public class JlptN3CourseService {
                             }
                         }
 
-                        Optional<GrammarCard> existingOpt = knowledgeDataProvider.findGrammarByGrammar(cauTruc);
-                        GrammarCard g = existingOpt.orElseGet(GrammarCard::new);
-
+                        GrammarCard g = new GrammarCard();
                         g.setGrammar(cauTruc);
                         g.setMeaning(yNghia);
                         g.setFormation(cachChia);
@@ -574,9 +562,17 @@ public class JlptN3CourseService {
                             } catch (Exception ignored) {}
                         }
 
-                        knowledgeDataProvider.saveGrammar(g);
+                        toSaveGrammars.add(g);
                         fileGrammar++;
                     }
+                }
+
+                // Batch persist to Database
+                if (!toSaveVocabs.isEmpty()) {
+                    vocabularyDataProvider.saveAll(toSaveVocabs);
+                }
+                if (!toSaveGrammars.isEmpty()) {
+                    knowledgeDataProvider.saveAllGrammar(toSaveGrammars);
                 }
 
                 processedFilesCount++;
