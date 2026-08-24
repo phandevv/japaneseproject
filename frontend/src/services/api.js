@@ -660,6 +660,21 @@ export const grammarApi = {
       params: { force }
     });
     clearApiCache('/grammar');
+    clearApiCache('/jlpt-n3');
+    return response.data;
+  },
+  enrichSection: async (id, section) => {
+    const response = await axios.post(`${API_BASE_URL}/grammar/${id}/enrich-section`, null, {
+      params: { section }
+    });
+    clearApiCache('/grammar');
+    clearApiCache('/jlpt-n3');
+    return response.data;
+  },
+  update: async (id, data) => {
+    const response = await axios.put(`${API_BASE_URL}/grammar/${id}`, data);
+    clearApiCache('/grammar');
+    clearApiCache('/jlpt-n3');
     return response.data;
   }
 };

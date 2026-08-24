@@ -376,6 +376,188 @@ public class DeepSeekEnrichmentService {
         }
     }
 
+    private CompletableFuture<GrammarCard> executeGrammarMicroPrompt(GrammarCard card, String apiKey, String prompt, int maxTokens, java.util.function.BiConsumer<JsonNode, GrammarCard> mapper) {
+        if (!bulkheadSemaphore.tryAcquire()) {
+            return CompletableFuture.completedFuture(card);
+        }
+        try {
+            Map<String, Object> requestBodyMap = Map.of(
+                "model", "deepseek-chat",
+                "max_tokens", maxTokens,
+                "temperature", 0.1,
+                "response_format", Map.of("type", "json_object"),
+                "messages", new Object[]{
+                    Map.of("role", "system", "content", "Bạn là chuyên gia ngữ pháp tiếng Nhật cao cấp cho người Việt. BẮT BUỘC: Mọi giải thích, phân tích cấu trúc, dịch nghĩa ví dụ, phân biệt sắc thái, lỗi sai PHẢI viết bằng 100% TIẾNG VIỆT, tuyệt đối không dùng tiếng Nhật hoặc tiếng Trung để giải thích. Phản hồi duy nhất bằng định dạng JSON."),
+                    Map.of("role", "user", "content", prompt)
+                }
+            );
+            String requestBody = objectMapper.writeValueAsString(requestBodyMap);
+            HttpRequest request = HttpRequest.newBuilder(URI.create("https://api.deepseek.com/chat/completions"))
+                    .header("Content-Type", "application/json")
+                    .header("Authorization", "Bearer " + apiKey)
+                    .POST(HttpRequest.BodyPublishers.ofString(requestBody))
+                    .timeout(Duration.ofSeconds(20))
+                    .build();
+
+            return httpClient.sendAsync(request, HttpResponse.BodyHandlers.ofString())
+                    .thenApply(response -> {
+                        try {
+                            if (response.statusCode() == 200) {
+                                JsonNode root = objectMapper.readTree(response.body());
+                                String contentJson = root.path("choices").get(0).path("message").path("content").asText();
+                                contentJson = cleanJsonContent(contentJson);
+                                JsonNode contentNode = objectMapper.readTree(contentJson);
+                                mapper.accept(contentNode, card);
+                                if (knowledgeDataProvider != null) {
+                                    return knowledgeDataProvider.saveGrammar(card);
+                                }
+                            }
+                        } catch (Exception e) {
+                            log.error("Grammar micro-prompt parse error: {}", e.getMessage());
+                        }
+                        return card;
+                    })
+                    .whenComplete((res, ex) -> bulkheadSemaphore.release());
+        } catch (Exception e) {
+            bulkheadSemaphore.release();
+            return CompletableFuture.completedFuture(card);
+        }
+    }
+
+    public CompletableFuture<GrammarCard> enrichGrammarSection(GrammarCard card, String section) {
+        if (card == null || card.getId() == null) {
+            return CompletableFuture.completedFuture(card);
+        }
+        String apiKey = getApiKey();
+        if (apiKey == null || apiKey.trim().isEmpty()) {
+            return CompletableFuture.completedFuture(card);
+        }
+
+        String grammar = card.getGrammar() != null ? card.getGrammar() : "";
+        String meaning = card.getMeaning() != null ? card.getMeaning() : "";
+        String jlpt = card.getJlpt() != null ? card.getJlpt() : "N3";
+
+        String prompt;
+        int maxTokens = 350;
+        java.util.function.BiConsumer<JsonNode, GrammarCard> mapper;
+
+        String sec = section != null ? section.trim().toLowerCase(java.util.Locale.ROOT) : "";
+        switch (sec) {
+            case "formation":
+            case "cach_chia":
+                prompt = String.format(
+                    "Hãy phân tích và viết công thức kết hợp/cách chia ngữ pháp (Formation) chi tiết bằng 100%% TIẾNG VIỆT cho cấu trúc \"%s\" (Ý nghĩa: %s, JLPT: %s). Ví dụ: V-thể từ điển / N + にかけて...\n" +
+                    "Trả về duy nhất JSON: {\"formation\": \"Công thức kết hợp ngắn gọn, rõ ràng bằng 100%% tiếng Việt\"}",
+                    grammar, meaning, jlpt
+                );
+                maxTokens = 250;
+                mapper = (node, c) -> {
+                    if (node.has("formation") && !node.path("formation").isNull()) {
+                        String form = node.path("formation").asText().trim();
+                        if (!form.isEmpty()) c.setFormation(form);
+                    }
+                };
+                break;
+
+            case "usageguide":
+            case "usage":
+            case "usagedesc":
+                prompt = String.format(
+                    "Hãy viết hướng dẫn sử dụng, sắc thái nghĩa, ngữ cảnh xuất hiện và các lưu ý đặc biệt chi tiết bằng 100%% TIẾNG VIỆT cho điểm ngữ pháp \"%s\" (Ý nghĩa: %s, JLPT: %s). Tuyệt đối không dùng tiếng Nhật/Trung để giải thích.\n" +
+                    "Trả về duy nhất JSON: {\"usageGuide\": \"Giải thích sắc thái, hoàn cảnh sử dụng và lưu ý chi tiết bằng 100%% tiếng Việt...\"}",
+                    grammar, meaning, jlpt
+                );
+                maxTokens = 450;
+                mapper = (node, c) -> {
+                    if (node.has("usageGuide") && !node.path("usageGuide").isNull()) {
+                        String ug = node.path("usageGuide").asText().trim();
+                        if (!ug.isEmpty()) {
+                            c.setUsageGuide(ug);
+                            c.setUsageDesc(ug);
+                        }
+                    }
+                };
+                break;
+
+            case "examples":
+            case "vi_du":
+                prompt = String.format(
+                    "Hãy tạo 3-4 câu ví dụ tiếng Nhật tự nhiên, chuẩn văn phong JLPT %s cho điểm ngữ pháp \"%s\" (Ý nghĩa: %s). Mọi câu BẮT BUỘC có phiên âm reading và dịch nghĩa 100%% TIẾNG VIỆT.\n" +
+                    "Trả về duy nhất JSON: {\"examples\": [{\"ja\": \"Câu ví dụ tiếng Nhật\", \"reading\": \"Cách đọc hiragana\", \"vi\": \"Dịch nghĩa tiếng Việt\"}]}",
+                    jlpt, grammar, meaning
+                );
+                maxTokens = 500;
+                mapper = (node, c) -> {
+                    if (node.has("examples") && node.path("examples").isArray()) {
+                        try {
+                            c.setExamples(objectMapper.writeValueAsString(node.path("examples")));
+                        } catch (Exception ignored) {}
+                    }
+                };
+                break;
+
+            case "similar":
+            case "similar_grammar":
+            case "difference":
+                prompt = String.format(
+                    "Hãy cung cấp các điểm ngữ pháp tiếng Nhật tương tự / dễ nhầm lẫn và so sánh, phân biệt sắc thái khác nhau chi tiết bằng 100%% TIẾNG VIỆT cho điểm ngữ pháp \"%s\" (Ý nghĩa: %s, JLPT: %s).\n" +
+                    "Trả về duy nhất JSON: {\"similarGrammar\": \"Điểm ngữ pháp tương tự (ví dụ: ～から～まで)\", \"difference\": \"Phân biệt chi tiết điểm giống và khác nhau bằng 100%% tiếng Việt...\"}",
+                    grammar, meaning, jlpt
+                );
+                maxTokens = 450;
+                mapper = (node, c) -> {
+                    if (node.has("similarGrammar") && !node.path("similarGrammar").isNull()) {
+                        String sg = node.path("similarGrammar").asText().trim();
+                        if (!sg.isEmpty()) c.setSimilarGrammar(sg);
+                    }
+                    if (node.has("difference") && !node.path("difference").isNull()) {
+                        String diff = node.path("difference").asText().trim();
+                        if (!diff.isEmpty()) c.setDifference(diff);
+                    }
+                };
+                break;
+
+            case "commonmistakes":
+            case "mistakes":
+                prompt = String.format(
+                    "Hãy nêu các lỗi sai học viên người Việt hay mắc phải khi sử dụng mẫu ngữ pháp \"%s\" (Ý nghĩa: %s, JLPT: %s) và cách sửa, giải thích 100%% TIẾNG VIỆT.\n" +
+                    "Trả về duy nhất JSON: {\"commonMistakes\": \"Lỗi sai thường gặp và cách khắc phục bằng 100%% tiếng Việt...\"}",
+                    grammar, meaning, jlpt
+                );
+                maxTokens = 350;
+                mapper = (node, c) -> {
+                    if (node.has("commonMistakes") && !node.path("commonMistakes").isNull()) {
+                        String cm = node.path("commonMistakes").asText().trim();
+                        if (!cm.isEmpty()) c.setCommonMistakes(cm);
+                    }
+                };
+                break;
+
+            case "header":
+            case "basic":
+            default:
+                prompt = String.format(
+                    "Cung cấp thông tin chuẩn xác cho điểm ngữ pháp tiếng Nhật \"%s\" (JLPT: %s): Ý nghĩa tổng quát bằng 100%% TIẾNG VIỆT, Tiêu đề bài học ngắn gọn.\n" +
+                    "Trả về duy nhất JSON: {\"meaning\": \"Ý nghĩa tiếng Việt chuẩn xác\", \"lessonTitle\": \"Tiêu đề bài học ngắn\"}",
+                    grammar, jlpt
+                );
+                maxTokens = 200;
+                mapper = (node, c) -> {
+                    if (node.has("meaning") && !node.path("meaning").isNull()) {
+                        String m = node.path("meaning").asText().trim();
+                        if (!m.isEmpty()) c.setMeaning(m);
+                    }
+                    if (node.has("lessonTitle") && !node.path("lessonTitle").isNull()) {
+                        String lt = node.path("lessonTitle").asText().trim();
+                        if (!lt.isEmpty()) c.setLessonTitle(lt);
+                    }
+                };
+                break;
+        }
+
+        return executeGrammarMicroPrompt(card, apiKey, prompt, maxTokens, mapper);
+    }
+
     private CompletableFuture<Vocabulary> executeMicroPrompt(Vocabulary vocab, String apiKey, String prompt, java.util.function.BiConsumer<JsonNode, Vocabulary> mapper) {
         return executeMicroPrompt(vocab, apiKey, prompt, 250, mapper);
     }

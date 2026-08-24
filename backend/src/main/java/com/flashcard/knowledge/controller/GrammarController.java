@@ -3,6 +3,7 @@ package com.flashcard.knowledge.controller;
 import com.flashcard.knowledge.model.GrammarCard;
 import com.flashcard.knowledge.provider.KnowledgeDataProvider;
 import com.flashcard.knowledge.service.DeepSeekEnrichmentService;
+import com.flashcard.knowledge.service.JlptN3CourseService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,9 +14,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -27,11 +26,15 @@ public class GrammarController {
     private final KnowledgeDataProvider knowledgeDataProvider;
     private final DeepSeekEnrichmentService enrichmentService;
 
+    private final JlptN3CourseService courseService;
+
     @Autowired
     public GrammarController(KnowledgeDataProvider knowledgeDataProvider,
-                             DeepSeekEnrichmentService enrichmentService) {
+                             DeepSeekEnrichmentService enrichmentService,
+                             @Autowired(required = false) JlptN3CourseService courseService) {
         this.knowledgeDataProvider = knowledgeDataProvider;
         this.enrichmentService = enrichmentService;
+        this.courseService = courseService;
     }
 
     /**
@@ -81,6 +84,61 @@ public class GrammarController {
     }
 
     /**
+     * Update single GrammarCard details
+     * PUT /api/grammar/{id}
+     */
+    @PutMapping("/{id}")
+    public ResponseEntity<?> updateGrammar(@PathVariable(name = "id") Long id, @RequestBody GrammarCard body) {
+        return knowledgeDataProvider.findGrammarById(id).map(existing -> {
+            if (body.getGrammar() != null) existing.setGrammar(body.getGrammar());
+            if (body.getMeaning() != null) existing.setMeaning(body.getMeaning());
+            if (body.getUsageDesc() != null) existing.setUsageDesc(body.getUsageDesc());
+            if (body.getUsageGuide() != null) existing.setUsageGuide(body.getUsageGuide());
+            if (body.getFormation() != null) existing.setFormation(body.getFormation());
+            if (body.getJlpt() != null) existing.setJlpt(body.getJlpt());
+            if (body.getSimilarGrammar() != null) existing.setSimilarGrammar(body.getSimilarGrammar());
+            if (body.getDifference() != null) existing.setDifference(body.getDifference());
+            if (body.getCommonMistakes() != null) existing.setCommonMistakes(body.getCommonMistakes());
+            if (body.getExamples() != null) existing.setExamples(body.getExamples());
+            if (body.getLessonTitle() != null) existing.setLessonTitle(body.getLessonTitle());
+            
+            GrammarCard saved = knowledgeDataProvider.saveGrammar(existing);
+            if (courseService != null) {
+                courseService.clearLessonCache();
+            }
+            return ResponseEntity.ok(saved);
+        }).orElse(ResponseEntity.notFound().build());
+    }
+
+    /**
+     * Enrich a specific section/field of a grammar card using DeepSeek AI.
+     * POST /api/grammar/{id}/enrich-section?section={section}
+     */
+    @PostMapping("/{id}/enrich-section")
+    public ResponseEntity<?> enrichGrammarSection(@PathVariable(name = "id") Long id, @RequestParam(name = "section") String section) {
+        java.util.Optional<GrammarCard> existingOpt = knowledgeDataProvider.findGrammarById(id);
+        if (existingOpt.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        GrammarCard existing = existingOpt.get();
+
+        if (enrichmentService == null) {
+            return ResponseEntity.ok(existing);
+        }
+
+        try {
+            GrammarCard updated = enrichmentService.enrichGrammarSection(existing, section).get(20, java.util.concurrent.TimeUnit.SECONDS);
+            if (courseService != null) {
+                courseService.clearLessonCache();
+            }
+            return ResponseEntity.ok(updated != null ? updated : existing);
+        } catch (Exception e) {
+            log.error("Failed to enrich section {} for grammar ID {}: {}", section, id, e.getMessage());
+            return ResponseEntity.ok(existing);
+        }
+    }
+
+    /**
      * Trigger DeepSeek AI enrichment for a specific GrammarCard by ID.
      * POST /api/grammar/{id}/enrich?force=false
      */
@@ -102,6 +160,9 @@ public class GrammarController {
 
         try {
             GrammarCard updated = enrichmentService.enrichGrammarCard(existing).get(25, java.util.concurrent.TimeUnit.SECONDS);
+            if (courseService != null) {
+                courseService.clearLessonCache();
+            }
             return ResponseEntity.ok(updated);
         } catch (Exception e) {
             log.error("Force grammar enrichment failed for grammar ID {}: {}", id, e.getMessage());
