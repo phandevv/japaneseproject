@@ -15,15 +15,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.io.InputStream;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
@@ -118,62 +113,7 @@ public class JlptN3CourseService {
         this.objectMapper = objectMapper;
     }
 
-    /**
-     * Resolve the JSON file location from filesystem if available dynamically without hardcoded names.
-     */
-    private File getLessonJsonFile(int chapter, int lesson) {
-        String[] candidateBaseDirs = {
-            "data/tổng ôn N3/data",
-            "data/tong on N3/data",
-            "../data/tổng ôn N3/data",
-            "data/n3"
-        };
 
-        for (String baseDir : candidateBaseDirs) {
-            File base = new File(baseDir);
-            if (!base.exists() || !base.isDirectory()) continue;
-
-            File[] chapterDirs = base.listFiles(f -> f.isDirectory() && f.getName().toLowerCase().contains(String.valueOf(chapter)));
-            if (chapterDirs == null) continue;
-
-            for (File chDir : chapterDirs) {
-                File[] jsonFiles = chDir.listFiles((dir, name) -> name.toLowerCase().endsWith(".json"));
-                if (jsonFiles == null) continue;
-
-                for (File file : jsonFiles) {
-                    String name = file.getName().toLowerCase();
-                    // Match by lesson number in filename or by inspecting JSON content
-                    if (name.contains("bai" + lesson) || name.contains("bai_" + lesson) || name.contains("lesson" + lesson) || name.contains("lesson_" + lesson)) {
-                        return file;
-                    }
-                    try {
-                        JsonNode root = objectMapper.readTree(file);
-                        int c = root.path("chuong").asInt(-1);
-                        int b = root.path("bai").asInt(-1);
-                        if (c == chapter && b == lesson) {
-                            return file;
-                        }
-                    } catch (Exception ignored) {}
-                }
-            }
-        }
-        return null;
-    }
-
-    private boolean isResourceAvailable(int chapter, int lesson) {
-        String resourcePath = String.format("data/n3/Chuong %d/Chuong%d_Bai%d_Data.json", chapter, chapter, lesson);
-        ClassPathResource res = new ClassPathResource(resourcePath);
-        return res.exists();
-    }
-
-    private File getUploadedFile(int chapter, int lesson) {
-        Path path = Paths.get("uploads", "n3", "Chuong_" + chapter, "Bai_" + lesson + ".json");
-        File file = path.toFile();
-        if (file.exists() && file.isFile()) {
-            return file;
-        }
-        return null;
-    }
 
     private boolean isLessonDataAvailableFast(int chapter, int lesson, Set<String> dbAvailableCategories) {
         if (dbAvailableCategories != null) {
@@ -184,9 +124,7 @@ public class JlptN3CourseService {
                 }
             }
         }
-        if (getUploadedFile(chapter, lesson) != null) return true;
-        if (getLessonJsonFile(chapter, lesson) != null) return true;
-        return isResourceAvailable(chapter, lesson);
+        return false;
     }
 
     /**
@@ -399,267 +337,17 @@ public class JlptN3CourseService {
             return copy;
         }
 
-        // Strategy 2: Fallback to filesystem / user-uploaded JSON file
-        JsonNode root = null;
-        File uploadedFile = getUploadedFile(chapter, lesson);
-        if (uploadedFile != null) {
-            try {
-                root = objectMapper.readTree(uploadedFile);
-            } catch (Exception e) {
-                log.warn("Failed to read uploaded file for Chapter {} Lesson {}: {}", chapter, lesson, e.getMessage());
-            }
-        }
-
-        if (root == null) {
-            File jsonFile = getLessonJsonFile(chapter, lesson);
-            if (jsonFile != null && jsonFile.exists()) {
-                try {
-                    root = objectMapper.readTree(jsonFile);
-                } catch (Exception e) {
-                    log.warn("Failed to read filesystem JSON file for Chapter {} Lesson {}: {}", chapter, lesson, e.getMessage());
-                }
-            }
-        }
-
-        if (root == null) {
-            String resourcePath = String.format("data/n3/Chuong %d/Chuong%d_Bai%d_Data.json", chapter, chapter, lesson);
-            try {
-                ClassPathResource res = new ClassPathResource(resourcePath);
-                if (res.exists()) {
-                    try (InputStream is = res.getInputStream()) {
-                        root = objectMapper.readTree(is);
-                    }
-                }
-            } catch (Exception e) {
-                log.warn("Failed to read Classpath resource {}: {}", resourcePath, e.getMessage());
-            }
-        }
-
-        if (root == null) {
-            Map<String, Object> emptyRes = new HashMap<>();
-            emptyRes.put("chuong", chapter);
-            emptyRes.put("bai", lesson);
-            emptyRes.put("available", false);
-            emptyRes.put("message", "Chưa có dữ liệu cho Chương " + chapter + " Bài " + lesson);
-            emptyRes.put("chu_han", Collections.emptyList());
-            emptyRes.put("tu_vung", Collections.emptyList());
-            emptyRes.put("ngu_phap", Collections.emptyList());
-            return emptyRes;
-        }
-
-        @SuppressWarnings("unchecked")
-        Map<String, Object> data = objectMapper.convertValue(root, Map.class);
-        data.put("available", true);
-
-        // BATCH PRE-FETCH: Fetch all existing vocabs, kanjis, and grammars in 3 single queries (eliminates N+1 DB calls)
-        List<Vocabulary> existingVocabs = vocabularyDataProvider.findByCategory(vocabCategory);
-        List<Vocabulary> existingKanjis = vocabularyDataProvider.findByCategory(kanjiCategory);
-        List<GrammarCard> existingGrammars = knowledgeDataProvider.findGrammarByJlptAndWeekAndDay("N3", "Chương " + chapter, "Bài " + lesson);
-
-        Map<String, Vocabulary> vocabMap = new HashMap<>();
-        for (Vocabulary v : existingVocabs) {
-            if (v.getKanji() != null && !v.getKanji().isBlank()) vocabMap.put(v.getKanji(), v);
-            if (v.getHiragana() != null && !v.getHiragana().isBlank()) vocabMap.put(v.getHiragana(), v);
-        }
-
-        Map<String, Vocabulary> kanjiMap = new HashMap<>();
-        for (Vocabulary k : existingKanjis) {
-            if (k.getKanji() != null && !k.getKanji().isBlank()) kanjiMap.put(k.getKanji(), k);
-            if (k.getHiragana() != null && !k.getHiragana().isBlank()) kanjiMap.put(k.getHiragana(), k);
-        }
-
-        Map<String, GrammarCard> grammarMap = new HashMap<>();
-        for (GrammarCard g : existingGrammars) {
-            if (g.getGrammar() != null && !g.getGrammar().isBlank()) {
-                grammarMap.put(g.getGrammar().trim(), g);
-            }
-        }
-
-        List<Vocabulary> toSaveVocabs = new ArrayList<>();
-        List<Vocabulary> toSaveKanjis = new ArrayList<>();
-        List<GrammarCard> toSaveGrammars = new ArrayList<>();
-
-        // 1. Process tu_vung
-        if (data.containsKey("tu_vung") && data.get("tu_vung") instanceof List) {
-            @SuppressWarnings("unchecked")
-            List<Map<String, Object>> vocabList = (List<Map<String, Object>>) data.get("tu_vung");
-            for (Map<String, Object> vItem : vocabList) {
-                String tu = vItem.containsKey("tu") ? String.valueOf(vItem.get("tu")).trim() : "";
-                if (!tu.isEmpty()) {
-                    Vocabulary v = vocabMap.get(tu);
-                    if (v == null) {
-                        v = new Vocabulary();
-                        boolean isKanji = tu.codePoints().anyMatch(Character::isIdeographic);
-                        v.setKanji(tu);
-                        v.setHiragana(vItem.containsKey("furigana") ? String.valueOf(vItem.get("furigana")) : tu);
-                        v.setMeaning(vItem.containsKey("nghia") ? String.valueOf(vItem.get("nghia")) : "");
-                        String lType = vItem.containsKey("loai_tu") ? String.valueOf(vItem.get("loai_tu")) : "N";
-                        v.setWordType(lType != null && !"KANJI".equalsIgnoreCase(lType) ? lType : "N");
-                        v.setSampleSentence(vItem.containsKey("vi_du") ? String.valueOf(vItem.get("vi_du")) : "");
-                        v.setLevel("N3_COURSE");
-                        v.setCategory(vocabCategory);
-                        toSaveVocabs.add(v);
-                        vocabMap.put(tu, v);
-                    }
-                }
-            }
-            if (!toSaveVocabs.isEmpty()) {
-                List<Vocabulary> saved = vocabularyDataProvider.saveAll(toSaveVocabs);
-                for (Vocabulary sv : saved) {
-                    if (sv.getKanji() != null) vocabMap.put(sv.getKanji(), sv);
-                    if (sv.getHiragana() != null) vocabMap.put(sv.getHiragana(), sv);
-                }
-            }
-
-            for (Map<String, Object> vItem : vocabList) {
-                String tu = vItem.containsKey("tu") ? String.valueOf(vItem.get("tu")).trim() : "";
-                Vocabulary v = vocabMap.get(tu);
-                if (v != null) {
-                    vItem.put("id", v.getId());
-                    if (v.getKanji() != null) vItem.put("kanji", v.getKanji());
-                    if (v.getHiragana() != null) vItem.put("hiragana", v.getHiragana());
-                    if (v.getHanViet() != null) vItem.put("hanViet", v.getHanViet());
-                    if (v.getPitchAccent() != null) vItem.put("pitchAccent", v.getPitchAccent());
-                    if (v.getOnReading() != null) vItem.put("onReading", v.getOnReading());
-                    if (v.getKunReading() != null) vItem.put("kunReading", v.getKunReading());
-                    if (v.getMnemonic() != null) vItem.put("mnemonic", v.getMnemonic());
-                    if (v.getSynonyms() != null) vItem.put("synonyms", v.getSynonyms());
-                    if (v.getAntonyms() != null) vItem.put("antonyms", v.getAntonyms());
-                    if (v.getExampleSentences() != null) vItem.put("exampleSentences", v.getExampleSentences());
-                    if (v.getCollocations() != null) vItem.put("collocations", v.getCollocations());
-                    if (v.getCommonMistakes() != null) vItem.put("commonMistakes", v.getCommonMistakes());
-                    if (v.getConversationExamples() != null) vItem.put("conversationExamples", v.getConversationExamples());
-                    if (v.getUsageGuide() != null) vItem.put("usageGuide", v.getUsageGuide());
-                    if (v.getKanjiWords() != null) vItem.put("kanjiWords", v.getKanjiWords());
-
-                    boolean isMissing = (v.getUsageGuide() == null || v.getUsageGuide().isBlank())
-                        || (v.getMnemonic() == null || v.getMnemonic().isBlank())
-                        || (v.getExampleSentences() == null || v.getExampleSentences().isBlank());
-                    if (isMissing && aiEnrichmentQueueService != null && v.getId() != null) {
-                        aiEnrichmentQueueService.enqueueVocabulary(v.getId(), false);
-                    }
-                }
-            }
-        }
-
-        // 2. Process chu_han
-        if (data.containsKey("chu_han") && data.get("chu_han") instanceof List) {
-            @SuppressWarnings("unchecked")
-            List<Map<String, Object>> kanjiList = (List<Map<String, Object>>) data.get("chu_han");
-            for (Map<String, Object> kItem : kanjiList) {
-                String kanji = kItem.containsKey("kanji") ? String.valueOf(kItem.get("kanji")).trim() : "";
-                if (!kanji.isEmpty()) {
-                    Vocabulary kVocab = kanjiMap.get(kanji);
-                    if (kVocab == null) {
-                        kVocab = new Vocabulary();
-                        kVocab.setKanji(kanji);
-                        kVocab.setHiragana(kanji);
-                        kVocab.setMeaning(kItem.containsKey("nghia") ? String.valueOf(kItem.get("nghia")) : "");
-                        kVocab.setHanViet(kItem.containsKey("han_viet") ? String.valueOf(kItem.get("han_viet")) : "");
-                        kVocab.setWordType("KANJI");
-                        kVocab.setLevel("N3_COURSE");
-                        kVocab.setCategory(kanjiCategory);
-                        toSaveKanjis.add(kVocab);
-                        kanjiMap.put(kanji, kVocab);
-                    }
-                }
-            }
-            if (!toSaveKanjis.isEmpty()) {
-                List<Vocabulary> savedK = vocabularyDataProvider.saveAll(toSaveKanjis);
-                for (Vocabulary sk : savedK) {
-                    if (sk.getKanji() != null) kanjiMap.put(sk.getKanji(), sk);
-                }
-            }
-
-            for (Map<String, Object> kItem : kanjiList) {
-                String kanji = kItem.containsKey("kanji") ? String.valueOf(kItem.get("kanji")).trim() : "";
-                Vocabulary kVocab = kanjiMap.get(kanji);
-                if (kVocab != null) {
-                    kItem.put("id", kVocab.getId());
-                    if (kVocab.getKanji() != null) kItem.put("kanji", kVocab.getKanji());
-                    if (kVocab.getHiragana() != null) kItem.put("hiragana", kVocab.getHiragana());
-                    if (kVocab.getHanViet() != null) kItem.put("hanViet", kVocab.getHanViet());
-                    if (kVocab.getHanViet() != null) kItem.put("han_viet", kVocab.getHanViet());
-                    if (kVocab.getRomaji() != null) kItem.put("am_doc", kVocab.getRomaji());
-                    if (kVocab.getPitchAccent() != null) kItem.put("pitchAccent", kVocab.getPitchAccent());
-                    if (kVocab.getOnReading() != null) kItem.put("onReading", kVocab.getOnReading());
-                    if (kVocab.getKunReading() != null) kItem.put("kunReading", kVocab.getKunReading());
-                    if (kVocab.getMnemonic() != null) kItem.put("mnemonic", kVocab.getMnemonic());
-                    if (kVocab.getSynonyms() != null) kItem.put("synonyms", kVocab.getSynonyms());
-                    if (kVocab.getAntonyms() != null) kItem.put("antonyms", kVocab.getAntonyms());
-                    if (kVocab.getExampleSentences() != null) kItem.put("exampleSentences", kVocab.getExampleSentences());
-                    if (kVocab.getCollocations() != null) kItem.put("collocations", kVocab.getCollocations());
-                    if (kVocab.getCommonMistakes() != null) kItem.put("commonMistakes", kVocab.getCommonMistakes());
-                    if (kVocab.getConversationExamples() != null) kItem.put("conversationExamples", kVocab.getConversationExamples());
-                    if (kVocab.getUsageGuide() != null) kItem.put("usageGuide", kVocab.getUsageGuide());
-                    if (kVocab.getKanjiWords() != null) kItem.put("kanjiWords", kVocab.getKanjiWords());
-
-                    boolean isKanjiMissing = (kVocab.getUsageGuide() == null || kVocab.getUsageGuide().isBlank())
-                        || (kVocab.getMnemonic() == null || kVocab.getMnemonic().isBlank())
-                        || (kVocab.getExampleSentences() == null || kVocab.getExampleSentences().isBlank());
-                    if (isKanjiMissing && aiEnrichmentQueueService != null && kVocab.getId() != null) {
-                        aiEnrichmentQueueService.enqueueVocabulary(kVocab.getId(), false);
-                    }
-                }
-            }
-        }
-
-        // 3. Process ngu_phap
-        if (data.containsKey("ngu_phap") && data.get("ngu_phap") instanceof List) {
-            @SuppressWarnings("unchecked")
-            List<Map<String, Object>> grammarList = (List<Map<String, Object>>) data.get("ngu_phap");
-            for (Map<String, Object> gItem : grammarList) {
-                String cauTruc = gItem.containsKey("cau_truc") ? String.valueOf(gItem.get("cau_truc")).trim() : "";
-                if (!cauTruc.isEmpty()) {
-                    GrammarCard gCard = grammarMap.get(cauTruc);
-                    if (gCard == null) {
-                        gCard = new GrammarCard();
-                        gCard.setGrammar(cauTruc);
-                        gCard.setMeaning(gItem.containsKey("y_nghia") ? String.valueOf(gItem.get("y_nghia")) : "");
-                        gCard.setFormation(gItem.containsKey("cach_chia") ? String.valueOf(gItem.get("cach_chia")) : "");
-                        gCard.setJlpt("N3");
-                        gCard.setWeekName("Chương " + chapter);
-                        gCard.setDayName("Bài " + lesson);
-                        if (gItem.containsKey("vi_du")) {
-                            try {
-                                gCard.setExamples(objectMapper.writeValueAsString(gItem.get("vi_du")));
-                            } catch (Exception e) {}
-                        }
-                        toSaveGrammars.add(gCard);
-                        grammarMap.put(cauTruc, gCard);
-                    }
-                }
-            }
-            if (!toSaveGrammars.isEmpty()) {
-                List<GrammarCard> savedG = knowledgeDataProvider.saveAllGrammar(toSaveGrammars);
-                for (GrammarCard sg : savedG) {
-                    if (sg.getGrammar() != null) grammarMap.put(sg.getGrammar().trim(), sg);
-                }
-            }
-
-            for (Map<String, Object> gItem : grammarList) {
-                String cauTruc = gItem.containsKey("cau_truc") ? String.valueOf(gItem.get("cau_truc")).trim() : "";
-                GrammarCard gCard = grammarMap.get(cauTruc);
-                if (gCard != null) {
-                    gItem.put("id", gCard.getId());
-                    if (gCard.getFormation() != null) gItem.put("structure", gCard.getFormation());
-                    if (gCard.getUsageDesc() != null) gItem.put("explanation", gCard.getUsageDesc());
-                    if (gCard.getUsageGuide() != null) gItem.put("notes", gCard.getUsageGuide());
-
-                    boolean isGrammarMissing = (gCard.getUsageDesc() == null || gCard.getUsageDesc().isBlank())
-                        || (gCard.getFormation() == null || gCard.getFormation().isBlank())
-                        || (gCard.getUsageGuide() == null || gCard.getUsageGuide().isBlank());
-                    if (isGrammarMissing && aiEnrichmentQueueService != null && gCard.getId() != null) {
-                        aiEnrichmentQueueService.enqueueGrammar(gCard.getId(), false);
-                    }
-                }
-            }
-        }
-
-        lessonDataCache.put(cacheKey, data);
-        Map<String, Object> copy = new HashMap<>(data);
-        attachUserProgress(copy, userId, chapter, lesson);
-        return copy;
+        // If no data exists in database, return available: false.
+        // Data is ONLY populated when the user explicitly uploads JSON files via the UI.
+        Map<String, Object> emptyRes = new HashMap<>();
+        emptyRes.put("chuong", chapter);
+        emptyRes.put("bai", lesson);
+        emptyRes.put("available", false);
+        emptyRes.put("message", "Chưa có dữ liệu cho Chương " + chapter + " Bài " + lesson);
+        emptyRes.put("chu_han", Collections.emptyList());
+        emptyRes.put("tu_vung", Collections.emptyList());
+        emptyRes.put("ngu_phap", Collections.emptyList());
+        return emptyRes;
     }
 
     private void attachUserProgress(Map<String, Object> target, Long userId, int chapter, int lesson) {
