@@ -572,6 +572,24 @@ public class DeepSeekEnrichmentService {
                 };
                 break;
 
+            case "hanviet":
+            case "han_viet":
+            case "am_han":
+                prompt = String.format(
+                    "Cung cấp âm Hán Việt chuẩn xác VIẾT HOA TOÀN BỘ cho từ/chữ Hán tiếng Nhật \"%s\" (Nghĩa: %s). Ví dụ: THỰC SỰ, GIA TỘC, NGUY HIỂM. Bắt buộc viết hoa. Trả về duy nhất JSON: {\"hanViet\": \"ÂM HÁN VIỆT VIẾT HOA\"}",
+                    word, meaning
+                );
+                maxTokens = 150;
+                mapper = (node, v) -> {
+                    if (node.has("hanViet") && !node.path("hanViet").isNull()) {
+                        String hv = node.path("hanViet").asText().trim();
+                        if (!hv.isEmpty() && !"null".equalsIgnoreCase(hv)) {
+                            v.setHanViet(hv.toUpperCase(java.util.Locale.ROOT));
+                        }
+                    }
+                };
+                break;
+
             case "header":
             case "basic":
             default:

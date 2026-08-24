@@ -20,6 +20,8 @@ const FlashcardCard = ({ word, flipped, onFlip, onRateWord }) => {
   const [editSuccess, setEditSuccess] = useState(false);
   const [enrichingBasic, setEnrichingBasic] = useState(false);
   const [enrichBasicSuccess, setEnrichBasicSuccess] = useState(false);
+  const [enrichingHanViet, setEnrichingHanViet] = useState(false);
+  const [enrichHanVietSuccess, setEnrichHanVietSuccess] = useState(false);
 
   const startEdit = () => {
     setIsEditingLeft(true);
@@ -53,6 +55,25 @@ const FlashcardCard = ({ word, flipped, onFlip, onRateWord }) => {
       alert("Lỗi khi AI nạp thông tin gốc: " + (err.response?.data?.message || err.message));
     } finally {
       setEnrichingBasic(false);
+    }
+  };
+
+  const handleEnrichHanViet = async () => {
+    if (!word?.id || enrichingHanViet) return;
+    setEnrichingHanViet(true);
+    try {
+      const updated = await vocabApi.enrichSection(word.id, 'hanViet');
+      if (updated) {
+        Object.assign(word, updated);
+        setEnriched(updated);
+        setEnrichHanVietSuccess(true);
+        setTimeout(() => setEnrichHanVietSuccess(false), 2500);
+      }
+    } catch (err) {
+      console.error("Failed to enrich hanViet section:", err);
+      alert("Lỗi khi AI nạp Hán Việt: " + (err.response?.data?.message || err.message));
+    } finally {
+      setEnrichingHanViet(false);
     }
   };
 
@@ -314,7 +335,7 @@ const FlashcardCard = ({ word, flipped, onFlip, onRateWord }) => {
                   <button
                     type="button"
                     onClick={handleEnrichBasic}
-                    disabled={enrichingBasic}
+                    disabled={enrichingBasic || enrichingHanViet}
                     title="Admin: Dùng DeepSeek AI nạp lại thông tin gốc (Hán Việt, Hiragana, Từ loại, Âm On/Kun)"
                     style={{
                       background: enrichBasicSuccess ? 'rgba(16, 185, 129, 0.15)' : enrichingBasic ? 'rgba(245, 158, 11, 0.15)' : 'rgba(245, 158, 11, 0.1)',
@@ -323,7 +344,7 @@ const FlashcardCard = ({ word, flipped, onFlip, onRateWord }) => {
                       color: enrichBasicSuccess ? '#10b981' : '#f59e0b',
                       padding: '3px 8px',
                       fontSize: '0.72rem',
-                      cursor: enrichingBasic ? 'not-allowed' : 'pointer',
+                      cursor: (enrichingBasic || enrichingHanViet) ? 'not-allowed' : 'pointer',
                       display: 'inline-flex',
                       alignItems: 'center',
                       gap: '4px',
@@ -333,6 +354,29 @@ const FlashcardCard = ({ word, flipped, onFlip, onRateWord }) => {
                   >
                     <Sparkles size={11} style={{ animation: enrichingBasic ? 'spin 1s linear infinite' : 'none' }} />
                     {enrichBasicSuccess ? 'Đã nạp!' : enrichingBasic ? 'Đang nạp...' : 'AI nạp gốc'}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={handleEnrichHanViet}
+                    disabled={enrichingBasic || enrichingHanViet}
+                    title="Admin: Dùng DeepSeek AI nạp lại riêng âm Hán Việt"
+                    style={{
+                      background: enrichHanVietSuccess ? 'rgba(16, 185, 129, 0.15)' : enrichingHanViet ? 'rgba(245, 158, 11, 0.15)' : 'rgba(245, 158, 11, 0.1)',
+                      border: `1px solid ${enrichHanVietSuccess ? '#10b981' : enrichingHanViet ? '#f59e0b' : 'rgba(245, 158, 11, 0.3)'}`,
+                      borderRadius: '5px',
+                      color: enrichHanVietSuccess ? '#10b981' : '#f59e0b',
+                      padding: '3px 8px',
+                      fontSize: '0.72rem',
+                      cursor: (enrichingBasic || enrichingHanViet) ? 'not-allowed' : 'pointer',
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '4px',
+                      fontWeight: 600,
+                      transition: 'all 0.2s ease'
+                    }}
+                  >
+                    <Sparkles size={11} style={{ animation: enrichingHanViet ? 'spin 1s linear infinite' : 'none' }} />
+                    {enrichHanVietSuccess ? 'Đã nạp!' : enrichingHanViet ? 'Đang nạp...' : 'AI Hán Việt'}
                   </button>
                   <button
                     type="button"
@@ -420,11 +464,65 @@ const FlashcardCard = ({ word, flipped, onFlip, onRateWord }) => {
                     {word.meaning || "N/A"}
                   </h3>
                   
-                  {word.hanViet && (
-                    <p style={{ fontSize: '1.4rem', color: 'var(--text-secondary)', marginBottom: '0.8rem' }}>
-                      【{word.hanViet}】
-                    </p>
-                  )}
+                  {word.hanViet ? (
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px', marginBottom: '0.8rem' }}>
+                      <span style={{ fontSize: '1.4rem', color: 'var(--text-secondary)' }}>
+                        【{word.hanViet}】
+                      </span>
+                      {isAdmin && (
+                        <button
+                          type="button"
+                          onClick={(e) => { e.stopPropagation(); handleEnrichHanViet(); }}
+                          disabled={enrichingHanViet}
+                          title="Admin: Dùng DeepSeek AI nạp lại Hán Việt"
+                          style={{
+                            background: enrichHanVietSuccess ? 'rgba(16, 185, 129, 0.15)' : 'rgba(245, 158, 11, 0.1)',
+                            border: `1px solid ${enrichHanVietSuccess ? '#10b981' : 'rgba(245, 158, 11, 0.3)'}`,
+                            borderRadius: '4px',
+                            color: enrichHanVietSuccess ? '#10b981' : '#f59e0b',
+                            padding: '2px 6px',
+                            fontSize: '0.7rem',
+                            cursor: enrichingHanViet ? 'not-allowed' : 'pointer',
+                            display: 'inline-flex',
+                            alignItems: 'center',
+                            gap: '3px',
+                            fontWeight: 600
+                          }}
+                        >
+                          <Sparkles size={10} style={{ animation: enrichingHanViet ? 'spin 1s linear infinite' : 'none' }} />
+                          {enrichHanVietSuccess ? 'Đã nạp!' : enrichingHanViet ? 'Đang nạp...' : 'AI nạp'}
+                        </button>
+                      )}
+                    </div>
+                  ) : isAdmin ? (
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px', marginBottom: '0.8rem' }}>
+                      <span style={{ fontSize: '0.9rem', color: 'var(--text-muted)', fontStyle: 'italic' }}>
+                        Hán Việt: (Chưa có)
+                      </span>
+                      <button
+                        type="button"
+                        onClick={(e) => { e.stopPropagation(); handleEnrichHanViet(); }}
+                        disabled={enrichingHanViet}
+                        title="Admin: Dùng DeepSeek AI nạp Hán Việt"
+                        style={{
+                          background: enrichHanVietSuccess ? 'rgba(16, 185, 129, 0.15)' : 'rgba(245, 158, 11, 0.1)',
+                          border: `1px solid ${enrichHanVietSuccess ? '#10b981' : 'rgba(245, 158, 11, 0.3)'}`,
+                          borderRadius: '4px',
+                          color: enrichHanVietSuccess ? '#10b981' : '#f59e0b',
+                          padding: '2px 6px',
+                          fontSize: '0.7rem',
+                          cursor: enrichingHanViet ? 'not-allowed' : 'pointer',
+                          display: 'inline-flex',
+                          alignItems: 'center',
+                          gap: '3px',
+                          fontWeight: 600
+                        }}
+                      >
+                        <Sparkles size={10} style={{ animation: enrichingHanViet ? 'spin 1s linear infinite' : 'none' }} />
+                        {enrichHanVietSuccess ? 'Đã nạp!' : enrichingHanViet ? 'Đang nạp...' : 'AI nạp Hán Việt'}
+                      </button>
+                    </div>
+                  ) : null}
                   
                   {word.wordType && (
                     <span style={{ 

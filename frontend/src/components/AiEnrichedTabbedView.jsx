@@ -295,11 +295,14 @@ export default function AiEnrichedTabbedView({ data, onReEnriched }) {
               🗣️ Phiên âm: <strong style={{ color: 'var(--accent-color)' }}>{displayData.pitchAccent || 'Chưa cập nhật'}</strong>
             </span>
           )}
-          {displayData.hanViet && (
-            <span style={{ fontSize: '0.82rem', color: 'var(--text-secondary)' }}>
-              🈴 Hán Việt: <strong style={{ color: 'var(--warning-color)', textTransform: 'uppercase' }}>{displayData.hanViet}</strong>
-            </span>
-          )}
+          <span style={{ fontSize: '0.82rem', color: 'var(--text-secondary)', display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
+            🈴 Hán Việt: {displayData.hanViet ? (
+              <strong style={{ color: 'var(--warning-color)', textTransform: 'uppercase' }}>{displayData.hanViet}</strong>
+            ) : (
+              <em style={{ color: 'var(--text-muted)' }}>(Chưa có)</em>
+            )}
+            {isAdmin && <AdminAiEnrichSectionBtn section="hanViet" label="AI Hán Việt" />}
+          </span>
           {isAdmin && (
             <div style={{ display: 'inline-flex', alignItems: 'center', gap: '5px' }}>
               <AdminAiEnrichSectionBtn section="header" label="AI nạp gốc" />
