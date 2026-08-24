@@ -39,6 +39,7 @@ const N3_LESSONS = [
 
 const WORD_TYPE_OPTIONS = [
   { value: 'ALL', label: 'Tất cả loại từ' },
+  { value: 'KANJI', label: 'Chữ Hán (Kanji)' },
   { value: 'Danh từ', label: 'Danh từ' },
   { value: 'Động từ', label: 'Động từ' },
   { value: 'Tính từ đuôi な', label: 'Tính từ な' },
@@ -168,12 +169,57 @@ const VocabAdminPage = ({ goBack }) => {
   const displayedN3Words = useMemo(() => {
     if (!n3LessonData) return [];
     let items = [];
+    
+    const vocabItems = (n3LessonData.tu_vung || n3LessonData.vocabulary || []).map((v, idx) => ({
+      id: v.id || `v-${idx}`,
+      kanji: v.kanji || v.tu || v.hiragana || '',
+      hiragana: v.hiragana || v.furigana || v.cach_doc || v.tu || '',
+      romaji: v.romaji || v.cach_doc || '',
+      hanViet: v.hanViet || v.am_han || v.han_viet || '',
+      meaning: v.meaning || v.nghia || '',
+      wordType: v.loai_tu || v.wordType || 'Danh từ',
+      level: 'N3_COURSE',
+      category: `Tổng ôn N3 - Chương ${selectedChapter} Bài ${selectedLesson}`,
+      sampleSentence: v.sampleSentence || v.vi_du || '',
+      sampleTranslation: v.sampleTranslation || '',
+      sampleReading: v.sampleReading || '',
+      pitchAccent: v.pitchAccent || '',
+      mnemonic: v.mnemonic || '',
+      usageGuide: v.usageGuide || '',
+      synonyms: v.synonyms || '',
+      antonyms: v.antonyms || '',
+      collocations: v.collocations || '',
+      commonMistakes: v.commonMistakes || ''
+    }));
+
+    const kanjiItems = (n3LessonData.chu_han || n3LessonData.kanji || []).map((k, idx) => ({
+      id: k.id || `k-${idx}`,
+      kanji: k.kanji || k.tu || '',
+      hiragana: k.am_doc || k.am_on || k.am_kun || k.hiragana || k.kanji || '',
+      romaji: k.romaji || k.am_doc || '',
+      hanViet: k.han_viet || k.hanViet || k.am_han || '',
+      meaning: k.meaning || k.nghia || '',
+      wordType: 'KANJI',
+      level: 'N3_COURSE',
+      category: `Tổng ôn N3 - Chương ${selectedChapter} Bài ${selectedLesson} - Kanji`,
+      sampleSentence: k.sampleSentence || (Array.isArray(k.tu_vung) ? k.tu_vung.join(', ') : (k.tu_vung || '')),
+      sampleTranslation: k.sampleTranslation || '',
+      sampleReading: k.sampleReading || '',
+      pitchAccent: k.pitchAccent || '',
+      mnemonic: k.mnemonic || '',
+      usageGuide: k.usageGuide || '',
+      synonyms: '',
+      antonyms: '',
+      collocations: '',
+      commonMistakes: ''
+    }));
+
     if (n3SubFilter === 'vocab') {
-      items = n3LessonData.vocabulary || [];
+      items = vocabItems;
     } else if (n3SubFilter === 'kanji') {
-      items = n3LessonData.kanji || [];
+      items = kanjiItems;
     } else {
-      items = [...(n3LessonData.vocabulary || []), ...(n3LessonData.kanji || [])];
+      items = [...vocabItems, ...kanjiItems];
     }
 
     if (searchQuery.trim()) {
@@ -193,11 +239,11 @@ const VocabAdminPage = ({ goBack }) => {
     }
 
     if (selectedWordType !== 'ALL') {
-      items = items.filter(w => w.wordType && w.wordType.includes(selectedWordType));
+      items = items.filter(w => w.wordType && (w.wordType.toLowerCase().includes(selectedWordType.toLowerCase()) || (selectedWordType === 'KANJI' && w.wordType === 'KANJI')));
     }
 
     return items;
-  }, [n3LessonData, n3SubFilter, searchQuery, selectedAiStatus, selectedWordType]);
+  }, [n3LessonData, n3SubFilter, searchQuery, selectedAiStatus, selectedWordType, selectedChapter, selectedLesson]);
 
   // Filtered words for Level View
   const displayedLevelWords = useMemo(() => {
