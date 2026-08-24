@@ -1260,7 +1260,10 @@ const KanjiDetailModal = ({ words, initialIndex = 0, onClose, vocab }) => {
                   </div>
                 )}
 
-                <AiEnrichedTabbedView data={enriched || word} />
+                <AiEnrichedTabbedView 
+                  data={enriched || word} 
+                  onReEnriched={(updated) => setEnriched(updated)}
+                />
               </div>
             </div>
 

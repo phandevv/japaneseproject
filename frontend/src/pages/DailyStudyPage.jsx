@@ -1203,7 +1203,10 @@ const DailyStudyPage = ({ level, stats, goBack }) => {
                     </div>
                   )}
                   {quizWordEnriched && (
-                    <AiEnrichedTabbedView data={quizWordEnriched} />
+                    <AiEnrichedTabbedView 
+                      data={quizWordEnriched} 
+                      onReEnriched={(updated) => setQuizWordEnriched(updated)}
+                    />
                   )}
                 </div>
               </div>
@@ -1268,7 +1271,10 @@ const DailyStudyPage = ({ level, stats, goBack }) => {
                     </div>
                   )}
                   {quizWordEnriched && (
-                    <AiEnrichedTabbedView data={quizWordEnriched} />
+                    <AiEnrichedTabbedView 
+                      data={quizWordEnriched} 
+                      onReEnriched={(updated) => setQuizWordEnriched(updated)}
+                    />
                   )}
                 </div>
               </div>

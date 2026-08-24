@@ -2265,7 +2265,15 @@ const isContainsKanji = (str) => {
                                       </div>
                                     )}
                                     {(quizWordEnriched || currentWord) && (
-                                      <AiEnrichedTabbedView data={quizWordEnriched || currentWord} />
+                                      <AiEnrichedTabbedView 
+                                        data={quizWordEnriched || currentWord} 
+                                        onReEnriched={(updated) => {
+                                          setQuizWordEnriched(updated);
+                                          if (updated && updated.hiragana) {
+                                            setCurrentWord(prev => prev ? ({ ...prev, ...updated }) : prev);
+                                          }
+                                        }}
+                                      />
                                     )}
                                   </div>
                                 </div>
@@ -2357,7 +2365,15 @@ const isContainsKanji = (str) => {
                                       </div>
                                     )}
                                     {(quizWordEnriched || currentWord) && (
-                                      <AiEnrichedTabbedView data={quizWordEnriched || currentWord} />
+                                      <AiEnrichedTabbedView 
+                                        data={quizWordEnriched || currentWord} 
+                                        onReEnriched={(updated) => {
+                                          setQuizWordEnriched(updated);
+                                          if (updated && updated.hiragana) {
+                                            setCurrentWord(prev => prev ? ({ ...prev, ...updated }) : prev);
+                                          }
+                                        }}
+                                      />
                                     )}
                                   </div>
                                 </div>

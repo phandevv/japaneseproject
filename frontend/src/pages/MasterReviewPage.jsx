@@ -1467,7 +1467,10 @@ const MasterReviewPage = ({ goBack }) => {
                   </div>
                 )}
                 {quizWordEnriched && (
-                  <AiEnrichedTabbedView data={quizWordEnriched} />
+                  <AiEnrichedTabbedView 
+                    data={quizWordEnriched} 
+                    onReEnriched={(updated) => setQuizWordEnriched(updated)}
+                  />
                 )}
               </div>
             </div>
