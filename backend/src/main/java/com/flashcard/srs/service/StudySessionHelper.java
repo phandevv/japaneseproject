@@ -38,4 +38,15 @@ public class StudySessionHelper {
 
         return srsDataProvider.saveStudySession(session);
     }
+
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    @CacheEvict(value = {"dashboard", "leaderboard"}, allEntries = true)
+    public StudySession ensureDailySession(User user, LocalDate date) {
+        if (user == null || date == null) return null;
+        return srsDataProvider.findStudySession(user, date)
+                .orElseGet(() -> {
+                    StudySession newSession = new StudySession(user, date);
+                    return srsDataProvider.saveStudySession(newSession);
+                });
+    }
 }

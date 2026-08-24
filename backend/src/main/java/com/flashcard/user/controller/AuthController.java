@@ -1,11 +1,14 @@
 package com.flashcard.user.controller;
 
+import com.flashcard.srs.service.StudySessionHelper;
 import com.flashcard.user.model.User;
 import com.flashcard.user.service.AuthService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Map;
 
 @RestController
@@ -13,9 +16,11 @@ import java.util.Map;
 public class AuthController {
 
     private final AuthService authService;
+    private final StudySessionHelper studySessionHelper;
 
-    public AuthController(AuthService authService) {
+    public AuthController(AuthService authService, StudySessionHelper studySessionHelper) {
         this.authService = authService;
+        this.studySessionHelper = studySessionHelper;
     }
 
     @PostMapping("/register")
@@ -38,6 +43,10 @@ public class AuthController {
         try {
             Map<String, String> tokens = authService.login(request.get("username"), request.get("password"));
             User user = authService.getUserByUsername(request.get("username").trim());
+            if (user == null) {
+                return ResponseEntity.status(401).body(Map.of("error", "User not found"));
+            }
+            studySessionHelper.ensureDailySession(user, LocalDate.now(ZoneId.of("Asia/Ho_Chi_Minh")));
             return ResponseEntity.ok(Map.of(
                 "token", tokens.get("token"),
                 "refreshToken", tokens.get("refreshToken"),
@@ -82,6 +91,7 @@ public class AuthController {
     @GetMapping("/me")
     public ResponseEntity<?> me(@AuthenticationPrincipal User user) {
         if (user == null) return ResponseEntity.status(401).body(Map.of("error", "Unauthorized"));
+        studySessionHelper.ensureDailySession(user, LocalDate.now(ZoneId.of("Asia/Ho_Chi_Minh")));
         return ResponseEntity.ok(Map.of(
             "username", user.getUsername(),
             "id", user.getId(),

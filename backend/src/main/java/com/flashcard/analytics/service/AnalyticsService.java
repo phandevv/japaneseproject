@@ -87,7 +87,7 @@ public class AnalyticsService {
 
         java.util.Set<LocalDate> dateSet = new java.util.HashSet<>();
         for (StudySession session : sessions) {
-            if (session.getStudyDate() != null && (session.getWordsStudied() > 0 || session.isStreakFrozen())) {
+            if (session.getStudyDate() != null) {
                 dateSet.add(session.getStudyDate());
             }
         }
@@ -114,6 +114,9 @@ public class AnalyticsService {
     public Map<String, Object> getDashboardStats(User user) {
         LocalDate today = LocalDate.now(ZoneId.of("Asia/Ho_Chi_Minh"));
         LocalDate startDate = today.minusDays(364);
+
+        // Ensure daily session check-in exists for today upon accessing dashboard
+        studySessionHelper.ensureDailySession(user, today);
 
         // Run independent queries concurrently
         CompletableFuture<Long> dueCountFuture = CompletableFuture.supplyAsync(() -> srsService.getDueCount(user));
