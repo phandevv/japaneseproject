@@ -119,28 +119,41 @@ public class JlptN3CourseService {
     }
 
     /**
-     * Resolve the JSON file location from filesystem if available.
+     * Resolve the JSON file location from filesystem if available dynamically without hardcoded names.
      */
     private File getLessonJsonFile(int chapter, int lesson) {
-        String[] candidateFileNames = {
-            String.format("Chuong%d_Bai%d_Data_v2.json", chapter, lesson),
-            String.format("Chuong%d_Bai%d_Data_2.json", chapter, lesson),
-            String.format("Chuong%d_Bai%d_Data.json", chapter, lesson)
-        };
-        String chapterDirName = String.format("Chuong %d", chapter);
-
         String[] candidateBaseDirs = {
             "data/tổng ôn N3/data",
             "data/tong on N3/data",
-            "../data/tổng ôn N3/data"
+            "../data/tổng ôn N3/data",
+            "data/n3"
         };
 
         for (String baseDir : candidateBaseDirs) {
-            for (String fileName : candidateFileNames) {
-                Path path = Paths.get(baseDir, chapterDirName, fileName);
-                File file = path.toFile();
-                if (file.exists() && file.isFile()) {
-                    return file;
+            File base = new File(baseDir);
+            if (!base.exists() || !base.isDirectory()) continue;
+
+            File[] chapterDirs = base.listFiles(f -> f.isDirectory() && f.getName().toLowerCase().contains(String.valueOf(chapter)));
+            if (chapterDirs == null) continue;
+
+            for (File chDir : chapterDirs) {
+                File[] jsonFiles = chDir.listFiles((dir, name) -> name.toLowerCase().endsWith(".json"));
+                if (jsonFiles == null) continue;
+
+                for (File file : jsonFiles) {
+                    String name = file.getName().toLowerCase();
+                    // Match by lesson number in filename or by inspecting JSON content
+                    if (name.contains("bai" + lesson) || name.contains("bai_" + lesson) || name.contains("lesson" + lesson) || name.contains("lesson_" + lesson)) {
+                        return file;
+                    }
+                    try {
+                        JsonNode root = objectMapper.readTree(file);
+                        int c = root.path("chuong").asInt(-1);
+                        int b = root.path("bai").asInt(-1);
+                        if (c == chapter && b == lesson) {
+                            return file;
+                        }
+                    } catch (Exception ignored) {}
                 }
             }
         }
