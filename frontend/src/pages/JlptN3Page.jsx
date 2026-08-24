@@ -2,9 +2,10 @@ import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { 
   BookOpen, CheckCircle, XCircle, ChevronRight, ChevronLeft, RotateCcw, 
   Trophy, ArrowLeft, ArrowRight, Play, Sparkles, Layers, List, Award, 
-  HelpCircle, AlertCircle, Volume2, Shuffle, Upload, FileText, Eye, EyeOff
+  HelpCircle, AlertCircle, Volume2, Shuffle, Upload, FileText, Eye, EyeOff, Trash2
 } from 'lucide-react';
 import { jlptN3Api, srsApi, vocabApi, grammarApi } from '../services/api';
+import { useAuth } from '../context/AuthContext';
 import FlashcardCard from '../components/FlashcardCard';
 import KanjiDetailModal from '../components/KanjiDetailModal';
 import GrammarDetailModal from '../components/GrammarDetailModal';
@@ -135,6 +136,8 @@ const matchVietnameseAnswer = (userInput, correctMeaning) => {
 };
 
 const JlptN3Page = () => {
+  const { user } = useAuth();
+  const isAdmin = user && (user.username === 'admin' || user.role === 'ADMIN' || user.roles?.includes('ADMIN') || user.roles?.includes('ROLE_ADMIN'));
   const fileInputRef = useRef(null);
 
   // State for Course & Lesson Navigation
@@ -151,6 +154,30 @@ const JlptN3Page = () => {
 
   // Modal Detail State (Reusing KanjiDetailModal from Daily Study)
   const [detailModalIndex, setDetailModalIndex] = useState(null);
+
+  const handleDeleteWord = async (e, word) => {
+    e.stopPropagation();
+    if (!word || !word.id) return;
+    const wordLabel = word.kanji || word.tu || word.hiragana || 'từ vựng này';
+    const confirmMsg = `Bạn có chắc chắn muốn xóa "${wordLabel}" (ID: ${word.id}) khỏi hệ thống không?`;
+    if (!window.confirm(confirmMsg)) return;
+
+    try {
+      await vocabApi.delete(word.id);
+      setLessonData(prev => {
+        if (!prev) return prev;
+        return {
+          ...prev,
+          tu_vung: prev.tu_vung ? prev.tu_vung.filter(v => v.id !== word.id && v.tu !== word.kanji && v.tu !== wordLabel) : [],
+          chu_han: prev.chu_han ? prev.chu_han.filter(k => k.id !== word.id && k.kanji !== word.kanji && k.kanji !== wordLabel) : []
+        };
+      });
+      alert(`Đã xóa "${wordLabel}" thành công!`);
+    } catch (err) {
+      console.error("Lỗi khi xóa từ vựng:", err);
+      alert("Không thể xóa từ vựng. Vui lòng thử lại!");
+    }
+  };
 
   const openGrammarModal = async (g) => {
     if (g.id) {
@@ -1566,6 +1593,7 @@ const isContainsKanji = (str) => {
                             {!hideMeanings && <th style={{ padding: '14px 18px' }}>Cách đọc (Kana)</th>}
                             {!hideMeanings && <th style={{ padding: '14px 18px' }}>Nghĩa tiếng Việt</th>}
                             <th style={{ padding: '14px 18px' }}>Hán Việt / Loại từ</th>
+                            {isAdmin && <th style={{ padding: '14px 18px', textAlign: 'center', width: '90px' }}>Thao tác</th>}
                           </tr>
                         </thead>
                         <tbody>
@@ -1592,6 +1620,40 @@ const isContainsKanji = (str) => {
                                   <span style={{ fontSize: '0.75rem', color: 'var(--accent-color)', fontWeight: 600 }}>Chi tiết AI ➔</span>
                                 </div>
                               </td>
+                              {isAdmin && (
+                                <td style={{ padding: '14px 18px', textAlign: 'center' }} onClick={(e) => e.stopPropagation()}>
+                                  <button
+                                    onClick={(e) => handleDeleteWord(e, word)}
+                                    title="Xóa từ này (Admin)"
+                                    style={{
+                                      background: 'rgba(239, 68, 68, 0.08)',
+                                      color: '#ef4444',
+                                      border: '1px solid rgba(239, 68, 68, 0.2)',
+                                      borderRadius: '8px',
+                                      padding: '6px 10px',
+                                      cursor: 'pointer',
+                                      display: 'inline-flex',
+                                      alignItems: 'center',
+                                      justifyContent: 'center',
+                                      gap: '4px',
+                                      fontSize: '0.82rem',
+                                      fontWeight: 600,
+                                      transition: 'all 0.15s ease'
+                                    }}
+                                    onMouseEnter={(e) => {
+                                      e.currentTarget.style.background = '#ef4444';
+                                      e.currentTarget.style.color = '#ffffff';
+                                    }}
+                                    onMouseLeave={(e) => {
+                                      e.currentTarget.style.background = 'rgba(239, 68, 68, 0.08)';
+                                      e.currentTarget.style.color = '#ef4444';
+                                    }}
+                                  >
+                                    <Trash2 size={15} />
+                                    <span>Xóa</span>
+                                  </button>
+                                </td>
+                              )}
                             </tr>
                           ))}
                         </tbody>
@@ -1609,16 +1671,44 @@ const isContainsKanji = (str) => {
                           style={{ 
                             background: 'var(--surface-color)', border: '1px solid var(--border-color)', 
                             borderRadius: '14px', padding: '16px 20px', display: 'flex', gap: '16px', alignItems: 'flex-start',
-                            cursor: 'pointer', transition: 'all 0.2s ease'
+                            cursor: 'pointer', transition: 'all 0.2s ease', position: 'relative'
                           }}
                           className="card-hover virtual-card"
                         >
-                          <div style={{ width: '56px', height: '56px', borderRadius: '12px', background: 'rgba(37,99,235,0.08)', color: 'var(--accent-color)', fontSize: '2.2rem', fontWeight: 800, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                          <div style={{ width: '56px', height: '56px', borderRadius: '12px', background: 'rgba(37,99,235,0.08)', color: 'var(--accent-color)', fontSize: '2.2rem', fontWeight: 800, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
                             {k.kanji}
                           </div>
                           <div style={{ flex: 1 }}>
-                            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px' }}>
+                            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '8px', marginBottom: '4px' }}>
                               <span style={{ fontWeight: 800, color: 'var(--text-primary)', fontSize: '1.05rem' }}>{k.hanViet}</span>
+                              {isAdmin && (
+                                <button
+                                  onClick={(e) => handleDeleteWord(e, k)}
+                                  title="Xóa chữ Hán này (Admin)"
+                                  style={{
+                                    background: 'rgba(239, 68, 68, 0.08)',
+                                    color: '#ef4444',
+                                    border: '1px solid rgba(239, 68, 68, 0.2)',
+                                    borderRadius: '6px',
+                                    padding: '4px 6px',
+                                    cursor: 'pointer',
+                                    display: 'inline-flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    transition: 'all 0.15s ease'
+                                  }}
+                                  onMouseEnter={(e) => {
+                                    e.currentTarget.style.background = '#ef4444';
+                                    e.currentTarget.style.color = '#ffffff';
+                                  }}
+                                  onMouseLeave={(e) => {
+                                    e.currentTarget.style.background = 'rgba(239, 68, 68, 0.08)';
+                                    e.currentTarget.style.color = '#ef4444';
+                                  }}
+                                >
+                                  <Trash2 size={14} />
+                                </button>
+                              )}
                             </div>
                             {k.romaji && (
                               <div style={{ fontSize: '0.85rem', color: 'var(--accent-color)', fontWeight: 600, marginBottom: '4px' }}>

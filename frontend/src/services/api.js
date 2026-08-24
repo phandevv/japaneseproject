@@ -325,6 +325,8 @@ export const vocabApi = {
   // Delete vocabulary
   delete: async (id) => {
     const response = await axios.delete(`${API_BASE_URL}/vocab/${id}`);
+    clearApiCache('/jlpt-n3');
+    clearApiCache('/vocab');
     return response.data;
   },
 
