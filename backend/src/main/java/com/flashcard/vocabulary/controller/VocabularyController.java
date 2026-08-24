@@ -15,6 +15,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.flashcard.knowledge.service.AiEnrichmentQueueService;
+import com.flashcard.knowledge.service.JlptN3CourseService;
+import org.springframework.beans.factory.annotation.Autowired;
 
 @RestController
 @RequestMapping("/api/vocab")
@@ -25,11 +27,16 @@ public class VocabularyController {
     private final VocabularyService service;
     private final DeepSeekEnrichmentService enrichmentService;
     private final AiEnrichmentQueueService queueService;
+    private final JlptN3CourseService courseService;
 
-    public VocabularyController(VocabularyService service, DeepSeekEnrichmentService enrichmentService, AiEnrichmentQueueService queueService) {
+    public VocabularyController(VocabularyService service, 
+                                DeepSeekEnrichmentService enrichmentService, 
+                                AiEnrichmentQueueService queueService,
+                                @Autowired(required = false) JlptN3CourseService courseService) {
         this.service = service;
         this.enrichmentService = enrichmentService;
         this.queueService = queueService;
+        this.courseService = courseService;
     }
 
     /**
@@ -145,7 +152,11 @@ public class VocabularyController {
             existing.setUsageGuide(vocabulary.getUsageGuide());
             existing.setOnReading(vocabulary.getOnReading());
             existing.setKunReading(vocabulary.getKunReading());
-            return ResponseEntity.ok(service.save(existing));
+            Vocabulary saved = service.save(existing);
+            if (courseService != null) {
+                courseService.clearLessonCache();
+            }
+            return ResponseEntity.ok(saved);
         }).orElse(ResponseEntity.notFound().build());
     }
 
@@ -181,6 +192,9 @@ public class VocabularyController {
     public ResponseEntity<?> delete(@PathVariable Long id) {
         return service.getById(id).map(existing -> {
             service.deleteById(id);
+            if (courseService != null) {
+                courseService.clearLessonCache();
+            }
             return ResponseEntity.ok(Map.of("success", true, "message", "Vocabulary deleted successfully"));
         }).orElse(ResponseEntity.notFound().build());
     }
@@ -218,6 +232,9 @@ public class VocabularyController {
                     Object result = task.getCompletionFuture().get(25, java.util.concurrent.TimeUnit.SECONDS);
                     if (result instanceof Vocabulary v) {
                         v.setIsEnriching(false);
+                        if (courseService != null) {
+                            courseService.clearLessonCache();
+                        }
                         return ResponseEntity.ok(v);
                     }
                 } catch (Exception e) {
@@ -248,6 +265,9 @@ public class VocabularyController {
 
         try {
             Vocabulary updated = enrichmentService.enrichVocabularySection(existing, section).get(20, java.util.concurrent.TimeUnit.SECONDS);
+            if (courseService != null) {
+                courseService.clearLessonCache();
+            }
             return ResponseEntity.ok(updated != null ? updated : existing);
         } catch (Exception e) {
             log.error("Failed to enrich section {} for vocab ID {}: {}", section, id, e.getMessage());

@@ -144,7 +144,7 @@ public class DeepSeekEnrichmentService {
                         "  \"word\": \"%s\",\n" +
                         "  \"reading\": \"cách đọc hiragana/katakana chuẩn xác tuyệt đối\",\n" +
                         "  \"meaning\": \"nghĩa tiếng Việt chính xác đầy đủ\",\n" +
-                        "  \"hanViet\": \"âm Hán Việt (nếu có, viết hoa)\",\n" +
+                        "  \"hanViet\": \"âm Hán Việt phiên âm từng chữ Hán viết hoa (ví dụ: THỰC SỰ cho 食事, THÁI THÁI cho 態々; TUYỆT ĐỐI KHÔNG lấy nghĩa tiếng Việt như CỐ Ý làm Hán Việt; nếu từ thuần Hiragana/Katakana không có chữ Hán thì để chuỗi rỗng \"\")\",\n" +
                         "  \"jlpt\": \"cấp độ JLPT\",\n" +
                         "  \"pitchAccent\": \"trọng âm (ví dụ: しょくじ [0])\",\n" +
                         "  \"wordType\": \"loại từ\",\n" +
@@ -576,8 +576,16 @@ public class DeepSeekEnrichmentService {
             case "han_viet":
             case "am_han":
                 prompt = String.format(
-                    "Cung cấp âm Hán Việt chuẩn xác VIẾT HOA TOÀN BỘ cho từ/chữ Hán tiếng Nhật \"%s\" (Nghĩa: %s). Ví dụ: THỰC SỰ, GIA TỘC, NGUY HIỂM. Bắt buộc viết hoa. Trả về duy nhất JSON: {\"hanViet\": \"ÂM HÁN VIỆT VIẾT HOA\"}",
-                    word, meaning
+                    "Hãy xác định âm Hán Việt chuẩn xác VIẾT HOA TOÀN BỘ cho từ/chữ Hán tiếng Nhật: Kanji=\"%s\", Hiragana=\"%s\", Nghĩa tiếng Việt=\"%s\".\n" +
+                    "QUY TẮC BẮT BUỘC VỀ ÂM HÁN VIỆT:\n" +
+                    "1. Âm Hán Việt là phiên âm Hán-Việt của từng chữ Hán (Kanji) có trong từ. Ví dụ: 食事 -> THỰC SỰ, 危険 -> NGUY HIỂM, 態々 -> THÁI THÁI, 故意 -> CỐ Ý, 準備 -> CHUẨN BỊ, 先生 -> TIÊN SINH.\n" +
+                    "2. TUYỆT ĐỐI KHÔNG ĐƯỢC LẤY NGHĨA TIẾNG VIỆT ĐỂ LÀM ÂM HÁN VIỆT! (Ví dụ: Từ 'わざわざ' có nghĩa là 'cố ý/cất công', chữ Hán nếu có là 態々 thì âm Hán Việt phải là 'THÁI THÁI', TUYỆT ĐỐI KHÔNG ĐƯỢC TRẢ VỀ 'CỐ Ý' vì 'CỐ Ý' là nghĩa tiếng Việt, không phải âm Hán Việt của 態々!).\n" +
+                    "3. Nếu từ là từ thuần Hiragana/Katakana không dùng chữ Hán (như とても, ぴったり, パン, コーヒー), hãy trả về \"hanViet\": \"\".\n" +
+                    "4. Nếu có chữ Hán, BẮT BUỘC viết hoa toàn bộ.\n" +
+                    "Trả về duy nhất JSON: {\"hanViet\": \"ÂM HÁN VIỆT VIẾT HOA HOẶC CHUỖI RỖNG\"}",
+                    vocab.getKanji() != null ? vocab.getKanji() : "",
+                    vocab.getHiragana() != null ? vocab.getHiragana() : "",
+                    meaning
                 );
                 maxTokens = 150;
                 mapper = (node, v) -> {
@@ -585,6 +593,8 @@ public class DeepSeekEnrichmentService {
                         String hv = node.path("hanViet").asText().trim();
                         if (!hv.isEmpty() && !"null".equalsIgnoreCase(hv)) {
                             v.setHanViet(hv.toUpperCase(java.util.Locale.ROOT));
+                        } else {
+                            v.setHanViet("");
                         }
                     }
                 };
@@ -594,8 +604,16 @@ public class DeepSeekEnrichmentService {
             case "basic":
             default:
                 prompt = String.format(
-                    "Cung cấp thông tin chuẩn xác cho từ/chữ Hán \"%s\" (Nghĩa: %s): Hán Việt VIẾT HOA, Trọng âm (pitch accent), Âm On (nếu có), Âm Kun (nếu có), Loại từ (N, V, Adj...). Trả về duy nhất JSON: {\"hanViet\": \"HÁN VIỆT VIẾT HOA\", \"pitchAccent\": \"[0]\", \"onReading\": \"âm On\", \"kunReading\": \"âm Kun\", \"wordType\": \"N\"}",
-                    word, meaning
+                    "Cung cấp thông tin chuẩn xác cho từ/chữ Hán tiếng Nhật: Kanji=\"%s\", Hiragana=\"%s\", Nghĩa tiếng Việt=\"%s\":\n" +
+                    "- hanViet: Âm Hán Việt phiên âm từng chữ Hán viết hoa (ví dụ: THỰC SỰ cho 食事, THÁI THÁI cho 態々). TUYỆT ĐỐI KHÔNG lấy nghĩa tiếng Việt (như CỐ Ý) làm Hán Việt! Nếu từ thuần Hiragana/Katakana không có chữ Hán thì trả về \"\".\n" +
+                    "- pitchAccent: Trọng âm (ví dụ: [0], [1], [2]).\n" +
+                    "- onReading: Âm On (nếu là chữ Hán đơn).\n" +
+                    "- kunReading: Âm Kun (nếu là chữ Hán đơn).\n" +
+                    "- wordType: Loại từ (N, V, Adj, Adv, Conj...).\n" +
+                    "Trả về duy nhất JSON: {\"hanViet\": \"HÁN VIỆT VIẾT HOA\", \"pitchAccent\": \"[0]\", \"onReading\": \"âm On\", \"kunReading\": \"âm Kun\", \"wordType\": \"N\"}",
+                    vocab.getKanji() != null ? vocab.getKanji() : "",
+                    vocab.getHiragana() != null ? vocab.getHiragana() : "",
+                    meaning
                 );
                 maxTokens = 250;
                 mapper = (node, v) -> {
@@ -631,10 +649,15 @@ public class DeepSeekEnrichmentService {
         if (apiKey == null) {
             return CompletableFuture.completedFuture(vocab);
         }
-        String word = vocab.getKanji() != null && !vocab.getKanji().isBlank() ? vocab.getKanji() : vocab.getHiragana();
         String prompt = String.format(
-            "Cung cấp âm Hán Việt chuẩn VIẾT HOA TOÀN BỘ cho từ tiếng Nhật \"%s\" (Nghĩa: %s). Ví dụ: GIÁN CÁCH, THỰC SỰ, TÂN TIẾN. Bắt buộc viết hoa toàn bộ. Trả về duy nhất JSON: {\"hanViet\": \"ÂM HÁN VIỆT VIẾT HOA\"}",
-            word,
+            "Hãy xác định âm Hán Việt chuẩn xác VIẾT HOA TOÀN BỘ cho từ tiếng Nhật: Kanji=\"%s\", Hiragana=\"%s\", Nghĩa=\"%s\".\n" +
+            "QUY TẮC:\n" +
+            "1. Âm Hán Việt là phiên âm Hán-Việt của từng chữ Hán trong từ (ví dụ: 食事 -> THỰC SỰ, 態々 -> THÁI THÁI, 故意 -> CỐ Ý, 準備 -> CHUẨN BỊ).\n" +
+            "2. TUYỆT ĐỐI KHÔNG lấy nghĩa tiếng Việt làm âm Hán Việt (Ví dụ: 'わざわざ' nghĩa là 'cố ý/cất công', chữ Hán 態々 -> âm Hán Việt là THÁI THÁI, cấm trả về CỐ Ý!).\n" +
+            "3. Nếu là từ thuần Hiragana/Katakana không dùng chữ Hán, trả về \"hanViet\": \"\".\n" +
+            "Trả về duy nhất JSON: {\"hanViet\": \"ÂM HÁN VIỆT VIẾT HOA HOẶC CHUỖI RỖNG\"}",
+            vocab.getKanji() != null ? vocab.getKanji() : "",
+            vocab.getHiragana() != null ? vocab.getHiragana() : "",
             vocab.getMeaning() != null ? vocab.getMeaning() : ""
         );
         return executeMicroPrompt(vocab, apiKey, prompt, (node, v) -> {
@@ -642,6 +665,8 @@ public class DeepSeekEnrichmentService {
                 String hv = node.path("hanViet").asText().trim();
                 if (!hv.isEmpty() && !"null".equalsIgnoreCase(hv)) {
                     v.setHanViet(hv.toUpperCase(java.util.Locale.ROOT));
+                } else {
+                    v.setHanViet("");
                 }
             }
         });
