@@ -122,6 +122,27 @@ const UserProfilePage = () => {
   // ----------------------------------------------------
   // CHARTS DATA PROCESSING
   // ----------------------------------------------------
+  const parseStudyDateKey = (raw) => {
+    if (!raw) return '';
+    if (typeof raw === 'string') {
+      if (/^\d{4}-\d{2}-\d{2}$/.test(raw.trim())) {
+        return raw.trim();
+      }
+      const d = new Date(raw);
+      if (!isNaN(d.getTime())) {
+        return d.toLocaleDateString('en-CA', { timeZone: 'Asia/Ho_Chi_Minh' });
+      }
+      return raw.slice(0, 10);
+    }
+    if (raw instanceof Date) {
+      return raw.toLocaleDateString('en-CA', { timeZone: 'Asia/Ho_Chi_Minh' });
+    }
+    if (Array.isArray(raw)) {
+      return `${raw[0]}-${String(raw[1]).padStart(2, '0')}-${String(raw[2]).padStart(2, '0')}`;
+    }
+    return '';
+  };
+
   const processBarChartData = (history = []) => {
     // Generate last 7 days array
     const chartData = [];
@@ -129,8 +150,8 @@ const UserProfilePage = () => {
     for (let i = 6; i >= 0; i--) {
       const d = new Date();
       d.setDate(today.getDate() - i);
-      const dateStr = d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
-      const session = history.find(s => s.studyDate === dateStr);
+      const dateStr = d.toLocaleDateString('en-CA', { timeZone: 'Asia/Ho_Chi_Minh' });
+      const session = history.find(s => parseStudyDateKey(s.studyDate) === dateStr);
       chartData.push({
         date: d.toLocaleDateString('vi-VN', { weekday: 'short' }),
         words: session ? session.wordsStudied : 0
@@ -155,13 +176,14 @@ const UserProfilePage = () => {
     // Map history for O(1) lookup
     const historyMap = {};
     history.forEach(s => {
-      historyMap[s.studyDate] = s.wordsStudied;
+      const k = parseStudyDateKey(s.studyDate);
+      if (k) historyMap[k] = s.wordsStudied;
     });
 
     for (let i = 0; i <= 364; i++) {
       const d = new Date(startDate);
       d.setDate(d.getDate() + i);
-      const dateStr = d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+      const dateStr = d.toLocaleDateString('en-CA', { timeZone: 'Asia/Ho_Chi_Minh' });
       
       const count = historyMap[dateStr] || 0;
       let level = 0;

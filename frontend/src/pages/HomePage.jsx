@@ -131,18 +131,34 @@ const HomePage = ({ user: propUser, startStudy, streak, onLoginClick, onLogout, 
     "TRO_TU": "#06b6d4"
   };
 
+  const parseStudyDateKey = (raw) => {
+    if (!raw) return '';
+    if (typeof raw === 'string') {
+      if (/^\d{4}-\d{2}-\d{2}$/.test(raw.trim())) {
+        return raw.trim();
+      }
+      const d = new Date(raw);
+      if (!isNaN(d.getTime())) {
+        return d.toLocaleDateString('en-CA', { timeZone: 'Asia/Ho_Chi_Minh' });
+      }
+      return raw.slice(0, 10);
+    }
+    if (raw instanceof Date) {
+      return raw.toLocaleDateString('en-CA', { timeZone: 'Asia/Ho_Chi_Minh' });
+    }
+    if (Array.isArray(raw)) {
+      return `${raw[0]}-${String(raw[1]).padStart(2, '0')}-${String(raw[2]).padStart(2, '0')}`;
+    }
+    return '';
+  };
+
   const renderActivityGraph = () => {
     if (!dashboardData || !dashboardData.history) return null;
     const histMap = {};
     if (Array.isArray(dashboardData.history)) {
       dashboardData.history.forEach(session => {
         if (!session) return;
-        let dateKey = '';
-        if (typeof session.studyDate === 'string') {
-          dateKey = session.studyDate.slice(0, 10);
-        } else if (session.studyDate && typeof session.studyDate === 'object') {
-          dateKey = session.studyDate.toISOString ? session.studyDate.toISOString().slice(0, 10) : String(session.studyDate).slice(0, 10);
-        }
+        const dateKey = parseStudyDateKey(session.studyDate);
         if (dateKey) {
           histMap[dateKey] = session;
         }
@@ -155,10 +171,7 @@ const HomePage = ({ user: propUser, startStudy, streak, onLoginClick, onLogout, 
     for (let i = 364; i >= 0; i--) {
       const current = new Date(now);
       current.setDate(now.getDate() - i);
-      const year = current.getFullYear();
-      const month = String(current.getMonth() + 1).padStart(2, '0');
-      const dateVal = String(current.getDate()).padStart(2, '0');
-      const dateString = `${year}-${month}-${dateVal}`;
+      const dateString = current.toLocaleDateString('en-CA', { timeZone: 'Asia/Ho_Chi_Minh' });
 
       const session = histMap[dateString];
       cells.push({
@@ -362,8 +375,11 @@ const HomePage = ({ user: propUser, startStudy, streak, onLoginClick, onLogout, 
     const historyMap = {};
     if (dashboardData && Array.isArray(dashboardData.history)) {
       dashboardData.history.forEach(session => {
-        const dateStr = session.studyDate; // YYYY-MM-DD
-        historyMap[dateStr] = true;
+        if (!session) return;
+        const dateKey = parseStudyDateKey(session.studyDate);
+        if (dateKey && (session.wordsStudied > 0 || session.streakFrozen || session.totalQuestions > 0)) {
+          historyMap[dateKey] = true;
+        }
       });
     }
 
@@ -372,12 +388,12 @@ const HomePage = ({ user: propUser, startStudy, streak, onLoginClick, onLogout, 
     for (let i = 6; i >= 0; i--) {
       const d = new Date(today);
       d.setDate(today.getDate() - i);
-      const dateStr = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+      const dateStr = d.toLocaleDateString('en-CA', { timeZone: 'Asia/Ho_Chi_Minh' });
       const dayOfWeek = d.getDay();
       days.push({
         name: dayNames[dayOfWeek],
         dateStr: dateStr,
-        completed: historyMap[dateStr] === true || i === 0,
+        completed: historyMap[dateStr] === true || (i === 0 && (dashboardData?.wordsStudiedToday > 0 || dashboardData?.streak > 0)),
         isToday: i === 0
       });
     }
