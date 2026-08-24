@@ -232,6 +232,30 @@ public class VocabularyController {
     }
 
     /**
+     * Enrich a specific section/field of a vocabulary card using DeepSeek AI.
+     * POST /api/vocab/{id}/enrich-section?section={section}
+     */
+    @PostMapping("/{id}/enrich-section")
+    public ResponseEntity<?> enrichSection(@PathVariable Long id, @RequestParam(name = "section") String section) {
+        var existingOpt = service.getById(id);
+        if (existingOpt.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        Vocabulary existing = existingOpt.get();
+        if (enrichmentService == null) {
+            return ResponseEntity.ok(existing);
+        }
+
+        try {
+            Vocabulary updated = enrichmentService.enrichVocabularySection(existing, section).get(20, java.util.concurrent.TimeUnit.SECONDS);
+            return ResponseEntity.ok(updated != null ? updated : existing);
+        } catch (Exception e) {
+            log.error("Failed to enrich section {} for vocab ID {}: {}", section, id, e.getMessage());
+            return ResponseEntity.ok(existing);
+        }
+    }
+
+    /**
      * Trigger sequential batch enrichment for a level in the background
      * POST /api/vocab/enrich/level/{level}
      */

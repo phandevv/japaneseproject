@@ -16,6 +16,10 @@ export default function AiEnrichedTabbedView({ data, onReEnriched }) {
   const [savingEdit, setSavingEdit] = useState(false);
   const [editSuccessSection, setEditSuccessSection] = useState(null);
 
+  // Admin Section-Level AI Enrichment States
+  const [enrichingSection, setEnrichingSection] = useState(null);
+  const [enrichSuccessSection, setEnrichSuccessSection] = useState(null);
+
   // Reset localData and enriching states when parent word changes
   useEffect(() => {
     setLocalData(null);
@@ -23,6 +27,8 @@ export default function AiEnrichedTabbedView({ data, onReEnriched }) {
     setReEnrichSuccess(false);
     setEditingSection(null);
     setEditDraft({});
+    setEnrichingSection(null);
+    setEnrichSuccessSection(null);
   }, [data?.id]);
 
   // Auto-enrich on mount / view if word is missing core AI enriched fields
@@ -101,6 +107,31 @@ export default function AiEnrichedTabbedView({ data, onReEnriched }) {
       if (data?.id === targetId) {
         setReEnriching(false);
       }
+    }
+  };
+
+  const handleEnrichSection = async (section) => {
+    if (!displayData?.id || enrichingSection) return;
+    const targetId = displayData.id;
+    setEnrichingSection(section);
+    try {
+      const updated = await vocabApi.enrichSection(targetId, section);
+      if (updated && data?.id === targetId) {
+        if (data && typeof data === 'object' && data.id === targetId) {
+          Object.assign(data, updated);
+        }
+        setLocalData(updated);
+        if (onReEnriched) {
+          onReEnriched(updated);
+        }
+        setEnrichSuccessSection(section);
+        setTimeout(() => setEnrichSuccessSection(null), 2500);
+      }
+    } catch (err) {
+      console.error(`Failed to enrich section ${section}:`, err);
+      alert(`Lỗi khi AI nạp lại phần ${section}: ` + (err.response?.data?.message || err.message));
+    } finally {
+      setEnrichingSection(null);
     }
   };
 
@@ -206,6 +237,43 @@ export default function AiEnrichedTabbedView({ data, onReEnriched }) {
     );
   };
 
+  // Small Admin AI Section Enrich Trigger Button Component
+  const AdminAiEnrichSectionBtn = ({ section, label = "AI nạp" }) => {
+    if (!isAdmin) return null;
+    const isThisEnriching = enrichingSection === section;
+    const isThisSuccess = enrichSuccessSection === section;
+
+    return (
+      <button
+        type="button"
+        onClick={(e) => {
+          e.stopPropagation();
+          handleEnrichSection(section);
+        }}
+        disabled={!!enrichingSection}
+        title={`Admin: Gọi DeepSeek AI tạo/nạp riêng phần dữ liệu ${label}`}
+        style={{
+          background: isThisSuccess ? 'rgba(16, 185, 129, 0.15)' : isThisEnriching ? 'rgba(245, 158, 11, 0.15)' : 'rgba(245, 158, 11, 0.09)',
+          border: `1px solid ${isThisSuccess ? '#10b981' : isThisEnriching ? '#f59e0b' : 'rgba(245, 158, 11, 0.28)'}`,
+          borderRadius: '5px',
+          color: isThisSuccess ? '#10b981' : '#f59e0b',
+          padding: '2px 7px',
+          fontSize: '0.72rem',
+          cursor: enrichingSection ? 'not-allowed' : 'pointer',
+          display: 'inline-flex',
+          alignItems: 'center',
+          gap: '3px',
+          fontWeight: 600,
+          transition: 'all 0.2s ease',
+          opacity: (enrichingSection && !isThisEnriching) ? 0.5 : 1
+        }}
+      >
+        <Sparkles size={11} style={{ animation: isThisEnriching ? 'spin 1s linear infinite' : 'none' }} />
+        {isThisSuccess ? 'Đã nạp!' : isThisEnriching ? 'Đang nạp...' : label}
+      </button>
+    );
+  };
+
   return (
     <div className="knowledge-card vocabulary-card-modern enriched-tabbed-view animate-fade-in" onClick={(e) => e.stopPropagation()} style={{ marginTop: '0px', border: '1px solid var(--border-color)', borderRadius: '12px', overflow: 'hidden', background: 'var(--surface-color)', boxShadow: 'var(--shadow-sm)', height: '100%', width: '100%', minWidth: '100%', boxSizing: 'border-box', display: 'flex', flexDirection: 'column', flex: 1 }}>
       
@@ -233,20 +301,23 @@ export default function AiEnrichedTabbedView({ data, onReEnriched }) {
             </span>
           )}
           {isAdmin && (
-            <AdminEditBtn 
-              section="header" 
-              label="Sửa thông tin gốc"
-              onClick={() => startEditing('header', {
-                kanji: displayData.kanji || '',
-                hiragana: displayData.hiragana || '',
-                meaning: displayData.meaning || '',
-                hanViet: displayData.hanViet || '',
-                pitchAccent: displayData.pitchAccent || '',
-                onReading: displayData.onReading || '',
-                kunReading: displayData.kunReading || '',
-                wordType: displayData.wordType || ''
-              })}
-            />
+            <div style={{ display: 'inline-flex', alignItems: 'center', gap: '5px' }}>
+              <AdminAiEnrichSectionBtn section="header" label="AI nạp gốc" />
+              <AdminEditBtn 
+                section="header" 
+                label="Sửa thông tin gốc"
+                onClick={() => startEditing('header', {
+                  kanji: displayData.kanji || '',
+                  hiragana: displayData.hiragana || '',
+                  meaning: displayData.meaning || '',
+                  hanViet: displayData.hanViet || '',
+                  pitchAccent: displayData.pitchAccent || '',
+                  onReading: displayData.onReading || '',
+                  kunReading: displayData.kunReading || '',
+                  wordType: displayData.wordType || ''
+                })}
+              />
+            </div>
           )}
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
@@ -429,10 +500,13 @@ export default function AiEnrichedTabbedView({ data, onReEnriched }) {
                 <h5 style={{ margin: 0, fontSize: '0.85rem', color: 'var(--accent-color)', fontWeight: '700', display: 'flex', alignItems: 'center', gap: '6px' }}>
                   📌 Hướng dẫn sử dụng & Trường hợp dùng
                 </h5>
-                <AdminEditBtn 
-                  section="usageGuide"
-                  onClick={() => startEditing('usageGuide', { usageGuide: displayData.usageGuide || '' })}
-                />
+                <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+                  <AdminAiEnrichSectionBtn section="usageGuide" label="AI nạp" />
+                  <AdminEditBtn 
+                    section="usageGuide"
+                    onClick={() => startEditing('usageGuide', { usageGuide: displayData.usageGuide || '' })}
+                  />
+                </div>
               </div>
 
               {editingSection === 'usageGuide' ? (
@@ -462,10 +536,13 @@ export default function AiEnrichedTabbedView({ data, onReEnriched }) {
                 <h5 style={{ margin: 0, fontSize: '0.85rem', color: 'var(--accent-color)', fontWeight: '600' }}>
                   💡 Mẹo nhớ từ (Mnemonic)
                 </h5>
-                <AdminEditBtn 
-                  section="mnemonic"
-                  onClick={() => startEditing('mnemonic', { mnemonic: displayData.mnemonic || '' })}
-                />
+                <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+                  <AdminAiEnrichSectionBtn section="mnemonic" label="AI nạp" />
+                  <AdminEditBtn 
+                    section="mnemonic"
+                    onClick={() => startEditing('mnemonic', { mnemonic: displayData.mnemonic || '' })}
+                  />
+                </div>
               </div>
 
               {editingSection === 'mnemonic' ? (
@@ -495,10 +572,13 @@ export default function AiEnrichedTabbedView({ data, onReEnriched }) {
                 <h5 style={{ margin: 0, fontSize: '0.85rem', color: 'var(--success-color)', fontWeight: '600' }}>
                   🔍 Các từ ghép liên quan
                 </h5>
-                <AdminEditBtn 
-                  section="kanjiWords"
-                  onClick={() => startEditing('kanjiWords', { list: [...kanjiWords] })}
-                />
+                <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+                  <AdminAiEnrichSectionBtn section="kanjiWords" label="AI nạp" />
+                  <AdminEditBtn 
+                    section="kanjiWords"
+                    onClick={() => startEditing('kanjiWords', { list: [...kanjiWords] })}
+                  />
+                </div>
               </div>
 
               {editingSection === 'kanjiWords' ? (
@@ -584,13 +664,16 @@ export default function AiEnrichedTabbedView({ data, onReEnriched }) {
             <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', padding: '10px 12px', background: 'var(--surface-hover)', borderRadius: '10px', border: '1px solid var(--border-color)', width: '100%', boxSizing: 'border-box' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <span style={{ fontSize: '0.82rem', fontWeight: 700, color: 'var(--text-secondary)' }}>🔗 Từ đồng nghĩa & Trái nghĩa</span>
-                <AdminEditBtn 
-                  section="synonymsAntonyms"
-                  onClick={() => startEditing('synonymsAntonyms', {
-                    synonymsStr: synonyms.join(', '),
-                    antonymsStr: antonyms.join(', ')
-                  })}
-                />
+                <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+                  <AdminAiEnrichSectionBtn section="synonymsAntonyms" label="AI nạp" />
+                  <AdminEditBtn 
+                    section="synonymsAntonyms"
+                    onClick={() => startEditing('synonymsAntonyms', {
+                      synonymsStr: synonyms.join(', '),
+                      antonymsStr: antonyms.join(', ')
+                    })}
+                  />
+                </div>
               </div>
 
               {editingSection === 'synonymsAntonyms' ? (
@@ -673,14 +756,17 @@ export default function AiEnrichedTabbedView({ data, onReEnriched }) {
                 <h5 style={{ margin: 0, fontSize: '0.85rem', color: 'var(--accent-color)', fontWeight: '600' }}>
                   📝 Câu ví dụ mẫu
                 </h5>
-                <AdminEditBtn 
-                  section="exampleSentences"
-                  onClick={() => startEditing('exampleSentences', {
-                    list: exampleSentences.length > 0 
-                      ? [...exampleSentences] 
-                      : (displayData.sampleSentence ? [{ ja: displayData.sampleSentence, reading: displayData.sampleReading || '', vi: displayData.sampleTranslation || '' }] : [])
-                  })}
-                />
+                <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+                  <AdminAiEnrichSectionBtn section="exampleSentences" label="AI nạp" />
+                  <AdminEditBtn 
+                    section="exampleSentences"
+                    onClick={() => startEditing('exampleSentences', {
+                      list: exampleSentences.length > 0 
+                        ? [...exampleSentences] 
+                        : (displayData.sampleSentence ? [{ ja: displayData.sampleSentence, reading: displayData.sampleReading || '', vi: displayData.sampleTranslation || '' }] : [])
+                    })}
+                  />
+                </div>
               </div>
 
               {editingSection === 'exampleSentences' ? (
@@ -791,10 +877,13 @@ export default function AiEnrichedTabbedView({ data, onReEnriched }) {
                 <h5 style={{ margin: 0, fontSize: '0.85rem', color: 'var(--success-color)', fontWeight: '600' }}>
                   📚 Cụm từ hay dùng (Collocations)
                 </h5>
-                <AdminEditBtn 
-                  section="collocations"
-                  onClick={() => startEditing('collocations', { text: collocations.join('\n') })}
-                />
+                <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+                  <AdminAiEnrichSectionBtn section="collocations" label="AI nạp" />
+                  <AdminEditBtn 
+                    section="collocations"
+                    onClick={() => startEditing('collocations', { text: collocations.join('\n') })}
+                  />
+                </div>
               </div>
 
               {editingSection === 'collocations' ? (
@@ -838,10 +927,13 @@ export default function AiEnrichedTabbedView({ data, onReEnriched }) {
                 <h5 style={{ margin: 0, fontSize: '0.85rem', color: 'var(--accent-color)', fontWeight: '600' }}>
                   💬 Hội thoại thực tế
                 </h5>
-                <AdminEditBtn 
-                  section="conversations"
-                  onClick={() => startEditing('conversations', { list: [...conversations] })}
-                />
+                <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+                  <AdminAiEnrichSectionBtn section="conversations" label="AI nạp" />
+                  <AdminEditBtn 
+                    section="conversations"
+                    onClick={() => startEditing('conversations', { list: [...conversations] })}
+                  />
+                </div>
               </div>
 
               {editingSection === 'conversations' ? (
@@ -961,10 +1053,13 @@ export default function AiEnrichedTabbedView({ data, onReEnriched }) {
                 <h5 style={{ margin: 0, fontSize: '0.85rem', color: 'var(--danger-color)', fontWeight: '600' }}>
                   ⚠️ Lỗi thường gặp (Common Mistakes)
                 </h5>
-                <AdminEditBtn 
-                  section="commonMistakes"
-                  onClick={() => startEditing('commonMistakes', { list: [...commonMistakes] })}
-                />
+                <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+                  <AdminAiEnrichSectionBtn section="commonMistakes" label="AI nạp" />
+                  <AdminEditBtn 
+                    section="commonMistakes"
+                    onClick={() => startEditing('commonMistakes', { list: [...commonMistakes] })}
+                  />
+                </div>
               </div>
 
               {editingSection === 'commonMistakes' ? (

@@ -336,6 +336,15 @@ export const vocabApi = {
     return response.data;
   },
 
+  // Enrich a specific section/field of a vocabulary word via DeepSeek AI
+  enrichSection: async (id, section) => {
+    const response = await axios.post(`${API_BASE_URL}/vocab/${id}/enrich-section`, null, {
+      params: { section }
+    });
+    clearApiCache('/vocab');
+    return response.data;
+  },
+
   // Get vocabulary by ID
   getById: async (id) => {
     const response = await axios.get(`${API_BASE_URL}/vocab/${id}`);

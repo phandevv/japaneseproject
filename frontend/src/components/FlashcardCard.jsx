@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Volume2, Pencil, Check, X } from 'lucide-react';
+import { Volume2, Pencil, Check, X, Sparkles } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
 import { useAuth } from '../context/AuthContext';
 import { vocabApi } from '../services/api';
@@ -18,6 +18,8 @@ const FlashcardCard = ({ word, flipped, onFlip, onRateWord }) => {
   const [editDraft, setEditDraft] = useState({});
   const [savingEdit, setSavingEdit] = useState(false);
   const [editSuccess, setEditSuccess] = useState(false);
+  const [enrichingBasic, setEnrichingBasic] = useState(false);
+  const [enrichBasicSuccess, setEnrichBasicSuccess] = useState(false);
 
   const startEdit = () => {
     setIsEditingLeft(true);
@@ -33,6 +35,25 @@ const FlashcardCard = ({ word, flipped, onFlip, onRateWord }) => {
   const cancelEdit = () => {
     setIsEditingLeft(false);
     setEditDraft({});
+  };
+
+  const handleEnrichBasic = async () => {
+    if (!word?.id || enrichingBasic) return;
+    setEnrichingBasic(true);
+    try {
+      const updated = await vocabApi.enrichSection(word.id, 'header');
+      if (updated) {
+        Object.assign(word, updated);
+        setEnriched(updated);
+        setEnrichBasicSuccess(true);
+        setTimeout(() => setEnrichBasicSuccess(false), 2500);
+      }
+    } catch (err) {
+      console.error("Failed to enrich basic section:", err);
+      alert("Lỗi khi AI nạp thông tin gốc: " + (err.response?.data?.message || err.message));
+    } finally {
+      setEnrichingBasic(false);
+    }
   };
 
   const saveEdit = async () => {
@@ -287,9 +308,32 @@ const FlashcardCard = ({ word, flipped, onFlip, onRateWord }) => {
             
             {/* Left Column: Basic word information and Rate buttons */}
             <div className="flashcard-back-left" style={{ position: 'relative' }}>
-              {/* Admin Edit button in top left */}
+              {/* Admin Edit & AI Enrich buttons in top left */}
               {isAdmin && (
-                <div style={{ position: 'absolute', top: '12px', left: '12px', zIndex: 3 }} onClick={e => e.stopPropagation()}>
+                <div style={{ position: 'absolute', top: '12px', left: '12px', zIndex: 3, display: 'inline-flex', gap: '6px', alignItems: 'center' }} onClick={e => e.stopPropagation()}>
+                  <button
+                    type="button"
+                    onClick={handleEnrichBasic}
+                    disabled={enrichingBasic}
+                    title="Admin: Dùng DeepSeek AI nạp lại thông tin gốc (Hán Việt, Hiragana, Từ loại, Âm On/Kun)"
+                    style={{
+                      background: enrichBasicSuccess ? 'rgba(16, 185, 129, 0.15)' : enrichingBasic ? 'rgba(245, 158, 11, 0.15)' : 'rgba(245, 158, 11, 0.1)',
+                      border: `1px solid ${enrichBasicSuccess ? '#10b981' : enrichingBasic ? '#f59e0b' : 'rgba(245, 158, 11, 0.3)'}`,
+                      borderRadius: '5px',
+                      color: enrichBasicSuccess ? '#10b981' : '#f59e0b',
+                      padding: '3px 8px',
+                      fontSize: '0.72rem',
+                      cursor: enrichingBasic ? 'not-allowed' : 'pointer',
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '4px',
+                      fontWeight: 600,
+                      transition: 'all 0.2s ease'
+                    }}
+                  >
+                    <Sparkles size={11} style={{ animation: enrichingBasic ? 'spin 1s linear infinite' : 'none' }} />
+                    {enrichBasicSuccess ? 'Đã nạp!' : enrichingBasic ? 'Đang nạp...' : 'AI nạp gốc'}
+                  </button>
                   <button
                     type="button"
                     onClick={startEdit}
@@ -307,7 +351,7 @@ const FlashcardCard = ({ word, flipped, onFlip, onRateWord }) => {
                       fontWeight: 600
                     }}
                   >
-                    {editSuccess ? <><Check size={11} /> Đã lưu</> : <><Pencil size={11} /> Sửa thông tin</>}
+                    {editSuccess ? <><Check size={11} /> Đã lưu</> : <><Pencil size={11} /> Sửa</>}
                   </button>
                 </div>
               )}

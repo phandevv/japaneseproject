@@ -377,14 +377,21 @@ public class DeepSeekEnrichmentService {
     }
 
     private CompletableFuture<Vocabulary> executeMicroPrompt(Vocabulary vocab, String apiKey, String prompt, java.util.function.BiConsumer<JsonNode, Vocabulary> mapper) {
+        return executeMicroPrompt(vocab, apiKey, prompt, 250, mapper);
+    }
+
+    private CompletableFuture<Vocabulary> executeMicroPrompt(Vocabulary vocab, String apiKey, String prompt, int maxTokens, java.util.function.BiConsumer<JsonNode, Vocabulary> mapper) {
+        if (!bulkheadSemaphore.tryAcquire()) {
+            return CompletableFuture.completedFuture(vocab);
+        }
         try {
             Map<String, Object> requestBodyMap = Map.of(
                 "model", "deepseek-chat",
-                "max_tokens", 150,
+                "max_tokens", maxTokens,
                 "temperature", 0.1,
                 "response_format", Map.of("type", "json_object"),
                 "messages", new Object[]{
-                    Map.of("role", "system", "content", "Bạn là trợ lý từ điển tiếng Nhật. Phản hồi duy nhất bằng định dạng JSON bằng tiếng Việt."),
+                    Map.of("role", "system", "content", "Bạn là trợ lý từ điển tiếng Nhật cao cấp. BẮT BUỘC: Mọi giải thích, dịch nghĩa, mẹo nhớ, ví dụ PHẢI viết bằng 100% TIẾNG VIỆT, tuyệt đối không dùng tiếng Nhật hoặc tiếng Trung để giải thích. Phản hồi duy nhất bằng định dạng JSON."),
                     Map.of("role", "user", "content", prompt)
                 }
             );
@@ -393,7 +400,7 @@ public class DeepSeekEnrichmentService {
                     .header("Content-Type", "application/json")
                     .header("Authorization", "Bearer " + apiKey)
                     .POST(HttpRequest.BodyPublishers.ofString(requestBody))
-                    .timeout(Duration.ofSeconds(10))
+                    .timeout(Duration.ofSeconds(15))
                     .build();
 
             return httpClient.sendAsync(request, HttpResponse.BodyHandlers.ofString())
@@ -417,6 +424,184 @@ public class DeepSeekEnrichmentService {
             bulkheadSemaphore.release();
             return CompletableFuture.completedFuture(vocab);
         }
+    }
+
+    public CompletableFuture<Vocabulary> enrichVocabularySection(Vocabulary vocab, String section) {
+        if (vocab == null || vocab.getId() == null) {
+            return CompletableFuture.completedFuture(vocab);
+        }
+        String apiKey = getApiKey();
+        if (apiKey == null || apiKey.trim().isEmpty()) {
+            return CompletableFuture.completedFuture(vocab);
+        }
+
+        String word = vocab.getKanji() != null && !vocab.getKanji().isBlank() ? vocab.getKanji() : vocab.getHiragana();
+        String meaning = vocab.getMeaning() != null ? vocab.getMeaning() : "";
+        String hanViet = vocab.getHanViet() != null ? vocab.getHanViet() : "";
+        String level = vocab.getLevel() != null ? vocab.getLevel() : "N3";
+
+        String prompt;
+        int maxTokens = 250;
+        java.util.function.BiConsumer<JsonNode, Vocabulary> mapper;
+
+        String sec = section != null ? section.trim().toLowerCase(java.util.Locale.ROOT) : "";
+        switch (sec) {
+            case "usageguide":
+                prompt = String.format(
+                    "Hãy viết hướng dẫn sử dụng, sắc thái nghĩa và hoàn cảnh sử dụng chi tiết bằng 100%% TIẾNG VIỆT cho từ tiếng Nhật \"%s\" (Nghĩa: %s, Cấp độ: %s). Tuyệt đối không dùng tiếng Nhật/Trung giải thích. Trả về duy nhất JSON: {\"usageGuide\": \"Giải thích sắc thái, cách dùng chi tiết bằng tiếng Việt...\"}",
+                    word, meaning, level
+                );
+                maxTokens = 350;
+                mapper = (node, v) -> {
+                    if (node.has("usageGuide") && !node.path("usageGuide").isNull()) {
+                        v.setUsageGuide(node.path("usageGuide").asText().trim());
+                    }
+                };
+                break;
+
+            case "mnemonic":
+                prompt = String.format(
+                    "Hãy tạo 1 mẹo nhớ độc đáo, ấn tượng (chiết tự bộ thủ hoặc câu chuyện liên tưởng) bằng 100%% TIẾNG VIỆT cho từ \"%s\" (Nghĩa: %s, Hán Việt: %s). Trả về duy nhất JSON: {\"mnemonic\": \"Mẹo nhớ bằng tiếng Việt...\"}",
+                    word, meaning, hanViet
+                );
+                maxTokens = 250;
+                mapper = (node, v) -> {
+                    if (node.has("mnemonic") && !node.path("mnemonic").isNull()) {
+                        v.setMnemonic(node.path("mnemonic").asText().trim());
+                    }
+                };
+                break;
+
+            case "kanjiwords":
+                prompt = String.format(
+                    "Hãy cung cấp 3-5 từ ghép / từ vựng liên quan chứa chữ \"%s\" (Nghĩa: %s). Mọi nghĩa BẮT BUỘC bằng tiếng Việt. Trả về duy nhất JSON: {\"kanjiWords\": [{\"word\": \"từ tiếng Nhật\", \"reading\": \"cách đọc hiragana\", \"meaning\": \"nghĩa tiếng Việt\"}]}",
+                    word, meaning
+                );
+                maxTokens = 400;
+                mapper = (node, v) -> {
+                    if (node.has("kanjiWords") && node.path("kanjiWords").isArray()) {
+                        try {
+                            v.setKanjiWords(objectMapper.writeValueAsString(node.path("kanjiWords")));
+                        } catch (Exception ignored) {}
+                    }
+                };
+                break;
+
+            case "examplesentences":
+                prompt = String.format(
+                    "Hãy tạo 3 câu ví dụ tiếng Nhật tự nhiên, chuẩn JLPT %s cho từ \"%s\" (Nghĩa: %s). Mọi câu có phiên âm reading và dịch nghĩa tiếng Việt 100%%. Trả về duy nhất JSON: {\"exampleSentences\": [{\"ja\": \"câu ví dụ tiếng Nhật\", \"reading\": \"phiên âm hiragana\", \"vi\": \"dịch nghĩa tiếng Việt\"}]}",
+                    level, word, meaning
+                );
+                maxTokens = 500;
+                mapper = (node, v) -> {
+                    if (node.has("exampleSentences") && node.path("exampleSentences").isArray()) {
+                        try {
+                            v.setExampleSentences(objectMapper.writeValueAsString(node.path("exampleSentences")));
+                            if (node.path("exampleSentences").size() > 0) {
+                                JsonNode firstEx = node.path("exampleSentences").get(0);
+                                v.setSampleSentence(firstEx.path("ja").asText());
+                                v.setSampleReading(firstEx.path("reading").asText());
+                                v.setSampleTranslation(firstEx.path("vi").asText());
+                            }
+                        } catch (Exception ignored) {}
+                    }
+                };
+                break;
+
+            case "collocations":
+                prompt = String.format(
+                    "Hãy cung cấp 3-5 cụm từ / collocations thường đi kèm trong tiếng Nhật cho từ \"%s\" (Nghĩa: %s). Dịch nghĩa 100%% tiếng Việt. Trả về duy nhất JSON: {\"collocations\": [{\"phrase\": \"cụm từ tiếng Nhật\", \"reading\": \"cách đọc hiragana\", \"meaning\": \"nghĩa tiếng Việt\"}]}",
+                    word, meaning
+                );
+                maxTokens = 400;
+                mapper = (node, v) -> {
+                    if (node.has("collocations") && node.path("collocations").isArray()) {
+                        try {
+                            v.setCollocations(objectMapper.writeValueAsString(node.path("collocations")));
+                        } catch (Exception ignored) {}
+                    }
+                };
+                break;
+
+            case "synonymsantonyms":
+            case "synonyms":
+            case "antonyms":
+                prompt = String.format(
+                    "Hãy cung cấp danh sách từ đồng nghĩa (synonyms) và từ trái nghĩa (antonyms) cho từ \"%s\" (Nghĩa: %s). Dịch nghĩa 100%% tiếng Việt. Trả về duy nhất JSON: {\"synonyms\": [{\"word\": \"từ\", \"reading\": \"cách đọc\", \"meaning\": \"nghĩa tiếng Việt\"}], \"antonyms\": [{\"word\": \"từ\", \"reading\": \"cách đọc\", \"meaning\": \"nghĩa tiếng Việt\"}]}",
+                    word, meaning
+                );
+                maxTokens = 400;
+                mapper = (node, v) -> {
+                    if (node.has("synonyms") && node.path("synonyms").isArray()) {
+                        try { v.setSynonyms(objectMapper.writeValueAsString(node.path("synonyms"))); } catch (Exception ignored) {}
+                    }
+                    if (node.has("antonyms") && node.path("antonyms").isArray()) {
+                        try { v.setAntonyms(objectMapper.writeValueAsString(node.path("antonyms"))); } catch (Exception ignored) {}
+                    }
+                };
+                break;
+
+            case "conversations":
+            case "conversationexamples":
+                prompt = String.format(
+                    "Hãy tạo 1 đoạn hội thoại ngắn thực tế (2-4 lượt nói giữa A và B) có sử dụng tự nhiên từ \"%s\" (Nghĩa: %s). Dịch nghĩa 100%% tiếng Việt. Trả về duy nhất JSON: {\"conversationExamples\": [{\"speaker\": \"A\", \"ja\": \"câu tiếng Nhật\", \"reading\": \"cách đọc\", \"vi\": \"dịch tiếng Việt\"}, {\"speaker\": \"B\", \"ja\": \"câu tiếng Nhật\", \"reading\": \"cách đọc\", \"vi\": \"dịch tiếng Việt\"}]}",
+                    word, meaning
+                );
+                maxTokens = 500;
+                mapper = (node, v) -> {
+                    if (node.has("conversationExamples") && node.path("conversationExamples").isArray()) {
+                        try {
+                            v.setConversationExamples(objectMapper.writeValueAsString(node.path("conversationExamples")));
+                        } catch (Exception ignored) {}
+                    }
+                };
+                break;
+
+            case "commonmistakes":
+                prompt = String.format(
+                    "Hãy nêu các lỗi sai người Việt hay mắc phải khi dùng từ \"%s\" (Nghĩa: %s). Giải thích 100%% tiếng Việt. Trả về duy nhất JSON: {\"commonMistakes\": [{\"mistake\": \"cách dùng sai\", \"correction\": \"cách dùng đúng\", \"explanation\": \"giải thích lý do bằng tiếng Việt\"}]}",
+                    word, meaning
+                );
+                maxTokens = 400;
+                mapper = (node, v) -> {
+                    if (node.has("commonMistakes") && node.path("commonMistakes").isArray()) {
+                        try {
+                            v.setCommonMistakes(objectMapper.writeValueAsString(node.path("commonMistakes")));
+                        } catch (Exception ignored) {}
+                    }
+                };
+                break;
+
+            case "header":
+            case "basic":
+            default:
+                prompt = String.format(
+                    "Cung cấp thông tin chuẩn xác cho từ/chữ Hán \"%s\" (Nghĩa: %s): Hán Việt VIẾT HOA, Trọng âm (pitch accent), Âm On (nếu có), Âm Kun (nếu có), Loại từ (N, V, Adj...). Trả về duy nhất JSON: {\"hanViet\": \"HÁN VIỆT VIẾT HOA\", \"pitchAccent\": \"[0]\", \"onReading\": \"âm On\", \"kunReading\": \"âm Kun\", \"wordType\": \"N\"}",
+                    word, meaning
+                );
+                maxTokens = 250;
+                mapper = (node, v) -> {
+                    if (node.has("hanViet") && !node.path("hanViet").isNull()) {
+                        String hv = node.path("hanViet").asText().trim();
+                        if (!hv.isEmpty() && !"null".equalsIgnoreCase(hv)) v.setHanViet(hv.toUpperCase(java.util.Locale.ROOT));
+                    }
+                    if (node.has("pitchAccent") && !node.path("pitchAccent").isNull()) {
+                        v.setPitchAccent(node.path("pitchAccent").asText().trim());
+                    }
+                    if (node.has("onReading") && !node.path("onReading").isNull()) {
+                        v.setOnReading(node.path("onReading").asText().trim());
+                    }
+                    if (node.has("kunReading") && !node.path("kunReading").isNull()) {
+                        v.setKunReading(node.path("kunReading").asText().trim());
+                    }
+                    if (node.has("wordType") && !node.path("wordType").isNull()) {
+                        v.setWordType(node.path("wordType").asText().trim());
+                    }
+                };
+                break;
+        }
+
+        return executeMicroPrompt(vocab, apiKey, prompt, maxTokens, mapper);
     }
 
     public CompletableFuture<Vocabulary> enrichMissingHanViet(Vocabulary vocab) {
