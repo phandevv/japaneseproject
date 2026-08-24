@@ -173,8 +173,11 @@ public class JlptN3DataLoader implements CommandLineRunner {
                     if (kanji.isEmpty()) continue;
 
                     String hanViet = kNode.path("han_viet").asText("").trim();
+                    if (hanViet.isEmpty()) hanViet = kNode.path("hanViet").asText("").trim();
                     String nghia = kNode.path("nghia").asText("").trim();
+                    if (nghia.isEmpty()) nghia = kNode.path("meaning").asText("").trim();
                     String amDoc = kNode.path("am_doc").asText("").trim();
+                    if (amDoc.isEmpty()) amDoc = kNode.path("reading").asText("").trim();
 
                     List<String> tuVungList = new ArrayList<>();
                     if (kNode.has("tu_vung") && kNode.get("tu_vung").isArray()) {
@@ -186,12 +189,23 @@ public class JlptN3DataLoader implements CommandLineRunner {
                     Optional<Vocabulary> existingOpt = vocabularyDataProvider.findFirstByKanjiAndCategory(kanji, kanjiCategory);
                     Vocabulary v = existingOpt.orElseGet(Vocabulary::new);
                     v.setKanji(kanji);
-                    if (v.getHiragana() == null || v.getHiragana().isEmpty()) {
+                    if (amDoc != null && !amDoc.isEmpty()) {
+                        v.setRomaji(amDoc);
+                        v.setHiragana(amDoc);
+                        if (amDoc.contains("/")) {
+                            String[] parts = amDoc.split("/", 2);
+                            v.setOnReading(parts[0].trim());
+                            v.setKunReading(parts[1].trim());
+                        } else if (amDoc.matches("^[\\u30A0-\\u30FF\\s、·・,]+$")) {
+                            v.setOnReading(amDoc.trim());
+                        } else {
+                            v.setKunReading(amDoc.trim());
+                        }
+                    } else if (v.getHiragana() == null || v.getHiragana().isEmpty()) {
                         v.setHiragana(kanji);
                     }
                     if (hanViet != null && !hanViet.isEmpty()) v.setHanViet(hanViet);
                     if (nghia != null && !nghia.isEmpty()) v.setMeaning(nghia);
-                    if (amDoc != null && !amDoc.isEmpty()) v.setRomaji(amDoc);
                     v.setWordType("KANJI");
                     v.setLevel("N3_COURSE");
                     v.setCategory(kanjiCategory);
@@ -214,8 +228,27 @@ public class JlptN3DataLoader implements CommandLineRunner {
                     if (tu.isEmpty()) continue;
 
                     String loaiTu = vNode.path("loai_tu").asText("").trim();
+                    if (loaiTu.isEmpty()) loaiTu = vNode.path("loại từ").asText("").trim();
+                    if (loaiTu.isEmpty()) loaiTu = vNode.path("loaiTu").asText("").trim();
+                    if (loaiTu.isEmpty()) loaiTu = vNode.path("wordType").asText("").trim();
+
                     String nghia = vNode.path("nghia").asText("").trim();
+                    if (nghia.isEmpty()) nghia = vNode.path("nghĩa").asText("").trim();
+                    if (nghia.isEmpty()) nghia = vNode.path("meaning").asText("").trim();
+
                     String viDu = vNode.path("vi_du").asText("").trim();
+                    if (viDu.isEmpty()) viDu = vNode.path("ví dụ").asText("").trim();
+                    if (viDu.isEmpty()) viDu = vNode.path("sampleSentence").asText("").trim();
+
+                    String cachDoc = vNode.path("cach_doc").asText("").trim();
+                    if (cachDoc.isEmpty()) cachDoc = vNode.path("cách đọc").asText("").trim();
+                    if (cachDoc.isEmpty()) cachDoc = vNode.path("hiragana").asText("").trim();
+                    if (cachDoc.isEmpty()) cachDoc = vNode.path("furigana").asText("").trim();
+                    if (cachDoc.isEmpty()) cachDoc = vNode.path("reading").asText("").trim();
+
+                    String hanViet = vNode.path("han_viet").asText("").trim();
+                    if (hanViet.isEmpty()) hanViet = vNode.path("hanViet").asText("").trim();
+                    if (hanViet.isEmpty()) hanViet = vNode.path("am_han").asText("").trim();
 
                     Optional<Vocabulary> existingOpt = vocabularyDataProvider.findFirstByKanjiAndCategory(tu, vocabCategory);
                     if (existingOpt.isEmpty()) {
@@ -226,7 +259,9 @@ public class JlptN3DataLoader implements CommandLineRunner {
                     boolean isKanji = tu.codePoints().anyMatch(Character::isIdeographic);
                     if (isKanji) {
                         v.setKanji(tu);
-                        if (v.getHiragana() == null || v.getHiragana().isEmpty()) {
+                        if (cachDoc != null && !cachDoc.isEmpty()) {
+                            v.setHiragana(cachDoc);
+                        } else if (v.getHiragana() == null || v.getHiragana().isEmpty() || v.getHiragana().equals(tu)) {
                             v.setHiragana(tu);
                         }
                     } else {
@@ -237,6 +272,7 @@ public class JlptN3DataLoader implements CommandLineRunner {
                     }
 
                     if (nghia != null && !nghia.isEmpty()) v.setMeaning(nghia);
+                    if (hanViet != null && !hanViet.isEmpty()) v.setHanViet(hanViet);
                     v.setWordType(loaiTu != null && !loaiTu.isEmpty() && !"KANJI".equalsIgnoreCase(loaiTu) ? loaiTu : "N");
                     if (viDu != null && !viDu.isEmpty()) v.setSampleSentence(viDu);
                     v.setLevel("N3_COURSE");

@@ -292,9 +292,11 @@ public class JlptN3CourseService {
                 item.put("kanji", v.getKanji());
                 item.put("furigana", v.getHiragana());
                 item.put("hiragana", v.getHiragana());
+                item.put("cach_doc", v.getHiragana());
                 item.put("nghia", v.getMeaning());
                 item.put("meaning", v.getMeaning());
                 item.put("loai_tu", v.getWordType() != null ? v.getWordType() : "N");
+                item.put("wordType", v.getWordType() != null ? v.getWordType() : "N");
                 item.put("vi_du", v.getSampleSentence());
                 item.put("sampleSentence", v.getSampleSentence());
                 item.put("hanViet", v.getHanViet());
@@ -320,6 +322,10 @@ public class JlptN3CourseService {
                 kItem.put("han_viet", k.getHanViet());
                 kItem.put("hanViet", k.getHanViet());
                 kItem.put("am_han", k.getHanViet());
+                String amDoc = k.getRomaji() != null && !k.getRomaji().isBlank() ? k.getRomaji() : k.getHiragana();
+                kItem.put("am_doc", amDoc);
+                kItem.put("romaji", amDoc);
+                kItem.put("hiragana", amDoc);
                 kItem.put("am_on", k.getOnReading());
                 kItem.put("onReading", k.getOnReading());
                 kItem.put("am_kun", k.getKunReading());
@@ -328,6 +334,15 @@ public class JlptN3CourseService {
                 kItem.put("meaning", k.getMeaning());
                 kItem.put("mnemonic", k.getMnemonic());
                 kItem.put("kanjiWords", k.getKanjiWords());
+                if (k.getKanjiWords() != null && !k.getKanjiWords().isBlank()) {
+                    try {
+                        kItem.put("tu_vung", objectMapper.readValue(k.getKanjiWords(), List.class));
+                    } catch (Exception e) {
+                        kItem.put("tu_vung", List.of(k.getKanjiWords()));
+                    }
+                } else {
+                    kItem.put("tu_vung", Collections.emptyList());
+                }
                 kItem.put("exampleSentences", k.getExampleSentences());
                 kItem.put("usageGuide", k.getUsageGuide());
                 chuHanList.add(kItem);
@@ -715,8 +730,11 @@ public class JlptN3CourseService {
                         if (kanji.isEmpty()) continue;
 
                         String hanViet = kNode.path("han_viet").asText("").trim();
+                        if (hanViet.isEmpty()) hanViet = kNode.path("hanViet").asText("").trim();
                         String nghia = kNode.path("nghia").asText("").trim();
+                        if (nghia.isEmpty()) nghia = kNode.path("meaning").asText("").trim();
                         String amDoc = kNode.path("am_doc").asText("").trim();
+                        if (amDoc.isEmpty()) amDoc = kNode.path("reading").asText("").trim();
 
                         List<String> tuVungList = new ArrayList<>();
                         if (kNode.has("tu_vung") && kNode.get("tu_vung").isArray()) {
@@ -731,6 +749,15 @@ public class JlptN3CourseService {
                         if (amDoc != null && !amDoc.isEmpty()) {
                             v.setRomaji(amDoc);
                             v.setHiragana(amDoc);
+                            if (amDoc.contains("/")) {
+                                String[] parts = amDoc.split("/", 2);
+                                v.setOnReading(parts[0].trim());
+                                v.setKunReading(parts[1].trim());
+                            } else if (amDoc.matches("^[\\u30A0-\\u30FF\\s、·・,]+$")) {
+                                v.setOnReading(amDoc.trim());
+                            } else {
+                                v.setKunReading(amDoc.trim());
+                            }
                         } else if (v.getHiragana() == null || v.getHiragana().isEmpty()) {
                             v.setHiragana(kanji);
                         }
@@ -758,12 +785,27 @@ public class JlptN3CourseService {
                         if (tu.isEmpty()) continue;
 
                         String loaiTu = vNode.path("loai_tu").asText("").trim();
+                        if (loaiTu.isEmpty()) loaiTu = vNode.path("loại từ").asText("").trim();
+                        if (loaiTu.isEmpty()) loaiTu = vNode.path("loaiTu").asText("").trim();
+                        if (loaiTu.isEmpty()) loaiTu = vNode.path("wordType").asText("").trim();
+
                         String nghia = vNode.path("nghia").asText("").trim();
+                        if (nghia.isEmpty()) nghia = vNode.path("nghĩa").asText("").trim();
+                        if (nghia.isEmpty()) nghia = vNode.path("meaning").asText("").trim();
+
                         String viDu = vNode.path("vi_du").asText("").trim();
+                        if (viDu.isEmpty()) viDu = vNode.path("ví dụ").asText("").trim();
+                        if (viDu.isEmpty()) viDu = vNode.path("sampleSentence").asText("").trim();
+
                         String cachDoc = vNode.path("cach_doc").asText("").trim();
                         if (cachDoc.isEmpty()) cachDoc = vNode.path("cách đọc").asText("").trim();
                         if (cachDoc.isEmpty()) cachDoc = vNode.path("hiragana").asText("").trim();
                         if (cachDoc.isEmpty()) cachDoc = vNode.path("furigana").asText("").trim();
+                        if (cachDoc.isEmpty()) cachDoc = vNode.path("reading").asText("").trim();
+
+                        String hanViet = vNode.path("han_viet").asText("").trim();
+                        if (hanViet.isEmpty()) hanViet = vNode.path("hanViet").asText("").trim();
+                        if (hanViet.isEmpty()) hanViet = vNode.path("am_han").asText("").trim();
 
                         Optional<Vocabulary> existingOpt = vocabularyDataProvider.findFirstByKanjiAndCategory(tu, vocabCategory);
                         if (existingOpt.isEmpty()) {
@@ -787,6 +829,7 @@ public class JlptN3CourseService {
                         }
 
                         if (nghia != null && !nghia.isEmpty()) v.setMeaning(nghia);
+                        if (hanViet != null && !hanViet.isEmpty()) v.setHanViet(hanViet);
                         v.setWordType(loaiTu != null && !loaiTu.isEmpty() && !"KANJI".equalsIgnoreCase(loaiTu) ? loaiTu : "N");
                         if (viDu != null && !viDu.isEmpty()) v.setSampleSentence(viDu);
                         v.setLevel("N3_COURSE");

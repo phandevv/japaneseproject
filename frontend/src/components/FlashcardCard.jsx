@@ -389,10 +389,33 @@ const FlashcardCard = ({ word, flipped, onFlip, onRateWord }) => {
                       backgroundColor: 'var(--surface-hover)', 
                       borderRadius: '4px',
                       color: 'var(--text-secondary)',
-                      fontSize: '0.85rem'
+                      fontSize: '0.85rem',
+                      marginBottom: '8px'
                     }}>
                       {word.wordType}
                     </span>
+                  )}
+
+                  {/* Related words list for Kanji */}
+                  {word.tu_vung && Array.isArray(word.tu_vung) && word.tu_vung.length > 0 && (
+                    <div style={{ marginTop: '8px', width: '100%', textAlign: 'left', padding: '8px', background: 'var(--surface-hover)', borderRadius: '8px', border: '1px solid var(--border-color)' }}>
+                      <span style={{ fontSize: '0.74rem', fontWeight: 700, color: 'var(--text-secondary)' }}>Từ vựng chứa chữ Hán:</span>
+                      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '4px', marginTop: '4px' }}>
+                        {word.tu_vung.map((tv, idx) => (
+                          <span key={idx} style={{ fontSize: '0.76rem', background: 'var(--surface-color)', padding: '2px 6px', borderRadius: '4px', border: '1px solid var(--border-color)', color: 'var(--text-primary)' }}>
+                            {tv}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Sample sentence for Vocab */}
+                  {word.sampleSentence && !word.tu_vung && (
+                    <div style={{ marginTop: '8px', width: '100%', textAlign: 'left', padding: '8px', background: 'var(--surface-hover)', borderRadius: '8px', border: '1px solid var(--border-color)', fontSize: '0.8rem', color: 'var(--text-primary)' }}>
+                      <span style={{ fontWeight: 700, color: 'var(--text-secondary)', display: 'block', marginBottom: '2px' }}>Ví dụ:</span>
+                      {word.sampleSentence}
+                    </div>
                   )}
                 </div>
               )}

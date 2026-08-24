@@ -388,20 +388,37 @@ const isContainsKanji = (str) => {
   // Convert chu_han items into Vocabulary objects for modal preview
   const formattedKanjiWords = useMemo(() => {
     if (!lessonData || !lessonData.chu_han) return [];
-    return lessonData.chu_han.map((k, idx) => ({
-      id: k.id || (idx + 2000),
-      kanji: k.kanji || k.tu || '',
-      hiragana: k.am_doc || k.kanji || k.tu || '',
-      meaning: k.nghia || k.meaning || '',
-      hanViet: k.han_viet || k.am_han || k.hanViet || '',
-      romaji: k.am_doc || '',
-      wordType: 'Kanji',
-      level: 'N3',
-      sampleSentence: k.tu_vung ? (Array.isArray(k.tu_vung) ? k.tu_vung.join(', ') : k.tu_vung) : '',
-      pitchAccent: k.pitchAccent,
-      mnemonic: k.mnemonic,
-      exampleSentences: k.exampleSentences
-    }));
+    return lessonData.chu_han.map((k, idx) => {
+      let wordsList = [];
+      if (Array.isArray(k.tu_vung)) {
+        wordsList = k.tu_vung;
+      } else if (typeof k.tu_vung === 'string' && k.tu_vung.startsWith('[')) {
+        try { wordsList = JSON.parse(k.tu_vung); } catch { wordsList = [k.tu_vung]; }
+      } else if (typeof k.tu_vung === 'string' && k.tu_vung.trim()) {
+        wordsList = [k.tu_vung.trim()];
+      } else if (k.kanjiWords) {
+        if (Array.isArray(k.kanjiWords)) wordsList = k.kanjiWords;
+        else if (typeof k.kanjiWords === 'string' && k.kanjiWords.startsWith('[')) {
+          try { wordsList = JSON.parse(k.kanjiWords); } catch { wordsList = [k.kanjiWords]; }
+        }
+      }
+
+      return {
+        id: k.id || (idx + 2000),
+        kanji: k.kanji || k.tu || '',
+        hiragana: k.am_doc || k.kanji || k.tu || '',
+        meaning: k.nghia || k.meaning || '',
+        hanViet: k.han_viet || k.am_han || k.hanViet || '',
+        romaji: k.am_doc || '',
+        wordType: 'Kanji',
+        level: 'N3',
+        tu_vung: wordsList,
+        sampleSentence: wordsList.length > 0 ? wordsList.join(', ') : '',
+        pitchAccent: k.pitchAccent,
+        mnemonic: k.mnemonic,
+        exampleSentences: k.exampleSentences
+      };
+    });
   }, [lessonData]);
 
   // Extract items for Flashcards
@@ -1716,6 +1733,23 @@ const isContainsKanji = (str) => {
                               </div>
                             )}
                             {!hideMeanings && <div style={{ fontSize: '0.92rem', color: 'var(--success-color)', fontWeight: 600, marginBottom: '6px' }}>{k.meaning}</div>}
+                            {k.tu_vung && k.tu_vung.length > 0 && (
+                              <div style={{ marginTop: '4px', marginBottom: '6px', display: 'flex', flexDirection: 'column', gap: '3px' }}>
+                                <span style={{ fontSize: '0.75rem', fontWeight: 700, color: 'var(--text-secondary)' }}>Từ vựng chứa chữ Hán:</span>
+                                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '4px' }}>
+                                  {k.tu_vung.slice(0, 4).map((tv, i) => (
+                                    <span key={i} style={{ fontSize: '0.76rem', background: 'var(--surface-hover)', padding: '2px 6px', borderRadius: '4px', border: '1px solid var(--border-color)', color: 'var(--text-primary)' }}>
+                                      {tv}
+                                    </span>
+                                  ))}
+                                  {k.tu_vung.length > 4 && (
+                                    <span style={{ fontSize: '0.72rem', color: 'var(--text-secondary)', alignSelf: 'center' }}>
+                                      +{k.tu_vung.length - 4} từ nữa
+                                    </span>
+                                  )}
+                                </div>
+                              </div>
+                            )}
                             <span style={{ fontSize: '0.75rem', color: 'var(--accent-color)', fontWeight: 600 }}>Xem nét viết & DeepSeek AI ➔</span>
                           </div>
                         </div>
