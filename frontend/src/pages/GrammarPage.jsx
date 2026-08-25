@@ -27,7 +27,7 @@ const FuriganaText = ({ text }) => {
     elements.push(
       <ruby key={match.index} style={{ rubyPosition: 'over' }}>
         <span>{baseText}</span>
-        <rt style={{ fontSize: '0.65em', color: '#a5b4fc', fontWeight: '600', userSelect: 'none', paddingBottom: '2px' }}>
+        <rt style={{ fontSize: '0.65em', color: 'var(--accent-color)', fontWeight: '600', userSelect: 'none', paddingBottom: '2px' }}>
           {furigana}
         </rt>
       </ruby>
@@ -46,7 +46,7 @@ const FuriganaText = ({ text }) => {
 const ModalQuizItem = ({ quiz, index }) => {
   const [selectedOpt, setSelectedOpt] = useState(null);
   if (typeof quiz !== 'object' || !quiz) {
-    return <div style={{ fontSize: '14px', color: '#cbd5e1', marginBottom: '8px' }}>• {String(quiz)}</div>;
+    return <div style={{ fontSize: '14px', color: 'var(--text-secondary)', marginBottom: '8px' }}>• {String(quiz)}</div>;
   }
 
   const question = quiz.question || quiz.q || '';
@@ -55,8 +55,8 @@ const ModalQuizItem = ({ quiz, index }) => {
   const explanation = quiz.explanation || quiz.exp || '';
 
   return (
-    <div style={{ marginBottom: '14px', paddingBottom: '12px', borderBottom: '1px dashed rgba(255,255,255,0.1)' }}>
-      <div style={{ fontWeight: '600', fontSize: '15px', color: '#fff', marginBottom: '8px' }}>
+    <div style={{ marginBottom: '14px', paddingBottom: '12px', borderBottom: '1px dashed var(--border-color)' }}>
+      <div style={{ fontWeight: '600', fontSize: '15px', color: 'var(--text-primary)', marginBottom: '8px' }}>
         Câu {index + 1}: {question}
       </div>
       {options.length > 0 && (
@@ -64,19 +64,19 @@ const ModalQuizItem = ({ quiz, index }) => {
           {options.map((opt, oIdx) => {
             const isSelected = selectedOpt === opt;
             const isCorrect = answer && (opt === answer || opt.startsWith(answer));
-            let btnBg = 'rgba(255, 255, 255, 0.06)';
-            let borderClr = 'rgba(255, 255, 255, 0.12)';
-            let textClr = '#cbd5e1';
+            let btnBg = 'var(--surface-hover)';
+            let borderClr = 'var(--border-color)';
+            let textClr = 'var(--text-secondary)';
 
             if (selectedOpt !== null) {
               if (isCorrect) {
-                btnBg = 'rgba(34, 197, 94, 0.25)';
-                borderClr = '#22c55e';
-                textClr = '#4ade80';
+                btnBg = 'var(--success-light)';
+                borderClr = 'var(--success-color)';
+                textClr = 'var(--success-color)';
               } else if (isSelected) {
-                btnBg = 'rgba(239, 68, 68, 0.25)';
-                borderClr = '#ef4444';
-                textClr = '#f87171';
+                btnBg = 'var(--danger-light)';
+                borderClr = 'var(--danger-color)';
+                textClr = 'var(--danger-color)';
               }
             }
 
@@ -104,7 +104,7 @@ const ModalQuizItem = ({ quiz, index }) => {
         </div>
       )}
       {selectedOpt !== null && explanation && (
-        <div style={{ fontSize: '13px', color: '#a7f3d0', background: 'rgba(16, 185, 129, 0.15)', padding: '8px 12px', borderRadius: '6px', marginTop: '6px' }}>
+        <div style={{ fontSize: '13px', color: 'var(--success-color)', background: 'var(--success-light)', padding: '8px 12px', borderRadius: '6px', marginTop: '6px', border: '1px solid var(--success-color)' }}>
           💡 Giải thích: {explanation}
         </div>
       )}
@@ -163,9 +163,17 @@ const GrammarPage = () => {
         day: selectedDay === 'ALL' ? '' : selectedDay,
         query: searchQuery.trim(),
         page: 0,
-        size: 200
+        size: 500
       });
-      setGrammarCards(res.content || []);
+      let items = res.content || [];
+      // When viewing 'ALL' weeks without search query, only display weekly curriculum cards (Tuần 1 - Tuần 6)
+      if (selectedWeek === 'ALL' && !searchQuery.trim()) {
+        const weeklyItems = items.filter(c => c.weekName && c.weekName.startsWith('Tuần'));
+        if (weeklyItems.length > 0) {
+          items = weeklyItems;
+        }
+      }
+      setGrammarCards(items);
     } catch (err) {
       console.error('Failed to load grammar:', err);
       setError('Không thể tải dữ liệu ngữ pháp. Vui lòng thử lại sau.');
@@ -285,17 +293,16 @@ const GrammarPage = () => {
   };
 
   return (
-    <div className="grammar-page-container" style={{ padding: '24px', maxWidth: '1400px', margin: '0 auto', color: 'var(--text-main, #e8edf4)' }}>
+    <div className="grammar-page-container" style={{ padding: '24px', maxWidth: '1400px', margin: '0 auto', color: 'var(--text-primary)' }}>
       
       {/* Header Banner */}
       <div className="grammar-header-banner" style={{
-        background: 'linear-gradient(135deg, rgba(30, 41, 59, 0.9) 0%, rgba(15, 23, 42, 0.95) 100%)',
-        backdropFilter: 'blur(12px)',
-        border: '1px solid rgba(255, 255, 255, 0.1)',
+        background: 'var(--surface-color)',
+        border: '1px solid var(--border-color)',
         borderRadius: '20px',
         padding: '32px',
         marginBottom: '28px',
-        boxShadow: '0 10px 30px rgba(0, 0, 0, 0.3)',
+        boxShadow: 'var(--shadow-sm)',
         display: 'flex',
         justifyContent: 'space-between',
         alignItems: 'center',
@@ -315,14 +322,14 @@ const GrammarPage = () => {
             }}>
               JLPT {selectedLevel} GRAMMAR
             </span>
-            <span style={{ color: '#94a3b8', fontSize: '14px' }}>
+            <span style={{ color: 'var(--text-muted)', fontSize: '14px' }}>
               • {grammarCards.length} Mẫu ngữ pháp trọng tâm
             </span>
           </div>
-          <h1 style={{ fontSize: '28px', fontWeight: '800', margin: 0, color: '#fff', letterSpacing: '-0.5px' }}>
+          <h1 style={{ fontSize: '28px', fontWeight: '800', margin: 0, color: 'var(--text-primary)', letterSpacing: '-0.5px' }}>
             Ngữ Pháp Tiếng Nhật {selectedLevel}
           </h1>
-          <p style={{ color: '#94a3b8', margin: '8px 0 0 0', fontSize: '15px' }}>
+          <p style={{ color: 'var(--text-secondary)', margin: '8px 0 0 0', fontSize: '15px' }}>
             Hệ thống bài học ngữ pháp JLPT phân loại theo Tuần, có giải thích công thức & phát âm ví dụ sinh động
           </p>
         </div>
@@ -335,9 +342,9 @@ const GrammarPage = () => {
               display: 'flex',
               alignItems: 'center',
               gap: '8px',
-              background: showFurigana ? 'rgba(99, 102, 241, 0.2)' : 'rgba(255, 255, 255, 0.05)',
-              border: `1px solid ${showFurigana ? '#6366f1' : 'rgba(255, 255, 255, 0.15)'}`,
-              color: showFurigana ? '#818cf8' : '#cbd5e1',
+              background: showFurigana ? 'var(--accent-light)' : 'var(--surface-hover)',
+              border: `1px solid ${showFurigana ? 'var(--accent-color)' : 'var(--border-color)'}`,
+              color: showFurigana ? 'var(--accent-color)' : 'var(--text-secondary)',
               padding: '10px 16px',
               borderRadius: '12px',
               cursor: 'pointer',
@@ -356,9 +363,9 @@ const GrammarPage = () => {
               display: 'flex',
               alignItems: 'center',
               gap: '8px',
-              background: showTranslations ? 'rgba(168, 85, 247, 0.2)' : 'rgba(255, 255, 255, 0.05)',
-              border: `1px solid ${showTranslations ? '#a855f7' : 'rgba(255, 255, 255, 0.15)'}`,
-              color: showTranslations ? '#c084fc' : '#cbd5e1',
+              background: showTranslations ? 'rgba(168, 85, 247, 0.15)' : 'var(--surface-hover)',
+              border: `1px solid ${showTranslations ? '#a855f7' : 'var(--border-color)'}`,
+              color: showTranslations ? '#a855f7' : 'var(--text-secondary)',
               padding: '10px 16px',
               borderRadius: '12px',
               cursor: 'pointer',
@@ -375,17 +382,17 @@ const GrammarPage = () => {
 
       {/* Search & Navigation Control Bar */}
       <div style={{
-        background: 'rgba(30, 41, 59, 0.6)',
-        backdropFilter: 'blur(10px)',
-        border: '1px solid rgba(255, 255, 255, 0.08)',
+        background: 'var(--surface-color)',
+        border: '1px solid var(--border-color)',
         borderRadius: '16px',
         padding: '20px',
-        marginBottom: '24px'
+        marginBottom: '24px',
+        boxShadow: 'var(--shadow-sm)'
       }}>
         {/* Search Bar */}
         <form onSubmit={handleSearchSubmit} style={{ marginBottom: '20px', display: 'flex', gap: '12px' }}>
           <div style={{ position: 'relative', flex: 1 }}>
-            <Search size={18} style={{ position: 'absolute', left: '16px', top: '50%', transform: 'translateY(-50%)', color: '#94a3b8' }} />
+            <Search size={18} style={{ position: 'absolute', left: '16px', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} />
             <input
               type="text"
               placeholder="Tìm kiếm theo mẫu ngữ pháp, nghĩa tiếng Việt, hoặc từ khóa cấu trúc..."
@@ -394,10 +401,10 @@ const GrammarPage = () => {
               style={{
                 width: '100%',
                 padding: '12px 16px 12px 48px',
-                background: 'rgba(15, 23, 42, 0.8)',
-                border: '1px solid rgba(255, 255, 255, 0.12)',
+                background: 'var(--bg-color)',
+                border: '1px solid var(--border-color)',
                 borderRadius: '12px',
-                color: '#fff',
+                color: 'var(--text-primary)',
                 fontSize: '15px',
                 outline: 'none',
                 boxSizing: 'border-box'
@@ -407,7 +414,7 @@ const GrammarPage = () => {
               <X 
                 size={18} 
                 onClick={() => { setSearchQuery(''); fetchGrammarData(); }}
-                style={{ position: 'absolute', right: '16px', top: '50%', transform: 'translateY(-50%)', color: '#94a3b8', cursor: 'pointer' }}
+                style={{ position: 'absolute', right: '16px', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)', cursor: 'pointer' }}
               />
             )}
           </div>
@@ -415,7 +422,7 @@ const GrammarPage = () => {
             type="submit"
             style={{
               padding: '0 24px',
-              background: 'linear-gradient(135deg, #6366f1 0%, #4f46e5 100%)',
+              background: 'var(--accent-color)',
               color: '#fff',
               border: 'none',
               borderRadius: '12px',
@@ -426,7 +433,7 @@ const GrammarPage = () => {
               gap: '8px'
             }}
           >
-            <Search size={16} /> Tim kiem
+            <Search size={16} /> Tìm kiếm
           </button>
         </form>
 
@@ -434,8 +441,8 @@ const GrammarPage = () => {
         <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
           
           {/* Level Selector Row */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap', paddingBottom: '14px', borderBottom: '1px solid rgba(255, 255, 255, 0.08)' }}>
-            <span style={{ fontSize: '13px', fontWeight: 'bold', color: '#94a3b8', textTransform: 'uppercase', minWidth: '60px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap', paddingBottom: '14px', borderBottom: '1px solid var(--border-color)' }}>
+            <span style={{ fontSize: '13px', fontWeight: 'bold', color: 'var(--text-secondary)', textTransform: 'uppercase', minWidth: '60px' }}>
               CẤP ĐỘ:
             </span>
             {['N5', 'N4', 'N3', 'N2', 'N1'].map(lvl => {
@@ -454,11 +461,11 @@ const GrammarPage = () => {
                     fontSize: '14px',
                     fontWeight: '800',
                     cursor: 'pointer',
-                    border: 'none',
+                    border: isSelected ? 'none' : '1px solid var(--border-color)',
                     background: isSelected 
                       ? 'linear-gradient(135deg, #ef4444 0%, #f59e0b 100%)' 
-                      : 'rgba(255, 255, 255, 0.06)',
-                    color: isSelected ? '#fff' : '#cbd5e1',
+                      : 'var(--surface-hover)',
+                    color: isSelected ? '#fff' : 'var(--text-secondary)',
                     boxShadow: isSelected ? '0 4px 12px rgba(239, 68, 68, 0.3)' : 'none',
                     transition: 'all 0.15s ease'
                   }}
@@ -471,7 +478,7 @@ const GrammarPage = () => {
 
           {/* Week Selector Row */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
-            <span style={{ fontSize: '13px', fontWeight: 'bold', color: '#94a3b8', textTransform: 'uppercase', minWidth: '60px' }}>
+            <span style={{ fontSize: '13px', fontWeight: 'bold', color: 'var(--text-secondary)', textTransform: 'uppercase', minWidth: '60px' }}>
               CHỌN TUẦN:
             </span>
             <button
@@ -482,9 +489,9 @@ const GrammarPage = () => {
                 fontSize: '14px',
                 fontWeight: '600',
                 cursor: 'pointer',
-                border: 'none',
-                background: selectedWeek === 'ALL' ? '#6366f1' : 'rgba(255, 255, 255, 0.06)',
-                color: selectedWeek === 'ALL' ? '#fff' : '#cbd5e1',
+                border: selectedWeek === 'ALL' ? 'none' : '1px solid var(--border-color)',
+                background: selectedWeek === 'ALL' ? 'var(--accent-color)' : 'var(--surface-hover)',
+                color: selectedWeek === 'ALL' ? '#fff' : 'var(--text-secondary)',
                 transition: 'all 0.15s ease'
               }}
             >
@@ -504,9 +511,9 @@ const GrammarPage = () => {
                     fontSize: '14px',
                     fontWeight: '600',
                     cursor: 'pointer',
-                    border: 'none',
-                    background: isSelected ? 'linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%)' : 'rgba(255, 255, 255, 0.06)',
-                    color: isSelected ? '#fff' : '#cbd5e1',
+                    border: isSelected ? 'none' : '1px solid var(--border-color)',
+                    background: isSelected ? 'linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%)' : 'var(--surface-hover)',
+                    color: isSelected ? '#fff' : 'var(--text-secondary)',
                     boxShadow: isSelected ? '0 4px 12px rgba(99, 102, 241, 0.3)' : 'none',
                     transition: 'all 0.15s ease'
                   }}
@@ -519,8 +526,8 @@ const GrammarPage = () => {
 
           {/* Day Sub-Selector Tabs (if a specific week is chosen) */}
           {selectedWeek !== 'ALL' && (
-            <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap', paddingTop: '8px', borderTop: '1px solid rgba(255, 255, 255, 0.06)' }}>
-              <span style={{ fontSize: '13px', fontWeight: 'bold', color: '#94a3b8', textTransform: 'uppercase', minWidth: '60px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap', paddingTop: '8px', borderTop: '1px solid var(--border-color)' }}>
+              <span style={{ fontSize: '13px', fontWeight: 'bold', color: 'var(--text-secondary)', textTransform: 'uppercase', minWidth: '60px' }}>
                 CHỌN NGÀY:
               </span>
               <button
@@ -531,9 +538,9 @@ const GrammarPage = () => {
                   fontSize: '13px',
                   fontWeight: '600',
                   cursor: 'pointer',
-                  border: 'none',
-                  background: selectedDay === 'ALL' ? 'rgba(168, 85, 247, 0.3)' : 'rgba(255, 255, 255, 0.04)',
-                  color: selectedDay === 'ALL' ? '#c084fc' : '#94a3b8'
+                  border: selectedDay === 'ALL' ? '1px solid #a855f7' : '1px solid var(--border-color)',
+                  background: selectedDay === 'ALL' ? 'rgba(168, 85, 247, 0.2)' : 'var(--surface-hover)',
+                  color: selectedDay === 'ALL' ? '#a855f7' : 'var(--text-secondary)'
                 }}
               >
                 Cả ngày trong {selectedWeek}
@@ -551,9 +558,9 @@ const GrammarPage = () => {
                       fontSize: '13px',
                       fontWeight: '600',
                       cursor: 'pointer',
-                      border: 'none',
-                      background: isSelected ? '#a855f7' : 'rgba(255, 255, 255, 0.04)',
-                      color: isSelected ? '#fff' : '#cbd5e1',
+                      border: isSelected ? 'none' : '1px solid var(--border-color)',
+                      background: isSelected ? '#a855f7' : 'var(--surface-hover)',
+                      color: isSelected ? '#fff' : 'var(--text-secondary)',
                       transition: 'all 0.15s ease'
                     }}
                   >
@@ -568,23 +575,23 @@ const GrammarPage = () => {
 
       {/* Content Section */}
       {loading ? (
-        <div style={{ textWrap: 'nowrap', textAlign: 'center', padding: '60px 0', color: '#94a3b8' }}>
-          <RefreshCw size={32} className="animate-spin" style={{ margin: '0 auto 16px auto', color: '#6366f1' }} />
+        <div style={{ textWrap: 'nowrap', textAlign: 'center', padding: '60px 0', color: 'var(--text-muted)' }}>
+          <RefreshCw size={32} className="animate-spin" style={{ margin: '0 auto 16px auto', color: 'var(--accent-color)' }} />
           <p style={{ fontSize: '16px' }}>Đang tải danh sách ngữ pháp {selectedLevel}...</p>
         </div>
       ) : error ? (
-        <div style={{ background: 'rgba(239, 68, 68, 0.1)', border: '1px solid rgba(239, 68, 68, 0.3)', padding: '20px', borderRadius: '12px', color: '#fca5a5', textAlign: 'center' }}>
+        <div style={{ background: 'var(--danger-light)', border: '1px solid var(--danger-color)', padding: '20px', borderRadius: '12px', color: 'var(--danger-color)', textAlign: 'center' }}>
           {error}
         </div>
       ) : grammarCards.length === 0 ? (
-        <div style={{ textAlign: 'center', padding: '60px 0', color: '#94a3b8', background: 'rgba(30, 41, 59, 0.4)', borderRadius: '16px' }}>
+        <div style={{ textAlign: 'center', padding: '60px 0', color: 'var(--text-muted)', background: 'var(--surface-color)', border: '1px solid var(--border-color)', borderRadius: '16px' }}>
           <HelpCircle size={40} style={{ margin: '0 auto 12px auto', opacity: 0.5 }} />
           <h3>Không tìm thấy mẫu ngữ pháp nào</h3>
           <p>Thử đổi từ khóa tìm kiếm hoặc lọc lại theo Tuần/Ngày khác.</p>
         </div>
       ) : (
         <>
-          <div style={{ marginBottom: '16px', color: '#94a3b8', fontSize: '14px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <div style={{ marginBottom: '16px', color: 'var(--text-secondary)', fontSize: '14px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             <span>Hiển thị <strong>{grammarCards.length}</strong> mẫu ngữ pháp</span>
             {selectedWeek !== 'ALL' && <span>Đang xem: <strong>{selectedWeek}</strong> {selectedDay !== 'ALL' ? `- ${selectedDay}` : ''}</span>}
           </div>
@@ -603,26 +610,27 @@ const GrammarPage = () => {
                 <div
                   key={card.id || idx}
                   style={{
-                    background: 'rgba(30, 41, 59, 0.7)',
-                    backdropFilter: 'blur(12px)',
-                    border: '1px solid rgba(255, 255, 255, 0.08)',
+                    background: 'var(--surface-color)',
+                    border: '1px solid var(--border-color)',
                     borderRadius: '18px',
                     padding: '24px',
                     display: 'flex',
                     flexDirection: 'column',
                     justifyContent: 'space-between',
-                    boxShadow: '0 8px 24px rgba(0, 0, 0, 0.2)',
-                    transition: 'transform 0.2s ease, border-color 0.2s ease',
+                    boxShadow: 'var(--shadow-sm)',
+                    transition: 'transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease',
                     position: 'relative',
                     overflow: 'hidden'
                   }}
                   onMouseEnter={(e) => {
-                    e.currentTarget.style.borderColor = 'rgba(99, 102, 241, 0.4)';
+                    e.currentTarget.style.borderColor = 'var(--accent-color)';
                     e.currentTarget.style.transform = 'translateY(-3px)';
+                    e.currentTarget.style.boxShadow = 'var(--shadow-md)';
                   }}
                   onMouseLeave={(e) => {
-                    e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.08)';
+                    e.currentTarget.style.borderColor = 'var(--border-color)';
                     e.currentTarget.style.transform = 'translateY(0)';
+                    e.currentTarget.style.boxShadow = 'var(--shadow-sm)';
                   }}
                 >
                   {/* Top Bar Badges */}
@@ -640,7 +648,7 @@ const GrammarPage = () => {
                           {card.jlpt || 'N3'}
                         </span>
                         {card.weekName && (
-                          <span style={{ background: 'rgba(99, 102, 241, 0.15)', color: '#818cf8', fontSize: '12px', fontWeight: '600', padding: '2px 8px', borderRadius: '6px' }}>
+                          <span style={{ background: 'var(--accent-light)', color: 'var(--accent-color)', fontSize: '12px', fontWeight: '600', padding: '2px 8px', borderRadius: '6px' }}>
                             {card.weekName} {card.dayName ? `- ${card.dayName}` : ''}
                           </span>
                         )}
@@ -651,9 +659,9 @@ const GrammarPage = () => {
                         disabled={isSaved || savingId === card.id}
                         title={isSaved ? 'Đã lưu vào Kho tri thức' : 'Lưu vào Kho tri thức cá nhân'}
                         style={{
-                          background: isSaved ? 'rgba(34, 197, 94, 0.2)' : 'rgba(255, 255, 255, 0.06)',
-                          border: `1px solid ${isSaved ? 'rgba(34, 197, 94, 0.4)' : 'rgba(255, 255, 255, 0.1)'}`,
-                          color: isSaved ? '#4ade80' : '#cbd5e1',
+                          background: isSaved ? 'var(--success-light)' : 'var(--surface-hover)',
+                          border: `1px solid ${isSaved ? 'var(--success-color)' : 'var(--border-color)'}`,
+                          color: isSaved ? 'var(--success-color)' : 'var(--text-secondary)',
                           padding: '6px 12px',
                           borderRadius: '8px',
                           cursor: isSaved ? 'default' : 'pointer',
@@ -673,7 +681,7 @@ const GrammarPage = () => {
                     <h2 style={{
                       fontSize: '22px',
                       fontWeight: '800',
-                      color: '#60a5fa',
+                      color: 'var(--text-primary)',
                       margin: '0 0 10px 0',
                       letterSpacing: '-0.3px',
                       lineHeight: '1.5'
@@ -684,13 +692,14 @@ const GrammarPage = () => {
                     {/* Formation / Formula */}
                     {card.formation && (
                       <div style={{
-                        background: 'rgba(15, 23, 42, 0.6)',
-                        borderLeft: '4px solid #6366f1',
+                        background: 'var(--bg-color)',
+                        border: '1px solid var(--border-color)',
+                        borderLeft: '4px solid var(--accent-color)',
                         padding: '10px 14px',
                         borderRadius: '0 8px 8px 0',
                         fontSize: '14px',
                         fontWeight: '600',
-                        color: '#a5b4fc',
+                        color: 'var(--text-primary)',
                         marginBottom: '14px',
                         fontFamily: 'monospace'
                       }}>
@@ -700,11 +709,11 @@ const GrammarPage = () => {
 
                     {/* Meaning */}
                     <div style={{
-                      background: 'rgba(245, 158, 11, 0.1)',
-                      border: '1px solid rgba(245, 158, 11, 0.25)',
+                      background: 'var(--warning-light)',
+                      border: '1px solid var(--warning-color)',
                       padding: '10px 14px',
                       borderRadius: '10px',
-                      color: '#fbbf24',
+                      color: 'var(--text-primary)',
                       fontSize: '15px',
                       fontWeight: '700',
                       marginBottom: '14px'
@@ -716,7 +725,7 @@ const GrammarPage = () => {
                     {card.usageDesc && (
                       <p style={{
                         fontSize: '14px',
-                        color: '#cbd5e1',
+                        color: 'var(--text-secondary)',
                         lineHeight: '1.6',
                         margin: '0 0 16px 0',
                         whiteSpace: 'pre-line'
@@ -728,21 +737,21 @@ const GrammarPage = () => {
                     {/* Example Sentences */}
                     {examples.length > 0 && (
                       <div style={{
-                        background: 'rgba(15, 23, 42, 0.4)',
+                        background: 'var(--bg-color)',
                         borderRadius: '12px',
                         padding: '14px',
-                        border: '1px solid rgba(255, 255, 255, 0.05)',
+                        border: '1px solid var(--border-color)',
                         marginBottom: '16px'
                       }}>
-                        <div style={{ fontSize: '13px', fontWeight: 'bold', color: '#94a3b8', marginBottom: '10px', textTransform: 'uppercase' }}>
+                        <div style={{ fontSize: '13px', fontWeight: 'bold', color: 'var(--text-muted)', marginBottom: '10px', textTransform: 'uppercase' }}>
                           Ví dụ minh họa:
                         </div>
                         {examples.slice(0, 3).map((ex, exIdx) => {
                           const globalExIdx = `${card.id}-${exIdx}`;
                           return (
-                            <div key={exIdx} style={{ marginBottom: exIdx < examples.length - 1 ? '12px' : '0', paddingBottom: exIdx < examples.length - 1 ? '10px' : '0', borderBottom: exIdx < examples.length - 1 ? '1px dashed rgba(255, 255, 255, 0.06)' : 'none' }}>
+                            <div key={exIdx} style={{ marginBottom: exIdx < examples.length - 1 ? '12px' : '0', paddingBottom: exIdx < examples.length - 1 ? '10px' : '0', borderBottom: exIdx < examples.length - 1 ? '1px dashed var(--border-color)' : 'none' }}>
                               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '8px' }}>
-                                <div style={{ fontSize: '15px', color: '#f8fafc', fontWeight: '600', lineHeight: '1.6' }}>
+                                <div style={{ fontSize: '15px', color: 'var(--text-primary)', fontWeight: '600', lineHeight: '1.6' }}>
                                   {showFurigana && ex.reading ? (
                                     <FuriganaText text={ex.reading} />
                                   ) : (
@@ -753,9 +762,9 @@ const GrammarPage = () => {
                                   <button
                                     onClick={() => handlePlayAudio(ex.jp, globalExIdx)}
                                     style={{
-                                      background: speakingIndex === globalExIdx ? 'rgba(99, 102, 241, 0.4)' : 'transparent',
+                                      background: speakingIndex === globalExIdx ? 'var(--accent-light)' : 'transparent',
                                       border: 'none',
-                                      color: speakingIndex === globalExIdx ? '#818cf8' : '#94a3b8',
+                                      color: speakingIndex === globalExIdx ? 'var(--accent-color)' : 'var(--text-muted)',
                                       cursor: 'pointer',
                                       padding: '4px',
                                       borderRadius: '50%',
@@ -770,7 +779,7 @@ const GrammarPage = () => {
                                 )}
                               </div>
                               {showTranslations && ex.vn && (
-                                <div style={{ fontSize: '13px', color: '#94a3b8', marginTop: '4px', fontStyle: 'italic' }}>
+                                <div style={{ fontSize: '13px', color: 'var(--text-secondary)', marginTop: '4px', fontStyle: 'italic' }}>
                                   👉 {ex.vn}
                                 </div>
                               )}
@@ -782,13 +791,13 @@ const GrammarPage = () => {
                   </div>
 
                   {/* Card Footer Detail Modal Button */}
-                  <div style={{ paddingTop: '12px', borderTop: '1px solid rgba(255, 255, 255, 0.06)', display: 'flex', justifyContent: 'flex-end' }}>
+                  <div style={{ paddingTop: '12px', borderTop: '1px solid var(--border-color)', display: 'flex', justifyContent: 'flex-end' }}>
                     <button
                       onClick={() => setActiveModalCard(card)}
                       style={{
                         background: 'transparent',
                         border: 'none',
-                        color: '#818cf8',
+                        color: 'var(--accent-color)',
                         cursor: 'pointer',
                         fontSize: '13px',
                         fontWeight: '600',

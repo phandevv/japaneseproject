@@ -394,7 +394,7 @@ const HomePage = ({ user: propUser, startStudy, streak, onLoginClick, onLogout, 
       days.push({
         name: dayNames[dayOfWeek],
         dateStr: dateStr,
-        completed: historyMap[dateStr] === true || (i === 0 && (dashboardData?.wordsStudiedToday > 0 || dashboardData?.streak > 0)),
+        completed: historyMap[dateStr] === true || (i === 0 && (dashboardData?.wordsStudiedToday > 0 || dashboardData?.streakFrozenToday)),
         isToday: i === 0
       });
     }
