@@ -35,7 +35,7 @@ const Header = ({ user, streak = 0, onProfileClick, onLogout }) => {
       <div className="header-left">
         {streak > 0 && (
           <div className="header-streak-badge" title="Chuỗi ngày học liên tục!">
-            <Flame size={18} className="streak-icon animate-pulse" />
+            <span style={{ fontSize: '1.05rem', lineHeight: 1 }}>🌸</span>
             <span>{streak} ngày</span>
           </div>
         )}
