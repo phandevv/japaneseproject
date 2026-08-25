@@ -1,6 +1,7 @@
 package com.flashcard.knowledge.provider;
 
 import com.flashcard.knowledge.model.JlptN3GrammarQuiz;
+import com.flashcard.knowledge.model.JlptN3LessonQuiz;
 import com.flashcard.knowledge.model.JlptN3Progress;
 
 import java.util.List;
@@ -14,4 +15,7 @@ public interface JlptN3DataProvider {
 
     Optional<JlptN3GrammarQuiz> findQuiz(Integer chapterId, Integer lessonId);
     JlptN3GrammarQuiz saveQuiz(JlptN3GrammarQuiz quiz);
+
+    Optional<JlptN3LessonQuiz> findLessonQuiz(Integer chapterId, Integer lessonId);
+    JlptN3LessonQuiz saveLessonQuiz(JlptN3LessonQuiz quiz);
 }

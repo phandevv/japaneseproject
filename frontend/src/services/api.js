@@ -705,6 +705,19 @@ export const jlptN3Api = {
     clearApiCache('/jlpt-n3/chapter');
     return response.data;
   },
+  getLessonQuiz: async (chapter, lesson) => {
+    return cachedGet(`${API_BASE_URL}/jlpt-n3/chapter/${chapter}/lesson/${lesson}/quiz`, {}, 60000);
+  },
+  submitLessonQuiz: async (chapter, lesson, score, total) => {
+    const response = await axios.post(`${API_BASE_URL}/jlpt-n3/chapter/${chapter}/lesson/${lesson}/quiz/submit`, {
+      score,
+      total
+    });
+    clearApiCache('/jlpt-n3/overview');
+    clearApiCache('/jlpt-n3/chapter');
+    clearApiCache('/analytics/dashboard');
+    return response.data;
+  },
   importData: async () => {
     const response = await axios.post(`${API_BASE_URL}/jlpt-n3/import`);
     clearApiCache('/jlpt-n3');

@@ -1,0 +1,726 @@
+{
+  "chuong": 7,
+  "bai": 1,
+  "questions": [
+    {
+      "id": 1,
+      "question": "（　）がうそをついているのは明らかだ。",
+      "translation": "Rõ ràng là con trai tôi đang nói dối.",
+      "answer": 3,
+      "options": [
+        {
+          "key": 1,
+          "text": "御飯",
+          "reading": "ごはん",
+          "meaning": "Bữa cơm",
+          "explain": "Sai vì cơm không biết nói dối."
+        },
+        {
+          "key": 2,
+          "text": "息",
+          "reading": "いき",
+          "meaning": "Hơi thở",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "息子",
+          "reading": "むすこ",
+          "meaning": "Con trai",
+          "explain": "Đúng. '息子がうそをついている' chỉ hành vi nói dối của con trai."
+        },
+        {
+          "key": 4,
+          "text": "徒歩",
+          "reading": "とほ",
+          "meaning": "Đi bộ",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "question": "その国の（　）は正式には決まっていない。",
+      "translation": "Thủ đô của quốc gia đó chính thức vẫn chưa được quyết định.",
+      "answer": 2,
+      "options": [
+        {
+          "key": 1,
+          "text": "手首",
+          "reading": "てくび",
+          "meaning": "Cổ tay",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "首都",
+          "reading": "しゅと",
+          "meaning": "Thủ đô",
+          "explain": "Đúng. '国の首都' nghĩa là thủ đô của một đất nước."
+        },
+        {
+          "key": 3,
+          "text": "市役所",
+          "reading": "しやくしょ",
+          "meaning": "Tòa thị chính",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "影響",
+          "reading": "えいきょう",
+          "meaning": "Ảnh hưởng",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "question": "（　）を怪我してしまい、包丁で食べ物を上手く切れなくなった。",
+      "translation": "Vì bị thương ở cổ tay nên tôi không thể dùng dao thái đồ ăn một cách khéo léo được nữa.",
+      "answer": 4,
+      "options": [
+        {
+          "key": 1,
+          "text": "首",
+          "reading": "くび",
+          "meaning": "Cổ",
+          "explain": "Sai vì cầm dao dùng cổ tay."
+        },
+        {
+          "key": 2,
+          "text": "首都",
+          "reading": "しゅと",
+          "meaning": "Thủ đô",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "手段",
+          "reading": "しゅだん",
+          "meaning": "Biện pháp",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "手首",
+          "reading": "てくび",
+          "meaning": "Cổ tay",
+          "explain": "Đúng. Cụm '手首を怪我する' nghĩa là bị chấn thương ở phần cổ tay ảnh hưởng đến việc cầm dao nấu ăn."
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "question": "犯人は3人も殺していながら、（　）の意識が全くないようだ。",
+      "translation": "Tên tội phạm đã sát hại tới 3 người vậy mà dường như hoàn toàn không có ý thức về tội lỗi của mình.",
+      "answer": 3,
+      "options": [
+        {
+          "key": 1,
+          "text": "帰り",
+          "reading": "かえり",
+          "meaning": "Đường về",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "愛",
+          "reading": "あい",
+          "meaning": "Tình yêu",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "罪",
+          "reading": "つみ",
+          "meaning": "Tội lỗi, tội trạng",
+          "explain": "Đúng. Cụm '罪の意識' (ý thức tội lỗi, sự ăn năn hối cải về tội ác đã gây ra)."
+        },
+        {
+          "key": 4,
+          "text": "恋",
+          "reading": "こい",
+          "meaning": "Tình yêu đôi lứa",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "question": "彼氏のために（　）をこめて料理を作った。",
+      "translation": "Tôi đã dồn hết tình yêu thương vào để nấu món ăn cho bạn trai.",
+      "answer": 2,
+      "options": [
+        {
+          "key": 1,
+          "text": "恋",
+          "reading": "こい",
+          "meaning": "Tình yêu (chỉ tình cảm lứa đôi chưa đong đầy bằng 爱)",
+          "explain": "Sai vì cụm gửi gắm tình cảm nấu ăn chuẩn là 愛を込める."
+        },
+        {
+          "key": 2,
+          "text": "愛",
+          "reading": "あい",
+          "meaning": "Tình yêu thương",
+          "explain": "Đúng. Cụm '愛をこめて' nghĩa là đong đầy tình yêu thương khi làm việc gì đó."
+        },
+        {
+          "key": 3,
+          "text": "疑問",
+          "reading": "ぎもん",
+          "meaning": "Nghi vấn",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "文句",
+          "reading": "もんく",
+          "meaning": "Phàn nàn",
+          "explain": "Sai vì phàn nàn không dùng để nấu ăn cho bạn trai."
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "question": "（　）はお持ちでしょうか。",
+      "translation": "Quý khách có mang theo thẻ bảo hiểm y tế không ạ?",
+      "answer": 4,
+      "options": [
+        {
+          "key": 1,
+          "text": "技術",
+          "reading": "ぎじゅつ",
+          "meaning": "Kỹ thuật",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "郵便",
+          "reading": "ゆうびん",
+          "meaning": "Bưu điện",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "記念日",
+          "reading": "きねんび",
+          "meaning": "Ngày kỷ niệm",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "保険証",
+          "reading": "ほけんしょう",
+          "meaning": "Thẻ bảo hiểm (y tế)",
+          "explain": "Đúng. Câu hỏi lịch sự thường gặp ở bệnh viện/phòng khám: '保険証はお持ちでしょうか'."
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "question": "レポートの（　）って明日だっけ？",
+      "translation": "Hạn chót nộp bài báo cáo có phải là ngày mai không nhỉ?",
+      "answer": 2,
+      "options": [
+        {
+          "key": 1,
+          "text": "ダイヤ",
+          "reading": "ダイヤ",
+          "meaning": "Lịch chạy tàu / Kim cương",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "締め切り",
+          "reading": "しめきり",
+          "meaning": "Hạn chót, hạn cuối (deadline)",
+          "explain": "Đúng. Cụm 'レポートの締め切り' chỉ thời hạn cuối cùng để nộp bài."
+        },
+        {
+          "key": 3,
+          "text": "定期券",
+          "reading": "ていきけん",
+          "meaning": "Vé định kỳ",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "郵送",
+          "reading": "ゆうそう",
+          "meaning": "Gửi bưu điện",
+          "explain": "Sai vì là hình thức gửi."
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "question": "健康のため、会社の近くにある（　）に通うことにした。",
+      "translation": "Vì sức khỏe nên tôi đã quyết định đi tập đều đặn tại phòng gym gần công ty.",
+      "answer": 3,
+      "options": [
+        {
+          "key": 1,
+          "text": "フロント",
+          "reading": "フロント",
+          "meaning": "Quầy lễ tân",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "ロビー",
+          "reading": "ロビー",
+          "meaning": "Sảnh chờ",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "ジム",
+          "reading": "ジム",
+          "meaning": "Phòng tập thể hình (gym)",
+          "explain": "Đúng. Cụm 'ジムに通う' nghĩa là đi tập thể hình rèn luyện sức khỏe."
+        },
+        {
+          "key": 4,
+          "text": "アドレス",
+          "reading": "アドレス",
+          "meaning": "Địa chỉ",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "question": "事件が起きたすぐ後、大きなカメラを持った（　）関係の人たちが集まった。",
+      "translation": "Ngay sau khi vụ án xảy ra, những người liên quan đến giới truyền thông mang theo máy quay lớn đã kéo đến.",
+      "answer": 1,
+      "options": [
+        {
+          "key": 1,
+          "text": "マスコミ",
+          "reading": "マスコミ",
+          "meaning": "Giới truyền thông báo chí (mass media)",
+          "explain": "Đúng. Cụm 'マスコミ関係の人' chỉ các phóng viên, nhà báo, truyền hình."
+        },
+        {
+          "key": 2,
+          "text": "ヒント",
+          "reading": "ヒント",
+          "meaning": "Gợi ý",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "ポスト",
+          "reading": "ポスト",
+          "meaning": "Hòm thư",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "リスト",
+          "reading": "リスト",
+          "meaning": "Danh sách",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "question": "予算が（　）してプロジェクトが中止になった。",
+      "translation": "Ngân sách bị vượt quá mức cho phép nên dự án đã bị hủy bỏ.",
+      "answer": 3,
+      "options": [
+        {
+          "key": 1,
+          "text": "プラン",
+          "reading": "プラン",
+          "meaning": "Kế hoạch",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "アウト",
+          "reading": "アウト",
+          "meaning": "Bị loại (out)",
+          "explain": "Sai ngữ pháp."
+        },
+        {
+          "key": 3,
+          "text": "オーバー",
+          "reading": "オーバー",
+          "meaning": "Vượt quá (over)",
+          "explain": "Đúng. Cụm '予算がオーバーする' nghĩa là bị đội vốn, vượt quá ngân sách dự toán."
+        },
+        {
+          "key": 4,
+          "text": "チェックアウト",
+          "reading": "チェックアウト",
+          "meaning": "Trả phòng khách sạn",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 11,
+      "question": "日本に5年住んでいるが、家族が（　）ベトナムに帰ることにした。",
+      "translation": "Tôi đã sống ở Nhật 5 năm nhưng vì quá nhớ gia đình nên đã quyết định trở về Việt Nam.",
+      "answer": 2,
+      "options": [
+        {
+          "key": 1,
+          "text": "大人しくて",
+          "reading": "おとなしくて",
+          "meaning": "Trầm tính",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "恋しくて",
+          "reading": "こいしくて",
+          "meaning": "Nhung nhớ, tha thiết",
+          "explain": "Đúng. Cụm '家族が恋しい' nghĩa là nhớ nhung da diết gia đình quê hương."
+        },
+        {
+          "key": 3,
+          "text": "眩しくて",
+          "reading": "まぶしくて",
+          "meaning": "Chói chang",
+          "explain": "Sai vì dùng cho ánh sáng."
+        },
+        {
+          "key": 4,
+          "text": "険しくて",
+          "reading": "けわしくて",
+          "meaning": "Hiểm trở",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 12,
+      "question": "なぜか、薬を飲んでも（　）いる気がしない。",
+      "translation": "Không hiểu sao dù đã uống thuốc mà tôi không thấy thuốc có tác dụng gì cả.",
+      "answer": 1,
+      "options": [
+        {
+          "key": 1,
+          "text": "効いて",
+          "reading": "きいて",
+          "meaning": "Có tác dụng, hiệu nghiệm",
+          "explain": "Đúng. Cụm '薬が効く' nghĩa là thuốc phát huy tác dụng chữa bệnh."
+        },
+        {
+          "key": 2,
+          "text": "刻んで",
+          "reading": "きざんで",
+          "meaning": "Thái nhỏ / Khắc sâu",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "削って",
+          "reading": "けずって",
+          "meaning": "Gọt giũa / Cắt giảm",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "滑って",
+          "reading": "すべって",
+          "meaning": "Trượt ngã",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 13,
+      "question": "女性が（　）いるのを見て、何か事件が起きたのかと思った。",
+      "translation": "Thấy người phụ nữ đang la hét thất thanh, tôi nghĩ chắc đã có vụ án gì đó xảy ra.",
+      "answer": 4,
+      "options": [
+        {
+          "key": 1,
+          "text": "統べて",
+          "reading": "すべて",
+          "meaning": "Thống lĩnh",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "繋いで",
+          "reading": "つないで",
+          "meaning": "Nắm tay / Kết nối",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "疑って",
+          "reading": "うたがって",
+          "meaning": "Nghi ngờ",
+          "explain": "Sai vì nghi ngờ không nhìn thấy trực diện gây hoảng hốt."
+        },
+        {
+          "key": 4,
+          "text": "叫んで",
+          "reading": "さけんで",
+          "meaning": "La hét, hét toáng lên",
+          "explain": "Đúng. '女性が叫んでいる' chỉ tiếng la hét thất thanh khi gặp nguy hiểm."
+        }
+      ]
+    },
+    {
+      "id": 14,
+      "question": "財布を落としたので、（　）拾った。",
+      "translation": "Vì làm rơi ví tiền nên tôi đã ngồi thụp/cúi người xuống nhặt lên.",
+      "answer": 3,
+      "options": [
+        {
+          "key": 1,
+          "text": "転がして",
+          "reading": "ころがして",
+          "meaning": "Lăn tròn",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "定めて",
+          "reading": "さだめて",
+          "meaning": "Quy định",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "しゃがんで",
+          "reading": "しゃがんで",
+          "meaning": "Ngồi xổm, cúi thụp xuống",
+          "explain": "Đúng. 'しゃがんで拾う' nghĩa là ngồi thụp xuống để nhặt đồ vật dưới đất."
+        },
+        {
+          "key": 4,
+          "text": "捕まえて",
+          "reading": "つかまえて",
+          "meaning": "Bắt giữ",
+          "explain": "Sai vì ví không tự chạy."
+        }
+      ]
+    },
+    {
+      "id": 15,
+      "question": "道が凍っていて、（　）転んでしまった。",
+      "translation": "Đường bị đóng băng trơn trượt nên tôi đã bị trượt chân ngã.",
+      "answer": 2,
+      "options": [
+        {
+          "key": 1,
+          "text": "蹴って",
+          "reading": "けって",
+          "meaning": "Đá",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "滑って",
+          "reading": "すべって",
+          "meaning": "Trơn trượt",
+          "explain": "Đúng. Cụm '滑って転ぶ' nghĩa là bị trượt chân ngã nhào trên đường băng tuyết."
+        },
+        {
+          "key": 3,
+          "text": "済ませて",
+          "reading": "すませて",
+          "meaning": "Làm cho xong",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "投げ捨てて",
+          "reading": "なげすてて",
+          "meaning": "Ném vứt đi",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 16,
+      "question": "娘は機嫌が悪いと（　）癖がある。",
+      "translation": "Con gái tôi mỗi khi tâm trạng không vui là lại có tật im lặng không thèm nói gì.",
+      "answer": 1,
+      "options": [
+        {
+          "key": 1,
+          "text": "黙る",
+          "reading": "だまる",
+          "meaning": "Im lặng, nín thinh",
+          "explain": "Đúng. '黙る癖' chỉ thói quen im thin thít mỗi khi giận dỗi."
+        },
+        {
+          "key": 2,
+          "text": "騙す",
+          "reading": "だます",
+          "meaning": "Lừa gạt",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "指す",
+          "reading": "さす",
+          "meaning": "Chỉ tay",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "曇る",
+          "reading": "くもる",
+          "meaning": "Nhiều mây / U ám",
+          "explain": "Sai vì không đi với 癖."
+        }
+      ]
+    },
+    {
+      "id": 17,
+      "question": "名前を（　）場所を間違え、書類をもう一度書かないといけなくなった。",
+      "translation": "Điền sai vị trí ghi họ tên nên tôi phải viết lại tập hồ sơ một lần nữa.",
+      "answer": 1,
+      "options": [
+        {
+          "key": 1,
+          "text": "記入する",
+          "reading": "きにゅうする",
+          "meaning": "Điền vào, ghi vào (mẫu đơn)",
+          "explain": "Đúng. Cụm '名前を記入する場所' chỉ ô/vị trí điền họ tên trong văn bản."
+        },
+        {
+          "key": 2,
+          "text": "記念する",
+          "reading": "きねんする",
+          "meaning": "Kỷ niệm",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "揃う",
+          "reading": "そろう",
+          "meaning": "Tề tựu, đầy đủ",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "通じる",
+          "reading": "つうじる",
+          "meaning": "Thông qua, hiểu được",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 18,
+      "question": "親の性格は子供に大きく（　）する。",
+      "translation": "Tính cách của cha mẹ có sức ảnh hưởng rất lớn đối với con cái.",
+      "answer": 2,
+      "options": [
+        {
+          "key": 1,
+          "text": "返事",
+          "reading": "へんじ",
+          "meaning": "Hồi âm",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "影響",
+          "reading": "えいきょう",
+          "meaning": "Ảnh hưởng",
+          "explain": "Đúng. Cụm '子供に大きく影響する' nghĩa là có tác động/ảnh hưởng sâu sắc tới con trẻ."
+        },
+        {
+          "key": 3,
+          "text": "応答",
+          "reading": "おうとう",
+          "meaning": "Ứng đáp",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "応用",
+          "reading": "おうよう",
+          "meaning": "Ứng dụng",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 19,
+      "question": "大学のウェブサイトに（　）する。",
+      "translation": "Truy cập vào trang web của trường đại học.",
+      "answer": 4,
+      "options": [
+        {
+          "key": 1,
+          "text": "アナウンス",
+          "reading": "アナウンス",
+          "meaning": "Thông báo loa",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "アップ",
+          "reading": "アップ",
+          "meaning": "Tăng lên, tải lên",
+          "explain": "Sai ngữ pháp."
+        },
+        {
+          "key": 3,
+          "text": "ミックス",
+          "reading": "ミックス",
+          "meaning": "Pha trộn",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "アクセス",
+          "reading": "アクセス",
+          "meaning": "Truy cập (access)",
+          "explain": "Đúng. Cụm 'ウェブサイトにアクセスする' nghĩa là truy cập vào đường link trang web."
+        }
+      ]
+    },
+    {
+      "id": 20,
+      "question": "メールは（　）15分以内に返すようにしている。",
+      "translation": "Tôi luôn cố gắng nhất định phải trả lời email trong vòng 15 phút.",
+      "answer": 1,
+      "options": [
+        {
+          "key": 1,
+          "text": "必ず",
+          "reading": "かならず",
+          "meaning": "Nhất định, chắc chắn",
+          "explain": "Đúng. '必ず15分以内に返す' nhấn mạnh nguyên tắc luôn phản hồi nhanh chóng."
+        },
+        {
+          "key": 2,
+          "text": "一般的に",
+          "reading": "いっぱんてきに",
+          "meaning": "Nhìn chung, thông thường",
+          "explain": "Sai vì đây là thói quen của cá nhân."
+        },
+        {
+          "key": 3,
+          "text": "どんなに",
+          "reading": "どんなに",
+          "meaning": "Dù cho thế nào",
+          "explain": "Sai vì cần đi với thể ても."
+        },
+        {
+          "key": 4,
+          "text": "ほとんど",
+          "reading": "ほとんど",
+          "meaning": "Hầu như",
+          "explain": "Sai ngữ cảnh."
+        }
+      ]
+    }
+  ]
+}

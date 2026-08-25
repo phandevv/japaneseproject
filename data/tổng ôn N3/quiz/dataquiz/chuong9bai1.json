@@ -1,0 +1,726 @@
+{
+  "chuong": 9,
+  "bai": 1,
+  "questions": [
+    {
+      "id": 1,
+      "question": "木の根が（　）から出ている。",
+      "translation": "Rễ cây trồi lên từ mặt đất.",
+      "answer": 2,
+      "options": [
+        {
+          "key": 1,
+          "text": "場面",
+          "reading": "ばめん",
+          "meaning": "Bối cảnh, cảnh tượng",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "地面",
+          "reading": "じめん",
+          "meaning": "Mặt đất",
+          "explain": "Đúng. '木の根が地面から出ている' nghĩa là rễ cây nhô lên khỏi mặt đất."
+        },
+        {
+          "key": 3,
+          "text": "方面",
+          "reading": "ほうめん",
+          "meaning": "Phương diện / Hướng",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "正面",
+          "reading": "しょうめん",
+          "meaning": "Chính diện",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "question": "改まった（　）では、敬語を使います。",
+      "translation": "Trong những bối cảnh/hoàn cảnh trang trọng, người ta sử dụng kính ngữ.",
+      "answer": 3,
+      "options": [
+        {
+          "key": 1,
+          "text": "地球",
+          "reading": "ちきゅう",
+          "meaning": "Trái Đất",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "地面",
+          "reading": "じめん",
+          "meaning": "Mặt đất",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "場面",
+          "reading": "ばめん",
+          "meaning": "Bối cảnh, hoàn cảnh, tình huống",
+          "explain": "Đúng. Cụm '改まった場面' chỉ những hoàn cảnh trang trọng, lịch sự yêu cầu dùng kính ngữ."
+        },
+        {
+          "key": 4,
+          "text": "広場",
+          "reading": "ひろば",
+          "meaning": "Quảng trường",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "question": "日本では、（　）で靴を脱いでから部屋に上がる。",
+      "translation": "Ở Nhật Bản, người ta cởi giày ở lối vào hiên nhà (Genkan) rồi mới bước vào phòng.",
+      "answer": 1,
+      "options": [
+        {
+          "key": 1,
+          "text": "玄関",
+          "reading": "げんかん",
+          "meaning": "Lối vào nhà, sảnh vào (Genkan)",
+          "explain": "Đúng. Phong tục Nhật Bản: cởi giày dép tại bậc '玄関' trước khi bước lên phòng."
+        },
+        {
+          "key": 2,
+          "text": "舞台",
+          "reading": "ぶたい",
+          "meaning": "Sân khấu",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "封筒",
+          "reading": "ふうとう",
+          "meaning": "Phong bì",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "屋根",
+          "reading": "やね",
+          "meaning": "Mái nhà",
+          "explain": "Sai vì không cởi giày trên mái nhà."
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "question": "（　）抜きで話を進めるのはよくないですよ。",
+      "translation": "Bàn bạc câu chuyện mà bỏ qua nhân vật chính (người trong cuộc) là không tốt đâu đấy.",
+      "answer": 2,
+      "options": [
+        {
+          "key": 1,
+          "text": "宝石",
+          "reading": "ほうせき",
+          "meaning": "Đá quý",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "本人",
+          "reading": "ほんにん",
+          "meaning": "Bản thân người đó, nhân vật chính",
+          "explain": "Đúng. Cụm '本人抜きで' nghĩa là loại trừ/không có mặt đương sự trong cuộc thảo luận."
+        },
+        {
+          "key": 3,
+          "text": "停車",
+          "reading": "ていしゃ",
+          "meaning": "Dừng xe",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "革製",
+          "reading": "かわせい",
+          "meaning": "Làm bằng da",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "question": "この（　）は1億円の価値がある。",
+      "translation": "Viên đá quý này có giá trị lên tới 100 triệu yên.",
+      "answer": 3,
+      "options": [
+        {
+          "key": 1,
+          "text": "順番",
+          "reading": "じゅんばん",
+          "meaning": "Thứ tự",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "値段",
+          "reading": "ねだん",
+          "meaning": "Giá cả",
+          "explain": "Sai ngữ pháp vì giá cả có giá trị là lặp từ."
+        },
+        {
+          "key": 3,
+          "text": "宝石",
+          "reading": "ほうせき",
+          "meaning": "Đá quý, bảo thạch",
+          "explain": "Đúng. '宝石は1億円の価値がある' chỉ giá trị đắt giá của viên đá quý."
+        },
+        {
+          "key": 4,
+          "text": "無駄遣い",
+          "reading": "むだづかい",
+          "meaning": "Tiêu xài hoang phí",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "question": "大学では（　）学を専攻していました。",
+      "translation": "Ở trường đại học tôi đã học chuyên ngành Vật lý học.",
+      "answer": 1,
+      "options": [
+        {
+          "key": 1,
+          "text": "物理",
+          "reading": "ぶつり",
+          "meaning": "Vật lý (vật lý học: 物理学)",
+          "explain": "Đúng. Chuyên ngành khoa học tự nhiên '物理学' (Vật lý học)."
+        },
+        {
+          "key": 2,
+          "text": "本物",
+          "reading": "ほんもの",
+          "meaning": "Hàng thật",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "早退",
+          "reading": "そうたい",
+          "meaning": "Về sớm",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "訓練",
+          "reading": "くんれん",
+          "meaning": "Huấn luyện",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "question": "（　）とそっくりな偽物を売っている。",
+      "translation": "Họ đang bày bán những món hàng giả giống hệt như hàng thật.",
+      "answer": 2,
+      "options": [
+        {
+          "key": 1,
+          "text": "本部",
+          "reading": "ほんぶ",
+          "meaning": "Trụ sở",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "本物",
+          "reading": "ほんもの",
+          "meaning": "Hàng thật, đồ thật",
+          "explain": "Đúng. Cặp từ tương phản '本物と偽物' (hàng thật và hàng giả)."
+        },
+        {
+          "key": 3,
+          "text": "物理",
+          "reading": "ぶつり",
+          "meaning": "Vật lý",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "物価",
+          "reading": "ぶっか",
+          "meaning": "Giá cả",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "question": "この会社は、中国・ベトナムと（　）を行なっている。",
+      "translation": "Công ty này đang tiến hành hoạt động thương mại/giao thương với Trung Quốc và Việt Nam.",
+      "answer": 3,
+      "options": [
+        {
+          "key": 1,
+          "text": "紐",
+          "reading": "ひも",
+          "meaning": "Sợi dây",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "根",
+          "reading": "ね",
+          "meaning": "Rễ cây",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "貿易",
+          "reading": "ぼうえき",
+          "meaning": "Thương mại quốc tế, mậu dịch",
+          "explain": "Đúng. Cụm '貿易を行なっている' nghĩa là tiến hành xuất nhập khẩu/buôn bán quốc tế."
+        },
+        {
+          "key": 4,
+          "text": "米国",
+          "reading": "べいこく",
+          "meaning": "Nước Mỹ",
+          "explain": "Sai ngữ pháp."
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "question": "（　）が明るくなり、みんなが歌手に注目した。",
+      "translation": "Sân khấu bừng sáng lên và mọi người đều dồn sự chú ý vào người ca sĩ.",
+      "answer": 4,
+      "options": [
+        {
+          "key": 1,
+          "text": "歩道橋",
+          "reading": "ほどうきょう",
+          "meaning": "Cầu vượt đi bộ",
+          "explain": "Sai vì ca sĩ không biểu diễn trên cầu vượt."
+        },
+        {
+          "key": 2,
+          "text": "お見舞い",
+          "reading": "おみまい",
+          "meaning": "Thăm người ốm",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "灯台",
+          "reading": "とうだい",
+          "meaning": "Ngọn hải đăng",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "舞台",
+          "reading": "ぶたい",
+          "meaning": "Sân khấu",
+          "explain": "Đúng. Cụm '舞台が明るくなる' chỉ ánh đèn sân khấu bừng sáng khi ca sĩ xuất hiện."
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "question": "世の中は、環境問題に（　）な人がまだまだ多い。",
+      "translation": "Trong xã hội vẫn còn rất nhiều người thờ ơ/vô cảm với các vấn đề môi trường.",
+      "answer": 4,
+      "options": [
+        {
+          "key": 1,
+          "text": "国産",
+          "reading": "こくさん",
+          "meaning": "Sản xuất trong nước",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "無料",
+          "reading": "むりょう",
+          "meaning": "Miễn phí",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "無条件",
+          "reading": "むじょうけん",
+          "meaning": "Vô điều kiện",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "無関心",
+          "reading": "むかんしん",
+          "meaning": "Thờ ơ, vô cảm, không quan tâm",
+          "explain": "Đúng. Cụm '環境問題に無関心な人' chỉ người thiếu ý thức bảo vệ môi trường."
+        }
+      ]
+    },
+    {
+      "id": 11,
+      "question": "親は子供を（　）に愛するものだ。",
+      "translation": "Cha mẹ luôn yêu thương con cái một cách vô điều kiện.",
+      "answer": 3,
+      "options": [
+        {
+          "key": 1,
+          "text": "仲間",
+          "reading": "なかま",
+          "meaning": "Bạn bè, đồng nghiệp",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "無関心",
+          "reading": "むかんしん",
+          "meaning": "Thờ ơ",
+          "explain": "Sai vì tình mẫu tử không thờ ơ."
+        },
+        {
+          "key": 3,
+          "text": "無条件",
+          "reading": "むじょうけん",
+          "meaning": "Vô điều kiện",
+          "explain": "Đúng. Cụm '無条件に愛する' nghĩa là trao trọn tình yêu thương vô điều kiện không đòi hỏi đền đáp."
+        },
+        {
+          "key": 4,
+          "text": "無責任",
+          "reading": "むせきにん",
+          "meaning": "Vô trách nhiệm",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 12,
+      "question": "毎朝近所の公園を（　）して、足を鍛えています。",
+      "translation": "Mỗi sáng tôi đều chạy bộ quanh công viên gần nhà để rèn luyện đôi chân.",
+      "answer": 2,
+      "options": [
+        {
+          "key": 1,
+          "text": "ドライブ",
+          "reading": "ドライブ",
+          "meaning": "Lái xe dạo chơi",
+          "explain": "Sai vì lái xe không rèn luyện cơ chân."
+        },
+        {
+          "key": 2,
+          "text": "ランニング",
+          "reading": "ランニング",
+          "meaning": "Chạy bộ (running)",
+          "explain": "Đúng. 'ランニングして足を鍛える' nghĩa là chạy bộ rèn luyện sức bền đôi chân."
+        },
+        {
+          "key": 3,
+          "text": "クリーニング",
+          "reading": "クリーニング",
+          "meaning": "Giặt ủi",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "スケート",
+          "reading": "スケート",
+          "meaning": "Trượt băng",
+          "explain": "Sai vì không trượt băng ở công viên thông thường."
+        }
+      ]
+    },
+    {
+      "id": 13,
+      "question": "娘に卵（　）があることがわかってから、卵を食べさせないようにした。",
+      "translation": "Sau khi phát hiện con gái bị dị ứng trứng, tôi đã không cho cháu ăn trứng nữa.",
+      "answer": 4,
+      "options": [
+        {
+          "key": 1,
+          "text": "ウイルス",
+          "reading": "ウイルス",
+          "meaning": "Virus",
+          "explain": "Sai vì trứng không phải là virus."
+        },
+        {
+          "key": 2,
+          "text": "アンテナ",
+          "reading": "アンテナ",
+          "meaning": "Ăng-ten",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "エネルギー",
+          "reading": "エネルギー",
+          "meaning": "Năng lượng",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "アレルギー",
+          "reading": "アレルギー",
+          "meaning": "Dị ứng (allergy)",
+          "explain": "Đúng. Cụm '卵アレルギー' chỉ hội chứng dị ứng với thành phần quả trứng."
+        }
+      ]
+    },
+    {
+      "id": 14,
+      "question": "若い社員にも、会議でもっと（　）してほしい。",
+      "translation": "Tôi muốn các nhân viên trẻ tuổi cũng phát biểu ý kiến nhiều hơn nữa trong các cuộc họp.",
+      "answer": 3,
+      "options": [
+        {
+          "key": 1,
+          "text": "新記録",
+          "reading": "しんきろく",
+          "meaning": "Kỷ lục mới",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "昼寝",
+          "reading": "ひるね",
+          "meaning": "Ngủ trưa",
+          "explain": "Sai vì không ai khuyến khích ngủ trưa trong cuộc họp."
+        },
+        {
+          "key": 3,
+          "text": "発言",
+          "reading": "はつげん",
+          "meaning": "Phát biểu, lên tiếng nêu quan điểm",
+          "explain": "Đúng. '会議で発言する' nghĩa là phát biểu ý kiến đóng góp tại buổi họp."
+        },
+        {
+          "key": 4,
+          "text": "やる気",
+          "reading": "やるき",
+          "meaning": "Động lực",
+          "explain": "Sai ngữ pháp vì không ghép với して."
+        }
+      ]
+    },
+    {
+      "id": 15,
+      "question": "審判の（　）で試合が始まった。",
+      "translation": "Trận đấu đã bắt đầu theo hiệu lệnh của trọng tài.",
+      "answer": 4,
+      "options": [
+        {
+          "key": 1,
+          "text": "流れ",
+          "reading": "ながれ",
+          "meaning": "Dòng chảy",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "筆記",
+          "reading": "ひっき",
+          "meaning": "Bút ký, viết",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "面会",
+          "reading": "めんかい",
+          "meaning": "Gặp gỡ",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "合図",
+          "reading": "あいず",
+          "meaning": "Hiệu lệnh, dấu hiệu ra hiệu",
+          "explain": "Đúng. Cụm '審判の合図' chỉ tiếng còi/hiệu lệnh của trọng tài bắt đầu trận đấu."
+        }
+      ]
+    },
+    {
+      "id": 16,
+      "question": "（　）で勉強しても、あまり効果はない。",
+      "translation": "Dù có thức trắng đêm học bài đi chăng nữa thì cũng chẳng mang lại nhiều hiệu quả.",
+      "answer": 3,
+      "options": [
+        {
+          "key": 1,
+          "text": "保護",
+          "reading": "ほご",
+          "meaning": "Bảo hộ",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "合図",
+          "reading": "あいず",
+          "meaning": "Hiệu lệnh",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "徹夜",
+          "reading": "てつや",
+          "meaning": "Thức trắng đêm",
+          "explain": "Đúng. Cụm '徹夜で勉強する' nghĩa là thức thâu đêm suốt sáng để học bài nhưng kém hiệu quả."
+        },
+        {
+          "key": 4,
+          "text": "発言",
+          "reading": "はつげん",
+          "meaning": "Phát biểu",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 17,
+      "question": "迷子を（　）して、親を探した。",
+      "translation": "Chúng tôi đã bảo vệ/chăm sóc đứa trẻ lạc và đi tìm bố mẹ cho cháu.",
+      "answer": 2,
+      "options": [
+        {
+          "key": 1,
+          "text": "無視",
+          "reading": "むし",
+          "meaning": "Phớt lờ",
+          "explain": "Sai vì phớt lờ thì không đi tìm bố mẹ giúp đứa bé."
+        },
+        {
+          "key": 2,
+          "text": "保護",
+          "reading": "ほご",
+          "meaning": "Bảo hộ, che chở, bảo vệ tạm thời",
+          "explain": "Đúng. Cụm '迷子を保護する' nghĩa là tiếp nhận chăm sóc an toàn cho trẻ lạc để tìm gia đình."
+        },
+        {
+          "key": 3,
+          "text": "保存",
+          "reading": "ほぞん",
+          "meaning": "Lưu trữ (dữ liệu)",
+          "explain": "Sai vì không dùng cho người."
+        },
+        {
+          "key": 4,
+          "text": "別々",
+          "reading": "べつべつ",
+          "meaning": "Riêng rẽ",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 18,
+      "question": "信号を（　）したせいで、警察に捕まった。",
+      "translation": "Vì vượt đèn đỏ (phớt lờ tín hiệu đèn giao thông) nên tôi đã bị cảnh sát bắt giữ.",
+      "answer": 2,
+      "options": [
+        {
+          "key": 1,
+          "text": "録音",
+          "reading": "ろくおん",
+          "meaning": "Ghi âm",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "無視",
+          "reading": "むし",
+          "meaning": "Phớt lờ, xem thường (vượt đèn tín hiệu)",
+          "explain": "Đúng. Cụm '信号を無視する' (vượt đèn đỏ/phớt lờ đèn giao thông)."
+        },
+        {
+          "key": 3,
+          "text": "交流",
+          "reading": "こうりゅう",
+          "meaning": "Giao lưu",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "一晩",
+          "reading": "ひとばん",
+          "meaning": "Một đêm",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 19,
+      "question": "お金を（　）ばかりしていると、何か起きた時にお金を払えなくなるよ。",
+      "translation": "Nếu suốt ngày chỉ toàn tiêu xài hoang phí thì khi có chuyện gì xảy ra bạn sẽ không có tiền chi trả đâu.",
+      "answer": 3,
+      "options": [
+        {
+          "key": 1,
+          "text": "貿易",
+          "reading": "ぼうえき",
+          "meaning": "Mậu dịch",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "請求書",
+          "reading": "せいきゅうしょ",
+          "meaning": "Hóa đơn",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "無駄遣い",
+          "reading": "むだづかい",
+          "meaning": "Tiêu xài lãng phí, hoang phí",
+          "explain": "Đúng. Cụm 'お金を無駄遣いする' chỉ thói quen vung tay quá trán, lãng phí tiền bạc."
+        },
+        {
+          "key": 4,
+          "text": "文献",
+          "reading": "ぶんけん",
+          "meaning": "Văn kiện",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 20,
+      "question": "昨日、隣の人が（　）中パーティーをしていて、とてもうるさかった。",
+      "translation": "Hôm qua người hàng xóm mở tiệc suốt cả đêm làm ồn ào vô cùng.",
+      "answer": 1,
+      "options": [
+        {
+          "key": 1,
+          "text": "一晩",
+          "reading": "ひとばん",
+          "meaning": "Một đêm (cụm 一晩中: suốt cả đêm)",
+          "explain": "Đúng. Cụm từ '一晩中' nghĩa là thâu đêm suốt sáng."
+        },
+        {
+          "key": 2,
+          "text": "徹夜",
+          "reading": "てつや",
+          "meaning": "Thức trắng",
+          "explain": "Sai vì 徹夜 không đi với trợ từ 中 theo dạng này."
+        },
+        {
+          "key": 3,
+          "text": "一応",
+          "reading": "いちおう",
+          "meaning": "Tạm thời",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "一人娘",
+          "reading": "ひとりむすめ",
+          "meaning": "Con gái một",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    }
+  ]
+}

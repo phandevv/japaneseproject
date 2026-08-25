@@ -36,6 +36,8 @@ public class JlptN3ProgressDoc {
     @Builder.Default
     private Boolean grammarPassed = false;
     @Builder.Default
+    private Boolean quizPassed = false;
+    @Builder.Default
     private Boolean completed = false;
     @Builder.Default
     private Integer bestScore = 0;

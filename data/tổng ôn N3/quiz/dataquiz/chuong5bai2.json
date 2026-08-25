@@ -1,0 +1,726 @@
+{
+  "chuong": 5,
+  "bai": 2,
+  "questions": [
+    {
+      "id": 1,
+      "question": "父の（　）が去年に比べて高くなっていることがわかった。これからは食事に気をつけるべきだ。",
+      "translation": "Tôi phát hiện ra huyết áp của bố đã tăng cao hơn so với năm ngoái. Từ giờ trở đi cần phải chú ý đến việc ăn uống.",
+      "answer": 3,
+      "options": [
+        {
+          "key": 1,
+          "text": "幸せ",
+          "reading": "しあわせ",
+          "meaning": "Hạnh phúc",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "成功",
+          "reading": "せいこう",
+          "meaning": "Thành công",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "血圧",
+          "reading": "けつあつ",
+          "meaning": "Huyết áp",
+          "explain": "Đúng. Cụm '血圧が高くなる' chỉ chỉ số huyết áp tăng cao cần kiêng ăn uống."
+        },
+        {
+          "key": 4,
+          "text": "感動",
+          "reading": "かんどう",
+          "meaning": "Cảm động",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "question": "犯人が事件を起こした（　）は、今も分かっていない。",
+      "translation": "Mục đích/động cơ tên tội phạm gây ra vụ án đến nay vẫn chưa được làm sáng tỏ.",
+      "answer": 4,
+      "options": [
+        {
+          "key": 1,
+          "text": "特徴",
+          "reading": "とくちょう",
+          "meaning": "Đặc trưng",
+          "explain": "Sai vì vụ án gắn với động cơ gây án."
+        },
+        {
+          "key": 2,
+          "text": "契約",
+          "reading": "けいやく",
+          "meaning": "Hợp đồng",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "節約",
+          "reading": "せつやく",
+          "meaning": "Tiết kiệm",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "目的",
+          "reading": "もくてき",
+          "meaning": "Mục đích, động cơ",
+          "explain": "Đúng. '事件を起こした目的' chỉ động cơ/mục đích gây án của thủ phạm."
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "question": "今年は（　）が支給されるかどうか、社員はみんなドキドキしている。",
+      "translation": "Liệu năm nay có được chi trả tiền thưởng (bonus) hay không, các nhân viên đều đang hồi hộp mong ngóng.",
+      "answer": 4,
+      "options": [
+        {
+          "key": 1,
+          "text": "チャイム",
+          "reading": "チャイム",
+          "meaning": "Chuông báo",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "マイナス",
+          "reading": "マイナス",
+          "meaning": "Điểm trừ",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "ポイント",
+          "reading": "ポイント",
+          "meaning": "Điểm tích lũy",
+          "explain": "Sai vì ở công ty chi trả tiền thưởng cho nhân viên."
+        },
+        {
+          "key": 4,
+          "text": "ボーナス",
+          "reading": "ボーナス",
+          "meaning": "Tiền thưởng (bonus)",
+          "explain": "Đúng. Cụm 'ボーナスが支給される' chỉ khoản thưởng định kỳ cho nhân viên."
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "question": "この店では、100円買い物するごとに、1（　）もらえます。",
+      "translation": "Ở cửa hàng này, cứ mỗi 100 yên tiền mua sắm bạn sẽ nhận được 1 điểm tích lũy.",
+      "answer": 3,
+      "options": [
+        {
+          "key": 1,
+          "text": "タオル",
+          "reading": "タオル",
+          "meaning": "Khăn tắm",
+          "explain": "Sai vì không tặng khăn cho mỗi 100 yên."
+        },
+        {
+          "key": 2,
+          "text": "ライト",
+          "reading": "ライト",
+          "meaning": "Đèn",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "ポイント",
+          "reading": "ポイント",
+          "meaning": "Điểm tích lũy (point)",
+          "explain": "Đúng. '1ポイントもらえる' là chính sách tích điểm đổi quà quen thuộc tại các cửa hàng."
+        },
+        {
+          "key": 4,
+          "text": "チャイム",
+          "reading": "チャイム",
+          "meaning": "Chuông",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "question": "毎日子供たちの成長を見て、（　）を感じています。",
+      "translation": "Mỗi ngày ngắm nhìn các con khôn lớn, tôi đều cảm nhận được niềm hạnh phúc dâng trào.",
+      "answer": 2,
+      "options": [
+        {
+          "key": 1,
+          "text": "幸運",
+          "reading": "こううん",
+          "meaning": "May mắn",
+          "explain": "Sai vì không diễn đạt cảm xúc đong đầy từ tình thân."
+        },
+        {
+          "key": 2,
+          "text": "幸せ",
+          "reading": "しあわせ",
+          "meaning": "Hạnh phúc",
+          "explain": "Đúng. Cụm '幸せを感じる' nghĩa là cảm nhận được niềm hạnh phúc bình dị."
+        },
+        {
+          "key": 3,
+          "text": "平均",
+          "reading": "へいきん",
+          "meaning": "Trung bình",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "普段",
+          "reading": "ふだん",
+          "meaning": "Bình thường",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "question": "彼はバイクの部品を自分で（　）ことができるらしい。",
+      "translation": "Nghe nói anh ấy có thể tự mình lắp ráp các bộ phận của xe máy.",
+      "answer": 1,
+      "options": [
+        {
+          "key": 1,
+          "text": "組み立てる",
+          "reading": "くみたてる",
+          "meaning": "Lắp ráp, ghép nối",
+          "explain": "Đúng. Cụm '部品を組み立てる' nghĩa là lắp ráp các linh kiện thành cỗ máy hoàn chỉnh."
+        },
+        {
+          "key": 2,
+          "text": "完成させる",
+          "reading": "かんせいさせる",
+          "meaning": "Làm cho hoàn thành",
+          "explain": "Sai vì linh kiện cần động từ lắp ráp."
+        },
+        {
+          "key": 3,
+          "text": "植える",
+          "reading": "うえる",
+          "meaning": "Trồng (cây)",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "助ける",
+          "reading": "たすける",
+          "meaning": "Giúp đỡ",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "question": "携帯の電池が切れて家に帰られなくなったが、知らない人が（　）くれた。",
+      "translation": "Điện thoại hết pin khiến tôi không thể về nhà được, nhưng một người lạ tốt bụng đã giúp đỡ tôi.",
+      "answer": 3,
+      "options": [
+        {
+          "key": 1,
+          "text": "鳴らして",
+          "reading": "ならして",
+          "meaning": "Bấm chuông",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "戻して",
+          "reading": "もどして",
+          "meaning": "Trả lại",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "助けて",
+          "reading": "たすけて",
+          "meaning": "Giúp đỡ, cứu giúp",
+          "explain": "Đúng. '助けてくれた' diễn tả việc nhận được sự giúp đỡ khi gặp khó khăn."
+        },
+        {
+          "key": 4,
+          "text": "分けて",
+          "reading": "わけて",
+          "meaning": "Chia ra",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "question": "この部屋は、明日の夜は（　）いますか。",
+      "translation": "Căn phòng này tối mai có còn trống không ạ?",
+      "answer": 2,
+      "options": [
+        {
+          "key": 1,
+          "text": "誘って",
+          "reading": "さそって",
+          "meaning": "Mời gọi",
+          "explain": "Sai vì phòng ốc không biết mời mọc."
+        },
+        {
+          "key": 2,
+          "text": "空いて",
+          "reading": "あいて",
+          "meaning": "Trống, còn chỗ",
+          "explain": "Đúng. Cụm '部屋が空いている' chỉ phòng ốc/chỗ ngồi còn trống chưa có người dùng."
+        },
+        {
+          "key": 3,
+          "text": "描いて",
+          "reading": "えがいて",
+          "meaning": "Vẽ tranh",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "隠れて",
+          "reading": "かくれて",
+          "meaning": "Trốn",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "question": "先生に質問しようと思ったところで、授業のチャイムが（　）。",
+      "translation": "Vừa định đặt câu hỏi cho thầy thì tiếng chuông báo hết giờ học đã vang lên.",
+      "answer": 4,
+      "options": [
+        {
+          "key": 1,
+          "text": "凍った",
+          "reading": "こおった",
+          "meaning": "Đóng băng",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "揺れた",
+          "reading": "ゆれた",
+          "meaning": "Rung lắc",
+          "explain": "Sai vì dùng cho động đất/cành cây."
+        },
+        {
+          "key": 3,
+          "text": "鳴らした",
+          "reading": "ならした",
+          "meaning": "Rung chuông (tha động từ)",
+          "explain": "Sai ngữ pháp vì chủ ngữ đi với trợ từ が (チャイムが)."
+        },
+        {
+          "key": 4,
+          "text": "鳴った",
+          "reading": "なった",
+          "meaning": "Reo lên, vang lên (tự động từ)",
+          "explain": "Đúng. 'チャイムが鳴った' nghĩa là tiếng chuông tự động reo vang lên."
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "question": "この道路は5メートルごとに木が（　）いる。",
+      "translation": "Con đường này cứ cách mỗi 5 mét lại có một cái cây được trồng.",
+      "answer": 1,
+      "options": [
+        {
+          "key": 1,
+          "text": "植えられて",
+          "reading": "うえられて",
+          "meaning": "Được trồng (thể bị động)",
+          "explain": "Đúng. Cụm '木が植えられている' chỉ hàng cây được trồng cách đều dọc con đường."
+        },
+        {
+          "key": 2,
+          "text": "続けられて",
+          "reading": "つづけられて",
+          "meaning": "Được tiếp tục",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "剥かれて",
+          "reading": "むかれて",
+          "meaning": "Bị bóc vỏ",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "散らかされて",
+          "reading": "ちらかされて",
+          "meaning": "Bị bày bừa",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 11,
+      "question": "飼っている猫がいなくなり、1日中探していたが、ベッドの下に（　）いることが分かった。",
+      "translation": "Chú mèo cưng bỗng biến mất khiến tôi tìm suốt cả ngày, hóa ra mới biết nó đang trốn dưới gầm giường.",
+      "answer": 2,
+      "options": [
+        {
+          "key": 1,
+          "text": "捕まって",
+          "reading": "つかまって",
+          "meaning": "Bị bắt giữ",
+          "explain": "Sai ngữ cảnh mèo trốn ở nhà."
+        },
+        {
+          "key": 2,
+          "text": "隠れて",
+          "reading": "かくれて",
+          "meaning": "Ẩn nấp, trốn",
+          "explain": "Đúng. Cụm 'ベッドの下に隠れている' nghĩa là mèo đang nấp/trốn kín dưới gầm giường."
+        },
+        {
+          "key": 3,
+          "text": "燃やして",
+          "reading": "もやして",
+          "meaning": "Đốt cháy",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "現して",
+          "reading": "あらわして",
+          "meaning": "Biểu thị",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 12,
+      "question": "道端で、子供が風景の絵を（　）いたので、面白く感じて話しかけた。",
+      "translation": "Bên lề đường thấy đứa bé đang vẽ bức tranh phong cảnh, thấy thú vị nên tôi đã bắt chuyện.",
+      "answer": 3,
+      "options": [
+        {
+          "key": 1,
+          "text": "焼いて",
+          "reading": "やいて",
+          "meaning": "Nướng",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "分けて",
+          "reading": "わけて",
+          "meaning": "Chia ra",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "描いて",
+          "reading": "かいて",
+          "meaning": "Vẽ (tranh)",
+          "explain": "Đúng. Cụm '絵を描いている' nghĩa là đang vẽ bức tranh phong cảnh."
+        },
+        {
+          "key": 4,
+          "text": "動かして",
+          "reading": "うごかして",
+          "meaning": "Di chuyển",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 13,
+      "question": "勉強している最中に、友達がゲームをしようと（　）くる。",
+      "translation": "Đúng lúc tôi đang học bài thì bạn bè lại rủ rê chơi game.",
+      "answer": 1,
+      "options": [
+        {
+          "key": 1,
+          "text": "誘って",
+          "reading": "さそって",
+          "meaning": "Rủ rê, mời mọc",
+          "explain": "Đúng. Cụm 'ゲームをしようと誘ってくる' nghĩa là bạn bè rủ rê đi chơi game."
+        },
+        {
+          "key": 2,
+          "text": "進めて",
+          "reading": "すすめて",
+          "meaning": "Thúc đẩy",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "結んで",
+          "reading": "むすんで",
+          "meaning": "Buộc lại",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "続けて",
+          "reading": "つづけて",
+          "meaning": "Tiếp tục",
+          "explain": "Sai vì không dùng để rủ ai làm gì."
+        }
+      ]
+    },
+    {
+      "id": 14,
+      "question": "借りているマンションは1年ごとに、（　）を更新する。",
+      "translation": "Căn hộ chung cư tôi đang thuê cứ mỗi năm một lần lại gia hạn hợp đồng.",
+      "answer": 4,
+      "options": [
+        {
+          "key": 1,
+          "text": "家具",
+          "reading": "かぐ",
+          "meaning": "Nội thất",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "話しかけ",
+          "reading": "はなしかけ",
+          "meaning": "Bắt chuyện",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "代金",
+          "reading": "だいきん",
+          "meaning": "Tiền thanh toán",
+          "explain": "Sai vì tiền thanh toán không dùng với động từ gia hạn."
+        },
+        {
+          "key": 4,
+          "text": "契約",
+          "reading": "けいやく",
+          "meaning": "Hợp đồng",
+          "explain": "Đúng. Cụm '契約を更新する' nghĩa là gia hạn hợp đồng thuê nhà."
+        }
+      ]
+    },
+    {
+      "id": 15,
+      "question": "犯人は、近くのホテルに（　）いるところを捕まった。",
+      "translation": "Tên tội phạm đã bị tóm gọn khi đang lưu trú tại một khách sạn gần đó.",
+      "answer": 1,
+      "options": [
+        {
+          "key": 1,
+          "text": "滞在して",
+          "reading": "たいざいして",
+          "meaning": "Lưu trú, ở lại",
+          "explain": "Đúng. Cụm 'ホテルに滞在している' chỉ việc tên tội phạm đang lẩn trốn, ở lại khách sạn."
+        },
+        {
+          "key": 2,
+          "text": "サボって",
+          "reading": "サボって",
+          "meaning": "Trốn việc",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "空いて",
+          "reading": "あいて",
+          "meaning": "Trống rỗng",
+          "explain": "Sai vì người không thể trống rỗng."
+        },
+        {
+          "key": 4,
+          "text": "組み立てて",
+          "reading": "くみたてて",
+          "meaning": "Lắp ráp",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 16,
+      "question": "久しぶりにいい映画を見た。（　）して涙が出てしまった。",
+      "translation": "Lâu lắm rồi mới xem được bộ phim hay đến thế. Tôi đã cảm động tới mức rơi nước mắt.",
+      "answer": 2,
+      "options": [
+        {
+          "key": 1,
+          "text": "完成",
+          "reading": "かんせい",
+          "meaning": "Hoàn thành",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "感動",
+          "reading": "かんどう",
+          "meaning": "Cảm động, xúc động",
+          "explain": "Đúng. Cụm '感動して涙が出る' nghĩa là xúc động nghẹn ngào rơi lệ trước bộ phim hay."
+        },
+        {
+          "key": 3,
+          "text": "助け",
+          "reading": "たすけ",
+          "meaning": "Sự giúp đỡ",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "話しかけ",
+          "reading": "はなしかけ",
+          "meaning": "Bắt chuyện",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 17,
+      "question": "できることはやった。あとは実験が（　）するのを祈るしかない。",
+      "translation": "Những gì có thể làm thì tôi đã làm hết rồi. Giờ chỉ còn nước cầu nguyện cho cuộc thí nghiệm thành công.",
+      "answer": 4,
+      "options": [
+        {
+          "key": 1,
+          "text": "正式",
+          "reading": "せいしき",
+          "meaning": "Chính thức",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "完成",
+          "reading": "かんせい",
+          "meaning": "Hoàn thành",
+          "explain": "Sai vì thí nghiệm cần tính thành bại."
+        },
+        {
+          "key": 3,
+          "text": "成人",
+          "reading": "せいじん",
+          "meaning": "Người trưởng thành",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "成功",
+          "reading": "せいこう",
+          "meaning": "Thành công",
+          "explain": "Đúng. Cụm '実験が成功する' nghĩa là cuộc thí nghiệm thành công tốt đẹp."
+        }
+      ]
+    },
+    {
+      "id": 18,
+      "question": "（　）、こんなところで会うなんて、びっくりしました。",
+      "translation": "Không thể ngờ lại gặp bạn ở một nơi như thế này, tôi bất ngờ quá.",
+      "answer": 2,
+      "options": [
+        {
+          "key": 1,
+          "text": "つい",
+          "reading": "つい",
+          "meaning": "Lỡ, vô tình",
+          "explain": "Sai vì không đi với lời thốt lên bất ngờ."
+        },
+        {
+          "key": 2,
+          "text": "まさか",
+          "reading": "まさか",
+          "meaning": "Không ngờ, chẳng lẽ",
+          "explain": "Đúng. 'まさか…なんて' biểu thị sự kinh ngạc, không bao giờ ngờ tới tình huống xảy ra."
+        },
+        {
+          "key": 3,
+          "text": "ついさっき",
+          "reading": "ついさっき",
+          "meaning": "Vừa ban nãy",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "ついに",
+          "reading": "ついに",
+          "meaning": "Cuối cùng thì",
+          "explain": "Sai vì dùng cho kết quả sau quá trình dài."
+        }
+      ]
+    },
+    {
+      "id": 19,
+      "question": "地震があったとき、（　）シャワーの最中だった。",
+      "translation": "Khi trận động đất xảy ra thì vừa đúng lúc tôi đang tắm dưới vòi hoa sen.",
+      "answer": 3,
+      "options": [
+        {
+          "key": 1,
+          "text": "まさか",
+          "reading": "まさか",
+          "meaning": "Chẳng lẽ",
+          "explain": "Sai vì không bổ nghĩa thời điểm diễn ra hành động."
+        },
+        {
+          "key": 2,
+          "text": "ちゃんと",
+          "reading": "ちゃんと",
+          "meaning": "Cẩn thận, đàng hoàng",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "ちょうど",
+          "reading": "ちょうど",
+          "meaning": "Vừa vặn, đúng lúc",
+          "explain": "Đúng. Cụm 'ちょうど〜の最中だった' nhấn mạnh đúng ngay thời điểm sự việc xảy ra."
+        },
+        {
+          "key": 4,
+          "text": "ろくに",
+          "reading": "ろくに",
+          "meaning": "Đầy đủ (đi với phủ định)",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 20,
+      "question": "明日はキャンピングに行くので、子供たちも（　）しているようだ。",
+      "translation": "Ngày mai sẽ đi cắm trại nên bọn trẻ dường như cũng đang vô cùng háo hức, mong chờ.",
+      "answer": 3,
+      "options": [
+        {
+          "key": 1,
+          "text": "はらはら",
+          "reading": "はらはら",
+          "meaning": "Thấp thỏm, lo sợ",
+          "explain": "Sai vì đi cắm trại là niềm vui."
+        },
+        {
+          "key": 2,
+          "text": "ふらふら",
+          "reading": "ふらふら",
+          "meaning": "Lảo đảo, choáng váng",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "わくわく",
+          "reading": "わくわく",
+          "meaning": "Háo hức, mong đợi, phấn khích",
+          "explain": "Đúng. Cụm 'わくわくしている' chỉ tâm trạng háo hức, phấn khởi trước chuyến đi chơi."
+        },
+        {
+          "key": 4,
+          "text": "ぶらぶら",
+          "reading": "ぶらぶら",
+          "meaning": "Đi dạo loanh quanh",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    }
+  ]
+}

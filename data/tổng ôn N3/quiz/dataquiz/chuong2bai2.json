@@ -1,0 +1,726 @@
+{
+  "chuong": 2,
+  "bai": 2,
+  "questions": [
+    {
+      "id": 1,
+      "question": "両親は反対したが、彼の日本に行くという（　）はとても強かった。",
+      "translation": "Dù bố mẹ phản đối nhưng ý chí/quyết tâm đi Nhật của anh ấy vô cùng kiên định.",
+      "answer": 2,
+      "options": [
+        {
+          "key": 1,
+          "text": "意義",
+          "reading": "いぎ",
+          "meaning": "Ý nghĩa",
+          "explain": "Sai vì không đi với cụm thể hiện quyết tâm cá nhân '意志が強い'."
+        },
+        {
+          "key": 2,
+          "text": "意志",
+          "reading": "いし",
+          "meaning": "Ý chí, quyết tâm",
+          "explain": "Đúng. Cụm '意志が強い' nghĩa là ý chí mạnh mẽ, quyết tâm kiên định."
+        },
+        {
+          "key": 3,
+          "text": "発展",
+          "reading": "はってん",
+          "meaning": "Phát triển",
+          "explain": "Sai vì dùng cho kinh tế, đô thị."
+        },
+        {
+          "key": 4,
+          "text": "成果",
+          "reading": "せいか",
+          "meaning": "Thành quả",
+          "explain": "Sai vì hành động đi Nhật chưa diễn ra."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "question": "昔は英語が苦手だったが、あの先生に出会ってから（　）になった。",
+      "translation": "Ngày xưa tôi rất dở tiếng Anh, nhưng kể từ khi gặp được người thầy đó thì tôi đã trở nên giỏi tiếng Anh.",
+      "answer": 1,
+      "options": [
+        {
+          "key": 1,
+          "text": "得意",
+          "reading": "とくい",
+          "meaning": "Giỏi, đắc ý",
+          "explain": "Đúng. Từ trái nghĩa hoàn hảo đối lập với '苦手' (kém, dở)."
+        },
+        {
+          "key": 2,
+          "text": "間接的",
+          "reading": "かんせつてき",
+          "meaning": "Gián tiếp",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "意志",
+          "reading": "いし",
+          "meaning": "Ý chí",
+          "explain": "Sai ngữ pháp vì cần tính từ/danh từ chỉ năng lực."
+        },
+        {
+          "key": 4,
+          "text": "適当",
+          "reading": "てきとう",
+          "meaning": "Thích hợp / Qua loa",
+          "explain": "Sai ngữ cảnh."
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "question": "前の会社の社長とは、（　）からも時々食事に行っている。",
+      "translation": "Với giám đốc của công ty cũ, ngay cả sau khi thôi việc thỉnh thoảng chúng tôi vẫn đi ăn cùng nhau.",
+      "answer": 1,
+      "options": [
+        {
+          "key": 1,
+          "text": "退職して",
+          "reading": "たいしょくして",
+          "meaning": "Nghỉ việc, thôi việc",
+          "explain": "Đúng. '退職してからも' nghĩa là ngay cả sau khi đã rời công ty cũ."
+        },
+        {
+          "key": 2,
+          "text": "失って",
+          "reading": "うしなって",
+          "meaning": "Đánh mất",
+          "explain": "Sai vì cần tân ngữ (đánh mất cái gì)."
+        },
+        {
+          "key": 3,
+          "text": "繰り返して",
+          "reading": "くりかえして",
+          "meaning": "Lặp đi lặp lại",
+          "explain": "Sai ngữ cảnh."
+        },
+        {
+          "key": 4,
+          "text": "インタビューして",
+          "reading": "インタビューして",
+          "meaning": "Phỏng vấn",
+          "explain": "Sai vì phỏng vấn không tạo nên mối quan hệ tiếp diễn sau khi rời đi."
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "question": "年間の（　）はどのくらいですか。",
+      "translation": "Thu nhập hàng năm của bạn vào khoảng bao nhiêu?",
+      "answer": 4,
+      "options": [
+        {
+          "key": 1,
+          "text": "相手",
+          "reading": "あいて",
+          "meaning": "Đối phương",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "意外",
+          "reading": "いがい",
+          "meaning": "Bất ngờ, ngoài dự tính",
+          "explain": "Sai vì không dùng để hỏi số lượng định lượng."
+        },
+        {
+          "key": 3,
+          "text": "知識",
+          "reading": "ちしき",
+          "meaning": "Tri thức, kiến thức",
+          "explain": "Sai vì không định lượng theo năm."
+        },
+        {
+          "key": 4,
+          "text": "収入",
+          "reading": "しゅうにゅう",
+          "meaning": "Thu nhập",
+          "explain": "Đúng. Cụm '年間の収入' chỉ tổng thu nhập trong một năm (thu nhập năm)."
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "question": "初めて会社の（　）に行った時は本当に緊張した。",
+      "translation": "Lần đầu tiên đi phỏng vấn xin việc ở công ty tôi đã thực sự rất hồi hộp.",
+      "answer": 3,
+      "options": [
+        {
+          "key": 1,
+          "text": "直接",
+          "reading": "ちょくせつ",
+          "meaning": "Trực tiếp",
+          "explain": "Sai vì là phó từ, không làm danh từ chỉ sự kiện."
+        },
+        {
+          "key": 2,
+          "text": "仮定",
+          "reading": "かてい",
+          "meaning": "Giả định",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "面接",
+          "reading": "めんせつ",
+          "meaning": "Phỏng vấn",
+          "explain": "Đúng. '会社の面接に行く' nghĩa là đi tham gia buổi phỏng vấn của công ty."
+        },
+        {
+          "key": 4,
+          "text": "外国製",
+          "reading": "がいこくせい",
+          "meaning": "Hàng sản xuất ở nước ngoài",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "question": "机を並べる（　）が間違っていたので直した。",
+      "translation": "Vị trí kê bàn bị sai nên tôi đã chỉnh lại.",
+      "answer": 2,
+      "options": [
+        {
+          "key": 1,
+          "text": "値段",
+          "reading": "ねだん",
+          "meaning": "Giá cả",
+          "explain": "Sai vì không liên quan đến việc xếp bàn ghế."
+        },
+        {
+          "key": 2,
+          "text": "位置",
+          "reading": "いち",
+          "meaning": "Vị trí",
+          "explain": "Đúng. '並べる位置' nghĩa là vị trí sắp xếp, kê đặt đồ vật."
+        },
+        {
+          "key": 3,
+          "text": "担任",
+          "reading": "たんにん",
+          "meaning": "Chủ nhiệm",
+          "explain": "Sai vì chỉ giáo viên chủ nhiệm."
+        },
+        {
+          "key": 4,
+          "text": "成績",
+          "reading": "せいせき",
+          "meaning": "Thành tích, điểm số",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "question": "これからも物価が上がり続けると（　）して、将来の計画を立てたほうがいい。",
+      "translation": "Nên giả định rằng từ giờ giá cả sẽ tiếp tục tăng để lập kế hoạch cho tương lai.",
+      "answer": 3,
+      "options": [
+        {
+          "key": 1,
+          "text": "指導",
+          "reading": "しどう",
+          "meaning": "Chỉ đạo, hướng dẫn",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "応募",
+          "reading": "おうぼ",
+          "meaning": "Ứng tuyển",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "仮定",
+          "reading": "かてい",
+          "meaning": "Giả định, đặt giả thiết",
+          "explain": "Đúng. '〜と仮定して' nghĩa là đặt ra giả định rằng... để lập kế hoạch."
+        },
+        {
+          "key": 4,
+          "text": "生産",
+          "reading": "せいさん",
+          "meaning": "Sản xuất",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "question": "彼みたいに無責任な人間には、この仕事は（　）そうにない。",
+      "translation": "Với một kẻ vô trách nhiệm như anh ta thì khó mà giao phó công việc này được.",
+      "answer": 4,
+      "options": [
+        {
+          "key": 1,
+          "text": "書き直せ",
+          "reading": "かきなおせ",
+          "meaning": "Viết lại",
+          "explain": "Sai vì không liên quan đến việc giao việc cho người khác."
+        },
+        {
+          "key": 2,
+          "text": "直せ",
+          "reading": "なおせ",
+          "meaning": "Sửa chữa",
+          "explain": "Sai ngữ cảnh."
+        },
+        {
+          "key": 3,
+          "text": "聞き直せ",
+          "reading": "ききなおせ",
+          "meaning": "Hỏi lại, nghe lại",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "任せられ",
+          "reading": "まかせられ",
+          "meaning": "Được giao phó, có thể giao phó",
+          "explain": "Đúng. Cụm '仕事は任せられそうにない' nghĩa là khó có thể giao phó trách nhiệm được."
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "question": "新しい（　）の先生の教え方はとても分かりやすい。",
+      "translation": "Cách giảng dạy của thầy giáo chủ nhiệm mới rất dễ hiểu.",
+      "answer": 1,
+      "options": [
+        {
+          "key": 1,
+          "text": "担任",
+          "reading": "たんにん",
+          "meaning": "Chủ nhiệm",
+          "explain": "Đúng. Cụm '担任の先生' chỉ giáo viên chủ nhiệm lớp."
+        },
+        {
+          "key": 2,
+          "text": "就職活動",
+          "reading": "しゅうしょくかつどう",
+          "meaning": "Hoạt động tìm việc",
+          "explain": "Sai vì không ghép với giáo viên đứng lớp."
+        },
+        {
+          "key": 3,
+          "text": "年末",
+          "reading": "ねんまつ",
+          "meaning": "Cuối năm",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "コート",
+          "reading": "コート",
+          "meaning": "Áo khoác / Sân đấu",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "question": "アルバイトに応募する前に（　）をよく確認しなければならない。",
+      "translation": "Trước khi ứng tuyển làm thêm cần phải kiểm tra kỹ các điều kiện tuyển dụng.",
+      "answer": 3,
+      "options": [
+        {
+          "key": 1,
+          "text": "件",
+          "reading": "けん",
+          "meaning": "Vụ việc, sự việc",
+          "explain": "Sai vì quá chung chung."
+        },
+        {
+          "key": 2,
+          "text": "勇気",
+          "reading": "ゆうき",
+          "meaning": "Dũng khí, can đảm",
+          "explain": "Sai vì lòng dũng cảm không phải là thứ để 'xác nhận' (確認)."
+        },
+        {
+          "key": 3,
+          "text": "条件",
+          "reading": "じょうけん",
+          "meaning": "Điều kiện",
+          "explain": "Đúng. '条件を確認する' nghĩa là kiểm tra các điều kiện, yêu cầu của công việc."
+        },
+        {
+          "key": 4,
+          "text": "家内",
+          "reading": "かない",
+          "meaning": "Vợ tôi",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 11,
+      "question": "もう何年も、金の（　）は上がり続けている。",
+      "translation": "Đã nhiều năm nay, giá trị của vàng vẫn liên tục tăng lên.",
+      "answer": 4,
+      "options": [
+        {
+          "key": 1,
+          "text": "位置",
+          "reading": "いち",
+          "meaning": "Vị trí",
+          "explain": "Sai vì vị trí không 'tăng lên'."
+        },
+        {
+          "key": 2,
+          "text": "直前",
+          "reading": "ちょくぜん",
+          "meaning": "Ngay trước khi",
+          "explain": "Sai vì là từ chỉ thời gian."
+        },
+        {
+          "key": 3,
+          "text": "相手",
+          "reading": "あいて",
+          "meaning": "Đối phương",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "価値",
+          "reading": "かち",
+          "meaning": "Giá trị",
+          "explain": "Đúng. Cụm '金の価値が上がる' chỉ giá trị của vàng tăng cao."
+        }
+      ]
+    },
+    {
+      "id": 12,
+      "question": "会社が倒産して、仕事を（　）。",
+      "translation": "Công ty bị phá sản nên tôi đã bị mất việc làm.",
+      "answer": 2,
+      "options": [
+        {
+          "key": 1,
+          "text": "戻した",
+          "reading": "もどした",
+          "meaning": "Đã trả lại",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "失った",
+          "reading": "うしなった",
+          "meaning": "Đã đánh mất, mất đi",
+          "explain": "Đúng. Cụm '仕事を失う' mang nghĩa mất việc, thất nghiệp."
+        },
+        {
+          "key": 3,
+          "text": "立てた",
+          "reading": "たてた",
+          "meaning": "Đã dựng lên, lập ra",
+          "explain": "Sai vì dùng cho kế hoạch, mục tiêu."
+        },
+        {
+          "key": 4,
+          "text": "嫌がった",
+          "reading": "いやがった",
+          "meaning": "Đã tỏ ra khó chịu, ghét",
+          "explain": "Sai ngữ pháp và nghĩa."
+        }
+      ]
+    },
+    {
+      "id": 13,
+      "question": "（　）結婚しそうになかった彼が、結婚すると聞いて驚いた。",
+      "translation": "Tôi rất bất ngờ khi nghe tin anh ấy kết hôn, bởi anh ấy là người trông hoàn toàn/tuyệt đối không có vẻ gì là sẽ lấy vợ.",
+      "answer": 3,
+      "options": [
+        {
+          "key": 1,
+          "text": "得意に",
+          "reading": "とくいに",
+          "meaning": "Một cách đắc ý",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "当然に",
+          "reading": "とうぜんに",
+          "meaning": "Đương nhiên",
+          "explain": "Sai vì nếu đương nhiên thì người nghe sẽ không bất ngờ (驚いた)."
+        },
+        {
+          "key": 3,
+          "text": "絶対に",
+          "reading": "ぜったいに",
+          "meaning": "Tuyệt đối, hoàn toàn",
+          "explain": "Đúng. '絶対に〜そうにない' nhấn mạnh sự việc tưởng chừng tuyệt đối không xảy ra."
+        },
+        {
+          "key": 4,
+          "text": "意外に",
+          "reading": "いがいに",
+          "meaning": "Bất ngờ, ngoài dự tính",
+          "explain": "Sai vì 意外に không kết hợp tự nhiên với dạng phủ định phỏng đoán '〜そうになかった'."
+        }
+      ]
+    },
+    {
+      "id": 14,
+      "question": "男の人が、電車で女の人に足を（　）、痛がっていた。",
+      "translation": "Người đàn ông bị người phụ nữ trên tàu giẫm vào chân nên tỏ ra rất đau đớn.",
+      "answer": 1,
+      "options": [
+        {
+          "key": 1,
+          "text": "踏まれて",
+          "reading": "ふまれて",
+          "meaning": "Bị giẫm, bị đạp lên",
+          "explain": "Đúng. Cụm bị động '足を踏まれる' nghĩa là bị người khác giẫm vào chân."
+        },
+        {
+          "key": 2,
+          "text": "言い直して",
+          "reading": "いいなおして",
+          "meaning": "Nói lại cho rõ",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "変えられて",
+          "reading": "かえられて",
+          "meaning": "Bị thay đổi",
+          "explain": "Sai vì chân không bị thay đổi."
+        },
+        {
+          "key": 4,
+          "text": "悩まれて",
+          "reading": "なやまれて",
+          "meaning": "Bị băn khoăn",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 15,
+      "question": "食べ終わったら、（　）を台所に持って行ってください。",
+      "translation": "Ăn xong thì hãy mang bát đĩa vào bếp nhé.",
+      "answer": 2,
+      "options": [
+        {
+          "key": 1,
+          "text": "温泉",
+          "reading": "おんせん",
+          "meaning": "Suối nước nóng",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "食器",
+          "reading": "しょっき",
+          "meaning": "Bát đĩa, đồ dùng ăn uống",
+          "explain": "Đúng. '食器を台所に持って行く' nghĩa là mang chén bát vào bồn rửa/nhà bếp."
+        },
+        {
+          "key": 3,
+          "text": "データ",
+          "reading": "データ",
+          "meaning": "Dữ liệu",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "気候",
+          "reading": "きこう",
+          "meaning": "Khí hậu",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 16,
+      "question": "彼女の誕生日に何をプレゼントしたらいいか（　）。",
+      "translation": "Tôi đang băn khoăn không biết nên tặng quà gì vào ngày sinh nhật của cô ấy.",
+      "answer": 4,
+      "options": [
+        {
+          "key": 1,
+          "text": "気がつく",
+          "reading": "きがつく",
+          "meaning": "Nhận ra",
+          "explain": "Sai vì không đi với cấu trúc phân vân chọn lựa."
+        },
+        {
+          "key": 2,
+          "text": "打つ",
+          "reading": "うつ",
+          "meaning": "Đánh, gõ",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "間違う",
+          "reading": "まちがう",
+          "meaning": "Bị nhầm lẫn",
+          "explain": "Sai vì chưa đưa ra quyết định."
+        },
+        {
+          "key": 4,
+          "text": "悩む",
+          "reading": "なやむ",
+          "meaning": "Băn khoăn, đau đầu suy nghĩ",
+          "explain": "Đúng. Cụm '〜したらいいか悩む' chỉ trạng thái băn khoăn trăn trở trước một lựa chọn."
+        }
+      ]
+    },
+    {
+      "id": 17,
+      "question": "日本では、大きな声を出すことは（　）になることがある。",
+      "translation": "Ở Nhật Bản, việc nói quá to đôi khi sẽ trở thành hành vi thất lễ/bất lịch sự.",
+      "answer": 4,
+      "options": [
+        {
+          "key": 1,
+          "text": "貧乏",
+          "reading": "びんぼう",
+          "meaning": "Nghèo khó",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "正直",
+          "reading": "しょうじき",
+          "meaning": "Trung thực",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "間接的",
+          "reading": "かんせつてき",
+          "meaning": "Gián tiếp",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "失礼",
+          "reading": "しつれい",
+          "meaning": "Thất lễ, bất lịch sự",
+          "explain": "Đúng. Cụm '失礼になる' nghĩa là bị coi là hành vi bất lịch sự, khiếm nhã."
+        }
+      ]
+    },
+    {
+      "id": 18,
+      "question": "これからこの町はもっと（　）していくと思う。",
+      "translation": "Tôi nghĩ rằng từ nay về sau thị trấn này sẽ ngày càng phát triển hơn nữa.",
+      "answer": 1,
+      "options": [
+        {
+          "key": 1,
+          "text": "発展",
+          "reading": "はってん",
+          "meaning": "Phát triển",
+          "explain": "Đúng. Cụm '町が発展していく' chỉ sự phát triển thịnh vượng của đô thị, thị trấn."
+        },
+        {
+          "key": 2,
+          "text": "試合",
+          "reading": "しあい",
+          "meaning": "Trận đấu",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "退職",
+          "reading": "たいしょく",
+          "meaning": "Thôi việc",
+          "explain": "Sai vì dùng cho cá nhân nghỉ làm."
+        },
+        {
+          "key": 4,
+          "text": "打ち合わせ",
+          "reading": "うちあわせ",
+          "meaning": "Cuộc họp bàn",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 19,
+      "question": "子供の健康に責任を持つのは、親として（　）のことだ。",
+      "translation": "Chịu trách nhiệm về sức khỏe của con cái là điều đương nhiên đối với bậc làm cha mẹ.",
+      "answer": 3,
+      "options": [
+        {
+          "key": 1,
+          "text": "間違え",
+          "reading": "まちがえ",
+          "meaning": "Sai lầm",
+          "explain": "Sai vì quan tâm sức khỏe con cái là điều đúng đắn."
+        },
+        {
+          "key": 2,
+          "text": "絶対",
+          "reading": "ぜったい",
+          "meaning": "Tuyệt đối",
+          "explain": "Sai ngữ pháp vì không đi với '〜のことだ' theo cấu trúc này."
+        },
+        {
+          "key": 3,
+          "text": "当然",
+          "reading": "とうぜん",
+          "meaning": "Đương nhiên, tất nhiên",
+          "explain": "Đúng. Cụm '当然のことだ' nghĩa là lẽ đương nhiên, trách nhiệm tất yếu."
+        },
+        {
+          "key": 4,
+          "text": "結果",
+          "reading": "けっか",
+          "meaning": "Kết quả",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 20,
+      "question": "心から謝ったが、（　）もらえなかった。",
+      "translation": "Tôi đã xin lỗi từ tận đáy lòng nhưng vẫn không được người đó chấp nhận/tha thứ.",
+      "answer": 1,
+      "options": [
+        {
+          "key": 1,
+          "text": "受け入れて",
+          "reading": "うけいれて",
+          "meaning": "Tiếp nhận, chấp nhận",
+          "explain": "Đúng. '受け入れてもらう' nghĩa là được đối phương chấp nhận lời xin lỗi/ý kiến."
+        },
+        {
+          "key": 2,
+          "text": "気になって",
+          "reading": "きになって",
+          "meaning": "Bận tâm, lo lắng",
+          "explain": "Sai ngữ cảnh."
+        },
+        {
+          "key": 3,
+          "text": "立てて",
+          "reading": "たてて",
+          "meaning": "Dựng lên",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "気がついて",
+          "reading": "きがついて",
+          "meaning": "Nhận ra",
+          "explain": "Sai vì người đó đã nghe xin lỗi rồi chứ không phải không nhận ra."
+        }
+      ]
+    }
+  ]
+}

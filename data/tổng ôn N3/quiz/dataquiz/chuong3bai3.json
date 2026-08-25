@@ -1,0 +1,726 @@
+{
+  "chuong": 3,
+  "bai": 3,
+  "questions": [
+    {
+      "id": 1,
+      "question": "仕事ができる人は、（　）指示の通りに動くだけでなく、自分で考えて仕事を作るものだ。",
+      "translation": "Người làm việc giỏi không chỉ đơn thuần làm theo chỉ thị mà còn tự mình tư duy để tạo ra công việc.",
+      "answer": 3,
+      "options": [
+        {
+          "key": 1,
+          "text": "やっと",
+          "reading": "やっと",
+          "meaning": "Cuối cùng",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "もしかすると",
+          "reading": "もしかすると",
+          "meaning": "Có lẽ, có khả năng",
+          "explain": "Sai vì không đi với cấu trúc '〜だけでなく'."
+        },
+        {
+          "key": 3,
+          "text": "単に",
+          "reading": "たんに",
+          "meaning": "Đơn thuần, chỉ là",
+          "explain": "Đúng. Cụm '単に〜だけでなく' mang nghĩa không chỉ đơn thuần là... mà còn..."
+        },
+        {
+          "key": 4,
+          "text": "めちゃくちゃ",
+          "reading": "めちゃくちゃ",
+          "meaning": "Bừa bãi, cực kỳ",
+          "explain": "Sai ngữ cảnh."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "question": "この（　）は日本だけでなく、ベトナムやフィリピンでも開かれる予定だ。",
+      "translation": "Triển lãm này dự kiến không chỉ được tổ chức ở Nhật Bản mà còn ở cả Việt Nam và Philippines.",
+      "answer": 1,
+      "options": [
+        {
+          "key": 1,
+          "text": "展示会",
+          "reading": "てんじかい",
+          "meaning": "Triển lãm, hội chợ triển lãm",
+          "explain": "Đúng. Cụm '展示会が開かれる' nghĩa là buổi triển lãm được khai mạc/tổ chức."
+        },
+        {
+          "key": 2,
+          "text": "間隔",
+          "reading": "かんかく",
+          "meaning": "Khoảng cách, cự ly",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "表紙",
+          "reading": "ひょうし",
+          "meaning": "Bìa sách",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "卒業",
+          "reading": "そつぎょう",
+          "meaning": "Tốt nghiệp",
+          "explain": "Sai vì tốt nghiệp không tổ chức lưu diễn quốc tế."
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "question": "インターネットで本を買ったんですが、開けてみたら、（　）が汚れていたばかりでなく、ページが破れていました。",
+      "translation": "Tôi mua sách qua mạng nhưng mở ra xem thì không những bìa sách bị bẩn mà trang sách còn bị rách.",
+      "answer": 2,
+      "options": [
+        {
+          "key": 1,
+          "text": "博物館",
+          "reading": "はくぶつかん",
+          "meaning": "Viện bảo tàng",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "表紙",
+          "reading": "ひょうし",
+          "meaning": "Bìa sách",
+          "explain": "Đúng. '表紙が汚れていた' chỉ phần bìa ngoài của cuốn sách bị dính bẩn."
+        },
+        {
+          "key": 3,
+          "text": "本社",
+          "reading": "ほんしゃ",
+          "meaning": "Trụ sở chính",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "会場",
+          "reading": "かいじょう",
+          "meaning": "Hội trường",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "question": "彼は私の仕事のミスばかりでなく、話し方や（　）についてもうるさく注意してくる。",
+      "translation": "Anh ấy không chỉ để ý lỗi sai trong công việc của tôi mà còn hay cằn nhằn nhắc nhở về cách ăn nói và trang phục.",
+      "answer": 3,
+      "options": [
+        {
+          "key": 1,
+          "text": "距離",
+          "reading": "きょり",
+          "meaning": "Khoảng cách",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "小麦粉",
+          "reading": "こむぎこ",
+          "meaning": "Bột mì",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "服装",
+          "reading": "ふくそう",
+          "meaning": "Trang phục, quần áo",
+          "explain": "Đúng. Cụm '話し方や服装' chỉ cách ăn nói và cách ăn mặc ở nơi làm việc."
+        },
+        {
+          "key": 4,
+          "text": "自宅",
+          "reading": "じたく",
+          "meaning": "Nhà riêng",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "question": "A: 今年はボーナスが（　）されるでしょうか。\nB: されるはずですよ。この前、会議でボーナスが出ると言っていましたから。",
+      "translation": "A: Liệu năm nay tiền thưởng có được chi trả không nhỉ?\nB: Chắc chắn là có chứ. Hôm trước trong cuộc họp họ đã bảo là có thưởng mà.",
+      "answer": 4,
+      "options": [
+        {
+          "key": 1,
+          "text": "強化",
+          "reading": "きょうか",
+          "meaning": "Tăng cường",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "支出",
+          "reading": "ししゅつ",
+          "meaning": "Chi tiêu",
+          "explain": "Sai ngữ cảnh nhận thưởng."
+        },
+        {
+          "key": 3,
+          "text": "区別",
+          "reading": "くべつ",
+          "meaning": "Phân biệt",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "支給",
+          "reading": "しきゅう",
+          "meaning": "Cấp phát, chi trả",
+          "explain": "Đúng. Cụm 'ボーナスが支給される' nghĩa là tiền thưởng được chi trả/cấp phát."
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "question": "週末は（　）休むようにしている。",
+      "translation": "Cuối tuần tôi luôn cố gắng nghỉ ngơi một cách đầy đủ.",
+      "answer": 4,
+      "options": [
+        {
+          "key": 1,
+          "text": "トップに",
+          "reading": "トップに",
+          "meaning": "Đứng đầu",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "偉く",
+          "reading": "えらく",
+          "meaning": "Vĩ đại / Cực kỳ",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "ばらばら",
+          "reading": "ばらばら",
+          "meaning": "Rải rác",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "十分",
+          "reading": "じゅうぶん",
+          "meaning": "Đầy đủ, sung túc",
+          "explain": "Đúng. '十分休む' nghĩa là nghỉ ngơi đầy đủ, trọn vẹn để hồi phục năng lượng."
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "question": "山田さんが最近甘い物をよく食べているのは（　）したからだけでなく、ストレスもたまっているからだろう。",
+      "translation": "Việc anh Yamada dạo gần đây hay ăn đồ ngọt không chỉ vì cai thuốc lá mà chắc còn do bị tích tụ căng thẳng nữa.",
+      "answer": 4,
+      "options": [
+        {
+          "key": 1,
+          "text": "駐車禁止",
+          "reading": "ちゅうしゃきんし",
+          "meaning": "Cấm đỗ xe",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "期待",
+          "reading": "きたい",
+          "meaning": "Kỳ vọng",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "観察",
+          "reading": "かんさつ",
+          "meaning": "Quan sát",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "禁煙",
+          "reading": "きんえん",
+          "meaning": "Cai thuốc lá, cấm hút thuốc",
+          "explain": "Đúng. '禁煙した' người cai thuốc thường chuyển sang thói quen ăn đồ ngọt."
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "question": "あの学生の（　）は、声が小さいほかはよくできていた。",
+      "translation": "Bài thuyết trình của học sinh đó, ngoại trừ việc giọng nói hơi nhỏ thì đã làm rất tốt.",
+      "answer": 1,
+      "options": [
+        {
+          "key": 1,
+          "text": "発表",
+          "reading": "はっぴょう",
+          "meaning": "Phát biểu, thuyết trình",
+          "explain": "Đúng. Cụm '学生の発表' chỉ bài thuyết trình/phát biểu trước lớp của học sinh."
+        },
+        {
+          "key": 2,
+          "text": "見た目",
+          "reading": "みため",
+          "meaning": "Vẻ bề ngoài",
+          "explain": "Sai vì vẻ ngoài không gắn với âm lượng giọng nói (声が小さい)."
+        },
+        {
+          "key": 3,
+          "text": "表面",
+          "reading": "ひょうめん",
+          "meaning": "Bề mặt",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "実力",
+          "reading": "じつりょく",
+          "meaning": "Thực lực",
+          "explain": "Sai vì thực lực không 'làm tốt' theo cụm này."
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "question": "部長はよく（　）くれるので、社員から好かれている。",
+      "translation": "Trưởng phòng rất hay khao ăn uống nên được các nhân viên yêu mến.",
+      "answer": 2,
+      "options": [
+        {
+          "key": 1,
+          "text": "表れて",
+          "reading": "あらわれて",
+          "meaning": "Biểu hiện ra",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "おごって",
+          "reading": "おごって",
+          "meaning": "Khao, chiêu đãi",
+          "explain": "Đúng. Cụm 'おごってくれる' nghĩa là khao ăn uống, đãi cấp dưới."
+        },
+        {
+          "key": 3,
+          "text": "示して",
+          "reading": "しめして",
+          "meaning": "Chỉ ra, biểu thị",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "負けて",
+          "reading": "まけて",
+          "meaning": "Thua cuộc",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "question": "試合を楽しめれば十分なので、勝ち負けはあまり（　）。",
+      "translation": "Chỉ cần tận hưởng trận đấu là đủ rồi nên chuyện thắng thua tôi không mấy bận tâm.",
+      "answer": 1,
+      "options": [
+        {
+          "key": 1,
+          "text": "気にしない",
+          "reading": "きにしない",
+          "meaning": "Không bận tâm, không để ý",
+          "explain": "Đúng. Cụm '勝ち負けは気にしない' nghĩa là không quá để ý tới việc thắng thua."
+        },
+        {
+          "key": 2,
+          "text": "ご馳走しない",
+          "reading": "ごちそうしない",
+          "meaning": "Không chiêu đãi",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "従わない",
+          "reading": "したがわない",
+          "meaning": "Không tuân theo",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "避けない",
+          "reading": "さけない",
+          "meaning": "Không tránh né",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 11,
+      "question": "山田さんは、去年ベトナムの（　）から帰ってきたと言っていたから、今は日本にいるはずだよ。",
+      "translation": "Anh Yamada bảo năm ngoái đã về nước sau thời gian công tác ở chi nhánh Việt Nam nên chắc chắn giờ đang ở Nhật.",
+      "answer": 2,
+      "options": [
+        {
+          "key": 1,
+          "text": "学問",
+          "reading": "がくもん",
+          "meaning": "Học vấn",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "支店",
+          "reading": "してん",
+          "meaning": "Chi nhánh",
+          "explain": "Đúng. 'ベトナムの支店' chỉ văn phòng chi nhánh công ty tại Việt Nam."
+        },
+        {
+          "key": 3,
+          "text": "記事",
+          "reading": "きじ",
+          "meaning": "Bài báo",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "禁煙",
+          "reading": "きんえん",
+          "meaning": "Cai thuốc lá",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 12,
+      "question": "いつも（　）でわかりやすい彼が、そんな嘘をつけるはずがない。きっと彼が言っていることは本当だよ。",
+      "translation": "Một người lúc nào cũng đơn giản, bộc trực và dễ hiểu như anh ấy thì làm sao mà nói dối như vậy được. Chắc chắn những gì anh ấy nói là sự thật.",
+      "answer": 3,
+      "options": [
+        {
+          "key": 1,
+          "text": "熱心",
+          "reading": "ねっしん",
+          "meaning": "Nhiệt tình",
+          "explain": "Sai vì nhiệt tình không đối lập với bản tính không biết nói dối."
+        },
+        {
+          "key": 2,
+          "text": "完璧",
+          "reading": "かんぺき",
+          "meaning": "Hoàn hảo",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "単純",
+          "reading": "たんじゅん",
+          "meaning": "Đơn giản, chất phác",
+          "explain": "Đúng. '単純でわかりやすい' chỉ tính cách chất phác, ruột để ngoài da nên không thể nói dối."
+        },
+        {
+          "key": 4,
+          "text": "簡単",
+          "reading": "かんたん",
+          "meaning": "Đơn giản (cho bài toán, thao tác)",
+          "explain": "Sai vì không dùng để miêu tả tính cách con người."
+        }
+      ]
+    },
+    {
+      "id": 13,
+      "question": "家から会社までの（　）を測る。",
+      "translation": "Đo khoảng cách/cự ly từ nhà cho đến công ty.",
+      "answer": 4,
+      "options": [
+        {
+          "key": 1,
+          "text": "自宅",
+          "reading": "じたく",
+          "meaning": "Nhà riêng",
+          "explain": "Sai vì nhà riêng không phải là thứ để đem đi đo độ dài."
+        },
+        {
+          "key": 2,
+          "text": "学歴",
+          "reading": "がくれき",
+          "meaning": "Học vấn",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "期待",
+          "reading": "きたい",
+          "meaning": "Kỳ vọng",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "距離",
+          "reading": "きょり",
+          "meaning": "Khoảng cách, cự ly",
+          "explain": "Đúng. Cụm '距離を測る' nghĩa là đo đạc khoảng cách giữa hai địa điểm."
+        }
+      ]
+    },
+    {
+      "id": 14,
+      "question": "この病院は、待たされる時間がとても長い一方で、（　）の時間はとても短い。",
+      "translation": "Bệnh viện này thời gian phải chờ đợi thì rất lâu, trong khi thời gian khám bệnh lại vô cùng ngắn.",
+      "answer": 3,
+      "options": [
+        {
+          "key": 1,
+          "text": "禁止",
+          "reading": "きんし",
+          "meaning": "Cấm đoán",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "展示会",
+          "reading": "てんじかい",
+          "meaning": "Triển lãm",
+          "explain": "Sai vì bệnh viện không tổ chức triển lãm bệnh nhân."
+        },
+        {
+          "key": 3,
+          "text": "診察",
+          "reading": "しんさつ",
+          "meaning": "Khám bệnh, chẩn đoán",
+          "explain": "Đúng. Cụm '診察の時間' chỉ khoảng thời gian bác sĩ trực tiếp thăm khám."
+        },
+        {
+          "key": 4,
+          "text": "表現",
+          "reading": "ひょうげん",
+          "meaning": "Biểu hiện",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 15,
+      "question": "A: あれ、（　）、買って来るの忘れちゃったの？\nB: そんなわけないでしょう。そこに入ってるよ。",
+      "translation": "A: Ơ kìa, cậu quên mua bột mì về rồi à?\nB: Làm sao mà có chuyện đó được. Nó đang ở trong túi kia kìa.",
+      "answer": 4,
+      "options": [
+        {
+          "key": 1,
+          "text": "本店",
+          "reading": "ほんてん",
+          "meaning": "Trụ sở chính",
+          "explain": "Sai vì không thể 'mua mang về'."
+        },
+        {
+          "key": 2,
+          "text": "土日",
+          "reading": "どにち",
+          "meaning": "Thứ bảy chủ nhật",
+          "explain": "Sai vì là ngày trong tuần."
+        },
+        {
+          "key": 3,
+          "text": "灰",
+          "reading": "はい",
+          "meaning": "Tro tàn",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "小麦粉",
+          "reading": "こむぎこ",
+          "meaning": "Bột mì",
+          "explain": "Đúng. Là nguyên liệu nấu ăn mua ở siêu thị về."
+        }
+      ]
+    },
+    {
+      "id": 16,
+      "question": "A: 佐々木さん、歌手になるために、（　）アメリカに行くそうですよ。\nB: ええ！？佐々木さんって、あまり歌が上手じゃないのに…成功するはずないよ。",
+      "translation": "A: Nghe nói anh Sasaki sẽ đi Mỹ một mình để trở thành ca sĩ đấy.\nB: Hả!? Anh Sasaki hát đâu có hay lắm đâu... khó mà thành công được.",
+      "answer": 2,
+      "options": [
+        {
+          "key": 1,
+          "text": "診察",
+          "reading": "しんさつ",
+          "meaning": "Khám bệnh",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "単身",
+          "reading": "たんしん",
+          "meaning": "Một mình, đơn thân độc mã",
+          "explain": "Đúng. Cụm '単身アメリカに行く' nghĩa là một mình sang Mỹ lập nghiệp không đi cùng ai."
+        },
+        {
+          "key": 3,
+          "text": "貯金",
+          "reading": "ちょきん",
+          "meaning": "Tiết kiệm",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "家庭",
+          "reading": "かてい",
+          "meaning": "Gia đình",
+          "explain": "Sai ngữ pháp."
+        }
+      ]
+    },
+    {
+      "id": 17,
+      "question": "この駅では自転車を（　）できる。",
+      "translation": "Tại nhà ga này bạn có thể thuê xe đạp.",
+      "answer": 3,
+      "options": [
+        {
+          "key": 1,
+          "text": "トップ",
+          "reading": "トップ",
+          "meaning": "Đứng đầu",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "デザート",
+          "reading": "デザート",
+          "meaning": "Món tráng miệng",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "レンタル",
+          "reading": "レンタル",
+          "meaning": "Thuê mướn (rental)",
+          "explain": "Đúng. '自転車をレンタルできる' nghĩa là có dịch vụ cho thuê xe đạp."
+        },
+        {
+          "key": 4,
+          "text": "クーラー",
+          "reading": "クーラー",
+          "meaning": "Máy lạnh",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 18,
+      "question": "A: どうしたら、お金がたくさん（　）んだろう。\nB: 買い物ばかりしていたら、（　）わけがないよ。",
+      "translation": "A: Làm thế nào để tiết kiệm/dành dụm được nhiều tiền nhỉ?\nB: Suốt ngày cứ mua sắm như thế thì làm sao mà để dành được tiền chứ.",
+      "answer": 1,
+      "options": [
+        {
+          "key": 1,
+          "text": "貯まる",
+          "reading": "たまる",
+          "meaning": "Tích lũy, để dành được (tiền)",
+          "explain": "Đúng. Cụm 'お金が貯まる' nghĩa là tiền bạc được tích cóp, để dành ngày một nhiều."
+        },
+        {
+          "key": 2,
+          "text": "おごる",
+          "reading": "おごる",
+          "meaning": "Khao ăn",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "気にする",
+          "reading": "きにする",
+          "meaning": "Bận tâm",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "区切る",
+          "reading": "くぎる",
+          "meaning": "Phân chia, ngăn cách",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 19,
+      "question": "ダイエットのために、（　）が低い食べ物を食べるようにしている。",
+      "translation": "Để giảm cân, tôi luôn cố gắng ăn những loại thực phẩm có lượng calo thấp.",
+      "answer": 2,
+      "options": [
+        {
+          "key": 1,
+          "text": "ビタミン",
+          "reading": "ビタミン",
+          "meaning": "Vitamin",
+          "explain": "Sai vì giảm cân cần ăn thực phẩm ít calo chứ không phải ít vitamin."
+        },
+        {
+          "key": 2,
+          "text": "カロリー",
+          "reading": "カロリー",
+          "meaning": "Lượng calo (năng lượng)",
+          "explain": "Đúng. Cụm 'カロリーが低い' nghĩa là hàm lượng calo thấp, phù hợp ăn kiêng."
+        },
+        {
+          "key": 3,
+          "text": "ピーマン",
+          "reading": "ピーマン",
+          "meaning": "Ớt chuông",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "スープ",
+          "reading": "スープ",
+          "meaning": "Món súp",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 20,
+      "question": "私の家は、今、（　）が多い一方で、収入があまり多くない。",
+      "translation": "Nhà tôi hiện tại các khoản chi tiêu thì nhiều, trong khi thu nhập lại chẳng được bao nhiêu.",
+      "answer": 1,
+      "options": [
+        {
+          "key": 1,
+          "text": "支出",
+          "reading": "ししゅつ",
+          "meaning": "Chi tiêu, phí tổn",
+          "explain": "Đúng. Từ trái nghĩa hoàn hảo đối lập với '収入' (thu nhập) qua cấu trúc '〜一方で'."
+        },
+        {
+          "key": 2,
+          "text": "展示",
+          "reading": "てんじ",
+          "meaning": "Trưng bày",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "帰宅",
+          "reading": "きたく",
+          "meaning": "Về nhà",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "支度",
+          "reading": "したく",
+          "meaning": "Chuẩn bị",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,726 @@
+{
+  "chuong": 8,
+  "bai": 3,
+  "questions": [
+    {
+      "id": 1,
+      "question": "1ヶ月ぶりに鈴木くんに会うと、彼の（　）が変わっていた。",
+      "translation": "Sau 1 tháng mới gặp lại cậu Suzuki thì kiểu tóc của cậu ấy đã thay đổi.",
+      "answer": 3,
+      "options": [
+        {
+          "key": 1,
+          "text": "季節",
+          "reading": "きせつ",
+          "meaning": "Mùa",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "患者",
+          "reading": "かんじゃ",
+          "meaning": "Bệnh nhân",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "髪型",
+          "reading": "かみがた",
+          "meaning": "Kiểu tóc",
+          "explain": "Đúng. Cụm '髪型が変わる' nghĩa là thay đổi diện mạo kiểu tóc mới."
+        },
+        {
+          "key": 4,
+          "text": "統計",
+          "reading": "とうけい",
+          "meaning": "Thống kê",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "question": "（　）は太陽の周りをまわっている。",
+      "translation": "Trái Đất quay xung quanh Mặt Trời.",
+      "answer": 2,
+      "options": [
+        {
+          "key": 1,
+          "text": "番地",
+          "reading": "ばんち",
+          "meaning": "Số nhà",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "地球",
+          "reading": "ちきゅう",
+          "meaning": "Trái Đất, địa cầu",
+          "explain": "Đúng. '地球は太陽の周りをまわる' là hiện tượng thiên văn Trái Đất quay quanh Mặt Trời."
+        },
+        {
+          "key": 3,
+          "text": "野球",
+          "reading": "やきゅう",
+          "meaning": "Bóng chày",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "卓球",
+          "reading": "たっきゅう",
+          "meaning": "Bóng bàn",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "question": "息子の将来の夢は（　）の選手になることだそうだ。",
+      "translation": "Nghe nói ước mơ tương lai của con trai tôi là trở thành một cầu thủ bóng chày.",
+      "answer": 1,
+      "options": [
+        {
+          "key": 1,
+          "text": "野球",
+          "reading": "やきゅう",
+          "meaning": "Bóng chày",
+          "explain": "Đúng. Cụm '野球の選手' chỉ cầu thủ thi đấu bộ môn bóng chày chuyên nghiệp."
+        },
+        {
+          "key": 2,
+          "text": "地球",
+          "reading": "ちきゅう",
+          "meaning": "Trái Đất",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "大型",
+          "reading": "おおがた",
+          "meaning": "Cỡ lớn",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "順番",
+          "reading": "じゅんばん",
+          "meaning": "Thứ tự",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "question": "私の（　）は、彼の次だ。",
+      "translation": "Lượt/thứ tự của tôi là ngay sau anh ấy.",
+      "answer": 3,
+      "options": [
+        {
+          "key": 1,
+          "text": "屋根",
+          "reading": "やね",
+          "meaning": "Mái nhà",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "番組",
+          "reading": "ばんぐみ",
+          "meaning": "Chương trình truyền hình",
+          "explain": "Sai vì không nói về thứ tự cá nhân."
+        },
+        {
+          "key": 3,
+          "text": "順番",
+          "reading": "じゅんばん",
+          "meaning": "Thứ tự, lượt",
+          "explain": "Đúng. Cụm '私の順番は彼の次' nghĩa là lượt của tôi đứng ngay sau anh ấy."
+        },
+        {
+          "key": 4,
+          "text": "手品",
+          "reading": "てじな",
+          "meaning": "Ảo thuật",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "question": "（　）の上に大きなアンテナがある。",
+      "translation": "Trên mái nhà có một chiếc ăng-ten rất to.",
+      "answer": 3,
+      "options": [
+        {
+          "key": 1,
+          "text": "娘",
+          "reading": "むすめ",
+          "meaning": "Con gái",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "一人娘",
+          "reading": "ひとりむすめ",
+          "meaning": "Con gái một",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "屋根",
+          "reading": "やね",
+          "meaning": "Mái nhà, nóc nhà",
+          "explain": "Đúng. Cụm '屋根の上' nghĩa là trên đỉnh mái nhà nơi thường lắp ăng-ten thu sóng."
+        },
+        {
+          "key": 4,
+          "text": "根",
+          "reading": "ね",
+          "meaning": "Rễ cây",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "question": "インドの（　）は、全世界の約18パーセントを占めるらしい。",
+      "translation": "Nghe nói dân số Ấn Độ chiếm khoảng 18% tổng dân số toàn thế giới.",
+      "answer": 2,
+      "options": [
+        {
+          "key": 1,
+          "text": "月日",
+          "reading": "つきひ",
+          "meaning": "Ngày tháng",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "人口",
+          "reading": "じんこう",
+          "meaning": "Dân số, số dân",
+          "explain": "Đúng. Cụm 'インドの人口' chỉ quy mô dân số của đất nước Ấn Độ."
+        },
+        {
+          "key": 3,
+          "text": "農業",
+          "reading": "のうぎょう",
+          "meaning": "Nông nghiệp",
+          "explain": "Sai vì tỷ lệ phần trăm người trên thế giới."
+        },
+        {
+          "key": 4,
+          "text": "鉄道",
+          "reading": "てつどう",
+          "meaning": "Đường sắt",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "question": "台風が近づき、雨の（　）は増すばかりだ。",
+      "translation": "Cơn bão đang đến gần, sức mưa/độ dữ dội của cơn mưa ngày càng tăng lên không ngừng.",
+      "answer": 3,
+      "options": [
+        {
+          "key": 1,
+          "text": "特色",
+          "reading": "とくしょく",
+          "meaning": "Đặc sắc",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "特長",
+          "reading": "とくちょう",
+          "meaning": "Điểm mạnh",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "勢い",
+          "reading": "いきおい",
+          "meaning": "Sức mạnh, độ dữ dội, đà tăng",
+          "explain": "Đúng. Cụm '雨の勢いが増す' chỉ sức mưa xối xả ngày càng dữ dội khi bão tới."
+        },
+        {
+          "key": 4,
+          "text": "日時",
+          "reading": "にちじ",
+          "meaning": "Ngày giờ",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "question": "日本は、田舎のほうでも（　）が走っている。",
+      "translation": "Ở Nhật Bản, ngay cả những vùng thôn quê thì tàu hỏa/đường sắt vẫn chạy xuyên suốt.",
+      "answer": 4,
+      "options": [
+        {
+          "key": 1,
+          "text": "昨年",
+          "reading": "さくねん",
+          "meaning": "Năm ngoái",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "展覧会",
+          "reading": "てんらんかい",
+          "meaning": "Triển lãm",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "普段",
+          "reading": "ふだん",
+          "meaning": "Bình thường",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "鉄道",
+          "reading": "てつどう",
+          "meaning": "Đường sắt, hệ thống tàu hỏa",
+          "explain": "Đúng. Cụm '鉄道が走っている' chỉ mạng lưới đường sắt bao phủ khắp các miền quê Nhật Bản."
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "question": "ベトナムは広いので、料理も地域ごとに（　）がある。",
+      "translation": "Việt Nam trải dài rộng lớn nên ẩm thực theo từng vùng miền cũng có những nét đặc sắc riêng biệt.",
+      "answer": 2,
+      "options": [
+        {
+          "key": 1,
+          "text": "形",
+          "reading": "かたち",
+          "meaning": "Hình dáng",
+          "explain": "Sai vì ẩm thực mang tính bản sắc vùng miền."
+        },
+        {
+          "key": 2,
+          "text": "特色",
+          "reading": "とくしょく",
+          "meaning": "Nét đặc sắc, nét đặc trưng",
+          "explain": "Đúng. Cụm '地域ごとに特色がある' chỉ sự phong phú, mang bản sắc riêng theo từng vùng miền."
+        },
+        {
+          "key": 3,
+          "text": "灰色",
+          "reading": "はいいろ",
+          "meaning": "Màu xám",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "灯台",
+          "reading": "とうだい",
+          "meaning": "Ngọn hải đăng",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "question": "患者が増えるとともに、医師と（　）の仕事が増えていく。",
+      "translation": "Cùng với việc số lượng bệnh nhân tăng lên, công việc của bác sĩ và y tá cũng ngày một nhiều thêm.",
+      "answer": 3,
+      "options": [
+        {
+          "key": 1,
+          "text": "警官",
+          "reading": "けいかん",
+          "meaning": "Cảnh sát",
+          "explain": "Sai ngữ cảnh bệnh viện."
+        },
+        {
+          "key": 2,
+          "text": "医師",
+          "reading": "いし",
+          "meaning": "Bác sĩ",
+          "explain": "Sai vì đã có từ 医師 phía trước (lặp từ)."
+        },
+        {
+          "key": 3,
+          "text": "看護師",
+          "reading": "かんごし",
+          "meaning": "Y tá, điều dưỡng viên",
+          "explain": "Đúng. Cặp đôi lực lượng y tế tại bệnh viện: '医師と看護師' (bác sĩ và điều dưỡng)."
+        },
+        {
+          "key": 4,
+          "text": "仲良し",
+          "reading": "なかよし",
+          "meaning": "Bạn thân",
+          "explain": "Sai vì không phải là tên chức danh nghề nghiệp."
+        }
+      ]
+    },
+    {
+      "id": 11,
+      "question": "私の父は（　）時計が好きではないようだ。",
+      "translation": "Bố tôi dường như không thích đồng hồ điện tử (digital).",
+      "answer": 2,
+      "options": [
+        {
+          "key": 1,
+          "text": "ノック",
+          "reading": "ノック",
+          "meaning": "Gõ cửa (knock)",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "デジタル",
+          "reading": "デジタル",
+          "meaning": "Kỹ thuật số, điện tử (digital)",
+          "explain": "Đúng. 'デジタル時計' nghĩa là đồng hồ điện tử hiển thị số."
+        },
+        {
+          "key": 3,
+          "text": "ファックス",
+          "reading": "ファックス",
+          "meaning": "Máy fax",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "アルミホイル",
+          "reading": "アルミホイル",
+          "meaning": "Giấy bạc bọc thực phẩm",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 12,
+      "question": "水を（　）、床を洗う。",
+      "translation": "Xả/dội nước ra sàn rồi cọ rửa sàn nhà.",
+      "answer": 4,
+      "options": [
+        {
+          "key": 1,
+          "text": "増えて",
+          "reading": "ふえて",
+          "meaning": "Tăng lên",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "求めて",
+          "reading": "もとめて",
+          "meaning": "Yêu cầu",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "流れて",
+          "reading": "ながれて",
+          "meaning": "Chảy (tự động từ)",
+          "explain": "Sai ngữ pháp vì câu dùng trợ từ を (水を)."
+        },
+        {
+          "key": 4,
+          "text": "流して",
+          "reading": "ながして",
+          "meaning": "Dội nước, xả nước (tha động từ)",
+          "explain": "Đúng. Cụm '水を流して床を洗う' nghĩa là xả nước dội sàn để cọ rửa."
+        }
+      ]
+    },
+    {
+      "id": 13,
+      "question": "赤ちゃんの歯が（　）きた。",
+      "translation": "Răng của em bé đã bắt đầu mọc lên rồi.",
+      "answer": 2,
+      "options": [
+        {
+          "key": 1,
+          "text": "近づいて",
+          "reading": "ちかづいて",
+          "meaning": "Lại gần",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "生えて",
+          "reading": "はえて",
+          "meaning": "Mọc lên, nhú lên",
+          "explain": "Đúng. Cụm '歯が生えてくる' nghĩa là răng bắt đầu nhú mọc."
+        },
+        {
+          "key": 3,
+          "text": "追って",
+          "reading": "おって",
+          "meaning": "Đuổi theo",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "刺さって",
+          "reading": "ささって",
+          "meaning": "Đâm trúng",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 14,
+      "question": "台風の日に川に（　）はいけない。",
+      "translation": "Vào những ngày mưa bão thì tuyệt đối không được đến gần bờ sông.",
+      "answer": 4,
+      "options": [
+        {
+          "key": 1,
+          "text": "早退する",
+          "reading": "そうたいする",
+          "meaning": "Về sớm",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "無くなる",
+          "reading": "なくなる",
+          "meaning": "Mất đi",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "追いつく",
+          "reading": "おいつく",
+          "meaning": "Đuổi kịp",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "近づいて",
+          "reading": "ちかづいて",
+          "meaning": "Tiến lại gần, đến gần",
+          "explain": "Đúng. Cụm '川に近づいてはいけない' là cảnh báo an toàn tránh xa bờ sông lúc bão lớn."
+        }
+      ]
+    },
+    {
+      "id": 15,
+      "question": "壁に釘が（　）いる。",
+      "translation": "Trên bức tường có một chiếc đinh đang cắm chặt vào.",
+      "answer": 2,
+      "options": [
+        {
+          "key": 1,
+          "text": "量って",
+          "reading": "はかって",
+          "meaning": "Cân đo",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "刺さって",
+          "reading": "ささって",
+          "meaning": "Cắm vào, găm vào",
+          "explain": "Đúng. Cụm '釘が刺さっている' chỉ chiếc đinh đang cắm ghim vào tường."
+        },
+        {
+          "key": 3,
+          "text": "流して",
+          "reading": "ながして",
+          "meaning": "Xả nước",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "確かめて",
+          "reading": "たしかめて",
+          "meaning": "Xác nhận",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 16,
+      "question": "最近、あまり映画に（　）がなくなってきた。",
+      "translation": "Dạo gần đây tôi không còn cảm thấy hứng thú/quan tâm nhiều đến phim ảnh nữa.",
+      "answer": 1,
+      "options": [
+        {
+          "key": 1,
+          "text": "関心",
+          "reading": "かんしん",
+          "meaning": "Quan tâm, hứng thú",
+          "explain": "Đúng. Cụm '関心がなくなる' nghĩa là không còn quan tâm, hứng thú tới điều gì."
+        },
+        {
+          "key": 2,
+          "text": "流行",
+          "reading": "りゅうこう",
+          "meaning": "Thịnh hành, trào lưu",
+          "explain": "Sai vì trào lưu không dùng với chủ ngữ bản thân mất đi."
+        },
+        {
+          "key": 3,
+          "text": "売買",
+          "reading": "ばいばい",
+          "meaning": "Mua bán",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "確認",
+          "reading": "かくにん",
+          "meaning": "Xác nhận",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 17,
+      "question": "この季節は、気温の（　）が激しい。",
+      "translation": "Vào mùa này, sự biến đổi/chênh lệch nhiệt độ diễn ra rất thất thường và mạnh mẽ.",
+      "answer": 3,
+      "options": [
+        {
+          "key": 1,
+          "text": "拡大",
+          "reading": "かくだい",
+          "meaning": "Khuếch đại",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "入力",
+          "reading": "にゅうりょく",
+          "meaning": "Nhập dữ liệu",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "変化",
+          "reading": "へんか",
+          "meaning": "Biến đổi, thay đổi",
+          "explain": "Đúng. Cụm '気温の変化が激しい' chỉ nhiệt độ thay đổi biên độ lớn giữa ngày và đêm."
+        },
+        {
+          "key": 4,
+          "text": "反省",
+          "reading": "はんせい",
+          "meaning": "Kiểm điểm",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 18,
+      "question": "仕事で見られなかったテレビ番組を（　）しておいた。",
+      "translation": "Chương trình tivi mà vì bận làm việc không xem được thì tôi đã ghi hình lại sẵn rồi.",
+      "answer": 1,
+      "options": [
+        {
+          "key": 1,
+          "text": "録画",
+          "reading": "ろくが",
+          "meaning": "Ghi hình, thu hình (video)",
+          "explain": "Đúng. 'テレビ番組を録画しておく' nghĩa là cài đặt ghi lại chương trình TV để xem lại."
+        },
+        {
+          "key": 2,
+          "text": "動作",
+          "reading": "どうさ",
+          "meaning": "Động tác",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "関心",
+          "reading": "かんしん",
+          "meaning": "Quan tâm",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "変化",
+          "reading": "へんか",
+          "meaning": "Thay đổi",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 19,
+      "question": "消防士の友人は、いつも厳しい（　）を受けているそうだ。",
+      "translation": "Người bạn làm lính cứu hỏa của tôi nghe nói ngày nào cũng phải trải qua những đợt huấn luyện vô cùng khắc nghiệt.",
+      "answer": 2,
+      "options": [
+        {
+          "key": 1,
+          "text": "裏側",
+          "reading": "うらがわ",
+          "meaning": "Phía sau",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "訓練",
+          "reading": "くんれん",
+          "meaning": "Huấn luyện, rèn luyện kỹ năng",
+          "explain": "Đúng. Cụm '厳しい訓練を受ける' nghĩa là trải qua khóa huấn luyện gian khổ của lính cứu hỏa."
+        },
+        {
+          "key": 3,
+          "text": "録画",
+          "reading": "ろくが",
+          "meaning": "Ghi hình",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "働き",
+          "reading": "はたらき",
+          "meaning": "Chức năng / Lao động",
+          "explain": "Sai ngữ cảnh."
+        }
+      ]
+    },
+    {
+      "id": 20,
+      "question": "仕事中に具合が悪くなったので（　）した。",
+      "translation": "Vì cảm thấy không khỏe trong lúc làm việc nên tôi đã xin về sớm.",
+      "answer": 4,
+      "options": [
+        {
+          "key": 1,
+          "text": "正面",
+          "reading": "しょうめん",
+          "meaning": "Mặt trước",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "録音",
+          "reading": "ろくおん",
+          "meaning": "Ghi âm",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "退学",
+          "reading": "たいがく",
+          "meaning": "Bỏ học",
+          "explain": "Sai vì đang đi làm ở công ty."
+        },
+        {
+          "key": 4,
+          "text": "早退",
+          "reading": "そうたい",
+          "meaning": "Về sớm, xin về trước giờ",
+          "explain": "Đúng. Cụm '早退する' chỉ việc xin phép về sớm hơn giờ tan sở do bị ốm mệt."
+        }
+      ]
+    }
+  ]
+}

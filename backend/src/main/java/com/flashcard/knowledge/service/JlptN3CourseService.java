@@ -170,12 +170,14 @@ public class JlptN3CourseService {
                 boolean vocabPassed = progress != null && Boolean.TRUE.equals(progress.getVocabPassed());
                 boolean kanjiPassed = progress != null && Boolean.TRUE.equals(progress.getKanjiPassed());
                 boolean grammarPassed = progress != null && Boolean.TRUE.equals(progress.getGrammarPassed());
+                boolean quizPassed = progress != null && Boolean.TRUE.equals(progress.getQuizPassed());
                 int bestScore = progress != null ? progress.getBestScore() : 0;
 
                 lessonData.put("completed", isCompleted);
                 lessonData.put("vocabPassed", vocabPassed);
                 lessonData.put("kanjiPassed", kanjiPassed);
                 lessonData.put("grammarPassed", grammarPassed);
+                lessonData.put("quizPassed", quizPassed);
                 lessonData.put("bestScore", bestScore);
 
                 if (isCompleted) {
@@ -355,6 +357,7 @@ public class JlptN3CourseService {
         boolean vocabPassed = false;
         boolean kanjiPassed = false;
         boolean grammarPassed = false;
+        boolean quizPassed = false;
         boolean completed = false;
         int bestScore = 0;
 
@@ -365,6 +368,7 @@ public class JlptN3CourseService {
                 vocabPassed = Boolean.TRUE.equals(p.getVocabPassed());
                 kanjiPassed = Boolean.TRUE.equals(p.getKanjiPassed());
                 grammarPassed = Boolean.TRUE.equals(p.getGrammarPassed());
+                quizPassed = Boolean.TRUE.equals(p.getQuizPassed());
                 completed = Boolean.TRUE.equals(p.getCompleted());
                 bestScore = p.getBestScore() != null ? p.getBestScore() : 0;
             }
@@ -373,6 +377,7 @@ public class JlptN3CourseService {
         target.put("vocabPassed", vocabPassed);
         target.put("kanjiPassed", kanjiPassed);
         target.put("grammarPassed", grammarPassed);
+        target.put("quizPassed", quizPassed);
         target.put("completed", completed);
         target.put("bestScore", bestScore);
     }
@@ -730,5 +735,78 @@ public class JlptN3CourseService {
             }
         }
         return Collections.emptyList();
+    }
+
+    /**
+     * Get the official 20-Question Comprehensive Lesson Quiz directly from MongoDB database.
+     */
+    public List<Map<String, Object>> getLessonQuiz(int chapter, int lesson) {
+        Optional<com.flashcard.knowledge.model.JlptN3LessonQuiz> quizOpt = jlptN3DataProvider.findLessonQuiz(chapter, lesson);
+        if (quizOpt.isPresent() && quizOpt.get().getQuestionsJson() != null && !quizOpt.get().getQuestionsJson().isBlank()) {
+            try {
+                @SuppressWarnings("unchecked")
+                List<Map<String, Object>> list = objectMapper.readValue(quizOpt.get().getQuestionsJson(), List.class);
+                return list;
+            } catch (Exception e) {
+                log.error("Failed to parse lesson quiz questions from DB for chapter {} lesson {}: {}", chapter, lesson, e.getMessage());
+            }
+        }
+        return Collections.emptyList();
+    }
+
+    /**
+     * Submit Comprehensive 20-Question Lesson Quiz.
+     * Rule: Pass if and only if score == total (100% correct).
+     */
+    @Transactional
+    @CacheEvict(value = "jlpt-overview", allEntries = true)
+    public Map<String, Object> submitLessonQuiz(Long userId, int chapter, int lesson, int score, int total) {
+        if (total <= 0) {
+            throw new IllegalArgumentException("Tổng số câu hỏi phải lớn hơn 0");
+        }
+
+        int accuracy = Math.round((float) score * 100 / total);
+        boolean passed = (score == total || accuracy == 100);
+
+        JlptN3Progress progress = null;
+        if (userId != null) {
+            progress = jlptN3DataProvider.findProgress(userId, chapter, lesson)
+                    .orElseGet(() -> new JlptN3Progress(userId, chapter, lesson, false, 0));
+
+            if (accuracy > progress.getBestScore()) {
+                progress.setBestScore(accuracy);
+            }
+
+            if (passed) {
+                progress.setQuizPassed(true);
+            }
+
+            // Check if all 4 components (vocab, kanji, grammar, quiz) or completed
+            if (Boolean.TRUE.equals(progress.getVocabPassed())
+                    && Boolean.TRUE.equals(progress.getKanjiPassed())
+                    && Boolean.TRUE.equals(progress.getGrammarPassed())
+                    && Boolean.TRUE.equals(progress.getQuizPassed())) {
+                progress.setCompleted(true);
+                progress.setCompletedAt(LocalDateTime.now());
+            }
+
+            jlptN3DataProvider.saveProgress(progress);
+        }
+
+        Map<String, Object> result = new HashMap<>();
+        result.put("chapterId", chapter);
+        result.put("lessonId", lesson);
+        result.put("score", score);
+        result.put("total", total);
+        result.put("accuracy", accuracy);
+        result.put("passed", passed);
+        result.put("quizPassed", progress != null && Boolean.TRUE.equals(progress.getQuizPassed()));
+        result.put("vocabPassed", progress != null && Boolean.TRUE.equals(progress.getVocabPassed()));
+        result.put("kanjiPassed", progress != null && Boolean.TRUE.equals(progress.getKanjiPassed()));
+        result.put("grammarPassed", progress != null && Boolean.TRUE.equals(progress.getGrammarPassed()));
+        result.put("completed", progress != null && Boolean.TRUE.equals(progress.getCompleted()));
+        result.put("bestScore", progress != null ? progress.getBestScore() : accuracy);
+
+        return result;
     }
 }

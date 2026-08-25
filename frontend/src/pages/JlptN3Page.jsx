@@ -10,6 +10,7 @@ import FlashcardCard from '../components/FlashcardCard';
 import KanjiDetailModal from '../components/KanjiDetailModal';
 import GrammarDetailModal from '../components/GrammarDetailModal';
 import AiEnrichedTabbedView from '../components/AiEnrichedTabbedView';
+import LessonQuizView from '../components/LessonQuizView';
 
 // ─── Helper: detect kanji characters in a string ──────────────────────────
 const isContainsKanji = (str) => /[\u4e00-\u9faf\u3400-\u4dbf]/.test(str);
@@ -1069,7 +1070,7 @@ const isContainsKanji = (str) => {
     }
   };
 
-  const getLessonBadge = (completed, bestScore, available, vocabPassed, kanjiPassed, grammarPassed) => {
+  const getLessonBadge = (completed, bestScore, available, vocabPassed, kanjiPassed, grammarPassed, quizPassed) => {
     if (!available) {
       return (
         <span style={{ fontSize: '0.75rem', padding: '3px 10px', borderRadius: '12px', background: 'var(--surface-hover)', color: 'var(--text-muted)', fontWeight: 600 }}>
@@ -1077,19 +1078,19 @@ const isContainsKanji = (str) => {
         </span>
       );
     }
-    const isCompleted = completed || (vocabPassed && kanjiPassed && grammarPassed);
+    const isCompleted = completed || quizPassed || (vocabPassed && kanjiPassed && grammarPassed);
     if (isCompleted) {
       return (
         <span style={{ fontSize: '0.78rem', padding: '3px 10px', borderRadius: '12px', background: 'linear-gradient(135deg, rgba(16,185,129,0.18), rgba(5,150,105,0.25))', color: '#059669', fontWeight: 800, border: '1px solid rgba(16,185,129,0.3)', display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
-          <CheckCircle size={13} /> Hoàn thành 100% (Pass 3/3)
+          <CheckCircle size={13} /> {quizPassed ? 'Pass Trắc nghiệm (100%)' : 'Hoàn thành 100%'}
         </span>
       );
     }
-    const passedCount = (vocabPassed ? 1 : 0) + (kanjiPassed ? 1 : 0) + (grammarPassed ? 1 : 0);
+    const passedCount = (vocabPassed ? 1 : 0) + (kanjiPassed ? 1 : 0) + (grammarPassed ? 1 : 0) + (quizPassed ? 1 : 0);
     if (passedCount > 0) {
       return (
         <span style={{ fontSize: '0.78rem', padding: '3px 10px', borderRadius: '12px', background: 'rgba(16,185,129,0.12)', color: '#10b981', fontWeight: 700, display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
-          ✓ Đã Pass {passedCount}/3 mục
+          ✓ Đã Pass {passedCount}/4 mục
         </span>
       );
     }
@@ -1237,8 +1238,8 @@ const isContainsKanji = (str) => {
                     {isExpanded && (
                       <div style={{ padding: '0 24px 20px 24px', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '14px', marginTop: '10px' }}>
                         {ch.lessons?.map((les) => {
-                          const isLessonCompleted = les.completed || (les.vocabPassed && les.kanjiPassed && les.grammarPassed);
-                          const passedCount = (les.vocabPassed ? 1 : 0) + (les.kanjiPassed ? 1 : 0) + (les.grammarPassed ? 1 : 0);
+                          const isLessonCompleted = les.completed || les.quizPassed || (les.vocabPassed && les.kanjiPassed && les.grammarPassed);
+                          const passedCount = (les.vocabPassed ? 1 : 0) + (les.kanjiPassed ? 1 : 0) + (les.grammarPassed ? 1 : 0) + (les.quizPassed ? 1 : 0);
 
                           return (
                             <div 
@@ -1280,10 +1281,10 @@ const isContainsKanji = (str) => {
                                     Bài {les.id} {isLessonCompleted && '🎉'}
                                   </h4>
                                 </div>
-                                {getLessonBadge(les.completed, les.bestScore, les.available, les.vocabPassed, les.kanjiPassed, les.grammarPassed)}
+                                {getLessonBadge(les.completed, les.bestScore, les.available, les.vocabPassed, les.kanjiPassed, les.grammarPassed, les.quizPassed)}
                               </div>
 
-                              {/* Component Pills (Từ vựng, Hán tự, Ngữ pháp) with Pass Status */}
+                              {/* Component Pills (Từ vựng, Hán tự, Ngữ pháp, Trắc nghiệm) with Pass Status */}
                               <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap', alignItems: 'center' }}>
                                 <span style={{
                                   fontSize: '0.74rem', padding: '3px 8px', borderRadius: '6px', fontWeight: 600,
@@ -1308,6 +1309,14 @@ const isContainsKanji = (str) => {
                                   border: `1px solid ${les.grammarPassed ? 'rgba(16,185,129,0.3)' : 'transparent'}`
                                 }}>
                                   {les.grammarPassed ? '✓ Ngữ pháp' : 'Ngữ pháp'}
+                                </span>
+                                <span style={{
+                                  fontSize: '0.74rem', padding: '3px 8px', borderRadius: '6px', fontWeight: 600,
+                                  background: les.quizPassed ? 'rgba(16,185,129,0.15)' : 'var(--surface-hover)',
+                                  color: les.quizPassed ? '#059669' : 'var(--text-muted)',
+                                  border: `1px solid ${les.quizPassed ? 'rgba(16,185,129,0.3)' : 'transparent'}`
+                                }}>
+                                  {les.quizPassed ? '✓ Trắc nghiệm (100%)' : 'Trắc nghiệm'}
                                 </span>
                               </div>
 
@@ -1382,11 +1391,19 @@ const isContainsKanji = (str) => {
                 }}>
                   {lessonData?.grammarPassed ? '✓ Ngữ pháp (Đã Pass)' : 'Ngữ pháp (Chưa pass)'}
                 </span>
+                <span style={{
+                  fontSize: '0.75rem', padding: '3px 8px', borderRadius: '6px', fontWeight: 700,
+                  background: lessonData?.quizPassed ? 'rgba(16,185,129,0.15)' : 'var(--surface-hover)',
+                  color: lessonData?.quizPassed ? '#059669' : 'var(--text-muted)',
+                  border: `1px solid ${lessonData?.quizPassed ? '#10b981' : 'transparent'}`
+                }}>
+                  {lessonData?.quizPassed ? '✓ Trắc nghiệm 20 câu (Đã Pass 100%)' : 'Trắc nghiệm 20 câu (Cần 100%)'}
+                </span>
               </div>
 
-              {(lessonData?.completed || (lessonData?.vocabPassed && lessonData?.kanjiPassed && lessonData?.grammarPassed)) && (
+              {(lessonData?.completed || lessonData?.quizPassed || (lessonData?.vocabPassed && lessonData?.kanjiPassed && lessonData?.grammarPassed)) && (
                 <span style={{ fontSize: '0.82rem', padding: '4px 12px', borderRadius: '12px', background: 'linear-gradient(135deg, #10b981, #059669)', color: 'white', fontWeight: 800, boxShadow: '0 2px 8px rgba(16,185,129,0.3)', display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
-                  🏆 ĐÃ PASS NGÀY HỌC (3/3)
+                  🏆 ĐÃ PASS NGÀY HỌC (100%)
                 </span>
               )}
             </div>
@@ -1399,42 +1416,59 @@ const isContainsKanji = (str) => {
           ) : (
             <>
               {/* Study Mode Navigation Tabs */}
-              <div style={{ display: 'flex', background: 'var(--surface-color)', padding: '6px', borderRadius: '14px', border: '1px solid var(--border-color)' }}>
+              <div style={{ display: 'flex', background: 'var(--surface-color)', padding: '6px', borderRadius: '14px', border: '1px solid var(--border-color)', gap: '4px', flexWrap: 'wrap' }}>
                 <button
                   onClick={() => handleTabClick('flashcard')}
                   style={{
-                    flex: 1, padding: '12px', borderRadius: '10px', border: 'none',
-                    fontWeight: 700, fontSize: '0.95rem', cursor: 'pointer',
+                    flex: 1, minWidth: '160px', padding: '12px', borderRadius: '10px', border: 'none',
+                    fontWeight: 700, fontSize: '0.92rem', cursor: 'pointer',
                     display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px',
                     background: activeTab === 'flashcard' ? 'var(--accent-color)' : 'transparent',
                     color: activeTab === 'flashcard' ? 'white' : 'var(--text-secondary)'
                   }}
                 >
-                  <Layers size={18} /> Thẻ Ghi Nhớ (Flashcard)
+                  <Layers size={18} /> Thẻ Ghi Nhớ
                 </button>
                 <button
                   onClick={() => handleTabClick('list')}
                   style={{
-                    flex: 1, padding: '12px', borderRadius: '10px', border: 'none',
-                    fontWeight: 700, fontSize: '0.95rem', cursor: 'pointer',
+                    flex: 1, minWidth: '160px', padding: '12px', borderRadius: '10px', border: 'none',
+                    fontWeight: 700, fontSize: '0.92rem', cursor: 'pointer',
                     display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px',
                     background: activeTab === 'list' ? 'var(--accent-color)' : 'transparent',
                     color: activeTab === 'list' ? 'white' : 'var(--text-secondary)'
                   }}
                 >
-                  <List size={18} /> Danh Sách Chi Tiết & AI
+                  <List size={18} /> Danh Sách & AI
                 </button>
                 <button
                   onClick={() => handleTabClick('quiz')}
                   style={{
-                    flex: 1, padding: '12px', borderRadius: '10px', border: 'none',
-                    fontWeight: 700, fontSize: '0.95rem', cursor: 'pointer',
+                    flex: 1, minWidth: '160px', padding: '12px', borderRadius: '10px', border: 'none',
+                    fontWeight: 700, fontSize: '0.92rem', cursor: 'pointer',
                     display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px',
                     background: activeTab === 'quiz' ? 'var(--accent-color)' : 'transparent',
                     color: activeTab === 'quiz' ? 'white' : 'var(--text-secondary)'
                   }}
                 >
-                  <Sparkles size={18} /> Bài Quiz (Cần ≥ 90%)
+                  <Sparkles size={18} /> Luyện Tập SRS
+                </button>
+                <button
+                  onClick={() => handleTabClick('lesson_quiz')}
+                  style={{
+                    flex: 1.2, minWidth: '200px', padding: '12px', borderRadius: '10px', border: 'none',
+                    fontWeight: 800, fontSize: '0.92rem', cursor: 'pointer',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px',
+                    background: activeTab === 'lesson_quiz' 
+                      ? 'linear-gradient(135deg, #10b981, #059669)' 
+                      : lessonData?.quizPassed 
+                        ? 'rgba(16,185,129,0.12)' 
+                        : 'transparent',
+                    color: activeTab === 'lesson_quiz' ? 'white' : lessonData?.quizPassed ? '#10b981' : 'var(--text-secondary)',
+                    boxShadow: activeTab === 'lesson_quiz' ? '0 4px 14px rgba(16,185,129,0.3)' : 'none'
+                  }}
+                >
+                  <Award size={18} /> Trắc Nghiệm 20 Câu {lessonData?.quizPassed ? '✓ (100%)' : '(Cần 100% Pass)'}
                 </button>
               </div>
 
@@ -2677,6 +2711,28 @@ const isContainsKanji = (str) => {
                   )}
 
                 </div>
+              )}
+
+              {/* ───────────────────────────────────────────────────────────────
+                  TAB 4: 20-QUESTION COMPREHENSIVE LESSON QUIZ (PASS 100%)
+                 ─────────────────────────────────────────────────────────────── */}
+              {activeTab === 'lesson_quiz' && (
+                <LessonQuizView
+                  chapter={selectedChapter}
+                  lesson={selectedLesson}
+                  lessonData={lessonData}
+                  onQuizCompleted={(res) => {
+                    if (res) {
+                      setLessonData(prev => prev ? ({
+                        ...prev,
+                        quizPassed: res.quizPassed || (res.passed && res.score === res.total) || prev.quizPassed,
+                        completed: res.completed || prev.completed,
+                        bestScore: Math.max(prev.bestScore || 0, res.accuracy || 0)
+                      }) : prev);
+                      loadOverview();
+                    }
+                  }}
+                />
               )}
             </>
           )}

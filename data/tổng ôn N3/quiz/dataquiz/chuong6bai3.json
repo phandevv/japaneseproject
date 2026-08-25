@@ -1,0 +1,726 @@
+{
+  "chuong": 6,
+  "bai": 3,
+  "questions": [
+    {
+      "id": 1,
+      "question": "これから、人間の（　）は何歳まで伸びるだろうか。",
+      "translation": "Từ nay về sau, tuổi thọ của con người sẽ kéo dài thêm đến bao nhiêu tuổi nhỉ?",
+      "answer": 2,
+      "options": [
+        {
+          "key": 1,
+          "text": "徒歩",
+          "reading": "とほ",
+          "meaning": "Đi bộ",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "寿命",
+          "reading": "じゅみょう",
+          "meaning": "Tuổi thọ, vòng đời",
+          "explain": "Đúng. Cụm '寿命が伸びる' chỉ tuổi thọ con người ngày càng tăng cao."
+        },
+        {
+          "key": 3,
+          "text": "現存",
+          "reading": "げんぞん",
+          "meaning": "Hiện còn tồn tại",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "保存",
+          "reading": "ほぞん",
+          "meaning": "Bảo tồn, lưu trữ",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "question": "（　）機が壊れてしまい、先生たちは宿題を紙に（　）出来なかった。",
+      "translation": "Máy in bị hỏng nên các thầy cô đã không thể in bài tập ra giấy được.",
+      "answer": 3,
+      "options": [
+        {
+          "key": 1,
+          "text": "配達",
+          "reading": "はいたつ",
+          "meaning": "Giao hàng",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "参考",
+          "reading": "さんこう",
+          "meaning": "Tham khảo",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "印刷",
+          "reading": "いんさつ",
+          "meaning": "In ấn",
+          "explain": "Đúng. Cụm '印刷機' (máy in) và '紙に印刷する' (in ấn ra giấy)."
+        },
+        {
+          "key": 4,
+          "text": "始発",
+          "reading": "しはつ",
+          "meaning": "Chuyến đầu tiên",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "question": "あの先生は（　）を公平に扱ってくれない。",
+      "translation": "Thầy giáo đó không đối xử công bằng với các học sinh.",
+      "answer": 1,
+      "options": [
+        {
+          "key": 1,
+          "text": "生徒",
+          "reading": "せいと",
+          "meaning": "Học sinh",
+          "explain": "Đúng. Cụm '生徒を公平に扱う' nghĩa là đối xử công bằng, không thiên vị giữa các học sinh."
+        },
+        {
+          "key": 2,
+          "text": "定員",
+          "reading": "ていいん",
+          "meaning": "Sức chứa quy định",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "再生",
+          "reading": "さいせい",
+          "meaning": "Tái sinh / Phát video",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "高齢",
+          "reading": "こうれい",
+          "meaning": "Cao tuổi",
+          "explain": "Sai ngữ cảnh trường học."
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "question": "問題を解決するには、一つだけでなく複数の（　）を考えた方がいい。",
+      "translation": "Để giải quyết vấn đề, thay vì chỉ một cách, bạn nên nghĩ ra nhiều phương án/biện pháp khác nhau.",
+      "answer": 3,
+      "options": [
+        {
+          "key": 1,
+          "text": "効力",
+          "reading": "こうりょく",
+          "meaning": "Hiệu lực",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "違反",
+          "reading": "いはん",
+          "meaning": "Vi phạm",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "手段",
+          "reading": "しゅだん",
+          "meaning": "Phương tiện, biện pháp, cách thức",
+          "explain": "Đúng. Cụm '複数の手段' chỉ nhiều giải pháp, phương thức xử lý vấn đề."
+        },
+        {
+          "key": 4,
+          "text": "資源",
+          "reading": "しげん",
+          "meaning": "Tài nguyên",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "question": "地球は（　）の周りをまわっている。",
+      "translation": "Trái Đất quay xung quanh Mặt Trời.",
+      "answer": 2,
+      "options": [
+        {
+          "key": 1,
+          "text": "地方",
+          "reading": "ちほう",
+          "meaning": "Địa phương",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "太陽",
+          "reading": "たいよう",
+          "meaning": "Mặt Trời",
+          "explain": "Đúng. Kiến thức thiên văn: Trái Đất chuyển động quay quanh Mặt Trời (太陽の周り)."
+        },
+        {
+          "key": 3,
+          "text": "口紅",
+          "reading": "くちべに",
+          "meaning": "Son môi",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "四季",
+          "reading": "しき",
+          "meaning": "Bốn mùa",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "question": "アパートの管理人と（　）について相談し、少し安くしてもらった。",
+      "translation": "Tôi đã bàn bạc với người quản lý tòa nhà về tiền thuê nhà và được giảm bớt một chút.",
+      "answer": 3,
+      "options": [
+        {
+          "key": 1,
+          "text": "印刷",
+          "reading": "いんさつ",
+          "meaning": "In ấn",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "手段",
+          "reading": "しゅだん",
+          "meaning": "Biện pháp",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "家賃",
+          "reading": "やちん",
+          "meaning": "Tiền thuê nhà",
+          "explain": "Đúng. '家賃について相談する' nghĩa là thương lượng về giá thuê phòng trọ."
+        },
+        {
+          "key": 4,
+          "text": "品物",
+          "reading": "しなもの",
+          "meaning": "Hàng hóa",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "question": "一度でも（　）をつくと、関係を元に戻すのは難しくなる。",
+      "translation": "Chỉ cần nói dối dù chỉ một lần thì việc hàn gắn lại mối quan hệ sẽ trở nên rất khó khăn.",
+      "answer": 1,
+      "options": [
+        {
+          "key": 1,
+          "text": "うそ",
+          "reading": "うそ",
+          "meaning": "Lời nói dối",
+          "explain": "Đúng. Cụm 'うそをつく' nghĩa là nói dối làm đánh mất lòng tin."
+        },
+        {
+          "key": 2,
+          "text": "印",
+          "reading": "しるし",
+          "meaning": "Dấu ấn",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "逆",
+          "reading": "ぎゃく",
+          "meaning": "Ngược lại",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "命",
+          "reading": "いのち",
+          "meaning": "Sinh mệnh",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "question": "ベトナム語とクメール語は同じ（　）の言語だ。",
+      "translation": "Tiếng Việt và tiếng Khmer là những ngôn ngữ thuộc cùng một hệ thống (ngữ hệ).",
+      "answer": 4,
+      "options": [
+        {
+          "key": 1,
+          "text": "限度",
+          "reading": "げんど",
+          "meaning": "Hạn độ",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "国語",
+          "reading": "こくご",
+          "meaning": "Quốc ngữ",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "敬語",
+          "reading": "けいご",
+          "meaning": "Kính ngữ",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "系統",
+          "reading": "けいとう",
+          "meaning": "Hệ thống, ngữ hệ",
+          "explain": "Đúng. '同じ系統の言語' chỉ những ngôn ngữ có cùng nguồn gốc ngữ hệ (Nam Á)."
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "question": "ベトナムに一人で住んでいる（　）の母が心配だ。",
+      "translation": "Tôi rất lo lắng cho người mẹ tuổi cao đang sống một mình ở Việt Nam.",
+      "answer": 2,
+      "options": [
+        {
+          "key": 1,
+          "text": "御中",
+          "reading": "おんちゅう",
+          "meaning": "Kính gửi (tổ chức)",
+          "explain": "Sai vì dùng trong thư từ hành chính."
+        },
+        {
+          "key": 2,
+          "text": "高齢",
+          "reading": "こうれい",
+          "meaning": "Cao tuổi, tuổi già",
+          "explain": "Đúng. Cụm '高齢の母' chỉ người mẹ đã lớn tuổi cần được chăm sóc."
+        },
+        {
+          "key": 3,
+          "text": "連絡先",
+          "reading": "れんらくさき",
+          "meaning": "Địa chỉ liên lạc",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "国際",
+          "reading": "こくさい",
+          "meaning": "Quốc tế",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "question": "この国の気候は昔と比べて変わり、（　）がよく育たなくなってしまった。",
+      "translation": "Khí hậu của quốc gia này đã thay đổi so với xưa khiến hoa màu/cây trồng không còn phát triển tốt nữa.",
+      "answer": 1,
+      "options": [
+        {
+          "key": 1,
+          "text": "作物",
+          "reading": "さくもつ",
+          "meaning": "Hoa màu, cây trồng nông nghiệp",
+          "explain": "Đúng. Cụm '作物が育つ' chỉ nông sản, cây trồng nông nghiệp phát triển."
+        },
+        {
+          "key": 2,
+          "text": "科学",
+          "reading": "かがく",
+          "meaning": "Khoa học",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "輸出",
+          "reading": "ゆしゅつ",
+          "meaning": "Xuất khẩu",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "出国",
+          "reading": "しゅっこく",
+          "meaning": "Xuất cảnh",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 11,
+      "question": "経験豊かな先輩の意見を（　）にして、イベントを企画した。",
+      "translation": "Tôi đã lấy ý kiến của vị tiền bối giàu kinh nghiệm làm tài liệu tham khảo để lên kế hoạch tổ chức sự kiện.",
+      "answer": 2,
+      "options": [
+        {
+          "key": 1,
+          "text": "氏名",
+          "reading": "しめい",
+          "meaning": "Họ tên",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "参考",
+          "reading": "さんこう",
+          "meaning": "Tham khảo",
+          "explain": "Đúng. Cụm '意見を参考にする' nghĩa là lấy ý kiến làm tham khảo hữu ích."
+        },
+        {
+          "key": 3,
+          "text": "決定",
+          "reading": "けってい",
+          "meaning": "Quyết định",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "迎え",
+          "reading": "むかえ",
+          "meaning": "Đón tiếp",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 12,
+      "question": "日本の気候は温暖で、（　）がある。",
+      "translation": "Khí hậu Nhật Bản ôn hòa và có bốn mùa rõ rệt.",
+      "answer": 2,
+      "options": [
+        {
+          "key": 1,
+          "text": "湿度",
+          "reading": "しつど",
+          "meaning": "Độ ẩm",
+          "explain": "Sai vì không phải nét đặc trưng khí hậu nổi bật đi kèm với 'có'."
+        },
+        {
+          "key": 2,
+          "text": "四季",
+          "reading": "しき",
+          "meaning": "Bốn mùa (Xuân Hạ Thu Đông)",
+          "explain": "Đúng. Cụm '四季がある' chỉ đặc trưng thời tiết Nhật Bản phân chia 4 mùa rõ rệt."
+        },
+        {
+          "key": 3,
+          "text": "作物",
+          "reading": "さくもつ",
+          "meaning": "Hoa màu",
+          "explain": "Sai ngữ cảnh miêu tả khí hậu."
+        },
+        {
+          "key": 4,
+          "text": "太陽",
+          "reading": "たいよう",
+          "meaning": "Mặt trời",
+          "explain": "Sai vì nơi nào cũng có mặt trời."
+        }
+      ]
+    },
+    {
+      "id": 13,
+      "question": "水などの（　）も無駄に使ってはいけない。",
+      "translation": "Những thứ như nguồn nước tài nguyên cũng tuyệt đối không được sử dụng lãng phí.",
+      "answer": 3,
+      "options": [
+        {
+          "key": 1,
+          "text": "寿命",
+          "reading": "じゅみょう",
+          "meaning": "Tuổi thọ",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "輸入",
+          "reading": "ゆにゅう",
+          "meaning": "Nhập khẩu",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "資源",
+          "reading": "しげん",
+          "meaning": "Tài nguyên",
+          "explain": "Đúng. '水などの資源' chỉ nguồn tài nguyên nước cần được tiết kiệm."
+        },
+        {
+          "key": 4,
+          "text": "家賃",
+          "reading": "やちん",
+          "meaning": "Tiền nhà",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 14,
+      "question": "このTシャツは生地が（　）。",
+      "translation": "Chiếc áo phông này chất vải rất dày dặn.",
+      "answer": 3,
+      "options": [
+        {
+          "key": 1,
+          "text": "違い",
+          "reading": "ちがい",
+          "meaning": "Khác biệt",
+          "explain": "Sai ngữ pháp."
+        },
+        {
+          "key": 2,
+          "text": "貧しい",
+          "reading": "まずしい",
+          "meaning": "Nghèo khó",
+          "explain": "Sai vì không dùng cho vải vóc."
+        },
+        {
+          "key": 3,
+          "text": "厚い",
+          "reading": "あつい",
+          "meaning": "Dày (độ dày)",
+          "explain": "Đúng. Cụm '生地が厚い' chỉ chất liệu vải dày dặn, bền đẹp."
+        },
+        {
+          "key": 4,
+          "text": "親しい",
+          "reading": "したしい",
+          "meaning": "Thân thiết",
+          "explain": "Sai vì chỉ mối quan hệ con người."
+        }
+      ]
+    },
+    {
+      "id": 15,
+      "question": "一定の水準に（　）まで、研究を続ける。",
+      "translation": "Tôi sẽ tiếp tục nghiên cứu cho đến khi đạt được một tiêu chuẩn nhất định.",
+      "answer": 4,
+      "options": [
+        {
+          "key": 1,
+          "text": "過ごす",
+          "reading": "すごす",
+          "meaning": "Trải qua",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "叩く",
+          "reading": "たたく",
+          "meaning": "Gõ, đánh",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "遊ぶ",
+          "reading": "あそぶ",
+          "meaning": "Chơi đùa",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "達する",
+          "reading": "たっする",
+          "meaning": "Đạt đến, chạm tới",
+          "explain": "Đúng. Cụm '水準に達する' nghĩa là đạt đến trình độ/tiêu chuẩn yêu cầu."
+        }
+      ]
+    },
+    {
+      "id": 16,
+      "question": "父から、昔は機械を強く（　）直していたと聞いたが、本当だろうか。",
+      "translation": "Tôi nghe bố kể ngày xưa đồ máy móc cứ đập mạnh một cái là sửa được, không biết có thật không nhỉ.",
+      "answer": 2,
+      "options": [
+        {
+          "key": 1,
+          "text": "扱って",
+          "reading": "あつかって",
+          "meaning": "Thao tác, đối xử",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "叩いて",
+          "reading": "たたいて",
+          "meaning": "Gõ, đập, vỗ mạnh",
+          "explain": "Đúng. '強く叩いて直す' chỉ thói quen ngày xưa đập vào tivi/máy móc để sửa tạm."
+        },
+        {
+          "key": 3,
+          "text": "乾いて",
+          "reading": "かわいて",
+          "meaning": "Khô ráo",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "疑って",
+          "reading": "うたがって",
+          "meaning": "Nghi ngờ",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 17,
+      "question": "この車の積載重量は1トンです。（　）はいけません。",
+      "translation": "Tải trọng chở hàng của chiếc xe này là 1 tấn. Tuyệt đối không được vượt quá tải trọng.",
+      "answer": 1,
+      "options": [
+        {
+          "key": 1,
+          "text": "超過して",
+          "reading": "ちょうかして",
+          "meaning": "Vượt quá (định mức/tải trọng)",
+          "explain": "Đúng. Cụm '超過してはいけない' cấm chở quá tải trọng cho phép."
+        },
+        {
+          "key": 2,
+          "text": "発達して",
+          "reading": "はったつして",
+          "meaning": "Phát triển",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "達して",
+          "reading": "たっして",
+          "meaning": "Đạt tới",
+          "explain": "Sai vì đạt tới mức cho phép là bình thường, vượt quá mới cấm."
+        },
+        {
+          "key": 4,
+          "text": "合計して",
+          "reading": "ごうけいして",
+          "meaning": "Tính tổng",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 18,
+      "question": "夫の両親が家に来てくれたので（　）した。",
+      "translation": "Bố mẹ chồng đã đến chơi nhà nên chúng tôi đã nhiệt liệt chào đón, tiếp đãi.",
+      "answer": 2,
+      "options": [
+        {
+          "key": 1,
+          "text": "合同",
+          "reading": "ごうどう",
+          "meaning": "Hợp đồng, kết hợp",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "歓迎",
+          "reading": "かんげい",
+          "meaning": "Hoan nghênh, chào đón",
+          "explain": "Đúng. '歓迎した' thể hiện sự đón tiếp nồng nhiệt khách quý tới chơi."
+        },
+        {
+          "key": 3,
+          "text": "混乱",
+          "reading": "こんらん",
+          "meaning": "Hỗn loạn",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "配達",
+          "reading": "はいたつ",
+          "meaning": "Giao hàng",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 19,
+      "question": "首相の不注意な発言が国中に（　）を引き起こした。",
+      "translation": "Phát ngôn bất cẩn của Thủ tướng đã gây ra sự hỗn loạn trong toàn quốc.",
+      "answer": 1,
+      "options": [
+        {
+          "key": 1,
+          "text": "混乱",
+          "reading": "こんらん",
+          "meaning": "Hỗn loạn, hoang mang",
+          "explain": "Đúng. Cụm '混乱を引き起こす' nghĩa là làm bùng lên tình trạng hỗn loạn, hoang mang."
+        },
+        {
+          "key": 2,
+          "text": "告白",
+          "reading": "こくはく",
+          "meaning": "Thổ lộ, tỏ tình",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "合計",
+          "reading": "ごうけい",
+          "meaning": "Tổng cộng",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "下旬",
+          "reading": "げじゅん",
+          "meaning": "Hạ tuần",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 20,
+      "question": "これは実際の大きさを一万分の一に（　）した地図です。",
+      "translation": "Đây là tấm bản đồ đã được thu nhỏ theo tỷ lệ một phần mười nghìn so với kích thước thực tế.",
+      "answer": 4,
+      "options": [
+        {
+          "key": 1,
+          "text": "上下",
+          "reading": "じょうげ",
+          "meaning": "Trên dưới",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "下書き",
+          "reading": "したがき",
+          "meaning": "Bản nháp",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "低下",
+          "reading": "ていか",
+          "meaning": "Suy giảm",
+          "explain": "Sai vì dùng cho chất lượng, năng lực."
+        },
+        {
+          "key": 4,
+          "text": "縮小",
+          "reading": "しゅくしょう",
+          "meaning": "Thu nhỏ, thu gọn tỷ lệ",
+          "explain": "Đúng. Cụm '縮小した地図' chỉ bản đồ thu nhỏ theo tỷ lệ thực địa."
+        }
+      ]
+    }
+  ]
+}

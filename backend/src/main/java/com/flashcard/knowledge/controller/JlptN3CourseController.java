@@ -117,6 +117,35 @@ public class JlptN3CourseController {
     }
 
     /**
+     * Get the official 20-Question Comprehensive Lesson Quiz for a specific chapter and lesson from DB.
+     * GET /api/jlpt-n3/chapter/{chapter}/lesson/{lesson}/quiz
+     */
+    @GetMapping("/chapter/{chapter}/lesson/{lesson}/quiz")
+    public ResponseEntity<?> getLessonQuiz(
+            @PathVariable("chapter") int chapter,
+            @PathVariable("lesson") int lesson) {
+        java.util.List<Map<String, Object>> questions = courseService.getLessonQuiz(chapter, lesson);
+        return ResponseEntity.ok(questions);
+    }
+
+    /**
+     * Submit Comprehensive 20-Question Lesson Quiz Score.
+     * Marks quiz as passed ONLY when score == total (100% correct).
+     * POST /api/jlpt-n3/chapter/{chapter}/lesson/{lesson}/quiz/submit
+     */
+    @PostMapping("/chapter/{chapter}/lesson/{lesson}/quiz/submit")
+    public ResponseEntity<?> submitLessonQuiz(
+            @PathVariable("chapter") int chapter,
+            @PathVariable("lesson") int lesson,
+            @RequestBody Map<String, Object> body) {
+        int score = body.containsKey("score") ? ((Number) body.get("score")).intValue() : 0;
+        int total = body.containsKey("total") ? ((Number) body.get("total")).intValue() : 20;
+        Long userId = getCurrentUserId();
+        Map<String, Object> result = courseService.submitLessonQuiz(userId, chapter, lesson, score, total);
+        return ResponseEntity.ok(result);
+    }
+
+    /**
      * Trigger importing all JLPT N3 course JSON files into system database (Vocabulary & Grammar tables).
      * POST /api/jlpt-n3/import
      */

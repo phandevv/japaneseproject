@@ -1,0 +1,726 @@
+{
+  "chuong": 5,
+  "bai": 3,
+  "questions": [
+    {
+      "id": 1,
+      "question": "知らないうちに、机の上にあったお菓子の（　）が減っていた。",
+      "translation": "Chẳng biết từ lúc nào mà số lượng bánh kẹo trên bàn đã bị vơi bớt đi.",
+      "answer": 1,
+      "options": [
+        {
+          "key": 1,
+          "text": "数",
+          "reading": "かず",
+          "meaning": "Số lượng",
+          "explain": "Đúng. Cụm 'お菓子の数が減る' nghĩa là số lượng bánh kẹo bị giảm bớt."
+        },
+        {
+          "key": 2,
+          "text": "代表",
+          "reading": "だいひょう",
+          "meaning": "Đại diện",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "次",
+          "reading": "つぎ",
+          "meaning": "Lần tiếp",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "機械",
+          "reading": "きかい",
+          "meaning": "Máy móc",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "question": "夜家に帰って子供の（　）を見ると、その日の疲れが取れる。",
+      "translation": "Buổi tối về nhà nhìn thấy nụ cười của con thơ là bao mệt mỏi trong ngày đều tan biến hết.",
+      "answer": 2,
+      "options": [
+        {
+          "key": 1,
+          "text": "大声",
+          "reading": "おおごえ",
+          "meaning": "Giọng to",
+          "explain": "Sai vì không làm xua tan mệt mỏi."
+        },
+        {
+          "key": 2,
+          "text": "笑顔",
+          "reading": "えがお",
+          "meaning": "Khuôn mặt cười, nụ cười rạng rỡ",
+          "explain": "Đúng. Cụm '子供の笑顔を見る' nghĩa là ngắm nụ cười tươi của con giúp xua tan mệt nhọc."
+        },
+        {
+          "key": 3,
+          "text": "現代",
+          "reading": "げんだい",
+          "meaning": "Hiện đại",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "欠点",
+          "reading": "けってん",
+          "meaning": "Khuyết điểm",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "question": "今では、世界中で（　）が食べられている。",
+      "translation": "Ngày nay, món ăn Nhật Bản đang được thưởng thức trên toàn thế giới.",
+      "answer": 4,
+      "options": [
+        {
+          "key": 1,
+          "text": "昼食",
+          "reading": "ちゅうしょく",
+          "meaning": "Bữa trưa",
+          "explain": "Sai vì quá chung chung."
+        },
+        {
+          "key": 2,
+          "text": "欲張り",
+          "reading": "よくばり",
+          "meaning": "Tham lam",
+          "explain": "Sai vì tính từ không ăn được."
+        },
+        {
+          "key": 3,
+          "text": "食欲",
+          "reading": "しょくよく",
+          "meaning": "Sự thèm ăn",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "和食",
+          "reading": "わしょく",
+          "meaning": "Món ăn Nhật Bản, ẩm thực truyền thống Nhật",
+          "explain": "Đúng. '和食が食べられている' chỉ sự phổ biến của ẩm thực Nhật trên thế giới."
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "question": "最近話題の最新（　）といったら、やはりAIだろう。",
+      "translation": "Nhắc đến công nghệ tối tân đang là chủ đề nóng dạo gần đây thì chắc chắn phải kể đến AI.",
+      "answer": 1,
+      "options": [
+        {
+          "key": 1,
+          "text": "技術",
+          "reading": "ぎじゅつ",
+          "meaning": "Kỹ thuật, công nghệ",
+          "explain": "Đúng. Cụm '最新技術' chỉ công nghệ hiện đại/tối tân, tiêu biểu là trí tuệ nhân tạo (AI)."
+        },
+        {
+          "key": 2,
+          "text": "芸術",
+          "reading": "げいじゅつ",
+          "meaning": "Nghệ thuật",
+          "explain": "Sai vì AI là thành tựu công nghệ kỹ thuật."
+        },
+        {
+          "key": 3,
+          "text": "記録",
+          "reading": "きろく",
+          "meaning": "Kỷ lục, ghi chép",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "感心",
+          "reading": "かんしん",
+          "meaning": "Khâm phục",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "question": "（　）というのは、ときどき他人に理解されにくいものだ。",
+      "translation": "Nghệ thuật là thứ đôi khi rất khó được người khác thấu hiểu.",
+      "answer": 2,
+      "options": [
+        {
+          "key": 1,
+          "text": "足し算",
+          "reading": "たしざん",
+          "meaning": "Phép cộng",
+          "explain": "Sai vì phép cộng ai cũng hiểu được."
+        },
+        {
+          "key": 2,
+          "text": "芸術",
+          "reading": "げいじゅつ",
+          "meaning": "Nghệ thuật",
+          "explain": "Đúng. '芸術' mang tính trừu tượng nên đôi khi khó được số đông hiểu hết ý nghĩa."
+        },
+        {
+          "key": 3,
+          "text": "機会",
+          "reading": "きかい",
+          "meaning": "Cơ hội",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "笑顔",
+          "reading": "えがお",
+          "meaning": "Nụ cười",
+          "explain": "Sai vì nụ cười rất dễ hiểu."
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "question": "A: いい仕事について、お金をたくさん稼ぎたいなあ。\nB: お金を稼げる職業といったら、やっぱり（　）か医者じゃない？",
+      "translation": "A: Ước gì tìm được việc tốt để kiếm thật nhiều tiền nhỉ.\nB: Nhắc đến nghề kiếm nhiều tiền thì chẳng phải là luật sư hay bác sĩ sao?",
+      "answer": 3,
+      "options": [
+        {
+          "key": 1,
+          "text": "尊敬",
+          "reading": "そんけい",
+          "meaning": "Kính trọng",
+          "explain": "Sai vì không phải là danh từ chỉ nghề nghiệp."
+        },
+        {
+          "key": 2,
+          "text": "挑戦",
+          "reading": "ちょうせん",
+          "meaning": "Thử thách",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "弁護士",
+          "reading": "べんごし",
+          "meaning": "Luật sư",
+          "explain": "Đúng. Cùng với bác sĩ (医者), '弁護士' là nghề nghiệp có thu nhập cao hàng đầu."
+        },
+        {
+          "key": 4,
+          "text": "代理人",
+          "reading": "だいりにん",
+          "meaning": "Người đại diện",
+          "explain": "Sai vì không phải tên nghề nghiệp chuyên biệt."
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "question": "友達の（　）に出席して、2人の幸せを心から願った。",
+      "translation": "Tôi đã tham dự lễ kết hôn của bạn mình và thật lòng cầu chúc hạnh phúc cho hai người.",
+      "answer": 4,
+      "options": [
+        {
+          "key": 1,
+          "text": "笑い",
+          "reading": "わらい",
+          "meaning": "Tiếng cười",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "和食",
+          "reading": "わしょく",
+          "meaning": "Món ăn Nhật",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "微笑み",
+          "reading": "ほほえみ",
+          "meaning": "Nụ cười mỉm",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "結婚式",
+          "reading": "けっこんしき",
+          "meaning": "Lễ cưới, đám cưới",
+          "explain": "Đúng. '結婚式に出席する' nghĩa là đến dự lễ cưới và chúc phúc cho đôi uyên ương."
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "question": "手続きには、免許証か（　）を見せる必要があるということです。",
+      "translation": "Nghe nói khi làm thủ tục thì cần phải xuất trình bằng lái xe hoặc hộ chiếu.",
+      "answer": 1,
+      "options": [
+        {
+          "key": 1,
+          "text": "パスポート",
+          "reading": "パスポート",
+          "meaning": "Hộ chiếu (passport)",
+          "explain": "Đúng. Là giấy tờ tùy thân quan trọng dùng để đối chiếu nhân thân cùng bằng lái xe."
+        },
+        {
+          "key": 2,
+          "text": "レジ",
+          "reading": "レジ",
+          "meaning": "Quầy thu ngân",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "エンジン",
+          "reading": "エンジン",
+          "meaning": "Động cơ",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "コンタクトレンズ",
+          "reading": "コンタクトレンズ",
+          "meaning": "Kính áp tròng",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "question": "結婚したいというより、子供が（　）。",
+      "translation": "Đúng hơn là muốn có con chứ không hẳn là muốn kết hôn.",
+      "answer": 3,
+      "options": [
+        {
+          "key": 1,
+          "text": "細かい",
+          "reading": "こまかい",
+          "meaning": "Chi tiết, tỉ mỉ",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "等しい",
+          "reading": "ひとしい",
+          "meaning": "Bằng nhau",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "欲しい",
+          "reading": "ほしい",
+          "meaning": "Muốn có",
+          "explain": "Đúng. Cụm '子供が欲しい' nghĩa là muốn sinh/có con cái."
+        },
+        {
+          "key": 4,
+          "text": "欲張り",
+          "reading": "よくばり",
+          "meaning": "Tham lam",
+          "explain": "Sai ngữ pháp."
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "question": "この作業は、人間の手で（　）調整をする必要があり、それは機械ではできないと言われている。",
+      "translation": "Công việc này cần phải có bàn tay con người căn chỉnh tỉ mỉ/chi tiết, người ta bảo máy móc không thể làm được việc đó.",
+      "answer": 4,
+      "options": [
+        {
+          "key": 1,
+          "text": "等しい",
+          "reading": "ひとしい",
+          "meaning": "Bằng nhau",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "懐かしい",
+          "reading": "なつかしい",
+          "meaning": "Hoài niệm",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "大人しい",
+          "reading": "おとなしい",
+          "meaning": "Hiền lành",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "細かい",
+          "reading": "こまかい",
+          "meaning": "Tỉ mỉ, chi tiết, tinh xảo",
+          "explain": "Đúng. Cụm '細かい調整' chỉ những thao tác căn chỉnh tinh xảo, tỉ mỉ bằng tay."
+        }
+      ]
+    },
+    {
+      "id": 11,
+      "question": "メールが来ていたが、友達の結婚式の最中だったので気が（　）。",
+      "translation": "Có email gửi đến nhưng vì đang ở giữa tiệc cưới của bạn nên tôi đã không nhận ra.",
+      "answer": 3,
+      "options": [
+        {
+          "key": 1,
+          "text": "含む",
+          "reading": "ふくむ",
+          "meaning": "Bao gồm",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "感じる",
+          "reading": "かんじる",
+          "meaning": "Cảm thấy",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "付かなかった",
+          "reading": "つかなかった",
+          "meaning": "Không nhận ra (cụm 気が付く)",
+          "explain": "Đúng. Cụm '気が付かなかった' nghĩa là không để ý/không nhận ra có thông báo tin nhắn."
+        },
+        {
+          "key": 4,
+          "text": "余る",
+          "reading": "あまる",
+          "meaning": "Dư thừa",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 12,
+      "question": "A: 部屋、（　）ておいたよ。\nB: えっ…。これは、（　）たというより、1か所にものを集めたって言うんじゃない？",
+      "translation": "A: Mình đã dọn dẹp phòng sẵn rồi nhé.\nB: Hả... Thế này mà gọi là dọn dẹp à, đúng hơn là gom hết đồ vào một góc thì có.",
+      "answer": 1,
+      "options": [
+        {
+          "key": 1,
+          "text": "片付け",
+          "reading": "かたづけ",
+          "meaning": "Dọn dẹp, sắp xếp gọn gàng",
+          "explain": "Đúng. Cụm '部屋を片付ける' nghĩa là dọn dẹp phòng ốc."
+        },
+        {
+          "key": 2,
+          "text": "付け",
+          "reading": "つけ",
+          "meaning": "Bật / Gắn vào",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "得",
+          "reading": "え",
+          "meaning": "Đạt được",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "減っ",
+          "reading": "へっ",
+          "meaning": "Giảm bớt",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 13,
+      "question": "長い時間外にいたので、体が（　）きって腹痛を起こしてしまった。",
+      "translation": "Do ở ngoài trời một thời gian dài nên cơ thể bị lạnh cóng hoàn toàn và gây ra đau bụng.",
+      "answer": 4,
+      "options": [
+        {
+          "key": 1,
+          "text": "冷やし",
+          "reading": "ひやし",
+          "meaning": "Làm lạnh (tha động từ)",
+          "explain": "Sai ngữ pháp vì cơ thể tự bị lạnh buốt."
+        },
+        {
+          "key": 2,
+          "text": "守る",
+          "reading": "まもる",
+          "meaning": "Bảo vệ",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "浮かべ",
+          "reading": "うかべ",
+          "meaning": "Thả trôi / Hiện lên",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "冷え",
+          "reading": "ひえ",
+          "meaning": "Bị lạnh, buốt giá (tự động từ 冷える)",
+          "explain": "Đúng. Cụm '体が冷えきる' nghĩa là cơ thể bị nhiễm lạnh cóng hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 14,
+      "question": "その動物は、10年前からだんだんと数が（　）しており、最近では見かけることは少なくなった。",
+      "translation": "Loài động vật đó từ 10 năm trước số lượng đã giảm dần và dạo gần đây hiếm khi bắt gặp.",
+      "answer": 3,
+      "options": [
+        {
+          "key": 1,
+          "text": "増減",
+          "reading": "ぞうげん",
+          "meaning": "Tăng giảm thất thường",
+          "explain": "Sai vì câu chỉ chiều hướng giảm dần."
+        },
+        {
+          "key": 2,
+          "text": "賛成",
+          "reading": "さんせい",
+          "meaning": "Tán thành",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "減少",
+          "reading": "げんしょう",
+          "meaning": "Sụt giảm, giảm bớt",
+          "explain": "Đúng. Cụm '数が減少する' chỉ số lượng cá thể loài động vật bị suy giảm."
+        },
+        {
+          "key": 4,
+          "text": "日付",
+          "reading": "ひづけ",
+          "meaning": "Ngày tháng",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 15,
+      "question": "山登りを始めて4年が経ち、ついに富士山登りに（　）することにした。",
+      "translation": "Đã 4 năm kể từ khi bắt đầu leo núi, cuối cùng tôi cũng quyết định thử sức chinh phục núi Phú Sĩ.",
+      "answer": 1,
+      "options": [
+        {
+          "key": 1,
+          "text": "挑戦",
+          "reading": "ちょうせん",
+          "meaning": "Thử sức, thách thức, chinh phục",
+          "explain": "Đúng. Cụm '富士山登りに挑戦する' nghĩa là thử sức chinh phục đỉnh núi Phú Sĩ."
+        },
+        {
+          "key": 2,
+          "text": "減少",
+          "reading": "げんしょう",
+          "meaning": "Sụt giảm",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "留守",
+          "reading": "るす",
+          "meaning": "Vắng nhà",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "平等",
+          "reading": "びょうどう",
+          "meaning": "Bình đẳng",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 16,
+      "question": "私はもう24歳だし、自分でお金を稼いでいるのだから、留学するのに親を（　）させる必要はない。",
+      "translation": "Tôi đã 24 tuổi rồi và cũng tự kiếm ra tiền, nên đi du học thì không cần phải thuyết phục cho bố mẹ đồng ý hoàn toàn.",
+      "answer": 4,
+      "options": [
+        {
+          "key": 1,
+          "text": "一気",
+          "reading": "いっき",
+          "meaning": "Một hơi, liền một mạch",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "一体",
+          "reading": "いったい",
+          "meaning": "Rốt cuộc",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "同時",
+          "reading": "どうじ",
+          "meaning": "Đồng thời",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "納得",
+          "reading": "なっとく",
+          "meaning": "Thuyết phục, đồng thuận, ưng thuận",
+          "explain": "Đúng. Cụm '親を納得させる' nghĩa là thuyết phục cho phụ huynh hiểu và đồng ý."
+        }
+      ]
+    },
+    {
+      "id": 17,
+      "question": "あの先輩は仕事が良く出来て、周りの人をよく助けているのでみんなから（　）されている。",
+      "translation": "Tiền bối đó làm việc rất giỏi lại hay giúp đỡ mọi người xung quanh nên được tất cả kính trọng.",
+      "answer": 1,
+      "options": [
+        {
+          "key": 1,
+          "text": "尊敬",
+          "reading": "そんけい",
+          "meaning": "Kính trọng, tôn kính",
+          "explain": "Đúng. Cụm 'みんなから尊敬される' chỉ việc được mọi người tôn trọng, nể phục."
+        },
+        {
+          "key": 2,
+          "text": "我慢",
+          "reading": "がまん",
+          "meaning": "Chịu đựng",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "遠慮",
+          "reading": "えんりょ",
+          "meaning": "Khách sáo",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "中止",
+          "reading": "ちゅうし",
+          "meaning": "Hủy bỏ",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 18,
+      "question": "海外で日本人が犯罪を起こした。日本人の（　）が悪くならないか、心配だ。",
+      "translation": "Một người Nhật đã phạm tội ở nước ngoài. Tôi lo rằng hình ảnh của người Nhật sẽ bị xấu đi trong mắt bạn bè quốc tế.",
+      "answer": 2,
+      "options": [
+        {
+          "key": 1,
+          "text": "ハイキング",
+          "reading": "ハイキング",
+          "meaning": "Dã ngoại",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "イメージ",
+          "reading": "イメージ",
+          "meaning": "Hình ảnh, ấn tượng (image)",
+          "explain": "Đúng. Cụm 'イメージが悪くなる' nghĩa là hình ảnh/ấn tượng chung bị ảnh hưởng xấu."
+        },
+        {
+          "key": 3,
+          "text": "クイズ",
+          "reading": "クイズ",
+          "meaning": "Câu đố",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "バランス",
+          "reading": "バランス",
+          "meaning": "Sự cân bằng",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 19,
+      "question": "（　）していて、家に車の鍵を忘れてしまった。",
+      "translation": "Do đãng trí/sơ ý nên tôi đã để quên chìa khóa xe ô tô ở nhà.",
+      "answer": 4,
+      "options": [
+        {
+          "key": 1,
+          "text": "のんびり",
+          "reading": "のんびり",
+          "meaning": "Thong thả",
+          "explain": "Sai vì không làm nguyên nhân để quên đồ."
+        },
+        {
+          "key": 2,
+          "text": "にこにこ",
+          "reading": "にこにこ",
+          "meaning": "Cười mỉm",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "のろのろ",
+          "reading": "のろのろ",
+          "meaning": "Chậm chạp",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "うっかり",
+          "reading": "うっかり",
+          "meaning": "Lơ đễnh, đãng trí, sơ ý",
+          "explain": "Đúng. Cụm 'うっかりしていて忘れる' chỉ trạng thái sơ ý, đãng trí dẫn đến quên đồ."
+        }
+      ]
+    },
+    {
+      "id": 20,
+      "question": "A: 大学、どこにするか決めた？\nB: ううん。（　）、行かないことにしたんだ。",
+      "translation": "A: Cậu đã quyết định chọn trường đại học nào chưa?\nB: Chưa. Thực ra là mình quyết định không học đại học nữa rồi.",
+      "answer": 3,
+      "options": [
+        {
+          "key": 1,
+          "text": "やはり",
+          "reading": "やはり",
+          "meaning": "Quả nhiên",
+          "explain": "Sai vì không phải tiết lộ một sự thật mới."
+        },
+        {
+          "key": 2,
+          "text": "いつの間にか",
+          "reading": "いつのまにか",
+          "meaning": "Từ lúc nào không hay",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "実は",
+          "reading": "じつは",
+          "meaning": "Thực ra là, kỳ thực",
+          "explain": "Đúng. '実は…' dùng để mở lời tiết lộ một sự thật/quyết định bất ngờ cho người nghe."
+        },
+        {
+          "key": 4,
+          "text": "既に",
+          "reading": "すでに",
+          "meaning": "Đã... rồi",
+          "explain": "Sai ngữ cảnh."
+        }
+      ]
+    }
+  ]
+}

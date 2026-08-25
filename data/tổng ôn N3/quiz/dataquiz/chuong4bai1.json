@@ -1,0 +1,726 @@
+{
+  "chuong": 4,
+  "bai": 1,
+  "questions": [
+    {
+      "id": 1,
+      "question": "4日間旅行に行くので、隣人に犬を（　）もらうことにした。",
+      "translation": "Vì đi du lịch 4 ngày nên tôi đã nhờ người hàng xóm trông giữ hộ chú chó.",
+      "answer": 1,
+      "options": [
+        {
+          "key": 1,
+          "text": "預かって",
+          "reading": "あずかって",
+          "meaning": "Trông giữ hộ, giữ giùm",
+          "explain": "Đúng. Cụm '犬を預かってもらう' nghĩa là nhờ người khác chăm sóc/giữ hộ chó."
+        },
+        {
+          "key": 2,
+          "text": "言い返して",
+          "reading": "いいかえして",
+          "meaning": "Nói lại, cãi lại",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "合わせて",
+          "reading": "あわせて",
+          "meaning": "Hợp lại, khớp lại",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "勧めて",
+          "reading": "调めて / すすめて",
+          "meaning": "Khuyên nhủ, gợi ý",
+          "explain": "Sai vì không dùng để nhờ giữ đồ/thú cưng."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "question": "マイさんを通じて、アインさんに貸していた本が（　）きた。",
+      "translation": "Cuốn sách tôi cho Mai mượn đã được trả lại cho tôi thông qua bạn Ánh.",
+      "answer": 2,
+      "options": [
+        {
+          "key": 1,
+          "text": "頼って",
+          "reading": "たよって",
+          "meaning": "Dựa dẫm, nhờ cậy",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "返って",
+          "reading": "かえって",
+          "meaning": "Được trả về, quay về",
+          "explain": "Đúng. Cụm '本が返ってくる' nghĩa là cuốn sách được hoàn trả lại cho chủ."
+        },
+        {
+          "key": 3,
+          "text": "下りて",
+          "reading": "おりて",
+          "meaning": "Đi xuống",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "済んで",
+          "reading": "すんで",
+          "meaning": "Xong xuôi",
+          "explain": "Sai vì sách không 'xong xuôi'."
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "question": "今月は（　）をずっとつけていたので、電気代がとても高くなった。",
+      "translation": "Tháng này vì bật máy sưởi suốt nên tiền điện tăng rất cao.",
+      "answer": 3,
+      "options": [
+        {
+          "key": 1,
+          "text": "要求",
+          "reading": "ようきゅう",
+          "meaning": "Yêu cầu",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "交通",
+          "reading": "こうつう",
+          "meaning": "Giao thông",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "暖房",
+          "reading": "だんぼう",
+          "meaning": "Hệ thống sưởi, máy sưởi",
+          "explain": "Đúng. '暖房をつける' nghĩa là bật lò sưởi/điều hòa chế độ ấm làm tốn điện."
+        },
+        {
+          "key": 4,
+          "text": "主要",
+          "reading": "しゅよう",
+          "meaning": "Chủ yếu",
+          "explain": "Sai vì là tính từ/danh từ chỉ vai trò."
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "question": "息子が希望していた大学に（　）、私も嬉しい。",
+      "translation": "Con trai đã thi đỗ vào trường đại học hằng mong ước khiến tôi cũng vô cùng hạnh phúc.",
+      "answer": 1,
+      "options": [
+        {
+          "key": 1,
+          "text": "受かり",
+          "reading": "うかり",
+          "meaning": "Đỗ, trúng tuyển",
+          "explain": "Đúng. Cụm '大学に受かる' nghĩa là thi đỗ vào trường đại học."
+        },
+        {
+          "key": 2,
+          "text": "願い",
+          "reading": "ねがい",
+          "meaning": "Cầu mong",
+          "explain": "Sai ngữ cảnh đã có kết quả đỗ đạt."
+        },
+        {
+          "key": 3,
+          "text": "教わり",
+          "reading": "おそわり",
+          "meaning": "Được dạy dỗ",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "怒鳴り",
+          "reading": "どなり",
+          "meaning": "Hét to, quát mắng",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "question": "入学の希望は、年間を通じて（　）います。",
+      "translation": "Nguyện vọng nhập học luôn được tiếp nhận trong suốt cả năm.",
+      "answer": 3,
+      "options": [
+        {
+          "key": 1,
+          "text": "似て",
+          "reading": "にて",
+          "meaning": "Giống nhau",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "込めて",
+          "reading": "こめて",
+          "meaning": "Gửi gắm, dồn vào",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "受け付けて",
+          "reading": "うけつけて",
+          "meaning": "Tiếp nhận (đơn từ/hồ sơ)",
+          "explain": "Đúng. Cụm '希望を受け付けている' nghĩa là tiếp nhận đăng ký/hồ sơ."
+        },
+        {
+          "key": 4,
+          "text": "暖まって",
+          "reading": "あたたまって",
+          "meaning": "Ấm áp lên",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "question": "（　）に関するお知らせのメールが大学から届いている。",
+      "translation": "Email thông báo liên quan đến học phí vừa được gửi tới từ trường đại học.",
+      "answer": 1,
+      "options": [
+        {
+          "key": 1,
+          "text": "授業料",
+          "reading": "じゅぎょうりょう",
+          "meaning": "Tiền học phí",
+          "explain": "Đúng. Cụm '授業料に関するお知らせ' là thông báo liên quan tới học phí."
+        },
+        {
+          "key": 2,
+          "text": "看板",
+          "reading": "かんばん",
+          "meaning": "Biển hiệu",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "司会",
+          "reading": "しかい",
+          "meaning": "Chủ trì, MC",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "引っ越し",
+          "reading": "ひっこし",
+          "meaning": "Chuyển nhà",
+          "explain": "Sai vì trường đại học không gửi mail chuyển nhà."
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "question": "彼の言い方は許せないものだったが、頑張って（　）を抑えた。",
+      "translation": "Cách nói của anh ta thật không thể tha thứ được, nhưng tôi đã cố gắng kiềm chế cơn giận.",
+      "answer": 4,
+      "options": [
+        {
+          "key": 1,
+          "text": "いたずら",
+          "reading": "いたずら",
+          "meaning": "Trò nghịch ngợm",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "大騒ぎ",
+          "reading": "おおさわぎ",
+          "meaning": "Làm ầm ĩ",
+          "explain": "Sai vì không đi với cụm kiềm chế nội tâm cá nhân."
+        },
+        {
+          "key": 3,
+          "text": "教え",
+          "reading": "おしえ",
+          "meaning": "Lời dạy",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "怒り",
+          "reading": "いかり",
+          "meaning": "Cơn tức giận, phẫn nộ",
+          "explain": "Đúng. Cụm '怒りを抑える' nghĩa là nén giận, kiềm chế cơn thịnh nộ."
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "question": "長い結婚生活を通して、夫が（　）ことは一度もない。",
+      "translation": "Trong suốt cuộc sống hôn nhân dài lâu, chưa một lần nào chồng tôi quát mắng/to tiếng cả.",
+      "answer": 2,
+      "options": [
+        {
+          "key": 1,
+          "text": "はやった",
+          "reading": "はやった",
+          "meaning": "Thịnh hành / Nôn nóng",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "怒鳴った",
+          "reading": "どなった",
+          "meaning": "Quát mắng, la hét",
+          "explain": "Đúng. '夫が怒鳴ったことは一度もない' chỉ sự hiền lành, chưa từng to tiếng quát vợ."
+        },
+        {
+          "key": 3,
+          "text": "受かった",
+          "reading": "うかった",
+          "meaning": "Đỗ đạt",
+          "explain": "Sai vì không liên quan đến sinh hoạt vợ chồng."
+        },
+        {
+          "key": 4,
+          "text": "負けた",
+          "reading": "まけた",
+          "meaning": "Thua cuộc",
+          "explain": "Sai ngữ cảnh."
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "question": "2年前に（　）した妻ともう一度会い、よく話し合うことにした。",
+      "translation": "Tôi đã quyết định gặp lại người vợ đã ly hôn 2 năm trước để cùng nhau trao đổi thẳng thắn.",
+      "answer": 1,
+      "options": [
+        {
+          "key": 1,
+          "text": "離婚",
+          "reading": "りこん",
+          "meaning": "Ly hôn",
+          "explain": "Đúng. '2年前に離婚した妻' nghĩa là người vợ cũ đã ly hôn cách đây 2 năm."
+        },
+        {
+          "key": 2,
+          "text": "引っ越し",
+          "reading": "ひっこし",
+          "meaning": "Chuyển nhà",
+          "explain": "Sai vì không tạo thành danh xưng quan hệ vợ chồng trước đây."
+        },
+        {
+          "key": 3,
+          "text": "提案",
+          "reading": "ていあん",
+          "meaning": "Đề xuất",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "コメント",
+          "reading": "コメント",
+          "meaning": "Bình luận",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "question": "アンケート調査の結果、予想に反して、（　）になりたいという若い人は少なかった。",
+      "translation": "Kết quả khảo sát trái ngược với dự đoán, số lượng người trẻ muốn trở thành nội trợ là rất ít.",
+      "answer": 3,
+      "options": [
+        {
+          "key": 1,
+          "text": "坂道",
+          "reading": "さかみち",
+          "meaning": "Đường dốc",
+          "explain": "Sai vì người không thể trở thành đường dốc."
+        },
+        {
+          "key": 2,
+          "text": "主要",
+          "reading": "しゅよう",
+          "meaning": "Chủ yếu",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "主婦",
+          "reading": "しゅふ",
+          "meaning": "Nội trợ, người phụ nữ quán xuyến gia đình",
+          "explain": "Đúng. Cụm '主婦になりたい' chỉ mong muốn trở thành người nội trợ gia đình."
+        },
+        {
+          "key": 4,
+          "text": "迷子",
+          "reading": "まいご",
+          "meaning": "Trẻ lạc",
+          "explain": "Sai vì không ai mong muốn trở thành trẻ lạc."
+        }
+      ]
+    },
+    {
+      "id": 11,
+      "question": "山田部長は部下からの（　）をよく聞くため、慕われている。",
+      "translation": "Trưởng phòng Yamada rất lắng nghe ý kiến đề xuất từ cấp dưới nên được mọi người kính trọng.",
+      "answer": 1,
+      "options": [
+        {
+          "key": 1,
+          "text": "提案",
+          "reading": "ていあん",
+          "meaning": "Đề xuất, ý kiến đóng góp",
+          "explain": "Đúng. '部下からの提案をよく聞く' nghĩa là lắng nghe đề xuất từ cấp dưới."
+        },
+        {
+          "key": 2,
+          "text": "睡眠",
+          "reading": "すいみん",
+          "meaning": "Giấc ngủ",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "受験",
+          "reading": "じゅけん",
+          "meaning": "Thi cử",
+          "explain": "Sai ngữ cảnh công sở."
+        },
+        {
+          "key": 4,
+          "text": "訪問",
+          "reading": "ほうもん",
+          "meaning": "Thăm viếng",
+          "explain": "Sai vì không dùng để lắng nghe."
+        }
+      ]
+    },
+    {
+      "id": 12,
+      "question": "レストランで友達と話しすぎて、スープが（　）なってしまった。",
+      "translation": "Ở nhà hàng mải nói chuyện với bạn quá nên bát súp đã bị nguội ngắt mất rồi.",
+      "answer": 4,
+      "options": [
+        {
+          "key": 1,
+          "text": "頼もしく",
+          "reading": "たのもしく",
+          "meaning": "Đáng tin cậy",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "不要に",
+          "reading": "ふように",
+          "meaning": "Không cần thiết",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "ロッカーに",
+          "reading": "ロッカーに",
+          "meaning": "Vào tủ đồ",
+          "explain": "Sai ngữ pháp và nghĩa."
+        },
+        {
+          "key": 4,
+          "text": "ぬるく",
+          "reading": "ぬるく",
+          "meaning": "Nguội, âm ấm (mất độ nóng)",
+          "explain": "Đúng. Cụm 'スープがぬるくなる' chỉ món canh/súp bị nguội do để lâu."
+        }
+      ]
+    },
+    {
+      "id": 13,
+      "question": "予測に反して、今年はあまり（　）が上がらなかった。",
+      "translation": "Trái ngược với dự báo, năm nay nhiệt độ không tăng lên nhiều.",
+      "answer": 2,
+      "options": [
+        {
+          "key": 1,
+          "text": "住民",
+          "reading": "じゅうみん",
+          "meaning": "Cư dân",
+          "explain": "Sai vì cư dân không 'tăng lên' theo nghĩa này."
+        },
+        {
+          "key": 2,
+          "text": "気温",
+          "reading": "きおん",
+          "meaning": "Nhiệt độ không khí",
+          "explain": "Đúng. Cụm '気温が上がる' nghĩa là nhiệt độ tăng cao."
+        },
+        {
+          "key": 3,
+          "text": "現在",
+          "reading": "げんざい",
+          "meaning": "Hiện tại",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "年間",
+          "reading": "ねんかん",
+          "meaning": "Cả năm",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 14,
+      "question": "彼女は小さいころから十数年にわたって、入院と（　）を繰り返している。",
+      "translation": "Cô ấy từ nhỏ trong suốt mười mấy năm trời đã liên tục lặp đi lặp lại việc nhập viện rồi lại xuất viện.",
+      "answer": 3,
+      "options": [
+        {
+          "key": 1,
+          "text": "依頼",
+          "reading": "いらい",
+          "meaning": "Nhờ vả, yêu cầu",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "迷子",
+          "reading": "まいご",
+          "meaning": "Trẻ lạc",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "退院",
+          "reading": "たいいん",
+          "meaning": "Xuất viện, ra viện",
+          "explain": "Đúng. Cặp từ đối ứng '入院と退院' chỉ quá trình vào viện và ra viện."
+        },
+        {
+          "key": 4,
+          "text": "騒音",
+          "reading": "そうおん",
+          "meaning": "Tiếng ồn",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 15,
+      "question": "敵国の首相が（　）することになり、緊張している。",
+      "translation": "Thủ tướng của nước đối địch sẽ có chuyến thăm ngoại giao nên mọi người đang rất căng thẳng.",
+      "answer": 1,
+      "options": [
+        {
+          "key": 1,
+          "text": "訪問",
+          "reading": "ほうもん",
+          "meaning": "Thăm viếng, công du",
+          "explain": "Đúng. Cụm '首相が訪問する' chỉ chuyến thăm chính thức của nguyên thủ quốc gia."
+        },
+        {
+          "key": 2,
+          "text": "退院",
+          "reading": "たいいん",
+          "meaning": "Xuất viện",
+          "explain": "Sai ngữ cảnh ngoại giao."
+        },
+        {
+          "key": 3,
+          "text": "承知",
+          "reading": "しょうち",
+          "meaning": "Hiểu rõ, chấp nhận",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "黒板",
+          "reading": "こくばん",
+          "meaning": "Bảng đen",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 16,
+      "question": "私と彼の考え方はよく（　）、気が合う。",
+      "translation": "Cách suy nghĩ của tôi và anh ấy rất giống nhau nên rất hợp cạ.",
+      "answer": 3,
+      "options": [
+        {
+          "key": 1,
+          "text": "下がって",
+          "reading": "さがって",
+          "meaning": "Giảm xuống",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "済んで",
+          "reading": "すんで",
+          "meaning": "Xong xuôi",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "似ていて",
+          "reading": "にていて",
+          "meaning": "Tương đồng, giống nhau",
+          "explain": "Đúng. Cụm '考え方が似ている' nghĩa là có tư duy/lối suy nghĩ tương đồng."
+        },
+        {
+          "key": 4,
+          "text": "騒いで",
+          "reading": "さわいで",
+          "meaning": "Làm ầm ĩ",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 17,
+      "question": "学費を（　）ためにアルバイトをする。",
+      "translation": "Tôi đi làm thêm để kiếm tiền trang trải học phí.",
+      "answer": 2,
+      "options": [
+        {
+          "key": 1,
+          "text": "殺す",
+          "reading": "ころす",
+          "meaning": "Giết hại",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "稼ぐ",
+          "reading": "かせぐ",
+          "meaning": "Kiếm (tiền)",
+          "explain": "Đúng. Cụm '学費を稼ぐ' nghĩa là đi làm để kiếm tiền đóng học phí."
+        },
+        {
+          "key": 3,
+          "text": "進める",
+          "reading": "すすめる",
+          "meaning": "Thúc đẩy",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "まとまる",
+          "reading": "まとまる",
+          "meaning": "Tập hợp lại",
+          "explain": "Sai ngữ pháp vì là tự động từ."
+        }
+      ]
+    },
+    {
+      "id": 18,
+      "question": "3日前に日本で大きな地震が起きてから、日本にいる友達と連絡が取れない。（　）かどうか分からない。",
+      "translation": "Kể từ khi trận động đất lớn xảy ra ở Nhật cách đây 3 ngày, tôi không liên lạc được với bạn mình. Không biết bạn ấy có được an toàn hay không.",
+      "answer": 2,
+      "options": [
+        {
+          "key": 1,
+          "text": "承知",
+          "reading": "しょうち",
+          "meaning": "Biết rõ",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "無事",
+          "reading": "ぶじ",
+          "meaning": "Bình an, vô sự, an toàn",
+          "explain": "Đúng. '無事かどうか' nghĩa là liệu có được bình an sau thảm họa hay không."
+        },
+        {
+          "key": 3,
+          "text": "迷子",
+          "reading": "まいご",
+          "meaning": "Lạc đường",
+          "explain": "Sai trong ngữ cảnh động đất."
+        },
+        {
+          "key": 4,
+          "text": "睡眠",
+          "reading": "すいみん",
+          "meaning": "Giấc ngủ",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 19,
+      "question": "図書館で（　）いけません。",
+      "translation": "Không được làm ầm ĩ/nói chuyện ồn ào trong thư viện.",
+      "answer": 4,
+      "options": [
+        {
+          "key": 1,
+          "text": "込んでは",
+          "reading": "こんでは",
+          "meaning": "Đông đúc",
+          "explain": "Sai vì là tự động từ trạng thái."
+        },
+        {
+          "key": 2,
+          "text": "引き受けては",
+          "reading": "ひきうけては",
+          "meaning": "Đảm nhận",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "言い返しては",
+          "reading": "いいかえしては",
+          "meaning": "Cãi lại",
+          "explain": "Sai ngữ cảnh nơi công cộng."
+        },
+        {
+          "key": 4,
+          "text": "騒いでは",
+          "reading": "さわいでは",
+          "meaning": "Làm ồn, ầm ĩ (cấu trúc 〜てはいけない)",
+          "explain": "Đúng. Cụm '図書館で騒いではいけない' nghĩa là cấm gây ồn ào ở thư viện."
+        }
+      ]
+    },
+    {
+      "id": 20,
+      "question": "（　）を見て、安いほうのスーパーまで買い物に行く。",
+      "translation": "Xem tờ rơi quảng cáo rồi đi đến siêu thị rẻ hơn để mua sắm.",
+      "answer": 3,
+      "options": [
+        {
+          "key": 1,
+          "text": "ルール",
+          "reading": "ルール",
+          "meaning": "Luật lệ",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "コース",
+          "reading": "コース",
+          "meaning": "Khóa học / Lộ trình",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "チラシ",
+          "reading": "チラシ",
+          "meaning": "Tờ rơi quảng cáo (siêu thị)",
+          "explain": "Đúng. 'チラシを見る' xem tờ rơi siêu thị để săn hàng giảm giá."
+        },
+        {
+          "key": 4,
+          "text": "メンバー",
+          "reading": "メンバー",
+          "meaning": "Thành viên",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    }
+  ]
+}

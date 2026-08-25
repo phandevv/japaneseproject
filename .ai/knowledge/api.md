@@ -429,5 +429,34 @@ Tài liệu này đặc tả toàn bộ danh sách REST API endpoints được x
 * **Xác thực**: Không yêu cầu (Public)
 * **Phản hồi thành công (200 OK)**: Đối tượng `GrammarCard`.
 
+---
+
+## 10. Module Khóa học JLPT N3 & Trắc nghiệm Bài học (JLPT N3 Course & Lesson Quiz)
+
+### A. Lấy tổng quan tiến độ khóa học N3
+* **Endpoint**: `GET /api/jlpt-n3/overview`
+* **Xác thực**: Tùy chọn (Yêu cầu Token để tính tiến độ cá nhân)
+
+### B. Lấy nội dung chi tiết bài học (Từ vựng, Hán tự, Ngữ pháp)
+* **Endpoint**: `GET /api/jlpt-n3/chapter/{chapter}/lesson/{lesson}`
+* **Xác thực**: Tùy chọn
+
+### C. Lấy 20 câu hỏi trắc nghiệm bài học (Lesson Quiz)
+* **Endpoint**: `GET /api/jlpt-n3/chapter/{chapter}/lesson/{lesson}/quiz`
+* **Xác thực**: Không yêu cầu (Lấy trực tiếp từ MongoDB collection `jlpt_n3_lesson_quizzes`)
+
+### D. Nộp bài trắc nghiệm 20 câu và cập nhật tiến độ Pass (100%)
+* **Endpoint**: `POST /api/jlpt-n3/chapter/{chapter}/lesson/{lesson}/quiz/submit`
+* **Xác thực**: Yêu cầu Token
+* **Request Body**:
+  ```json
+  {
+    "score": 20,
+    "total": 20
+  }
+  ```
+* **Quy tắc Pass**: Đạt đúng `score == total` (100% / 20/20 câu) sẽ đánh dấu `quizPassed: true` và `completed: true` trong Database.
+
+
 
 

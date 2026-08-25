@@ -1,0 +1,726 @@
+{
+  "chuong": 6,
+  "bai": 2,
+  "questions": [
+    {
+      "id": 1,
+      "question": "この果物の（　）は硬すぎて、むくのがとても大変だ。",
+      "translation": "Vỏ của loại quả này quá cứng nên việc gọt vỏ vô cùng vất vả.",
+      "answer": 4,
+      "options": [
+        {
+          "key": 1,
+          "text": "枝",
+          "reading": "えだ",
+          "meaning": "Cành cây",
+          "explain": "Sai vì cành cây không gọt vỏ ăn."
+        },
+        {
+          "key": 2,
+          "text": "帯",
+          "reading": "おび",
+          "meaning": "Thắt lưng Kimono",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "種",
+          "reading": "たね",
+          "meaning": "Hạt giống",
+          "explain": "Sai vì hạt không gọt vỏ (むく)."
+        },
+        {
+          "key": 4,
+          "text": "皮",
+          "reading": "かわ",
+          "meaning": "Vỏ (trái cây, động vật)",
+          "explain": "Đúng. Cụm '果物の皮をむく' nghĩa là gọt vỏ trái cây."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "question": "最近、SNSで妙な（　）が広がっている。",
+      "translation": "Dạo gần đây trên mạng xã hội đang lan truyền một tin đồn kỳ lạ.",
+      "answer": 4,
+      "options": [
+        {
+          "key": 1,
+          "text": "平和",
+          "reading": "へいわ",
+          "meaning": "Hòa bình",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "お詫び",
+          "reading": "おわび",
+          "meaning": "Lời xin lỗi",
+          "explain": "Sai vì không dùng với tính từ 妙な (kỳ lạ)."
+        },
+        {
+          "key": 3,
+          "text": "税込み",
+          "reading": "ぜいこみ",
+          "meaning": "Bao gồm thuế",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "うわさ",
+          "reading": "うわさ",
+          "meaning": "Tin đồn",
+          "explain": "Đúng. Cụm 'うわさが広がる' nghĩa là tin đồn lan rộng."
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "question": "この町の（　）は優しい人が多く、若い人からよく尊敬されている。",
+      "translation": "Người cao tuổi ở thị trấn này có nhiều người hiền hậu và rất được người trẻ kính trọng.",
+      "answer": 1,
+      "options": [
+        {
+          "key": 1,
+          "text": "老人",
+          "reading": "ろうじん",
+          "meaning": "Người già, người cao tuổi",
+          "explain": "Đúng. '町の老人' chỉ những người lớn tuổi trong vùng được giới trẻ kính trọng."
+        },
+        {
+          "key": 2,
+          "text": "違反",
+          "reading": "いはん",
+          "meaning": "Vi phạm",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "屋内",
+          "reading": "おくない",
+          "meaning": "Trong nhà",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "家事",
+          "reading": "かじ",
+          "meaning": "Việc nhà",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "question": "日本語の（　）を発揮できる会社に転職したい。",
+      "translation": "Tôi muốn chuyển sang công ty nơi mình có thể phát huy năng lực tiếng Nhật.",
+      "answer": 3,
+      "options": [
+        {
+          "key": 1,
+          "text": "書類",
+          "reading": "しょるい",
+          "meaning": "Tài liệu",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "通過",
+          "reading": "つうか",
+          "meaning": "Đi qua",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "能力",
+          "reading": "のうりょく",
+          "meaning": "Năng lực, khả năng",
+          "explain": "Đúng. Cụm '能力を発揮する' nghĩa là phát huy năng lực/tài năng vốn có."
+        },
+        {
+          "key": 4,
+          "text": "運賃",
+          "reading": "うんちん",
+          "meaning": "Tiền cước xe",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "question": "50年後には、（　）に戻る技術があるだろうか。もしあれば子供時代に戻ってみたい。",
+      "translation": "50 năm nữa liệu có công nghệ quay trở về quá khứ không nhỉ? Nếu có tôi muốn quay lại thời thơ ấu.",
+      "answer": 4,
+      "options": [
+        {
+          "key": 1,
+          "text": "比較",
+          "reading": "ひかく",
+          "meaning": "So sánh",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "外出",
+          "reading": "がいしゅつ",
+          "meaning": "Ra ngoài",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "うさぎ",
+          "reading": "うさぎ",
+          "meaning": "Con thỏ",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "過去",
+          "reading": "かこ",
+          "meaning": "Quá khứ",
+          "explain": "Đúng. Cụm '過去に戻る' nghĩa là quay ngược dòng thời gian về quá khứ."
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "question": "東京のバスは乗るときに（　）を払います。",
+      "translation": "Xe buýt ở Tokyo khi lên xe bạn sẽ phải trả tiền cước vé.",
+      "answer": 2,
+      "options": [
+        {
+          "key": 1,
+          "text": "税金",
+          "reading": "ぜいきん",
+          "meaning": "Tiền thuế",
+          "explain": "Sai vì đi xe buýt trả tiền cước."
+        },
+        {
+          "key": 2,
+          "text": "運賃",
+          "reading": "うんちん",
+          "meaning": "Tiền cước xe, vé tàu xe",
+          "explain": "Đúng. Cụm '運賃を払う' nghĩa là trả tiền cước vé xe buýt."
+        },
+        {
+          "key": 3,
+          "text": "貸し出し",
+          "reading": "かしだし",
+          "meaning": "Cho mượn",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "売り切れ",
+          "reading": "うりきれ",
+          "meaning": "Bán hết sạch",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "question": "（　）の上に車が入って、歩いている人とぶつかった。",
+      "translation": "Chiếc ô tô lao lên vỉa hè và đâm trúng người đi bộ.",
+      "answer": 4,
+      "options": [
+        {
+          "key": 1,
+          "text": "運動場",
+          "reading": "うんどうじょう",
+          "meaning": "Sân vận động",
+          "explain": "Sai vì không đối lập với người đi bộ trên đường."
+        },
+        {
+          "key": 2,
+          "text": "うわさ",
+          "reading": "うわさ",
+          "meaning": "Tin đồn",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "終わり",
+          "reading": "おわり",
+          "meaning": "Kết thúc",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "歩道",
+          "reading": "ほどう",
+          "meaning": "Vỉa hè, phần đường cho người đi bộ",
+          "explain": "Đúng. '歩道の上' là làn đường vỉa hè dành riêng cho người đi bộ."
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "question": "交通事故でけがをしたので、（　）へ行ってきた。",
+      "translation": "Vì bị thương do tai nạn giao thông nên tôi đã đi đến khoa ngoại khám.",
+      "answer": 3,
+      "options": [
+        {
+          "key": 1,
+          "text": "骨折",
+          "reading": "こっせつ",
+          "meaning": "Gãy xương",
+          "explain": "Sai vì là tên chấn thương chứ không phải địa điểm đến khám."
+        },
+        {
+          "key": 2,
+          "text": "診断",
+          "reading": "しんだん",
+          "meaning": "Chẩn đoán",
+          "explain": "Sai vì là hành động bác sĩ khám."
+        },
+        {
+          "key": 3,
+          "text": "外科",
+          "reading": "げか",
+          "meaning": "Khoa ngoại (bệnh viện)",
+          "explain": "Đúng. '外科へ行く' nghĩa là đi đến chuyên khoa ngoại điều trị chấn thương cơ thể."
+        },
+        {
+          "key": 4,
+          "text": "火傷",
+          "reading": "やけど",
+          "meaning": "Bỏng",
+          "explain": "Sai vì là tên vết thương."
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "question": "最近事件が多いので、子供を一人で（　）させないようにした。",
+      "translation": "Dạo gần đây xảy ra nhiều vụ án nên tôi cố gắng không để con ra ngoài một mình.",
+      "answer": 1,
+      "options": [
+        {
+          "key": 1,
+          "text": "外出",
+          "reading": "がいしゅつ",
+          "meaning": "Ra ngoài",
+          "explain": "Đúng. Cụm '一人で外出させない' nghĩa là không để trẻ nhỏ tự ý ra khỏi nhà một mình."
+        },
+        {
+          "key": 2,
+          "text": "思い込ませない",
+          "reading": "おもいこませない",
+          "meaning": "Không để đinh ninh nhầm",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "右折させない",
+          "reading": "うせつさせない",
+          "meaning": "Không cho rẽ phải",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "振り込ませない",
+          "reading": "ふりこませない",
+          "meaning": "Không cho chuyển khoản",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "question": "母親は毎日、（　）や子育てが忙しく、疲れきっている。",
+      "translation": "Mẹ tôi ngày nào cũng bận rộn với việc nhà và chăm sóc con cái nên kiệt cả sức.",
+      "answer": 3,
+      "options": [
+        {
+          "key": 1,
+          "text": "日程",
+          "reading": "にってい",
+          "meaning": "Lịch trình",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "老人",
+          "reading": "ろうじん",
+          "meaning": "Người già",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "家事",
+          "reading": "かじ",
+          "meaning": "Việc nhà, nội trợ",
+          "explain": "Đúng. Cặp từ '家事や子育て' chỉ công việc nội trợ và chăm sóc con nhỏ."
+        },
+        {
+          "key": 4,
+          "text": "火災",
+          "reading": "かさい",
+          "meaning": "Hỏa hoạn",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 11,
+      "question": "（　）にご飯が3粒残っている。",
+      "translation": "Trong bát cơm vẫn còn sót lại 3 hạt cơm.",
+      "answer": 2,
+      "options": [
+        {
+          "key": 1,
+          "text": "虫歯",
+          "reading": "むしば",
+          "meaning": "Sâu răng",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "お茶碗",
+          "reading": "おちゃわん",
+          "meaning": "Bát ăn cơm, chén cơm",
+          "explain": "Đúng. Cụm 'お茶碗にご飯が残る' nghĩa là cơm còn sót lại trong chén bát."
+        },
+        {
+          "key": 3,
+          "text": "おしまい",
+          "reading": "おしまい",
+          "meaning": "Hết, kết thúc",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "和食",
+          "reading": "わしょく",
+          "meaning": "Món Nhật",
+          "explain": "Sai vì là tên món ăn chứ không phải đồ đựng."
+        }
+      ]
+    },
+    {
+      "id": 12,
+      "question": "私は（　）が好きで、ベトナムに旅行した時には、日本にはない種類をたくさん食べた。",
+      "translation": "Tôi rất thích hoa quả nên khi đi du lịch Việt Nam tôi đã thưởng thức nhiều loại quả không có ở Nhật.",
+      "answer": 2,
+      "options": [
+        {
+          "key": 1,
+          "text": "マスク",
+          "reading": "マスク",
+          "meaning": "Khẩu trang",
+          "explain": "Sai vì khẩu trang không ăn được."
+        },
+        {
+          "key": 2,
+          "text": "フルーツ",
+          "reading": "フルーツ",
+          "meaning": "Trái cây, hoa quả (fruit)",
+          "explain": "Đúng. 'フルーツを食べる' chỉ việc thưởng thức các loại hoa quả nhiệt đới tại Việt Nam."
+        },
+        {
+          "key": 3,
+          "text": "移動",
+          "reading": "いどう",
+          "meaning": "Di chuyển",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "喧嘩",
+          "reading": "けんか",
+          "meaning": "Cãi vã, đánh nhau",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 13,
+      "question": "その人に興味がなくなったので、カフェの誘いを（　）。",
+      "translation": "Vì không còn hứng thú với người đó nữa nên tôi đã từ chối lời rủ đi cà phê.",
+      "answer": 3,
+      "options": [
+        {
+          "key": 1,
+          "text": "写った",
+          "reading": "うつった",
+          "meaning": "Chụp ảnh được",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "譲った",
+          "reading": "ゆずった",
+          "meaning": "Nhường lại",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "断った",
+          "reading": "ことわった",
+          "meaning": "Từ chối, khước từ",
+          "explain": "Đúng. Cụm '誘いを断る' nghĩa là từ chối lời mời rủ của người khác."
+        },
+        {
+          "key": 4,
+          "text": "折った",
+          "reading": "おった",
+          "meaning": "Bẻ gãy / Gấp",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 14,
+      "question": "前の部長に（　）、今の部長は私たちの意見をよく聞いてくれる。",
+      "translation": "So với vị trưởng phòng trước, trưởng phòng hiện tại rất chịu khó lắng nghe ý kiến của chúng tôi.",
+      "answer": 3,
+      "options": [
+        {
+          "key": 1,
+          "text": "驚いて",
+          "reading": "おどろいて",
+          "meaning": "Kinh ngạc",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "逆",
+          "reading": "ぎゃく",
+          "meaning": "Ngược lại",
+          "explain": "Sai ngữ pháp."
+        },
+        {
+          "key": 3,
+          "text": "比べて",
+          "reading": "くらべて",
+          "meaning": "So sánh (cấu trúc 〜に比べて)",
+          "explain": "Đúng. Cấu trúc '〜に比べて' nghĩa là so sánh với đối tượng trước đó."
+        },
+        {
+          "key": 4,
+          "text": "折れて",
+          "reading": "おれて",
+          "meaning": "Bị gãy",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 15,
+      "question": "予算が足りないので（　）ほしい。",
+      "translation": "Vì ngân sách không đủ nên tôi muốn được tăng thêm kinh phí.",
+      "answer": 4,
+      "options": [
+        {
+          "key": 1,
+          "text": "数えて",
+          "reading": "かぞえて",
+          "meaning": "Đếm",
+          "explain": "Sai vì đếm không làm tăng thêm ngân sách."
+        },
+        {
+          "key": 2,
+          "text": "炒めて",
+          "reading": "いため paint / いためて",
+          "meaning": "Xào",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "さっぱりして",
+          "reading": "さっぱりして",
+          "meaning": "Sảng khoái / Nhạt",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "増やして",
+          "reading": "ふやして",
+          "meaning": "Tăng thêm, bổ sung",
+          "explain": "Đúng. Cụm '予算を増やす' nghĩa là tăng thêm nguồn ngân sách khi bị thiếu hụt."
+        }
+      ]
+    },
+    {
+      "id": 16,
+      "question": "スマホを見ながら歩いていたら、怖い人に（　）。",
+      "translation": "Vừa đi vừa nhìn vào điện thoại nên tôi đã đâm sầm vào một người trông rất đáng sợ.",
+      "answer": 1,
+      "options": [
+        {
+          "key": 1,
+          "text": "ぶつかった",
+          "reading": "ぶつかった",
+          "meaning": "Đâm trúng, va phải",
+          "explain": "Đúng. Cụm '人にぶつかる' nghĩa là va quệt, đâm sầm vào người khác do không nhìn đường."
+        },
+        {
+          "key": 2,
+          "text": "通り過ぎた",
+          "reading": "とおりすぎた",
+          "meaning": "Đi lướt qua",
+          "explain": "Sai vì đi qua không gây va chạm nguy hiểm."
+        },
+        {
+          "key": 3,
+          "text": "酔っ払った",
+          "reading": "よっぱらった",
+          "meaning": "Say rượu",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "支払った",
+          "reading": "しはらった",
+          "meaning": "Thanh toán",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 17,
+      "question": "肉に火が通るまで、よく（　）ください。",
+      "translation": "Hãy xào thật kỹ cho đến khi thịt chín đều nhé.",
+      "answer": 3,
+      "options": [
+        {
+          "key": 1,
+          "text": "ディスカウントして",
+          "reading": "ディスカウントして",
+          "meaning": "Giảm giá",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "間違えて",
+          "reading": "まちがえて",
+          "meaning": "Nhầm lẫn",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "炒めて",
+          "reading": "いため te / いためて",
+          "meaning": "Xào, đảo trên chảo",
+          "explain": "Đúng. Cụm '肉を炒める' nghĩa là xào thịt trên lửa cho chín."
+        },
+        {
+          "key": 4,
+          "text": "歯磨きして",
+          "reading": "はみがきして",
+          "meaning": "Đánh răng",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 18,
+      "question": "日本では、（　）うすい味の料理が好まれることが多い。",
+      "translation": "Ở Nhật Bản, nhìn chung các món ăn thanh đạm, vị nhạt thường được ưa chuộng nhiều hơn.",
+      "answer": 4,
+      "options": [
+        {
+          "key": 1,
+          "text": "飾り",
+          "reading": "かざり",
+          "meaning": "Đồ trang trí",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "おんぶ",
+          "reading": "おんぶ",
+          "meaning": "Cõng",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "定期的",
+          "reading": "ていきてき",
+          "meaning": "Mang tính định kỳ",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "比較的",
+          "reading": "ひかくてき",
+          "meaning": "Tương đối, nhìn chung",
+          "explain": "Đúng. Phó từ '比較的' nghĩa là tương đối, mang tính khái quát khi so sánh chung."
+        }
+      ]
+    },
+    {
+      "id": 19,
+      "question": "法律に（　）するようなことをしてはいけません。",
+      "translation": "Không được làm những việc mang tính vi phạm pháp luật.",
+      "answer": 3,
+      "options": [
+        {
+          "key": 1,
+          "text": "左折",
+          "reading": "させつ",
+          "meaning": "Rẽ trái",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "比較",
+          "reading": "ひかく",
+          "meaning": "So sánh",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "違反",
+          "reading": "いはん",
+          "meaning": "Vi phạm",
+          "explain": "Đúng. Cụm '法律に違反する' nghĩa là vi phạm pháp luật, phạm luật."
+        },
+        {
+          "key": 4,
+          "text": "逆に",
+          "reading": "ぎゃくに",
+          "meaning": "Ngược lại",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 20,
+      "question": "予選を（　）、全国大会に出場する。",
+      "translation": "Vượt qua vòng loại để tham dự giải đấu toàn quốc.",
+      "answer": 2,
+      "options": [
+        {
+          "key": 1,
+          "text": "すれ違って",
+          "reading": "すれちがって",
+          "meaning": "Đi lướt qua nhau",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "通過して",
+          "reading": "つうかして",
+          "meaning": "Vượt qua, thông qua",
+          "explain": "Đúng. Cụm '予選を通過する' nghĩa là vượt qua vòng sơ loại trong thể thao/thi đấu."
+        },
+        {
+          "key": 3,
+          "text": "能力して",
+          "reading": "のうりょくして",
+          "meaning": "Năng lực",
+          "explain": "Sai ngữ pháp vì không phải động từ."
+        },
+        {
+          "key": 4,
+          "text": "増えて",
+          "reading": "ふえて",
+          "meaning": "Tăng lên",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,726 @@
+{
+  "chuong": 4,
+  "bai": 3,
+  "questions": [
+    {
+      "id": 1,
+      "question": "本棚には、読みかけの本が（　）ある。",
+      "translation": "Trên giá sách có nhiều cuốn sách đang đọc dở.",
+      "answer": 2,
+      "options": [
+        {
+          "key": 1,
+          "text": "路面",
+          "reading": "ろめん",
+          "meaning": "Mặt đường",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "複数",
+          "reading": "ふくすう",
+          "meaning": "Nhiều, số lượng từ 2 trở lên",
+          "explain": "Đúng. '本が複数ある' nghĩa là có nhiều cuốn sách."
+        },
+        {
+          "key": 3,
+          "text": "募集",
+          "reading": "ぼしゅう",
+          "meaning": "Tuyển mộ, tuyển sinh",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "複雑",
+          "reading": "ふくざつ",
+          "meaning": "Phức tạp",
+          "explain": "Sai vì không dùng để đếm số lượng sách."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "question": "アボカドを食べて（　）が痛くなってしまったので、これからは食べない方がいいと思う。",
+      "translation": "Ăn bơ xong bị đau bụng nên tôi nghĩ từ giờ tốt nhất không nên ăn nữa.",
+      "answer": 4,
+      "options": [
+        {
+          "key": 1,
+          "text": "涙",
+          "reading": "なみだ",
+          "meaning": "Nước mắt",
+          "explain": "Sai vì nước mắt không bị đau."
+        },
+        {
+          "key": 2,
+          "text": "腰",
+          "reading": "こし",
+          "meaning": "Thắt lưng",
+          "explain": "Sai vì ăn uống thường gây đau bụng hơn đau lưng."
+        },
+        {
+          "key": 3,
+          "text": "往復",
+          "reading": "おうふく",
+          "meaning": "Khứ hồi",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "お腹",
+          "reading": "おなか",
+          "meaning": "Bụng",
+          "explain": "Đúng. Cụm 'お腹が痛くなる' chỉ triệu chứng đau bụng do dị ứng thức ăn."
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "question": "5回ぐらいデートしてから、彼の本当の（　）が見えてきた。",
+      "translation": "Sau khoảng 5 lần hẹn hò, tôi dần nhìn thấy được tính cách thật của anh ấy.",
+      "answer": 4,
+      "options": [
+        {
+          "key": 1,
+          "text": "借金",
+          "reading": "しゃっきん",
+          "meaning": "Khoản nợ",
+          "explain": "Sai ngữ cảnh khám phá con người."
+        },
+        {
+          "key": 2,
+          "text": "失敗",
+          "reading": "しっぱい",
+          "meaning": "Thất bại",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "各自",
+          "reading": "かくじ",
+          "meaning": "Mỗi người",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "性格",
+          "reading": "せいかく",
+          "meaning": "Tính cách, bản tính",
+          "explain": "Đúng. Cụm '本当の性格が見えてくる' nghĩa là bộc lộ rõ tính cách thật sau thời gian tiếp xúc."
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "question": "今回は（　）になってしまったが、苦手な部分に集中して勉強すれば次は絶対合格できる。",
+      "translation": "Lần này dù bị trượt/không đỗ nhưng nếu tập trung ôn kỹ phần còn yếu thì lần tới chắc chắn sẽ đỗ.",
+      "answer": 3,
+      "options": [
+        {
+          "key": 1,
+          "text": "失業",
+          "reading": "しつぎょう",
+          "meaning": "Thất nghiệp",
+          "explain": "Sai vì vế sau nói về việc thi đỗ (合格)."
+        },
+        {
+          "key": 2,
+          "text": "合格",
+          "reading": "ごうかく",
+          "meaning": "Đỗ, trúng tuyển",
+          "explain": "Sai vì nếu đã đỗ thì không cần khuyên cố gắng lần sau."
+        },
+        {
+          "key": 3,
+          "text": "不合格",
+          "reading": "ふごうかく",
+          "meaning": "Không đỗ, trượt kỳ thi",
+          "explain": "Đúng. Từ trái nghĩa trực tiếp đối lập với '合格' (thi đỗ)."
+        },
+        {
+          "key": 4,
+          "text": "完全",
+          "reading": "かんぜん",
+          "meaning": "Hoàn toàn",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "question": "（　）の上で子供が遊んでいたので、全ての電車を止めなければならなかった。",
+      "translation": "Vì có đứa trẻ đang chơi đùa trên đường ray nên tất cả các chuyến tàu đều phải dừng lại khẩn cấp.",
+      "answer": 1,
+      "options": [
+        {
+          "key": 1,
+          "text": "線路",
+          "reading": "せんろ",
+          "meaning": "Đường ray tàu hỏa",
+          "explain": "Đúng. Trẻ em chơi trên '線路' dẫn tới phải dừng toàn bộ tàu hỏa (電車を止める)."
+        },
+        {
+          "key": 2,
+          "text": "道路",
+          "reading": "どうろ",
+          "meaning": "Đường bộ",
+          "explain": "Sai vì tàu hỏa không chạy trên đường bộ."
+        },
+        {
+          "key": 3,
+          "text": "混雑",
+          "reading": "こんざつ",
+          "meaning": "Đông đúc",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "高速道路",
+          "reading": "こうそくどうろ",
+          "meaning": "Đường cao tốc",
+          "explain": "Sai vì tàu hỏa không chạy trên cao tốc."
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "question": "A: この前、道を間違えて（　）に入りかけちゃったんだ。\nB: 危なかったね。気が付いてよかったよ。",
+      "translation": "A: Hôm trước mình đi nhầm đường suýt nữa thì phi vào đường cao tốc.\nB: Nguy hiểm thật đấy. May mà cậu nhận ra kịp thời.",
+      "answer": 2,
+      "options": [
+        {
+          "key": 1,
+          "text": "路面",
+          "reading": "ろめん",
+          "meaning": "Mặt đường",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "高速道路",
+          "reading": "こうそくどうろ",
+          "meaning": "Đường cao tốc",
+          "explain": "Đúng. Người đi nhầm (đi xe máy nhỏ/xe đạp) suýt đi vào đường cao tốc gây nguy hiểm."
+        },
+        {
+          "key": 3,
+          "text": "乗客",
+          "reading": "じょうきゃく",
+          "meaning": "Hành khách",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "観光",
+          "reading": "かんこう",
+          "meaning": "Tham quan",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "question": "（　）を拾ってもらって、感謝しきれない気持ちだ。",
+      "translation": "Được người khác nhặt được đồ đánh rơi trả lại, tôi vô cùng biết ơn không sao tả xiết.",
+      "answer": 4,
+      "options": [
+        {
+          "key": 1,
+          "text": "借金",
+          "reading": "しゃっきん",
+          "meaning": "Món nợ",
+          "explain": "Sai vì nợ không phải là thứ đánh rơi được."
+        },
+        {
+          "key": 2,
+          "text": "各地",
+          "reading": "かくち",
+          "meaning": "Các nơi",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "両替",
+          "reading": "りょうがえ",
+          "meaning": "Đổi tiền",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "落とし物",
+          "reading": "おとしもの",
+          "meaning": "Đồ đánh rơi, của rơi",
+          "explain": "Đúng. Cụm '落とし物を拾ってもらう' nghĩa là được người khác nhặt và trả lại đồ đánh rơi."
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "question": "どうして玉ねぎを切っていると、よく（　）が出るんだろう。",
+      "translation": "Tại sao khi thái hành tây thì nước mắt lại thường hay chảy ra nhỉ?",
+      "answer": 1,
+      "options": [
+        {
+          "key": 1,
+          "text": "涙",
+          "reading": "なみだ",
+          "meaning": "Nước mắt",
+          "explain": "Đúng. Cụm '涙が出る' chỉ phản ứng cay mắt, chảy nước mắt khi thái hành."
+        },
+        {
+          "key": 2,
+          "text": "石油",
+          "reading": "せきゆ",
+          "meaning": "Dầu mỏ",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "化粧",
+          "reading": "けしょう",
+          "meaning": "Trang điểm",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "賛成",
+          "reading": "さんせい",
+          "meaning": "Tán thành",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "question": "冷蔵庫にあった妹の（　）を食べてしまったので、妹にアイスクリームを買ってやることにした。",
+      "translation": "Vì tôi đã lỡ ăn mất miếng bánh pizza của em gái để trong tủ lạnh nên tôi quyết định mua kem bù cho em.",
+      "answer": 1,
+      "options": [
+        {
+          "key": 1,
+          "text": "ピザ",
+          "reading": "ピザ",
+          "meaning": "Bánh Pizza",
+          "explain": "Đúng. Món ăn để trong tủ lạnh có thể ăn được."
+        },
+        {
+          "key": 2,
+          "text": "スープ",
+          "reading": "スープ",
+          "meaning": "Súp",
+          "explain": "Sai vì hình ảnh hiển thị rõ từ ピザ ở đáp án 1."
+        },
+        {
+          "key": 3,
+          "text": "カーブ",
+          "reading": "カーブ",
+          "meaning": "Khúc cua",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "タオル",
+          "reading": "タオル",
+          "meaning": "Khăn tắm",
+          "explain": "Sai vì khăn không ăn được."
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "question": "かばんを置いたままトイレに行くなんて、（　）な人だな。",
+      "translation": "Cứ để túi xách ở lại rồi đi vệ sinh quả là một người bất cẩn/sơ ý thật đấy.",
+      "answer": 4,
+      "options": [
+        {
+          "key": 1,
+          "text": "大人しい",
+          "reading": "おとなしい",
+          "meaning": "Hiền lành, trầm tính",
+          "explain": "Sai vì không liên quan đến việc bảo quản tài sản."
+        },
+        {
+          "key": 2,
+          "text": "ユーモア",
+          "reading": "ユーモア",
+          "meaning": "Hài hước",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "落ち着く",
+          "reading": "おちつく",
+          "meaning": "Bình tĩnh",
+          "explain": "Sai ngữ pháp vì là động từ."
+        },
+        {
+          "key": 4,
+          "text": "不注意",
+          "reading": "ふちゅうい",
+          "meaning": "Bất cẩn, không chú ý",
+          "explain": "Đúng. Cụm '不注意な人' chỉ người cẩu thả, thiếu cẩn thận trong việc bảo quản đồ đạc."
+        }
+      ]
+    },
+    {
+      "id": 11,
+      "question": "将来、この小さな子供が何に（　）になるか楽しみだ。でもゲームだけはして欲しくない。",
+      "translation": "Thật mong chờ xem tương lai đứa bé này sẽ say mê với điều gì. Nhưng riêng chơi game thì tôi không muốn chút nào.",
+      "answer": 2,
+      "options": [
+        {
+          "key": 1,
+          "text": "途中",
+          "reading": "とちゅう",
+          "meaning": "Giữa chừng",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "夢中",
+          "reading": "むちゅう",
+          "meaning": "Say mê, miệt mài",
+          "explain": "Đúng. Cụm '〜に夢中になる' nghĩa là trở nên say mê, đắm chìm vào lĩnh vực nào đó."
+        },
+        {
+          "key": 3,
+          "text": "共通",
+          "reading": "きょうつう",
+          "meaning": "Chung, phổ biến",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "思い出",
+          "reading": "おもいで",
+          "meaning": "Kỷ niệm",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 12,
+      "question": "コンサートには、（　）きれない数の観客が来た。",
+      "translation": "Buổi hòa nhạc đã có lượng khán giả đông đến mức không thể đếm xuể kéo đến.",
+      "answer": 4,
+      "options": [
+        {
+          "key": 1,
+          "text": "散らし",
+          "reading": "ちらし",
+          "meaning": "Làm rơi rụng",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "蹴り",
+          "reading": "けり",
+          "meaning": "Đá",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "凍り",
+          "reading": "こおり",
+          "meaning": "Đóng băng",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "数え",
+          "reading": "かぞえ",
+          "meaning": "Đếm (cấu trúc 〜きれない)",
+          "explain": "Đúng. Cụm '数えきれない' nghĩa là không thể đếm xuể số lượng khán giả quá đông."
+        }
+      ]
+    },
+    {
+      "id": 13,
+      "question": "各駅停車の電車に乗りきらなかった乗客が、駅のホームに（　）いる。",
+      "translation": "Những hành khách không lên vừa chuyến tàu dừng ở mọi ga đang đứng tràn ngập trên sân ga.",
+      "answer": 3,
+      "options": [
+        {
+          "key": 1,
+          "text": "替えて",
+          "reading": "かえて",
+          "meaning": "Thay đổi",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "散って",
+          "reading": "ちって",
+          "meaning": "Rơi rụng, tan biến",
+          "explain": "Sai vì dùng cho hoa lá rơi rụng."
+        },
+        {
+          "key": 3,
+          "text": "あふれて",
+          "reading": "あふれて",
+          "meaning": "Tràn ra, tràn ngập",
+          "explain": "Đúng. Cụm 'ホームにあふれている' chỉ cảnh tượng hành khách đứng đông nghẹt, tràn ngập sân ga."
+        },
+        {
+          "key": 4,
+          "text": "落ちて",
+          "reading": "おちて",
+          "meaning": "Rơi xuống",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 14,
+      "question": "花が枯れかけているから、（　）。",
+      "translation": "Hoa sắp héo tàn rồi nên hãy thay hoa mới đi thôi.",
+      "answer": 2,
+      "options": [
+        {
+          "key": 1,
+          "text": "生やそう",
+          "reading": "はやそう",
+          "meaning": "Để mọc (râu/tóc)",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "替えよう",
+          "reading": "かえよう",
+          "meaning": "Thay mới",
+          "explain": "Đúng. '花を替える' nghĩa là thay bình hoa mới khi hoa cũ sắp héo."
+        },
+        {
+          "key": 3,
+          "text": "散らかそう",
+          "reading": "ちらかそう",
+          "meaning": "Bày bừa ra",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "替わろう",
+          "reading": "かわろう",
+          "meaning": "Thay phiên (tự động từ)",
+          "explain": "Sai ngữ pháp vì cần tha động từ."
+        }
+      ]
+    },
+    {
+      "id": 15,
+      "question": "パソコンの電源がつかなくなったので、6年ぶりに新しいパソコンに（　）ことにした。",
+      "translation": "Vì máy tính không lên nguồn nữa nên sau 6 năm tôi quyết định đổi mua máy tính mới.",
+      "answer": 1,
+      "options": [
+        {
+          "key": 1,
+          "text": "買い替える",
+          "reading": "かいかえる",
+          "meaning": "Mua đổi mới (đồ cũ hỏng sang đồ mới)",
+          "explain": "Đúng. '新しいパソコンに買い替える' nghĩa là mua máy tính mới để thay thế máy cũ."
+        },
+        {
+          "key": 2,
+          "text": "取り替える",
+          "reading": "とりかえる",
+          "meaning": "Đổi lại (hàng lỗi)",
+          "explain": "Sai vì máy đã dùng 6 năm rồi không phải đổi trả."
+        },
+        {
+          "key": 3,
+          "text": "払い戻す",
+          "reading": "はらいもどす",
+          "meaning": "Hoàn tiền",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "飛び出す",
+          "reading": "とびだす",
+          "meaning": "Lao ra ngoài",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 16,
+      "question": "この前インターネットで化粧品を買いましたが、誰かの使いかけだったので、新しいものと（　）もらいました。",
+      "translation": "Hôm trước tôi mua mỹ phẩm qua mạng nhưng lại là món ai đó đã dùng dở nên tôi đã được đổi cho món mới.",
+      "answer": 4,
+      "options": [
+        {
+          "key": 1,
+          "text": "足して",
+          "reading": "たして",
+          "meaning": "Cộng thêm vào",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "買い替えて",
+          "reading": "かいかえて",
+          "meaning": "Mua mới",
+          "explain": "Sai vì lỗi do bên bán nên phải đổi hàng miễn phí."
+        },
+        {
+          "key": 3,
+          "text": "失って",
+          "reading": "うしなって",
+          "meaning": "Đánh mất",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "取り替えて",
+          "reading": "とりかえて",
+          "meaning": "Đổi trả lấy cái khác",
+          "explain": "Đúng. '新しいものと取り替えてもらう' nghĩa là được đổi sang sản phẩm mới nguyên seal."
+        }
+      ]
+    },
+    {
+      "id": 17,
+      "question": "本棚から本を出したら、出しっぱなしにしないで、元の場所に（　）おいてくださいね。",
+      "translation": "Khi lấy sách từ giá sách ra thì đừng để bừa bãi thế, hãy để lại vào vị trí ban đầu nhé.",
+      "answer": 2,
+      "options": [
+        {
+          "key": 1,
+          "text": "払い戻して",
+          "reading": "はらいもどして",
+          "meaning": "Hoàn tiền",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "戻して",
+          "reading": "もどして",
+          "meaning": "Để lại chỗ cũ (tha động từ)",
+          "explain": "Đúng. Cụm '元の場所に戻しておく' nghĩa là đặt lại đồ vật về vị trí ban đầu."
+        },
+        {
+          "key": 3,
+          "text": "戻って",
+          "reading": "もどって",
+          "meaning": "Quay về (tự động từ)",
+          "explain": "Sai ngữ pháp vì cần tha động từ tác động lên quyển sách."
+        },
+        {
+          "key": 4,
+          "text": "隠れて",
+          "reading": "かくれて",
+          "meaning": "Trốn, ẩn nấp",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 18,
+      "question": "東京から千葉までの（　）の電車で、行きも帰りもずっと立ちっぱなしだった。",
+      "translation": "Trên chuyến tàu khứ hồi từ Tokyo đến Chiba, cả lượt đi lẫn lượt về tôi đều phải đứng suốt.",
+      "answer": 2,
+      "options": [
+        {
+          "key": 1,
+          "text": "夢",
+          "reading": "ゆめ",
+          "meaning": "Giấc mơ",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "往復",
+          "reading": "おうふく",
+          "meaning": "Khứ hồi, cả đi lẫn về",
+          "explain": "Đúng. Cụm '往復の電車' chỉ cả hai chiều đi và về (行きも帰りも)."
+        },
+        {
+          "key": 3,
+          "text": "複数",
+          "reading": "ふくすう",
+          "meaning": "Số nhiều",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "応募",
+          "reading": "おうぼ",
+          "meaning": "Ứng tuyển",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 19,
+      "question": "2回や3回（　）したからといって諦めていたら、絶対に成功なんかできないよ。",
+      "translation": "Nếu chỉ vì thất bại đôi ba lần mà đã bỏ cuộc thì tuyệt đối không thể thành công được đâu.",
+      "answer": 3,
+      "options": [
+        {
+          "key": 1,
+          "text": "失業",
+          "reading": "しつぎょう",
+          "meaning": "Thất nghiệp",
+          "explain": "Sai vì từ rộng hơn nói về nỗ lực là thất bại."
+        },
+        {
+          "key": 2,
+          "text": "不合格",
+          "reading": "ふごうかく",
+          "meaning": "Không đỗ",
+          "explain": "Sai vì chỉ dùng riêng cho thi cử, trong khi vế sau là thành công trong cuộc sống."
+        },
+        {
+          "key": 3,
+          "text": "失敗",
+          "reading": "しっぱい",
+          "meaning": "Thất bại",
+          "explain": "Đúng. '失敗したからといって' là bài học về sự kiên trì vượt qua thất bại để thành công."
+        },
+        {
+          "key": 4,
+          "text": "不可能",
+          "reading": "ふかのう",
+          "meaning": "Bất khả thi",
+          "explain": "Sai ngữ pháp vì không đi với động từ する."
+        }
+      ]
+    },
+    {
+      "id": 20,
+      "question": "もし（　）したら、田舎に帰ってカフェを開こうと思っている。",
+      "translation": "Nếu bị thất nghiệp thì tôi dự định sẽ về quê mở quán cà phê.",
+      "answer": 4,
+      "options": [
+        {
+          "key": 1,
+          "text": "我慢",
+          "reading": "がまん",
+          "meaning": "Chịu đựng",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "冗談",
+          "reading": "じょうだん",
+          "meaning": "Nói đùa",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "復習",
+          "reading": "ふくしゅう",
+          "meaning": "Ôn tập",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "失業",
+          "reading": "しつぎょう",
+          "meaning": "Thất nghiệp, mất việc",
+          "explain": "Đúng. 'もし失業したら' chỉ giả định bị mất việc làm ở thành phố thì về quê mở tiệm kinh doanh."
+        }
+      ]
+    }
+  ]
+}

@@ -31,6 +31,9 @@ public class JlptN3Progress {
     @Column(name = "grammar_passed")
     private Boolean grammarPassed = false;
 
+    @Column(name = "quiz_passed")
+    private Boolean quizPassed = false;
+
     @Column(name = "completed", nullable = false)
     private Boolean completed = false;
 
@@ -123,6 +126,14 @@ public class JlptN3Progress {
 
     public void setGrammarPassed(Boolean grammarPassed) {
         this.grammarPassed = grammarPassed;
+    }
+
+    public Boolean getQuizPassed() {
+        return quizPassed != null ? quizPassed : false;
+    }
+
+    public void setQuizPassed(Boolean quizPassed) {
+        this.quizPassed = quizPassed;
     }
 
     public Boolean getCompleted() {

@@ -1,0 +1,726 @@
+{
+  "chuong": 1,
+  "bai": 2,
+  "questions": [
+    {
+      "id": 1,
+      "question": "（ ）の席は人気があり、値段も少し高い。",
+      "translation": "Chỗ ngồi phía cửa sổ rất được ưa chuộng và giá cũng đắt hơn một chút.",
+      "answer": 1,
+      "options": [
+        {
+          "key": 1,
+          "text": "窓側",
+          "reading": "まどがわ",
+          "meaning": "Phía cửa sổ",
+          "explain": "Đúng. Cụm '窓側の席' chỉ ghế ngồi cạnh cửa sổ trên tàu xe/máy bay."
+        },
+        {
+          "key": 2,
+          "text": "裏側",
+          "reading": "うらがわ",
+          "meaning": "Mặt sau, phía sau",
+          "explain": "Sai vì không dùng để chỉ vị trí chỗ ngồi."
+        },
+        {
+          "key": 3,
+          "text": "測定",
+          "reading": "そくてい",
+          "meaning": "Đo lường",
+          "explain": "Sai vì là danh từ chỉ hoạt động đo lường kỹ thuật."
+        },
+        {
+          "key": 4,
+          "text": "規則",
+          "reading": "きそく",
+          "meaning": "Quy tắc, nội quy",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "question": "A:「（ ）する」ってどういう意味ですか。\nB: 着くという意味ですよ。",
+      "translation": "A: ''Đến nơi' có nghĩa là gì vậy?'\nB: 'Nghĩa là đến nơi (着く) đấy.'",
+      "answer": 2,
+      "options": [
+        {
+          "key": 1,
+          "text": "制限",
+          "reading": "せいげん",
+          "meaning": "Hạn chế, giới hạn",
+          "explain": "Sai vì không đồng nghĩa với '着く'."
+        },
+        {
+          "key": 2,
+          "text": "到着",
+          "reading": "とうちゃく",
+          "meaning": "Đến nơi, cập bến",
+          "explain": "Đúng. '到着する' đồng nghĩa với '着く' (đến nơi)."
+        },
+        {
+          "key": 3,
+          "text": "判断",
+          "reading": "はんだん",
+          "meaning": "Phán đoán, đánh giá",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "競争",
+          "reading": "きょうそう",
+          "meaning": "Cạnh tranh, thi đua",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "question": "父が病気で（ ）しまったので、私が父の代わりに仕事をすることになった。",
+      "translation": "Vì bố tôi bị ngã bệnh nên tôi phải làm việc thay cho bố.",
+      "answer": 4,
+      "options": [
+        {
+          "key": 1,
+          "text": "切れて",
+          "reading": "きれて",
+          "meaning": "Bị đứt, hết hạn",
+          "explain": "Sai vì không đi với bệnh tật."
+        },
+        {
+          "key": 2,
+          "text": "始めて",
+          "reading": "はじめて",
+          "meaning": "Bắt đầu",
+          "explain": "Sai ngữ pháp và cấu trúc ngữ nghĩa."
+        },
+        {
+          "key": 3,
+          "text": "争って",
+          "reading": "あらそって",
+          "meaning": "Tranh giành, cãi cọ",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "倒れて",
+          "reading": "たおれて",
+          "meaning": "Ngã xuống, đổ bệnh",
+          "explain": "Đúng. Cụm '病気で倒れる' nghĩa là bị ngã bệnh, gục ngã vì ốm đau."
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "question": "A:「（ ）」とは、どういう意味ですか。\nB:「（ ）」というのは、会社のお金がなくなって、会社がなくなることです。",
+      "translation": "A: ''Phá sản' có nghĩa là gì?'\nB: ''Phá sản' nghĩa là công ty hết sạch tiền và bị giải thể.'",
+      "answer": 3,
+      "options": [
+        {
+          "key": 1,
+          "text": "刀",
+          "reading": "かたな",
+          "meaning": "Thanh kiếm, con dao",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "初心者",
+          "reading": "しょしんしゃ",
+          "meaning": "Người mới bắt đầu",
+          "explain": "Sai vì chỉ người mới tập tành làm điều gì đó."
+        },
+        {
+          "key": 3,
+          "text": "倒産",
+          "reading": "とうさん",
+          "meaning": "Phá sản",
+          "explain": "Đúng. '倒産' là hiện tượng doanh nghiệp khánh kiệt tài chính và dừng hoạt động."
+        },
+        {
+          "key": 4,
+          "text": "作業",
+          "reading": "さぎょう",
+          "meaning": "Công việc, thao tác",
+          "explain": "Sai vì chỉ hoạt động lao động, vận hành."
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "question": "（ ）問題が起きて、頭が痛い。",
+      "translation": "Xảy ra vấn đề phiền phức khiến tôi đau cả đầu.",
+      "answer": 1,
+      "options": [
+        {
+          "key": 1,
+          "text": "面倒くさい",
+          "reading": "めんどうくさい",
+          "meaning": "Phiền phức, rắc rối",
+          "explain": "Đúng. Bổ nghĩa cho vấn đề rắc rối phát sinh gây đau đầu."
+        },
+        {
+          "key": 2,
+          "text": "楽しい",
+          "reading": "たのしい",
+          "meaning": "Vui vẻ",
+          "explain": "Sai vì việc vui vẻ không gây ra 'đau đầu' (頭が痛い)."
+        },
+        {
+          "key": 3,
+          "text": "固い",
+          "reading": "かたい",
+          "meaning": "Cứng, rắn chắc",
+          "explain": "Sai vì không bổ nghĩa cho từ '問題'."
+        },
+        {
+          "key": 4,
+          "text": "狭い",
+          "reading": "せまい",
+          "meaning": "Hẹp, chật chội",
+          "explain": "Sai vì chỉ diện tích, không gian."
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "question": "この（ ）は、夫婦で育児をするんだって。",
+      "translation": "Nghe nói loài sinh vật này thì cả cặp đôi bố mẹ cùng nhau chăm sóc con cái.",
+      "answer": 4,
+      "options": [
+        {
+          "key": 1,
+          "text": "年賀状",
+          "reading": "ねんがじょう",
+          "meaning": "Thiệp chúc tết",
+          "explain": "Sai vì đồ vật không thể thực hiện hành vi nuôi con."
+        },
+        {
+          "key": 2,
+          "text": "和菓子",
+          "reading": "わがし",
+          "meaning": "Bánh kẹo truyền thống Nhật",
+          "explain": "Sai vì là đồ ăn."
+        },
+        {
+          "key": 3,
+          "text": "パスタ",
+          "reading": "パスタ",
+          "meaning": "Mì Ý",
+          "explain": "Sai vì là món ăn."
+        },
+        {
+          "key": 4,
+          "text": "生き物",
+          "reading": "いきもの",
+          "meaning": "Sinh vật, loài vật",
+          "explain": "Đúng. Dùng làm chủ ngữ cho tập tính nuôi con (育児をする)."
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "question": "イギリスの大学を（ ）したいと思っている。",
+      "translation": "Tôi đang dự định thi vào một trường đại học ở Anh.",
+      "answer": 2,
+      "options": [
+        {
+          "key": 1,
+          "text": "商品券",
+          "reading": "しょうひんけん",
+          "meaning": "Phiếu mua hàng",
+          "explain": "Sai vì là danh từ đồ vật."
+        },
+        {
+          "key": 2,
+          "text": "受験",
+          "reading": "じゅけん",
+          "meaning": "Dự thi, thi tuyển",
+          "explain": "Đúng. Cụm '大学を受験する' nghĩa là tham gia thi tuyển vào trường đại học."
+        },
+        {
+          "key": 3,
+          "text": "行動",
+          "reading": "こうどう",
+          "meaning": "Hành động",
+          "explain": "Sai vì không đi với tân ngữ '大学を'."
+        },
+        {
+          "key": 4,
+          "text": "関係",
+          "reading": "かんけい",
+          "meaning": "Quan hệ, liên quan",
+          "explain": "Sai ngữ pháp và nghĩa."
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "question": "（ ）っていくらですか。",
+      "translation": "Tiền vé vào cửa là bao nhiêu tiền vậy ạ?",
+      "answer": 3,
+      "options": [
+        {
+          "key": 1,
+          "text": "センター",
+          "reading": "センター",
+          "meaning": "Trung tâm",
+          "explain": "Sai vì trung tâm là địa điểm, không dùng để hỏi 'giá bao nhiêu'."
+        },
+        {
+          "key": 2,
+          "text": "事件",
+          "reading": "じけん",
+          "meaning": "Vụ án, sự cố",
+          "explain": "Sai vì vụ án không có giá tiền."
+        },
+        {
+          "key": 3,
+          "text": "入場料",
+          "reading": "にゅうじょうりょう",
+          "meaning": "Phí vào cửa, vé vào cổng",
+          "explain": "Đúng. Đi với câu hỏi giá tiền 'いくらですか'."
+        },
+        {
+          "key": 4,
+          "text": "育児",
+          "reading": "いくじ",
+          "meaning": "Nuôi dạy con cái",
+          "explain": "Sai vì là hoạt động chăm sóc con trẻ."
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "question": "（ ）な発言が原因で、部長が会社を辞めさせられた。",
+      "translation": "Do phát ngôn vô trách nhiệm mà trưởng phòng đã bị công ty buộc thôi việc.",
+      "answer": 4,
+      "options": [
+        {
+          "key": 1,
+          "text": "積極的",
+          "reading": "せっきょくてき",
+          "meaning": "Tích cực, chủ động",
+          "explain": "Sai vì phát ngôn tích cực không dẫn đến việc bị sa thải."
+        },
+        {
+          "key": 2,
+          "text": "行動",
+          "reading": "こうどう",
+          "meaning": "Hành động",
+          "explain": "Sai vì là danh từ, không đứng trước trợ từ 'な' để bổ nghĩa cho '発言'."
+        },
+        {
+          "key": 3,
+          "text": "無駄",
+          "reading": "むだ",
+          "meaning": "Lãng phí, vô ích",
+          "explain": "Sai vì phát ngôn vô ích không phải nguyên nhân chính đáng để bị đuổi việc."
+        },
+        {
+          "key": 4,
+          "text": "無責任",
+          "reading": "むせきにん",
+          "meaning": "Vô trách nhiệm",
+          "explain": "Đúng. Cụm '無責任な発言' nghĩa là phát ngôn thiếu trách nhiệm gây hậu quả nghiêm trọng."
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "question": "子供のころからスポーツをしているので、（ ）には自信があります。",
+      "translation": "Vì chơi thể thao từ nhỏ nên tôi rất tự tin vào thể lực của mình.",
+      "answer": 1,
+      "options": [
+        {
+          "key": 1,
+          "text": "体力",
+          "reading": "たいりょく",
+          "meaning": "Thể lực, sức bền",
+          "explain": "Đúng. Chơi thể thao giúp rèn luyện và tự tin về thể lực."
+        },
+        {
+          "key": 2,
+          "text": "面倒",
+          "reading": "めんどう",
+          "meaning": "Phiền phức",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "結構",
+          "reading": "けっこう",
+          "meaning": "Khá là, đầy đủ",
+          "explain": "Sai vì là phó từ/tính từ, không làm danh từ chỉ năng lực."
+        },
+        {
+          "key": 4,
+          "text": "関係",
+          "reading": "かんけい",
+          "meaning": "Mối quan hệ",
+          "explain": "Sai vì không hợp ngữ cảnh thể thao rèn luyện thân thể."
+        }
+      ]
+    },
+    {
+      "id": 11,
+      "question": "庭に雪が積もって、冬らしい素敵な（ ）ですね。",
+      "translation": "Tuyết phủ đầy sân vườn, quả là một khung cảnh mùa đông tuyệt đẹp nhỉ.",
+      "answer": 2,
+      "options": [
+        {
+          "key": 1,
+          "text": "恋人",
+          "reading": "こいびと",
+          "meaning": "Người yêu",
+          "explain": "Sai vì tuyết phủ sân vườn không tạo nên người yêu."
+        },
+        {
+          "key": 2,
+          "text": "景色",
+          "reading": "けしき",
+          "meaning": "Phong cảnh, cảnh sắc",
+          "explain": "Đúng. Chỉ khung cảnh thiên nhiên tuyết rơi mùa đông."
+        },
+        {
+          "key": 3,
+          "text": "祝日",
+          "reading": "しゅくじつ",
+          "meaning": "Ngày lễ",
+          "explain": "Sai vì là mốc ngày trên lịch."
+        },
+        {
+          "key": 4,
+          "text": "洋菓子",
+          "reading": "ようがし",
+          "meaning": "Bánh kẹo phương Tây",
+          "explain": "Sai vì là đồ ngọt."
+        }
+      ]
+    },
+    {
+      "id": 12,
+      "question": "夜中にカラオケをするのは近所の（ ）になる。",
+      "translation": "Hát karaoke vào giữa đêm sẽ gây phiền toái cho hàng xóm xung quanh.",
+      "answer": 2,
+      "options": [
+        {
+          "key": 1,
+          "text": "希望",
+          "reading": "きぼう",
+          "meaning": "Hy vọng",
+          "explain": "Sai vì tiếng ồn ban đêm không phải là niềm hy vọng của hàng xóm."
+        },
+        {
+          "key": 2,
+          "text": "迷惑",
+          "reading": "めいわく",
+          "meaning": "Sự phiền hà, làm phiền",
+          "explain": "Đúng. Cụm '迷惑になる' nghĩa là trở thành sự làm phiền/gây phiền toái."
+        },
+        {
+          "key": 3,
+          "text": "割合",
+          "reading": "わりあい",
+          "meaning": "Tỷ lệ",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "嫌",
+          "reading": "いや",
+          "meaning": "Khó chịu, ghét",
+          "explain": "Sai ngữ pháp vì cần danh từ tạo cụm '〜の迷惑になる'."
+        }
+      ]
+    },
+    {
+      "id": 13,
+      "question": "最近、テレビを見ない若い人が（ ）いるんだって。",
+      "translation": "Nghe nói dạo gần đây số người trẻ không xem TV đang ngày càng tăng lên.",
+      "answer": 1,
+      "options": [
+        {
+          "key": 1,
+          "text": "増えて",
+          "reading": "ふえて",
+          "meaning": "Tăng lên",
+          "explain": "Đúng. '人が増えている' chỉ xu hướng số lượng người đang tăng lên."
+        },
+        {
+          "key": 2,
+          "text": "褒めて",
+          "reading": "ほめて",
+          "meaning": "Khen ngợi",
+          "explain": "Sai nghĩa và chủ ngữ."
+        },
+        {
+          "key": 3,
+          "text": "始めて",
+          "reading": "はじめて",
+          "meaning": "Bắt đầu",
+          "explain": "Sai vì là tha động từ đòi hỏi tân ngữ."
+        },
+        {
+          "key": 4,
+          "text": "捕まって",
+          "reading": "つかまって",
+          "meaning": "Bị bắt giữ, bị tóm",
+          "explain": "Sai ngữ cảnh."
+        }
+      ]
+    },
+    {
+      "id": 14,
+      "question": "こっちのトラックには、重い荷物を中心に（ ）。",
+      "translation": "Trên chiếc xe tải này, chúng ta hãy tập trung xếp những kiện hàng nặng lên nhé.",
+      "answer": 3,
+      "options": [
+        {
+          "key": 1,
+          "text": "思い出しましょう",
+          "reading": "おもいだしましょう",
+          "meaning": "Hãy nhớ lại",
+          "explain": "Sai vì không dùng cho hàng hóa lên xe tải."
+        },
+        {
+          "key": 2,
+          "text": "落ちましょう",
+          "reading": "おちましょう",
+          "meaning": "Hãy rơi xuống",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "積みましょう",
+          "reading": "つみましょう",
+          "meaning": "Hãy chất/xếp lên",
+          "explain": "Đúng. Cụm '荷物をトラックに積む' nghĩa là bốc dỡ, xếp hàng hóa lên thùng xe."
+        },
+        {
+          "key": 4,
+          "text": "並びましょう",
+          "reading": "ならびましょう",
+          "meaning": "Hãy xếp hàng",
+          "explain": "Sai vì là tự động từ dùng cho người hoặc vật tự xếp thành hàng."
+        }
+      ]
+    },
+    {
+      "id": 15,
+      "question": "野菜を中心にした食事にしたら、体力が（ ）試合に負けてしまった。",
+      "translation": "Sau khi chuyển sang chế độ ăn chủ yếu là rau, thể lực bị giảm sút và tôi đã thua trong trận đấu.",
+      "answer": 3,
+      "options": [
+        {
+          "key": 1,
+          "text": "増えて",
+          "reading": "ふえて",
+          "meaning": "Tăng lên",
+          "explain": "Sai vì thể lực tăng lên thì thường không dẫn đến kết quả thua trận."
+        },
+        {
+          "key": 2,
+          "text": "初めて",
+          "reading": "はじめて",
+          "meaning": "Lần đầu tiên",
+          "explain": "Sai ngữ pháp."
+        },
+        {
+          "key": 3,
+          "text": "落ちて",
+          "reading": "おちて",
+          "meaning": "Giảm sút, tụt xuống",
+          "explain": "Đúng. Cụm '体力が落ちる' chỉ tình trạng thể lực bị sa sút, suy giảm."
+        },
+        {
+          "key": 4,
+          "text": "埋まって",
+          "reading": "うまって",
+          "meaning": "Bị chôn vùi, lấp đầy",
+          "explain": "Sai vì không kết hợp với thể lực."
+        }
+      ]
+    },
+    {
+      "id": 16,
+      "question": "そのレストランはとても人気で、3時間も列に（ ）人もいる。",
+      "translation": "Nhà hàng đó nổi tiếng đến mức có người xếp hàng chờ tới tận 3 tiếng đồng hồ.",
+      "answer": 4,
+      "options": [
+        {
+          "key": 1,
+          "text": "進む",
+          "reading": "すすむ",
+          "meaning": "Tiến lên",
+          "explain": "Sai vì không đi với cụm đứng chờ thành hàng."
+        },
+        {
+          "key": 2,
+          "text": "取り付ける",
+          "reading": "とりつける",
+          "meaning": "Lắp đặt (thiết bị)",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "割る",
+          "reading": "わる",
+          "meaning": "Làm vỡ, chia nhỏ",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "並ぶ",
+          "reading": "ならぶ",
+          "meaning": "Xếp hàng",
+          "explain": "Đúng. Cụm '列に並ぶ' nghĩa là xếp hàng chờ đợi."
+        }
+      ]
+    },
+    {
+      "id": 17,
+      "question": "先生に「日本語が上手ですね」って（ ）。",
+      "translation": "Tôi đã được thầy giáo khen là 'Tiếng Nhật giỏi thế'.",
+      "answer": 3,
+      "options": [
+        {
+          "key": 1,
+          "text": "倒れられました",
+          "reading": "たおれられました",
+          "meaning": "Bị ngã, ngất",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "進められました",
+          "reading": "すすめられました",
+          "meaning": "Được tiến cử, khuyên nhủ",
+          "explain": "Sai vì câu trong ngoặc là một lời khen ngợi."
+        },
+        {
+          "key": 3,
+          "text": "褒められました",
+          "reading": "ほめられました",
+          "meaning": "Được khen ngợi",
+          "explain": "Đúng. '褒められる' là dạng bị động thể hiện việc nhận được lời khen từ thầy cô."
+        },
+        {
+          "key": 4,
+          "text": "祝われました",
+          "reading": "いわわれました",
+          "meaning": "Được chúc mừng",
+          "explain": "Sai vì lời khen năng lực không phải là lời chúc mừng sự kiện."
+        }
+      ]
+    },
+    {
+      "id": 18,
+      "question": "5年前と比べると、自分が（ ）したことがよくわかる。",
+      "translation": "So với 5 năm trước, tôi nhận thấy rõ bản thân mình đã trưởng thành hơn.",
+      "answer": 1,
+      "options": [
+        {
+          "key": 1,
+          "text": "成長",
+          "reading": "せいちょう",
+          "meaning": "Trưởng thành, phát triển",
+          "explain": "Đúng. '自分が成長した' chỉ sự trưởng thành, tiến bộ của bản thân theo năm tháng."
+        },
+        {
+          "key": 2,
+          "text": "育児",
+          "reading": "いくじ",
+          "meaning": "Chăm sóc con nhỏ",
+          "explain": "Sai vì chỉ việc nuôi nấng con cái, không so sánh sự tiến bộ của bản thân."
+        },
+        {
+          "key": 3,
+          "text": "自慢",
+          "reading": "じまん",
+          "meaning": "Tự phụ, khoe khoang",
+          "explain": "Sai ngữ cảnh."
+        },
+        {
+          "key": 4,
+          "text": "怪我",
+          "reading": "けが",
+          "meaning": "Vết thương, chấn thương",
+          "explain": "Sai vì chấn thương không mang tính so sánh tiến bộ 5 năm."
+        }
+      ]
+    },
+    {
+      "id": 19,
+      "question": "（ ）ばかりしていると周りの人に好かれないよ。",
+      "translation": "Nếu cứ suốt ngày khoe khoang thì sẽ không được những người xung quanh yêu quý đâu.",
+      "answer": 1,
+      "options": [
+        {
+          "key": 1,
+          "text": "自慢",
+          "reading": "じまん",
+          "meaning": "Khoe khoang, tự phụ",
+          "explain": "Đúng. Cụm '自慢ばかりする' chỉ tính xấu hay khoe mẽ khiến người khác ghét."
+        },
+        {
+          "key": 2,
+          "text": "がっかり",
+          "reading": "がっかり",
+          "meaning": "Thất vọng",
+          "explain": "Sai vì thất vọng không phải là hành vi làm người khác mất thiện cảm."
+        },
+        {
+          "key": 3,
+          "text": "割引",
+          "reading": "わりびき",
+          "meaning": "Giảm giá",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "ダイエット",
+          "reading": "ダイエット",
+          "meaning": "Ăn kiêng, giảm cân",
+          "explain": "Sai vì ăn kiêng không khiến người xung quanh ghét bỏ."
+        }
+      ]
+    },
+    {
+      "id": 20,
+      "question": "（ ）は南の方向に逃げたと言われている。",
+      "translation": "Nghe nói tên tội phạm đã bỏ trốn về hướng nam.",
+      "answer": 2,
+      "options": [
+        {
+          "key": 1,
+          "text": "親戚",
+          "reading": "しんせき",
+          "meaning": "Họ hàng, bà con",
+          "explain": "Sai vì hành động bỏ trốn (逃げた) thường gắn liền với tội phạm."
+        },
+        {
+          "key": 2,
+          "text": "犯人",
+          "reading": "はんにん",
+          "meaning": "Thủ phạm, tội phạm",
+          "explain": "Đúng. '犯人は...逃げた' là câu tường thuật thường gặp về việc tội phạm đào tẩu."
+        },
+        {
+          "key": 3,
+          "text": "割引券",
+          "reading": "わりびきけん",
+          "meaning": "Phiếu giảm giá",
+          "explain": "Sai vì đồ vật không tự bỏ trốn."
+        },
+        {
+          "key": 4,
+          "text": "制服",
+          "reading": "せいふく",
+          "meaning": "Đồng phục",
+          "explain": "Sai vì trang phục không biết chạy trốn."
+        }
+      ]
+    }
+  ]
+}

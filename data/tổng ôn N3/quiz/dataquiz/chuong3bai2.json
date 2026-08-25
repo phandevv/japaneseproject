@@ -1,0 +1,726 @@
+{
+  "chuong": 3,
+  "bai": 2,
+  "questions": [
+    {
+      "id": 1,
+      "question": "健康のため、（　）の仕方に気をつけるようになった。",
+      "translation": "Vì sức khỏe nên tôi đã bắt đầu chú ý đến cách thở/hít thở.",
+      "answer": 2,
+      "options": [
+        {
+          "key": 1,
+          "text": "提出",
+          "reading": "ていしゅつ",
+          "meaning": "Nộp (bài/tài liệu)",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "呼吸",
+          "reading": "こきゅう",
+          "meaning": "Hô hấp, hít thở",
+          "explain": "Đúng. Cụm '呼吸の仕方' nghĩa là phương pháp/cách hít thở rèn luyện sức khỏe."
+        },
+        {
+          "key": 3,
+          "text": "評価",
+          "reading": "ひょうか",
+          "meaning": "Đánh giá",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "編集",
+          "reading": "へんしゅう",
+          "meaning": "Biên tập, chỉnh sửa",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "question": "道を歩いていると、面白い服を着ている人がいたので（　）みた。",
+      "translation": "Đang đi trên đường thấy có người mặc bộ đồ thú vị nên tôi đã cất tiếng bắt chuyện thử xem sao.",
+      "answer": 1,
+      "options": [
+        {
+          "key": 1,
+          "text": "呼びかけて",
+          "reading": "よびかけて",
+          "meaning": "Cất tiếng gọi, bắt chuyện",
+          "explain": "Đúng. '呼びかけてみる' nghĩa là thử cất tiếng chào hỏi, bắt chuyện với ai đó."
+        },
+        {
+          "key": 2,
+          "text": "囲んで",
+          "reading": "かこんで",
+          "meaning": "Vây quanh, bao quanh",
+          "explain": "Sai vì một người đi bộ không thể vây quanh người khác."
+        },
+        {
+          "key": 3,
+          "text": "驚かせて",
+          "reading": "おどろかせて",
+          "meaning": "Làm cho giật mình",
+          "explain": "Sai ngữ cảnh giao tiếp lịch sự."
+        },
+        {
+          "key": 4,
+          "text": "駆けて",
+          "reading": "かけて",
+          "meaning": "Chạy nhanh",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "question": "（　）の家の人とよく挨拶をするようになった。",
+      "translation": "Tôi đã bắt đầu thường xuyên chào hỏi với những người ở ngôi nhà đối diện.",
+      "answer": 2,
+      "options": [
+        {
+          "key": 1,
+          "text": "方向",
+          "reading": "ほうこう",
+          "meaning": "Phương hướng",
+          "explain": "Sai vì không bổ nghĩa cho vị trí nhà đối diện."
+        },
+        {
+          "key": 2,
+          "text": "向かい",
+          "reading": "むかい",
+          "meaning": "Đối diện, phía đối diện",
+          "explain": "Đúng. Cụm '向かいの家' chỉ ngôi nhà ở đối diện nhà mình."
+        },
+        {
+          "key": 3,
+          "text": "集まり",
+          "reading": "あつまり",
+          "meaning": "Tập hợp, buổi tụ tập",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "関係",
+          "reading": "かんけい",
+          "meaning": "Mối quan hệ",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "question": "3年頑張ったが、（　）その仕事で成功することはできなかった。",
+      "translation": "Dù đã cố gắng suốt 3 năm nhưng rốt cuộc tôi vẫn không thể thành công với công việc đó.",
+      "answer": 4,
+      "options": [
+        {
+          "key": 1,
+          "text": "相変わらず",
+          "reading": "あいかわらず",
+          "meaning": "Vẫn như mọi khi",
+          "explain": "Sai vì không diễn tả kết cục cuối cùng sau quá trình nỗ lực."
+        },
+        {
+          "key": 2,
+          "text": "もちろん",
+          "reading": "もちろん",
+          "meaning": "Tất nhiên",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "ようやく",
+          "reading": "ようやく",
+          "meaning": "Cuối cùng thì (thường đi với kết quả đạt được)",
+          "explain": "Sai vì phía sau là không thể thành công (できなかった)."
+        },
+        {
+          "key": 4,
+          "text": "結局",
+          "reading": "けっきょく",
+          "meaning": "Rốt cuộc, kết cục",
+          "explain": "Đúng. '結局〜できなかった' chỉ kết cục sau cùng không như mong đợi."
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "question": "私は病気をしたことがないので、（　）で何かを買うとしても、洗剤くらいだ。",
+      "translation": "Vì tôi chưa từng bị bệnh bao giờ nên dù có mua đồ ở hiệu thuốc thì cũng chỉ mua nước giặt tẩy.",
+      "answer": 1,
+      "options": [
+        {
+          "key": 1,
+          "text": "薬局",
+          "reading": "やっきょく",
+          "meaning": "Hiệu thuốc, nhà thuốc",
+          "explain": "Đúng. Đi với ngữ cảnh không bị ốm nên chỉ ghé hiệu thuốc mua đồ tạp hóa như nước giặt."
+        },
+        {
+          "key": 2,
+          "text": "一部",
+          "reading": "いちぶ",
+          "meaning": "Một phần",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "オフィス",
+          "reading": "オフィス",
+          "meaning": "Văn phòng",
+          "explain": "Sai vì văn phòng không bán nước giặt tẩy."
+        },
+        {
+          "key": 4,
+          "text": "一方通行",
+          "reading": "いっぽうつうこう",
+          "meaning": "Đường một chiều",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "question": "レストランで残った料理を（　）に全部入れて持って帰ろうと思ったが、店の人からだめだと言われた。",
+      "translation": "Tôi định cho hết thức ăn thừa ở nhà hàng vào hộp đựng mang về nhưng nhân viên quán bảo không được.",
+      "answer": 3,
+      "options": [
+        {
+          "key": 1,
+          "text": "充電器",
+          "reading": "じゅうでんき",
+          "meaning": "Cục sạc pin",
+          "explain": "Sai vì không thể đựng thức ăn vào sạc pin."
+        },
+        {
+          "key": 2,
+          "text": "泡",
+          "reading": "あわ",
+          "meaning": "Bọt xà phòng",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "容器",
+          "reading": "ようき",
+          "meaning": "Hộp đựng, đồ chứa",
+          "explain": "Đúng. '容器に入れる' nghĩa là cho thức ăn vào hộp đựng mang về."
+        },
+        {
+          "key": 4,
+          "text": "母親",
+          "reading": "ははおや",
+          "meaning": "Người mẹ",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "question": "意見を（　）されても怒ったりしてはいけない。みんな違う意見を持っているのだから。",
+      "translation": "Dù bị phủ định/bác bỏ ý kiến thì cũng không được tức giận, bởi mỗi người đều có quan điểm khác nhau.",
+      "answer": 2,
+      "options": [
+        {
+          "key": 1,
+          "text": "悪化",
+          "reading": "あっか",
+          "meaning": "Xấu đi, tồi tệ đi",
+          "explain": "Sai vì không đi với dạng bị động của ý kiến."
+        },
+        {
+          "key": 2,
+          "text": "否定",
+          "reading": "ひてい",
+          "meaning": "Phủ định, bác bỏ",
+          "explain": "Đúng. '意見を否定される' nghĩa là bị người khác bác bỏ, phản bác ý kiến."
+        },
+        {
+          "key": 3,
+          "text": "呼吸",
+          "reading": "こきゅう",
+          "meaning": "Hít thở",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "報告",
+          "reading": "ほうこく",
+          "meaning": "Báo cáo",
+          "explain": "Sai vì được báo cáo ý kiến không làm người ta tức giận."
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "question": "ミーティングの結果を部長に（　）した。",
+      "translation": "Tôi đã báo cáo kết quả cuộc họp cho trưởng phòng.",
+      "answer": 4,
+      "options": [
+        {
+          "key": 1,
+          "text": "登場",
+          "reading": "とうじょう",
+          "meaning": "Xuất hiện, ra mắt",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "暗記",
+          "reading": "あんき",
+          "meaning": "Học thuộc lòng",
+          "explain": "Sai ngữ cảnh công việc."
+        },
+        {
+          "key": 3,
+          "text": "編集",
+          "reading": "へんしゅう",
+          "meaning": "Biên tập",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "報告",
+          "reading": "ほうこく",
+          "meaning": "Báo cáo",
+          "explain": "Đúng. Cụm '結果を部長に報告する' nghĩa là báo cáo kết quả cho cấp trên."
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "question": "A: 風邪は治ったはずなんだけど、（　）が治らないんだ。\nB: （　）だけ治らないとしたら、原因は風邪じゃないかもしれないね。",
+      "translation": "A: Cảm cúm đáng lẽ khỏi rồi vậy mà chứng đau đầu lại chưa khỏi.\nB: Nếu chỉ có đau đầu không khỏi thì nguyên nhân có lẽ không phải do cảm cúm đâu.",
+      "answer": 1,
+      "options": [
+        {
+          "key": 1,
+          "text": "頭痛",
+          "reading": "ずつう",
+          "meaning": "Đau đầu, nhức đầu",
+          "explain": "Đúng. Triệu chứng '頭痛が治らない' (chứng đau đầu không khỏi)."
+        },
+        {
+          "key": 2,
+          "text": "雰囲気",
+          "reading": "ふんいき",
+          "meaning": "Bầu không khí",
+          "explain": "Sai vì không phải là chứng bệnh."
+        },
+        {
+          "key": 3,
+          "text": "坂道",
+          "reading": "さかみち",
+          "meaning": "Con đường dốc",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "納豆",
+          "reading": "なっとう",
+          "meaning": "Đậu nành lên men",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "question": "A: 来年、富士山に（　）？\nB: ええ？疲れるから、嫌だなあ…山に登るとしたら、高尾山くらいが低くていいよ。",
+      "translation": "A: Năm sau leo núi Phú Sĩ không?\nB: Hả? Mệt lắm, không thích đâu... Nếu leo núi thì cỡ núi Takao thấp thấp là vừa.",
+      "answer": 4,
+      "options": [
+        {
+          "key": 1,
+          "text": "埋める",
+          "reading": "うめる",
+          "meaning": "Chôn vùi",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "奪う",
+          "reading": "うばう",
+          "meaning": "Cướp đoạt",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "沈む",
+          "reading": "しずむ",
+          "meaning": "Chìm xuống",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "登る",
+          "reading": "のぼる",
+          "meaning": "Leo núi, trèo lên",
+          "explain": "Đúng. Cụm '富士山に登る' nghĩa là leo núi Phú Sĩ."
+        }
+      ]
+    },
+    {
+      "id": 11,
+      "question": "（　）は楽しいですが、自然を相手にするという点で、危険もあります。",
+      "translation": "Leo núi rất vui nhưng vì phải đối mặt với tự nhiên nên cũng có những mối nguy hiểm.",
+      "answer": 2,
+      "options": [
+        {
+          "key": 1,
+          "text": "いじわる",
+          "reading": "いじわる",
+          "meaning": "Xấu bụng, trêu chọc",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "山登り",
+          "reading": "やまのぼり",
+          "meaning": "Leo núi",
+          "explain": "Đúng. Hoạt động '山登り' gắn liền với trải nghiệm thiên nhiên và có yếu tố mạo hiểm."
+        },
+        {
+          "key": 3,
+          "text": "掃除機",
+          "reading": "そうじき",
+          "meaning": "Máy hút bụi",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "暗記",
+          "reading": "あんき",
+          "meaning": "Học thuộc lòng",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 12,
+      "question": "この映画は、悪い人が（　）しないのに面白いという点が評価されている。",
+      "translation": "Bộ phim này được đánh giá cao ở điểm thú vị dù không hề có nhân vật phản diện nào xuất hiện.",
+      "answer": 3,
+      "options": [
+        {
+          "key": 1,
+          "text": "賛成",
+          "reading": "さんせい",
+          "meaning": "Tán thành",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "逮捕",
+          "reading": "たいほ",
+          "meaning": "Bắt giữ",
+          "explain": "Sai vì không phù hợp ngữ pháp bổ ngữ trong phim ảnh."
+        },
+        {
+          "key": 3,
+          "text": "登場",
+          "reading": "とうじょう",
+          "meaning": "Xuất hiện, lên sân khấu/lên phim",
+          "explain": "Đúng. Cụm '悪い人が登場しない' nghĩa là không có kẻ xấu xuất hiện trong tác phẩm."
+        },
+        {
+          "key": 4,
+          "text": "手術",
+          "reading": "しゅじゅつ",
+          "meaning": "Phẫu thuật",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 13,
+      "question": "母親を喜ばせようとして家の手伝いをしたら、母親が気に（　）いたお皿を割ってしまった。",
+      "translation": "Định làm mẹ vui bằng cách phụ việc nhà thì tôi lại lỡ tay làm vỡ chiếc đĩa mà mẹ rất yêu thích.",
+      "answer": 4,
+      "options": [
+        {
+          "key": 1,
+          "text": "向けて",
+          "reading": "むけて",
+          "meaning": "Hướng về",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "抑えて",
+          "reading": "おさえて",
+          "meaning": "Kiềm chế",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "終えて",
+          "reading": "おえて",
+          "meaning": "Kết thúc",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "入って",
+          "reading": "はいって",
+          "meaning": "Ưa thích (cụm 気に入る)",
+          "explain": "Đúng. Cụm '気に入っている' nghĩa là yêu thích, ưng ý một món đồ."
+        }
+      ]
+    },
+    {
+      "id": 14,
+      "question": "幸せになるということは「あるものに（　）こと」ということだ。",
+      "translation": "Trở nên hạnh phúc nghĩa là 'biết nhận ra những gì mình đang có'.",
+      "answer": 1,
+      "options": [
+        {
+          "key": 1,
+          "text": "気づく",
+          "reading": "きづく",
+          "meaning": "Nhận ra, nhận biết",
+          "explain": "Đúng. Cụm 'あるものに気づく' nghĩa là nhận ra và trân trọng những điều hiện hữu xung quanh."
+        },
+        {
+          "key": 2,
+          "text": "吹く",
+          "reading": "ふく",
+          "meaning": "Thổi",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "掻く",
+          "reading": "かく",
+          "meaning": "Gãi, cào",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "線を引く",
+          "reading": "せんをひく",
+          "meaning": "Kẻ đường thẳng",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 15,
+      "question": "A: 私たち、もう会わないほうがいいかも。\nB: それって、（　）ってこと？",
+      "translation": "A: Có lẽ chúng mình không nên gặp nhau nữa thì hơn.\nB: Nói vậy nghĩa là... chia tay hả em?",
+      "answer": 2,
+      "options": [
+        {
+          "key": 1,
+          "text": "年を取る",
+          "reading": "としをとる",
+          "meaning": "Già đi",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "別れる",
+          "reading": "わかれる",
+          "meaning": "Chia tay",
+          "explain": "Đúng. '会わないほうがいい' đồng nghĩa với lời đề nghị chia tay trong tình cảm."
+        },
+        {
+          "key": 3,
+          "text": "迷う",
+          "reading": "まよう",
+          "meaning": "Lạc đường / Phân vân",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "役立つ",
+          "reading": "やくだつ",
+          "meaning": "Có ích",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 16,
+      "question": "この旅行の計画は、ホテルの料金が高いという点で（　）できない。",
+      "translation": "Kế hoạch du lịch này tôi không thể đồng ý ở điểm giá khách sạn quá đắt đỏ.",
+      "answer": 1,
+      "options": [
+        {
+          "key": 1,
+          "text": "賛成",
+          "reading": "さんせい",
+          "meaning": "Tán thành, đồng ý",
+          "explain": "Đúng. '賛成できない' nghĩa là không thể đồng tình/tán thành với kế hoạch."
+        },
+        {
+          "key": 2,
+          "text": "事実",
+          "reading": "じじつ",
+          "meaning": "Sự thật",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "安心",
+          "reading": "あんしん",
+          "meaning": "An tâm",
+          "explain": "Sai vì giá cao khiến người ta không đồng ý chứ không phải không an tâm."
+        },
+        {
+          "key": 4,
+          "text": "登場",
+          "reading": "とうじょう",
+          "meaning": "Xuất hiện",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 17,
+      "question": "たとえ（　）にお金が必要だとしても、親に借りるつもりはない。",
+      "translation": "Cho dù có cần tiền để phẫu thuật đi chăng nữa, tôi cũng không có ý định vay mượn bố mẹ.",
+      "answer": 1,
+      "options": [
+        {
+          "key": 1,
+          "text": "手術",
+          "reading": "しゅじゅつ",
+          "meaning": "Phẫu thuật",
+          "explain": "Đúng. '手術にお金が必要' chỉ tình huống khẩn cấp, tốn kém chi phí y tế."
+        },
+        {
+          "key": 2,
+          "text": "速度",
+          "reading": "そくど",
+          "meaning": "Tốc độ",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "坂道",
+          "reading": "さかみち",
+          "meaning": "Đường dốc",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "雰囲気",
+          "reading": "ふんいき",
+          "meaning": "Bầu không khí",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 18,
+      "question": "息子の卒業式には、（　）出席します。",
+      "translation": "Lễ tốt nghiệp của con trai thì đương nhiên tôi sẽ tham dự rồi.",
+      "answer": 2,
+      "options": [
+        {
+          "key": 1,
+          "text": "やっと",
+          "reading": "やっと",
+          "meaning": "Cuối cùng thì",
+          "explain": "Sai vì sự kiện chưa diễn ra."
+        },
+        {
+          "key": 2,
+          "text": "もちろん",
+          "reading": "もちろん",
+          "meaning": "Tất nhiên, dĩ nhiên",
+          "explain": "Đúng. 'もちろん出席する' khẳng định sự tham dự là điều hiển nhiên."
+        },
+        {
+          "key": 3,
+          "text": "うまくいく",
+          "reading": "うまくいく",
+          "meaning": "Thuận lợi",
+          "explain": "Sai ngữ pháp vì là cụm động từ."
+        },
+        {
+          "key": 4,
+          "text": "わざと",
+          "reading": "わざと",
+          "meaning": "Cố tình, cố ý",
+          "explain": "Sai vì mang nghĩa tiêu cực (cố tình làm điều xấu)."
+        }
+      ]
+    },
+    {
+      "id": 19,
+      "question": "スピーチでは、（　）を使って話してください。",
+      "translation": "Khi phát biểu hãy sử dụng micro để nói nhé.",
+      "answer": 4,
+      "options": [
+        {
+          "key": 1,
+          "text": "ミス",
+          "reading": "ミス",
+          "meaning": "Lỗi sai",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "サイズ",
+          "reading": "サイズ",
+          "meaning": "Kích cỡ",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "デザイン",
+          "reading": "デザイン",
+          "meaning": "Thiết kế",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "マイク",
+          "reading": "マイク",
+          "meaning": "Micro (mic)",
+          "explain": "Đúng. 'マイクを使って話す' nghĩa là dùng micro để phát biểu cho mọi người nghe rõ."
+        }
+      ]
+    },
+    {
+      "id": 20,
+      "question": "友達を（　）ために、プレゼントを用意した。",
+      "translation": "Để làm cho người bạn bất ngờ, tôi đã chuẩn bị sẵn một món quà.",
+      "answer": 2,
+      "options": [
+        {
+          "key": 1,
+          "text": "終える",
+          "reading": "おえる",
+          "meaning": "Kết thúc",
+          "explain": "Sai vì không thể kết thúc bạn bè."
+        },
+        {
+          "key": 2,
+          "text": "驚かす",
+          "reading": "おどろかす",
+          "meaning": "Làm cho bất ngờ, ngạc nhiên",
+          "explain": "Đúng. Cụm '友達を驚かす' nghĩa là tạo bất ngờ thú vị cho bạn bè."
+        },
+        {
+          "key": 3,
+          "text": "掻く",
+          "reading": "かく",
+          "meaning": "Gãi",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "駆ける",
+          "reading": "かける",
+          "meaning": "Chạy nhanh",
+          "explain": "Sai vì là tự động từ."
+        }
+      ]
+    }
+  ]
+}

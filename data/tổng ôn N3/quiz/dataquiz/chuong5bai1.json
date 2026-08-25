@@ -1,0 +1,726 @@
+{
+  "chuong": 5,
+  "bai": 1,
+  "questions": [
+    {
+      "id": 1,
+      "question": "今日は風が強く、（　）が高いため海に入らない方がいい。",
+      "translation": "Hôm nay gió mạnh và sóng lớn nên không nên xuống biển.",
+      "answer": 4,
+      "options": [
+        {
+          "key": 1,
+          "text": "隅",
+          "reading": "すみ",
+          "meaning": "Góc",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "傷",
+          "reading": "きず",
+          "meaning": "Vết thương",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "酢",
+          "reading": "す",
+          "meaning": "Giấm",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "波",
+          "reading": "なみ",
+          "meaning": "Sóng biển",
+          "explain": "Đúng. Cụm '波が高い' chỉ sóng biển dâng cao nguy hiểm."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "question": "リンさんの（　）は、リンさんがかわいくてしかたがないらしく、リンさんの言うことを何でも聞いてあげている。",
+      "translation": "Bạn trai của Linh dường như cưng chiều Linh hết mực nên cô ấy bảo gì cũng nghe theo.",
+      "answer": 1,
+      "options": [
+        {
+          "key": 1,
+          "text": "彼氏",
+          "reading": "かれし",
+          "meaning": "Bạn trai",
+          "explain": "Đúng. Cặp đôi yêu đương: bạn trai chiều chuộng bạn gái."
+        },
+        {
+          "key": 2,
+          "text": "彼女",
+          "reading": "かのじょ",
+          "meaning": "Bạn gái",
+          "explain": "Sai ngữ pháp vì Linh là nữ, chủ ngữ khen Linh đáng yêu."
+        },
+        {
+          "key": 3,
+          "text": "目上",
+          "reading": "めうえ",
+          "meaning": "Cấp trên",
+          "explain": "Sai ngữ cảnh tình cảm."
+        },
+        {
+          "key": 4,
+          "text": "中級",
+          "reading": "ちゅうきゅう",
+          "meaning": "Trung cấp",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "question": "20年前の事故でできた（　）が、また痛み出してきた。",
+      "translation": "Vết thương do vụ tai nạn cách đây 20 năm lại bắt đầu đau nhức trở lại.",
+      "answer": 2,
+      "options": [
+        {
+          "key": 1,
+          "text": "熱中症",
+          "reading": "ねっちゅうしょう",
+          "meaning": "Sốc nhiệt",
+          "explain": "Sai vì sốc nhiệt không để lại vết thương đau 20 năm."
+        },
+        {
+          "key": 2,
+          "text": "傷",
+          "reading": "きず",
+          "meaning": "Vết thương, vết sẹo",
+          "explain": "Đúng. Cụm '事故でできた傷' nghĩa là vết thương/vết tích do tai nạn để lại."
+        },
+        {
+          "key": 3,
+          "text": "心理",
+          "reading": "しんり",
+          "meaning": "Tâm lý",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "好物",
+          "reading": "こうぶつ",
+          "meaning": "Món ăn ưa thích",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "question": "上司: A社への商品の（　）をもう一度確認してもらってもいいですか。8月5日と言っていたと思うんだけど、契約書には8月2日と書いてあるんだ。\n部下: 承知しました。A社の井上さんにメールして、聞いてみます。",
+      "translation": "Cấp trên: Cậu kiểm tra lại kỳ hạn giao hàng cho công ty A giúp tôi được không? Tôi nhớ là ngày 5/8 nhưng hợp đồng lại ghi ngày 2/8.\nCấp dưới: Vâng tôi hiểu rồi, tôi sẽ gửi email hỏi anh Inoue bên công ty A ngay.",
+      "answer": 3,
+      "options": [
+        {
+          "key": 1,
+          "text": "予期",
+          "reading": "よき",
+          "meaning": "Dự tính",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "共通",
+          "reading": "きょうつう",
+          "meaning": "Điểm chung",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "納期",
+          "reading": "のうき",
+          "meaning": "Hạn giao hàng, kỳ hạn nộp",
+          "explain": "Đúng. Cụm '商品の納期' chỉ thời hạn giao hàng theo hợp đồng kinh doanh."
+        },
+        {
+          "key": 4,
+          "text": "数字",
+          "reading": "すうじ",
+          "meaning": "Chữ số",
+          "explain": "Sai vì cần từ vựng chỉ thời hạn giao nhận sản phẩm."
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "question": "（　）を学んではじめて、色々な曲が弾けるようになる。",
+      "translation": "Chỉ sau khi học xong những điều cơ bản thì mới có thể chơi được nhiều bản nhạc khác nhau.",
+      "answer": 1,
+      "options": [
+        {
+          "key": 1,
+          "text": "基礎",
+          "reading": "きそ",
+          "meaning": "Nền tảng, căn bản",
+          "explain": "Đúng. Cụm '基礎を学ぶ' nghĩa là học những kiến thức/kỹ năng nền tảng cơ bản."
+        },
+        {
+          "key": 2,
+          "text": "基本",
+          "reading": "きほん",
+          "meaning": "Cơ bản",
+          "explain": "Sai vì trong âm nhạc/luyện tập nhạc cụ người ta thường dùng '基礎を学ぶ' để chỉ nền móng kỹ thuật."
+        },
+        {
+          "key": 3,
+          "text": "性質",
+          "reading": "せいしつ",
+          "meaning": "Tính chất",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "共通点",
+          "reading": "きょうつうてん",
+          "meaning": "Điểm chung",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "question": "地震があったのが（　）じゃなくてよかったです。もし（　）だったら、周りが見えなくて逃げられなかったかもしれません。",
+      "translation": "Thật may vì động đất không xảy ra vào đêm khuya. Nếu là đêm muộn thì trời tối mịt không nhìn thấy đường có khi đã không chạy thoát được.",
+      "answer": 2,
+      "options": [
+        {
+          "key": 1,
+          "text": "遠足",
+          "reading": "えんそく",
+          "meaning": "Dã ngoại",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "深夜",
+          "reading": "しんや",
+          "meaning": "Đêm khuya, đêm muộn",
+          "explain": "Đúng. '深夜' chỉ đêm tối mịt mùng khiến việc thoát hiểm gặp trở ngại."
+        },
+        {
+          "key": 3,
+          "text": "住居",
+          "reading": "じゅうきょ",
+          "meaning": "Nơi ở",
+          "explain": "Sai vì không đối ứng với việc xung quanh tối không nhìn thấy đường."
+        },
+        {
+          "key": 4,
+          "text": "学期",
+          "reading": "がっき",
+          "meaning": "Học kỳ",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "question": "A: 田中さん、ちょっとこの資料、見てもらってもいいですか。（　）が間違っている気がするんです。\nB: あ、はい。わかりました。ちょっと見せてください。",
+      "translation": "A: Anh Tanaka, anh xem giúp tôi tài liệu này một chút được không? Tôi cảm giác số liệu bị sai.\nB: Vâng, tôi hiểu rồi. Để tôi xem qua một chút.",
+      "answer": 3,
+      "options": [
+        {
+          "key": 1,
+          "text": "給食",
+          "reading": "きゅうしょく",
+          "meaning": "Bữa ăn trưa ở trường",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "数日",
+          "reading": "すうじつ",
+          "meaning": "Vài ngày",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "数字",
+          "reading": "すうじ",
+          "meaning": "Chữ số, số liệu",
+          "explain": "Đúng. '数字が間違っている' chỉ số liệu thống kê/tính toán trong tài liệu bị sai sót."
+        },
+        {
+          "key": 4,
+          "text": "来学期",
+          "reading": "らいがっき",
+          "meaning": "Học kỳ tới",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "question": "そのイベントに参加を希望する者は、はがきに必要（　）を書いて本社あてに送ること。",
+      "translation": "Những ai có nguyện vọng tham gia sự kiện hãy viết các hạng mục cần thiết vào bưu thiếp rồi gửi về trụ sở chính.",
+      "answer": 3,
+      "options": [
+        {
+          "key": 1,
+          "text": "事務",
+          "reading": "じむ",
+          "meaning": "Công việc bàn giấy",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "予期",
+          "reading": "よき",
+          "meaning": "Dự kiến",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "事項",
+          "reading": "じこう",
+          "meaning": "Hạng mục, điều khoản",
+          "explain": "Đúng. Cụm '必要事項' là các thông tin/hạng mục bắt buộc phải điền trong mẫu đơn."
+        },
+        {
+          "key": 4,
+          "text": "続き",
+          "reading": "つづき",
+          "meaning": "Phần tiếp theo",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "question": "客: すみません。このパン、交換してもらってもいいですか。（　）が切れていたんです。\n店員: 申し訳ありません。新しいものに交換いたします。",
+      "translation": "Khách: Xin lỗi, tôi có thể đổi cái bánh mì này được không? Hạn sử dụng của nó bị hết mất rồi.\nNhân viên: Thành thật xin lỗi quý khách, tôi sẽ đổi cái mới ngay ạ.",
+      "answer": 4,
+      "options": [
+        {
+          "key": 1,
+          "text": "性質",
+          "reading": "せいしつ",
+          "meaning": "Tính chất",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "納期",
+          "reading": "のうき",
+          "meaning": "Hạn giao hàng",
+          "explain": "Sai vì đồ ăn bán lẻ dùng hạn sử dụng."
+        },
+        {
+          "key": 3,
+          "text": "世紀",
+          "reading": "せいき",
+          "meaning": "Thế kỷ",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "賞味期限",
+          "reading": "しょうみきげん",
+          "meaning": "Hạn sử dụng tốt nhất",
+          "explain": "Đúng. Cụm '賞味期限が切れる' nghĩa là thực phẩm đã hết hạn sử dụng."
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "question": "今日は晴れてよかったね。これで安心して（　）に行けるね。",
+      "translation": "Hôm nay trời nắng đẹp thật tốt quá. Thế này thì có thể an tâm đi leo núi dã ngoại rồi nhỉ.",
+      "answer": 1,
+      "options": [
+        {
+          "key": 1,
+          "text": "ハイキング",
+          "reading": "ハイキング",
+          "meaning": "Đi dã ngoại, đi bộ đường dài (hiking)",
+          "explain": "Đúng. Hoạt động dã ngoại ngoài trời cần thời tiết nắng ráo."
+        },
+        {
+          "key": 2,
+          "text": "キャンパス",
+          "reading": "キャンパス",
+          "meaning": "Khuôn viên trường",
+          "explain": "Sai vì không dùng với cụm '安心していける'."
+        },
+        {
+          "key": 3,
+          "text": "ノーハウ",
+          "reading": "ノーハウ",
+          "meaning": "Bí quyết (know-how)",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "サイン",
+          "reading": "サイン",
+          "meaning": "Chữ ký",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 11,
+      "question": "遊園地に行く予定がキャンセルになってしまい、彼女は（　）そうにしていた。",
+      "translation": "Kế hoạch đi công viên giải trí bị hủy bỏ nên trông cô ấy có vẻ rất tiếc nuối và ấm ức.",
+      "answer": 1,
+      "options": [
+        {
+          "key": 1,
+          "text": "悔し",
+          "reading": "くやし",
+          "meaning": "Tiếc nuối, ấm ức (tính từ 悔しい)",
+          "explain": "Đúng. '悔しそうにしていた' chỉ vẻ mặt tiếc nuối, bực bội vì lỡ mất dịp đi chơi."
+        },
+        {
+          "key": 2,
+          "text": "つまらな",
+          "reading": "つまらな",
+          "meaning": "Chán ngắt",
+          "explain": "Sai vì chưa đi chơi nên cảm xúc tiếc nuối đúng hơn."
+        },
+        {
+          "key": 3,
+          "text": "懐かし",
+          "reading": "なつかし",
+          "meaning": "Hoài niệm",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "親し",
+          "reading": "したし",
+          "meaning": "Thân thiết",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 12,
+      "question": "（　）なら、これからもっと頑張って、次は絶対合格しないとね。",
+      "translation": "Nếu thấy tiếc nuối/ấm ức vì thi trượt thì từ giờ hãy cố gắng hơn nữa để lần tới nhất định đỗ nhé.",
+      "answer": 3,
+      "options": [
+        {
+          "key": 1,
+          "text": "おかしく",
+          "reading": "おかしく",
+          "meaning": "Kỳ quặc",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "素晴らしく",
+          "reading": "すばらしく",
+          "meaning": "Tuyệt vời",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "悔しい",
+          "reading": "くやしい",
+          "meaning": "Tiếc nuối, ấm ức, cay cú",
+          "explain": "Đúng. '悔しいなら' nghĩa là nếu cảm thấy cay cú/tiếc nuối vì thất bại thì hãy biến nó thành động lực thi đỗ lần sau."
+        },
+        {
+          "key": 4,
+          "text": "大人しく",
+          "reading": "おとなしく",
+          "meaning": "Trầm tính",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 13,
+      "question": "交通事故の相手とよく話し合い、（　）なった。今度食事に誘うつもりだ。",
+      "translation": "Sau khi nói chuyện rõ ràng với người va chạm giao thông, chúng tôi đã trở nên thân thiết. Lần tới tôi định rủ người đó đi ăn.",
+      "answer": 1,
+      "options": [
+        {
+          "key": 1,
+          "text": "親しく",
+          "reading": "したしく",
+          "meaning": "Thân thiết",
+          "explain": "Đúng. Cụm '親しくなる' chỉ việc trở nên thân thiết, kết bạn với nhau."
+        },
+        {
+          "key": 2,
+          "text": "頼もしく",
+          "reading": "たのもしく",
+          "meaning": "Đáng tin",
+          "explain": "Sai ngữ cảnh kết bạn mời đi ăn."
+        },
+        {
+          "key": 3,
+          "text": "苦しく",
+          "reading": "くるしく",
+          "meaning": "Khổ sở",
+          "explain": "Sai vì khổ sở thì không rủ đi ăn."
+        },
+        {
+          "key": 4,
+          "text": "つまらなく",
+          "reading": "つまらなく",
+          "meaning": "Nhạt nhẽo",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 14,
+      "question": "このチームはとてもレベルが高く、（　）選手しか入ることができない。",
+      "translation": "Đội bóng này có trình độ rất cao, chỉ những cầu thủ được tuyển chọn mới có thể gia nhập.",
+      "answer": 2,
+      "options": [
+        {
+          "key": 1,
+          "text": "結ばれた",
+          "reading": "むすばれた",
+          "meaning": "Được gắn kết",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "選ばれた",
+          "reading": "えらばれた",
+          "meaning": "Được tuyển chọn",
+          "explain": "Đúng. '選ばれた選手' chỉ các tuyển thủ ưu tú được chọn lọc khắt khe."
+        },
+        {
+          "key": 3,
+          "text": "深められた",
+          "reading": "ふかめられた",
+          "meaning": "Được làm sâu sắc",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "去られた",
+          "reading": "さらわれた",
+          "meaning": "Rời đi",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 15,
+      "question": "A: どうしたの？\nB: コンタクトを落としちゃって…。悪いんだけど、一緒に（　）もらってもいい？",
+      "translation": "A: Có chuyện gì thế?\nB: Mình làm rơi mất kính áp tròng... Phiền bạn tìm giúp mình cùng một tay được không?",
+      "answer": 3,
+      "options": [
+        {
+          "key": 1,
+          "text": "組んで",
+          "reading": "くんで",
+          "meaning": "Lắp ghép / Khoanh tay",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "選んで",
+          "reading": "えらんで",
+          "meaning": "Lựa chọn",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "探して",
+          "reading": "さがして",
+          "meaning": "Tìm kiếm",
+          "explain": "Đúng. Cụm '一緒に探してもらう' nghĩa là nhờ người khác cùng tìm giúp đồ bị rơi."
+        },
+        {
+          "key": 4,
+          "text": "深めて",
+          "reading": "ふかめて",
+          "meaning": "Làm sâu sắc",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 16,
+      "question": "彼の企画は（　）よかった。",
+      "translation": "Bản kế hoạch của anh ấy nổi bật hẳn lên vì sự xuất sắc.",
+      "answer": 4,
+      "options": [
+        {
+          "key": 1,
+          "text": "上旬で",
+          "reading": "じょうじゅんで",
+          "meaning": "Đầu tháng",
+          "explain": "Sai vì là mốc thời gian."
+        },
+        {
+          "key": 2,
+          "text": "絵画で",
+          "reading": "かいがで",
+          "meaning": "Hội họa",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "散らかして",
+          "reading": "ちらかして",
+          "meaning": "Bày bừa",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "目立って",
+          "reading": "めだって",
+          "meaning": "Nổi bật, vượt trội",
+          "explain": "Đúng. '目立ってよかった' chỉ sự nổi bật, vượt trội hẳn so với những phương án khác."
+        }
+      ]
+    },
+    {
+      "id": 17,
+      "question": "もうすぐ台風が来るみたいだ。コンサートが（　）にならなかったらいいんだけど。",
+      "translation": "Hình như bão sắp đổ bộ rồi. Giá mà buổi hòa nhạc không bị hoãn lại thì tốt biết mấy.",
+      "answer": 4,
+      "options": [
+        {
+          "key": 1,
+          "text": "企画",
+          "reading": "きかく",
+          "meaning": "Quy hoạch, kế hoạch",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "省略",
+          "reading": "しょうりゃく",
+          "meaning": "Lược bớt",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "入場",
+          "reading": "にゅうじょう",
+          "meaning": "Vào cổng",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "延期",
+          "reading": "えんき",
+          "meaning": "Hoãn lại, dời lịch",
+          "explain": "Đúng. Cụm '延期になる' nghĩa là sự kiện bị hoãn lại do thiên tai/bão gió."
+        }
+      ]
+    },
+    {
+      "id": 18,
+      "question": "この授業を（　）してよかったです。とても面白いし、役に立ちますから。",
+      "translation": "Thật may vì tôi đã lựa chọn/đăng ký tiết học này. Vừa rất thú vị lại vô cùng bổ ích.",
+      "answer": 4,
+      "options": [
+        {
+          "key": 1,
+          "text": "好評",
+          "reading": "こうひょう",
+          "meaning": "Đánh giá tốt",
+          "explain": "Sai vì không ghép trực tiếp thành động từ lựa chọn môn học."
+        },
+        {
+          "key": 2,
+          "text": "交換",
+          "reading": "こうかん",
+          "meaning": "Trao đổi",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "高級",
+          "reading": "こうきゅう",
+          "meaning": "Cao cấp",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "選択",
+          "reading": "せんたく",
+          "meaning": "Lựa chọn (môn học)",
+          "explain": "Đúng. Cụm '授業を選択する' nghĩa là lựa chọn môn học tự chọn trong chương trình."
+        }
+      ]
+    },
+    {
+      "id": 19,
+      "question": "アルバイトで忙しくて、レポートを出す（　）に間に合わなかった。",
+      "translation": "Vì bận làm thêm nên tôi đã không kịp thời hạn nộp bài báo cáo.",
+      "answer": 1,
+      "options": [
+        {
+          "key": 1,
+          "text": "期限",
+          "reading": "きげん",
+          "meaning": "Thời hạn, hạn chót",
+          "explain": "Đúng. Cụm 'レポートを出す期限' chỉ thời hạn nộp báo cáo."
+        },
+        {
+          "key": 2,
+          "text": "証明",
+          "reading": "しょうめい",
+          "meaning": "Chứng minh",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "結論",
+          "reading": "けつろん",
+          "meaning": "Kết luận",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "郵便",
+          "reading": "ゆうびん",
+          "meaning": "Bưu điện",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 20,
+      "question": "お金を（　）すぎると、後で返せなくなって大変なことになる。",
+      "translation": "Nếu vay mượn tiền quá nhiều thì sau này không trả được sẽ gặp rắc rối lớn đấy.",
+      "answer": 3,
+      "options": [
+        {
+          "key": 1,
+          "text": "逃げる",
+          "reading": "にげる",
+          "meaning": "Bỏ chạy",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "サボる",
+          "reading": "サボる",
+          "meaning": "Trốn học/trốn việc",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "借りる",
+          "reading": "かりる",
+          "meaning": "Vay mượn (tiền)",
+          "explain": "Đúng. Cụm 'お金を借りすぎる' nghĩa là vay mượn tiền quá mức dẫn đến vỡ nợ."
+        },
+        {
+          "key": 4,
+          "text": "探す",
+          "reading": "さがす",
+          "meaning": "Tìm kiếm",
+          "explain": "Sai vì tìm kiếm không liên quan đến việc trả nợ."
+        }
+      ]
+    }
+  ]
+}

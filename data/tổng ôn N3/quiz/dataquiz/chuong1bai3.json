@@ -1,0 +1,726 @@
+{
+  "chuong": 1,
+  "bai": 3,
+  "questions": [
+    {
+      "id": 1,
+      "question": "先月たくさん（ ）をしたのに、（ ）代が払われなかった。",
+      "translation": "Tháng trước tôi đã làm thêm giờ rất nhiều vậy mà tiền tăng ca lại không được trả.",
+      "answer": 3,
+      "options": [
+        {
+          "key": 1,
+          "text": "列",
+          "reading": "れつ",
+          "meaning": "Hàng lối",
+          "explain": "Sai vì không đi với cụm tiền phụ cấp."
+        },
+        {
+          "key": 2,
+          "text": "残念",
+          "reading": "ざんねん",
+          "meaning": "Đáng tiếc",
+          "explain": "Sai vì không phải là loại hình công việc tính lương."
+        },
+        {
+          "key": 3,
+          "text": "残業",
+          "reading": "ざんぎょう",
+          "meaning": "Làm thêm giờ, tăng ca",
+          "explain": "Đúng. Cụm '残業をする' (làm thêm giờ) và '残業代' (tiền làm thêm giờ/tiền tăng ca)."
+        },
+        {
+          "key": 4,
+          "text": "例外",
+          "reading": "れいがい",
+          "meaning": "Ngoại lệ",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "question": "この湖が（ ）のに対して、隣にある湖は深い。",
+      "translation": "Trái ngược với hồ này khá nông thì hồ nước bên cạnh lại rất sâu.",
+      "answer": 1,
+      "options": [
+        {
+          "key": 1,
+          "text": "浅い",
+          "reading": "あさい",
+          "meaning": "Nông, cạn",
+          "explain": "Đúng. Từ trái nghĩa hoàn hảo đối lập với '深い' (sâu) qua cấu trúc '〜のに対して'."
+        },
+        {
+          "key": 2,
+          "text": "汚い",
+          "reading": "きたない",
+          "meaning": "Bẩn thỉu",
+          "explain": "Sai vì không mang tính đối lập trực tiếp về độ sâu với '深い'."
+        },
+        {
+          "key": 3,
+          "text": "温かい",
+          "reading": "あたたかい",
+          "meaning": "Ấm áp",
+          "explain": "Sai vì chỉ nhiệt độ."
+        },
+        {
+          "key": 4,
+          "text": "危ない",
+          "reading": "あぶない",
+          "meaning": "Nguy hiểm",
+          "explain": "Sai vì không tương phản về mặt kích thước/độ sâu."
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "question": "この国に住む人は、この国の（ ）にしたがって暮らさなければならない。",
+      "translation": "Những người sinh sống ở quốc gia này phải sống và tuân thủ theo pháp luật của quốc gia đó.",
+      "answer": 2,
+      "options": [
+        {
+          "key": 1,
+          "text": "方法",
+          "reading": "ほうほう",
+          "meaning": "Phương pháp, cách thức",
+          "explain": "Sai vì không mang tính bắt buộc tuân theo quy chuẩn xã hội như luật pháp."
+        },
+        {
+          "key": 2,
+          "text": "法律",
+          "reading": "ほうりつ",
+          "meaning": "Pháp luật",
+          "explain": "Đúng. Cụm '法律に従う' nghĩa là tuân theo, chấp hành luật pháp."
+        },
+        {
+          "key": 3,
+          "text": "血液型",
+          "reading": "けつえきがた",
+          "meaning": "Nhóm máu",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "上司",
+          "reading": "じょうし",
+          "meaning": "Cấp trên, sếp",
+          "explain": "Sai vì cấp trên ở công ty, không mang tính đại diện cho cả quốc gia."
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "question": "A市立体育館において、スポーツ（ ）が行われた。",
+      "translation": "Một đại hội thể thao đã được tổ chức tại nhà thi đấu thành phố A.",
+      "answer": 4,
+      "options": [
+        {
+          "key": 1,
+          "text": "血液",
+          "reading": "けつえき",
+          "meaning": "Máu",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "都市",
+          "reading": "とし",
+          "meaning": "Đô thị, thành phố",
+          "explain": "Sai vì không ghép với thể thao thành sự kiện được tổ chức."
+        },
+        {
+          "key": 3,
+          "text": "話し合い",
+          "reading": "はなしあい",
+          "meaning": "Cuộc thảo luận, bàn bạc",
+          "explain": "Sai vì thảo luận không tổ chức ở nhà thi đấu thể thao."
+        },
+        {
+          "key": 4,
+          "text": "大会",
+          "reading": "たいかい",
+          "meaning": "Đại hội, giải đấu",
+          "explain": "Đúng. Cụm 'スポーツ大会' chỉ đại hội / giải đấu thể thao."
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "question": "彼が言った言葉に対して、私はとても残念な気持ちを（ ）。",
+      "translation": "Đối với những lời anh ấy đã nói, tôi cảm thấy rất thất vọng.",
+      "answer": 3,
+      "options": [
+        {
+          "key": 1,
+          "text": "行った",
+          "reading": "おこなった",
+          "meaning": "Tiến hành, tổ chức",
+          "explain": "Sai vì không đi với tân ngữ là cảm xúc (気持ち)."
+        },
+        {
+          "key": 2,
+          "text": "配った",
+          "reading": "くばった",
+          "meaning": "Phân phát",
+          "explain": "Sai vì chỉ dùng cho phân phát tài liệu, đồ vật."
+        },
+        {
+          "key": 3,
+          "text": "抱いた",
+          "reading": "いだいた",
+          "meaning": "Ôm ấp, nảy sinh (cảm xúc)",
+          "explain": "Đúng. Cụm '気持ちを抱く' nghĩa là mang trong mình/nảy sinh một cảm xúc nào đó."
+        },
+        {
+          "key": 4,
+          "text": "残った",
+          "reading": "のこった",
+          "meaning": "Còn lại, sót lại",
+          "explain": "Sai ngữ pháp vì là tự động từ."
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "question": "（ ）に比べると、割り算は理解しにくい。",
+      "translation": "So với phép nhân thì phép chia khó hiểu hơn.",
+      "answer": 1,
+      "options": [
+        {
+          "key": 1,
+          "text": "掛け算",
+          "reading": "かけざん",
+          "meaning": "Phép nhân",
+          "explain": "Đúng. Đặt trong mối tương quan so sánh giữa các phép tính toán học với '割り算' (phép chia)."
+        },
+        {
+          "key": 2,
+          "text": "約",
+          "reading": "やく",
+          "meaning": "Khoảng chừng",
+          "explain": "Sai vì là phó từ chỉ ước lượng số lượng."
+        },
+        {
+          "key": 3,
+          "text": "消化",
+          "reading": "しょうか",
+          "meaning": "Tiêu hóa",
+          "explain": "Sai vì là quá trình sinh học tiêu hóa thức ăn."
+        },
+        {
+          "key": 4,
+          "text": "洗剤",
+          "reading": "せんざい",
+          "meaning": "Bột giặt, chất tẩy rửa",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "question": "（ ）社会では、どんなスキルが役に立つと思いますか。",
+      "translation": "Theo bạn, trong xã hội hiện đại thì kỹ năng nào sẽ có ích?",
+      "answer": 2,
+      "options": [
+        {
+          "key": 1,
+          "text": "言語",
+          "reading": "げんご",
+          "meaning": "Ngôn ngữ",
+          "explain": "Sai vì không tạo thành cụm từ tự nhiên trước từ '社会'."
+        },
+        {
+          "key": 2,
+          "text": "現代",
+          "reading": "げんだい",
+          "meaning": "Hiện đại, ngày nay",
+          "explain": "Đúng. Cụm '現代社会' chỉ xã hội hiện đại thời nay."
+        },
+        {
+          "key": 3,
+          "text": "洗濯機",
+          "reading": "せんたくき",
+          "meaning": "Máy giặt",
+          "explain": "Sai vì là đồ gia dụng."
+        },
+        {
+          "key": 4,
+          "text": "残り",
+          "reading": "のこり",
+          "meaning": "Phần còn lại",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "question": "少子化は、日本の社会にとって（ ）問題だ。",
+      "translation": "Tỷ lệ sinh giảm là một vấn đề trọng yếu đối với xã hội Nhật Bản.",
+      "answer": 1,
+      "options": [
+        {
+          "key": 1,
+          "text": "重要な",
+          "reading": "じゅうような",
+          "meaning": "Quan trọng, trọng yếu",
+          "explain": "Đúng. '重要な問題' chỉ vấn đề nghiêm trọng, có tầm ảnh hưởng lớn."
+        },
+        {
+          "key": 2,
+          "text": "必要な",
+          "reading": "ひつような",
+          "meaning": "Cần thiết",
+          "explain": "Sai vì vấn đề giảm sinh là tiêu cực, không phải điều cần thiết."
+        },
+        {
+          "key": 3,
+          "text": "特別な",
+          "reading": "とくべつな",
+          "meaning": "Đặc biệt",
+          "explain": "Sai vì không diễn đạt được tính cấp bách của một vấn nạn xã hội."
+        },
+        {
+          "key": 4,
+          "text": "平気な",
+          "reading": "へいきな",
+          "meaning": "Bình thản, không sao",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "question": "私が学生のころの制服があまりかっこうよくなかったのに対し、最近の制服は（ ）ものが多い。",
+      "translation": "Trái với đồng phục thời tôi đi học trông không đẹp mắt, đồng phục gần đây có nhiều kiểu rất hợp thời trang.",
+      "answer": 3,
+      "options": [
+        {
+          "key": 1,
+          "text": "ぺらぺらな",
+          "reading": "ぺらぺらな",
+          "meaning": "Lưu loát / Mỏng tang",
+          "explain": "Sai vì không dùng để khen trang phục đẹp."
+        },
+        {
+          "key": 2,
+          "text": "おしゃべりな",
+          "reading": "おしゃべりな",
+          "meaning": "Nhiều chuyện, lắm lời",
+          "explain": "Sai vì chỉ tính cách con người."
+        },
+        {
+          "key": 3,
+          "text": "おしゃれな",
+          "reading": "おしゃれな",
+          "meaning": "Hợp thời trang, sành điệu",
+          "explain": "Đúng. Tạo nét tương phản trực tiếp với 'かっこうよくなかった' (không đẹp mắt)."
+        },
+        {
+          "key": 4,
+          "text": "温かな",
+          "reading": "あたたかな",
+          "meaning": "Ấm áp",
+          "explain": "Sai vì không đối lập về tính thẩm mỹ của thiết kế đồng phục."
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "question": "新しい（ ）を学び、その国の人と話すのはとても楽しい。",
+      "translation": "Học một ngôn ngữ mới và trò chuyện với người dân nước đó là một điều rất thú vị.",
+      "answer": 1,
+      "options": [
+        {
+          "key": 1,
+          "text": "言語",
+          "reading": "げんご",
+          "meaning": "Ngôn ngữ, tiếng nói",
+          "explain": "Đúng. '言語を学ぶ' nghĩa là học một thứ tiếng/ngôn ngữ mới."
+        },
+        {
+          "key": 2,
+          "text": "現代",
+          "reading": "げんだい",
+          "meaning": "Hiện đại",
+          "explain": "Sai vì là thời đại, không thể dùng làm công cụ để nói chuyện với người nước đó."
+        },
+        {
+          "key": 3,
+          "text": "都会",
+          "reading": "とかい",
+          "meaning": "Thành thị, thành phố lớn",
+          "explain": "Sai vì là nơi chốn."
+        },
+        {
+          "key": 4,
+          "text": "洗濯物",
+          "reading": "せんたくもの",
+          "meaning": "Quần áo giặt",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 11,
+      "question": "新しい上司は、前の上司に比べると、部下に（ ）。",
+      "translation": "Sếp mới so với sếp trước thì nghiêm khắc với cấp dưới hơn.",
+      "answer": 4,
+      "options": [
+        {
+          "key": 1,
+          "text": "辛い",
+          "reading": "つらい / からい",
+          "meaning": "Khổ sở / Cay",
+          "explain": "Sai vì không dùng để miêu tả thái độ chỉ đạo cấp dưới."
+        },
+        {
+          "key": 2,
+          "text": "深い",
+          "reading": "ふかい",
+          "meaning": "Sâu sắc",
+          "explain": "Sai vì không đi với cấu trúc '部下に... '."
+        },
+        {
+          "key": 3,
+          "text": "汚い",
+          "reading": "きたない",
+          "meaning": "Bẩn thỉu, xấu tính",
+          "explain": "Sai vì không tự nhiên khi miêu tả phong cách quản lý."
+        },
+        {
+          "key": 4,
+          "text": "厳しい",
+          "reading": "きびしい",
+          "meaning": "Nghiêm khắc, khắt khe",
+          "explain": "Đúng. Cụm '部下に厳しい' nghĩa là nghiêm khắc/khắt khe với nhân viên cấp dưới."
+        }
+      ]
+    },
+    {
+      "id": 12,
+      "question": "彼女は他の人の悪口をよく言うため、周りの人から（ ）いる。",
+      "translation": "Vì cô ấy hay nói xấu người khác nên bị những người xung quanh ghét bỏ.",
+      "answer": 4,
+      "options": [
+        {
+          "key": 1,
+          "text": "育てられて",
+          "reading": "そだてられて",
+          "meaning": "Được nuôi nấng",
+          "explain": "Sai vì nói xấu người khác không dẫn tới việc được nuôi dạy."
+        },
+        {
+          "key": 2,
+          "text": "消されて",
+          "reading": "けされて",
+          "meaning": "Bị xóa bỏ, tiêu diệt",
+          "explain": "Sai nghĩa trong giao tiếp xã hội đời thường."
+        },
+        {
+          "key": 3,
+          "text": "洗われて",
+          "reading": "あらわれて",
+          "meaning": "Được giặt rửa",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "嫌われて",
+          "reading": "きらわれて",
+          "meaning": "Bị ghét bỏ",
+          "explain": "Đúng. '人から嫌われる' chỉ việc bị người khác xa lánh, ghét bỏ do thói quen xấu."
+        }
+      ]
+    },
+    {
+      "id": 13,
+      "question": "35歳になって、何か新しいことを（ ）たいと思うようになってきた。",
+      "translation": "Bước sang tuổi 35, tôi bắt đầu muốn học hỏi thêm một điều gì đó mới mẻ.",
+      "answer": 3,
+      "options": [
+        {
+          "key": 1,
+          "text": "経ち",
+          "reading": "たち",
+          "meaning": "Trôi qua (thời gian)",
+          "explain": "Sai vì là tự động từ chỉ thời gian trôi."
+        },
+        {
+          "key": 2,
+          "text": "触り",
+          "reading": "さわり",
+          "meaning": "Chạm vào, sờ",
+          "explain": "Sai vì không đi với mong muốn học hỏi tri thức mới."
+        },
+        {
+          "key": 3,
+          "text": "学び",
+          "reading": "まなび",
+          "meaning": "Học hỏi",
+          "explain": "Đúng. Đi với cụm '新しいことを学びたい' nghĩa là muốn học hỏi kiến thức mới."
+        },
+        {
+          "key": 4,
+          "text": "消し",
+          "reading": "けし",
+          "meaning": "Xóa, tắt",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 14,
+      "question": "歳を（ ）に従って、本当に大切なものが見えてくる。",
+      "translation": "Càng nhiều tuổi/trưởng thành hơn thì người ta càng nhận ra những điều thực sự quan trọng.",
+      "answer": 1,
+      "options": [
+        {
+          "key": 1,
+          "text": "重ねる",
+          "reading": "かさねる",
+          "meaning": "Chồng lên, tích lũy",
+          "explain": "Đúng. Cụm '歳を重ねる' là cách nói chuẩn mang nghĩa thêm tuổi, già đi."
+        },
+        {
+          "key": 2,
+          "text": "減る",
+          "reading": "へる",
+          "meaning": "Giảm bớt",
+          "explain": "Sai vì tuổi tác chỉ có tăng thêm chứ không giảm đi."
+        },
+        {
+          "key": 3,
+          "text": "痩せる",
+          "reading": "やせる",
+          "meaning": "Gầy đi",
+          "explain": "Sai vì chỉ cân nặng/vóc dáng cơ thể."
+        },
+        {
+          "key": 4,
+          "text": "残る",
+          "reading": "のこる",
+          "meaning": "Còn lại",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 15,
+      "question": "50年後、ベトナムがどうなっているかを（ ）してみましょう。",
+      "translation": "Hãy thử tưởng tượng xem 50 năm nữa Việt Nam sẽ trở nên như thế nào nhé.",
+      "answer": 3,
+      "options": [
+        {
+          "key": 1,
+          "text": "信頼",
+          "reading": "しんらい",
+          "meaning": "Tin cậy, tín nhiệm",
+          "explain": "Sai vì không thể tin tưởng một viễn cảnh chưa tới."
+        },
+        {
+          "key": 2,
+          "text": "おしゃべり",
+          "reading": "おしゃべり",
+          "meaning": "Tán gẫu, nói chuyện phiếm",
+          "explain": "Sai vì không ghép với cấu trúc dự đoán tương lai."
+        },
+        {
+          "key": 3,
+          "text": "想像",
+          "reading": "そうぞう",
+          "meaning": "Tưởng tượng, hình dung",
+          "explain": "Đúng. '想像してみる' nghĩa là thử tưởng tượng/hình dung về viễn cảnh tương lai."
+        },
+        {
+          "key": 4,
+          "text": "渋滞",
+          "reading": "じゅうたい",
+          "meaning": "Kẹt xe, tắc nghẽn",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 16,
+      "question": "困った時に助けてくれた彼に（ ）の気持ちを抱いている。",
+      "translation": "Tôi luôn mang trong mình lòng biết ơn đối với người đã giúp đỡ tôi lúc khó khăn.",
+      "answer": 2,
+      "options": [
+        {
+          "key": 1,
+          "text": "想像",
+          "reading": "そうぞう",
+          "meaning": "Tưởng tượng",
+          "explain": "Sai vì không dùng để chỉ tâm tư tình cảm gửi tới người giúp mình."
+        },
+        {
+          "key": 2,
+          "text": "感謝",
+          "reading": "かんしゃ",
+          "meaning": "Cảm ơn, biết ơn",
+          "explain": "Đúng. Cụm '感謝の気持ちを抱く' nghĩa là ôm ấp lòng biết ơn, tri ân."
+        },
+        {
+          "key": 3,
+          "text": "進学",
+          "reading": "しんがく",
+          "meaning": "Học lên cao",
+          "explain": "Sai vì là hành động học tiếp lên cấp cao hơn."
+        },
+        {
+          "key": 4,
+          "text": "努力",
+          "reading": "どりょく",
+          "meaning": "Nỗ lực, cố gắng",
+          "explain": "Sai ngữ cảnh."
+        }
+      ]
+    },
+    {
+      "id": 17,
+      "question": "この店では、初めてのお客さんに対して割引券を（ ）いる。",
+      "translation": "Quán này đang phát phiếu giảm giá cho những khách hàng lần đầu ghé quán.",
+      "answer": 4,
+      "options": [
+        {
+          "key": 1,
+          "text": "消えて",
+          "reading": "きえて",
+          "meaning": "Biến mất",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "残って",
+          "reading": "のこって",
+          "meaning": "Còn lại",
+          "explain": "Sai vì là tự động từ."
+        },
+        {
+          "key": 3,
+          "text": "洗って",
+          "reading": "あらって",
+          "meaning": "Rửa, giặt",
+          "explain": "Sai vì phiếu giảm giá không đem đi giặt."
+        },
+        {
+          "key": 4,
+          "text": "配って",
+          "reading": "くばって",
+          "meaning": "Phát, phân phát",
+          "explain": "Đúng. Cụm '割引券を配る' nghĩa là phát vé/phiếu giảm giá cho khách."
+        }
+      ]
+    },
+    {
+      "id": 18,
+      "question": "この洗剤は、油汚れに対して（ ）がある。",
+      "translation": "Loại nước tẩy rửa này rất có hiệu quả đối với các vết bẩn dầu mỡ.",
+      "answer": 4,
+      "options": [
+        {
+          "key": 1,
+          "text": "平均",
+          "reading": "へいきん",
+          "meaning": "Trung bình",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "社員",
+          "reading": "しゃいん",
+          "meaning": "Nhân viên công ty",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "法律",
+          "reading": "ほうりつ",
+          "meaning": "Pháp luật",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "効果",
+          "reading": "こうか",
+          "meaning": "Hiệu quả, tác dụng",
+          "explain": "Đúng. Cụm '効果がある' nghĩa là phát huy hiệu quả, có tác dụng tốt."
+        }
+      ]
+    },
+    {
+      "id": 19,
+      "question": "医者の（ ）にしたがって運動をしたのに、体調がもっと悪くなった。",
+      "translation": "Dù đã vận động theo chỉ dẫn của bác sĩ nhưng thể trạng của tôi lại càng tệ hơn.",
+      "answer": 1,
+      "options": [
+        {
+          "key": 1,
+          "text": "指示",
+          "reading": "しじ",
+          "meaning": "Chỉ thị, chỉ dẫn",
+          "explain": "Đúng. Cụm '指示に従う' nghĩa là làm theo sự chỉ dẫn/y lệnh của bác sĩ."
+        },
+        {
+          "key": 2,
+          "text": "理解",
+          "reading": "りかい",
+          "meaning": "Sự thấu hiểu",
+          "explain": "Sai ngữ pháp vì không dùng 'sự thấu hiểu của bác sĩ' làm tiêu chuẩn vận động."
+        },
+        {
+          "key": 3,
+          "text": "商品",
+          "reading": "しょうひん",
+          "meaning": "Hàng hóa",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "疑問",
+          "reading": "ぎもん",
+          "meaning": "Nghi vấn, thắc mắc",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 20,
+      "question": "今の会社のルールに対して（ ）を抱いている。",
+      "translation": "Tôi cảm thấy hoài nghi/thắc mắc đối với quy định hiện tại của công ty.",
+      "answer": 2,
+      "options": [
+        {
+          "key": 1,
+          "text": "存在",
+          "reading": "そんざい",
+          "meaning": "Sự tồn tại",
+          "explain": "Sai vì không đi với cụm ôm giữ cảm xúc/thái độ."
+        },
+        {
+          "key": 2,
+          "text": "疑問",
+          "reading": "ぎもん",
+          "meaning": "Nghi vấn, thắc mắc, hoài nghi",
+          "explain": "Đúng. Cụm '疑問を抱く' nghĩa là ôm mối hoài nghi, đặt dấu chấm hỏi."
+        },
+        {
+          "key": 3,
+          "text": "進学",
+          "reading": "しんがく",
+          "meaning": "Học lên cao",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "命令",
+          "reading": "めいれい",
+          "meaning": "Mệnh lệnh",
+          "explain": "Sai vì không dùng 'mệnh lệnh' đi kèm với '抱く'."
+        }
+      ]
+    }
+  ]
+}

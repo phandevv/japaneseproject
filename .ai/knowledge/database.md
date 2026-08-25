@@ -209,3 +209,18 @@ Cơ sở dữ liệu được khởi tạo và nâng cấp thông qua Flyway t�
   ```
 * Đường dẫn lưu file index ở môi trường sản xuất (EC2/Docker): `/data/lucene-index`.
 * Môi trường local: `./data/lucene-index`.
+
+---
+
+## 4. Cấu trúc MongoDB Collections (JLPT N3 Course & Quizzes)
+
+Hệ thống lưu trữ dữ liệu khóa học JLPT N3 và bộ 520 câu trắc nghiệm trực tiếp trong MongoDB:
+* **`jlpt_n3_lesson_quizzes`**: Chứa 20 câu hỏi trắc nghiệm kèm dịch câu, giải thích đáp án cho 26 bài học N3 (tổng 520 câu).
+  * `_id`: `chapterId * 10 + lessonId`
+  * `chapterId`, `lessonId`, `totalQuestions`: 20
+  * `questions`: Danh sách 20 đối tượng câu hỏi (`id`, `question`, `translation`, `answer`, `options`)
+  * `questionsJson`: Chuỗi JSON nạp siêu tốc
+  * Index: `{ chapterId: 1, lessonId: 1 }`
+* **`jlpt_n3_progress`**: Tiến độ học từng bài của học viên (`vocabPassed`, `kanjiPassed`, `grammarPassed`, `quizPassed`, `completed`, `bestScore`).
+* **`jlpt_n3_grammar_quizzes`**: Bộ 30 câu hỏi trắc nghiệm ngữ pháp AI tạo.
+

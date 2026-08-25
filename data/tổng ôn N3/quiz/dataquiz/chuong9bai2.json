@@ -1,0 +1,726 @@
+{
+  "chuong": 9,
+  "bai": 2,
+  "questions": [
+    {
+      "id": 1,
+      "question": "弟は大学生になってから（　）に関心を持つようになったみたいだ。",
+      "translation": "Em trai tôi kể từ khi lên đại học dường như đã bắt đầu quan tâm tới chính trị.",
+      "answer": 2,
+      "options": [
+        {
+          "key": 1,
+          "text": "包丁",
+          "reading": "ほうちょう",
+          "meaning": "Con dao bếp",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "政治",
+          "reading": "せいじ",
+          "meaning": "Chính trị",
+          "explain": "Đúng. Cụm '政治に関心を持つ' nghĩa là quan tâm tới thời sự, chính trị xã hội."
+        },
+        {
+          "key": 3,
+          "text": "舞台",
+          "reading": "ぶたい",
+          "meaning": "Sân khấu",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "芝生",
+          "reading": "しばふ",
+          "meaning": "Bãi cỏ",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "question": "ベトナムのお皿には、ベトナムの（　）が描かれている。",
+      "translation": "Trên những chiếc đĩa của Việt Nam có vẽ hoa văn họa tiết truyền thống của Việt Nam.",
+      "answer": 1,
+      "options": [
+        {
+          "key": 1,
+          "text": "模様",
+          "reading": "もよう",
+          "meaning": "Hoa văn, họa tiết trang trí",
+          "explain": "Đúng. 'お皿に模様が描かれている' chỉ các hoa văn họa tiết được vẽ trên đĩa gốm sứ."
+        },
+        {
+          "key": 2,
+          "text": "足跡",
+          "reading": "あしあと",
+          "meaning": "Dấu chân",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "名刺",
+          "reading": "めいし",
+          "meaning": "Danh thiếp",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "作曲",
+          "reading": "さっきょく",
+          "meaning": "Sáng tác nhạc",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "question": "イラスト素材には無料のものと（　）のものがある。",
+      "translation": "Tài nguyên hình ảnh minh họa có cả loại miễn phí và loại có thu phí.",
+      "answer": 3,
+      "options": [
+        {
+          "key": 1,
+          "text": "材料",
+          "reading": "ざいりょう",
+          "meaning": "Nguyên liệu",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "無料",
+          "reading": "むりょう",
+          "meaning": "Miễn phí",
+          "explain": "Sai vì đã có từ 無料 phía trước (lặp từ)."
+        },
+        {
+          "key": 3,
+          "text": "有料",
+          "reading": "ゆうりょう",
+          "meaning": "Có thu phí, tính phí",
+          "explain": "Đúng. Từ trái nghĩa hoàn hảo đối lập với '無料' (miễn phí) trong phân loại bản quyền phần mềm/hình ảnh."
+        },
+        {
+          "key": 4,
+          "text": "送料",
+          "reading": "そうりょう",
+          "meaning": "Phí ship hàng",
+          "explain": "Sai vì hình ảnh trên mạng không mất phí ship hàng thể lý."
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "question": "初めて会う人と（　）を交換した。",
+      "translation": "Tôi đã trao đổi danh thiếp với người lần đầu tiên gặp mặt.",
+      "answer": 2,
+      "options": [
+        {
+          "key": 1,
+          "text": "文字",
+          "reading": "もじ",
+          "meaning": "Chữ cái",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "名刺",
+          "reading": "めいし",
+          "meaning": "Danh thiếp, namecard",
+          "explain": "Đúng. Văn hóa kinh doanh Nhật Bản: '名刺を交換する' (trao đổi danh thiếp khi lần đầu gặp gỡ)."
+        },
+        {
+          "key": 3,
+          "text": "宴会",
+          "reading": "えんかい",
+          "meaning": "Yến tiệc",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "関係",
+          "reading": "かんけい",
+          "meaning": "Quan hệ",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "question": "（　）を書くときは、姿勢をよくするといいですよ。",
+      "translation": "Khi viết chữ, ngồi thẳng lưng với tư thế đúng sẽ rất tốt đấy.",
+      "answer": 2,
+      "options": [
+        {
+          "key": 1,
+          "text": "変更",
+          "reading": "へんこう",
+          "meaning": "Thay đổi",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "文字",
+          "reading": "もじ",
+          "meaning": "Chữ viết, chữ cái",
+          "explain": "Đúng. Cụm '文字を書く' nghĩa là nắn nót viết chữ với tư thế ngồi chuẩn."
+        },
+        {
+          "key": 3,
+          "text": "夕立",
+          "reading": "ゆうだち",
+          "meaning": "Mưa rào mùa hè",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "礼儀",
+          "reading": "れいぎ",
+          "meaning": "Lễ nghi",
+          "explain": "Sai vì lễ nghi không dùng để viết."
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "question": "あいさつは簡単に示すことのできる（　）だ。",
+      "translation": "Chào hỏi là phép lịch sự cơ bản có thể dễ dàng thể hiện ra bên ngoài.",
+      "answer": 3,
+      "options": [
+        {
+          "key": 1,
+          "text": "模様",
+          "reading": "もよう",
+          "meaning": "Hoa văn",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "面接",
+          "reading": "めんせつ",
+          "meaning": "Phỏng vấn",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "礼儀",
+          "reading": "れいぎ",
+          "meaning": "Lễ nghi, phép lịch sự",
+          "explain": "Đúng. 'あいさつは礼儀だ' khẳng định lời chào là nét đẹp văn hóa và phép lịch sự tối thiểu."
+        },
+        {
+          "key": 4,
+          "text": "丁寧",
+          "reading": "ていねい",
+          "meaning": "Lịch sự (tính từ)",
+          "explain": "Sai ngữ pháp vì cần một danh từ."
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "question": "たくさんの会社に（　）を送ったが、まだ1つも返事をもらっていない。",
+      "translation": "Tôi đã gửi sơ yếu lý lịch (CV) đến rất nhiều công ty nhưng vẫn chưa nhận được bất kỳ lời hồi âm nào.",
+      "answer": 4,
+      "options": [
+        {
+          "key": 1,
+          "text": "掲示",
+          "reading": "けいじ",
+          "meaning": "Bảng tin",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "無条件",
+          "reading": "むじょうけん",
+          "meaning": "Vô điều kiện",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "空き地",
+          "reading": "あきち",
+          "meaning": "Khu đất trống",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "履歴書",
+          "reading": "りれきしょ",
+          "meaning": "Sơ yếu lý lịch (CV)",
+          "explain": "Đúng. '履歴書を送る' chỉ việc nộp hồ sơ CV ứng tuyển việc làm cho các doanh nghiệp."
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "question": "（　）を見て、内容を想像する。",
+      "translation": "Nhìn vào tiêu đề/đầu đề bài báo để hình dung ra nội dung bên trong.",
+      "answer": 4,
+      "options": [
+        {
+          "key": 1,
+          "text": "花壇",
+          "reading": "かだん",
+          "meaning": "Bồn hoa",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "見本",
+          "reading": "みほん",
+          "meaning": "Hàng mẫu",
+          "explain": "Sai vì tiêu đề mới tóm tắt nội dung văn bản."
+        },
+        {
+          "key": 3,
+          "text": "見物",
+          "reading": "けんぶつ",
+          "meaning": "Tham quan",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "見出し",
+          "reading": "みだし",
+          "meaning": "Tiêu đề, tít bài báo, đầu đề",
+          "explain": "Đúng. Cụm '見出しを見る' nghĩa là đọc tít/tiêu đề để nắm bắt nhanh nội dung bài viết."
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "question": "失敗しても大丈夫だよ、また次の（　）がやってくるから。",
+      "translation": "Dù có thất bại cũng không sao đâu, vì cơ hội tiếp theo nhất định sẽ lại đến mà.",
+      "answer": 1,
+      "options": [
+        {
+          "key": 1,
+          "text": "チャンス",
+          "reading": "チャンス",
+          "meaning": "Cơ hội (chance)",
+          "explain": "Đúng. '次のチャンスがやってくる' lời động viên cơ hội mới sẽ mở ra phía trước."
+        },
+        {
+          "key": 2,
+          "text": "ネックレス",
+          "reading": "ネックレス",
+          "meaning": "Dây chuyền",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "エサ",
+          "reading": "エサ",
+          "meaning": "Mồi câu/thức ăn cho thú",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "サイン",
+          "reading": "サイン",
+          "meaning": "Chữ ký",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "question": "鈴木さんはいつもぼうしを（　）に被っている。",
+      "translation": "Anh Suzuki lúc nào cũng đội chiếc mũ lệch sang một bên.",
+      "answer": 1,
+      "options": [
+        {
+          "key": 1,
+          "text": "斜め",
+          "reading": "ななめ",
+          "meaning": "Nghiêng, chéo, lệch",
+          "explain": "Đúng. Cụm 'ぼうしを斜めに被る' nghĩa là đội mũ lệch một bên tạo phong cách cá tính."
+        },
+        {
+          "key": 2,
+          "text": "曲",
+          "reading": "きょく",
+          "meaning": "Bản nhạc",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "棒",
+          "reading": "ぼう",
+          "meaning": "Cây gậy",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "丸",
+          "reading": "まる",
+          "meaning": "Hình tròn",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 11,
+      "question": "私は薄い色よりも、（　）色の方が好きです。",
+      "translation": "So với những gam màu nhạt thì tôi thích những gam màu đậm hơn.",
+      "answer": 4,
+      "options": [
+        {
+          "key": 1,
+          "text": "勢い",
+          "reading": "いきおい",
+          "meaning": "Sức mạnh",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "丸い",
+          "reading": "まるい",
+          "meaning": "Tròn trịa",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "厚い",
+          "reading": "あつい",
+          "meaning": "Dày",
+          "explain": "Sai vì màu sắc đối lập nhạt/đậm là 薄い / 濃い."
+        },
+        {
+          "key": 4,
+          "text": "濃い",
+          "reading": "こい",
+          "meaning": "Đậm (màu sắc, hương vị)",
+          "explain": "Đúng. Từ trái nghĩa hoàn hảo đối lập với '薄い色' (màu nhạt) là '濃い色' (màu đậm)."
+        }
+      ]
+    },
+    {
+      "id": 12,
+      "question": "後輩が学ぶ機会を（　）。",
+      "translation": "Tạo/trao cơ hội học hỏi cho cấp dưới (hậu bối).",
+      "answer": 3,
+      "options": [
+        {
+          "key": 1,
+          "text": "打つ",
+          "reading": "うつ",
+          "meaning": "Đánh",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "離す",
+          "reading": "はなす",
+          "meaning": "Tách rời",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "与える",
+          "reading": "あたえる",
+          "meaning": "Ban cho, trao cho, tạo cho",
+          "explain": "Đúng. Cụm '機会を与える' nghĩa là trao/tạo cơ hội cho ai đó phát triển."
+        },
+        {
+          "key": 4,
+          "text": "流行る",
+          "reading": "はやる",
+          "meaning": "Thịnh hành",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 13,
+      "question": "私の家の猫は、時々テレビの画面をずっと（　）いることがある。",
+      "translation": "Chú mèo nhà tôi thỉnh thoảng có lúc cứ ngồi nhìn chằm chằm vào màn hình tivi suốt.",
+      "answer": 1,
+      "options": [
+        {
+          "key": 1,
+          "text": "見つめて",
+          "reading": "みつめて",
+          "meaning": "Nhìn chằm chằm, dõi mắt theo",
+          "explain": "Đúng. Cụm '画面を見つめている' chỉ hành động nhìn chằm chằm chăm chú vào màn hình."
+        },
+        {
+          "key": 2,
+          "text": "身につけて",
+          "reading": "みにつけて",
+          "meaning": "Tiếp thu kỹ năng / Mặc đồ",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "くたびれて",
+          "reading": "くたびれて",
+          "meaning": "Mệt mỏi rã rời",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "関わって",
+          "reading": "かかわって",
+          "meaning": "Liên quan",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 14,
+      "question": "今朝、駅の近くで田中さんを（　）。",
+      "translation": "Sáng nay tôi đã tình cờ nhìn thấy anh Tanaka ở gần nhà ga.",
+      "answer": 4,
+      "options": [
+        {
+          "key": 1,
+          "text": "見上げた",
+          "reading": "みあげた",
+          "meaning": "Ngước nhìn lên",
+          "explain": "Sai vì không đi với tình cờ thấy người."
+        },
+        {
+          "key": 2,
+          "text": "持ち帰る",
+          "reading": "もちかえる",
+          "meaning": "Mang về",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "持ち運ぶ",
+          "reading": "もちはこぶ",
+          "meaning": "Vận chuyển",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "見かけた",
+          "reading": "みかけた",
+          "meaning": "Bắt gặp, tình cờ nhìn thấy",
+          "explain": "Đúng. '人を見かける' nghĩa là tình cờ trông thấy, bắt gặp ai đó đi ngang qua."
+        }
+      ]
+    },
+    {
+      "id": 15,
+      "question": "間違って、（　）チームのゴールにシュートしてしまった。",
+      "translation": "Tôi đã sút nhầm bóng vào lưới của chính đội nhà (đội mình).",
+      "answer": 2,
+      "options": [
+        {
+          "key": 1,
+          "text": "握手",
+          "reading": "あくしゅ",
+          "meaning": "Bắt tay",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "味方",
+          "reading": "みかた",
+          "meaning": "Đồng đội, phe mình, đội nhà",
+          "explain": "Đúng. Cụm '味方チーム' (đội của mình / đồng minh), phản lưới nhà nhầm."
+        },
+        {
+          "key": 3,
+          "text": "味見",
+          "reading": "あじみ",
+          "meaning": "Nếm thử đồ ăn",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "沸騰",
+          "reading": "ふっとう",
+          "meaning": "Sôi sùng sục",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 16,
+      "question": "壁に（　）が貼ってある。",
+      "translation": "Trên tường có dán bảng thông báo.",
+      "answer": 2,
+      "options": [
+        {
+          "key": 1,
+          "text": "履歴書",
+          "reading": "りれきしょ",
+          "meaning": "Sơ yếu lý lịch",
+          "explain": "Sai vì CV không dán công khai lên tường."
+        },
+        {
+          "key": 2,
+          "text": "掲示",
+          "reading": "けいじ",
+          "meaning": "Bảng tin thông báo, tờ thông tri",
+          "explain": "Đúng. Cụm '壁に掲示が貼ってある' chỉ tờ thông báo công cộng được dán trên tường."
+        },
+        {
+          "key": 3,
+          "text": "有料",
+          "reading": "ゆうりょう",
+          "meaning": "Có phí",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "渡り鳥",
+          "reading": "わたりどり",
+          "meaning": "Chim di cư",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 17,
+      "question": "高いところでは、水は100度より低い温度で（　）する。",
+      "translation": "Ở những nơi có độ cao lớn, nước sẽ sôi ở nhiệt độ thấp hơn 100 độ C.",
+      "answer": 3,
+      "options": [
+        {
+          "key": 1,
+          "text": "味方",
+          "reading": "みかた",
+          "meaning": "Đồng minh",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "変わり",
+          "reading": "かわり",
+          "meaning": "Thay đổi",
+          "explain": "Sai ngữ pháp."
+        },
+        {
+          "key": 3,
+          "text": "沸騰",
+          "reading": "ふっとう",
+          "meaning": "Sôi, đạt điểm sôi",
+          "explain": "Đúng. Hiện tượng vật lý: '水が沸騰する' (nước sôi ở áp suất thấp trên núi cao)."
+        },
+        {
+          "key": 4,
+          "text": "予報",
+          "reading": "よほう",
+          "meaning": "Dự báo",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 18,
+      "question": "有名なサッカー選手に（　）してもらった。",
+      "translation": "Tôi đã được cầu thủ bóng đá nổi tiếng bắt tay.",
+      "answer": 1,
+      "options": [
+        {
+          "key": 1,
+          "text": "握手",
+          "reading": "あくしゅ",
+          "meaning": "Bắt tay",
+          "explain": "Đúng. Cụm '選手に握手してもらう' nghĩa là được thần tượng bắt tay giao lưu."
+        },
+        {
+          "key": 2,
+          "text": "派手",
+          "reading": "はで",
+          "meaning": "Lòe loẹt",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "政治",
+          "reading": "せいじ",
+          "meaning": "Chính trị",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "独身",
+          "reading": "どくしん",
+          "meaning": "Độc thân",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 19,
+      "question": "仕事が忙しくて、（　）一日が過ぎた。",
+      "translation": "Công việc bận rộn quá nên một ngày đã trôi qua trong chớp mắt.",
+      "answer": 4,
+      "options": [
+        {
+          "key": 1,
+          "text": "あらゆる",
+          "reading": "あらゆる",
+          "meaning": "Tất cả mọi",
+          "explain": "Sai vì bổ nghĩa cho danh từ."
+        },
+        {
+          "key": 2,
+          "text": "あれこれ",
+          "reading": "あれこれ",
+          "meaning": "Cái này cái kia",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "あまりにも",
+          "reading": "あまりにも",
+          "meaning": "Quá đỗi",
+          "explain": "Sai vì không đi liền với 一日が過ぎた theo nghĩa này."
+        },
+        {
+          "key": 4,
+          "text": "あっという間に",
+          "reading": "あっというまに",
+          "meaning": "Trong chớp mắt, thoắt một cái",
+          "explain": "Đúng. Cụm 'あっという間に一日が過ぎる' nghĩa là một ngày trôi qua vèo trong tích tắc vì quá bận."
+        }
+      ]
+    },
+    {
+      "id": 20,
+      "question": "（　）方法を試してみたが、どれもうまくいかなかった。",
+      "translation": "Tôi đã thử tất cả mọi phương pháp nhưng chẳng có cách nào đem lại kết quả suôn sẻ.",
+      "answer": 2,
+      "options": [
+        {
+          "key": 1,
+          "text": "あっという間に",
+          "reading": "あっというまに",
+          "meaning": "Trong chớp mắt",
+          "explain": "Sai vì là phó từ không bổ nghĩa trực tiếp cho danh từ 方法."
+        },
+        {
+          "key": 2,
+          "text": "あらゆる",
+          "reading": "あらゆる",
+          "meaning": "Tất cả mọi, toàn thể",
+          "explain": "Đúng. 'あらゆる方法を試す' nghĩa là thử tất cả mọi phương thức/cách thức có thể."
+        },
+        {
+          "key": 3,
+          "text": "いくらでも",
+          "reading": "いくらでも",
+          "meaning": "Bao nhiêu cũng được",
+          "explain": "Sai ngữ pháp."
+        },
+        {
+          "key": 4,
+          "text": "いつか",
+          "reading": "いつか",
+          "meaning": "Một ngày nào đó",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,726 @@
+{
+  "chuong": 7,
+  "bai": 3,
+  "questions": [
+    {
+      "id": 1,
+      "question": "片方の意見だけではなく、（　）の意見を聞くべきだ。",
+      "translation": "Không nên chỉ nghe ý kiến từ một phía mà nên lắng nghe ý kiến của cả hai bên.",
+      "answer": 2,
+      "options": [
+        {
+          "key": 1,
+          "text": "後方",
+          "reading": "こうほう",
+          "meaning": "Phía sau",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "両方",
+          "reading": "りょうほう",
+          "meaning": "Cả hai bên, đôi bên",
+          "explain": "Đúng. Từ trái nghĩa hoàn hảo đối lập với '片方の意見' (ý kiến một bên)."
+        },
+        {
+          "key": 3,
+          "text": "全責任",
+          "reading": "ぜんせきにん",
+          "meaning": "Toàn bộ trách nhiệm",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "満員",
+          "reading": "まんいん",
+          "meaning": "Đầy người",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "question": "雨が多い季節になると、（　）で部屋がカビだらけになる。",
+      "translation": "Cứ đến mùa mưa nhiều là căn phòng lại bị mốc meo đầy do độ ẩm cao.",
+      "answer": 2,
+      "options": [
+        {
+          "key": 1,
+          "text": "ほこり",
+          "reading": "ほこり",
+          "meaning": "Bụi bặm",
+          "explain": "Sai vì bụi không trực tiếp sinh nấm mốc mùa mưa."
+        },
+        {
+          "key": 2,
+          "text": "湿気",
+          "reading": "しっけ",
+          "meaning": "Độ ẩm, hơi ẩm",
+          "explain": "Đúng. '湿気で部屋がカビだらけになる' chỉ độ ẩm mùa mưa khiến phòng bị ẩm mốc."
+        },
+        {
+          "key": 3,
+          "text": "しわ",
+          "reading": "しわ",
+          "meaning": "Nếp nhăn",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "明かり",
+          "reading": "あかり",
+          "meaning": "Ánh sáng",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "question": "この服は（　）向きだから、50代の私が買うのはちょっと…。",
+      "translation": "Bộ quần áo này hướng đến giới trẻ nên người ở độ tuổi 50 như tôi mua thì có chút e ngại...",
+      "answer": 3,
+      "options": [
+        {
+          "key": 1,
+          "text": "神社",
+          "reading": "じんじゃ",
+          "meaning": "Đền thần",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "全員",
+          "reading": "ぜんいん",
+          "meaning": "Tất cả mọi người",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "若者",
+          "reading": "わかもの",
+          "meaning": "Người trẻ, giới trẻ",
+          "explain": "Đúng. Cụm '若者向き' nghĩa là thiết kế dành riêng cho giới trẻ, thanh niên."
+        },
+        {
+          "key": 4,
+          "text": "留学",
+          "reading": "りゅうがく",
+          "meaning": "Du học",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "question": "最近頬の（　）が目立つようになってきた。",
+      "translation": "Dạo gần đây những nếp nhăn trên má bắt đầu lộ rõ hẳn lên.",
+      "answer": 1,
+      "options": [
+        {
+          "key": 1,
+          "text": "しわ",
+          "reading": "しわ",
+          "meaning": "Nếp nhăn",
+          "explain": "Đúng. Cụm '頬のしわ' chỉ nếp nhăn lão hóa trên gò má."
+        },
+        {
+          "key": 2,
+          "text": "胃",
+          "reading": "い",
+          "meaning": "Dạ dày",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "砂",
+          "reading": "すな",
+          "meaning": "Cát",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "神",
+          "reading": "かみ",
+          "meaning": "Thần linh",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "question": "身分（　）を見せてください。",
+      "translation": "Xin vui lòng xuất trình giấy tờ tùy thân (giấy chứng minh nhân thân).",
+      "answer": 4,
+      "options": [
+        {
+          "key": 1,
+          "text": "頭痛",
+          "reading": "ずつう",
+          "meaning": "Đau đầu",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "申請",
+          "reading": "しんせい",
+          "meaning": "Đăng ký",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "健康診断",
+          "reading": "けんこうしんだん",
+          "meaning": "Khám sức khỏe",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "証明書",
+          "reading": "しょうめいしょ",
+          "meaning": "Giấy chứng nhận",
+          "explain": "Đúng. Cụm từ cố định '身分証明書' nghĩa là giấy tờ chứng minh nhân thân/giấy tờ tùy thân."
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "question": "（　）が面白いアニメを何か知っていますか。",
+      "translation": "Bạn có biết bộ phim anime nào có cốt truyện hấp dẫn không?",
+      "answer": 1,
+      "options": [
+        {
+          "key": 1,
+          "text": "ストーリー",
+          "reading": "ストーリー",
+          "meaning": "Cốt truyện, kịch bản (story)",
+          "explain": "Đúng. Cụm 'ストーリーが面白い' chỉ cốt truyện phim/anime cuốn hút, đặc sắc."
+        },
+        {
+          "key": 2,
+          "text": "マンション",
+          "reading": "マンション",
+          "meaning": "Căn hộ chung cư",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "セミナー",
+          "reading": "セミナー",
+          "meaning": "Hội thảo",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "ピックアップ",
+          "reading": "ピックアップ",
+          "meaning": "Chọn lọc ra",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "question": "田中選手はテニスの世界大会で（　）4に入った。",
+      "translation": "Tuyển thủ Tanaka đã lọt vào top 4 (bán kết) tại giải đấu quần vợt thế giới.",
+      "answer": 2,
+      "options": [
+        {
+          "key": 1,
+          "text": "アクセス",
+          "reading": "アクセス",
+          "meaning": "Truy cập",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "ベスト",
+          "reading": "ベスト",
+          "meaning": "Tốt nhất (cụm ベスト4 = bán kết / top 4)",
+          "explain": "Đúng. Cụm 'ベスト4' là thuật ngữ thể thao quen thuộc chỉ 4 đội/vận động viên mạnh nhất giải."
+        },
+        {
+          "key": 3,
+          "text": "カビ",
+          "reading": "カビ",
+          "meaning": "Nấm mốc",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "ダム",
+          "reading": "ダム",
+          "meaning": "Đập nước",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "question": "その（　）の建設に、多くの住民が反対した。",
+      "translation": "Nhiều người dân địa phương đã phản đối việc xây dựng con đập ngăn nước đó.",
+      "answer": 1,
+      "options": [
+        {
+          "key": 1,
+          "text": "ダム",
+          "reading": "ダム",
+          "meaning": "Đập ngăn nước, đập thủy điện (dam)",
+          "explain": "Đúng. Cụm 'ダムの建設' chỉ công trình xây dựng đập thủy điện/ngăn nước."
+        },
+        {
+          "key": 2,
+          "text": "タイプ",
+          "reading": "タイプ",
+          "meaning": "Kiểu loại",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "ベスト",
+          "reading": "ベスト",
+          "meaning": "Tốt nhất",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "ストーリー",
+          "reading": "ストーリー",
+          "meaning": "Cốt truyện",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "question": "子供が（　）な大人に育つように、しっかりと教育する。",
+      "translation": "Tôi dạy dỗ con cái thật nghiêm túc để con lớn lên trở thành một người lớn đàng hoàng, tuyệt vời.",
+      "answer": 1,
+      "options": [
+        {
+          "key": 1,
+          "text": "立派",
+          "reading": "りっぱ",
+          "meaning": "Đàng hoàng, xuất sắc, đường hoàng",
+          "explain": "Đúng. Cụm '立派な大人' chỉ người trưởng thành tài giỏi, có ích cho xã hội."
+        },
+        {
+          "key": 2,
+          "text": "派手",
+          "reading": "はで",
+          "meaning": "Lòe loẹt",
+          "explain": "Sai vì không phải tiêu chuẩn nuôi dạy nhân cách."
+        },
+        {
+          "key": 3,
+          "text": "明らか",
+          "reading": "あきらか",
+          "meaning": "Rõ ràng",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "なだらか",
+          "reading": "なだらか",
+          "meaning": "Thoai thoải (đồi núi)",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "question": "（　）のため、毎日必ず30分歩くことにした。",
+      "translation": "Vì sức khỏe nên tôi quyết định mỗi ngày nhất định phải đi bộ 30 phút.",
+      "answer": 3,
+      "options": [
+        {
+          "key": 1,
+          "text": "入門",
+          "reading": "にゅうもん",
+          "meaning": "Nhập môn",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "法律",
+          "reading": "ほうりつ",
+          "meaning": "Pháp luật",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "健康",
+          "reading": "けんこう",
+          "meaning": "Sức khỏe",
+          "explain": "Đúng. Cụm '健康のため' chỉ mục đích rèn luyện thân thể bằng cách đi bộ."
+        },
+        {
+          "key": 4,
+          "text": "建物",
+          "reading": "たてもの",
+          "meaning": "Tòa nhà",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 11,
+      "question": "（　）な気持ちでタバコを吸い始めると、その後やめられなくなるよ。",
+      "translation": "Nếu chỉ vì tâm lý tùy tiện/dễ dãi mà bắt đầu hút thuốc thì sau đó sẽ không bỏ được đâu.",
+      "answer": 1,
+      "options": [
+        {
+          "key": 1,
+          "text": "安易",
+          "reading": "あんい",
+          "meaning": "Dễ dãi, tùy tiện, nhẹ dạ",
+          "explain": "Đúng. '安易な気持ち' chỉ suy nghĩ đơn giản, thiếu chín chắn dẫn đến hậu quả nghiện thuốc."
+        },
+        {
+          "key": 2,
+          "text": "信用",
+          "reading": "しんよう",
+          "meaning": "Tín nhiệm",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "身近",
+          "reading": "みぢか",
+          "meaning": "Gần gũi",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "下品",
+          "reading": "げひん",
+          "meaning": "Thô tục, hạ đẳng",
+          "explain": "Sai ngữ cảnh."
+        }
+      ]
+    },
+    {
+      "id": 12,
+      "question": "この地域には（　）な話し方をする人が多い。",
+      "translation": "Ở khu vực này có rất nhiều người có cách nói chuyện lịch sự, tao nhã.",
+      "answer": 2,
+      "options": [
+        {
+          "key": 1,
+          "text": "健やか",
+          "reading": "すこやか",
+          "meaning": "Khỏe khoắn",
+          "explain": "Sai vì không bổ nghĩa cho cách ăn nói."
+        },
+        {
+          "key": 2,
+          "text": "上品",
+          "reading": "じょうひん",
+          "meaning": "Tao nhã, lịch thiệp, quý phái",
+          "explain": "Đúng. Cụm '上品な話し方' chỉ cách giao tiếp nhã nhặn, chuẩn mực, lịch sự."
+        },
+        {
+          "key": 3,
+          "text": "重大",
+          "reading": "じゅうだい",
+          "meaning": "Trọng đại",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "アウト",
+          "reading": "アウト",
+          "meaning": "Bị loại",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 13,
+      "question": "私は（　）な服装が好きだが、妻は派手な服装が好きだ。",
+      "translation": "Tôi thích trang phục giản dị mộc mạc, trong khi vợ tôi lại thích trang phục sặc sỡ, nổi bật.",
+      "answer": 4,
+      "options": [
+        {
+          "key": 1,
+          "text": "まし",
+          "reading": "まし",
+          "meaning": "Đỡ hơn",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "立派",
+          "reading": "りっぱ",
+          "meaning": "Hùng vĩ, xuất sắc",
+          "explain": "Sai vì không đối lập về màu sắc trang phục."
+        },
+        {
+          "key": 3,
+          "text": "安易",
+          "reading": "あんい",
+          "meaning": "Tùy tiện",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "地味",
+          "reading": "じみ",
+          "meaning": "Giản dị, nhã nhặn, trầm màu",
+          "explain": "Đúng. Từ trái nghĩa hoàn hảo đối lập với '派手な服装' (trang phục sặc sỡ, lòe loẹt)."
+        }
+      ]
+    },
+    {
+      "id": 14,
+      "question": "兄はいつも（　）格好をしている。",
+      "translation": "Anh trai tôi lúc nào cũng ăn mặc với phong cách sặc sỡ, nổi bật.",
+      "answer": 1,
+      "options": [
+        {
+          "key": 1,
+          "text": "派手な",
+          "reading": "はでな",
+          "meaning": "Lòe loẹt, sặc sỡ, nổi bật",
+          "explain": "Đúng. Cụm '派手な格好' chỉ phong cách ăn mặc bắt mắt, sặc sỡ."
+        },
+        {
+          "key": 2,
+          "text": "細長い",
+          "reading": "ほそながい",
+          "meaning": "Thon dài",
+          "explain": "Sai vì không dùng miêu tả phong cách."
+        },
+        {
+          "key": 3,
+          "text": "もったいない",
+          "reading": "もったいない",
+          "meaning": "Lãng phí",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "不用な",
+          "reading": "ふような",
+          "meaning": "Không cần thiết",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 15,
+      "question": "お客様に（　）してもらえたようで、私も嬉しい。",
+      "translation": "Có vẻ như đã làm cho khách hàng cảm thấy hài lòng, điều đó khiến tôi cũng thấy vui.",
+      "answer": 3,
+      "options": [
+        {
+          "key": 1,
+          "text": "満点",
+          "reading": "まんてん",
+          "meaning": "Điểm tuyệt đối",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "利口",
+          "reading": "りこう",
+          "meaning": "Khôn ngoan",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "満足",
+          "reading": "まんぞく",
+          "meaning": "Hài lòng, thỏa mãn",
+          "explain": "Đúng. Cụm 'お客様に満足してもらう' nghĩa là làm hài lòng khách hàng."
+        },
+        {
+          "key": 4,
+          "text": "満員",
+          "reading": "まんいん",
+          "meaning": "Đầy người",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 16,
+      "question": "ビールをグラスに（　）と白い泡ができる。",
+      "translation": "Khi rót bia vào cốc thủy tinh thì lớp bọt trắng sẽ nổi lên.",
+      "answer": 3,
+      "options": [
+        {
+          "key": 1,
+          "text": "留める",
+          "reading": "とどめる",
+          "meaning": "Giữ lại",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "建つ",
+          "reading": "たつ",
+          "meaning": "Được xây dựng",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "注ぐ",
+          "reading": "そそぐ",
+          "meaning": "Rót (nước, bia)",
+          "explain": "Đúng. Cụm 'ビールをグラスに注ぐ' nghĩa là rót bia vào ly."
+        },
+        {
+          "key": 4,
+          "text": "備える",
+          "reading": "そなえる",
+          "meaning": "Trang bị",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 17,
+      "question": "2年ぶりに国に帰って息子に会うと、驚くほど身長が（　）いた。",
+      "translation": "Sau 2 năm mới về nước gặp lại con trai, tôi thấy chiều cao của con đã phát triển cao lớn kinh ngạc.",
+      "answer": 1,
+      "options": [
+        {
+          "key": 1,
+          "text": "伸びて",
+          "reading": "のびて",
+          "meaning": "Cao lên, phát triển dài ra",
+          "explain": "Đúng. Cụm '身長が伸びる' chỉ chiều cao cơ thể phát triển cao thêm."
+        },
+        {
+          "key": 2,
+          "text": "響いて",
+          "reading": "ひびいて",
+          "meaning": "Vang vọng",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "明けて",
+          "reading": "あけて",
+          "meaning": "Trời rạng sáng / Hết năm",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "かじって",
+          "reading": "かじって",
+          "meaning": "Gặm nhấm",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 18,
+      "question": "ワクチンの（　）を打ってから、少し熱が出た。",
+      "translation": "Sau khi tiêm mũi vắc xin thì tôi bị sốt nhẹ một chút.",
+      "answer": 1,
+      "options": [
+        {
+          "key": 1,
+          "text": "注射",
+          "reading": "ちゅうしゃ",
+          "meaning": "Tiêm chủng, mũi tiêm",
+          "explain": "Đúng. Cụm '注射を打つ' nghĩa là tiêm thuốc/vắc xin vào cơ thể."
+        },
+        {
+          "key": 2,
+          "text": "駐車",
+          "reading": "ちゅうしゃ",
+          "meaning": "Đỗ xe",
+          "explain": "Sai vì đồng âm nhưng chữ Hán là đỗ xe."
+        },
+        {
+          "key": 3,
+          "text": "商業",
+          "reading": "しょうぎょう",
+          "meaning": "Thương mại",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "申し込み",
+          "reading": "もうしこみ",
+          "meaning": "Đăng ký",
+          "explain": "Sai vì không đi với động từ 打つ."
+        }
+      ]
+    },
+    {
+      "id": 19,
+      "question": "車の中が（　）だらけだ。",
+      "translation": "Bên trong xe ô tô dính đầy những hạt cát bẩn.",
+      "answer": 2,
+      "options": [
+        {
+          "key": 1,
+          "text": "癖",
+          "reading": "くせ",
+          "meaning": "Thói quen xấu",
+          "explain": "Sai vì không đi với だらけ trong xe."
+        },
+        {
+          "key": 2,
+          "text": "砂",
+          "reading": "すな",
+          "meaning": "Cát",
+          "explain": "Đúng. '砂だらけ' chỉ tình trạng bị dính đầy bụi cát bẩn bên trong xe."
+        },
+        {
+          "key": 3,
+          "text": "富",
+          "reading": "とみ",
+          "meaning": "Sự giàu có",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "富士山",
+          "reading": "ふじさん",
+          "meaning": "Núi Phú Sĩ",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 20,
+      "question": "風邪の（　）のため、家に帰ったら手と顔をよく洗う。",
+      "translation": "Để phòng ngừa cảm cúm, sau khi về nhà tôi luôn rửa tay và rửa mặt thật sạch.",
+      "answer": 3,
+      "options": [
+        {
+          "key": 1,
+          "text": "商売",
+          "reading": "しょうばい",
+          "meaning": "Buôn bán",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "一応",
+          "reading": "いちおう",
+          "meaning": "Tạm thời",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "予防",
+          "reading": "よぼう",
+          "meaning": "Phòng ngừa, phòng bệnh",
+          "explain": "Đúng. Cụm '風邪の予防' nghĩa là phòng ngừa bệnh cảm cúm bằng việc giữ vệ sinh."
+        },
+        {
+          "key": 4,
+          "text": "準備",
+          "reading": "じゅんび",
+          "meaning": "Chuẩn bị",
+          "explain": "Sai vì bệnh tật dùng phòng ngừa (予防)."
+        }
+      ]
+    }
+  ]
+}

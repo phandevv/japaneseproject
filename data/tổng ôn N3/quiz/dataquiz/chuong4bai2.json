@@ -1,0 +1,726 @@
+{
+  "chuong": 4,
+  "bai": 2,
+  "questions": [
+    {
+      "id": 1,
+      "question": "父が（　）が痛いと言ったので、昨日一緒に病院へ行った。",
+      "translation": "Hôm qua tôi đã đi bệnh viện cùng bố vì bố bảo bị đau lưng/eo.",
+      "answer": 4,
+      "options": [
+        {
+          "key": 1,
+          "text": "焼き肉",
+          "reading": "やきにく",
+          "meaning": "Thịt nướng",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "答案",
+          "reading": "とうあん",
+          "meaning": "Bài thi",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "姿勢",
+          "reading": "しせい",
+          "meaning": "Tư thế",
+          "explain": "Sai vì tư thế không bị 'đau' (痛い)."
+        },
+        {
+          "key": 4,
+          "text": "腰",
+          "reading": "こし",
+          "meaning": "Thắt lưng, eo",
+          "explain": "Đúng. Cụm '腰が痛い' chỉ chứng đau thắt lưng thường gặp."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "question": "（　）が他の人に迷惑になるので、煙草は外で吸うべきだ。",
+      "translation": "Khói thuốc gây phiền toái cho người khác nên thuốc lá thì nên hút ở bên ngoài.",
+      "answer": 1,
+      "options": [
+        {
+          "key": 1,
+          "text": "煙",
+          "reading": "けむり",
+          "meaning": "Khói",
+          "explain": "Đúng. '煙が迷惑になる' chỉ khói thuốc lá làm phiền người xung quanh."
+        },
+        {
+          "key": 2,
+          "text": "祭り",
+          "reading": "まつり",
+          "meaning": "Lễ hội",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "生ごみ",
+          "reading": "なまごみ",
+          "meaning": "Rác hữu cơ",
+          "explain": "Sai vì không liên quan đến việc hút thuốc."
+        },
+        {
+          "key": 4,
+          "text": "雑誌",
+          "reading": "ざっし",
+          "meaning": "Tạp chí",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "question": "そんなひどいこと、（　）でも言わないほうがいいですよ。",
+      "translation": "Chuyện tồi tệ như vậy thì dù là nói đùa cũng không nên nói ra đâu.",
+      "answer": 2,
+      "options": [
+        {
+          "key": 1,
+          "text": "税金",
+          "reading": "ぜいきん",
+          "meaning": "Thuế",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "冗談",
+          "reading": "じょうだん",
+          "meaning": "Nói đùa, chuyện đùa",
+          "explain": "Đúng. Cụm '冗談でも言わない' nghĩa là ngay cả nói đùa cũng không được nói."
+        },
+        {
+          "key": 3,
+          "text": "無料",
+          "reading": "むりょう",
+          "meaning": "Miễn phí",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "感覚",
+          "reading": "かんかく",
+          "meaning": "Cảm giác",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "question": "夏は（　）にならないように、時々水を飲んだ方がいい。",
+      "translation": "Vào mùa hè để không bị sốc nhiệt/say nắng thì thỉnh thoảng nên uống nước.",
+      "answer": 4,
+      "options": [
+        {
+          "key": 1,
+          "text": "夕焼け",
+          "reading": "ゆうやけ",
+          "meaning": "Hoàng hôn",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "生",
+          "reading": "なま",
+          "meaning": "Tươi sống",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "目下",
+          "reading": "めした",
+          "meaning": "Cấp dưới",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "熱中症",
+          "reading": "ねっちゅうしょう",
+          "meaning": "Sốc nhiệt, say nắng",
+          "explain": "Đúng. Cụm '熱中症にならないように' phòng chống sốc nhiệt mùa hè bằng việc bổ sung nước."
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "question": "後ろの人に迷惑なので、（　）は、大きい帽子を被ったり、立ったりするべきではないと思う。",
+      "translation": "Vì gây phiền cho người ngồi sau nên tôi nghĩ khán giả không nên đội mũ to hay đứng lên.",
+      "answer": 3,
+      "options": [
+        {
+          "key": 1,
+          "text": "腰",
+          "reading": "こし",
+          "meaning": "Thắt lưng",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "現金",
+          "reading": "げんきん",
+          "meaning": "Tiền mặt",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "観客",
+          "reading": "かんきゃく",
+          "meaning": "Khán giả, người xem",
+          "explain": "Đúng. '観客' chỉ người xem tại sân khấu/sân vận động cần giữ phép lịch sự cho người ngồi sau."
+        },
+        {
+          "key": 4,
+          "text": "目上",
+          "reading": "めうえ",
+          "meaning": "Bậc bề trên",
+          "explain": "Sai ngữ cảnh."
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "question": "（　）を家に忘れてしまったので、クレジットカードで払った。",
+      "translation": "Vì để quên tiền mặt ở nhà nên tôi đã thanh toán bằng thẻ tín dụng.",
+      "answer": 1,
+      "options": [
+        {
+          "key": 1,
+          "text": "現金",
+          "reading": "げんきん",
+          "meaning": "Tiền mặt",
+          "explain": "Đúng. '現金を忘れた' nên thay thế bằng phương thức thanh toán 'クレジットカード' (thẻ tín dụng)."
+        },
+        {
+          "key": 2,
+          "text": "税金",
+          "reading": "ぜいきん",
+          "meaning": "Thuế",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "混雑",
+          "reading": "こんざつ",
+          "meaning": "Đông đúc",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "要求",
+          "reading": "ようきゅう",
+          "meaning": "Yêu cầu",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "question": "（　）問題は、小さく単純な問題に分けてから考えた方がいい。",
+      "translation": "Những vấn đề phức tạp thì nên chia nhỏ thành các vấn đề đơn giản rồi mới suy nghĩ.",
+      "answer": 2,
+      "options": [
+        {
+          "key": 1,
+          "text": "普通",
+          "reading": "ふつう",
+          "meaning": "Bình thường",
+          "explain": "Sai vì vấn đề bình thường không cần chia nhỏ đặc biệt."
+        },
+        {
+          "key": 2,
+          "text": "複雑な",
+          "reading": "ふくざつな",
+          "meaning": "Phức tạp",
+          "explain": "Đúng. Từ trái nghĩa hoàn hảo đối lập với '単純な問題' (vấn đề đơn giản)."
+        },
+        {
+          "key": 3,
+          "text": "有難い",
+          "reading": "ありがたい",
+          "meaning": "Biết ơn, may mắn",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "懐かしい",
+          "reading": "なつかしい",
+          "meaning": "Hoài niệm",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "question": "小さな植物を（　）のが母の趣味だ。",
+      "translation": "Trồng và chăm sóc những cây cảnh nhỏ là sở thích của mẹ tôi.",
+      "answer": 3,
+      "options": [
+        {
+          "key": 1,
+          "text": "叱る",
+          "reading": "しかる",
+          "meaning": "Mắng mỏ",
+          "explain": "Sai vì không thể mắng thực vật."
+        },
+        {
+          "key": 2,
+          "text": "届ける",
+          "reading": "とどける",
+          "meaning": "Giao đến",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "育てる",
+          "reading": "そだてる",
+          "meaning": "Nuôi nấng, trồng trọt, chăm sóc",
+          "explain": "Đúng. Cụm '植物を育てる' nghĩa là trồng cây, chăm sóc cây cối."
+        },
+        {
+          "key": 4,
+          "text": "焼く",
+          "reading": "やく",
+          "meaning": "Nướng",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "question": "道で財布を拾ったら、交番に（　）べきだ。",
+      "translation": "Nếu nhặt được ví trên đường thì nên mang nộp cho đồn cảnh sát.",
+      "answer": 1,
+      "options": [
+        {
+          "key": 1,
+          "text": "届ける",
+          "reading": "とどける",
+          "meaning": "Mang đến nộp, trình báo",
+          "explain": "Đúng. Cụm '交番に届ける' nghĩa là mang đồ nhặt được đến nộp cho đồn cảnh sát."
+        },
+        {
+          "key": 2,
+          "text": "動かす",
+          "reading": "うごかす",
+          "meaning": "Di chuyển",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "現す",
+          "reading": "あらわす",
+          "meaning": "Hiện ra",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "燃やす",
+          "reading": "もやす",
+          "meaning": "Đốt cháy",
+          "explain": "Sai vì mang ví nhặt được đi đốt là vi phạm pháp luật."
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "question": "この料理は熱いから、少し（　）から食べたほうがいいですよ。",
+      "translation": "Món ăn này đang rất nóng nên bạn hãy để nguội bớt một chút rồi hãy ăn nhé.",
+      "answer": 4,
+      "options": [
+        {
+          "key": 1,
+          "text": "燃やして",
+          "reading": "もやして",
+          "meaning": "Đốt cháy",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "煮て",
+          "reading": "にて",
+          "meaning": "Ninh, nấu",
+          "explain": "Sai vì nấu thêm sẽ càng nóng."
+        },
+        {
+          "key": 3,
+          "text": "焼いて",
+          "reading": "やいて",
+          "meaning": "Nướng",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "冷まして",
+          "reading": "さまして",
+          "meaning": "Làm nguội bớt",
+          "explain": "Đúng. '冷ましてから食べる' nghĩa là làm cho bớt nóng rồi mới thưởng thức."
+        }
+      ]
+    },
+    {
+      "id": 11,
+      "question": "月曜日までに漢字を30個（　）くること。",
+      "translation": "Hạn trước thứ Hai phải học thuộc 30 chữ Hán rồi mới đến lớp.",
+      "answer": 1,
+      "options": [
+        {
+          "key": 1,
+          "text": "覚えて",
+          "reading": "おぼえて",
+          "meaning": "Học thuộc, ghi nhớ",
+          "explain": "Đúng. Cụm '漢字を覚えてくる' nghĩa là ghi nhớ/học thuộc chữ Hán trước khi đến."
+        },
+        {
+          "key": 2,
+          "text": "進めて",
+          "reading": "すすめて",
+          "meaning": "Tiến hành",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "届けて",
+          "reading": "とどけて",
+          "meaning": "Giao nộp",
+          "explain": "Sai ngữ cảnh học chữ Hán."
+        },
+        {
+          "key": 4,
+          "text": "育てて",
+          "reading": "そだてて",
+          "meaning": "Nuôi lớn",
+          "explain": "Sai vì chữ Hán không phải sinh vật."
+        }
+      ]
+    },
+    {
+      "id": 12,
+      "question": "（　）ゴミは月・水・金の朝8時までに出すこと。",
+      "translation": "Rác cháy được thì phải vứt trước 8 giờ sáng các ngày thứ Hai, thứ Tư và thứ Sáu.",
+      "answer": 4,
+      "options": [
+        {
+          "key": 1,
+          "text": "覚える",
+          "reading": "おぼえる",
+          "meaning": "Ghi nhớ",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "冷ます",
+          "reading": "さます",
+          "meaning": "Làm nguội",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "動かす",
+          "reading": "うごかす",
+          "meaning": "Di chuyển",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "燃える",
+          "reading": "もえる",
+          "meaning": "Cháy được",
+          "explain": "Đúng. Cụm từ phân loại rác quen thuộc tại Nhật: '燃えるゴミ' (rác cháy được)."
+        }
+      ]
+    },
+    {
+      "id": 13,
+      "question": "日本語の勉強に（　）しすぎて、昼ごはんを食べるのを忘れてしまった。",
+      "translation": "Mải say mê học tiếng Nhật quá mức nên tôi quên cả ăn bữa trưa.",
+      "answer": 1,
+      "options": [
+        {
+          "key": 1,
+          "text": "熱中",
+          "reading": "ねっちゅう",
+          "meaning": "Say mê, mải mê",
+          "explain": "Đúng. Cụm '勉強に熱中する' nghĩa là tập trung cao độ, say mê học tập."
+        },
+        {
+          "key": 2,
+          "text": "避難",
+          "reading": "ひなん",
+          "meaning": "Lánh nạn",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "喫煙",
+          "reading": "きつえん",
+          "meaning": "Hút thuốc",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "解決",
+          "reading": "かいけつ",
+          "meaning": "Giải quyết",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 14,
+      "question": "夕方は道が（　）するから、喫茶店でしばらく待つことにした。",
+      "translation": "Vào buổi chiều đường phố thường rất đông đúc/tắc nghẽn nên tôi quyết định vào quán cà phê ngồi đợi một lát.",
+      "answer": 3,
+      "options": [
+        {
+          "key": 1,
+          "text": "専攻",
+          "reading": "せんこう",
+          "meaning": "Chuyên ngành",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "欠席",
+          "reading": "けっせき",
+          "meaning": "Vắng mặt",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "混雑",
+          "reading": "こんざつ",
+          "meaning": "Đông đúc, tắc nghẽn",
+          "explain": "Đúng. Cụm '道が混雑する' nghĩa là đường sá kẹt xe, đông đúc giờ cao điểm."
+        },
+        {
+          "key": 4,
+          "text": "我慢",
+          "reading": "がまん",
+          "meaning": "Chịu đựng",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 15,
+      "question": "地震の際は、階段を使って（　）すること。",
+      "translation": "Khi có động đất phải dùng cầu thang bộ để sơ tán lánh nạn.",
+      "answer": 4,
+      "options": [
+        {
+          "key": 1,
+          "text": "観光",
+          "reading": "かんこう",
+          "meaning": "Tham quan",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "復習",
+          "reading": "ふくしゅう",
+          "meaning": "Ôn tập",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "遠慮",
+          "reading": "えんりょ",
+          "meaning": "Khách sáo",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "避難",
+          "reading": "ひなん",
+          "meaning": "Sơ tán, lánh nạn",
+          "explain": "Đúng. '階段を使って避難する' là hướng dẫn an toàn thoát hiểm khi động đất."
+        }
+      ]
+    },
+    {
+      "id": 16,
+      "question": "これ以上売り上げが落ちたら閉店するほかないと、（　）している。",
+      "translation": "Nếu doanh số sụt giảm hơn nữa thì không còn cách nào khác ngoài đóng cửa quán, tôi đã chuẩn bị sẵn tâm lý cho việc đó.",
+      "answer": 1,
+      "options": [
+        {
+          "key": 1,
+          "text": "覚悟",
+          "reading": "かくご",
+          "meaning": "Chuẩn bị tâm lý, sẵn sàng chấp nhận",
+          "explain": "Đúng. Cụm '覚悟している' nghĩa là chuẩn bị tinh thần đón nhận tình huống xấu nhất."
+        },
+        {
+          "key": 2,
+          "text": "演技",
+          "reading": "えんぎ",
+          "meaning": "Diễn xuất",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "拍手",
+          "reading": "はくしゅ",
+          "meaning": "Vỗ tay",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "集合",
+          "reading": "しゅうごう",
+          "meaning": "Tập hợp",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 17,
+      "question": "どうやったらお客様に満足してもらえる（　）を作れるだろうか。",
+      "translation": "Làm thế nào để tạo ra dịch vụ khiến khách hàng cảm thấy hài lòng?",
+      "answer": 3,
+      "options": [
+        {
+          "key": 1,
+          "text": "ユーモア",
+          "reading": "ユーモア",
+          "meaning": "Hài hước",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "ヨーロッパ",
+          "reading": "ヨーロッパ",
+          "meaning": "Châu Âu",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "サービス",
+          "reading": "サービス",
+          "meaning": "Dịch vụ",
+          "explain": "Đúng. Cụm '満足してもらえるサービス' chỉ dịch vụ chất lượng làm hài lòng khách."
+        },
+        {
+          "key": 4,
+          "text": "ロッカー",
+          "reading": "ロッカー",
+          "meaning": "Tủ khóa có chìa",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 18,
+      "question": "小さな問題でも、早く（　）したほうがいい。",
+      "translation": "Dù là vấn đề nhỏ đi nữa cũng nên giải quyết càng sớm càng tốt.",
+      "answer": 4,
+      "options": [
+        {
+          "key": 1,
+          "text": "覚悟",
+          "reading": "かくご",
+          "meaning": "Chuẩn bị tâm lý",
+          "explain": "Sai vì vấn đề cần được xử lý/giải quyết."
+        },
+        {
+          "key": 2,
+          "text": "熱中",
+          "reading": "ねっちゅう",
+          "meaning": "Say mê",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "冗談",
+          "reading": "じょうだん",
+          "meaning": "Nói đùa",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "解決",
+          "reading": "かいけつ",
+          "meaning": "Giải quyết",
+          "explain": "Đúng. Cụm '問題を解決する' nghĩa là giải quyết triệt để rắc rối/vấn đề."
+        }
+      ]
+    },
+    {
+      "id": 19,
+      "question": "久しぶりに会ったが、みんな（　）年を取っていなかった。木村さんなんか、20代に見える。",
+      "translation": "Lâu lắm mới gặp lại nhau nhưng mọi người chẳng hề già đi chút nào. Nhất là anh Kimura trông như mới độ tuổi đôi mươi.",
+      "answer": 3,
+      "options": [
+        {
+          "key": 1,
+          "text": "突然",
+          "reading": "とつぜん",
+          "meaning": "Đột nhiên",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "偶然",
+          "reading": "ぐうぜん",
+          "meaning": "Tình cờ",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "全然",
+          "reading": "ぜんぜん",
+          "meaning": "Hoàn toàn (đi với phủ định: hoàn toàn không)",
+          "explain": "Đúng. Cấu trúc '全然〜ていなかった' nhấn mạnh hoàn toàn không hề già đi chút nào."
+        },
+        {
+          "key": 4,
+          "text": "相当",
+          "reading": "そうとう",
+          "meaning": "Khá là",
+          "explain": "Sai vì '相当' đi với khẳng định chỉ mức độ cao."
+        }
+      ]
+    },
+    {
+      "id": 20,
+      "question": "彼が（　）大きな声を出して笑ったので、みんなびっくりした。",
+      "translation": "Anh ấy đột nhiên cười to thành tiếng khiến mọi người đều giật mình.",
+      "answer": 4,
+      "options": [
+        {
+          "key": 1,
+          "text": "多少",
+          "reading": "たしょう",
+          "meaning": "Ít nhiều",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "相当",
+          "reading": "そうとう",
+          "meaning": "Tương đối",
+          "explain": "Sai vì không làm nguyên nhân gây bất ngờ (びっくりした)."
+        },
+        {
+          "key": 3,
+          "text": "大体",
+          "reading": "だいたい",
+          "meaning": "Đại khái",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "突然",
+          "reading": "とつぜん",
+          "meaning": "Đột nhiên, bất thình lình",
+          "explain": "Đúng. '突然大きな声を出す' hành động diễn ra bất ngờ làm người khác giật mình."
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,726 @@
+{
+  "chuong": 1,
+  "bai": 1,
+  "questions": [
+    {
+      "id": 1,
+      "question": "電車で行くと（ ）になるから、タクシーで行こう。",
+      "translation": "Nếu đi bằng tàu điện thì thành ra đi đường vòng, nên hãy đi taxi đi.",
+      "answer": 4,
+      "options": [
+        {
+          "key": 1,
+          "text": "やり取り",
+          "reading": "やりとり",
+          "meaning": "Trao đổi, giao dịch qua lại",
+          "explain": "Sai vì chỉ dùng cho trao đổi thư từ, tin nhắn; không dùng cho việc đi lại."
+        },
+        {
+          "key": 2,
+          "text": "買い取り",
+          "reading": "かいとり",
+          "meaning": "Thu mua (hàng hóa)",
+          "explain": "Sai vì là hành động mua lại đồ đạc, không liên quan đến phương tiện di chuyển."
+        },
+        {
+          "key": 3,
+          "text": "抜け出し",
+          "reading": "ぬけだし",
+          "meaning": "Lẻn ra ngoài, trốn thoát",
+          "explain": "Sai vì mang nghĩa lén trốn khỏi một nơi, không dùng để chỉ quãng đường."
+        },
+        {
+          "key": 4,
+          "text": "遠回り",
+          "reading": "とおまわり",
+          "meaning": "Đi đường vòng",
+          "explain": "Đúng. Cụm '遠回りになる' nghĩa là thành ra phải đi đường vòng, tốn thời gian."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "question": "寝坊して急いでゴミを出しに行ったら、ちょうどゴミを（ ）しているところでした。",
+      "translation": "Vì ngủ quên nên tôi vội vã đi đổ rác, thì vừa đúng lúc người ta đang thu gom rác.",
+      "answer": 1,
+      "options": [
+        {
+          "key": 1,
+          "text": "回収",
+          "reading": "かいしゅう",
+          "meaning": "Thu gom, thu hồi",
+          "explain": "Đúng. Cụm 'ゴミを回収する' là cách diễn đạt chuẩn chỉ hành động thu gom rác."
+        },
+        {
+          "key": 2,
+          "text": "無理",
+          "reading": "むり",
+          "meaning": "Vô lý, quá sức",
+          "explain": "Sai vì không kết hợp với rác thành hành động dọn dẹp, thu gom."
+        },
+        {
+          "key": 3,
+          "text": "検査",
+          "reading": "けんさ",
+          "meaning": "Kiểm tra, xét nghiệm",
+          "explain": "Sai vì dùng cho kiểm tra máy móc, bệnh tật, không dùng cho rác thải."
+        },
+        {
+          "key": 4,
+          "text": "全力",
+          "reading": "ぜんりょく",
+          "meaning": "Toàn lực, hết sức",
+          "explain": "Sai vì không mang nghĩa hành động xử lý rác."
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "question": "将来（ ）ように、貯金をしています。",
+      "translation": "Tôi đang tiết kiệm tiền để tương lai không gặp khó khăn.",
+      "answer": 3,
+      "options": [
+        {
+          "key": 1,
+          "text": "望まない",
+          "reading": "のぞまない",
+          "meaning": "Không kỳ vọng, không mong muốn",
+          "explain": "Sai vì không phù hợp với mục đích của việc tiết kiệm tiền."
+        },
+        {
+          "key": 2,
+          "text": "運ばない",
+          "reading": "はこばない",
+          "meaning": "Không vận chuyển, mang vác",
+          "explain": "Sai vì chỉ hành động mang vác đồ vật thể lý."
+        },
+        {
+          "key": 3,
+          "text": "困らない",
+          "reading": "こまらない",
+          "meaning": "Không gặp khó khăn",
+          "explain": "Đúng. '将来困らないように' nghĩa là để sau này không bị túng thiếu, khó khăn."
+        },
+        {
+          "key": 4,
+          "text": "届かない",
+          "reading": "とどかない",
+          "meaning": "Không với tới, không gửi đến",
+          "explain": "Sai vì không dùng để diễn đạt tình trạng kinh tế, cuộc sống."
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "question": "彼はオリンピックで金メダルを（ ）。",
+      "translation": "Anh ấy đã đoạt được huy chương vàng tại Thế vận hội Olympic.",
+      "answer": 2,
+      "options": [
+        {
+          "key": 1,
+          "text": "引いた",
+          "reading": "ひいた",
+          "meaning": "Kéo, rút",
+          "explain": "Sai vì không đi với huy chương."
+        },
+        {
+          "key": 2,
+          "text": "取った",
+          "reading": "とった",
+          "meaning": "Đoạt, giành lấy",
+          "explain": "Đúng. Cụm 'メダルを取る' mang nghĩa giành/đoạt được huy chương."
+        },
+        {
+          "key": 3,
+          "text": "治った",
+          "reading": "なおった",
+          "meaning": "Khỏi (bệnh)",
+          "explain": "Sai vì chỉ sự hồi phục sức khỏe, bệnh tật."
+        },
+        {
+          "key": 4,
+          "text": "抜いた",
+          "reading": "ぬいた",
+          "meaning": "Rút ra, nhổ, vượt qua",
+          "explain": "Sai vì không tạo thành cụm từ mang nghĩa đoạt giải."
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "question": "昨日予約したばかりなので、まだ（ ）と思います。",
+      "translation": "Vì hôm qua mới đặt chỗ xong nên tôi nghĩ là vẫn còn có thể hủy được.",
+      "answer": 1,
+      "options": [
+        {
+          "key": 1,
+          "text": "取り消せる",
+          "reading": "とりけせる",
+          "meaning": "Có thể hủy bỏ",
+          "explain": "Đúng. '予約を取り消す' nghĩa là hủy đặt chỗ/lịch hẹn."
+        },
+        {
+          "key": 2,
+          "text": "取り込める",
+          "reading": "とりこめる",
+          "meaning": "Có thể thu nhận vào, mang vào",
+          "explain": "Sai vì thường dùng cho thu gom quần áo hoặc bận rộn việc riêng."
+        },
+        {
+          "key": 3,
+          "text": "取り出せる",
+          "reading": "とりだせる",
+          "meaning": "Có thể lấy ra ngoài",
+          "explain": "Sai vì mang nghĩa rút/lấy đồ vật ra khỏi túi, tủ."
+        },
+        {
+          "key": 4,
+          "text": "取り替えれる",
+          "reading": "とりかえられる",
+          "meaning": "Có thể đổi mới, thay thế",
+          "explain": "Sai vì dùng cho việc đổi vật này lấy vật khác, không dùng cho việc hủy lịch."
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "question": "アルバイト（ ）の日に、お別れパーティーを開いてもらった。",
+      "translation": "Vào ngày làm thêm cuối cùng, mọi người đã tổ chức một bữa tiệc chia tay cho tôi.",
+      "answer": 4,
+      "options": [
+        {
+          "key": 1,
+          "text": "最終",
+          "reading": "さいしゅう",
+          "meaning": "Cuối cùng",
+          "explain": "Sai ngữ pháp vì từ này ghép trực tiếp thành '最終日' chứ không đi với '最終の日'."
+        },
+        {
+          "key": 2,
+          "text": "最大",
+          "reading": "さいだい",
+          "meaning": "Lớn nhất",
+          "explain": "Sai về ngữ nghĩa khi bổ nghĩa cho ngày tháng."
+        },
+        {
+          "key": 3,
+          "text": "最新",
+          "reading": "さいしん",
+          "meaning": "Mới nhất",
+          "explain": "Sai vì thường bổ nghĩa cho thông tin, công nghệ."
+        },
+        {
+          "key": 4,
+          "text": "最後",
+          "reading": "さいご",
+          "meaning": "Cuối cùng",
+          "explain": "Đúng. Đi với trợ từ の tạo thành '最後の日' (ngày cuối cùng)."
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "question": "（ ）の電車に間に合うように、店を出ましょう。",
+      "translation": "Chúng ta hãy rời quán để kịp chuyến tàu cuối cùng nhé.",
+      "answer": 2,
+      "options": [
+        {
+          "key": 1,
+          "text": "後悔",
+          "reading": "こうかい",
+          "meaning": "Hối hận",
+          "explain": "Sai vì không dùng làm tính từ bổ nghĩa cho tàu xe."
+        },
+        {
+          "key": 2,
+          "text": "最終",
+          "reading": "さいしゅう",
+          "meaning": "Cuối cùng",
+          "explain": "Đúng. '最終の電車' (hoặc 最終電車) nghĩa là chuyến tàu cuối cùng trong ngày."
+        },
+        {
+          "key": 3,
+          "text": "急ぎ",
+          "reading": "いそぎ",
+          "meaning": "Khẩn cấp, vội vã",
+          "explain": "Sai vì không đi cùng chuyến tàu theo cấu trúc này."
+        },
+        {
+          "key": 4,
+          "text": "遅刻",
+          "reading": "ちこく",
+          "meaning": "Đi muộn, trễ giờ",
+          "explain": "Sai vì là danh từ chỉ hành vi đi muộn của con người."
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "question": "（ ）は漢字が全然読めなかったけど、今は読める。",
+      "translation": "Ban đầu tôi hoàn toàn không đọc được chữ Hán, nhưng bây giờ đã có thể đọc được.",
+      "answer": 1,
+      "options": [
+        {
+          "key": 1,
+          "text": "最初",
+          "reading": "さいしょ",
+          "meaning": "Ban đầu, lúc đầu",
+          "explain": "Đúng. Dùng để đối lập mốc thời gian ban đầu với hiện tại (今は)."
+        },
+        {
+          "key": 2,
+          "text": "最上",
+          "reading": "さいじょう",
+          "meaning": "Cao nhất, tốt nhất",
+          "explain": "Sai vì chỉ phẩm cấp, chất lượng hoặc tầng cao nhất."
+        },
+        {
+          "key": 3,
+          "text": "最低",
+          "reading": "さいてい",
+          "meaning": "Thấp nhất, tồi tệ nhất",
+          "explain": "Sai vì chỉ mức độ, điểm số hoặc đánh giá tiêu cực."
+        },
+        {
+          "key": 4,
+          "text": "最高",
+          "reading": "さいこう",
+          "meaning": "Cao nhất, tuyệt nhất",
+          "explain": "Sai vì chỉ mức độ cực hạn hoặc cảm xúc tuyệt vời."
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "question": "急いで病院に向かいましたが、着いたら、ちょうど父が（ ）ところでした。",
+      "translation": "Tôi đã vội vã chạy đến bệnh viện, nhưng khi tới nơi thì vừa đúng lúc bố tôi qua đời.",
+      "answer": 2,
+      "options": [
+        {
+          "key": 1,
+          "text": "暮らした",
+          "reading": "くらした",
+          "meaning": "Sinh sống",
+          "explain": "Sai vì không phù hợp với ngữ cảnh cấp cứu tại bệnh viện."
+        },
+        {
+          "key": 2,
+          "text": "亡くなった",
+          "reading": "なくなった",
+          "meaning": "Qua đời, mất",
+          "explain": "Đúng. '亡くなったところ' diễn tả thời điểm vừa mới qua đời."
+        },
+        {
+          "key": 3,
+          "text": "過ごした",
+          "reading": "すごした",
+          "meaning": "Trải qua, dùng (thời gian)",
+          "explain": "Sai vì cần tân ngữ thời gian (như kỳ nghỉ, cuối tuần)."
+        },
+        {
+          "key": 4,
+          "text": "感じた",
+          "reading": "かんじた",
+          "meaning": "Cảm nhận, cảm thấy",
+          "explain": "Sai vì không hợp nghĩa."
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "question": "聞いたことを（ ）ように、メモしてください。",
+      "translation": "Hãy ghi chú lại để không quên những điều đã nghe.",
+      "answer": 4,
+      "options": [
+        {
+          "key": 1,
+          "text": "亡くさない",
+          "reading": "なくさない",
+          "meaning": "Không làm mất người thân",
+          "explain": "Sai chữ Hán vì chữ 亡 dùng cho người mất; nếu mất đồ vật phải là 落とさない/無くさない."
+        },
+        {
+          "key": 2,
+          "text": "急がない",
+          "reading": "いそがない",
+          "meaning": "Không vội vàng",
+          "explain": "Sai vì không liên quan đến mục đích của việc ghi chú (memo)."
+        },
+        {
+          "key": 3,
+          "text": "壊れない",
+          "reading": "こわれない",
+          "meaning": "Không bị hỏng",
+          "explain": "Sai vì chỉ đồ vật bị vỡ, hư hỏng."
+        },
+        {
+          "key": 4,
+          "text": "忘れない",
+          "reading": "わすれない",
+          "meaning": "Không quên",
+          "explain": "Đúng. '忘れないように' biểu thị mục đích ghi chú để không bị quên."
+        }
+      ]
+    },
+    {
+      "id": 11,
+      "question": "最近の若い人は、将来にあまり（ ）が持てないようだ。",
+      "translation": "Giới trẻ dạo gần đây dường như không có nhiều hy vọng vào tương lai.",
+      "answer": 3,
+      "options": [
+        {
+          "key": 1,
+          "text": "悲しみ",
+          "reading": "かなしみ",
+          "meaning": "Nỗi buồn",
+          "explain": "Sai vì không kết hợp với động từ '持つ' theo ngữ cảnh này."
+        },
+        {
+          "key": 2,
+          "text": "無駄",
+          "reading": "むだ",
+          "meaning": "Sự lãng phí, vô ích",
+          "explain": "Sai vì không phù hợp cấu trúc ngữ pháp và ngữ nghĩa."
+        },
+        {
+          "key": 3,
+          "text": "希望",
+          "reading": "きぼう",
+          "meaning": "Hy vọng",
+          "explain": "Đúng. Cụm '希望を持つ / 希望が持てる' nghĩa là ôm ấp/có hy vọng vào điều gì."
+        },
+        {
+          "key": 4,
+          "text": "人気",
+          "reading": "にんき",
+          "meaning": "Sự yêu thích, nổi tiếng",
+          "explain": "Sai vì '人気がある/ない' dùng cho sự nổi tiếng, không dùng với '将来に'."
+        }
+      ]
+    },
+    {
+      "id": 12,
+      "question": "日本に来てから、頭を下げる（ ）が身についた。",
+      "translation": "Kể từ khi đến Nhật Bản, tôi đã hình thành thói quen cúi đầu chào.",
+      "answer": 4,
+      "options": [
+        {
+          "key": 1,
+          "text": "調子",
+          "reading": "ちょうし",
+          "meaning": "Tình trạng, phong độ",
+          "explain": "Sai vì không dùng để diễn đạt thói quen văn hóa/hành vi."
+        },
+        {
+          "key": 2,
+          "text": "機械",
+          "reading": "きかい",
+          "meaning": "Máy móc",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "給料",
+          "reading": "きゅうりょう",
+          "meaning": "Tiền lương",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "習慣",
+          "reading": "しゅうかん",
+          "meaning": "Thói quen, tập quán",
+          "explain": "Đúng. Cụm '習慣が身につく' nghĩa là hình thành/thấm nhuần một thói quen."
+        }
+      ]
+    },
+    {
+      "id": 13,
+      "question": "彼が仕事をやめた（ ）を知れば知るほど、かわいそうになってくる。",
+      "translation": "Càng biết rõ hoàn cảnh/lý do anh ấy nghỉ việc, tôi lại càng thấy thương anh ấy hơn.",
+      "answer": 3,
+      "options": [
+        {
+          "key": 1,
+          "text": "性格",
+          "reading": "せいかく",
+          "meaning": "Tính cách",
+          "explain": "Sai vì tính cách không phải là nguyên do mang tính hoàn cảnh khiến người khác thương cảm."
+        },
+        {
+          "key": 2,
+          "text": "将来",
+          "reading": "しょうらい",
+          "meaning": "Tương lai",
+          "explain": "Sai vì hành động nghỉ việc đã diễn ra trong quá khứ."
+        },
+        {
+          "key": 3,
+          "text": "事情",
+          "reading": "じじょう",
+          "meaning": "Sự tình, hoàn cảnh, lý do",
+          "explain": "Đúng. '事情を知る' nghĩa là hiểu rõ nội tình/nguyên do hoàn cảnh của sự việc."
+        },
+        {
+          "key": 4,
+          "text": "表情",
+          "reading": "ひょうじょう",
+          "meaning": "Biểu cảm khuôn mặt",
+          "explain": "Sai vì biểu cảm chỉ nhìn thấy lúc đó, không phải là thứ để tìm hiểu ngọn ngành (知る)."
+        }
+      ]
+    },
+    {
+      "id": 14,
+      "question": "いつも最新の（ ）をチェックするようにしています。",
+      "translation": "Tôi luôn cố gắng cập nhật và kiểm tra những thông tin mới nhất.",
+      "answer": 2,
+      "options": [
+        {
+          "key": 1,
+          "text": "貯金",
+          "reading": "ちょきん",
+          "meaning": "Tiền tiết kiệm",
+          "explain": "Sai vì tiền tiết kiệm không đi với từ '最新' (mới nhất)."
+        },
+        {
+          "key": 2,
+          "text": "情報",
+          "reading": "じょうほう",
+          "meaning": "Thông tin",
+          "explain": "Đúng. '最新の情報' là cụm từ rất phổ biến chỉ thông tin mới nhất, cập nhật nhất."
+        },
+        {
+          "key": 3,
+          "text": "電球",
+          "reading": "でんきゅう",
+          "meaning": "Bóng đèn",
+          "explain": "Sai vì không phù hợp ngữ cảnh."
+        },
+        {
+          "key": 4,
+          "text": "困難",
+          "reading": "こんなん",
+          "meaning": "Sự khó khăn, gian khổ",
+          "explain": "Sai vì khó khăn không kết hợp với '最新'."
+        }
+      ]
+    },
+    {
+      "id": 15,
+      "question": "先月知り合ったばかりですが、私たちは固い（ ）で結ばれています。",
+      "translation": "Dù mới quen nhau tháng trước, nhưng chúng tôi gắn kết với nhau bằng một tình bạn bền chặt.",
+      "answer": 3,
+      "options": [
+        {
+          "key": 1,
+          "text": "寝坊",
+          "reading": "ねぼう",
+          "meaning": "Ngủ quên",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "原因",
+          "reading": "げんいん",
+          "meaning": "Nguyên nhân",
+          "explain": "Sai vì không dùng để kết nối mối quan hệ giữa người với người."
+        },
+        {
+          "key": 3,
+          "text": "友情",
+          "reading": "ゆうじょう",
+          "meaning": "Tình bạn",
+          "explain": "Đúng. Cụm '固い友情で結ばれる' nghĩa là được gắn kết bằng tình bạn bền chặt/vững chắc."
+        },
+        {
+          "key": 4,
+          "text": "死亡",
+          "reading": "しぼう",
+          "meaning": "Tử vong",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 16,
+      "question": "何か嫌なことがあっても、できるだけ（ ）ならないようにしています。",
+      "translation": "Dù có chuyện gì khó chịu xảy ra, tôi cũng cố gắng hết sức không để bản thân bị cảm tính/nổi nóng.",
+      "answer": 1,
+      "options": [
+        {
+          "key": 1,
+          "text": "感情的に",
+          "reading": "かんじょうてきに",
+          "meaning": "Một cách cảm tính, dễ xúc động/nổi nóng",
+          "explain": "Đúng. Cụm '感情的になる' mang nghĩa mất bình tĩnh, để cảm xúc chi phối, nổi nóng."
+        },
+        {
+          "key": 2,
+          "text": "詳しく",
+          "reading": "くわしく",
+          "meaning": "Một cách tường tận, chi tiết",
+          "explain": "Sai vì không đi với cấu trúc '嫌なことがあって...ならないようにする'."
+        },
+        {
+          "key": 3,
+          "text": "友情的に",
+          "reading": "ゆうじょうてきに",
+          "meaning": "Mang tính bạn bè",
+          "explain": "Sai vì từ này không tự nhiên trong tiếng Nhật và không hợp nghĩa."
+        },
+        {
+          "key": 4,
+          "text": "恥ずかしく",
+          "reading": "はずかしく",
+          "meaning": "Xấu hổ, ngượng ngùng",
+          "explain": "Sai vì khi gặp chuyện khó chịu người ta thường kiềm chế cảm xúc tức giận hơn là xấu hổ."
+        }
+      ]
+    },
+    {
+      "id": 17,
+      "question": "会議が（ ）前に、参加者にこの資料を回してください。",
+      "translation": "Trước khi cuộc họp bắt đầu, hãy chuyển tài liệu này cho những người tham gia nhé.",
+      "answer": 4,
+      "options": [
+        {
+          "key": 1,
+          "text": "チェックする",
+          "reading": "チェックする",
+          "meaning": "Kiểm tra",
+          "explain": "Sai vì là tha động từ đòi hỏi trợ từ を, trong khi câu dùng trợ từ が (会議が)."
+        },
+        {
+          "key": 2,
+          "text": "知り合う",
+          "reading": "しりあう",
+          "meaning": "Quen biết nhau",
+          "explain": "Sai vì chủ ngữ là cuộc họp (会議), không thể làm chủ ngữ cho hành vi quen biết."
+        },
+        {
+          "key": 3,
+          "text": "参加する",
+          "reading": "さんかする",
+          "meaning": "Tham gia",
+          "explain": "Sai vì người tham gia cuộc họp chứ cuộc họp không tự tham gia."
+        },
+        {
+          "key": 4,
+          "text": "始まる",
+          "reading": "はじまる",
+          "meaning": "Bắt đầu",
+          "explain": "Đúng. '会議が始まる前に' nghĩa là trước khi cuộc họp bắt đầu (tự động từ đi với が)."
+        }
+      ]
+    },
+    {
+      "id": 18,
+      "question": "いつもこの国が平和になるように（ ）いる。",
+      "translation": "Tôi luôn cầu nguyện cho đất nước này trở nên hòa bình.",
+      "answer": 1,
+      "options": [
+        {
+          "key": 1,
+          "text": "祈って",
+          "reading": "いのって",
+          "meaning": "Cầu nguyện, mong ước",
+          "explain": "Đúng. Cấu trúc '〜ように祈る' mang nghĩa cầu nguyện cho điều gì đó trở thành hiện thực."
+        },
+        {
+          "key": 2,
+          "text": "開いて",
+          "reading": "ひらいて",
+          "meaning": "Mở (cửa, tiệc)",
+          "explain": "Sai vì không đi với cấu trúc cầu chúc '〜ようになる'."
+        },
+        {
+          "key": 3,
+          "text": "回して",
+          "reading": "まわして",
+          "meaning": "Xoay, chuyền tay",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "向かって",
+          "reading": "むかって",
+          "meaning": "Hướng về phía",
+          "explain": "Sai vì thường đi với phương hướng hoặc đích đến (〜に向かう)."
+        }
+      ]
+    },
+    {
+      "id": 19,
+      "question": "20分ほど彼と話していると、緊張が（ ）きた。",
+      "translation": "Sau khi nói chuyện với anh ấy khoảng 20 phút, sự căng thẳng của tôi đã dần tan biến.",
+      "answer": 2,
+      "options": [
+        {
+          "key": 1,
+          "text": "超えて",
+          "reading": "こえて",
+          "meaning": "Vượt quá",
+          "explain": "Sai vì nếu căng thẳng vượt mức thì dùng cho giới hạn chịu đựng, không hợp ngữ cảnh sau khi nói chuyện lâu."
+        },
+        {
+          "key": 2,
+          "text": "解けて",
+          "reading": "とけて",
+          "meaning": "Được cởi bỏ, tan biến, dịu đi",
+          "explain": "Đúng. Cụm '緊張が解ける' nghĩa là cảm giác căng thẳng được cởi bỏ, bớt căng thẳng."
+        },
+        {
+          "key": 3,
+          "text": "抜けて",
+          "reading": "ぬけて",
+          "meaning": "Tuột ra, rơi rụng",
+          "explain": "Sai vì trong tiếng Nhật thường dùng '緊張が解ける' hoặc '肩の力が抜ける'."
+        },
+        {
+          "key": 4,
+          "text": "壊して",
+          "reading": "こわして",
+          "meaning": "Phá hỏng",
+          "explain": "Sai vì là tha động từ và mang nghĩa phá hoại đồ vật thể lý."
+        }
+      ]
+    },
+    {
+      "id": 20,
+      "question": "黄色の（ ）が気に入ったので、この家に住むことにした。",
+      "translation": "Vì thích bức tường màu vàng nên tôi đã quyết định chuyển vào sống ở ngôi nhà này.",
+      "answer": 3,
+      "options": [
+        {
+          "key": 1,
+          "text": "熱",
+          "reading": "ねつ",
+          "meaning": "Sốt, nhiệt độ, nhiệt huyết",
+          "explain": "Sai vì không đi với tính từ màu sắc."
+        },
+        {
+          "key": 2,
+          "text": "調子",
+          "reading": "ちょうし",
+          "meaning": "Tình trạng, phong độ",
+          "explain": "Sai vì không kết hợp với màu sắc."
+        },
+        {
+          "key": 3,
+          "text": "壁",
+          "reading": "かべ",
+          "meaning": "Bức tường",
+          "explain": "Đúng. '黄色の壁' nghĩa là bức tường màu vàng của căn nhà."
+        },
+        {
+          "key": 4,
+          "text": "性格",
+          "reading": "せいかく",
+          "meaning": "Tính cách",
+          "explain": "Sai vì tính cách của con người, không áp dụng cho màu sắc hay đồ vật."
+        }
+      ]
+    }
+  ]
+}

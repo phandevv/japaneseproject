@@ -1,0 +1,726 @@
+{
+  "chuong": 8,
+  "bai": 2,
+  "questions": [
+    {
+      "id": 1,
+      "question": "妹の（　）を支援している。",
+      "translation": "Tôi đang hỗ trợ tiền học phí cho em gái.",
+      "answer": 1,
+      "options": [
+        {
+          "key": 1,
+          "text": "学費",
+          "reading": "がくひ",
+          "meaning": "Học phí",
+          "explain": "Đúng. Cụm '学費を支援する' nghĩa là chu cấp, hỗ trợ tiền đóng học phí cho em."
+        },
+        {
+          "key": 2,
+          "text": "理解",
+          "reading": "りかい",
+          "meaning": "Thấu hiểu",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "優勝",
+          "reading": "ゆうしょう",
+          "meaning": "Vô địch",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "部分",
+          "reading": "ぶぶん",
+          "meaning": "Bộ phận",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "question": "家から学校までが遠いので、1ヶ月の（　）が高い。",
+      "translation": "Vì từ nhà đến trường khá xa nên tiền chi phí đi lại một tháng rất đắt đỏ.",
+      "answer": 2,
+      "options": [
+        {
+          "key": 1,
+          "text": "出張先",
+          "reading": "しゅっちょうさき",
+          "meaning": "Nơi công tác",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "交通費",
+          "reading": "こうつうひ",
+          "meaning": "Phí giao thông, chi phí đi lại",
+          "explain": "Đúng. Cụm '交通費が高い' chỉ khoản tiền đi tàu xe/xe buýt hàng tháng tốn kém."
+        },
+        {
+          "key": 3,
+          "text": "看護師",
+          "reading": "かんごし",
+          "meaning": "Y tá",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "秘密",
+          "reading": "ひみつ",
+          "meaning": "Bí mật",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "question": "昔、この山から（　）の金が採れたそうだ。",
+      "translation": "Nghe nói ngày xưa ngọn núi này từng khai thác được một lượng lớn vàng.",
+      "answer": 3,
+      "options": [
+        {
+          "key": 1,
+          "text": "外食",
+          "reading": "がいしょく",
+          "meaning": "Ăn ngoài",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "食費",
+          "reading": "しょくひ",
+          "meaning": "Tiền ăn",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "大量",
+          "reading": "たいりょう",
+          "meaning": "Số lượng lớn, khối lượng khổng lồ",
+          "explain": "Đúng. Cụm '大量の金' chỉ khối lượng vàng lớn được khai thác từ quặng núi."
+        },
+        {
+          "key": 4,
+          "text": "会員",
+          "reading": "かいいん",
+          "meaning": "Hội viên",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "question": "首相をかばった（　）が犯人に撃たれた。",
+      "translation": "Người cảnh sát che chở bảo vệ cho Thủ tướng đã bị tên tội phạm bắn trúng.",
+      "answer": 3,
+      "options": [
+        {
+          "key": 1,
+          "text": "方角",
+          "reading": "ほうがく",
+          "meaning": "Phương hướng",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "医師",
+          "reading": "いし",
+          "meaning": "Bác sĩ",
+          "explain": "Sai vì cảnh vệ/cảnh sát mới làm nhiệm vụ bảo vệ nguyên thủ."
+        },
+        {
+          "key": 3,
+          "text": "警官",
+          "reading": "けいかん",
+          "meaning": "Cảnh sát, sĩ quan công an",
+          "explain": "Đúng. '首相をかばった警官' chỉ người cảnh sát dũng cảm bảo vệ Thủ tướng."
+        },
+        {
+          "key": 4,
+          "text": "美容師",
+          "reading": "びようし",
+          "meaning": "Thợ làm tóc",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "question": "（　）ばかり食べていると、病気になるよ。",
+      "translation": "Nếu suốt ngày chỉ toàn ăn đồ ăn nhanh (fast food) thì sẽ bị mắc bệnh đấy.",
+      "answer": 3,
+      "options": [
+        {
+          "key": 1,
+          "text": "ペットボトル",
+          "reading": "ペットボトル",
+          "meaning": "Chai nhựa",
+          "explain": "Sai vì chai nhựa không ăn được."
+        },
+        {
+          "key": 2,
+          "text": "チェンジ",
+          "reading": "チェンジ",
+          "meaning": "Thay đổi",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "ファーストフード",
+          "reading": "ファーストフード",
+          "meaning": "Đồ ăn nhanh (fast food)",
+          "explain": "Đúng. 'ファーストフードばかり食べる' chỉ thói quen ăn nhiều thức ăn nhanh có hại cho sức khỏe."
+        },
+        {
+          "key": 4,
+          "text": "ホッチキス",
+          "reading": "ホッチキス",
+          "meaning": "Cái dập ghim",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "question": "水と（　）は混ぜても混ざらない。",
+      "translation": "Nước và dầu dù có khuấy trộn cũng không bao giờ hòa tan vào nhau.",
+      "answer": 1,
+      "options": [
+        {
+          "key": 1,
+          "text": "油",
+          "reading": "あぶら",
+          "meaning": "Dầu mỡ, dầu ăn",
+          "explain": "Đúng. Hiện tượng vật lý: nước và dầu (水と油) không thể hòa tan."
+        },
+        {
+          "key": 2,
+          "text": "裏",
+          "reading": "うら",
+          "meaning": "Mặt sau",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "象",
+          "reading": "ぞう",
+          "meaning": "Con voi",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "番",
+          "reading": "ばん",
+          "meaning": "Lượt / Số",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "question": "このクッキーは（　）っぽいです。",
+      "translation": "Món bánh quy này có cảm giác nhiều dầu mỡ/ngấy mỡ quá.",
+      "answer": 3,
+      "options": [
+        {
+          "key": 1,
+          "text": "粉",
+          "reading": "こな",
+          "meaning": "Bột",
+          "explain": "Sai vì bánh quy làm từ bột là điều hiển nhiên."
+        },
+        {
+          "key": 2,
+          "text": "岩",
+          "reading": "いわ",
+          "meaning": "Tảng đá",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "油",
+          "reading": "あぶら",
+          "meaning": "Dầu mỡ",
+          "explain": "Đúng. Cụm '油っぽい' nghĩa là nhiều dầu mỡ, ngấy mỡ."
+        },
+        {
+          "key": 4,
+          "text": "勝ち",
+          "reading": "かち",
+          "meaning": "Chiến thắng",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "question": "大会の（　）に、お腹を壊してしまった。",
+      "translation": "Đúng vào ngày diễn ra đại hội thi đấu thì tôi lại bị đau bụng tiêu chảy.",
+      "answer": 2,
+      "options": [
+        {
+          "key": 1,
+          "text": "昨夜",
+          "reading": "ゆうべ / さくや",
+          "meaning": "Tối hôm qua",
+          "explain": "Sai vì ngày diễn ra sự kiện trọng đại dùng 当日."
+        },
+        {
+          "key": 2,
+          "text": "当日",
+          "reading": "とうじつ",
+          "meaning": "Ngày diễn ra sự kiện, đúng ngày đó",
+          "explain": "Đúng. Cụm '大会の当日' chỉ đúng ngày diễn ra đại hội thi đấu."
+        },
+        {
+          "key": 3,
+          "text": "想像",
+          "reading": "そうぞう",
+          "meaning": "Tưởng tượng",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "出張",
+          "reading": "しゅっちょう",
+          "meaning": "Đi công tác",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "question": "彼は何か（　）を隠しているような気がする。",
+      "translation": "Tôi có cảm giác như anh ấy đang giấu giếm một bí mật nào đó.",
+      "answer": 2,
+      "options": [
+        {
+          "key": 1,
+          "text": "抽象",
+          "reading": "ちゅうしょう",
+          "meaning": "Trừu tượng",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "秘密",
+          "reading": "ひみつ",
+          "meaning": "Bí mật",
+          "explain": "Đúng. Cụm '秘密を隠す' nghĩa là che giấu bí mật, giấu chuyện riêng."
+        },
+        {
+          "key": 3,
+          "text": "協力",
+          "reading": "きょうりょく",
+          "meaning": "Hợp tác",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "正確",
+          "reading": "せいかく",
+          "meaning": "Chính xác",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "question": "弟は、海外で橋を作る（　）を進めている。",
+      "translation": "Em trai tôi đang triển khai dự án xây dựng cầu ở nước ngoài.",
+      "answer": 2,
+      "options": [
+        {
+          "key": 1,
+          "text": "ドライヤー",
+          "reading": "ドライヤー",
+          "meaning": "Máy sấy tóc",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "プロジェクト",
+          "reading": "プロジェクト",
+          "meaning": "Dự án (project)",
+          "explain": "Đúng. Cụm '橋を作るプロジェクトを進める' nghĩa là triển khai dự án xây cầu."
+        },
+        {
+          "key": 3,
+          "text": "ベランダ",
+          "reading": "ベランダ",
+          "meaning": "Ban công",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "カーペット",
+          "reading": "カーペット",
+          "meaning": "Thảm trải sàn",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 11,
+      "question": "（　）で髪を乾かす。",
+      "translation": "Sấy khô tóc bằng máy sấy tóc.",
+      "answer": 4,
+      "options": [
+        {
+          "key": 1,
+          "text": "ブラシ",
+          "reading": "ブラシ",
+          "meaning": "Bàn chải, lược chải",
+          "explain": "Sai vì lược không làm khô tóc."
+        },
+        {
+          "key": 2,
+          "text": "リボン",
+          "reading": "リボン",
+          "meaning": "Dải ruy băng",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "ラップ",
+          "reading": "ラップ",
+          "meaning": "Màng bọc thực phẩm",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "ドライヤー",
+          "reading": "ドライヤー",
+          "meaning": "Máy sấy tóc (hair dryer)",
+          "explain": "Đúng. Cụm 'ドライヤーで髪を乾かす' nghĩa là sấy khô tóc bằng máy sấy."
+        }
+      ]
+    },
+    {
+      "id": 12,
+      "question": "日本人は時間に（　）な人が多い。",
+      "translation": "Người Nhật có rất nhiều người chuẩn chỉnh, chính xác tuyệt đối về mặt thời gian.",
+      "answer": 3,
+      "options": [
+        {
+          "key": 1,
+          "text": "確か",
+          "reading": "たしか",
+          "meaning": "Chắc chắn",
+          "explain": "Sai vì không đi với trợ từ な trước danh từ 人 theo nghĩa này."
+        },
+        {
+          "key": 2,
+          "text": "明確",
+          "reading": "めいかく",
+          "meaning": "Rõ ràng, minh bạch",
+          "explain": "Sai ngữ cảnh giờ giấc cá nhân."
+        },
+        {
+          "key": 3,
+          "text": "正確",
+          "reading": "せいかく",
+          "meaning": "Chính xác, chuẩn chỉ",
+          "explain": "Đúng. Cụm '時間に正確な人' chỉ người luôn đúng giờ, chuẩn xác về mặt thời gian."
+        },
+        {
+          "key": 4,
+          "text": "確実",
+          "reading": "かくじつ",
+          "meaning": "Xác thực",
+          "explain": "Sai ngữ cảnh tính cách."
+        }
+      ]
+    },
+    {
+      "id": 13,
+      "question": "駅前には、（　）武士の像がある。",
+      "translation": "Trước nhà ga có bức tượng người võ sĩ samurai vô cùng dũng mãnh, oai phong.",
+      "answer": 4,
+      "options": [
+        {
+          "key": 1,
+          "text": "図々しい",
+          "reading": "ずうずうしい",
+          "meaning": "Mặt dày, trơ trẽn",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "喧しい",
+          "reading": "やかましい",
+          "meaning": "Ầm ĩ, phiền phức",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "とんでもない",
+          "reading": "とんでもない",
+          "meaning": "Vô lý / Không có chi",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "勇ましい",
+          "reading": "いさましい",
+          "meaning": "Dũng mãnh, oai phong, quả cảm",
+          "explain": "Đúng. Cụm '勇ましい武士' chỉ người võ sĩ samurai dũng cảm, uy nghiêm."
+        }
+      ]
+    },
+    {
+      "id": 14,
+      "question": "弟は部屋が汚くて（　）。",
+      "translation": "Em trai tôi phòng ốc bừa bộn bẩn thỉu và rất lôi thôi, cẩu thả.",
+      "answer": 1,
+      "options": [
+        {
+          "key": 1,
+          "text": "だらしない",
+          "reading": "だらしない",
+          "meaning": "Lôi thôi, luộm thuộm, cẩu thả",
+          "explain": "Đúng. 'だらしない' chỉ tính cách luộm thuộm, không ngăn nắp gọn gàng."
+        },
+        {
+          "key": 2,
+          "text": "だるい",
+          "reading": "だるい",
+          "meaning": "Uể oải, mỏi mệt",
+          "explain": "Sai vì chỉ trạng thái sức khỏe."
+        },
+        {
+          "key": 3,
+          "text": "憎らしい",
+          "reading": "にくらしい",
+          "meaning": "Đáng ghét",
+          "explain": "Sai ngữ cảnh miêu tả nếp sống."
+        },
+        {
+          "key": 4,
+          "text": "若々しい",
+          "reading": "わかわかしい",
+          "meaning": "Trẻ trung",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 15,
+      "question": "ベトナムの経済は豊かになってきた。将来日本を（　）かもしれない。",
+      "translation": "Nền kinh tế Việt Nam ngày càng phát triển thịnh vượng. Trong tương lai có thể sẽ vượt qua cả Nhật Bản.",
+      "answer": 2,
+      "options": [
+        {
+          "key": 1,
+          "text": "追いつく",
+          "reading": "おいつく",
+          "meaning": "Đuổi kịp (ngang hàng)",
+          "explain": "Sai vì câu mang ý vượt trội hơn."
+        },
+        {
+          "key": 2,
+          "text": "追い越す",
+          "reading": "おいこす",
+          "meaning": "Vượt qua, vượt mặt",
+          "explain": "Đúng. Cụm '日本を追い越す' nghĩa là bứt phá và vượt lên phía trước về mặt kinh tế."
+        },
+        {
+          "key": 3,
+          "text": "通勤する",
+          "reading": "つうきんする",
+          "meaning": "Đi làm",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "確かめる",
+          "reading": "たしかめる",
+          "meaning": "Xác nhận",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 16,
+      "question": "先に家を出た弟に（　）ために、急いで走った。",
+      "translation": "Để đuổi kịp người em trai đã rời nhà trước đó, tôi đã chạy thật nhanh.",
+      "answer": 3,
+      "options": [
+        {
+          "key": 1,
+          "text": "追い越す",
+          "reading": "おいこす",
+          "meaning": "Vượt mặt qua",
+          "explain": "Sai vì mục tiêu trước hết là chạy đuổi cho kịp."
+        },
+        {
+          "key": 2,
+          "text": "追い抜く",
+          "reading": "おいぬく",
+          "meaning": "Bứt phá vượt qua",
+          "explain": "Sai vì dùng trong thi đua chạy đua."
+        },
+        {
+          "key": 3,
+          "text": "追いつく",
+          "reading": "おいつく",
+          "meaning": "Đuổi kịp (bắt kịp khoảng cách)",
+          "explain": "Đúng. Cụm '弟に追いつく' (đi với trợ từ に) nghĩa là đuổi kịp người đi trước."
+        },
+        {
+          "key": 4,
+          "text": "追い込む",
+          "reading": "おいこむ",
+          "meaning": "Dồn vào chân tường",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 17,
+      "question": "いらない新聞紙をひもで（　）。",
+      "translation": "Dùng dây thừng buộc gọn những tờ báo cũ không dùng nữa lại.",
+      "answer": 4,
+      "options": [
+        {
+          "key": 1,
+          "text": "編む",
+          "reading": "あむ",
+          "meaning": "Đan (len)",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "追う",
+          "reading": "おう",
+          "meaning": "Đuổi theo",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "量る",
+          "reading": "はかる",
+          "meaning": "Cân đo",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "縛る",
+          "reading": "しばる",
+          "meaning": "Buộc lại, trói lại",
+          "explain": "Đúng. Cụm 'ひもで縛る' nghĩa là dùng dây buộc chặt chồng báo cũ để vứt rác."
+        }
+      ]
+    },
+    {
+      "id": 18,
+      "question": "彼は年に2回ほど（　）でタイに行く。",
+      "translation": "Mỗi năm anh ấy đi Thái Lan khoảng 2 lần vì lý do công tác.",
+      "answer": 1,
+      "options": [
+        {
+          "key": 1,
+          "text": "出張",
+          "reading": "しゅっちょう",
+          "meaning": "Đi công tác",
+          "explain": "Đúng. Cụm '出張でタイに行く' nghĩa là đi công tác nước ngoài tại Thái Lan."
+        },
+        {
+          "key": 2,
+          "text": "主張",
+          "reading": "しゅちょう",
+          "meaning": "Chủ trương, khẳng định ý kiến",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "通勤",
+          "reading": "つうきん",
+          "meaning": "Đi làm hàng ngày",
+          "explain": "Sai vì không đi làm hàng ngày tới Thái Lan."
+        },
+        {
+          "key": 4,
+          "text": "外食",
+          "reading": "がいしょく",
+          "meaning": "Ăn ngoài",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 19,
+      "question": "ベトナムは日本より米の（　）量が多いそうだ。",
+      "translation": "Nghe nói lượng tiêu thụ gạo ở Việt Nam nhiều hơn so với Nhật Bản.",
+      "answer": 3,
+      "options": [
+        {
+          "key": 1,
+          "text": "多量",
+          "reading": "たりょう",
+          "meaning": "Lượng nhiều",
+          "explain": "Sai vì chữ 量 đã có phía sau."
+        },
+        {
+          "key": 2,
+          "text": "学費",
+          "reading": "がくひ",
+          "meaning": "Học phí",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "消費",
+          "reading": "しょうひ",
+          "meaning": "Tiêu dùng, tiêu thụ",
+          "explain": "Đúng. Cụm từ cố định '消費量' (lượng tiêu thụ/tiêu dùng gạo của người dân)."
+        },
+        {
+          "key": 4,
+          "text": "会費",
+          "reading": "かいひ",
+          "meaning": "Hội phí",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 20,
+      "question": "朝は晴れていたが、（　）曇ってきた。",
+      "translation": "Buổi sáng trời nắng ráo nhưng dần dần mây mù kéo đến.",
+      "answer": 1,
+      "options": [
+        {
+          "key": 1,
+          "text": "次第に",
+          "reading": "しだいに",
+          "meaning": "Dần dần, từng chút một",
+          "explain": "Đúng. '次第に曇ってきた' chỉ thời tiết chuyển biến nhiều mây một cách từ từ."
+        },
+        {
+          "key": 2,
+          "text": "確かに",
+          "reading": "たしかに",
+          "meaning": "Chính xác, quả thực",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "いい加減に",
+          "reading": "いいかげんに",
+          "meaning": "Vừa phải thôi",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "どんなに",
+          "reading": "どんなに",
+          "meaning": "Dù cho thế nào",
+          "explain": "Sai vì cần thể ても."
+        }
+      ]
+    }
+  ]
+}

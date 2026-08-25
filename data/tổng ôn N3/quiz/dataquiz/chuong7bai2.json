@@ -1,0 +1,726 @@
+{
+  "chuong": 7,
+  "bai": 2,
+  "questions": [
+    {
+      "id": 1,
+      "question": "（　）がついた言葉は大切です。",
+      "translation": "Những từ ngữ có gạch chân bên dưới là những từ quan trọng.",
+      "answer": 2,
+      "options": [
+        {
+          "key": 1,
+          "text": "必要",
+          "reading": "ひつよう",
+          "meaning": "Cần thiết",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "下線",
+          "reading": "かせん",
+          "meaning": "Gạch chân, đường gạch dưới",
+          "explain": "Đúng. Cụm '下線がついた言葉' chỉ từ được gạch chân để nhấn mạnh tầm quan trọng."
+        },
+        {
+          "key": 3,
+          "text": "書留",
+          "reading": "かきとめ",
+          "meaning": "Thư bảo đảm",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "線路",
+          "reading": "せんろ",
+          "meaning": "Đường ray",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "question": "今朝から（　）が痛むので、明日病院へ行くつもりだ。",
+      "translation": "Từ sáng nay dạ dày bị đau nhức nên ngày mai tôi định đi bệnh viện khám.",
+      "answer": 1,
+      "options": [
+        {
+          "key": 1,
+          "text": "胃",
+          "reading": "い",
+          "meaning": "Dạ dày, bao tử",
+          "explain": "Đúng. Cụm '胃が痛む' chỉ triệu chứng đau dạ dày/bao tử."
+        },
+        {
+          "key": 2,
+          "text": "息",
+          "reading": "いき",
+          "meaning": "Hơi thở",
+          "explain": "Sai vì hơi thở không đau nhức (痛む)."
+        },
+        {
+          "key": 3,
+          "text": "愛",
+          "reading": "あい",
+          "meaning": "Tình yêu",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "質",
+          "reading": "しつ",
+          "meaning": "Chất lượng",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "question": "今回の旅行の（　）の一部を、会社が払ってくれることになった。",
+      "translation": "Một phần chi phí của chuyến du lịch lần này đã được công ty chi trả giúp.",
+      "answer": 2,
+      "options": [
+        {
+          "key": 1,
+          "text": "材料",
+          "reading": "ざいりょう",
+          "meaning": "Nguyên liệu",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "費用",
+          "reading": "ひよう",
+          "meaning": "Chi phí, kinh phí",
+          "explain": "Đúng. Cụm '旅行の費用' chỉ các khoản tiền chi tiêu cho chuyến đi du lịch."
+        },
+        {
+          "key": 3,
+          "text": "用途",
+          "reading": "ようと",
+          "meaning": "Công dụng",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "用紙",
+          "reading": "ようし",
+          "meaning": "Giấy tờ",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "question": "毎月バイクの（　）を払うのが嫌になったので、バイクを買うことにした。",
+      "translation": "Tôi thấy chán ngấy việc mỗi tháng phải trả tiền phí thuê xe máy nên đã quyết định mua luôn một chiếc.",
+      "answer": 2,
+      "options": [
+        {
+          "key": 1,
+          "text": "応援",
+          "reading": "おうえん",
+          "meaning": "Cổ vũ",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "使用料",
+          "reading": "しようりょう",
+          "meaning": "Phí sử dụng, tiền thuê đồ",
+          "explain": "Đúng. Cụm 'バイクの使用料' chỉ tiền phí thuê xe máy hàng tháng."
+        },
+        {
+          "key": 3,
+          "text": "記念日",
+          "reading": "きねんび",
+          "meaning": "Ngày kỷ niệm",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "再使用",
+          "reading": "さいしよう",
+          "meaning": "Tái sử dụng",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "question": "銀行へ行くついでに、スーパーで夕食の（　）を買った。",
+      "translation": "Tiện đường đi ngân hàng, tôi đã ghé siêu thị mua nguyên liệu cho bữa tối.",
+      "answer": 1,
+      "options": [
+        {
+          "key": 1,
+          "text": "材料",
+          "reading": "ざいりょう",
+          "meaning": "Nguyên liệu, thực phẩm nấu ăn",
+          "explain": "Đúng. Cụm '夕食の材料' chỉ các loại thực phẩm, rau củ thịt cá để nấu bữa tối."
+        },
+        {
+          "key": 2,
+          "text": "費用",
+          "reading": "ひよう",
+          "meaning": "Chi phí",
+          "explain": "Sai vì chi phí không mua được ở siêu thị."
+        },
+        {
+          "key": 3,
+          "text": "申請",
+          "reading": "しんせい",
+          "meaning": "Đăng ký, xin phép",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "企業",
+          "reading": "きぎょう",
+          "meaning": "Doanh nghiệp",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "question": "父が交通事故にあってからもう2年経つが、まだ少し（　）が残っているようだ。",
+      "translation": "Đã 2 năm kể từ khi bố bị tai nạn giao thông nhưng dường như vẫn còn sót lại một chút cơn đau.",
+      "answer": 3,
+      "options": [
+        {
+          "key": 1,
+          "text": "胃",
+          "reading": "い",
+          "meaning": "Dạ dày",
+          "explain": "Sai vì sau tai nạn để lại di chứng đau đớn."
+        },
+        {
+          "key": 2,
+          "text": "息",
+          "reading": "いき",
+          "meaning": "Hơi thở",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "痛み",
+          "reading": "いたみ",
+          "meaning": "Cơn đau, nỗi đau thể xác",
+          "explain": "Đúng. Cụm '痛みが残る' chỉ cơn đau do chấn thương tai nạn vẫn chưa dứt hẳn."
+        },
+        {
+          "key": 4,
+          "text": "初恋",
+          "reading": "はつこい",
+          "meaning": "Mối tình đầu",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "question": "先週から、このあたりから駅前にかけて、（　）の工事をしている。",
+      "translation": "Từ tuần trước, đoạn từ khu này đến trước nhà ga đang thi công công trình đường ống nước.",
+      "answer": 2,
+      "options": [
+        {
+          "key": 1,
+          "text": "発車",
+          "reading": "はっしゃ",
+          "meaning": "Xe khởi hành",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "水道",
+          "reading": "すいどう",
+          "meaning": "Đường ống nước, nguồn nước máy",
+          "explain": "Đúng. Cụm '水道の工事' chỉ công trình lắp đặt, sửa chữa hệ thống cấp thoát nước đô thị."
+        },
+        {
+          "key": 3,
+          "text": "途中",
+          "reading": "とちゅう",
+          "meaning": "Giữa chừng",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "非常",
+          "reading": "ひじょう",
+          "meaning": "Khẩn cấp",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "question": "このイベントには多くの（　）が集まり、交流を行う。",
+      "translation": "Tại sự kiện này có rất nhiều doanh nghiệp tề tựu để tiến hành giao lưu hợp tác.",
+      "answer": 3,
+      "options": [
+        {
+          "key": 1,
+          "text": "皆さん",
+          "reading": "みなさん",
+          "meaning": "Mọi người",
+          "explain": "Sai vì không đi cùng trợ từ が theo ngữ cảnh chuyên môn này."
+        },
+        {
+          "key": 2,
+          "text": "首相",
+          "reading": "しゅしょう",
+          "meaning": "Thủ tướng",
+          "explain": "Sai vì số nhiều chỉ các đơn vị kinh tế."
+        },
+        {
+          "key": 3,
+          "text": "企業",
+          "reading": "きぎょう",
+          "meaning": "Doanh nghiệp, công ty",
+          "explain": "Đúng. Cụm '多くの企業が集まる' chỉ nhiều công ty, đơn vị tham gia sự kiện hội chợ kết nối."
+        },
+        {
+          "key": 4,
+          "text": "美術館",
+          "reading": "びじゅつかん",
+          "meaning": "Bảo tàng mỹ thuật",
+          "explain": "Sai vì là địa điểm."
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "question": "あの（　）は首相になったとたん、新しい政策をどんどん実施し出した。",
+      "translation": "Chính trị gia đó vừa nhậm chức Thủ tướng là đã lập tức triển khai hàng loạt chính sách mới.",
+      "answer": 1,
+      "options": [
+        {
+          "key": 1,
+          "text": "政治家",
+          "reading": "せいじか",
+          "meaning": "Chính trị gia",
+          "explain": "Đúng. '政治家' là người hoạt động chính trị được bổ nhiệm làm Thủ tướng (首相)."
+        },
+        {
+          "key": 2,
+          "text": "息子",
+          "reading": "むすこ",
+          "meaning": "Con trai",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "愛用者",
+          "reading": "あいようしゃ",
+          "meaning": "Người quen dùng hàng",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "歯医者",
+          "reading": "はいしゃ",
+          "meaning": "Nha sĩ",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "question": "今朝とても急いでいたので、ズボンの（　）がないのに会社に来てしまった。",
+      "translation": "Sáng nay vội quá nên quên cả thắt lưng quần mà đã chạy đến công ty.",
+      "answer": 2,
+      "options": [
+        {
+          "key": 1,
+          "text": "ファッション",
+          "reading": "ファッション",
+          "meaning": "Thời trang",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "ベルト",
+          "reading": "ベルト",
+          "meaning": "Thắt lưng, dây nịt (belt)",
+          "explain": "Đúng. 'ズボンのベルト' nghĩa là chiếc thắt lưng đeo quần."
+        },
+        {
+          "key": 3,
+          "text": "ジャケット",
+          "reading": "ジャケット",
+          "meaning": "Áo khoác",
+          "explain": "Sai vì không gắn trực tiếp với quần (ズボンの)."
+        },
+        {
+          "key": 4,
+          "text": "サングラス",
+          "reading": "サングラス",
+          "meaning": "Kính râm",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 11,
+      "question": "台風の接近に伴い、雨と風が（　）なってきた。",
+      "translation": "Cùng với sự áp sát của cơn bão, mưa và gió đã trở nên vô cùng dữ dội.",
+      "answer": 2,
+      "options": [
+        {
+          "key": 1,
+          "text": "悲しく",
+          "reading": "かなしく",
+          "meaning": "Đau buồn",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "激しく",
+          "reading": "はげしく",
+          "meaning": "Dữ dội, mãnh liệt",
+          "explain": "Đúng. Cụm '雨と風が激しくなる' chỉ mưa bão ngày càng gầm rít, dữ dội."
+        },
+        {
+          "key": 3,
+          "text": "恋しく",
+          "reading": "こいしく",
+          "meaning": "Thương nhớ",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "柔らかく",
+          "reading": "やわらかく",
+          "meaning": "Mềm mại",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 12,
+      "question": "じゃがいもがまだ固いので、（　）なるまでもう少し煮よう。",
+      "translation": "Khoai tây vẫn còn cứng nên hãy ninh thêm một chút cho đến khi mềm nhé.",
+      "answer": 2,
+      "options": [
+        {
+          "key": 1,
+          "text": "可愛らしく",
+          "reading": "かわいらしく",
+          "meaning": "Đáng yêu",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "柔らかく",
+          "reading": "やわらかく",
+          "meaning": "Mềm, nhừ",
+          "explain": "Đúng. Từ trái nghĩa hoàn hảo đối lập với '固い' (cứng) khi nấu khoai tây nhừ mềm."
+        },
+        {
+          "key": 3,
+          "text": "激しく",
+          "reading": "はげしく",
+          "meaning": "Mãnh liệt",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "愛しく",
+          "reading": "いとしく",
+          "meaning": "Yêu thương",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 13,
+      "question": "夏休みに親戚の家を（　）予定だ。",
+      "translation": "Vào kỳ nghỉ hè tôi dự định sẽ đến thăm nhà người họ hàng.",
+      "answer": 2,
+      "options": [
+        {
+          "key": 1,
+          "text": "詰まる",
+          "reading": "つまる",
+          "meaning": "Bị tắc nghẽn",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "訪ねる",
+          "reading": "たずねる",
+          "meaning": "Đến thăm, ghé thăm",
+          "explain": "Đúng. Cụm '親戚の家を訪ねる' nghĩa là đến thăm hỏi nhà bà con, họ hàng."
+        },
+        {
+          "key": 3,
+          "text": "寄る",
+          "reading": "よる",
+          "meaning": "Ghé tạt qua (đi với trợ từ に)",
+          "explain": "Sai ngữ pháp vì câu dùng trợ từ を (家を)."
+        },
+        {
+          "key": 4,
+          "text": "延びる",
+          "reading": "のびる",
+          "meaning": "Kéo dài",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 14,
+      "question": "彼はとても力が強く、手でリンゴを（　）ことができる。",
+      "translation": "Anh ấy có sức khỏe rất phi thường, có thể dùng tay bóp nát quả táo.",
+      "answer": 2,
+      "options": [
+        {
+          "key": 1,
+          "text": "潰れる",
+          "reading": "つぶれる",
+          "meaning": "Bị nát (tự động từ)",
+          "explain": "Sai ngữ pháp vì câu dùng trợ từ を (リンゴを)."
+        },
+        {
+          "key": 2,
+          "text": "潰す",
+          "reading": "つぶす",
+          "meaning": "Bóp nát, nghiền nát (tha động từ)",
+          "explain": "Đúng. Cụm '手でリンゴを潰す' nghĩa là dùng sức tay bóp nát quả táo."
+        },
+        {
+          "key": 3,
+          "text": "溶かす",
+          "reading": "とかす",
+          "meaning": "Làm tan chảy (bơ, đường)",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "溶く",
+          "reading": "とく",
+          "meaning": "Đánh tan (trứng)",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 15,
+      "question": "ビンの中にお菓子をたくさん（　）子供にあげた。",
+      "translation": "Tôi nhét/đựng thật nhiều bánh kẹo vào trong lọ rồi đem tặng cho bọn trẻ.",
+      "answer": 2,
+      "options": [
+        {
+          "key": 1,
+          "text": "乗せて",
+          "reading": "のせて",
+          "meaning": "Đặt lên trên",
+          "explain": "Sai vì bánh kẹo cho vào bên trong lọ (ビンの中)."
+        },
+        {
+          "key": 2,
+          "text": "詰めて",
+          "reading": "つめて",
+          "meaning": "Nhồi, nhét đầy vào trong",
+          "explain": "Đúng. Cụm 'ビンの中にお菓子を詰める' nghĩa là nhồi đầy bánh kẹo vào trong hũ thủy tinh."
+        },
+        {
+          "key": 3,
+          "text": "強めて",
+          "reading": "つよめて",
+          "meaning": "Tăng cường",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "伸ばして",
+          "reading": "のばして",
+          "meaning": "Kéo dài ra",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 16,
+      "question": "母は針に糸を（　）のが上手い。",
+      "translation": "Mẹ tôi xỏ chỉ qua kim rất khéo.",
+      "answer": 2,
+      "options": [
+        {
+          "key": 1,
+          "text": "弾む",
+          "reading": "はずむ",
+          "meaning": "Nảy (bóng)",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "通す",
+          "reading": "とおす",
+          "meaning": "Xâu qua, xỏ qua",
+          "explain": "Đúng. Cụm '針に糸を通す' là cách nói chuẩn mang nghĩa xỏ sợi chỉ qua lỗ kim."
+        },
+        {
+          "key": 3,
+          "text": "捕る",
+          "reading": "とる",
+          "meaning": "Bắt (cá)",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "貼る",
+          "reading": "はる",
+          "meaning": "Dán",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 17,
+      "question": "ついつい、好きな人を（　）しまい、その人に見られてしまった。",
+      "translation": "Tôi cứ vô thức ngắm nhìn người mình thầm thích mãi để rồi bị người ấy bắt gặp ánh mắt.",
+      "answer": 2,
+      "options": [
+        {
+          "key": 1,
+          "text": "慰めて",
+          "reading": "なぐさめて",
+          "meaning": "An ủi",
+          "explain": "Sai ngữ cảnh nhìn ngắm."
+        },
+        {
+          "key": 2,
+          "text": "眺めて",
+          "reading": "ながめて",
+          "meaning": "Ngắm nhìn, dõi theo",
+          "explain": "Đúng. '好きな人を眺める' chỉ hành động say sưa ngắm nhìn người mình thầm thương."
+        },
+        {
+          "key": 3,
+          "text": "詰めて",
+          "reading": "つめて",
+          "meaning": "Nhồi nhét",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "舐めて",
+          "reading": "なめて",
+          "meaning": "Liếm / Coi thường",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 18,
+      "question": "お酒が飲めない人を（　）、みなさんビールでいいですか。",
+      "translation": "Ngoại trừ những người không uống được rượu bia ra, mọi người uống bia hết có được không?",
+      "answer": 3,
+      "options": [
+        {
+          "key": 1,
+          "text": "傷んで",
+          "reading": "いたんで",
+          "meaning": "Bị ôi thiu",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "眺めて",
+          "reading": "ながめて",
+          "meaning": "Ngắm nhìn",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "除いて",
+          "reading": "のぞいて",
+          "meaning": "Ngoại trừ, loại trừ",
+          "explain": "Đúng. Cấu trúc '〜を除いて' mang nghĩa ngoại trừ đối tượng nào đó ra."
+        },
+        {
+          "key": 4,
+          "text": "延ばして",
+          "reading": "のばして",
+          "meaning": "Trì hoãn",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 19,
+      "question": "3ヵ月前に（　）したが、まだ相手を忘れられずにいる。",
+      "translation": "Dù đã thất tình cách đây 3 tháng nhưng tôi vẫn chưa thể nào quên được người ấy.",
+      "answer": 2,
+      "options": [
+        {
+          "key": 1,
+          "text": "愛着",
+          "reading": "あいちゃく",
+          "meaning": "Quyến luyến đồ vật",
+          "explain": "Sai vì thường dùng cho tình cảm gắn bó với đồ dùng."
+        },
+        {
+          "key": 2,
+          "text": "失恋",
+          "reading": "しつれん",
+          "meaning": "Thất tình",
+          "explain": "Đúng. Cụm '失恋した' chỉ việc bị tan vỡ chuyện tình cảm đôi lứa."
+        },
+        {
+          "key": 3,
+          "text": "初恋",
+          "reading": "はつこい",
+          "meaning": "Mối tình đầu",
+          "explain": "Sai vì mối tình đầu không đi với động từ した theo nghĩa này."
+        },
+        {
+          "key": 4,
+          "text": "罪",
+          "reading": "つみ",
+          "meaning": "Tội lỗi",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 20,
+      "question": "始めはこの車が好きではなかったが、使っているうちにだんだんと（　）を抱くようになってきた。",
+      "translation": "Ban đầu tôi không thích chiếc xe này lắm, nhưng dùng một thời gian tôi dần nảy sinh tình cảm yêu quý, gắn bó với nó.",
+      "answer": 4,
+      "options": [
+        {
+          "key": 1,
+          "text": "失業",
+          "reading": "しつぎょう",
+          "meaning": "Thất nghiệp",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "失恋",
+          "reading": "しつれん",
+          "meaning": "Thất tình",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "恋愛",
+          "reading": "れんあい",
+          "meaning": "Yêu đương",
+          "explain": "Sai vì tình yêu nam nữ không áp dụng cho chiếc xe ô tô."
+        },
+        {
+          "key": 4,
+          "text": "愛着",
+          "reading": "あいちゃく",
+          "meaning": "Sự yêu mến, gắn bó, tình cảm lưu luyến (với đồ vật)",
+          "explain": "Đúng. Cụm '愛着を抱く' chỉ tình cảm gắn bó sâu sắc với món đồ quen thuộc."
+        }
+      ]
+    }
+  ]
+}

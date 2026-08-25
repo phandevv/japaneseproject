@@ -1,0 +1,726 @@
+{
+  "chuong": 3,
+  "bai": 1,
+  "questions": [
+    {
+      "id": 1,
+      "question": "今、何か私に（　）したいことはありますか。あったら教えてください。",
+      "translation": "Bây giờ có điều gì bạn muốn thảo luận/trao đổi với tôi không? Nếu có thì hãy nói cho tôi biết nhé.",
+      "answer": 3,
+      "options": [
+        {
+          "key": 1,
+          "text": "調査",
+          "reading": "ちょうさ",
+          "meaning": "Điều tra, khảo sát",
+          "explain": "Sai vì không đi với hành động trao đổi với cá nhân dạng này."
+        },
+        {
+          "key": 2,
+          "text": "出会い",
+          "reading": "であい",
+          "meaning": "Gặp gỡ",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "相談",
+          "reading": "そうだん",
+          "meaning": "Thảo luận, trao đổi, xin ý kiến",
+          "explain": "Đúng. Cụm '私に相談したいこと' nghĩa là điều muốn thảo luận/xin ý kiến tôi."
+        },
+        {
+          "key": 4,
+          "text": "箱",
+          "reading": "はこ",
+          "meaning": "Cái hộp",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "question": "映画を見た（　）を友達に伝えた。",
+      "translation": "Tôi đã chia sẻ cảm tưởng/suy nghĩ sau khi xem phim với bạn bè.",
+      "answer": 1,
+      "options": [
+        {
+          "key": 1,
+          "text": "感想",
+          "reading": "かんそう",
+          "meaning": "Cảm tưởng, suy nghĩ",
+          "explain": "Đúng. '映画を見た感想' nghĩa là cảm tưởng sau khi xem phim."
+        },
+        {
+          "key": 2,
+          "text": "利用",
+          "reading": "りよう",
+          "meaning": "Sử dụng",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "友人",
+          "reading": "ゆうじん",
+          "meaning": "Bạn bè",
+          "explain": "Sai vì phía sau đã có 友達."
+        },
+        {
+          "key": 4,
+          "text": "予想",
+          "reading": "よそう",
+          "meaning": "Dự đoán",
+          "explain": "Sai vì đã xem phim rồi nên không dùng dự đoán."
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "question": "A: 自分のこれからの仕事のことを考えると、不安になるんだ。\nB: （　）のことなんてわからないんだから、考えすぎないことだよ。",
+      "translation": "A: Cứ nghĩ về công việc sau này là mình lại thấy bất an.\nB: Chuyện tương lai thì ai mà biết được, đừng suy nghĩ quá nhiều.",
+      "answer": 4,
+      "options": [
+        {
+          "key": 1,
+          "text": "未経験",
+          "reading": "みけいけん",
+          "meaning": "Chưa có kinh nghiệm",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "未完成",
+          "reading": "みかんせい",
+          "meaning": "Chưa hoàn thành",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "パートナー",
+          "reading": "パートナー",
+          "meaning": "Bạn đời, đối tác",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "未来",
+          "reading": "みらい",
+          "meaning": "Tương lai",
+          "explain": "Đúng. Cụm '未来のこと' chỉ những chuyện trong tương lai phía trước."
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "question": "買いたいものがあるので、毎月残った（　）を貯金することにする。",
+      "translation": "Vì có đồ muốn mua nên tôi quyết định mỗi tháng sẽ tiết kiệm số tiền giấy còn dư lại.",
+      "answer": 4,
+      "options": [
+        {
+          "key": 1,
+          "text": "バイト",
+          "reading": "バイト",
+          "meaning": "Làm thêm",
+          "explain": "Sai vì không nói là tiết kiệm làm thêm."
+        },
+        {
+          "key": 2,
+          "text": "棚",
+          "reading": "たな",
+          "meaning": "Cái kệ/giá",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "花束",
+          "reading": "はなたば",
+          "meaning": "Bó hoa",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "お札",
+          "reading": "おさつ",
+          "meaning": "Tiền giấy, tờ tiền",
+          "explain": "Đúng. '残ったお札を貯金する' nghĩa là tiết kiệm tiền giấy/tiền mặt còn lại."
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "question": "大きな声で（　）した後は、ビールが美味しく感じる。",
+      "translation": "Sau khi hô to cạn ly, bia cảm giác uống ngon hơn hẳn.",
+      "answer": 2,
+      "options": [
+        {
+          "key": 1,
+          "text": "独立",
+          "reading": "どくりつ",
+          "meaning": "Độc lập",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "乾杯",
+          "reading": "かんぱい",
+          "meaning": "Cạn ly, cụng ly",
+          "explain": "Đúng. '大きな声で乾杯する' nghĩa là hô to cạn ly khi uống rượu bia."
+        },
+        {
+          "key": 3,
+          "text": "検索",
+          "reading": "けんさく",
+          "meaning": "Tìm kiếm",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "相談",
+          "reading": "そうだん",
+          "meaning": "Bàn bạc, xin ý kiến",
+          "explain": "Sai ngữ cảnh tiệc tùng uống bia."
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "question": "A: これってどういう意味だと思いますか。\nB: う〜ん…。何でしょうね。私もわからないので、インターネットで（　）したらどうですか。",
+      "translation": "A: Bạn nghĩ cái này có nghĩa là gì?\nB: Ừm... là gì nhỉ. Tôi cũng không biết nên bạn thử tìm kiếm trên mạng xem sao?",
+      "answer": 1,
+      "options": [
+        {
+          "key": 1,
+          "text": "検索",
+          "reading": "けんさく",
+          "meaning": "Tìm kiếm, tra cứu",
+          "explain": "Đúng. Cụm 'インターネットで検索する' nghĩa là tra cứu trên internet."
+        },
+        {
+          "key": 2,
+          "text": "感想",
+          "reading": "かんそう",
+          "meaning": "Cảm tưởng",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "集中",
+          "reading": "しゅうちゅう",
+          "meaning": "Tập trung",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "予想",
+          "reading": "よそう",
+          "meaning": "Dự đoán",
+          "explain": "Sai vì tra mạng để tìm kiếm câu trả lời chính xác."
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "question": "母の日に（　）を買うことにしたが、花は何色にしたらいいだろうか。",
+      "translation": "Tôi đã quyết định mua một bó hoa vào Ngày của Mẹ, nhưng không biết nên chọn hoa màu gì thì tốt.",
+      "answer": 4,
+      "options": [
+        {
+          "key": 1,
+          "text": "夢",
+          "reading": "ゆめ",
+          "meaning": "Giấc mơ",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "葉",
+          "reading": "は",
+          "meaning": "Lá cây",
+          "explain": "Sai vì mua hoa tặng mẹ chứ không mua lá."
+        },
+        {
+          "key": 3,
+          "text": "お札",
+          "reading": "おさつ",
+          "meaning": "Tiền giấy",
+          "explain": "Sai ngữ cảnh chọn màu sắc hoa phía sau."
+        },
+        {
+          "key": 4,
+          "text": "花束",
+          "reading": "はなたば",
+          "meaning": "Bó hoa",
+          "explain": "Đúng. Cụm '花束を買う' nghĩa là mua một bó hoa để tặng."
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "question": "守れない（　）は、しないほうがいい。",
+      "translation": "Những lời hứa mà không giữ được thì tốt nhất không nên hứa.",
+      "answer": 2,
+      "options": [
+        {
+          "key": 1,
+          "text": "待ち合わせ",
+          "reading": "まちあわせ",
+          "meaning": "Hẹn gặp",
+          "explain": "Sai vì không đi với cụm '守れない'."
+        },
+        {
+          "key": 2,
+          "text": "約束",
+          "reading": "やくそく",
+          "meaning": "Lời hứa, hẹn ước",
+          "explain": "Đúng. Cụm '約束を守る' nghĩa là giữ lời hứa; '守れない約束' là lời hứa không thể giữ."
+        },
+        {
+          "key": 3,
+          "text": "出会い",
+          "reading": "であい",
+          "meaning": "Sự gặp gỡ",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "異常",
+          "reading": "いじょう",
+          "meaning": "Bất thường",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "question": "A: この前、夜中の2時に友だちに電話したら、怒られちゃった。\nB: 当たり前だよ。どんなに親しくても、（　）を忘れないことだね。",
+      "translation": "A: Hôm trước mình gọi điện cho bạn lúc 2 giờ sáng thế là bị mắng cho một trận.\nB: Đương nhiên rồi. Dù có thân thiết đến mấy thì cũng đừng quên phép lịch sự thông thường (thường thức).",
+      "answer": 4,
+      "options": [
+        {
+          "key": 1,
+          "text": "けち",
+          "reading": "けち",
+          "meaning": "Keo kiệt",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "現実",
+          "reading": "げんじつ",
+          "meaning": "Hiện thực",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "月末",
+          "reading": "げつまつ",
+          "meaning": "Cuối tháng",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "常識",
+          "reading": "じょうしき",
+          "meaning": "Thường thức, phép tắc thông thường",
+          "explain": "Đúng. '常識を忘れない' nghĩa là không quên những quy tắc ứng xử thông thường."
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "question": "病院での検査で、（　）が見つかったため、入院することになった。",
+      "translation": "Do kiểm tra ở bệnh viện phát hiện ra dấu hiệu bất thường nên tôi phải nhập viện.",
+      "answer": 3,
+      "options": [
+        {
+          "key": 1,
+          "text": "正常",
+          "reading": "せいじょう",
+          "meaning": "Bình thường",
+          "explain": "Sai vì bình thường thì không cần phải nhập viện."
+        },
+        {
+          "key": 2,
+          "text": "約束",
+          "reading": "やくそく",
+          "meaning": "Lời hứa",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "異常",
+          "reading": "いじょう",
+          "meaning": "Bất thường, dị thường",
+          "explain": "Đúng. '異常が見つかる' chỉ việc phát hiện vấn đề bất thường trong sức khỏe."
+        },
+        {
+          "key": 4,
+          "text": "効果",
+          "reading": "こうか",
+          "meaning": "Hiệu quả",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 11,
+      "question": "小さい子供は親が（　）注意していないといけない。",
+      "translation": "Trẻ nhỏ thì cha mẹ phải luôn luôn để mắt chú ý tới.",
+      "answer": 1,
+      "options": [
+        {
+          "key": 1,
+          "text": "常に",
+          "reading": "つねに",
+          "meaning": "Luôn luôn, mọi lúc",
+          "explain": "Đúng. '常に注意している' nghĩa là luôn luôn để ý, trông chừng."
+        },
+        {
+          "key": 2,
+          "text": "先に",
+          "reading": "さきに",
+          "meaning": "Trước",
+          "explain": "Sai vì không hợp nghĩa để mắt tới trẻ con."
+        },
+        {
+          "key": 3,
+          "text": "別に",
+          "reading": "べつに",
+          "meaning": "Không đặc biệt",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "早めに",
+          "reading": "はやめに",
+          "meaning": "Sớm hơn",
+          "explain": "Sai vì chăm sóc trẻ cần sự liên tục mọi lúc."
+        }
+      ]
+    },
+    {
+      "id": 12,
+      "question": "彼は（　）だと思っていたが、実はもう結婚していることが分かった。",
+      "translation": "Tôi cứ nghĩ anh ấy còn độc thân, nhưng hóa ra biết được là anh ấy đã kết hôn rồi.",
+      "answer": 3,
+      "options": [
+        {
+          "key": 1,
+          "text": "リーダー",
+          "reading": "リーダー",
+          "meaning": "Người dẫn đầu",
+          "explain": "Sai vì không đối lập với việc đã kết hôn (結婚している)."
+        },
+        {
+          "key": 2,
+          "text": "中身",
+          "reading": "なかみ",
+          "meaning": "Bên trong, nội dung",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "独身",
+          "reading": "どくしん",
+          "meaning": "Độc thân",
+          "explain": "Đúng. Từ trái nghĩa trực tiếp đối lập với '結婚している' (đã kết hôn)."
+        },
+        {
+          "key": 4,
+          "text": "不安",
+          "reading": "ふあん",
+          "meaning": "Bất an",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 13,
+      "question": "A: 今働いている病院は、給料が低いのにとても忙しいんです。\nB: でしたら、（　）したらいかがですか。",
+      "translation": "A: Bệnh viện tôi đang làm việc lương thấp mà lại bận rộn vô cùng.\nB: Nếu vậy thì bạn tự lập/ra mở phòng khám riêng xem sao?",
+      "answer": 1,
+      "options": [
+        {
+          "key": 1,
+          "text": "独立",
+          "reading": "どくりつ",
+          "meaning": "Độc lập, tự lập (mở cơ sở riêng)",
+          "explain": "Đúng. Cụm '独立する' trong nghề bác sĩ/chuyên môn chỉ việc ra mở phòng khám/doanh nghiệp riêng."
+        },
+        {
+          "key": 2,
+          "text": "集中",
+          "reading": "しゅうちゅう",
+          "meaning": "Tập trung",
+          "explain": "Sai vì không giải quyết được vấn đề lương thấp."
+        },
+        {
+          "key": 3,
+          "text": "乾杯",
+          "reading": "かんぱい",
+          "meaning": "Cạn ly",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "しゃっくり",
+          "reading": "しゃっくり",
+          "meaning": "Nấc cụt",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 14,
+      "question": "（　）だと思うなら、その人を助けてあげたらどう？",
+      "translation": "Nếu thấy đáng thương thì sao bạn không giúp đỡ người đó đi?",
+      "answer": 2,
+      "options": [
+        {
+          "key": 1,
+          "text": "わがまま",
+          "reading": "わがまま",
+          "meaning": "Ích kỷ, bướng bỉnh",
+          "explain": "Sai vì ích kỷ thì không dẫn tới hành động khuyên giúp đỡ."
+        },
+        {
+          "key": 2,
+          "text": "可哀想",
+          "reading": "かわいそう",
+          "meaning": "Đáng thương, tội nghiệp",
+          "explain": "Đúng. '可哀想だと思う' nghĩa là cảm thấy thương xót, tội nghiệp người khác."
+        },
+        {
+          "key": 3,
+          "text": "短気",
+          "reading": "たんき",
+          "meaning": "Nóng tính",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "ばらばら",
+          "reading": "ばらばら",
+          "meaning": "Rời rạc, lộn xộn",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 15,
+      "question": "時間は（　）あるので、急がなくてもいいですよ。",
+      "translation": "Thời gian còn rất nhiều nên không cần phải vội đâu.",
+      "answer": 4,
+      "options": [
+        {
+          "key": 1,
+          "text": "ぐっすり",
+          "reading": "ぐっすり",
+          "meaning": "Ngủ say sưa",
+          "explain": "Sai vì đi với động từ ngủ."
+        },
+        {
+          "key": 2,
+          "text": "くっする",
+          "reading": "くっする",
+          "meaning": "Khuất phục",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "はっきり",
+          "reading": "はっきり",
+          "meaning": "Rõ ràng",
+          "explain": "Sai vì không dùng để định lượng thời gian nhiều."
+        },
+        {
+          "key": 4,
+          "text": "たっぷり",
+          "reading": "たっぷり",
+          "meaning": "Đầy ắp, dồi dào, nhiều",
+          "explain": "Đúng. Cụm '時間がたっぷりある' nghĩa là thời gian còn rất nhiều, thong thả."
+        }
+      ]
+    },
+    {
+      "id": 16,
+      "question": "病院でけがを（　）もらった。",
+      "translation": "Tôi đã được bác sĩ ở bệnh viện khám cho vết thương.",
+      "answer": 2,
+      "options": [
+        {
+          "key": 1,
+          "text": "招いて",
+          "reading": "まねいて",
+          "meaning": "Mời gọi",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "診て",
+          "reading": "みて",
+          "meaning": "Khám bệnh, chẩn đoán",
+          "explain": "Đúng. Cụm 'けがを診てもらう' chỉ việc được bác sĩ thăm khám vết thương."
+        },
+        {
+          "key": 3,
+          "text": "吹いて",
+          "reading": "ふいて",
+          "meaning": "Thổi (gió)",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "弱まって",
+          "reading": "よわまって",
+          "meaning": "Yếu đi",
+          "explain": "Sai ngữ pháp vì là tự động từ."
+        }
+      ]
+    },
+    {
+      "id": 17,
+      "question": "駅の前で（　）、一緒に会場へ行きましょう。",
+      "translation": "Chúng ta hãy hẹn gặp nhau ở trước ga rồi cùng đi đến hội trường nhé.",
+      "answer": 2,
+      "options": [
+        {
+          "key": 1,
+          "text": "乗り遅れて",
+          "reading": "のりおくれて",
+          "meaning": "Bị lỡ tàu xe",
+          "explain": "Sai vì lỡ chuyến thì không thể cùng đi."
+        },
+        {
+          "key": 2,
+          "text": "待ち合わせて",
+          "reading": "まちあわせて",
+          "meaning": "Hẹn gặp tại điểm hẹn",
+          "explain": "Đúng. Cụm '駅の前で待ち合わせる' nghĩa là hẹn gặp nhau trước nhà ga."
+        },
+        {
+          "key": 3,
+          "text": "乗り越して",
+          "reading": "のりこして",
+          "meaning": "Đi quá ga",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "仕上がって",
+          "reading": "しあがって",
+          "meaning": "Được hoàn thành",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 18,
+      "question": "（　）家を出たのに、道に迷ったので遅刻してしまった。",
+      "translation": "Dù đã rời nhà từ sớm nhưng vì bị lạc đường nên tôi đã đến muộn.",
+      "answer": 4,
+      "options": [
+        {
+          "key": 1,
+          "text": "非常に",
+          "reading": "ひじょうに",
+          "meaning": "Rất, vô cùng",
+          "explain": "Sai vì không bổ nghĩa cho hành động xuất phát sớm."
+        },
+        {
+          "key": 2,
+          "text": "別々に",
+          "reading": "べつべつに",
+          "meaning": "Riêng biệt",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "常に",
+          "reading": "つねに",
+          "meaning": "Luôn luôn",
+          "explain": "Sai ngữ cảnh sự việc một lần trong quá khứ."
+        },
+        {
+          "key": 4,
+          "text": "早めに",
+          "reading": "はやめに",
+          "meaning": "Sớm hơn dự kiến",
+          "explain": "Đúng. Cụm '早めに家を出る' nghĩa là ra khỏi nhà sớm hơn bình thường."
+        }
+      ]
+    },
+    {
+      "id": 19,
+      "question": "（　）買いたいものはなかったので、何も買わなかった。",
+      "translation": "Vì chẳng có thứ gì đặc biệt muốn mua nên tôi đã không mua gì cả.",
+      "answer": 2,
+      "options": [
+        {
+          "key": 1,
+          "text": "ばらばら",
+          "reading": "ばらばら",
+          "meaning": "Rời rạc",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "別に",
+          "reading": "べつに",
+          "meaning": "Đặc biệt (đi với phủ định: không có gì đặc biệt)",
+          "explain": "Đúng. Cấu trúc '別に〜ない' nghĩa là không có gì đặc biệt/chẳng có gì."
+        },
+        {
+          "key": 3,
+          "text": "早めに",
+          "reading": "はやめに",
+          "meaning": "Sớm",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "常に",
+          "reading": "つねに",
+          "meaning": "Luôn luôn",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 20,
+      "question": "彼女とはまだ結婚していませんが、（　）の関係が続いています。",
+      "translation": "Tôi và cô ấy tuy chưa kết hôn nhưng vẫn duy trì mối quan hệ bạn đời/đồng hành bên nhau.",
+      "answer": 1,
+      "options": [
+        {
+          "key": 1,
+          "text": "パートナー",
+          "reading": "パートナー",
+          "meaning": "Bạn đời, người đồng hành",
+          "explain": "Đúng. 'パートナーの関係' chỉ mối quan hệ bạn đời gắn kết cùng nhau."
+        },
+        {
+          "key": 2,
+          "text": "オーナー",
+          "reading": "オーナー",
+          "meaning": "Chủ sở hữu",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "ファイル",
+          "reading": "ファイル",
+          "meaning": "Kẹp tệp tin",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "リーダー",
+          "reading": "リーダー",
+          "meaning": "Trưởng nhóm",
+          "explain": "Sai trong mối quan hệ tình cảm."
+        }
+      ]
+    }
+  ]
+}

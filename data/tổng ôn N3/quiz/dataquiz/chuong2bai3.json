@@ -1,0 +1,726 @@
+{
+  "chuong": 2,
+  "bai": 3,
+  "questions": [
+    {
+      "id": 1,
+      "question": "最近、日本の（　）な文化に興味を持った。",
+      "translation": "Dạo gần đây tôi rất có hứng thú với nền văn hóa mang tính truyền thống của Nhật Bản.",
+      "answer": 3,
+      "options": [
+        {
+          "key": 1,
+          "text": "好み",
+          "reading": "このみ",
+          "meaning": "Sở thích",
+          "explain": "Sai vì không đi với trợ từ な để bổ nghĩa cho văn hóa."
+        },
+        {
+          "key": 2,
+          "text": "まあまあ",
+          "reading": "まあまあ",
+          "meaning": "Tàm tạm, vừa phải",
+          "explain": "Sai vì không bổ nghĩa cho văn hóa theo dạng này."
+        },
+        {
+          "key": 3,
+          "text": "伝統的",
+          "reading": "でんとうてき",
+          "meaning": "Mang tính truyền thống",
+          "explain": "Đúng. Cụm '伝統的な文化' nghĩa là nét văn hóa truyền thống lâu đời."
+        },
+        {
+          "key": 4,
+          "text": "一流",
+          "reading": "いちりゅう",
+          "meaning": "Hạng nhất, hàng đầu",
+          "explain": "Sai vì一流 là danh từ đi với trợ từ の (一流の)."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "question": "お客様からの（　）が正しく伝わっていなかったようだ。",
+      "translation": "Dường như lời nhắn từ khách hàng đã không được truyền đạt chính xác.",
+      "answer": 1,
+      "options": [
+        {
+          "key": 1,
+          "text": "伝言",
+          "reading": "でんごん",
+          "meaning": "Lời nhắn, tin nhắn miệng",
+          "explain": "Đúng. Cụm 'お客様からの伝言' nghĩa là lời nhắn lại từ phía khách hàng."
+        },
+        {
+          "key": 2,
+          "text": "宣伝",
+          "reading": "せんでん",
+          "meaning": "Quảng cáo, tuyên truyền",
+          "explain": "Sai vì khách hàng không đi quảng cáo cho công ty."
+        },
+        {
+          "key": 3,
+          "text": "手洗い",
+          "reading": "てあらい",
+          "meaning": "Rửa tay / Nhà vệ sinh",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "選択",
+          "reading": "せんたく",
+          "meaning": "Lựa chọn",
+          "explain": "Sai vì không dùng để truyền đạt tin tức."
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "question": "新しい服が自分に（　）かどうか心配だった。",
+      "translation": "Tôi từng lo lắng không biết bộ quần áo mới có hợp với mình hay không.",
+      "answer": 4,
+      "options": [
+        {
+          "key": 1,
+          "text": "調べる",
+          "reading": "しらべる",
+          "meaning": "Tra cứu, điều tra",
+          "explain": "Sai vì không đi với tân ngữ bản thân theo nghĩa này."
+        },
+        {
+          "key": 2,
+          "text": "差す",
+          "reading": "さす",
+          "meaning": "Giương (ô), chiếu",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "伝える",
+          "reading": "つたえる",
+          "meaning": "Truyền đạt",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "似合う",
+          "reading": "にあう",
+          "meaning": "Hợp, vừa vặn phong cách",
+          "explain": "Đúng. Cụm '自分に似合う' nghĩa là trang phục hợp với phong cách/vóc dáng bản thân."
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "question": "一度嘘をついてしまい、もう彼から（　）もらえなくなってしまった。",
+      "translation": "Vì đã lỡ nói dối một lần nên tôi không còn được anh ấy tin tưởng nữa.",
+      "answer": 1,
+      "options": [
+        {
+          "key": 1,
+          "text": "信じて",
+          "reading": "しんじて",
+          "meaning": "Tin tưởng",
+          "explain": "Đúng. '信じてもらう' nghĩa là nhận được sự tin tưởng từ người khác."
+        },
+        {
+          "key": 2,
+          "text": "訳して",
+          "reading": "やくして",
+          "meaning": "Dịch thuật",
+          "explain": "Sai vì nói dối không liên quan đến việc nhờ dịch thuật."
+        },
+        {
+          "key": 3,
+          "text": "真似て",
+          "reading": "まねて",
+          "meaning": "Bắt chước",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "好き嫌いして",
+          "reading": "すききらいして",
+          "meaning": "Kén chọn, phân biệt đối xử",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "question": "試験に合格できるだろうか。正直、あまり（　）がない。",
+      "translation": "Không biết liệu mình có đỗ kỳ thi không nữa. Thành thật mà nói, tôi không mấy tự tin.",
+      "answer": 4,
+      "options": [
+        {
+          "key": 1,
+          "text": "受信",
+          "reading": "じゅしん",
+          "meaning": "Nhận tín hiệu/tin nhắn",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "監督",
+          "reading": "かんとく",
+          "meaning": "Đạo diễn, giám sát",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "メッセージ",
+          "reading": "メッセージ",
+          "meaning": "Tin nhắn, thông điệp",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "自信",
+          "reading": "じしん",
+          "meaning": "Tự tin",
+          "explain": "Đúng. Cụm '自信がない' nghĩa là thiếu tự tin, không tin vào khả năng của mình."
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "question": "大切なメールを（　）できないといけないので、メールの設定を確認しました。",
+      "translation": "Để không bị bỏ lỡ các email quan trọng, tôi đã kiểm tra lại cài đặt email nhằm đảm bảo luôn nhận được thư.",
+      "answer": 2,
+      "options": [
+        {
+          "key": 1,
+          "text": "確認",
+          "reading": "かくにん",
+          "meaning": "Xác nhận",
+          "explain": "Sai vì phía sau đã dùng từ 確認 (lặp từ không đúng nghĩa)."
+        },
+        {
+          "key": 2,
+          "text": "受信",
+          "reading": "じゅしん",
+          "meaning": "Nhận thư/tin nhắn",
+          "explain": "Đúng. 'メールを受信する' nghĩa là tiếp nhận email gửi đến."
+        },
+        {
+          "key": 3,
+          "text": "伝言",
+          "reading": "でんごん",
+          "meaning": "Lời nhắn",
+          "explain": "Sai vì là danh từ, không ghép thành động từ trực tiếp dạng này."
+        },
+        {
+          "key": 4,
+          "text": "通訳",
+          "reading": "つうやく",
+          "meaning": "Thông dịch",
+          "explain": "Sai vì thông dịch dùng cho ngôn ngữ nói."
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "question": "昨日彼氏からの（　）が来なくて心配になった。",
+      "translation": "Hôm qua không nhận được tin nhắn hồi âm của bạn trai nên tôi thấy lo lắng.",
+      "answer": 4,
+      "options": [
+        {
+          "key": 1,
+          "text": "調査",
+          "reading": "ちょうさ",
+          "meaning": "Khảo sát, điều tra",
+          "explain": "Sai vì bạn trai không gửi bản điều tra."
+        },
+        {
+          "key": 2,
+          "text": "翻訳",
+          "reading": "ほんやく",
+          "meaning": "Biên dịch",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "自信",
+          "reading": "じしん",
+          "meaning": "Tự tin",
+          "explain": "Sai vì tự tin không 'đến' (来ない)."
+        },
+        {
+          "key": 4,
+          "text": "返信",
+          "reading": "へんしん",
+          "meaning": "Hồi âm, tin nhắn trả lời",
+          "explain": "Đúng. Cụm '返信が来る' nghĩa là nhận được thư/tin nhắn phản hồi."
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "question": "この教室を使うには、先生の（　）が要る。",
+      "translation": "Muốn sử dụng phòng học này thì cần phải có sự cho phép của giáo viên.",
+      "answer": 2,
+      "options": [
+        {
+          "key": 1,
+          "text": "発生",
+          "reading": "はっせい",
+          "meaning": "Phát sinh (sự cố)",
+          "explain": "Sai vì phát sinh không phải điều kiện sử dụng phòng."
+        },
+        {
+          "key": 2,
+          "text": "許可",
+          "reading": "きょか",
+          "meaning": "Sự cho phép, cấp phép",
+          "explain": "Đúng. Cụm '許可が要る' nghĩa là cần có sự đồng ý, cho phép."
+        },
+        {
+          "key": 3,
+          "text": "広告",
+          "reading": "こうこく",
+          "meaning": "Quảng cáo",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "メッセージ",
+          "reading": "メッセージ",
+          "meaning": "Tin nhắn",
+          "explain": "Sai vì cần sự cấp phép chính thức hơn là một tin nhắn thông thường."
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "question": "彼女に迷惑をかけてしまい、（　）気持ちになった。",
+      "translation": "Vì đã làm phiền cô ấy nên tôi cảm thấy rất áy náy và có lỗi.",
+      "answer": 1,
+      "options": [
+        {
+          "key": 1,
+          "text": "申し訳ない",
+          "reading": "もうしわけない",
+          "meaning": "Có lỗi, áy náy",
+          "explain": "Đúng. Cụm '申し訳ない気持ち' nghĩa là cảm giác áy náy, cảm thấy có lỗi khi làm phiền người khác."
+        },
+        {
+          "key": 2,
+          "text": "危ない",
+          "reading": "あぶない",
+          "meaning": "Nguy hiểm",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "面倒くさい",
+          "reading": "めんどうくさい",
+          "meaning": "Phiền phức",
+          "explain": "Sai vì là cảm giác khi bản thân lười làm việc gì đó, không dùng cho tâm trạng hối lỗi."
+        },
+        {
+          "key": 4,
+          "text": "険しい",
+          "reading": "けわしい",
+          "meaning": "Hiểm trở, nghiêm nghị",
+          "explain": "Sai vì dùng cho địa hình đường núi hoặc nét mặt nghiêm nghị."
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "question": "彼女は留学したことがないのに、（　）になってもおかしくないくらい英語が上手だ。",
+      "translation": "Cô ấy chưa từng đi du học nhưng tiếng Anh giỏi đến mức có trở thành phiên dịch viên cũng không có gì lạ.",
+      "answer": 4,
+      "options": [
+        {
+          "key": 1,
+          "text": "画家",
+          "reading": "がか",
+          "meaning": "Họa sĩ",
+          "explain": "Sai vì họa sĩ liên quan đến vẽ tranh, không liên quan đến giỏi tiếng Anh."
+        },
+        {
+          "key": 2,
+          "text": "俳優",
+          "reading": "はいゆう",
+          "meaning": "Diễn viên",
+          "explain": "Sai vì diễn viên liên quan đến diễn xuất."
+        },
+        {
+          "key": 3,
+          "text": "オペラ",
+          "reading": "オペラ",
+          "meaning": "Nhạc kịch Opera",
+          "explain": "Sai vì là thể loại nghệ thuật."
+        },
+        {
+          "key": 4,
+          "text": "通訳",
+          "reading": "つうやく",
+          "meaning": "Thông dịch viên, phiên dịch viên",
+          "explain": "Đúng. '通訳になる' là nghề nghiệp đòi hỏi năng lực ngoại ngữ xuất sắc."
+        }
+      ]
+    },
+    {
+      "id": 11,
+      "question": "“Thương”は日本語に（　）するのがとても難しい単語だ。",
+      "translation": "Từ 'Thương' trong tiếng Việt là một từ vựng rất khó để dịch sang tiếng Nhật.",
+      "answer": 3,
+      "options": [
+        {
+          "key": 1,
+          "text": "プロフェッショナル",
+          "reading": "プロフェッショナル",
+          "meaning": "Chuyên nghiệp",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "めまい",
+          "reading": "めまい",
+          "meaning": "Chóng mặt, hoa mắt",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "翻訳",
+          "reading": "ほんやく",
+          "meaning": "Dịch thuật, biên dịch",
+          "explain": "Đúng. Cụm '日本語に翻訳する' nghĩa là dịch sang tiếng Nhật."
+        },
+        {
+          "key": 4,
+          "text": "専門",
+          "reading": "せんもん",
+          "meaning": "Chuyên môn",
+          "explain": "Sai vì chuyên môn là danh từ chỉ lĩnh vực."
+        }
+      ]
+    },
+    {
+      "id": 12,
+      "question": "（　）が間違っていてはいけないので、確認してもらえませんか。",
+      "translation": "Bản dịch không được phép sai sót nên bạn có thể kiểm tra giúp tôi được không?",
+      "answer": 1,
+      "options": [
+        {
+          "key": 1,
+          "text": "訳",
+          "reading": "やく",
+          "meaning": "Bản dịch, ý nghĩa dịch",
+          "explain": "Đúng. '訳が間違っている' nghĩa là bản dịch/cách dịch bị sai sót."
+        },
+        {
+          "key": 2,
+          "text": "周り",
+          "reading": "まわり",
+          "meaning": "Xung quanh",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "他人",
+          "reading": "たにん",
+          "meaning": "Người ngoài, người khác",
+          "explain": "Sai vì người khác không 'bị sai' trong ngữ cảnh này."
+        },
+        {
+          "key": 4,
+          "text": "建築",
+          "reading": "けんちく",
+          "meaning": "Kiến trúc",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 13,
+      "question": "働きすぎて（　）を崩してしまった。",
+      "translation": "Do làm việc quá sức nên tôi đã bị suy sụp sức khỏe / ngã bệnh.",
+      "answer": 3,
+      "options": [
+        {
+          "key": 1,
+          "text": "強調",
+          "reading": "きょうちょう",
+          "meaning": "Nhấn mạnh",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "返信",
+          "reading": "へんしん",
+          "meaning": "Hồi âm",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "体調",
+          "reading": "たいちょう",
+          "meaning": "Tình trạng sức khỏe",
+          "explain": "Đúng. Cụm '体調を崩す' là cụm cố định chỉ việc sức khỏe bị suy giảm, ngã bệnh."
+        },
+        {
+          "key": 4,
+          "text": "人生",
+          "reading": "じんせい",
+          "meaning": "Cuộc đời",
+          "explain": "Sai vì không đi cùng động từ 崩す theo ngữ cảnh này."
+        }
+      ]
+    },
+    {
+      "id": 14,
+      "question": "（　）なことが起きて、神様は本当にいるのかもしれないと思った。",
+      "translation": "Một điều kỳ diệu/kỳ lạ đã xảy ra khiến tôi nghĩ rằng có lẽ thần linh thực sự tồn tại.",
+      "answer": 1,
+      "options": [
+        {
+          "key": 1,
+          "text": "不思議",
+          "reading": "ふしぎ",
+          "meaning": "Kỳ lạ, mầu nhiệm, bí ẩn",
+          "explain": "Đúng. Cụm '不思議なこと' chỉ hiện tượng kỳ diệu, khó giải thích dẫn tới tin vào thần linh."
+        },
+        {
+          "key": 2,
+          "text": "貧乏",
+          "reading": "びんぼう",
+          "meaning": "Nghèo khó",
+          "explain": "Sai vì nghèo khó không làm tăng niềm tin thần thánh."
+        },
+        {
+          "key": 3,
+          "text": "不満",
+          "reading": "ふまん",
+          "meaning": "Bất mãn",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "平凡",
+          "reading": "へいぼん",
+          "meaning": "Bình thường, tầm thường",
+          "explain": "Sai vì việc bình thường không tạo nên cảm xúc về sự hiện hữu của thần linh."
+        }
+      ]
+    },
+    {
+      "id": 15,
+      "question": "テレビで商品を（　）するには、何百万、何千万もかかるそうだ。",
+      "translation": "Nghe nói để quảng cáo sản phẩm trên truyền hình thì tốn tới hàng triệu, thậm chí hàng chục triệu yên.",
+      "answer": 3,
+      "options": [
+        {
+          "key": 1,
+          "text": "選択",
+          "reading": "せんたく",
+          "meaning": "Lựa chọn",
+          "explain": "Sai vì chọn sản phẩm không tốn chi phí truyền hình."
+        },
+        {
+          "key": 2,
+          "text": "くしゃみ",
+          "reading": "くしゃみ",
+          "meaning": "Hắt xì hơi",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "宣伝",
+          "reading": "せんでん",
+          "meaning": "Quảng cáo, tuyên truyền",
+          "explain": "Đúng. Cụm '商品を宣伝する' nghĩa là quảng bá, tiếp thị sản phẩm trên TV."
+        },
+        {
+          "key": 4,
+          "text": "居眠り",
+          "reading": "いねむり",
+          "meaning": "Ngủ gật",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 16,
+      "question": "この2つのチームは力の（　）がほとんどなく、試合ではどちらが優勝でもおかしくないだろう。",
+      "translation": "Hai đội bóng này hầu như không có sự chênh lệch về thực lực nên trong trận đấu đội nào vô địch cũng không có gì bất ngờ.",
+      "answer": 3,
+      "options": [
+        {
+          "key": 1,
+          "text": "時差",
+          "reading": "じさ",
+          "meaning": "Chênh lệch múi giờ",
+          "explain": "Sai vì dùng cho giờ giấc các nước."
+        },
+        {
+          "key": 2,
+          "text": "物差し",
+          "reading": "ものさし",
+          "meaning": "Thước đo",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "差",
+          "reading": "さ",
+          "meaning": "Khoảng cách, chênh lệch",
+          "explain": "Đúng. Cụm '力の差' chỉ sự chênh lệch về sức mạnh/năng lực giữa hai bên."
+        },
+        {
+          "key": 4,
+          "text": "世話",
+          "reading": "せわ",
+          "meaning": "Chăm sóc, giúp đỡ",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 17,
+      "question": "その場所に行くには、（　）山道を歩いて行かなければならない。",
+      "translation": "Để đến được nơi đó, phải đi bộ qua một con đường núi hiểm trở/gập ghềnh.",
+      "answer": 1,
+      "options": [
+        {
+          "key": 1,
+          "text": "険しい",
+          "reading": "けわしい",
+          "meaning": "Hiểm trở, dốc đứng",
+          "explain": "Đúng. '険しい山道' chỉ đường núi hiểm trở, khúc khuỷu khó đi."
+        },
+        {
+          "key": 2,
+          "text": "おかしい",
+          "reading": "おかしい",
+          "meaning": "Kỳ quặc, buồn cười",
+          "explain": "Sai vì không bổ nghĩa cho địa hình hiểm trở."
+        },
+        {
+          "key": 3,
+          "text": "美しい",
+          "reading": "うつくしい",
+          "meaning": "Đẹp đẽ",
+          "explain": "Sai vì từ này không nhấn mạnh sự khó khăn khi phải đi bộ (歩いて行かなければならない)."
+        },
+        {
+          "key": 4,
+          "text": "眠たい",
+          "reading": "ねむたい",
+          "meaning": "Buồn ngủ",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 18,
+      "question": "（　）ば、彼女は優しいから許してくれるだろう。",
+      "translation": "Nếu chịu xin lỗi thì cô ấy rất hiền lành nên chắc sẽ tha thứ cho thôi.",
+      "answer": 2,
+      "options": [
+        {
+          "key": 1,
+          "text": "転べ",
+          "reading": "ころべ",
+          "meaning": "Ngã, lăn",
+          "explain": "Sai vì ngã không làm người khác tha thứ."
+        },
+        {
+          "key": 2,
+          "text": "謝れ",
+          "reading": "あやまれば",
+          "meaning": "Xin lỗi (thể điều kiện 謝れば)",
+          "explain": "Đúng. '謝れば...許してくれる' mang nghĩa nếu mở lời xin lỗi thì sẽ được tha thứ."
+        },
+        {
+          "key": 3,
+          "text": "許せ",
+          "reading": "ゆるせ",
+          "meaning": "Tha thứ",
+          "explain": "Sai về chủ ngữ và logic."
+        },
+        {
+          "key": 4,
+          "text": "飼え",
+          "reading": "かえ",
+          "meaning": "Nuôi (động vật)",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 19,
+      "question": "新しいバイクを買ったので、安全のため新しい（　）も買った。",
+      "translation": "Vì mới mua xe máy mới nên để đảm bảo an toàn tôi cũng đã mua thêm một chiếc mũ bảo hiểm mới.",
+      "answer": 2,
+      "options": [
+        {
+          "key": 1,
+          "text": "ファイル",
+          "reading": "ファイル",
+          "meaning": "Kẹp tài liệu, tệp tin",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "ヘルメット",
+          "reading": "ヘルメット",
+          "meaning": "Mũ bảo hiểm",
+          "explain": "Đúng. Đi xe máy cần đội mũ bảo hiểm để đảm bảo an toàn (安全のため)."
+        },
+        {
+          "key": 3,
+          "text": "カバー",
+          "reading": "カバー",
+          "meaning": "Vỏ bọc, tấm phủ",
+          "explain": "Sai vì vỏ bọc không bảo vệ an toàn cho người lái xe."
+        },
+        {
+          "key": 4,
+          "text": "レジャー",
+          "reading": "レジャー",
+          "meaning": "Hoạt động vui chơi giải trí",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 20,
+      "question": "先週見た映画の（　）を忘れてしまった。",
+      "translation": "Tôi đã quên mất tựa đề của bộ phim xem hồi tuần trước rồi.",
+      "answer": 1,
+      "options": [
+        {
+          "key": 1,
+          "text": "タイトル",
+          "reading": "タイトル",
+          "meaning": "Tựa đề, tiêu đề",
+          "explain": "Đúng. Cụm '映画のタイトル' chỉ tên/tựa đề của bộ phim."
+        },
+        {
+          "key": 2,
+          "text": "アマチュア",
+          "reading": "アマチュア",
+          "meaning": "Nghiệp dư",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "プロフェッショナル",
+          "reading": "プロフェッショナル",
+          "meaning": "Chuyên nghiệp",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "アルバム",
+          "reading": "アルバム",
+          "meaning": "Album ảnh / Album nhạc",
+          "explain": "Sai vì phim đi với tựa đề (タイトル)."
+        }
+      ]
+    }
+  ]
+}

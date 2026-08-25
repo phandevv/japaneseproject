@@ -1,8 +1,10 @@
 package com.flashcard.knowledge.provider;
 
 import com.flashcard.knowledge.model.JlptN3GrammarQuiz;
+import com.flashcard.knowledge.model.JlptN3LessonQuiz;
 import com.flashcard.knowledge.model.JlptN3Progress;
 import com.flashcard.knowledge.repository.JlptN3GrammarQuizRepository;
+import com.flashcard.knowledge.repository.JlptN3LessonQuizRepository;
 import com.flashcard.knowledge.repository.JlptN3ProgressRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -17,12 +19,15 @@ public class JlptN3JpaDataProvider implements JlptN3DataProvider {
 
     private final JlptN3ProgressRepository progressRepository;
     private final JlptN3GrammarQuizRepository grammarQuizRepository;
+    private final JlptN3LessonQuizRepository lessonQuizRepository;
 
     @Autowired
     public JlptN3JpaDataProvider(JlptN3ProgressRepository progressRepository,
-                                 JlptN3GrammarQuizRepository grammarQuizRepository) {
+                                 JlptN3GrammarQuizRepository grammarQuizRepository,
+                                 @Autowired(required = false) JlptN3LessonQuizRepository lessonQuizRepository) {
         this.progressRepository = progressRepository;
         this.grammarQuizRepository = grammarQuizRepository;
+        this.lessonQuizRepository = lessonQuizRepository;
     }
 
     @Override
@@ -53,5 +58,15 @@ public class JlptN3JpaDataProvider implements JlptN3DataProvider {
     @Override
     public JlptN3GrammarQuiz saveQuiz(JlptN3GrammarQuiz quiz) {
         return grammarQuizRepository.save(quiz);
+    }
+
+    @Override
+    public Optional<JlptN3LessonQuiz> findLessonQuiz(Integer chapterId, Integer lessonId) {
+        return lessonQuizRepository != null ? lessonQuizRepository.findByChapterIdAndLessonId(chapterId, lessonId) : Optional.empty();
+    }
+
+    @Override
+    public JlptN3LessonQuiz saveLessonQuiz(JlptN3LessonQuiz quiz) {
+        return lessonQuizRepository != null ? lessonQuizRepository.save(quiz) : quiz;
     }
 }

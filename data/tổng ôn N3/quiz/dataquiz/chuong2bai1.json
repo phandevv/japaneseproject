@@ -1,0 +1,726 @@
+{
+  "chuong": 2,
+  "bai": 1,
+  "questions": [
+    {
+      "id": 1,
+      "question": "昨日の夜はお酒を飲みすぎて帰れなくなったので、友達の家に（　）。",
+      "translation": "Tối qua tôi uống quá nhiều rượu không thể về được nên đã ở lại qua đêm tại nhà bạn.",
+      "answer": 3,
+      "options": [
+        {
+          "key": 1,
+          "text": "泣いた",
+          "reading": "ないた",
+          "meaning": "Đã khóc",
+          "explain": "Sai vì không liên quan đến việc giải quyết chỗ ở khi không về được."
+        },
+        {
+          "key": 2,
+          "text": "干した",
+          "reading": "ほした",
+          "meaning": "Đã phơi",
+          "explain": "Sai vì chỉ dùng cho phơi đồ đạc, quần áo."
+        },
+        {
+          "key": 3,
+          "text": "泊まった",
+          "reading": "とまった",
+          "meaning": "Đã ở trọ, ngủ lại",
+          "explain": "Đúng. Cụm '友達の家に泊まる' nghĩa là ở lại qua đêm tại nhà bạn."
+        },
+        {
+          "key": 4,
+          "text": "苦しんだ",
+          "reading": "くるしんだ",
+          "meaning": "Đã chịu đựng, khổ sở",
+          "explain": "Sai vì không hợp ngữ cảnh tìm chỗ ngủ qua đêm."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "question": "隣の部屋の人がたくさん服を（　）ので、私が（　）場所がない。",
+      "translation": "Người phòng bên cạnh phơi nhiều quần áo quá nên tôi không có chỗ phơi.",
+      "answer": 1,
+      "options": [
+        {
+          "key": 1,
+          "text": "干す",
+          "reading": "ほす",
+          "meaning": "Phơi (quần áo)",
+          "explain": "Đúng. Cụm '服を干す' nghĩa là phơi quần áo."
+        },
+        {
+          "key": 2,
+          "text": "決める",
+          "reading": "きめる",
+          "meaning": "Quyết định",
+          "explain": "Sai vì không kết hợp với quần áo theo nghĩa này."
+        },
+        {
+          "key": 3,
+          "text": "守る",
+          "reading": "まもる",
+          "meaning": "Bảo vệ, tuân thủ",
+          "explain": "Sai vì dùng cho luật lệ, lời hứa."
+        },
+        {
+          "key": 4,
+          "text": "辞める",
+          "reading": "やめる",
+          "meaning": "Nghỉ (việc)",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "question": "彼女は毎朝（　）を配る仕事をすることで、学校のお金を払っている。",
+      "translation": "Cô ấy trả tiền học phí bằng công việc đi phát báo buổi sáng mỗi ngày.",
+      "answer": 4,
+      "options": [
+        {
+          "key": 1,
+          "text": "料金",
+          "reading": "りょうきん",
+          "meaning": "Tiền cước, chi phí",
+          "explain": "Sai vì tiền cước không phải là thứ để đem đi phát."
+        },
+        {
+          "key": 2,
+          "text": "平均",
+          "reading": "へいきん",
+          "meaning": "Trung bình",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "馬",
+          "reading": "うま",
+          "meaning": "Con ngựa",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "朝刊",
+          "reading": "ちょうかん",
+          "meaning": "Báo buổi sáng",
+          "explain": "Đúng. Cụm '朝刊を配る' chỉ công việc phát báo buổi sáng."
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "question": "猫は毎日12時間から16時間（　）らしい。",
+      "translation": "Nghe nói mèo mỗi ngày ngủ từ 12 đến 16 tiếng.",
+      "answer": 2,
+      "options": [
+        {
+          "key": 1,
+          "text": "得る",
+          "reading": "える",
+          "meaning": "Đạt được, thu được",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "眠る",
+          "reading": "ねむる",
+          "meaning": "Ngủ",
+          "explain": "Đúng. Chỉ tập tính sinh hoạt ngủ nhiều giờ của loài mèo."
+        },
+        {
+          "key": 3,
+          "text": "集める",
+          "reading": "あつめる",
+          "meaning": "Thu thập, gom góp",
+          "explain": "Sai vì thời gian không dùng làm tân ngữ gom góp."
+        },
+        {
+          "key": 4,
+          "text": "高める",
+          "reading": "たかめる",
+          "meaning": "Nâng cao",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "question": "家族とよく話し合って、今の仕事を（　）ことになった。",
+      "translation": "Sau khi bàn bạc kỹ với gia đình, tôi đã quyết định nghỉ công việc hiện tại.",
+      "answer": 1,
+      "options": [
+        {
+          "key": 1,
+          "text": "辞める",
+          "reading": "やめる",
+          "meaning": "Nghỉ, từ bỏ (việc làm)",
+          "explain": "Đúng. Cụm '仕事を辞める' mang nghĩa nghỉ việc, thôi việc."
+        },
+        {
+          "key": 2,
+          "text": "深まる",
+          "reading": "ふかまる",
+          "meaning": "Sâu sắc thêm",
+          "explain": "Sai vì thường dùng cho hiểu biết, mùa thu (秋が深まる)."
+        },
+        {
+          "key": 3,
+          "text": "苦しむ",
+          "reading": "くるしむ",
+          "meaning": "Khổ sở, đau đớn",
+          "explain": "Sai ngữ pháp vì là tự động từ."
+        },
+        {
+          "key": 4,
+          "text": "下げる",
+          "reading": "さげる",
+          "meaning": "Hạ xuống, giảm bớt",
+          "explain": "Sai vì không đi với công việc theo nghĩa thôi việc."
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "question": "先週から、時々胸が（　）なる時がある。病院に行った方がいいと思う。",
+      "translation": "Từ tuần trước, thỉnh thoảng có lúc ngực tôi bị đau tức khó thở. Tôi nghĩ nên đi bệnh viện khám.",
+      "answer": 1,
+      "options": [
+        {
+          "key": 1,
+          "text": "苦しく",
+          "reading": "くるしく",
+          "meaning": "Khổ sở, đau tức, khó thở",
+          "explain": "Đúng. Cụm '胸が苦しくなる' chỉ cảm giác tức ngực, khó thở."
+        },
+        {
+          "key": 2,
+          "text": "美しく",
+          "reading": "うつくしく",
+          "meaning": "Đẹp đẽ",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "苦く",
+          "reading": "にがく",
+          "meaning": "Đắng",
+          "explain": "Sai vì chỉ vị đắng của đồ ăn, thuốc."
+        },
+        {
+          "key": 4,
+          "text": "賢く",
+          "reading": "かしこく",
+          "meaning": "Thông minh, khôn ngoan",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "question": "長い間（　）して、やっと家を買うことができた。",
+      "translation": "Sau một thời gian dài vất vả làm lụng, cuối cùng tôi cũng đã mua được nhà.",
+      "answer": 4,
+      "options": [
+        {
+          "key": 1,
+          "text": "決心",
+          "reading": "けっしん",
+          "meaning": "Quyết tâm",
+          "explain": "Sai vì quyết tâm là khoảnh khắc hạ quyết định, không đi với '長い間...して' để đạt thành quả."
+        },
+        {
+          "key": 2,
+          "text": "計算",
+          "reading": "けいさん",
+          "meaning": "Tính toán",
+          "explain": "Sai vì mua nhà là thành quả của sự nỗ lực làm việc vất vả."
+        },
+        {
+          "key": 3,
+          "text": "調査",
+          "reading": "ちょうさ",
+          "meaning": "Điều tra, khảo sát",
+          "explain": "Sai ngữ cảnh."
+        },
+        {
+          "key": 4,
+          "text": "苦労",
+          "reading": "くろう",
+          "meaning": "Vất vả, gian nan",
+          "explain": "Đúng. '苦労して' nghĩa là trải qua nhiều vất vả, khó khăn để đạt được mục tiêu."
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "question": "（　）に家を建てたせいで、地震で倒れてしまった。",
+      "translation": "Vì xây nhà một cách cẩu thả/qua loa nên đã bị sập do động đất.",
+      "answer": 2,
+      "options": [
+        {
+          "key": 1,
+          "text": "環境",
+          "reading": "かんきょう",
+          "meaning": "Môi trường",
+          "explain": "Sai vì là danh từ, không đứng trước trợ từ に để làm phó từ theo nghĩa này."
+        },
+        {
+          "key": 2,
+          "text": "適当",
+          "reading": "てきとう",
+          "meaning": "Cẩu thả, qua loa, đại khái",
+          "explain": "Đúng. '適当に' ở đây mang nghĩa tiêu cực: làm ăn cẩu thả, vô trách nhiệm dẫn đến hậu quả."
+        },
+        {
+          "key": 3,
+          "text": "様々",
+          "reading": "さまざま",
+          "meaning": "Đa dạng, nhiều loại",
+          "explain": "Sai vì không làm nguyên nhân khiến nhà bị sập."
+        },
+        {
+          "key": 4,
+          "text": "結構",
+          "reading": "けっこう",
+          "meaning": "Tốt, khá là",
+          "explain": "Sai vì không đi với '〜せいで' chỉ nguyên nhân tiêu cực."
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "question": "学生の生活を知るために、アンケートによる（　）を行います。",
+      "translation": "Để tìm hiểu đời sống sinh viên, chúng tôi tiến hành cuộc khảo sát bằng bảng câu hỏi.",
+      "answer": 3,
+      "options": [
+        {
+          "key": 1,
+          "text": "注目",
+          "reading": "ちゅうもく",
+          "meaning": "Chú ý, quan tâm",
+          "explain": "Sai vì không đi với thực hiện bằng bảng câu hỏi."
+        },
+        {
+          "key": 2,
+          "text": "優勝",
+          "reading": "ゆうしょう",
+          "meaning": "Vô địch",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "調査",
+          "reading": "ちょうさ",
+          "meaning": "Điều tra, khảo sát",
+          "explain": "Đúng. Cụm 'アンケートによる調査' nghĩa là cuộc khảo sát/nghiên cứu thông qua phiếu câu hỏi."
+        },
+        {
+          "key": 4,
+          "text": "生活費",
+          "reading": "せいかつひ",
+          "meaning": "Sinh hoạt phí",
+          "explain": "Sai vì sinh hoạt phí không phải là việc để tiến hành (行う)."
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "question": "彼の活躍によって、チームは（　）した。",
+      "translation": "Nhờ vào sự thi đấu xuất sắc của anh ấy, đội đã giành chức vô địch.",
+      "answer": 1,
+      "options": [
+        {
+          "key": 1,
+          "text": "優勝",
+          "reading": "ゆうしょう",
+          "meaning": "Vô địch, giải nhất",
+          "explain": "Đúng. Cụm 'チームは優勝した' nghĩa là đội bóng/đội thi đấu đã giành chức vô địch."
+        },
+        {
+          "key": 2,
+          "text": "選挙",
+          "reading": "せんきょ",
+          "meaning": "Bầu cử",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "調査",
+          "reading": "ちょうさ",
+          "meaning": "Khảo sát",
+          "explain": "Sai ngữ cảnh thể thao/thi đấu."
+        },
+        {
+          "key": 4,
+          "text": "出場",
+          "reading": "しゅつじょう",
+          "meaning": "Tham dự, ra sân",
+          "explain": "Sai vì tỏa sáng giúp đội chiến thắng chung cuộc chứ không chỉ dừng ở việc tham dự."
+        }
+      ]
+    },
+    {
+      "id": 11,
+      "question": "その選手は、怪我によってオリンピックへの（　）をあきらめることになった。",
+      "translation": "Vận động viên đó vì chấn thương nên đã phải từ bỏ việc tham dự Olympic.",
+      "answer": 2,
+      "options": [
+        {
+          "key": 1,
+          "text": "発明",
+          "reading": "はつめい",
+          "meaning": "Phát minh",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "出場",
+          "reading": "しゅつじょう",
+          "meaning": "Tham dự, ra sân thi đấu",
+          "explain": "Đúng. Cụm 'オリンピックへの出場' nghĩa là việc tham gia thi đấu tại Olympic."
+        },
+        {
+          "key": 3,
+          "text": "交流",
+          "reading": "こうりゅう",
+          "meaning": "Giao lưu",
+          "explain": "Sai vì mục đích chính của vận động viên là ra sân tranh tài."
+        },
+        {
+          "key": 4,
+          "text": "活動",
+          "reading": "かつどう",
+          "meaning": "Hoạt động",
+          "explain": "Sai vì không chuẩn thuật ngữ cho thi đấu thể thao."
+        }
+      ]
+    },
+    {
+      "id": 12,
+      "question": "外国に住むなら、その国の（　）も学ばないといけない。",
+      "translation": "Nếu sống ở nước ngoài thì cũng phải học các quy tắc ứng xử/phép lịch sự của đất nước đó.",
+      "answer": 4,
+      "options": [
+        {
+          "key": 1,
+          "text": "舌",
+          "reading": "した",
+          "meaning": "Cái lưỡi",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "ストレス",
+          "reading": "ストレス",
+          "meaning": "Căng thẳng, áp lực",
+          "explain": "Sai vì stress không phải là thứ để học hỏi."
+        },
+        {
+          "key": 3,
+          "text": "人間",
+          "reading": "にんげん",
+          "meaning": "Con người",
+          "explain": "Sai vì con người không phải đối tượng để 'học'."
+        },
+        {
+          "key": 4,
+          "text": "マナー",
+          "reading": "マナー",
+          "meaning": "Quy tắc ứng xử, phép lịch sự",
+          "explain": "Đúng. 'マナーを学ぶ' nghĩa là học các quy tắc ứng xử văn hóa của một quốc gia."
+        }
+      ]
+    },
+    {
+      "id": 13,
+      "question": "イギリスから来た友達と話していて、（　）の違いを感じた。",
+      "translation": "Khi trò chuyện với người bạn đến từ nước Anh, tôi đã cảm nhận được sự khác biệt về văn hóa.",
+      "answer": 1,
+      "options": [
+        {
+          "key": 1,
+          "text": "文化",
+          "reading": "ぶんか",
+          "meaning": "Văn hóa",
+          "explain": "Đúng. Cụm '文化の違い' chỉ sự khác biệt về phong tục, văn hóa giữa các quốc gia."
+        },
+        {
+          "key": 2,
+          "text": "メニュー",
+          "reading": "メニュー",
+          "meaning": "Thực đơn",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "年齢",
+          "reading": "ねんれい",
+          "meaning": "Tuổi tác",
+          "explain": "Sai vì tuổi tác khác nhau không phụ thuộc vào việc đến từ nước Anh."
+        },
+        {
+          "key": 4,
+          "text": "平凡",
+          "reading": "へいぼん",
+          "meaning": "Bình thường, tầm thường",
+          "explain": "Sai ngữ pháp và nghĩa."
+        }
+      ]
+    },
+    {
+      "id": 14,
+      "question": "人口が減ったことにより、働く人が（　）している。",
+      "translation": "Do dân số sụt giảm nên nguồn lao động đang bị thiếu hụt.",
+      "answer": 3,
+      "options": [
+        {
+          "key": 1,
+          "text": "キャンセル",
+          "reading": "キャンセル",
+          "meaning": "Hủy bỏ",
+          "explain": "Sai vì người lao động không bị 'hủy bỏ'."
+        },
+        {
+          "key": 2,
+          "text": "利用",
+          "reading": "りよう",
+          "meaning": "Sử dụng",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "不足",
+          "reading": "ふそく",
+          "meaning": "Thiếu hụt",
+          "explain": "Đúng. '働く人が不足している' chỉ tình trạng khan hiếm, thiếu hụt lao động."
+        },
+        {
+          "key": 4,
+          "text": "活躍",
+          "reading": "かつやく",
+          "meaning": "Hoạt động tích cực, tỏa sáng",
+          "explain": "Sai vì giảm dân số thì không làm tăng sự tỏa sáng."
+        }
+      ]
+    },
+    {
+      "id": 15,
+      "question": "彼は若いころ、病気による苦労を（　）。",
+      "translation": "Thời trẻ, anh ấy đã nếm trải nhiều gian truân do bệnh tật.",
+      "answer": 1,
+      "options": [
+        {
+          "key": 1,
+          "text": "味わった",
+          "reading": "あじわった",
+          "meaning": "Đã nếm trải, trải qua",
+          "explain": "Đúng. Cụm '苦労を味わう' mang nghĩa nếm trải nỗi vất vả, cay đắng trong đời."
+        },
+        {
+          "key": 2,
+          "text": "泊まった",
+          "reading": "とまった",
+          "meaning": "Đã trọ lại",
+          "explain": "Sai vì chỉ việc nghỉ qua đêm."
+        },
+        {
+          "key": 3,
+          "text": "表した",
+          "reading": "あらわした",
+          "meaning": "Đã biểu thị, thể hiện",
+          "explain": "Sai vì dùng cho biểu đạt cảm xúc, ý kiến."
+        },
+        {
+          "key": 4,
+          "text": "払った",
+          "reading": "はらった",
+          "meaning": "Đã trả (tiền)",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 16,
+      "question": "この学校では、クラスによって（　）活動をすることがある。",
+      "translation": "Ở trường này, tùy theo từng lớp mà đôi khi sẽ có các hoạt động khác nhau.",
+      "answer": 2,
+      "options": [
+        {
+          "key": 1,
+          "text": "固まる",
+          "reading": "かたまる",
+          "meaning": "Đông cứng, kết tụ",
+          "explain": "Sai vì không đi với hoạt động học tập."
+        },
+        {
+          "key": 2,
+          "text": "違う",
+          "reading": "ちがう",
+          "meaning": "Khác nhau",
+          "explain": "Đúng. '違う活動' bổ nghĩa mang ý nghĩa là các hoạt động khác biệt nhau."
+        },
+        {
+          "key": 3,
+          "text": "得る",
+          "reading": "える",
+          "meaning": "Đạt được",
+          "explain": "Sai ngữ pháp."
+        },
+        {
+          "key": 4,
+          "text": "励ます",
+          "reading": "はげます",
+          "meaning": "Động viên, khích lệ",
+          "explain": "Sai ngữ pháp."
+        }
+      ]
+    },
+    {
+      "id": 17,
+      "question": "あのコーチは選手の（　）がとてもうまい。",
+      "translation": "Vị huấn luyện viên đó chỉ đạo/hướng dẫn các cầu thủ rất giỏi.",
+      "answer": 4,
+      "options": [
+        {
+          "key": 1,
+          "text": "協力",
+          "reading": "きょうりょく",
+          "meaning": "Hợp tác",
+          "explain": "Sai vì HLV làm nhiệm vụ hướng dẫn hơn là hợp tác cùng cầu thủ."
+        },
+        {
+          "key": 2,
+          "text": "交流",
+          "reading": "こうりゅう",
+          "meaning": "Giao lưu",
+          "explain": "Sai vì không phải là công việc chuyên môn của HLV."
+        },
+        {
+          "key": 3,
+          "text": "休憩",
+          "reading": "きゅうけい",
+          "meaning": "Nghỉ giải lao",
+          "explain": "Sai vì nghỉ ngơi không phải là kỹ năng huấn luyện."
+        },
+        {
+          "key": 4,
+          "text": "指導",
+          "reading": "しどう",
+          "meaning": "Chỉ đạo, hướng dẫn, huấn luyện",
+          "explain": "Đúng. Cụm '選手の指導がうまい' chỉ năng lực huấn luyện học trò rất giỏi."
+        }
+      ]
+    },
+    {
+      "id": 18,
+      "question": "A社が（　）くれれば、このプロジェクトは成功する。",
+      "translation": "Nếu công ty A hợp tác giúp đỡ thì dự án này sẽ thành công.",
+      "answer": 3,
+      "options": [
+        {
+          "key": 1,
+          "text": "高めて",
+          "reading": "たかめて",
+          "meaning": "Nâng cao",
+          "explain": "Sai vì là tha động từ cần tân ngữ."
+        },
+        {
+          "key": 2,
+          "text": "お辞儀して",
+          "reading": "おじぎして",
+          "meaning": "Cúi đầu chào",
+          "explain": "Sai vì chào hỏi không làm nên thành công của dự án."
+        },
+        {
+          "key": 3,
+          "text": "協力して",
+          "reading": "きょうりょくして",
+          "meaning": "Hợp tác, chung sức",
+          "explain": "Đúng. Cụm '協力してくれる' mang nghĩa chung tay hỗ trợ, hợp tác làm việc."
+        },
+        {
+          "key": 4,
+          "text": "優勝して",
+          "reading": "ゆうしょうして",
+          "meaning": "Vô địch",
+          "explain": "Sai ngữ cảnh dự án kinh doanh."
+        }
+      ]
+    },
+    {
+      "id": 19,
+      "question": "子供に、将来どんな（　）に就きたいかを聞いた。",
+      "translation": "Tôi đã hỏi đứa trẻ xem tương lai muốn làm nghề nghiệp như thế nào.",
+      "answer": 1,
+      "options": [
+        {
+          "key": 1,
+          "text": "職業",
+          "reading": "しょくぎょう",
+          "meaning": "Nghề nghiệp",
+          "explain": "Đúng. Cụm '職業に就く' nghĩa là làm việc trong ngành nghề nào đó."
+        },
+        {
+          "key": 2,
+          "text": "地震",
+          "reading": "じしん",
+          "meaning": "Động đất",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "両親",
+          "reading": "りょうしん",
+          "meaning": "Bố mẹ",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "身長",
+          "reading": "しんちょう",
+          "meaning": "Chiều cao",
+          "explain": "Sai vì chiều cao không đi với động từ 就く."
+        }
+      ]
+    },
+    {
+      "id": 20,
+      "question": "彼女は外に干していた服を盗まれたことから、それ（　）、洗濯物は部屋で干すようになったそうだ。",
+      "translation": "Vì từng bị trộm mất quần áo phơi bên ngoài, nên kể từ sau đó, nghe nói cô ấy đã chuyển sang phơi đồ trong phòng.",
+      "answer": 2,
+      "options": [
+        {
+          "key": 1,
+          "text": "苦労",
+          "reading": "くろう",
+          "meaning": "Khổ sở, vất vả",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "以降",
+          "reading": "いこう",
+          "meaning": "Sau đó, trở đi",
+          "explain": "Đúng. Cụm 'それ以降' (tương đương それ以来) chỉ mốc thời gian từ sau sự kiện đó trở đi."
+        },
+        {
+          "key": 3,
+          "text": "以後",
+          "reading": "いご",
+          "meaning": "Về sau",
+          "explain": "Sai vì khi nói về sự thay đổi thói quen xuất phát từ một biến cố trong quá khứ, người ta thường dùng 'それ以降'."
+        },
+        {
+          "key": 4,
+          "text": "大雪",
+          "reading": "おおゆき",
+          "meaning": "Tuyết rơi dày",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    }
+  ]
+}

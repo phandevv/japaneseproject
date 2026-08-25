@@ -1,0 +1,726 @@
+{
+  "chuong": 8,
+  "bai": 1,
+  "questions": [
+    {
+      "id": 1,
+      "question": "この棚にある商品は、（　）300円です。",
+      "translation": "Tất cả các sản phẩm trên chiếc kệ này đều đồng giá 300 yên.",
+      "answer": 4,
+      "options": [
+        {
+          "key": 1,
+          "text": "大小",
+          "reading": "だいしょう",
+          "meaning": "Lớn nhỏ",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "片方",
+          "reading": "かたほう",
+          "meaning": "Một bên",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "解答",
+          "reading": "かいとう",
+          "meaning": "Giải đáp",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "全て",
+          "reading": "すべて",
+          "meaning": "Tất cả, toàn bộ",
+          "explain": "Đúng. '全て300円' nghĩa là tất cả các mặt hàng trên kệ đều có giá 300 yên."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "question": "この（　）に進むとこの森から出られるかもしれない。",
+      "translation": "Nếu đi theo phương hướng này thì có lẽ sẽ thoát ra khỏi khu rừng này.",
+      "answer": 1,
+      "options": [
+        {
+          "key": 1,
+          "text": "方角",
+          "reading": "ほうがく",
+          "meaning": "Phương hướng, hướng đi",
+          "explain": "Đúng. Cụm 'この方角に進む' nghĩa là tiến bước theo hướng này để tìm lối ra."
+        },
+        {
+          "key": 2,
+          "text": "街角",
+          "reading": "まちかど",
+          "meaning": "Góc phố",
+          "explain": "Sai vì trong rừng không có góc phố."
+        },
+        {
+          "key": 3,
+          "text": "科目",
+          "reading": "かもく",
+          "meaning": "Môn học",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "注文",
+          "reading": "ちゅうもん",
+          "meaning": "Đặt hàng",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "question": "（　）ではなく、郵便で荷物を送る。",
+      "translation": "Gửi hành lý qua đường bưu điện chứ không gửi bằng dịch vụ chuyển phát nhanh.",
+      "answer": 3,
+      "options": [
+        {
+          "key": 1,
+          "text": "改札",
+          "reading": "かいさつ",
+          "meaning": "Cổng soát vé",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "小包",
+          "reading": "こづつみ",
+          "meaning": "Bưu kiện",
+          "explain": "Sai vì bưu kiện là một dịch vụ của bưu điện."
+        },
+        {
+          "key": 3,
+          "text": "宅配便",
+          "reading": "たくはいびん",
+          "meaning": "Dịch vụ chuyển phát nhanh",
+          "explain": "Đúng. '宅配便ではなく、郵便で' so sánh hai dịch vụ vận chuyển hàng hóa."
+        },
+        {
+          "key": 4,
+          "text": "店内",
+          "reading": "てんない",
+          "meaning": "Trong quán",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "question": "その可愛い猫の動画が、（　）で有名になった。",
+      "translation": "Đoạn video về chú mèo đáng yêu đó đã trở nên nổi tiếng trên toàn thế giới.",
+      "answer": 1,
+      "options": [
+        {
+          "key": 1,
+          "text": "全世界",
+          "reading": "ぜんせかい",
+          "meaning": "Toàn thế giới",
+          "explain": "Đúng. Cụm '全世界で有名になる' chỉ video lan truyền nổi tiếng khắp thế giới."
+        },
+        {
+          "key": 2,
+          "text": "宅配便",
+          "reading": "たくはいびん",
+          "meaning": "Chuyển phát nhanh",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "方角",
+          "reading": "ほうがく",
+          "meaning": "Phương hướng",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "参加者",
+          "reading": "さんかしゃ",
+          "meaning": "Người tham gia",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "question": "（　）は盛んですが、農業はあまり盛んじゃありません。",
+      "translation": "Ngành công nghiệp phát triển rất mạnh mẽ, nhưng ngành nông nghiệp thì lại không mấy phát triển.",
+      "answer": 3,
+      "options": [
+        {
+          "key": 1,
+          "text": "乾燥",
+          "reading": "かんそう",
+          "meaning": "Khô ráo",
+          "explain": "Sai vì không đối lập về ngành kinh tế với nông nghiệp."
+        },
+        {
+          "key": 2,
+          "text": "商品",
+          "reading": "しょうひん",
+          "meaning": "Hàng hóa",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "工業",
+          "reading": "こうぎょう",
+          "meaning": "Công nghiệp",
+          "explain": "Đúng. Ngành '工業' (công nghiệp) tạo thế đối sánh trực tiếp với '農業' (nông nghiệp)."
+        },
+        {
+          "key": 4,
+          "text": "朝食",
+          "reading": "ちょうしょく",
+          "meaning": "Bữa sáng",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "question": "ピアスを（　）なくしてしまって、困っている。",
+      "translation": "Tôi làm mất một bên khuyên tai nên đang rất bối rối không biết làm sao.",
+      "answer": 1,
+      "options": [
+        {
+          "key": 1,
+          "text": "片方",
+          "reading": "かたほう",
+          "meaning": "Một bên, một chiếc (trong cặp)",
+          "explain": "Đúng. Khuyên tai thường đeo một cặp nên mất một chiếc dùng '片方なくす'."
+        },
+        {
+          "key": 2,
+          "text": "近道",
+          "reading": "ちかみち",
+          "meaning": "Đường tắt",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "長所",
+          "reading": "ちょうしょ",
+          "meaning": "Điểm mạnh",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "両替",
+          "reading": "りょうがえ",
+          "meaning": "Đổi tiền",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "question": "絵の下に（　）と描いた画家の名前が書いてある。",
+      "translation": "Dưới bức tranh có ghi tựa đề tác phẩm và tên người họa sĩ đã vẽ.",
+      "answer": 2,
+      "options": [
+        {
+          "key": 1,
+          "text": "団体",
+          "reading": "だんたい",
+          "meaning": "Đoàn thể",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "題名",
+          "reading": "だいめい",
+          "meaning": "Tựa đề, tên tác phẩm (tranh, sách)",
+          "explain": "Đúng. Cặp thông tin '題名と画家の名前' chỉ tựa đề bức tranh và tên tác giả."
+        },
+        {
+          "key": 3,
+          "text": "担当者",
+          "reading": "たんとうしゃ",
+          "meaning": "Người phụ trách",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "参加費",
+          "reading": "さんかひ",
+          "meaning": "Phí tham dự",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "question": "（　）のお客様を優先してレストランに入れてください。",
+      "translation": "Hãy ưu tiên mời những vị khách đi theo đoàn vào nhà hàng trước nhé.",
+      "answer": 4,
+      "options": [
+        {
+          "key": 1,
+          "text": "欠席",
+          "reading": "けっせき",
+          "meaning": "Vắng mặt",
+          "explain": "Sai vì người vắng mặt không vào nhà hàng."
+        },
+        {
+          "key": 2,
+          "text": "駐車",
+          "reading": "ちゅうしゃ",
+          "meaning": "Đỗ xe",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "本日",
+          "reading": "ほんじつ",
+          "meaning": "Hôm nay",
+          "explain": "Sai ngữ pháp."
+        },
+        {
+          "key": 4,
+          "text": "団体",
+          "reading": "だんたい",
+          "meaning": "Đoàn thể, nhóm khách đoàn",
+          "explain": "Đúng. Cụm '団体のお客様' chỉ nhóm khách đoàn đông người được ưu tiên sắp bàn."
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "question": "父と母がけんかをするとき、私は（　）の立場を保つようにしている。",
+      "translation": "Mỗi khi bố mẹ cãi nhau, tôi luôn cố gắng giữ lập trường trung lập/ở giữa.",
+      "answer": 1,
+      "options": [
+        {
+          "key": 1,
+          "text": "中間",
+          "reading": "ちゅうかん",
+          "meaning": "Ở giữa, trung gian, trung lập",
+          "explain": "Đúng. Cụm '中間の立場を保つ' nghĩa là giữ vị thế trung gian, không nghiêng về phe nào."
+        },
+        {
+          "key": 2,
+          "text": "中古",
+          "reading": "ちゅうこ",
+          "meaning": "Đồ cũ",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "途中",
+          "reading": "とちゅう",
+          "meaning": "Giữa chừng",
+          "explain": "Sai vì không bổ nghĩa cho lập trường."
+        },
+        {
+          "key": 4,
+          "text": "正座",
+          "reading": "せいざ",
+          "meaning": "Ngồi quỳ kiểu Nhật",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "question": "（　）のバイクを買った後、すぐに壊れてしまった。",
+      "translation": "Sau khi mua chiếc xe máy cũ/đã qua sử dụng thì nó bị hỏng ngay lập tức.",
+      "answer": 3,
+      "options": [
+        {
+          "key": 1,
+          "text": "中旬",
+          "reading": "ちゅうじゅん",
+          "meaning": "Trung tuần",
+          "explain": "Sai vì là mốc thời gian trong tháng."
+        },
+        {
+          "key": 2,
+          "text": "中間",
+          "reading": "ちゅうかん",
+          "meaning": "Trung gian",
+          "explain": "Sai vì không bổ nghĩa cho xe máy cũ."
+        },
+        {
+          "key": 3,
+          "text": "中古",
+          "reading": "ちゅうこ",
+          "meaning": "Đồ cũ, xe cũ (đã qua sử dụng)",
+          "explain": "Đúng. Cụm '中古のバイク' chỉ xe máy đã qua tay sử dụng nên dễ hỏng hóc."
+        },
+        {
+          "key": 4,
+          "text": "熱中",
+          "reading": "ねっちゅう",
+          "meaning": "Say mê",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 11,
+      "question": "自分の（　）がなんなのか、はっきり分かっていない。",
+      "translation": "Tôi vẫn chưa hiểu rõ sở trường/điểm mạnh của bản thân mình thực sự là gì.",
+      "answer": 4,
+      "options": [
+        {
+          "key": 1,
+          "text": "勤務",
+          "reading": "きんむ",
+          "meaning": "Làm việc",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "健康診断",
+          "reading": "けんこうしんだん",
+          "meaning": "Khám sức khỏe",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "満足",
+          "reading": "まんぞく",
+          "meaning": "Thỏa mãn",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "長所",
+          "reading": "ちょうしょ",
+          "meaning": "Sở trường, điểm mạnh",
+          "explain": "Đúng. '自分の長所' chỉ ưu điểm, thế mạnh nổi bật của bản thân."
+        }
+      ]
+    },
+    {
+      "id": 12,
+      "question": "第1希望の会社から、採用の（　）が届いた。",
+      "translation": "Tôi đã nhận được thông báo tuyển dụng chính thức từ công ty nguyện vọng 1.",
+      "answer": 2,
+      "options": [
+        {
+          "key": 1,
+          "text": "通帳",
+          "reading": "つうちょう",
+          "meaning": "Sổ ngân hàng",
+          "explain": "Sai vì ngân hàng mới phát hành sổ."
+        },
+        {
+          "key": 2,
+          "text": "通知",
+          "reading": "つうち",
+          "meaning": "Thông báo",
+          "explain": "Đúng. Cụm '採用の通知' chỉ thư/thông báo trúng tuyển của nhà tuyển dụng."
+        },
+        {
+          "key": 3,
+          "text": "通学",
+          "reading": "つうがく",
+          "meaning": "Đi học",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "通行",
+          "reading": "つうこう",
+          "meaning": "Lưu thông, đi lại",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 13,
+      "question": "（　）がアイドルと握手しようとしたが、警備員に止められた。",
+      "translation": "Người hâm mộ (fan) định bắt tay với thần tượng nhưng đã bị nhân viên bảo vệ chặn lại.",
+      "answer": 1,
+      "options": [
+        {
+          "key": 1,
+          "text": "ファン",
+          "reading": "ファン",
+          "meaning": "Người hâm mộ (fan)",
+          "explain": "Đúng. 'ファンがアイドルと握手する' chỉ người hâm mộ muốn bắt tay thần tượng."
+        },
+        {
+          "key": 2,
+          "text": "ラベル",
+          "reading": "ラベル",
+          "meaning": "Nhãn dán",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "マーク",
+          "reading": "マーク",
+          "meaning": "Ký hiệu, logo",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "チップ",
+          "reading": "チップ",
+          "meaning": "Tiền tip / Chip",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 14,
+      "question": "その説明は（　）で分かりにくいので、もっと具体的に説明してください。",
+      "translation": "Lời giải thích đó mang tính trừu tượng quá khó hiểu nên xin hãy giải thích cụ thể hơn nữa.",
+      "answer": 1,
+      "options": [
+        {
+          "key": 1,
+          "text": "抽象的",
+          "reading": "ちゅうしょうてき",
+          "meaning": "Trừu tượng",
+          "explain": "Đúng. Từ trái nghĩa hoàn hảo đối lập với '具体的に' (một cách cụ thể)."
+        },
+        {
+          "key": 2,
+          "text": "カーブ",
+          "reading": "カーブ",
+          "meaning": "Khúc cua",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "いい加減に",
+          "reading": "いいかげんに",
+          "meaning": "Vừa phải thôi",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "全て",
+          "reading": "すべて",
+          "meaning": "Tất cả",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 15,
+      "question": "この動物は、（　）爪を持っている。",
+      "translation": "Loài động vật này sở hữu bộ móng vuốt vô cùng sắc nhọn.",
+      "answer": 4,
+      "options": [
+        {
+          "key": 1,
+          "text": "巻き",
+          "reading": "まき",
+          "meaning": "Cuộn lại",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "幼い",
+          "reading": "おさない",
+          "meaning": "Ngây thơ, thơ ấu",
+          "explain": "Sai vì không bổ nghĩa cho móng vuốt."
+        },
+        {
+          "key": 3,
+          "text": "解き",
+          "reading": "とき",
+          "meaning": "Cởi bỏ",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "鋭い",
+          "reading": "するどい",
+          "meaning": "Sắc bén, nhọn hoắt",
+          "explain": "Đúng. Cụm '鋭い爪' chỉ móng vuốt sắc nhọn của loài thú săn mồi."
+        }
+      ]
+    },
+    {
+      "id": 16,
+      "question": "引っ越しするので、荷物を（　）いる。",
+      "translation": "Vì sắp chuyển nhà nên tôi đang bọc gói đồ đạc lại.",
+      "answer": 2,
+      "options": [
+        {
+          "key": 1,
+          "text": "注いで",
+          "reading": "そそいで",
+          "meaning": "Rót (nước)",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "包んで",
+          "reading": "つつんで",
+          "meaning": "Bọc, gói ghém",
+          "explain": "Đúng. Cụm '荷物を包んでいる' chỉ việc đóng gói đồ đạc cẩn thận trước khi chuyển nhà."
+        },
+        {
+          "key": 3,
+          "text": "広げて",
+          "reading": "ひろげて",
+          "meaning": "Mở rộng ra",
+          "explain": "Sai vì chuyển nhà phải thu gọn đồ."
+        },
+        {
+          "key": 4,
+          "text": "売り切れて",
+          "reading": "うりきれて",
+          "meaning": "Bán hết",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 17,
+      "question": "就職をきっかけに、実家を（　）。",
+      "translation": "Nhân dịp xin được việc làm, tôi đã rời khỏi nhà bố mẹ đẻ để ra ngoài sống tự lập.",
+      "answer": 3,
+      "options": [
+        {
+          "key": 1,
+          "text": "交ぜた",
+          "reading": "まぜた",
+          "meaning": "Trộn lẫn",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "勤めた",
+          "reading": "つとめた",
+          "meaning": "Làm việc",
+          "explain": "Sai vì không đi với tân ngữ 実家を."
+        },
+        {
+          "key": 3,
+          "text": "離れた",
+          "reading": "はなれた",
+          "meaning": "Rời xa, dọn ra riêng",
+          "explain": "Đúng. Cụm '実家を離れる' nghĩa là rời khỏi nhà cha mẹ để sống riêng."
+        },
+        {
+          "key": 4,
+          "text": "改めた",
+          "reading": "あらためた",
+          "meaning": "Sửa đổi",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 18,
+      "question": "このお菓子はとても人気で、いつもすぐに（　）しまう。",
+      "translation": "Món bánh kẹo này rất nổi tiếng nên lúc nào cũng bị bán hết sạch ngay tức khắc.",
+      "answer": 4,
+      "options": [
+        {
+          "key": 1,
+          "text": "混ざって",
+          "reading": "まざって",
+          "meaning": "Bị trộn lẫn",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "加わって",
+          "reading": "くわわって",
+          "meaning": "Gia nhập",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "触れて",
+          "reading": "ふれて",
+          "meaning": "Chạm vào",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "売り切れて",
+          "reading": "うりきれて",
+          "meaning": "Bán hết sạch (sold out)",
+          "explain": "Đúng. Cụm 'すぐに売り切れてしまう' chỉ mặt hàng bán rất chạy, cháy hàng nhanh chóng."
+        }
+      ]
+    },
+    {
+      "id": 19,
+      "question": "もう一度確認して、間違いを（　）。",
+      "translation": "Hãy kiểm tra lại một lần nữa để phòng tránh lỗi sai nhé.",
+      "answer": 3,
+      "options": [
+        {
+          "key": 1,
+          "text": "座ろう",
+          "reading": "すわろう",
+          "meaning": "Hãy ngồi xuống",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 2,
+          "text": "配ろう",
+          "reading": "くばろう",
+          "meaning": "Hãy phân phát",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "防ごう",
+          "reading": "ふせごう",
+          "meaning": "Phòng chống, ngăn ngừa",
+          "explain": "Đúng. Cụm '間違いを防ぐ' nghĩa là phòng ngừa, hạn chế tối đa các sai sót."
+        },
+        {
+          "key": 4,
+          "text": "包もう",
+          "reading": "つつもう",
+          "meaning": "Hãy gói lại",
+          "explain": "Sai nghĩa hoàn toàn."
+        }
+      ]
+    },
+    {
+      "id": 20,
+      "question": "ミーティングで企画の（　）が決まったので、すぐに同僚に伝えた。",
+      "translation": "Trong cuộc họp đã quyết định về việc thay đổi kế hoạch nên tôi đã lập tức thông báo cho đồng nghiệp.",
+      "answer": 4,
+      "options": [
+        {
+          "key": 1,
+          "text": "お小遣い",
+          "reading": "おこづかい",
+          "meaning": "Tiền tiêu vặt",
+          "explain": "Sai ngữ cảnh dự án công việc."
+        },
+        {
+          "key": 2,
+          "text": "両親",
+          "reading": "りょうしん",
+          "meaning": "Bố mẹ",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 3,
+          "text": "正解",
+          "reading": "せいかい",
+          "meaning": "Đáp án chính xác",
+          "explain": "Sai nghĩa hoàn toàn."
+        },
+        {
+          "key": 4,
+          "text": "変更",
+          "reading": "へんこう",
+          "meaning": "Thay đổi, điều chỉnh",
+          "explain": "Đúng. Cụm '企画の変更が決まる' nghĩa là quyết định điều chỉnh thay đổi kế hoạch ban đầu."
+        }
+      ]
+    }
+  ]
+}

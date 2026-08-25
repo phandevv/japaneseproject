@@ -2,10 +2,13 @@ package com.flashcard.knowledge.provider;
 
 import com.flashcard.common.service.SequenceGeneratorService;
 import com.flashcard.knowledge.document.JlptN3GrammarQuizDoc;
+import com.flashcard.knowledge.document.JlptN3LessonQuizDoc;
 import com.flashcard.knowledge.document.JlptN3ProgressDoc;
 import com.flashcard.knowledge.model.JlptN3GrammarQuiz;
+import com.flashcard.knowledge.model.JlptN3LessonQuiz;
 import com.flashcard.knowledge.model.JlptN3Progress;
 import com.flashcard.knowledge.repository.mongo.JlptN3GrammarQuizMongoRepository;
+import com.flashcard.knowledge.repository.mongo.JlptN3LessonQuizMongoRepository;
 import com.flashcard.knowledge.repository.mongo.JlptN3ProgressMongoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -21,14 +24,17 @@ public class JlptN3MongoDataProvider implements JlptN3DataProvider {
 
     private final JlptN3ProgressMongoRepository progressMongoRepository;
     private final JlptN3GrammarQuizMongoRepository quizMongoRepository;
+    private final JlptN3LessonQuizMongoRepository lessonQuizMongoRepository;
     private final SequenceGeneratorService sequenceGeneratorService;
 
     @Autowired
     public JlptN3MongoDataProvider(JlptN3ProgressMongoRepository progressMongoRepository,
                                    JlptN3GrammarQuizMongoRepository quizMongoRepository,
+                                   JlptN3LessonQuizMongoRepository lessonQuizMongoRepository,
                                    SequenceGeneratorService sequenceGeneratorService) {
         this.progressMongoRepository = progressMongoRepository;
         this.quizMongoRepository = quizMongoRepository;
+        this.lessonQuizMongoRepository = lessonQuizMongoRepository;
         this.sequenceGeneratorService = sequenceGeneratorService;
     }
 
@@ -83,6 +89,30 @@ public class JlptN3MongoDataProvider implements JlptN3DataProvider {
         return toQuiz(saved);
     }
 
+    @Override
+    public Optional<JlptN3LessonQuiz> findLessonQuiz(Integer chapterId, Integer lessonId) {
+        return lessonQuizMongoRepository.findByChapterIdAndLessonId(chapterId, lessonId)
+                .map(this::toLessonQuiz);
+    }
+
+    @Override
+    public JlptN3LessonQuiz saveLessonQuiz(JlptN3LessonQuiz quiz) {
+        JlptN3LessonQuizDoc doc;
+        if (quiz.getId() == null) {
+            quiz.setId(sequenceGeneratorService.generateSequence("jlpt_n3_lesson_quiz_seq"));
+            doc = toLessonQuizDoc(quiz);
+        } else {
+            doc = lessonQuizMongoRepository.findById(quiz.getId()).orElseGet(() -> toLessonQuizDoc(quiz));
+            doc.setChapterId(quiz.getChapterId());
+            doc.setLessonId(quiz.getLessonId());
+            doc.setTotalQuestions(quiz.getTotalQuestions());
+            doc.setQuestionsJson(quiz.getQuestionsJson());
+            doc.setUpdatedAt(quiz.getUpdatedAt());
+        }
+        JlptN3LessonQuizDoc saved = lessonQuizMongoRepository.save(doc);
+        return toLessonQuiz(saved);
+    }
+
     private JlptN3Progress toProgress(JlptN3ProgressDoc doc) {
         if (doc == null) return null;
         JlptN3Progress p = new JlptN3Progress();
@@ -93,6 +123,7 @@ public class JlptN3MongoDataProvider implements JlptN3DataProvider {
         p.setVocabPassed(doc.getVocabPassed());
         p.setKanjiPassed(doc.getKanjiPassed());
         p.setGrammarPassed(doc.getGrammarPassed());
+        p.setQuizPassed(doc.getQuizPassed());
         p.setCompleted(doc.getCompleted());
         p.setBestScore(doc.getBestScore());
         p.setCompletedAt(doc.getCompletedAt());
@@ -110,6 +141,7 @@ public class JlptN3MongoDataProvider implements JlptN3DataProvider {
                 .vocabPassed(p.getVocabPassed())
                 .kanjiPassed(p.getKanjiPassed())
                 .grammarPassed(p.getGrammarPassed())
+                .quizPassed(p.getQuizPassed())
                 .completed(p.getCompleted())
                 .bestScore(p.getBestScore())
                 .completedAt(p.getCompletedAt())
@@ -125,6 +157,7 @@ public class JlptN3MongoDataProvider implements JlptN3DataProvider {
         doc.setVocabPassed(p.getVocabPassed());
         doc.setKanjiPassed(p.getKanjiPassed());
         doc.setGrammarPassed(p.getGrammarPassed());
+        doc.setQuizPassed(p.getQuizPassed());
         doc.setCompleted(p.getCompleted());
         doc.setBestScore(p.getBestScore());
         doc.setCompletedAt(p.getCompletedAt());
@@ -149,6 +182,29 @@ public class JlptN3MongoDataProvider implements JlptN3DataProvider {
                 .lessonId(q.getLessonId())
                 .questionsJson(q.getQuestionsJson())
                 .createdAt(q.getCreatedAt())
+                .build();
+    }
+
+    private JlptN3LessonQuiz toLessonQuiz(JlptN3LessonQuizDoc doc) {
+        if (doc == null) return null;
+        JlptN3LessonQuiz q = new JlptN3LessonQuiz();
+        q.setId(doc.getId());
+        q.setChapterId(doc.getChapterId());
+        q.setLessonId(doc.getLessonId());
+        q.setTotalQuestions(doc.getTotalQuestions());
+        q.setQuestionsJson(doc.getQuestionsJson());
+        q.setUpdatedAt(doc.getUpdatedAt());
+        return q;
+    }
+
+    private JlptN3LessonQuizDoc toLessonQuizDoc(JlptN3LessonQuiz q) {
+        return JlptN3LessonQuizDoc.builder()
+                .id(q.getId())
+                .chapterId(q.getChapterId())
+                .lessonId(q.getLessonId())
+                .totalQuestions(q.getTotalQuestions())
+                .questionsJson(q.getQuestionsJson())
+                .updatedAt(q.getUpdatedAt())
                 .build();
     }
 }
