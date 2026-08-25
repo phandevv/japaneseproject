@@ -87,7 +87,7 @@ public class AnalyticsService {
 
         java.util.Set<LocalDate> dateSet = new java.util.HashSet<>();
         for (StudySession session : sessions) {
-            if (session.getStudyDate() != null && (session.getWordsStudied() > 0 || session.getTotalQuestions() > 0 || session.isStreakFrozen())) {
+            if (session.getStudyDate() != null) {
                 dateSet.add(session.getStudyDate());
             }
         }

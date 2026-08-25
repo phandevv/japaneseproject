@@ -1102,7 +1102,7 @@ const isContainsKanji = (str) => {
       );
     }
     return (
-      <span style={{ fontSize: '0.78rem', padding: '3px 10px', borderRadius: '12px', background: 'rgba(37,99,235,0.1)', color: 'var(--accent-color)', fontWeight: 600 }}>
+      <span style={{ fontSize: '0.78rem', padding: '3px 10px', borderRadius: '12px', background: 'var(--accent-light)', color: 'var(--accent-color)', fontWeight: 600 }}>
         Chưa học
       </span>
     );
@@ -1136,9 +1136,9 @@ const isContainsKanji = (str) => {
           
           {/* Header Banner */}
           <div style={{
-            background: 'linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%)',
+            background: 'linear-gradient(135deg, var(--sidebar-bg) 0%, var(--accent-color) 100%)',
             borderRadius: '20px', padding: '30px 32px', color: 'white',
-            boxShadow: '0 12px 32px rgba(37,99,235,0.2)', position: 'relative', overflow: 'hidden'
+            boxShadow: 'var(--shadow-md)', position: 'relative', overflow: 'hidden'
           }}>
             <div style={{ position: 'relative', zIndex: 2 }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '10px', marginBottom: '12px' }}>
@@ -1150,10 +1150,13 @@ const isContainsKanji = (str) => {
                   onClick={handleFileUploadClick}
                   disabled={uploadingFiles}
                   style={{
-                    padding: '8px 18px', borderRadius: '12px', border: 'none',
-                    background: 'linear-gradient(135deg, #10b981, #059669)', color: 'white', fontWeight: 800,
+                    padding: '8px 18px', borderRadius: '12px',
+                    border: '1px solid rgba(255,255,255,0.35)',
+                    background: 'rgba(255, 255, 255, 0.2)',
+                    color: 'white', fontWeight: 800,
                     fontSize: '0.9rem', cursor: uploadingFiles ? 'not-allowed' : 'pointer',
-                    boxShadow: '0 4px 14px rgba(16,185,129,0.35)', display: 'inline-flex', alignItems: 'center', gap: '8px',
+                    boxShadow: '0 4px 14px rgba(0,0,0,0.12)', display: 'inline-flex', alignItems: 'center', gap: '8px',
+                    backdropFilter: 'blur(8px)',
                     transition: 'all 0.2s ease'
                   }}
                 >
@@ -1175,7 +1178,7 @@ const isContainsKanji = (str) => {
                     <span>{overview.progressPercentage}%</span>
                   </div>
                   <div style={{ width: '100%', height: '10px', background: 'rgba(255,255,255,0.25)', borderRadius: '10px', overflow: 'hidden' }}>
-                    <div style={{ width: `${overview.progressPercentage}%`, height: '100%', background: '#10b981', transition: 'width 0.4s ease' }} />
+                    <div style={{ width: `${overview.progressPercentage}%`, height: '100%', background: 'linear-gradient(90deg, #ffffff 0%, rgba(255,255,255,0.85) 100%)', borderRadius: '10px', transition: 'width 0.4s ease' }} />
                   </div>
                 </div>
               )}
@@ -1208,7 +1211,7 @@ const isContainsKanji = (str) => {
                       <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
                         <div style={{
                           width: '44px', height: '44px', borderRadius: '12px',
-                          background: ch.completedLessons === 3 ? 'linear-gradient(135deg, #10b981, #059669)' : 'linear-gradient(135deg, #2563eb, #3b82f6)',
+                          background: ch.completedLessons === 3 ? 'linear-gradient(135deg, #10b981, #059669)' : 'linear-gradient(135deg, var(--accent-color), var(--accent-hover))',
                           color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center',
                           fontWeight: 800, fontSize: '1.2rem'
                         }}>
@@ -1257,7 +1260,7 @@ const isContainsKanji = (str) => {
                                   : isLessonCompleted 
                                     ? 'linear-gradient(135deg, rgba(16,185,129,0.09) 0%, rgba(16,185,129,0.02) 100%)' 
                                     : passedCount > 0 
-                                      ? 'linear-gradient(135deg, rgba(37,99,235,0.05) 0%, rgba(16,185,129,0.03) 100%)' 
+                                      ? 'linear-gradient(135deg, var(--accent-light) 0%, rgba(16,185,129,0.03) 100%)' 
                                       : 'var(--surface-color)',
                                 boxShadow: isLessonCompleted ? '0 4px 14px rgba(16,185,129,0.12)' : 'none',
                                 cursor: les.available ? 'pointer' : 'not-allowed',
@@ -1581,7 +1584,7 @@ const isContainsKanji = (str) => {
                         style={{
                           padding: '8px 16px', borderRadius: '8px', border: lessonData?.vocabPassed ? '1px solid #10b981' : 'none', fontWeight: 700, cursor: 'pointer',
                           background: listSubTab === 'vocab' 
-                            ? (lessonData?.vocabPassed ? 'rgba(16,185,129,0.2)' : 'rgba(37,99,235,0.1)') 
+                            ? (lessonData?.vocabPassed ? 'rgba(16,185,129,0.2)' : 'var(--accent-light)') 
                             : (lessonData?.vocabPassed ? 'rgba(16,185,129,0.08)' : 'transparent'),
                           color: lessonData?.vocabPassed ? '#059669' : (listSubTab === 'vocab' ? 'var(--accent-color)' : 'var(--text-secondary)'),
                           display: 'inline-flex', alignItems: 'center', gap: '6px'
@@ -1595,7 +1598,7 @@ const isContainsKanji = (str) => {
                         style={{
                           padding: '8px 16px', borderRadius: '8px', border: lessonData?.kanjiPassed ? '1px solid #10b981' : 'none', fontWeight: 700, cursor: 'pointer',
                           background: listSubTab === 'kanji' 
-                            ? (lessonData?.kanjiPassed ? 'rgba(16,185,129,0.2)' : 'rgba(37,99,235,0.1)') 
+                            ? (lessonData?.kanjiPassed ? 'rgba(16,185,129,0.2)' : 'var(--accent-light)') 
                             : (lessonData?.kanjiPassed ? 'rgba(16,185,129,0.08)' : 'transparent'),
                           color: lessonData?.kanjiPassed ? '#059669' : (listSubTab === 'kanji' ? 'var(--accent-color)' : 'var(--text-secondary)'),
                           display: 'inline-flex', alignItems: 'center', gap: '6px'
@@ -1609,7 +1612,7 @@ const isContainsKanji = (str) => {
                         style={{
                           padding: '8px 16px', borderRadius: '8px', border: lessonData?.grammarPassed ? '1px solid #10b981' : 'none', fontWeight: 700, cursor: 'pointer',
                           background: listSubTab === 'grammar' 
-                            ? (lessonData?.grammarPassed ? 'rgba(16,185,129,0.2)' : 'rgba(37,99,235,0.1)') 
+                            ? (lessonData?.grammarPassed ? 'rgba(16,185,129,0.2)' : 'var(--accent-light)') 
                             : (lessonData?.grammarPassed ? 'rgba(16,185,129,0.08)' : 'transparent'),
                           color: lessonData?.grammarPassed ? '#059669' : (listSubTab === 'grammar' ? 'var(--accent-color)' : 'var(--text-secondary)'),
                           display: 'inline-flex', alignItems: 'center', gap: '6px'
@@ -1726,7 +1729,7 @@ const isContainsKanji = (str) => {
                           }}
                           className="card-hover virtual-card"
                         >
-                          <div style={{ width: '56px', height: '56px', borderRadius: '12px', background: 'rgba(37,99,235,0.08)', color: 'var(--accent-color)', fontSize: '2.2rem', fontWeight: 800, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                          <div style={{ width: '56px', height: '56px', borderRadius: '12px', background: 'var(--accent-light)', color: 'var(--accent-color)', fontSize: '2.2rem', fontWeight: 800, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
                             {k.kanji}
                           </div>
                           <div style={{ flex: 1 }}>
@@ -1842,7 +1845,7 @@ const isContainsKanji = (str) => {
                   {quizState === 'setup' && (
                     <div style={{ background: 'var(--surface-color)', border: '1px solid var(--border-color)', borderRadius: '20px', padding: '36px', maxWidth: '600px', width: '100%', display: 'flex', flexDirection: 'column', gap: '20px' }}>
                       <div style={{ textAlign: 'center' }}>
-                        <div style={{ width: '64px', height: '64px', borderRadius: '50%', background: 'rgba(37,99,235,0.1)', color: 'var(--accent-color)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 12px auto' }}>
+                        <div style={{ width: '64px', height: '64px', borderRadius: '50%', background: 'var(--accent-light)', color: 'var(--accent-color)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 12px auto' }}>
                           <Sparkles size={32} />
                         </div>
                         <h2 style={{ margin: '0 0 6px 0', fontSize: '1.6rem', color: 'var(--text-primary)' }}>
@@ -1873,7 +1876,7 @@ const isContainsKanji = (str) => {
                                   ? (opt.isPassed ? '1.5px solid #10b981' : '1.5px solid var(--accent-color)') 
                                   : (opt.isPassed ? '1.5px solid rgba(16,185,129,0.35)' : '1px solid var(--border-color)'),
                                 backgroundColor: isSelected 
-                                  ? (opt.isPassed ? 'rgba(16,185,129,0.1)' : 'rgba(37,99,235,0.06)') 
+                                  ? (opt.isPassed ? 'rgba(16,185,129,0.1)' : 'var(--accent-light)') 
                                   : (opt.isPassed ? 'rgba(16,185,129,0.04)' : 'transparent'),
                                 cursor: 'pointer', transition: 'all 0.15s ease'
                               }}>
@@ -2132,9 +2135,9 @@ const isContainsKanji = (str) => {
                                 <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '16px' }}>
                                   <span style={{
                                     fontSize: '0.82rem', fontWeight: 800, padding: '4px 12px', borderRadius: '8px',
-                                    backgroundColor: (currentWord.type === 'star' || currentWord.question?.includes('★')) ? 'rgba(245,158,11,0.15)' : 'rgba(37,99,235,0.12)',
+                                    backgroundColor: (currentWord.type === 'star' || currentWord.question?.includes('★')) ? 'rgba(245,158,11,0.15)' : 'var(--accent-light)',
                                     color: (currentWord.type === 'star' || currentWord.question?.includes('★')) ? '#d97706' : 'var(--accent-color)',
-                                    border: `1px solid ${(currentWord.type === 'star' || currentWord.question?.includes('★')) ? 'rgba(245,158,11,0.3)' : 'rgba(37,99,235,0.3)'}`
+                                    border: `1px solid ${(currentWord.type === 'star' || currentWord.question?.includes('★')) ? 'rgba(245,158,11,0.3)' : 'var(--accent-color)'}`
                                   }}>
                                     {(currentWord.type === 'star' || currentWord.question?.includes('★'))
                                       ? '⭐ Mondai 2: Dạng Ngôi Sao ★ (Sắp xếp từ chọn vị trí ★)'
@@ -2466,7 +2469,7 @@ const isContainsKanji = (str) => {
                           </span>
                         </p>
                         {!quizResult.isScopeAll && (
-                          <div style={{ marginTop: '12px', padding: '10px 16px', borderRadius: '10px', backgroundColor: 'rgba(37,99,235,0.08)', color: 'var(--accent-color)', fontSize: '0.88rem', fontWeight: 500 }}>
+                          <div style={{ marginTop: '12px', padding: '10px 16px', borderRadius: '10px', backgroundColor: 'var(--accent-light)', color: 'var(--accent-color)', fontSize: '0.88rem', fontWeight: 500 }}>
                             💡 <em>Lưu ý: Để được tính PASS bài học trên bản đồ tiến độ, hãy chọn chế độ <strong>"Kiểm tra tất cả các từ trong ngày"</strong>.</em>
                           </div>
                         )}

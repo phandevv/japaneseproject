@@ -422,6 +422,11 @@ export const analyticsApi = {
     const response = await axios.post(`${API_BASE_URL}/analytics/streak-freeze`);
     clearApiCache('/analytics/dashboard');
     return response.data;
+  },
+  useFreeze: async () => {
+    const response = await axios.post(`${API_BASE_URL}/analytics/streak-freeze`);
+    clearApiCache('/analytics/dashboard');
+    return response.data;
   }
 };
 

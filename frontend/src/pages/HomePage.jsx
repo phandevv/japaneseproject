@@ -107,7 +107,7 @@ const HomePage = ({ user: propUser, startStudy, streak, onLoginClick, onLogout, 
 
   const handleUseFreeze = async () => {
     try {
-      await analyticsApi.useFreeze();
+      await analyticsApi.activateStreakFreeze();
       const dash = await analyticsApi.getDashboard();
       setDashboardData(dash);
       alert("Đã kích hoạt Khiên Băng bảo vệ chuỗi học hôm nay! ❄️");
@@ -208,10 +208,10 @@ const HomePage = ({ user: propUser, startStudy, streak, onLoginClick, onLogout, 
 
     const getIntensityColor = (duration) => {
       if (duration === 0) return 'var(--surface-hover)';
-      if (duration < 10) return '#a7f3d0';
-      if (duration < 30) return '#34d399';
-      if (duration < 60) return '#10b981';
-      return '#059669';
+      if (duration < 10) return 'color-mix(in srgb, var(--accent-color) 25%, var(--surface-color))';
+      if (duration < 30) return 'color-mix(in srgb, var(--accent-color) 50%, var(--surface-color))';
+      if (duration < 60) return 'color-mix(in srgb, var(--accent-color) 75%, var(--surface-color))';
+      return 'var(--accent-color)';
     };
 
     // Calculate month labels dynamically
@@ -342,10 +342,10 @@ const HomePage = ({ user: propUser, startStudy, streak, onLoginClick, onLogout, 
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: '5px', fontSize: '0.75rem', color: 'var(--text-secondary)', marginTop: '5px' }}>
           <span>Lười</span>
           <div style={{ width: '12px', height: '12px', backgroundColor: 'var(--surface-hover)', borderRadius: '2px' }} />
-          <div style={{ width: '12px', height: '12px', backgroundColor: '#a7f3d0', borderRadius: '2px' }} />
-          <div style={{ width: '12px', height: '12px', backgroundColor: '#34d399', borderRadius: '2px' }} />
-          <div style={{ width: '12px', height: '12px', backgroundColor: '#10b981', borderRadius: '2px' }} />
-          <div style={{ width: '12px', height: '12px', backgroundColor: '#059669', borderRadius: '2px' }} />
+          <div style={{ width: '12px', height: '12px', backgroundColor: 'color-mix(in srgb, var(--accent-color) 25%, var(--surface-color))', borderRadius: '2px' }} />
+          <div style={{ width: '12px', height: '12px', backgroundColor: 'color-mix(in srgb, var(--accent-color) 50%, var(--surface-color))', borderRadius: '2px' }} />
+          <div style={{ width: '12px', height: '12px', backgroundColor: 'color-mix(in srgb, var(--accent-color) 75%, var(--surface-color))', borderRadius: '2px' }} />
+          <div style={{ width: '12px', height: '12px', backgroundColor: 'var(--accent-color)', borderRadius: '2px' }} />
           <span>Chăm</span>
         </div>
       </div>
@@ -353,12 +353,58 @@ const HomePage = ({ user: propUser, startStudy, streak, onLoginClick, onLogout, 
   };
 
   const SakuraFlower = ({ size = '100%', filled = true, color = '#2dd4bf', className = '' }) => (
-    <svg width={size} height={size} viewBox="0 0 100 100" className={className} xmlns="http://www.w3.org/2000/svg">
-      <path d="M50,10 C60,0 75,5 80,15 C85,25 75,40 50,50 C75,40 95,45 95,60 C95,75 80,85 70,80 C60,75 50,50 50,50 C50,50 40,75 30,80 C20,85 5,75 5,60 C5,45 25,40 50,50 C25,40 15,25 20,15 C25,5 40,0 50,10 Z"
+    <svg 
+      width={size} 
+      height={size} 
+      viewBox="0 0 100 100" 
+      className={`sakura-flower-svg ${className}`} 
+      xmlns="http://www.w3.org/2000/svg"
+      style={{
+        overflow: 'visible',
+        animation: filled ? 'flower-sparkle-glow 2.5s ease-in-out infinite' : 'none',
+        transformOrigin: 'center'
+      }}
+    >
+      <defs>
+        <radialGradient id={`flowerGlow_${color.replace('#', '')}`} cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stopColor="#ffffff" stopOpacity="0.8" />
+          <stop offset="70%" stopColor={color} stopOpacity="0.4" />
+          <stop offset="100%" stopColor={color} stopOpacity="0" />
+        </radialGradient>
+      </defs>
+
+      {/* Outer radial glow halo if filled */}
+      {filled && <circle cx="50" cy="50" r="45" fill={`url(#flowerGlow_${color.replace('#', '')})`} opacity="0.6" />}
+
+      {/* Main Petals */}
+      <path
+        d="M50,10 C60,0 75,5 80,15 C85,25 75,40 50,50 C75,40 95,45 95,60 C95,75 80,85 70,80 C60,75 50,50 50,50 C50,50 40,75 30,80 C20,85 5,75 5,60 C5,45 25,40 50,50 C25,40 15,25 20,15 C25,5 40,0 50,10 Z"
         fill={filled ? color : '#ccfbf1'}
         stroke={color}
-        strokeWidth="3" />
-      {filled && <circle cx="50" cy="50" r="8" fill="#ffffff" opacity="0.4" />}
+        strokeWidth="3"
+      />
+
+      {/* Center core details & Twinkling Sparkles */}
+      {filled && (
+        <>
+          <circle cx="50" cy="50" r="10" fill="#ffffff" opacity="0.8" />
+          <circle cx="50" cy="50" r="5" fill="#fde047" />
+
+          {/* Sparkling Twinkle Stars (✨) */}
+          <g style={{ animation: 'star-twinkle-burst 1.8s ease-in-out infinite', transformOrigin: '25px 25px' }}>
+            <path d="M 25 15 Q 25 25 35 25 Q 25 25 25 35 Q 25 25 15 25 Q 25 25 25 15 Z" fill="#ffffff" />
+          </g>
+          <g style={{ animation: 'star-twinkle-burst 2.2s ease-in-out 0.6s infinite', transformOrigin: '75px 25px' }}>
+            <path d="M 75 15 Q 75 25 85 25 Q 75 25 75 35 Q 75 25 65 25 Q 75 25 75 15 Z" fill="#ffffff" />
+          </g>
+          <g style={{ animation: 'star-twinkle-burst 1.6s ease-in-out 1.1s infinite', transformOrigin: '80px 75px' }}>
+            <path d="M 80 65 Q 80 75 90 75 Q 80 75 80 85 Q 80 75 70 75 Q 80 75 80 65 Z" fill="#ffffff" />
+          </g>
+          <g style={{ animation: 'star-twinkle-burst 2.0s ease-in-out 0.3s infinite', transformOrigin: '20px 75px' }}>
+            <path d="M 20 65 Q 20 75 30 75 Q 20 75 20 85 Q 20 75 10 75 Q 20 75 20 65 Z" fill="#ffffff" />
+          </g>
+        </>
+      )}
     </svg>
   );
 
@@ -378,7 +424,7 @@ const HomePage = ({ user: propUser, startStudy, streak, onLoginClick, onLogout, 
       dashboardData.history.forEach(session => {
         if (!session) return;
         const dateKey = parseStudyDateKey(session.studyDate);
-        if (dateKey && (session.wordsStudied > 0 || session.streakFrozen || session.totalQuestions > 0)) {
+        if (dateKey) {
           historyMap[dateKey] = true;
         }
       });
@@ -394,7 +440,7 @@ const HomePage = ({ user: propUser, startStudy, streak, onLoginClick, onLogout, 
       days.push({
         name: dayNames[dayOfWeek],
         dateStr: dateStr,
-        completed: historyMap[dateStr] === true || (i === 0 && (dashboardData?.wordsStudiedToday > 0 || dashboardData?.streakFrozenToday)),
+        completed: historyMap[dateStr] === true,
         isToday: i === 0
       });
     }
@@ -412,18 +458,18 @@ const HomePage = ({ user: propUser, startStudy, streak, onLoginClick, onLogout, 
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
               <div className="star-streak-info">
                 <div className="star-streak-title">
-                  <span className="streak-fire">🔥</span>
+                  <span className="streak-fire" style={{ fontSize: '1.35rem', lineHeight: 1 }}>🌸</span>
                   <span>{t.home.streakTitle} - {dashboardData?.streak !== undefined ? dashboardData.streak : (streak || 0)} ngày</span>
                 </div>
                 <div className="star-streak-row">
                   {getLast7DaysData().map((day, i) => (
                     <div key={i} className="star-streak-item">
-                      <span className="star-day-name">{day.name}</span>
-                      {day.completed ? (
-                        <Star className="star-icon completed" size={32} fill="#fde047" color="#facc15" strokeWidth={1.5} />
-                      ) : (
-                        <Star className="star-icon" size={24} color="#94a3b8" strokeWidth={1.5} />
-                      )}
+                      <span className={`star-day-name ${day.isToday ? 'is-today' : ''}`}>{day.name}</span>
+                      <SakuraFlower 
+                        filled={day.completed} 
+                        size={day.completed ? 30 : 22} 
+                        color={day.completed ? '#2dd4bf' : '#94a3b8'} 
+                      />
                     </div>
                   ))}
                 </div>
@@ -448,24 +494,24 @@ const HomePage = ({ user: propUser, startStudy, streak, onLoginClick, onLogout, 
                   {/* Compact Stats Row */}
                   <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap' }}>
                     <div style={{ flex: 1, display: 'flex', alignItems: 'center', gap: '14px', background: 'var(--surface-color)', padding: '16px 20px', borderRadius: '14px', border: '1px solid var(--border-color)', boxShadow: 'var(--shadow-sm)' }}>
-                      <div style={{ width: '48px', height: '48px', borderRadius: '10px', background: 'rgba(37,99,235,0.1)', color: 'var(--accent-color)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><Brain size={24} /></div>
+                      <div style={{ width: '48px', height: '48px', borderRadius: '10px', background: 'var(--accent-light)', color: 'var(--accent-color)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><Brain size={24} /></div>
                       <div>
                         <div style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', fontWeight: 600 }}>Cần ôn hôm nay</div>
-                        <div style={{ fontSize: '1.75rem', fontWeight: 800, lineHeight: 1, marginTop: '4px' }}>{dashboardData.dueCount}</div>
+                        <div style={{ fontSize: '1.75rem', fontWeight: 800, lineHeight: 1, marginTop: '4px', color: 'var(--text-primary)' }}>{dashboardData.dueCount}</div>
                       </div>
                     </div>
                     <div style={{ flex: 1, display: 'flex', alignItems: 'center', gap: '14px', background: 'var(--surface-color)', padding: '16px 20px', borderRadius: '14px', border: '1px solid var(--border-color)', boxShadow: 'var(--shadow-sm)' }}>
-                      <div style={{ width: '48px', height: '48px', borderRadius: '10px', background: 'rgba(16,185,129,0.1)', color: 'var(--success-color)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><Play size={24} /></div>
+                      <div style={{ width: '48px', height: '48px', borderRadius: '10px', background: 'var(--success-light)', color: 'var(--success-color)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><Play size={24} /></div>
                       <div>
                         <div style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', fontWeight: 600 }}>Đã học hôm nay</div>
-                        <div style={{ fontSize: '1.75rem', fontWeight: 800, lineHeight: 1, marginTop: '4px' }}>{dashboardData.wordsStudiedToday || 0}</div>
+                        <div style={{ fontSize: '1.75rem', fontWeight: 800, lineHeight: 1, marginTop: '4px', color: 'var(--text-primary)' }}>{dashboardData.wordsStudiedToday || 0}</div>
                       </div>
                     </div>
                     <div style={{ flex: 1, display: 'flex', alignItems: 'center', gap: '14px', background: 'var(--surface-color)', padding: '16px 20px', borderRadius: '14px', border: '1px solid var(--border-color)', boxShadow: 'var(--shadow-sm)' }}>
-                      <div style={{ width: '48px', height: '48px', borderRadius: '10px', background: 'rgba(16,185,129,0.1)', color: 'var(--success-color)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><CheckCircle2 size={24} /></div>
+                      <div style={{ width: '48px', height: '48px', borderRadius: '10px', background: 'var(--success-light)', color: 'var(--success-color)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><CheckCircle2 size={24} /></div>
                       <div>
                         <div style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', fontWeight: 600 }}>Tổng đã học</div>
-                        <div style={{ fontSize: '1.75rem', fontWeight: 800, lineHeight: 1, marginTop: '4px' }}>{dashboardData.learnedCount}</div>
+                        <div style={{ fontSize: '1.75rem', fontWeight: 800, lineHeight: 1, marginTop: '4px', color: 'var(--text-primary)' }}>{dashboardData.learnedCount}</div>
                       </div>
                     </div>
                   </div>
