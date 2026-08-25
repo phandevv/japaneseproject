@@ -209,7 +209,7 @@ public class SrsMongoDataProvider implements SrsDataProvider {
             List<StudySessionDoc> sessions = userSessionsMap.getOrDefault(u.getId(), Collections.emptyList());
             Set<LocalDate> dateSet = new HashSet<>();
             for (StudySessionDoc s : sessions) {
-                if (s.getStudyDate() != null && (s.getWordsStudied() > 0 || s.getTotalQuestions() > 0 || s.isStreakFrozen())) {
+                if (s.getStudyDate() != null) {
                     dateSet.add(s.getStudyDate());
                 }
             }

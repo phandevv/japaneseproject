@@ -1137,14 +1137,14 @@ const MasterReviewPage = ({ goBack }) => {
     if (quizFinished) {
       const accuracy = Math.round((quizScore / quizWords.length) * 100);
       const isFullTest = quizOptType === 'all';
-      
+
       // ONLY remove words from forgotten list if user chose "Tất cả từ đã quên" (isFullTest).
       // For "Số lượng ngẫu nhiên" (count) and "Khoảng chỉ định" (range), keep all unlearned words intact.
-      const updatedForgotten = isFullTest 
+      const updatedForgotten = isFullTest
         ? forgottenWords.filter(w => !correctlyAnsweredWordIds.has(w.id))
         : forgottenWords;
       const removedCount = forgottenWords.length - updatedForgotten.length;
-      
+
       // A Master Review session is ONLY completed and cleared if:
       // It is a FULL TEST and accuracy > 90% (or updatedForgotten is empty)
       const isPassed = isFullTest ? (accuracy > 90 || updatedForgotten.length === 0) : false;
@@ -1467,8 +1467,8 @@ const MasterReviewPage = ({ goBack }) => {
                   </div>
                 )}
                 {quizWordEnriched && (
-                  <AiEnrichedTabbedView 
-                    data={quizWordEnriched} 
+                  <AiEnrichedTabbedView
+                    data={quizWordEnriched}
                     onReEnriched={(updated) => setQuizWordEnriched(updated)}
                   />
                 )}

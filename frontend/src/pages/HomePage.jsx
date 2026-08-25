@@ -378,7 +378,7 @@ const HomePage = ({ user: propUser, startStudy, streak, onLoginClick, onLogout, 
       dashboardData.history.forEach(session => {
         if (!session) return;
         const dateKey = parseStudyDateKey(session.studyDate);
-        if (dateKey && (session.wordsStudied > 0 || session.streakFrozen || session.totalQuestions > 0)) {
+        if (dateKey) {
           historyMap[dateKey] = true;
         }
       });
@@ -394,7 +394,7 @@ const HomePage = ({ user: propUser, startStudy, streak, onLoginClick, onLogout, 
       days.push({
         name: dayNames[dayOfWeek],
         dateStr: dateStr,
-        completed: historyMap[dateStr] === true || (i === 0 && (dashboardData?.wordsStudiedToday > 0 || dashboardData?.streakFrozenToday)),
+        completed: historyMap[dateStr] === true,
         isToday: i === 0
       });
     }

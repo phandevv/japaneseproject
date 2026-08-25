@@ -62,7 +62,7 @@ const StudyStatsPage = () => {
       </h1>
 
       {/* Modern Top Tab Bar */}
-      <div style={{ display: 'flex', background: '#27272a', padding: '6px', borderRadius: '12px', gap: '4px', marginBottom: '24px', overflowX: 'auto' }}>
+      <div style={{ display: 'flex', background: 'var(--border-color)', padding: '6px', borderRadius: '12px', gap: '4px', marginBottom: '24px', overflowX: 'auto' }}>
         {[
           { id: 'day', label: 'Ngày' },
           { id: 'week', label: 'Tuần' },
@@ -77,8 +77,8 @@ const StudyStatsPage = () => {
               flex: '1',
               minWidth: '100px',
               padding: '10px 16px',
-              background: range === r.id ? '#3b82f6' : 'transparent',
-              color: range === r.id ? 'white' : '#a1a1aa',
+              background: range === r.id ? 'var(--accent-color)' : 'transparent',
+              color: range === r.id ? 'white' : 'var(--text-secondary)',
               border: 'none',
               borderRadius: '8px',
               fontWeight: 600,
