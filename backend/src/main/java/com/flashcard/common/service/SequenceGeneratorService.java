@@ -24,12 +24,18 @@ public class SequenceGeneratorService {
     }
 
     public long generateSequence(String seqName) {
+        return generateSequence(seqName, 1);
+    }
+
+    public long generateSequence(String seqName, int incrementBy) {
+        if (incrementBy <= 0) incrementBy = 1;
         Query query = new Query(Criteria.where("_id").is(seqName));
-        Update update = new Update().inc("seq", 1);
+        Update update = new Update().inc("seq", incrementBy);
         FindAndModifyOptions options = FindAndModifyOptions.options().returnNew(true).upsert(true);
 
         DatabaseSequenceDoc counter = mongoOperations.findAndModify(query, update, options, DatabaseSequenceDoc.class);
-        return !Objects.isNull(counter) ? counter.getSeq() : 1;
+        long endSeq = !Objects.isNull(counter) ? counter.getSeq() : incrementBy;
+        return endSeq - incrementBy + 1;
     }
 
     public void setSequenceIfHigher(String seqName, long currentMaxId) {

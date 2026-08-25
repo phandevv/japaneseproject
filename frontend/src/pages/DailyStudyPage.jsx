@@ -17,6 +17,7 @@ const levelColors = {
   N1: '#8b5cf6',
   TU_LAY: '#ec4899',
   TRO_TU: '#06b6d4',
+  MIMIKARA_N3: '#f97316',
 };
 
 const DailyStudyPage = ({ level, stats, goBack }) => {
@@ -644,7 +645,7 @@ const DailyStudyPage = ({ level, stats, goBack }) => {
               }}
             >
               <span style={{ fontSize: '2rem', fontWeight: 900, color: levelColors[lvl] }}>
-                {lvl === 'TU_LAY' ? 'Từ láy' : lvl === 'TRO_TU' ? 'Trợ từ' : lvl}
+                {lvl === 'TU_LAY' ? 'Từ láy' : lvl === 'TRO_TU' ? 'Trợ từ' : lvl === 'MIMIKARA_N3' ? 'N3 Mimikara' : lvl}
               </span>
               <span style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>
                 {stats?.levels?.[lvl] || 0} từ vựng

@@ -16,6 +16,7 @@ const LEVEL_OPTIONS = [
   { value: 'N1', label: 'N1' },
   { value: 'TU_LAY', label: 'Từ láy' },
   { value: 'TRO_TU', label: 'Trợ từ' },
+  { value: 'MIMIKARA_N3', label: 'N3 Mimikara' },
   { value: 'N3_COURSE', label: 'N3 Khóa học' }
 ];
 
@@ -1076,6 +1077,7 @@ const VocabAdminPage = ({ goBack }) => {
                         <option value="N3_COURSE">N3 Khóa học</option>
                         <option value="TU_LAY">Từ láy</option>
                         <option value="TRO_TU">Trợ từ</option>
+                        <option value="MIMIKARA_N3">N3 Mimikara</option>
                       </select>
                     </div>
                     <div style={{ flex: '1 1 160px' }}>

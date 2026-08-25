@@ -126,11 +126,11 @@ public class SecurityConfig {
                         .toList();
                 config.setAllowedOrigins(allowed);
             } else {
-                config.setAllowedOrigins(List.of("https://phandeptrai.id.vn"));
+                config.setAllowedOriginPatterns(Arrays.asList("http://localhost:*", "http://127.0.0.1:*", "https://phandeptrai.id.vn", "https://*.phandeptrai.id.vn"));
             }
             
-            config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-            config.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type", "Accept"));
+            config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH", "HEAD"));
+            config.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type", "Accept", "X-Timezone", "X-Requested-With", "Origin", "Access-Control-Request-Method", "Access-Control-Request-Headers"));
             config.setAllowCredentials(true);
             config.setMaxAge(3600L);
             return config;

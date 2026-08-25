@@ -128,7 +128,8 @@ const HomePage = ({ user: propUser, startStudy, streak, onLoginClick, onLogout, 
     "N2": "#ef4444",
     "N1": "#8b5cf6",
     "TU_LAY": "#ec4899",
-    "TRO_TU": "#06b6d4"
+    "TRO_TU": "#06b6d4",
+    "MIMIKARA_N3": "#f97316"
   };
 
   const parseStudyDateKey = (raw) => {

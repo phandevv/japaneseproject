@@ -165,7 +165,7 @@ public class VocabularyJpaDataProvider implements VocabularyDataProvider {
         long total = 0;
         Map<String, Long> levelCounts = new LinkedHashMap<>();
 
-        List<String> levelOrder = Arrays.asList("N5", "N4", "N3", "N2", "N1", "TU_LAY", "TRO_TU");
+        List<String> levelOrder = Arrays.asList("N5", "N4", "N3", "MIMIKARA_N3", "N2", "N1", "TU_LAY", "TRO_TU");
         Map<String, Long> tempMap = new HashMap<>();
 
         for (Object[] row : counts) {

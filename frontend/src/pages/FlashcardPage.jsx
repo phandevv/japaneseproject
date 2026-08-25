@@ -21,7 +21,7 @@ const levelColors = {
 };
 
 const DEFAULT_LEVEL_COUNTS = {
-  N5: 730, N4: 969, N3: 822, N2: 1724, N1: 3107, TU_LAY: 75, TRO_TU: 189
+  N5: 730, N4: 969, N3: 822, MIMIKARA_N3: 880, N2: 1724, N1: 3107, TU_LAY: 75, TRO_TU: 189
 };
 
 const FlashcardPage = ({ level: initialLevel, isSrs = false, stats, goBack, onDailyStudy, isLearnedStudy = false }) => {

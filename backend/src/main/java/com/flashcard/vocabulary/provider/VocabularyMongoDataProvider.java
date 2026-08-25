@@ -126,14 +126,26 @@ public class VocabularyMongoDataProvider implements VocabularyDataProvider {
 
     @Override
     public List<Vocabulary> saveAll(List<Vocabulary> vocabularies) {
-        List<VocabularyDoc> docs = new ArrayList<>();
+        if (vocabularies == null || vocabularies.isEmpty()) return Collections.emptyList();
+        int needIdCount = 0;
+        for (Vocabulary v : vocabularies) {
+            if (v.getId() == null) needIdCount++;
+        }
+        long nextId = needIdCount > 0 ? sequenceGeneratorService.generateSequence("vocabularies_seq", needIdCount) : 0;
+
+        List<VocabularyDoc> docs = new ArrayList<>(vocabularies.size());
         for (Vocabulary v : vocabularies) {
             if (v.getId() == null) {
-                v.setId(sequenceGeneratorService.generateSequence("vocabularies_seq"));
+                v.setId(nextId++);
             }
             docs.add(toDoc(v));
         }
-        List<VocabularyDoc> saved = repository.saveAll(docs);
+        Collection<VocabularyDoc> saved;
+        if (needIdCount == vocabularies.size()) {
+            saved = mongoTemplate.insertAll(docs);
+        } else {
+            saved = repository.saveAll(docs);
+        }
         return saved.stream().map(this::toEntity).collect(Collectors.toList());
     }
 
@@ -164,7 +176,7 @@ public class VocabularyMongoDataProvider implements VocabularyDataProvider {
 
         long total = 0;
         Map<String, Long> levelCounts = new LinkedHashMap<>();
-        List<String> levelOrder = Arrays.asList("N5", "N4", "N3", "N2", "N1", "TU_LAY", "TRO_TU");
+        List<String> levelOrder = Arrays.asList("N5", "N4", "N3", "MIMIKARA_N3", "N2", "N1", "TU_LAY", "TRO_TU");
         Map<String, Long> tempMap = new HashMap<>();
 
         for (Map row : results.getMappedResults()) {
