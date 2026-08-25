@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { 
   CheckCircle, XCircle, ChevronRight, ChevronLeft, RotateCcw, 
-  Trophy, Award, Volume2, Sparkles, HelpCircle, Eye, EyeOff, 
+  Trophy, Award, Volume2, Sparkles, HelpCircle, 
   ArrowRight, Check, AlertCircle, RefreshCw, Flame
 } from 'lucide-react';
 import { jlptN3Api } from '../services/api';
@@ -17,7 +17,6 @@ const LessonQuizView = ({ chapter, lesson, lessonData, onQuizCompleted }) => {
   const [selectedOptionKey, setSelectedOptionKey] = useState(null);
   const [isAnswered, setIsAnswered] = useState(false);
   const [answersMap, setAnswersMap] = useState({}); // { [questionIndex]: { selectedKey, isCorrect, timeSpent } }
-  const [showSentenceTranslation, setShowSentenceTranslation] = useState(true);
   
   // Timer & Statistics
   const [secondsElapsed, setSecondsElapsed] = useState(0);
@@ -587,24 +586,6 @@ const LessonQuizView = ({ chapter, lesson, lessonData, onQuizCompleted }) => {
           <div style={{ fontSize: '0.9rem', color: '#10b981', fontWeight: 700 }}>
             ✓ Đúng: {Object.values(answersMap).filter(a => a.isCorrect).length}
           </div>
-          <button
-            onClick={() => setShowSentenceTranslation(prev => !prev)}
-            style={{
-              background: 'var(--surface-hover)',
-              border: '1px solid var(--border-color)',
-              color: 'var(--text-secondary)',
-              borderRadius: '8px',
-              padding: '6px 10px',
-              fontSize: '0.8rem',
-              fontWeight: 600,
-              cursor: 'pointer',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '4px'
-            }}
-          >
-            {showSentenceTranslation ? <Eye size={14} /> : <EyeOff size={14} />} Dịch nghĩa
-          </button>
         </div>
       </div>
 
@@ -714,28 +695,11 @@ const LessonQuizView = ({ chapter, lesson, lessonData, onQuizCompleted }) => {
             fontWeight: 800,
             color: 'var(--text-primary)',
             lineHeight: '1.7',
-            marginBottom: '14px',
+            marginBottom: '24px',
             letterSpacing: '-0.2px'
           }}>
             {currentQ.question}
           </h2>
-
-          {/* Translation */}
-          {showSentenceTranslation && currentQ.translation && (
-            <div style={{
-              fontSize: '1rem',
-              color: 'var(--text-secondary)',
-              lineHeight: '1.6',
-              marginBottom: '24px',
-              fontStyle: 'italic',
-              background: 'var(--surface-hover)',
-              padding: '10px 16px',
-              borderRadius: '10px',
-              borderLeft: '4px solid var(--accent-color)'
-            }}>
-              👉 {currentQ.translation}
-            </div>
-          )}
 
           {/* 4 Options Grid */}
           <div style={{
@@ -825,7 +789,7 @@ const LessonQuizView = ({ chapter, lesson, lessonData, onQuizCompleted }) => {
                     </div>
                   )}
 
-                  {opt.meaning && (
+                  {isAnswered && opt.meaning && (
                     <div style={{ fontSize: '0.9rem', color: isAnswered && !isCorrect && !isSelected ? 'var(--text-muted)' : 'var(--text-secondary)', paddingLeft: '38px' }}>
                       {opt.meaning}
                     </div>
@@ -835,7 +799,7 @@ const LessonQuizView = ({ chapter, lesson, lessonData, onQuizCompleted }) => {
             })}
           </div>
 
-          {/* Explanation Box on Answered */}
+          {/* Explanation Box on Answered (Reveals full Vietnamese sentence translation & option explanations) */}
           {isAnswered && (
             <div style={{
               background: selectedOptionKey === currentQ.answer ? 'rgba(16, 185, 129, 0.1)' : 'rgba(239, 68, 68, 0.08)',
@@ -845,21 +809,39 @@ const LessonQuizView = ({ chapter, lesson, lessonData, onQuizCompleted }) => {
               marginBottom: '24px',
               animation: 'fadeIn 0.3s ease'
             }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '12px' }}>
                 {selectedOptionKey === currentQ.answer ? (
                   <>
                     <CheckCircle size={20} style={{ color: '#10b981' }} />
-                    <strong style={{ color: '#059669', fontSize: '1rem' }}>Chính xác!</strong>
+                    <strong style={{ color: '#059669', fontSize: '1.05rem' }}>Chính xác!</strong>
                   </>
                 ) : (
                   <>
                     <XCircle size={20} style={{ color: '#ef4444' }} />
-                    <strong style={{ color: '#dc2626', fontSize: '1rem' }}>
+                    <strong style={{ color: '#dc2626', fontSize: '1.05rem' }}>
                       Chưa chính xác! Đáp án đúng là ({currentQ.answer}) {currentQ.options?.find(o => o.key === currentQ.answer)?.text}
                     </strong>
                   </>
                 )}
               </div>
+
+              {/* Full Sentence Translation - Revealed upon answering */}
+              {currentQ.translation && (
+                <div style={{
+                  fontSize: '1rem',
+                  color: 'var(--text-primary)',
+                  fontWeight: 600,
+                  lineHeight: '1.6',
+                  marginBottom: '14px',
+                  padding: '12px 16px',
+                  background: 'var(--surface-color)',
+                  borderRadius: '12px',
+                  borderLeft: '4px solid var(--accent-color)',
+                  boxShadow: '0 2px 8px rgba(0,0,0,0.04)'
+                }}>
+                  👉 <strong>Dịch nghĩa toàn câu:</strong> {currentQ.translation}
+                </div>
+              )}
 
               {/* Explanations of All Options */}
               <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', marginTop: '10px' }}>
