@@ -39,7 +39,9 @@ public class AnalyticsService {
                              OnlineUserService onlineUserService,
                              UserDataProvider userDataProvider,
                              StudySessionHelper studySessionHelper,
+                             @org.springframework.beans.factory.annotation.Autowired(required = false)
                              StreakRepairLogMongoRepository streakRepairLogMongoRepository,
+                             @org.springframework.beans.factory.annotation.Autowired(required = false)
                              SequenceGeneratorService sequenceGeneratorService) {
         this.srsDataProvider = srsDataProvider;
         this.srsService = srsService;
@@ -125,12 +127,12 @@ public class AnalyticsService {
     }
 
     public long getRepairsUsedToday(User user, LocalDate today) {
-        if (user == null || user.getId() == null) return 0;
+        if (user == null || user.getId() == null || streakRepairLogMongoRepository == null) return 0;
         return streakRepairLogMongoRepository.countByUserIdAndRepairedOnDate(user.getId(), today);
     }
 
     public long getRepairsUsedThisMonth(User user, LocalDate today) {
-        if (user == null || user.getId() == null) return 0;
+        if (user == null || user.getId() == null || streakRepairLogMongoRepository == null) return 0;
         LocalDate startOfMonth = today.withDayOfMonth(1);
         LocalDate endOfMonth = today.withDayOfMonth(today.lengthOfMonth());
         List<StreakRepairLogDoc> logs = streakRepairLogMongoRepository.findByUserIdAndRepairedOnDateBetween(user.getId(), startOfMonth, endOfMonth);
@@ -264,14 +266,19 @@ public class AnalyticsService {
         );
 
         // Record StreakRepairLogDoc
-        StreakRepairLogDoc repairLog = new StreakRepairLogDoc(
-                sequenceGeneratorService.generateSequence("streak_repair_logs_seq"),
-                user.getId(),
-                targetDate,
-                today,
-                java.time.Instant.now()
-        );
-        streakRepairLogMongoRepository.save(repairLog);
+        if (streakRepairLogMongoRepository != null) {
+            long logId = sequenceGeneratorService != null 
+                    ? sequenceGeneratorService.generateSequence("streak_repair_logs_seq") 
+                    : System.currentTimeMillis();
+            StreakRepairLogDoc repairLog = new StreakRepairLogDoc(
+                    logId,
+                    user.getId(),
+                    targetDate,
+                    today,
+                    java.time.Instant.now()
+            );
+            streakRepairLogMongoRepository.save(repairLog);
+        }
 
         // Recalculate streak
         int newStreak = calculateStreak(user);
