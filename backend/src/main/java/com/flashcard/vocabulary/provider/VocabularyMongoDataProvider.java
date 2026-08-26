@@ -272,29 +272,32 @@ public class VocabularyMongoDataProvider implements VocabularyDataProvider {
     }
 
     private void updateDocFromEntity(VocabularyDoc doc, Vocabulary v) {
-        doc.setKanji(v.getKanji());
-        doc.setHiragana(v.getHiragana());
-        doc.setRomaji(v.getRomaji());
-        doc.setHanViet(v.getHanViet());
-        doc.setMeaning(v.getMeaning());
-        doc.setWordType(v.getWordType());
-        doc.setLevel(v.getLevel());
-        doc.setCategory(v.getCategory());
-        doc.setKanjiWords(v.getKanjiWords());
-        doc.setSampleSentence(v.getSampleSentence());
-        doc.setSampleTranslation(v.getSampleTranslation());
-        doc.setSampleReading(v.getSampleReading());
-        doc.setPitchAccent(v.getPitchAccent());
-        doc.setSynonyms(v.getSynonyms());
-        doc.setAntonyms(v.getAntonyms());
-        doc.setCommonMistakes(v.getCommonMistakes());
-        doc.setCollocations(v.getCollocations());
-        doc.setMnemonic(v.getMnemonic());
-        doc.setConversationExamples(v.getConversationExamples());
-        doc.setExampleSentences(v.getExampleSentences());
-        doc.setUsageGuide(v.getUsageGuide());
-        doc.setOnReading(v.getOnReading());
-        doc.setKunReading(v.getKunReading());
-        doc.setIsEnriching(v.getIsEnriching());
+        if (v.getKanji() != null && !v.getKanji().isBlank()) doc.setKanji(v.getKanji());
+        if (v.getHiragana() != null && !v.getHiragana().isBlank()) doc.setHiragana(v.getHiragana());
+        if (v.getRomaji() != null) doc.setRomaji(v.getRomaji());
+        if (v.getHanViet() != null) doc.setHanViet(v.getHanViet());
+        if (v.getMeaning() != null && !v.getMeaning().isBlank()) doc.setMeaning(v.getMeaning());
+        if (v.getWordType() != null) doc.setWordType(v.getWordType());
+        if (v.getLevel() != null) doc.setLevel(v.getLevel());
+        if (v.getCategory() != null) doc.setCategory(v.getCategory());
+        if (v.getKanjiWords() != null && !v.getKanjiWords().isBlank() && !"[]".equals(v.getKanjiWords().trim())) doc.setKanjiWords(v.getKanjiWords());
+        if (v.getSampleSentence() != null && !v.getSampleSentence().isBlank()) doc.setSampleSentence(v.getSampleSentence());
+        if (v.getSampleTranslation() != null && !v.getSampleTranslation().isBlank()) doc.setSampleTranslation(v.getSampleTranslation());
+        if (v.getSampleReading() != null) doc.setSampleReading(v.getSampleReading());
+        if (v.getPitchAccent() != null) doc.setPitchAccent(v.getPitchAccent());
+        if (v.getSynonyms() != null && !v.getSynonyms().isBlank()) doc.setSynonyms(v.getSynonyms());
+        if (v.getAntonyms() != null && !v.getAntonyms().isBlank()) doc.setAntonyms(v.getAntonyms());
+        if (v.getCommonMistakes() != null && !v.getCommonMistakes().isBlank()) doc.setCommonMistakes(v.getCommonMistakes());
+        if (v.getCollocations() != null && !v.getCollocations().isBlank()) doc.setCollocations(v.getCollocations());
+        if (v.getMnemonic() != null && !v.getMnemonic().isBlank()) doc.setMnemonic(v.getMnemonic());
+        if (v.getConversationExamples() != null && !v.getConversationExamples().isBlank()) doc.setConversationExamples(v.getConversationExamples());
+        if (v.getExampleSentences() != null && !v.getExampleSentences().isBlank() && !"[]".equals(v.getExampleSentences().trim()) && !"null".equals(v.getExampleSentences().trim())) {
+            doc.setExampleSentences(v.getExampleSentences());
+        }
+        if (v.getUsageGuide() != null && !v.getUsageGuide().isBlank()) doc.setUsageGuide(v.getUsageGuide());
+        if (v.getOnReading() != null) doc.setOnReading(v.getOnReading());
+        if (v.getKunReading() != null) doc.setKunReading(v.getKunReading());
+        if (v.getIsEnriching() != null) doc.setIsEnriching(v.getIsEnriching());
     }
 }
+

@@ -4,11 +4,20 @@ import { useLanguage } from '../context/LanguageContext';
 import { useAuth } from '../context/AuthContext';
 import { vocabApi } from '../services/api';
 import AiEnrichedTabbedView from './AiEnrichedTabbedView';
+import { getHanViet, containsKanji } from '../utils/hanVietDict';
 
 const FlashcardCard = ({ word, flipped, onFlip, onRateWord }) => {
   const { t } = useLanguage();
   const { user } = useAuth();
   const isAdmin = user && (user.username === "admin" || user.role === "ADMIN" || user.roles?.includes("ADMIN") || user.roles?.includes("ROLE_ADMIN"));
+
+  // Pre-fill Hán Việt instantly (< 0.01ms) from client dictionary if available and missing on word
+  if (word && (!word.hanViet || !word.hanViet.trim()) && containsKanji(word.kanji || word.word || '')) {
+    const instantHv = getHanViet(word.kanji || word.word || '');
+    if (instantHv) {
+      word.hanViet = instantHv;
+    }
+  }
 
   const [enriched, setEnriched] = useState(null);
   const [loadingEnrich, setLoadingEnrich] = useState(false);
@@ -39,14 +48,26 @@ const FlashcardCard = ({ word, flipped, onFlip, onRateWord }) => {
     setEditDraft({});
   };
 
+  // CÔ LẬP NẠP THÔNG TIN GỐC: Chỉ cập nhật các trường header mà không ghi đè mất các tab rich AI khác
   const handleEnrichBasic = async () => {
     if (!word?.id || enrichingBasic) return;
     setEnrichingBasic(true);
     try {
       const updated = await vocabApi.enrichSection(word.id, 'header');
       if (updated) {
-        Object.assign(word, updated);
-        setEnriched(updated);
+        if (updated.hanViet) word.hanViet = updated.hanViet;
+        if (updated.pitchAccent) word.pitchAccent = updated.pitchAccent;
+        if (updated.wordType) word.wordType = updated.wordType;
+        if (updated.onReading) word.onReading = updated.onReading;
+        if (updated.kunReading) word.kunReading = updated.kunReading;
+        setEnriched(prev => ({
+          ...(prev || {}),
+          ...(updated.hanViet ? { hanViet: updated.hanViet } : {}),
+          ...(updated.pitchAccent ? { pitchAccent: updated.pitchAccent } : {}),
+          ...(updated.wordType ? { wordType: updated.wordType } : {}),
+          ...(updated.onReading ? { onReading: updated.onReading } : {}),
+          ...(updated.kunReading ? { kunReading: updated.kunReading } : {})
+        }));
         setEnrichBasicSuccess(true);
         setTimeout(() => setEnrichBasicSuccess(false), 2500);
       }
@@ -58,14 +79,18 @@ const FlashcardCard = ({ word, flipped, onFlip, onRateWord }) => {
     }
   };
 
+  // CÔ LẬP NẠP HÁN VIỆT: Chỉ cập nhật duy nhất hanViet, bảo toàn 100% các trường đã làm giàu khác
   const handleEnrichHanViet = async () => {
     if (!word?.id || enrichingHanViet) return;
     setEnrichingHanViet(true);
     try {
       const updated = await vocabApi.enrichSection(word.id, 'hanViet');
-      if (updated) {
-        Object.assign(word, updated);
-        setEnriched(updated);
+      if (updated && updated.hanViet) {
+        word.hanViet = updated.hanViet;
+        setEnriched(prev => ({
+          ...(prev || {}),
+          hanViet: updated.hanViet
+        }));
         setEnrichHanVietSuccess(true);
         setTimeout(() => setEnrichHanVietSuccess(false), 2500);
       }
@@ -161,6 +186,7 @@ const FlashcardCard = ({ word, flipped, onFlip, onRateWord }) => {
           word.exampleSentences = data.exampleSentences;
           word.collocations = data.collocations;
           word.conversationExamples = data.conversationExamples;
+          if (data.hanViet && !word.hanViet) word.hanViet = data.hanViet;
           // Keep backward compatibility
           word.sampleSentence = data.sampleSentence;
           word.sampleReading = data.sampleReading;
@@ -192,6 +218,7 @@ const FlashcardCard = ({ word, flipped, onFlip, onRateWord }) => {
                   word.exampleSentences = pollData.exampleSentences;
                   word.collocations = pollData.collocations;
                   word.conversationExamples = pollData.conversationExamples;
+                  if (pollData.hanViet && !word.hanViet) word.hanViet = pollData.hanViet;
                   word.sampleSentence = pollData.sampleSentence;
                   word.sampleReading = pollData.sampleReading;
                   word.sampleTranslation = pollData.sampleTranslation;
@@ -220,7 +247,7 @@ const FlashcardCard = ({ word, flipped, onFlip, onRateWord }) => {
       active = false;
       if (pollInterval) clearInterval(pollInterval);
     };
-  }, [word]);
+  }, [word?.id]);
 
   const handleFlip = () => {
     if (onFlip) {

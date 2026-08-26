@@ -120,9 +120,9 @@ export default function AiEnrichedTabbedView({ data, onReEnriched }) {
         if (data && typeof data === 'object' && data.id === targetId) {
           Object.assign(data, updated);
         }
-        setLocalData(updated);
+        setLocalData(prev => ({ ...(prev || {}), ...updated }));
         if (onReEnriched) {
-          onReEnriched(updated);
+          onReEnriched({ ...(displayData || {}), ...updated });
         }
         setEnrichSuccessSection(section);
         setTimeout(() => setEnrichSuccessSection(null), 2500);
