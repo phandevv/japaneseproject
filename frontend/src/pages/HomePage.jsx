@@ -117,6 +117,22 @@ const HomePage = ({ user: propUser, startStudy, streak, onLoginClick, onLogout, 
     }
   };
 
+  const handleRepairStreak = async (targetDateStr) => {
+    if (!targetDateStr) return;
+    if (window.confirm(`Bạn có chắc chắn muốn sử dụng 1 lượt điểm danh bù cho ngày ${targetDateStr}?`)) {
+      try {
+        const res = await analyticsApi.repairStreak(targetDateStr);
+        const dash = await analyticsApi.getDashboard();
+        setDashboardData(dash);
+        alert(res.message || `Đã điểm danh bù thành công cho ngày ${targetDateStr}! 🌸`);
+      } catch (e) {
+        console.error(e);
+        const errorMsg = e.response?.data?.error || "Không thể thực hiện điểm danh bù. Vui lòng kiểm tra lại điều kiện học 60 phút!";
+        alert(errorMsg);
+      }
+    }
+  };
+
   if (loading) {
     return <MascotLoader message={t.home.loading} />;
   }
@@ -455,26 +471,79 @@ const HomePage = ({ user: propUser, startStudy, streak, onLoginClick, onLogout, 
         <div className="dashboard-wrapper animate-fade-in">
           {/* Streak Banner */}
           <div className="streak-banner star-streak-banner">
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
-              <div className="star-streak-info">
-                <div className="star-streak-title">
-                  <span className="streak-fire" style={{ fontSize: '1.35rem', lineHeight: 1 }}>🌸</span>
-                  <span>{t.home.streakTitle} - {dashboardData?.streak !== undefined ? dashboardData.streak : (streak || 0)} ngày</span>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%', flexWrap: 'wrap', gap: '12px' }}>
+              <div className="star-streak-info" style={{ flex: 1 }}>
+                <div className="star-streak-title" style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                    <span className="streak-fire" style={{ fontSize: '1.35rem', lineHeight: 1 }}>🌸</span>
+                    <span>{t.home.streakTitle} - {dashboardData?.streak !== undefined ? dashboardData.streak : (streak || 0)} ngày</span>
+                  </div>
+
+                  <button 
+                    onClick={() => setShowStreakModal(true)}
+                    style={{
+                      background: 'linear-gradient(135deg, #ff4d6d, #f43f5e)',
+                      color: '#fff',
+                      border: 'none',
+                      padding: '6px 14px',
+                      borderRadius: '20px',
+                      fontSize: '0.82rem',
+                      fontWeight: '800',
+                      cursor: 'pointer',
+                      boxShadow: '0 2px 10px rgba(255,77,109,0.35)',
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '6px',
+                      transition: 'transform 0.2s ease'
+                    }}
+                  >
+                    <span>🌸 Điểm danh bù</span>
+                    <span style={{ opacity: 0.85, fontSize: '0.75rem' }}>({dashboardData?.todayDurationMinutes || 0}/60 phút)</span>
+                  </button>
                 </div>
-                <div className="star-streak-row">
-                  {getLast7DaysData().map((day, i) => (
-                    <div key={i} className="star-streak-item">
-                      <span className={`star-day-name ${day.isToday ? 'is-today' : ''}`}>{day.name}</span>
-                      <SakuraFlower 
-                        filled={day.completed} 
-                        size={day.completed ? 30 : 22} 
-                        color={day.completed ? '#2dd4bf' : '#94a3b8'} 
-                      />
-                    </div>
-                  ))}
+
+                <div className="star-streak-row" style={{ marginTop: '12px', display: 'flex', gap: '12px', alignItems: 'flex-start' }}>
+                  {getLast7DaysData().map((day, i) => {
+                    const canRepairThisDay = !day.completed && !day.isToday;
+                    return (
+                      <div key={i} className="star-streak-item" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                        <span className={`star-day-name ${day.isToday ? 'is-today' : ''}`}>{day.name}</span>
+                        <SakuraFlower 
+                          filled={day.completed} 
+                          size={day.completed ? 30 : 22} 
+                          color={day.completed ? '#2dd4bf' : '#94a3b8'} 
+                        />
+                        {canRepairThisDay && (
+                          <button
+                            title={dashboardData?.todayDurationMinutes >= 60 ? `Bấm để điểm danh bù cho ngày ${day.dateStr}` : `Bạn cần học đủ 60 phút hôm nay để mở khóa điểm danh bù`}
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleRepairStreak(day.dateStr);
+                            }}
+                            style={{
+                              marginTop: '4px',
+                              padding: '2px 6px',
+                              fontSize: '0.68rem',
+                              fontWeight: '700',
+                              borderRadius: '10px',
+                              border: 'none',
+                              background: dashboardData?.canRepairToday ? 'linear-gradient(135deg, #ff4d6d, #f43f5e)' : 'var(--surface-hover)',
+                              color: dashboardData?.canRepairToday ? '#fff' : 'var(--text-secondary)',
+                              cursor: dashboardData?.canRepairToday ? 'pointer' : 'not-allowed',
+                              boxShadow: dashboardData?.canRepairToday ? '0 2px 6px rgba(255,77,109,0.3)' : 'none',
+                              transition: 'all 0.2s ease'
+                            }}
+                          >
+                            Bù 🌸
+                          </button>
+                        )}
+                      </div>
+                    );
+                  })}
                 </div>
               </div>
-              <div className="streak-banner-mascot" style={{ marginLeft: '20px', flexShrink: 0 }}>
+
+              <div className="streak-banner-mascot" style={{ marginLeft: '20px', flexShrink: 0, cursor: 'pointer' }} onClick={() => setShowStreakModal(true)}>
                 <img src="/assets/mascot_siro_kimono_nobg.png" alt="Siro Mascot" style={{ height: '110px', objectFit: 'contain', filter: 'drop-shadow(0 4px 8px rgba(0,0,0,0.15))' }} />
               </div>
             </div>
@@ -1198,20 +1267,80 @@ const HomePage = ({ user: propUser, startStudy, streak, onLoginClick, onLogout, 
               </div>
 
               <div className="streak-week-card">
-                <div className="streak-days-row">
-                  {getLast7DaysData().map((day, i) => (
-                    <div key={i} className="streak-day-col">
-                      <span className={`streak-day-name ${day.isToday ? 'is-today' : ''}`}>{day.name}</span>
-                      <div className="streak-day-flower">
-                        <SakuraFlower filled={day.completed} color={day.completed ? '#2dd4bf' : '#ccfbf1'} />
-                        {day.completed && <Check className="streak-day-check" size={20} strokeWidth={3.5} />}
-                      </div>
-                    </div>
-                  ))}
+                {/* ⏱️ Streak Repair Status Card */}
+                <div style={{
+                  background: 'var(--accent-light)',
+                  border: '1px solid var(--border-color)',
+                  borderRadius: '12px',
+                  padding: '12px 14px',
+                  marginBottom: '16px',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: '8px'
+                }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '0.86rem', fontWeight: '700', color: 'var(--accent-color)' }}>
+                    <span>⏱️ Học hôm nay: {dashboardData?.todayDurationMinutes || 0} / 60 phút</span>
+                    <span style={{ fontSize: '0.78rem', color: dashboardData?.todayDurationMinutes >= 60 ? '#10b981' : '#f59e0b' }}>
+                      {dashboardData?.todayDurationMinutes >= 60 ? '✅ Đã mở khóa điểm danh bù' : 'Cần đủ 60 phút'}
+                    </span>
+                  </div>
 
+                  <div style={{ width: '100%', height: '8px', background: 'var(--surface-hover)', borderRadius: '4px', overflow: 'hidden' }}>
+                    <div style={{
+                      width: `${Math.min(100, Math.round(((dashboardData?.todayDurationMinutes || 0) / 60) * 100))}%`,
+                      height: '100%',
+                      background: 'linear-gradient(90deg, #2dd4bf, #10b981)',
+                      borderRadius: '4px',
+                      transition: 'width 0.5s ease'
+                    }} />
+                  </div>
+
+                  <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.78rem', color: 'var(--text-secondary)' }}>
+                    <span>Lượt bù hôm nay: {dashboardData?.repairsUsedToday || 0} / 1</span>
+                    <span>Lượt bù tháng này: {dashboardData?.repairsUsedThisMonth || 0} / 5</span>
+                  </div>
                 </div>
-                <div className="streak-message">
-                  Chúc mừng! Bạn đã duy trì Day Streak thành công!
+
+                <div className="streak-days-row">
+                  {getLast7DaysData().map((day, i) => {
+                    const canRepairThisDay = !day.completed && !day.isToday;
+                    return (
+                      <div key={i} className="streak-day-col">
+                        <span className={`streak-day-name ${day.isToday ? 'is-today' : ''}`}>{day.name}</span>
+                        <div className="streak-day-flower">
+                          <SakuraFlower filled={day.completed} color={day.completed ? '#2dd4bf' : '#ccfbf1'} />
+                          {day.completed && <Check className="streak-day-check" size={20} strokeWidth={3.5} />}
+                        </div>
+                        {canRepairThisDay && (
+                          <button
+                            className="streak-repair-btn"
+                            title={dashboardData?.todayDurationMinutes >= 60 ? `Bấm để điểm danh bù cho ngày ${day.dateStr}` : `Bạn cần học đủ 60 phút hôm nay để mở khóa điểm danh bù`}
+                            onClick={() => handleRepairStreak(day.dateStr)}
+                            style={{
+                              marginTop: '6px',
+                              padding: '4px 8px',
+                              fontSize: '0.72rem',
+                              fontWeight: '700',
+                              borderRadius: '12px',
+                              border: 'none',
+                              background: dashboardData?.canRepairToday ? 'linear-gradient(135deg, #ff4d6d, #f43f5e)' : 'var(--surface-hover)',
+                              color: dashboardData?.canRepairToday ? '#fff' : 'var(--text-secondary)',
+                              cursor: dashboardData?.canRepairToday ? 'pointer' : 'not-allowed',
+                              boxShadow: dashboardData?.canRepairToday ? '0 2px 8px rgba(255,77,109,0.35)' : 'none',
+                              transition: 'all 0.2s ease'
+                            }}
+                          >
+                            Bù 🌸
+                          </button>
+                        )}
+                      </div>
+                    );
+                  })}
+                </div>
+                <div className="streak-message" style={{ marginTop: '12px' }}>
+                  {dashboardData?.streak > 0 
+                    ? "Chúc mừng! Bạn đang duy trì Day Streak thành công!" 
+                    : "Học 60 phút hôm nay để điểm danh bù ngày bỏ lỡ nhé!"}
                 </div>
               </div>
 

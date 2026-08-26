@@ -54,6 +54,7 @@ public class AnalyticsController {
         Number wordsStudied = (Number) body.getOrDefault("wordsStudied", 0);
         Number correctAnswers = (Number) body.getOrDefault("correctAnswers", 0);
         Number totalQuestions = (Number) body.getOrDefault("totalQuestions", 0);
+        Number durationMinutes = (Number) body.getOrDefault("durationMinutes", 0);
 
         String dateStr = (String) body.get("date");
         java.time.LocalDate date = (dateStr != null) 
@@ -65,13 +66,15 @@ public class AnalyticsController {
                 wordsStudied.intValue(),
                 correctAnswers.intValue(),
                 totalQuestions.intValue(),
+                durationMinutes.intValue(),
                 date
         );
 
         return ResponseEntity.ok(Map.of(
             "message", "Session recorded",
             "date", session.getStudyDate().toString(),
-            "wordsStudied", session.getWordsStudied()
+            "wordsStudied", session.getWordsStudied(),
+            "durationMinutes", session.getDurationMinutes()
         ));
     }
 
@@ -90,6 +93,32 @@ public class AnalyticsController {
             "date", session.getStudyDate().toString(),
             "streakFrozen", session.isStreakFrozen()
         ));
+    }
+
+    /**
+     * Perform streak repair (Điểm danh bù) for a past missed date
+     * POST /api/analytics/streak-repair
+     */
+    @PostMapping("/streak-repair")
+    public ResponseEntity<?> repairStreak(@AuthenticationPrincipal User user,
+                                           @RequestBody Map<String, Object> body) {
+        if (user == null) {
+            return ResponseEntity.status(401).body(Map.of("error", "Unauthorized"));
+        }
+        String targetDateStr = (String) body.get("targetDate");
+        if (targetDateStr == null || targetDateStr.isBlank()) {
+            return ResponseEntity.badRequest().body(Map.of("error", "Vui lòng chọn ngày cần điểm danh bù."));
+        }
+
+        try {
+            java.time.LocalDate targetDate = java.time.LocalDate.parse(targetDateStr);
+            Map<String, Object> response = analyticsService.repairStreak(user, targetDate);
+            return ResponseEntity.ok(response);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body(Map.of("error", "Không thể thực hiện điểm danh bù: " + e.getMessage()));
+        }
     }
 }
 

@@ -402,7 +402,7 @@ export const analyticsApi = {
   getDashboard: async () => {
     return cachedGet(`${API_BASE_URL}/analytics/dashboard`, {}, 10000);
   },
-  logSession: async (wordsStudied, correctAnswers, totalQuestions) => {
+  logSession: async (wordsStudied, correctAnswers, totalQuestions, durationMinutes = 0) => {
     const d = new Date();
     const year = d.getFullYear();
     const month = String(d.getMonth() + 1).padStart(2, '0');
@@ -413,6 +413,7 @@ export const analyticsApi = {
       wordsStudied,
       correctAnswers,
       totalQuestions,
+      durationMinutes,
       date: localDateStr
     });
     clearApiCache('/analytics/dashboard');
@@ -425,6 +426,11 @@ export const analyticsApi = {
   },
   useFreeze: async () => {
     const response = await axios.post(`${API_BASE_URL}/analytics/streak-freeze`);
+    clearApiCache('/analytics/dashboard');
+    return response.data;
+  },
+  repairStreak: async (targetDate) => {
+    const response = await axios.post(`${API_BASE_URL}/analytics/streak-repair`, { targetDate });
     clearApiCache('/analytics/dashboard');
     return response.data;
   }

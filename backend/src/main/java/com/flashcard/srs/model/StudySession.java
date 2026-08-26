@@ -36,6 +36,12 @@ public class StudySession {
     @Column(name = "streak_frozen", nullable = false)
     private boolean streakFrozen = false;
 
+    @Column(name = "duration_minutes", nullable = false)
+    private int durationMinutes = 0;
+
+    @Column(name = "is_repaired", nullable = false)
+    private boolean isRepaired = false;
+
     public StudySession() {}
 
     public StudySession(User user, LocalDate studyDate) {
@@ -63,5 +69,11 @@ public class StudySession {
 
     public boolean isStreakFrozen() { return streakFrozen; }
     public void setStreakFrozen(boolean streakFrozen) { this.streakFrozen = streakFrozen; }
+
+    public int getDurationMinutes() { return durationMinutes; }
+    public void setDurationMinutes(int durationMinutes) { this.durationMinutes = durationMinutes; }
+
+    public boolean isRepaired() { return isRepaired; }
+    public void setRepaired(boolean repaired) { isRepaired = repaired; }
 }
 

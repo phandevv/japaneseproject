@@ -4,7 +4,6 @@ import { ArrowLeft, BookOpen, Layers, CheckCircle, XCircle, RotateCcw, Calendar,
 import MascotLoader from '../components/MascotLoader';
 import KanjiDetailModal from '../components/KanjiDetailModal';
 import AiEnrichedTabbedView from '../components/AiEnrichedTabbedView';
-import MascotCorners from '../components/MascotCorners';
 import SakuraPetals from '../components/SakuraPetals';
 import * as XLSX from 'xlsx';
 
@@ -510,7 +509,6 @@ const MasterReviewPage = ({ goBack }) => {
   if (phase === 0) {
     return (
       <div className="container animate-fade-in" style={{ padding: '40px 20px', maxWidth: '1000px', margin: '0 auto', minHeight: '85vh' }}>
-        <MascotCorners rightMascot="mascot_siro_reading.png" />
         <SakuraPetals />
 
         <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '32px' }}>
@@ -757,8 +755,6 @@ const MasterReviewPage = ({ goBack }) => {
             display: selectedModalIndex !== null ? 'none' : 'block'
           }}
         >
-          <MascotCorners rightMascot="mascot_siro_reading.png" />
-
           {/* Top Bar matching Daily Study */}
           <div className="flex-between" style={{
             position: 'sticky',

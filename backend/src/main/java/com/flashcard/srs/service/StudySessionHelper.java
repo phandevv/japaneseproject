@@ -22,6 +22,12 @@ public class StudySessionHelper {
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     @CacheEvict(value = {"dashboard", "leaderboard"}, allEntries = true)
     public StudySession saveOrUpdateSessionWithNewTransaction(User user, LocalDate date, int wordsStudied, Integer addCorrect, Integer addTotal, Boolean freeze) {
+        return saveOrUpdateSessionWithNewTransaction(user, date, wordsStudied, addCorrect, addTotal, freeze, null, null);
+    }
+
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    @CacheEvict(value = {"dashboard", "leaderboard"}, allEntries = true)
+    public StudySession saveOrUpdateSessionWithNewTransaction(User user, LocalDate date, int wordsStudied, Integer addCorrect, Integer addTotal, Boolean freeze, Integer addDurationMinutes, Boolean isRepaired) {
         StudySession session = srsDataProvider.findStudySession(user, date)
                 .orElseGet(() -> new StudySession(user, date));
 
@@ -34,6 +40,12 @@ public class StudySessionHelper {
         }
         if (freeze != null) {
             session.setStreakFrozen(freeze);
+        }
+        if (addDurationMinutes != null && addDurationMinutes > 0) {
+            session.setDurationMinutes(session.getDurationMinutes() + addDurationMinutes);
+        }
+        if (isRepaired != null) {
+            session.setRepaired(isRepaired);
         }
 
         return srsDataProvider.saveStudySession(session);
