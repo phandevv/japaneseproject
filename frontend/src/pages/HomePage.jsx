@@ -369,11 +369,11 @@ const HomePage = ({ user: propUser, startStudy, streak, onLoginClick, onLogout, 
   };
 
   const SakuraFlower = ({ size = '100%', filled = true, color = '#2dd4bf', className = '' }) => (
-    <svg 
-      width={size} 
-      height={size} 
-      viewBox="0 0 100 100" 
-      className={`sakura-flower-svg ${className}`} 
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 100 100"
+      className={`sakura-flower-svg ${className}`}
       xmlns="http://www.w3.org/2000/svg"
       style={{
         overflow: 'visible',
@@ -479,7 +479,7 @@ const HomePage = ({ user: propUser, startStudy, streak, onLoginClick, onLogout, 
                     <span>{t.home.streakTitle} - {dashboardData?.streak !== undefined ? dashboardData.streak : (streak || 0)} ngày</span>
                   </div>
 
-                  <button 
+                  <button
                     onClick={() => setShowStreakModal(true)}
                     style={{
                       background: 'linear-gradient(135deg, #ff4d6d, #f43f5e)',
@@ -508,10 +508,10 @@ const HomePage = ({ user: propUser, startStudy, streak, onLoginClick, onLogout, 
                     return (
                       <div key={i} className="star-streak-item" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                         <span className={`star-day-name ${day.isToday ? 'is-today' : ''}`}>{day.name}</span>
-                        <SakuraFlower 
-                          filled={day.completed} 
-                          size={day.completed ? 30 : 22} 
-                          color={day.completed ? '#2dd4bf' : '#94a3b8'} 
+                        <SakuraFlower
+                          filled={day.completed}
+                          size={day.completed ? 30 : 22}
+                          color={day.completed ? '#2dd4bf' : '#94a3b8'}
                         />
                         {canRepairThisDay && (
                           <button
@@ -586,7 +586,7 @@ const HomePage = ({ user: propUser, startStudy, streak, onLoginClick, onLogout, 
                   </div>
 
                   <div style={{ display: 'flex', justifyContent: 'center', marginTop: '10px' }}>
-                    <button 
+                    <button
                       onClick={() => navigate('/study-stats')}
                       style={{
                         padding: '12px 24px',
@@ -625,14 +625,14 @@ const HomePage = ({ user: propUser, startStudy, streak, onLoginClick, onLogout, 
                     cursor: 'pointer',
                     transition: 'transform 0.3s ease, box-shadow 0.3s ease'
                   }}
-                  onMouseOver={(e) => {
-                    e.currentTarget.style.transform = 'translateY(-4px)';
-                    e.currentTarget.style.boxShadow = '0 15px 35px rgba(0, 0, 0, 0.15)';
-                  }}
-                  onMouseOut={(e) => {
-                    e.currentTarget.style.transform = 'translateY(0)';
-                    e.currentTarget.style.boxShadow = '0 10px 25px rgba(0, 0, 0, 0.1)';
-                  }}
+                    onMouseOver={(e) => {
+                      e.currentTarget.style.transform = 'translateY(-4px)';
+                      e.currentTarget.style.boxShadow = '0 15px 35px rgba(0, 0, 0, 0.15)';
+                    }}
+                    onMouseOut={(e) => {
+                      e.currentTarget.style.transform = 'translateY(0)';
+                      e.currentTarget.style.boxShadow = '0 10px 25px rgba(0, 0, 0, 0.1)';
+                    }}
                   >
                     <div style={{ zIndex: 1 }}>
                       <div style={{ display: 'inline-block', background: 'rgba(255,255,255,0.2)', padding: '4px 10px', borderRadius: '20px', fontSize: '0.75rem', fontWeight: 800, marginBottom: '10px', backdropFilter: 'blur(4px)' }}>
@@ -656,13 +656,13 @@ const HomePage = ({ user: propUser, startStudy, streak, onLoginClick, onLogout, 
                         boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
                         transition: 'transform 0.2s'
                       }}
-                      onMouseOver={(e) => e.currentTarget.style.transform = 'scale(1.05)'}
-                      onMouseOut={(e) => e.currentTarget.style.transform = 'scale(1)'}
+                        onMouseOver={(e) => e.currentTarget.style.transform = 'scale(1.05)'}
+                        onMouseOut={(e) => e.currentTarget.style.transform = 'scale(1)'}
                       >
                         Khám phá
                       </button>
                     </div>
-                    
+
                     {/* Decorative Elements */}
                     <div style={{ position: 'absolute', right: '-30px', top: '-30px', width: '160px', height: '160px', background: 'radial-gradient(circle, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0) 70%)', borderRadius: '50%' }}></div>
                     <div style={{ position: 'absolute', right: '40px', bottom: '-40px', width: '120px', height: '120px', background: 'radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%)', borderRadius: '50%' }}></div>
@@ -1338,8 +1338,8 @@ const HomePage = ({ user: propUser, startStudy, streak, onLoginClick, onLogout, 
                   })}
                 </div>
                 <div className="streak-message" style={{ marginTop: '12px' }}>
-                  {dashboardData?.streak > 0 
-                    ? "Chúc mừng! Bạn đang duy trì Day Streak thành công!" 
+                  {dashboardData?.streak > 0
+                    ? "Chúc mừng! Bạn đang duy trì Day Streak thành công!"
                     : "Học 60 phút hôm nay để điểm danh bù ngày bỏ lỡ nhé!"}
                 </div>
               </div>
