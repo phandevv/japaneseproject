@@ -417,21 +417,33 @@ export const analyticsApi = {
       date: localDateStr
     });
     clearApiCache('/analytics/dashboard');
+    if (typeof window !== 'undefined') {
+      window.dispatchEvent(new CustomEvent('studySessionUpdated', { detail: response.data }));
+    }
     return response.data;
   },
   activateStreakFreeze: async () => {
     const response = await axios.post(`${API_BASE_URL}/analytics/streak-freeze`);
     clearApiCache('/analytics/dashboard');
+    if (typeof window !== 'undefined') {
+      window.dispatchEvent(new CustomEvent('studySessionUpdated', { detail: response.data }));
+    }
     return response.data;
   },
   useFreeze: async () => {
     const response = await axios.post(`${API_BASE_URL}/analytics/streak-freeze`);
     clearApiCache('/analytics/dashboard');
+    if (typeof window !== 'undefined') {
+      window.dispatchEvent(new CustomEvent('studySessionUpdated', { detail: response.data }));
+    }
     return response.data;
   },
   repairStreak: async (targetDate) => {
     const response = await axios.post(`${API_BASE_URL}/analytics/streak-repair`, { targetDate });
     clearApiCache('/analytics/dashboard');
+    if (typeof window !== 'undefined') {
+      window.dispatchEvent(new CustomEvent('studySessionUpdated', { detail: response.data }));
+    }
     return response.data;
   }
 };

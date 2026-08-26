@@ -320,7 +320,7 @@ const FlashcardPage = ({ level: initialLevel, isSrs = false, stats, goBack, onDa
     if (isAuthenticated) {
       try {
         await srsApi.reviewWord(currentWord.id, quality);
-        await analyticsApi.logSession(1, quality >= 3 ? 1 : 0, 1);
+        await analyticsApi.logSession(1, quality >= 3 ? 1 : 0, 1, 0);
       } catch (error) {
         console.error("Failed to save SRS review:", error);
       }

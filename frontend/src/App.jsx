@@ -3,6 +3,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import Sidebar from './components/Sidebar';
 import Header from './components/Header';
 import { useAuth } from './context/AuthContext';
+import { analyticsApi } from './services/api';
 import FeedbackModal from './components/FeedbackModal';
 import AIChatWidget from './components/AIChatWidget';
 
@@ -66,6 +67,37 @@ function App() {
   const [stats, setStats] = useState(null);
   const [showStudySection, setShowStudySection] = useState(false);
   const [showFeedbackModal, setShowFeedbackModal] = useState(false);
+
+  // Smart Active Study Duration Heartbeat (with Anti-Idle & Tab Visibility Detection)
+  useEffect(() => {
+    if (!isAuthenticated) return;
+
+    let lastActivityTime = Date.now();
+
+    const handleUserActivity = () => {
+      lastActivityTime = Date.now();
+    };
+
+    const activityEvents = ['mousemove', 'keydown', 'click', 'scroll', 'touchstart'];
+    activityEvents.forEach(evt => window.addEventListener(evt, handleUserActivity, { passive: true }));
+
+    const interval = setInterval(() => {
+      // 1. Pause timer if tab is hidden / in background
+      if (document.hidden) return;
+
+      // 2. Pause timer if user has been inactive/AFK for more than 2 minutes (120,000ms)
+      const isUserActive = (Date.now() - lastActivityTime) < 120000;
+
+      if (isUserActive) {
+        analyticsApi.logSession(0, 0, 0, 1).catch(console.error);
+      }
+    }, 60000);
+
+    return () => {
+      activityEvents.forEach(evt => window.removeEventListener(evt, handleUserActivity));
+      clearInterval(interval);
+    };
+  }, [isAuthenticated]);
 
   // Extract level from pathname if it starts with /flashcard/ or /daily/
   const flashcardMatch = location.pathname.match(/^\/flashcard\/(.+)$/);
