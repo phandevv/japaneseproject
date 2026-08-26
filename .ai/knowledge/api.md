@@ -457,6 +457,79 @@ Tài liệu này đặc tả toàn bộ danh sách REST API endpoints được x
   ```
 * **Quy tắc Pass**: Đạt đúng `score == total` (100% / 20/20 câu) sẽ đánh dấu `quizPassed: true` và `completed: true` trong Database.
 
+---
+
+## 11. Module Analytics & Streak Repair - `AnalyticsController`
+
+### A. Lấy thống kê Dashboard người dùng
+* **Endpoint**: `GET /api/analytics/dashboard`
+* **Xác thực**: Yêu cầu Token
+* **Phản hồi thành công (200 OK)**:
+  ```json
+  {
+    "dueCount": 12,
+    "learnedCount": 150,
+    "wordsStudiedToday": 20,
+    "todayDurationMinutes": 65,
+    "streak": 5,
+    "streakFrozenToday": false,
+    "repairsUsedToday": 0,
+    "repairsUsedThisMonth": 1,
+    "maxRepairsPerMonth": 5,
+    "canRepairToday": true,
+    "history": [...]
+  }
+  ```
+
+### B. Ghi nhận thời gian & phiên học (Session Logging)
+* **Endpoint**: `POST /api/analytics/session`
+* **Xác thực**: Yêu cầu Token
+* **Request Body**:
+  ```json
+  {
+    "wordsStudied": 10,
+    "correctAnswers": 10,
+    "totalQuestions": 10,
+    "durationMinutes": 15,
+    "date": "2026-08-26"
+  }
+  ```
+* **Phản hồi thành công (200 OK)**:
+  ```json
+  {
+    "message": "Session recorded",
+    "date": "2026-08-26",
+    "wordsStudied": 10,
+    "durationMinutes": 15
+  }
+  ```
+
+### C. Thực hiện Điểm danh bù (Streak Repair)
+* **Endpoint**: `POST /api/analytics/streak-repair`
+* **Xác thực**: Yêu cầu Token
+* **Request Body**:
+  ```json
+  {
+    "targetDate": "2026-08-25"
+  }
+  ```
+* **Phản hồi thành công (200 OK)**:
+  ```json
+  {
+    "message": "Điểm danh bù thành công cho ngày 2026-08-25! 🌸",
+    "targetDate": "2026-08-25",
+    "newStreak": 6,
+    "repairsUsedToday": 1,
+    "repairsUsedThisMonth": 2,
+    "remainingRepairsThisMonth": 3
+  }
+  ```
+* **Lỗi thường gặp (400 Bad Request)**:
+  * Học chưa đủ 60 phút hôm nay.
+  * Đã dùng tối đa 1 lượt bù trong ngày.
+  * Đã dùng hết 5 lượt bù trong tháng.
+  * Ngày đã được hoàn thành/điểm danh từ trước.
+
 
 
 

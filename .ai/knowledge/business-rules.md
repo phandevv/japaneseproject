@@ -146,3 +146,17 @@ $$EF' = EF + (0.1 - (5 - q) \times (0.08 + (5 - q) \times 0.02))$$
   * Tại `SrsService.getRandomLearnedVocabulary`, thay thế việc load toàn bộ `findAllLearnedByUser` bằng truy vấn giới hạn `findLearnedVocabulariesByUser(user, PageRequest.of(0, 100))`.
   * Tại `MasterReviewController.getWordsForMasterReview`, áp dụng `PageRequest.of(0, 500)` để tránh tình trạng nạp quá nhiều đối tượng Entity vào Hibernate Session khi quét từ vựng tổng ôn.
 
+---
+
+## 9. Quy tắc Điểm danh bù (Streak Repair Rules)
+
+* **Điều kiện học 60 phút hôm nay (60-Minute Daily Study Threshold)**:
+  * Người dùng bắt buộc phải tích lũy tổng thời gian học trong ngày hôm nay $\ge 60$ phút mới mở khóa quyền thực hiện điểm danh bù (`todayDurationMinutes >= 60`).
+* **Giới hạn số lượt sử dụng (Repair Usage Limits)**:
+  * **Tối đa 1 lượt / ngày**: Người dùng chỉ được phép điểm danh bù cho 1 ngày đã bị bỏ lỡ trong cùng 1 ngày (`repairsUsedToday < 1`).
+  * **Tối đa 5 lượt / tháng**: Tổng số lượt điểm danh bù trong tháng lịch hiện tại không vượt quá 5 lượt (`repairsUsedThisMonth < 5`).
+* **Cơ chế khôi phục Streak**:
+  * Người dùng chọn 1 ngày trong quá khứ bị bỏ lỡ (`targetDate < today`).
+  * Hệ thống khởi tạo/cập nhật bản ghi `StudySession` cho ngày `targetDate` với `isRepaired = true`, `wordsStudied = 1` và lưu vết vào `StreakRepairLogDoc`.
+  * Thuật toán `calculateStreak` tự động liên kết các ngày học và khôi phục chuỗi Day Streak liên tục.
+

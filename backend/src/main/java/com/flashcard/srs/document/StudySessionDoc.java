@@ -34,4 +34,10 @@ public class StudySessionDoc {
     private int totalQuestions = 0;
     @Builder.Default
     private boolean streakFrozen = false;
+
+    @Builder.Default
+    private int durationMinutes = 0;
+
+    @Builder.Default
+    private boolean isRepaired = false;
 }

@@ -604,6 +604,8 @@ public class SrsMongoDataProvider implements SrsDataProvider {
         s.setCorrectAnswers(doc.getCorrectAnswers());
         s.setTotalQuestions(doc.getTotalQuestions());
         s.setStreakFrozen(doc.isStreakFrozen());
+        s.setDurationMinutes(doc.getDurationMinutes());
+        s.setRepaired(doc.isRepaired());
         return s;
     }
 
@@ -616,6 +618,8 @@ public class SrsMongoDataProvider implements SrsDataProvider {
                 .correctAnswers(s.getCorrectAnswers())
                 .totalQuestions(s.getTotalQuestions())
                 .streakFrozen(s.isStreakFrozen())
+                .durationMinutes(s.getDurationMinutes())
+                .isRepaired(s.isRepaired())
                 .build();
     }
 
@@ -626,6 +630,8 @@ public class SrsMongoDataProvider implements SrsDataProvider {
         doc.setCorrectAnswers(s.getCorrectAnswers());
         doc.setTotalQuestions(s.getTotalQuestions());
         doc.setStreakFrozen(s.isStreakFrozen());
+        doc.setDurationMinutes(s.getDurationMinutes());
+        doc.setRepaired(s.isRepaired());
     }
 
     private DailyStudyStats toDailyStudyStats(DailyStudyStatsDoc doc, User user) {

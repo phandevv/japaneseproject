@@ -314,11 +314,11 @@ const FlashcardCard = ({ word, flipped, onFlip, onRateWord }) => {
           {/* Main Japanese Word Display */}
           <div style={{ marginTop: 'auto', marginBottom: 'auto', textAlign: 'center' }}>
             {word.kanji ? (
-              <h2 className="jp-text" style={{ fontSize: '6rem', marginBottom: '0.5rem', color: 'var(--text-primary)', transition: 'font-size 0.2s' }}>
+              <h2 className="jp-text" style={{ fontSize: '4.2rem', marginBottom: '0.5rem', color: 'var(--text-primary)', transition: 'font-size 0.2s' }}>
                 {word.kanji}
               </h2>
             ) : (
-              <p className="jp-text" style={{ fontSize: '5rem', color: 'var(--text-primary)', transition: 'font-size 0.2s' }}>
+              <p className="jp-text" style={{ fontSize: '3.6rem', color: 'var(--text-primary)', transition: 'font-size 0.2s' }}>
                 {word.hiragana}
               </p>
             )}
@@ -482,18 +482,18 @@ const FlashcardCard = ({ word, flipped, onFlip, onRateWord }) => {
               ) : (
                 <div style={{ textAlign: 'center', marginTop: 'auto', marginBottom: 'auto' }}>
                   {word.kanji && word.hiragana && (
-                    <h2 className="jp-text" style={{ fontSize: '3rem', marginBottom: '0.8rem', color: 'var(--accent-color)' }}>
+                    <h2 className="jp-text" style={{ fontSize: '2.2rem', marginBottom: '0.6rem', color: 'var(--accent-color)' }}>
                       {word.hiragana}
                     </h2>
                   )}
                   
-                  <h3 style={{ fontSize: '2.4rem', marginBottom: '0.8rem', color: 'var(--success-color)' }}>
+                  <h3 style={{ fontSize: '1.8rem', marginBottom: '0.6rem', color: 'var(--success-color)' }}>
                     {word.meaning || "N/A"}
                   </h3>
                   
                   {word.hanViet ? (
-                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px', marginBottom: '0.8rem' }}>
-                      <span style={{ fontSize: '1.4rem', color: 'var(--text-secondary)' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px', marginBottom: '0.6rem' }}>
+                      <span style={{ fontSize: '1.15rem', color: 'var(--text-secondary)' }}>
                         【{word.hanViet}】
                       </span>
                       {isAdmin && (

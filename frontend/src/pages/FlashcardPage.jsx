@@ -1,11 +1,10 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { vocabApi, srsApi, analyticsApi, userSettingsApi, studyApi } from '../services/api';
 import FlashcardCard from '../components/FlashcardCard';
 import ShojiScreen from '../components/ShojiScreen';
 import { ArrowLeft, ArrowRight, Shuffle, CornerUpLeft, Settings, Check, Loader, Sparkles, Play } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
 import { useAuth } from '../context/AuthContext';
-import MascotCorners from '../components/MascotCorners';
 import SakuraPetals from '../components/SakuraPetals';
 import MascotLoader from '../components/MascotLoader';
 
@@ -43,6 +42,8 @@ const FlashcardPage = ({ level: initialLevel, isSrs = false, stats, goBack, onDa
   const [loadingSettings, setLoadingSettings] = useState(false);
   const [phase, setPhase] = useState(1); // 0: Settings, 1: Day selection, 2: Study
   const [customInput, setCustomInput] = useState('');
+  const [swipeAnim, setSwipeAnim] = useState('');
+  const isAnimatingRef = useRef(false);
 
   useEffect(() => {
     setActiveLevel(initialLevel);
@@ -264,21 +265,43 @@ const FlashcardPage = ({ level: initialLevel, isSrs = false, stats, goBack, onDa
     setShowShoji(true);
   }, []);
 
+  const triggerNextWithToss = useCallback((direction, callback) => {
+    if (isAnimatingRef.current) {
+      callback();
+      return;
+    }
+    isAnimatingRef.current = true;
+    setSwipeAnim(direction === 'left' ? 'card-swipe-out-left' : 'card-swipe-out-right');
+
+    setTimeout(() => {
+      callback();
+      setSwipeAnim('card-swipe-in-new');
+      setTimeout(() => {
+        setSwipeAnim('');
+        isAnimatingRef.current = false;
+      }, 350);
+    }, 300);
+  }, []);
+
   const handleNext = useCallback(() => {
     if (currentIndex < words.length - 1) {
-      setFlipped(false);
-      setCurrentIndex(prev => prev + 1);
+      triggerNextWithToss('right', () => {
+        setFlipped(false);
+        setCurrentIndex(prev => prev + 1);
+      });
     } else {
       handleSessionComplete();
     }
-  }, [currentIndex, words.length, handleSessionComplete]);
+  }, [currentIndex, words.length, handleSessionComplete, triggerNextWithToss]);
 
   const handlePrev = useCallback(() => {
     if (currentIndex > 0) {
-      setFlipped(false);
-      setCurrentIndex(prev => prev - 1);
+      triggerNextWithToss('left', () => {
+        setFlipped(false);
+        setCurrentIndex(prev => prev - 1);
+      });
     }
-  }, [currentIndex]);
+  }, [currentIndex, triggerNextWithToss]);
 
   const handleRateWord = useCallback(async (quality) => {
     if (words.length === 0) return;
@@ -303,13 +326,17 @@ const FlashcardPage = ({ level: initialLevel, isSrs = false, stats, goBack, onDa
       }
     }
 
+    const direction = (quality === 1 || quality === 2) ? 'left' : 'right';
+
     if (currentIndex < words.length - 1) {
-      setCurrentIndex(prev => prev + 1);
-      setFlipped(false);
+      triggerNextWithToss(direction, () => {
+        setCurrentIndex(prev => prev + 1);
+        setFlipped(false);
+      });
     } else {
       handleSessionComplete();
     }
-  }, [words, currentIndex, seenWordIds, isAuthenticated, handleSessionComplete]);
+  }, [words, currentIndex, seenWordIds, isAuthenticated, handleSessionComplete, triggerNextWithToss]);
 
   // Keyboard navigation
   useEffect(() => {
@@ -368,7 +395,6 @@ const FlashcardPage = ({ level: initialLevel, isSrs = false, stats, goBack, onDa
   if (!activeLevel && !isSrs) {
     return (
       <div className="container animate-fade-in" style={{ padding: '40px 20px', maxWidth: '1000px', margin: '0 auto' }}>
-        <MascotCorners leftMascot="mascot_siro_ninja.png" rightMascot="mascot_siro_studying.png" />
         <SakuraPetals />
         <div style={{ textAlign: 'center', marginBottom: '40px' }}>
           <h1 style={{ fontSize: '2.5rem', marginBottom: '12px', fontWeight: 800 }}>{t.flashcard.selectLevelTitle}</h1>
@@ -608,7 +634,6 @@ const FlashcardPage = ({ level: initialLevel, isSrs = false, stats, goBack, onDa
 
   return (
     <div className="flashcard-page-premium-bg animate-fade-in" style={{ padding: '20px', maxWidth: '1000px', margin: '0 auto' }}>
-      <MascotCorners leftMascot="mascot_siro_ninja.png" rightMascot="mascot_siro_studying.png" />
       <SakuraPetals />
 
       <div className="flashcard-content-wrapper">
@@ -646,14 +671,16 @@ const FlashcardPage = ({ level: initialLevel, isSrs = false, stats, goBack, onDa
         </div>
 
         {/* Flashcard Area */}
-        <div style={{ minHeight: '440px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-          <FlashcardCard
-            key={currentWord?.id || currentIndex}
-            word={currentWord}
-            flipped={flipped}
-            onFlip={() => setFlipped(!flipped)}
-            onRateWord={handleRateWord}
-          />
+        <div style={{ minHeight: '480px', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'visible' }}>
+          <div className={`card-swipe-wrapper ${swipeAnim}`}>
+            <FlashcardCard
+              key={currentWord?.id || currentIndex}
+              word={currentWord}
+              flipped={flipped}
+              onFlip={() => setFlipped(!flipped)}
+              onRateWord={handleRateWord}
+            />
+          </div>
         </div>
 
         {/* Navigation Controls */}

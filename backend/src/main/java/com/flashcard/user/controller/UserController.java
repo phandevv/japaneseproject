@@ -35,9 +35,9 @@ public class UserController {
     private final SrsDataProvider srsDataProvider;
 
     public UserController(OnlineUserService onlineUserService,
-                          UserDataProvider userDataProvider,
-                          AnalyticsService analyticsService,
-                          SrsDataProvider srsDataProvider) {
+            UserDataProvider userDataProvider,
+            AnalyticsService analyticsService,
+            SrsDataProvider srsDataProvider) {
         this.onlineUserService = onlineUserService;
         this.userDataProvider = userDataProvider;
         this.analyticsService = analyticsService;
@@ -45,9 +45,11 @@ public class UserController {
     }
 
     private String formatAvatar(User user) {
-        if (user == null || user.getAvatar() == null) return null;
+        if (user == null || user.getAvatar() == null)
+            return null;
         String av = user.getAvatar().trim();
-        if (av.isEmpty()) return null;
+        if (av.isEmpty())
+            return null;
         if (av.startsWith("data:image") || av.length() > 50) {
             return "/api/users/" + user.getUsername() + "/avatar";
         }
@@ -85,7 +87,7 @@ public class UserController {
     @GetMapping("/online")
     public ResponseEntity<?> getOnlineUsers() {
         List<String> onlineIdentifiers = onlineUserService.getOnlineUsers();
-        
+
         // Filter out IPs (basic check: no dots or colons in username)
         List<String> usernames = onlineIdentifiers.stream()
                 .filter(id -> !id.contains(".") && !id.contains(":"))
@@ -134,7 +136,7 @@ public class UserController {
             @RequestParam(defaultValue = "all") String tab,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "30") int size) {
-        
+
         if (user == null) {
             return ResponseEntity.status(401).body(Map.of("error", "Unauthorized"));
         }
@@ -146,7 +148,7 @@ public class UserController {
 
         if ("week".equalsIgnoreCase(range)) {
             start = now.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY))
-                       .truncatedTo(ChronoUnit.DAYS).toInstant();
+                    .truncatedTo(ChronoUnit.DAYS).toInstant();
         } else if ("month".equalsIgnoreCase(range)) {
             start = now.withDayOfMonth(1).truncatedTo(ChronoUnit.DAYS).toInstant();
         } else if ("all".equalsIgnoreCase(range)) {
@@ -156,21 +158,25 @@ public class UserController {
         }
 
         PageRequest pageRequest = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "lastReviewedAt"));
-        
+
         Page<WordReview> reviewsPage;
-        
+
         if ("perfect".equalsIgnoreCase(tab)) {
-            reviewsPage = srsDataProvider.findByUserAndLastReviewedAtBetweenAndRatingIn(user, start, end, List.of(5), pageRequest);
+            reviewsPage = srsDataProvider.findByUserAndLastReviewedAtBetweenAndRatingIn(user, start, end, List.of(5),
+                    pageRequest);
         } else if ("good".equalsIgnoreCase(tab)) {
-            reviewsPage = srsDataProvider.findByUserAndLastReviewedAtBetweenAndRatingIn(user, start, end, List.of(4), pageRequest);
+            reviewsPage = srsDataProvider.findByUserAndLastReviewedAtBetweenAndRatingIn(user, start, end, List.of(4),
+                    pageRequest);
         } else if ("hard".equalsIgnoreCase(tab)) {
-            reviewsPage = srsDataProvider.findByUserAndLastReviewedAtBetweenAndRatingIn(user, start, end, List.of(1, 2, 3), pageRequest);
+            reviewsPage = srsDataProvider.findByUserAndLastReviewedAtBetweenAndRatingIn(user, start, end,
+                    List.of(1, 2, 3), pageRequest);
         } else if ("fail".equalsIgnoreCase(tab)) {
-            reviewsPage = srsDataProvider.findByUserAndLastReviewedAtBetweenAndRatingIn(user, start, end, List.of(0), pageRequest);
+            reviewsPage = srsDataProvider.findByUserAndLastReviewedAtBetweenAndRatingIn(user, start, end, List.of(0),
+                    pageRequest);
         } else {
             reviewsPage = srsDataProvider.findByUserAndLastReviewedAtBetween(user, start, end, pageRequest);
         }
-        
+
         List<Map<String, Object>> responseList = reviewsPage.getContent().stream().map(wr -> {
             Map<String, Object> map = new HashMap<>();
             map.put("id", wr.getVocabulary() != null ? wr.getVocabulary().getId() : null);
