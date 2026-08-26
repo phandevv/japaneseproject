@@ -243,3 +243,65 @@
   color: #10b981;
   border: 1px solid rgba(16, 185, 129, 0.3);
 }
+
+/* Universal Translation Live Banner */
+.quick-trans-live-box {
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.12) 0%, rgba(168, 85, 247, 0.08) 100%);
+  border: 1.5px solid rgba(99, 102, 241, 0.25);
+  border-radius: 14px;
+  padding: 12px 14px;
+  margin: 12px 0 10px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.quick-trans-live-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.76rem;
+  font-weight: 800;
+  color: var(--accent-color, #818cf8);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.quick-trans-live-text {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--text-primary, #ffffff);
+  line-height: 1.45;
+}
+
+.quick-trans-hanviet-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: rgba(16, 185, 129, 0.15);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  color: #10b981;
+  padding: 2px 8px;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+}
+
+.quick-trans-dict-divider {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--text-muted, #94a3b8);
+  margin: 10px 0 6px 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.quick-trans-dict-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border-color, rgba(255, 255, 255, 0.1));
+}
+
