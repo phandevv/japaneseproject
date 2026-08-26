@@ -783,7 +783,7 @@ const LessonQuizView = ({ chapter, lesson, lessonData, onQuizCompleted }) => {
                     {isAnswered && isSelected && !isCorrect && <XCircle size={20} style={{ color: '#ef4444' }} />}
                   </div>
 
-                  {opt.reading && (
+                  {isAnswered && opt.reading && (
                     <div style={{ fontSize: '0.85rem', color: 'var(--accent-color)', fontWeight: 600, paddingLeft: '38px' }}>
                       {opt.reading}
                     </div>

@@ -5,6 +5,7 @@ import Header from './components/Header';
 import { useAuth } from './context/AuthContext';
 import FeedbackModal from './components/FeedbackModal';
 import AIChatWidget from './components/AIChatWidget';
+import QuickSelectionTranslator from './components/QuickSelectionTranslator';
 
 // Code Splitting via React.lazy
 const HomePage = lazy(() => import('./pages/HomePage'));
@@ -512,6 +513,7 @@ function App() {
       </main>
       {showFeedbackModal && <FeedbackModal onClose={() => setShowFeedbackModal(false)} />}
       <AIChatWidget />
+      <QuickSelectionTranslator />
 
     </div>
   );
