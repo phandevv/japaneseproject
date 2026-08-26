@@ -137,8 +137,24 @@ const QuickSelectionTranslator = () => {
 
     setLoading(true);
     try {
-      const data = await vocabApi.search(clean, 0, 5);
-      const items = data?.content || [];
+      let data = await vocabApi.search(clean, 0, 5);
+      let items = data?.content || [];
+
+      // If empty, try stripping common trailing particles (は, が, を, に, で, へ, と, も, から, まで, の)
+      if (items.length === 0 && clean.length > 1) {
+        const stripped = clean.replace(/([はがをにでへともからまでの])$/, '');
+        if (stripped && stripped !== clean) {
+          try {
+            const data2 = await vocabApi.search(stripped, 0, 5);
+            if (data2?.content?.length > 0) {
+              items = data2.content;
+            }
+          } catch (e) {
+            // ignore
+          }
+        }
+      }
+
       localLookupCache.set(clean, items);
       setResults(items);
     } catch (err) {

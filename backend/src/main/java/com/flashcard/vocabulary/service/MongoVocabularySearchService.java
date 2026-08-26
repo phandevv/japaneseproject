@@ -9,11 +9,13 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.data.mongodb.core.query.TextCriteria;
-import org.springframework.data.mongodb.core.query.TextQuery;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.regex.Pattern;
 
 @Service
 @ConditionalOnProperty(name = "app.database.type", havingValue = "mongodb")
@@ -35,30 +37,56 @@ public class MongoVocabularySearchService {
         }
 
         String trimmed = keyword.trim();
-        try {
-            // First try Text Criteria for ranking by score
-            TextCriteria textCriteria = TextCriteria.forDefaultLanguage().matching(trimmed);
-            Query textQuery = TextQuery.queryText(textCriteria).sortByScore().with(pageable);
-            long count = mongoTemplate.count(TextQuery.queryText(textCriteria), VocabularyDoc.class);
-            if (count > 0) {
-                List<VocabularyDoc> results = mongoTemplate.find(textQuery, VocabularyDoc.class);
-                return new PageImpl<>(results, pageable, count);
-            }
-        } catch (Exception ignored) {
-            // Fallback to regex if text index not yet built
+        int limit = Math.max(pageable.getPageSize(), 10);
+
+        // 1. Tier 1: Fast Exact Match on Kanji, Hiragana, or Romaji (Indexed, < 2ms)
+        Criteria exactCriteria = new Criteria().orOperator(
+                Criteria.where("kanji").is(trimmed),
+                Criteria.where("hiragana").is(trimmed),
+                Criteria.where("romaji").regex("^" + Pattern.quote(trimmed) + "$", "i")
+        );
+        List<VocabularyDoc> exactMatches = mongoTemplate.find(new Query(exactCriteria).limit(limit), VocabularyDoc.class);
+
+        // If exact matches satisfy the requested page size on first page, return immediately
+        if (pageable.getPageNumber() == 0 && exactMatches.size() >= pageable.getPageSize()) {
+            return new PageImpl<>(exactMatches.subList(0, pageable.getPageSize()), pageable, exactMatches.size());
         }
 
-        // Regex fallback
-        Criteria regexCriteria = new Criteria().orOperator(
-                Criteria.where("kanji").regex(trimmed, "i"),
-                Criteria.where("hiragana").regex(trimmed, "i"),
-                Criteria.where("romaji").regex(trimmed, "i"),
-                Criteria.where("hanViet").regex(trimmed, "i"),
-                Criteria.where("meaning").regex(trimmed, "i")
+        // 2. Tier 2: Prefix Match (e.g., words starting with keyword)
+        Criteria prefixCriteria = new Criteria().orOperator(
+                Criteria.where("kanji").regex("^" + Pattern.quote(trimmed)),
+                Criteria.where("hiragana").regex("^" + Pattern.quote(trimmed)),
+                Criteria.where("meaning").regex("^" + Pattern.quote(trimmed), "i")
         );
-        Query regexQuery = new Query(regexCriteria).with(pageable);
-        long total = mongoTemplate.count(new Query(regexCriteria), VocabularyDoc.class);
-        List<VocabularyDoc> list = mongoTemplate.find(regexQuery, VocabularyDoc.class);
-        return new PageImpl<>(list, pageable, total);
+        List<VocabularyDoc> prefixMatches = mongoTemplate.find(new Query(prefixCriteria).limit(limit), VocabularyDoc.class);
+
+        // 3. Tier 3: Substring Search for broad matching
+        Criteria containsCriteria = new Criteria().orOperator(
+                Criteria.where("kanji").regex(Pattern.quote(trimmed)),
+                Criteria.where("hiragana").regex(Pattern.quote(trimmed)),
+                Criteria.where("hanViet").regex(Pattern.quote(trimmed), "i"),
+                Criteria.where("meaning").regex(Pattern.quote(trimmed), "i")
+        );
+        List<VocabularyDoc> containsMatches = mongoTemplate.find(new Query(containsCriteria).limit(limit * 2), VocabularyDoc.class);
+
+        // 4. Combine and deduplicate preserving strict relevance ranking (Exact -> Prefix -> Substring)
+        Map<Long, VocabularyDoc> rankedMap = new LinkedHashMap<>();
+        for (VocabularyDoc doc : exactMatches) {
+            if (doc.getId() != null) rankedMap.put(doc.getId(), doc);
+        }
+        for (VocabularyDoc doc : prefixMatches) {
+            if (doc.getId() != null) rankedMap.putIfAbsent(doc.getId(), doc);
+        }
+        for (VocabularyDoc doc : containsMatches) {
+            if (doc.getId() != null) rankedMap.putIfAbsent(doc.getId(), doc);
+        }
+
+        List<VocabularyDoc> allResults = new ArrayList<>(rankedMap.values());
+        int start = (int) pageable.getOffset();
+        int end = Math.min(start + pageable.getPageSize(), allResults.size());
+
+        List<VocabularyDoc> pageContent = (start < allResults.size()) ? allResults.subList(start, end) : List.of();
+        return new PageImpl<>(pageContent, pageable, allResults.size());
     }
 }
+
