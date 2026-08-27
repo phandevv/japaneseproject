@@ -1,11 +1,18 @@
 import React, { useMemo } from 'react';
+import { useTheme } from '../context/ThemeContext';
 
 /**
  * SakuraPetals — renders falling cherry blossom petals as a background effect.
- * Drop this into any page for instant sakura ambiance.
+ * Always active on Homepage by default, and configurable on inner pages.
  */
 
 const SakuraPetals = ({ count = 18 }) => {
+  const { sakuraPetalsEnabled } = useTheme();
+
+  if (!sakuraPetalsEnabled) {
+    return null;
+  }
+
   const petals = useMemo(() =>
     Array.from({ length: count }).map((_, i) => ({
       left: Math.random() * 100,
