@@ -25,14 +25,26 @@ frontend/src/
 ├── components/              # Các UI Components tái sử dụng
 │   ├── FlashcardCard.jsx
 │   ├── KanjiDetailModal.jsx
+│   ├── AIChatWidget.jsx
+│   ├── QuickSelectionTranslator.jsx
+│   ├── StudyTimer/          # Đồng hồ học tập Pomodoro (Timestamp-based)
+│   │   ├── StudyTimerWidget.jsx
+│   │   ├── StudyTimerSettings.jsx
+│   │   ├── useStudyTimer.js
+│   │   ├── studyTimerStorage.js
+│   │   ├── studyTimerAudio.js
+│   │   └── studyTimerNotification.js
 │   ├── Navbar.jsx
 │   ├── Footer.jsx
 │   ├── ProfileModal.jsx
 │   └── ErrorBoundary.jsx
 ├── services/                # Giao tiếp API qua Axios
-│   └── api.js
+│   ├── api.js
+│   └── translatorService.js
 └── styles/                  # File CSS thiết kế giao diện
     ├── index.css            # Design tokens toàn hệ thống
+    ├── AIChatWidget.css
+    ├── StudyTimerWidget.css
     ├── Navbar.css
     ├── HomePage.css
     └── ...
@@ -97,3 +109,19 @@ Hệ thống quản lý trạng thái qua các React Contexts:
   * Các màu sắc cấp độ N5-N1 được đồng bộ trên toàn hệ thống bằng CSS variables trong `index.css`.
 * **Phát âm từ vựng (TTS)**:
   * Trang bị nút phát âm thủ công sử dụng **Web Speech API** (`window.speechSynthesis`) với giọng đọc tiếng Nhật chuẩn (`ja-JP`).
+
+---
+
+## 6. Floating Tools & Pomodoro Study Timer (学習タイマー)
+
+* **Vị trí bố trí Floating Buttons (Bottom-Right)**:
+  * **`🤖 AI Assistant`**: `bottom: 92px; right: 22px; width: 60px; height: 60px; z-index: 9999;`
+  * **`⏱ Study Timer`**: `bottom: 24px; right: 24px; width: 56px; height: 56px; z-index: 9999;`
+* **Cơ chế Timer Timestamp-based**:
+  * Nguồn chân lý thời gian dựa trên `endAt = Date.now() + durationMs` và `remainingMs = Math.max(0, endAt - Date.now())`.
+  * Không dùng `seconds--` trong `setInterval` để loại trừ hoàn toàn hiện tượng trễ thời gian khi chuyển tab (tab throttling) hoặc sleep máy.
+  * Tích hợp **Page Visibility API** (`visibilitychange`) tự động tính lại thời gian còn lại khi tab chuyển từ nền sang tiền cảnh.
+  * Phục hồi thông minh từ `localStorage`: tự động nhận diện nếu timer đã hết hạn trong lúc tắt trình duyệt để hiển thị trạng thái hoàn thành duyên dáng.
+  * Âm thanh chuông báo hoàn thành tổng hợp bằng **Web Audio API** (không cần tải asset âm thanh ngoài).
+  * Hỗ trợ **Web Notification API** gửi thông báo ra màn hình khi chuyển phase.
+

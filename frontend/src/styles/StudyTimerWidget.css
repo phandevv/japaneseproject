@@ -1,0 +1,596 @@
+/* ═══════════════════════════════════════════════════════════════
+   Study Timer Widget — Japanese Pomodoro Floating Timer
+   Position: Fixed at bottom-right, below AI Assistant FAB
+   Panel: Opens to the LEFT of the timer FAB (right: 92px)
+═══════════════════════════════════════════════════════════════ */
+
+/* ── Floating Action Button (FAB) ────────────────────────── */
+.study-timer-fab {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #3b82f6, #2563eb);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 4px 18px rgba(37, 99, 235, 0.38), inset 0 1px 2px rgba(255, 255, 255, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 9999;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.25s ease,
+              background 0.3s ease;
+  user-select: none;
+}
+
+.study-timer-fab:hover {
+  transform: scale(1.08);
+  box-shadow: 0 6px 22px rgba(37, 99, 235, 0.5);
+}
+
+.study-timer-fab:active {
+  transform: scale(0.95);
+}
+
+.study-timer-fab.open {
+  background: linear-gradient(135deg, #1e40af, #1d4ed8);
+}
+
+.study-timer-fab.running {
+  background: linear-gradient(135deg, #2563eb, #1d4ed8);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.25), 0 4px 18px rgba(37, 99, 235, 0.45);
+}
+
+.study-timer-fab-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+}
+
+.study-timer-fab-time {
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  font-family: var(--font-jp, sans-serif);
+  line-height: 1;
+}
+
+/* Pulsing aura when running */
+.study-timer-fab-pulse {
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  border: 2px solid rgba(59, 130, 246, 0.6);
+  animation: timerFabPulse 2s cubic-bezier(0.24, 0, 0.38, 1) infinite;
+  pointer-events: none;
+}
+
+@keyframes timerFabPulse {
+  0% { transform: scale(1); opacity: 0.8; }
+  70% { transform: scale(1.22); opacity: 0; }
+  100% { transform: scale(1.22); opacity: 0; }
+}
+
+/* ── Floating Timer Panel (Desktop: Opens to LEFT of FAB) ── */
+.study-timer-panel {
+  position: fixed;
+  bottom: 24px;
+  right: 92px; /* Leaves 12px gap to FAB button */
+  width: 340px;
+  max-height: calc(100vh - 48px);
+  background: var(--surface-color, #ffffff);
+  border: 1px solid var(--border-color, #e2e8f0);
+  border-radius: 20px;
+  box-shadow: var(--shadow-xl, 0 20px 25px -5px rgba(0,0,0,0.1));
+  z-index: 9998;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  animation: timerPanelIn 0.26s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  transform-origin: bottom right;
+}
+
+@keyframes timerPanelIn {
+  from {
+    opacity: 0;
+    transform: scale(0.92) translateX(12px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateX(0);
+  }
+}
+
+/* Color thematic glow based on active phase */
+.study-timer-panel.phase-focus {
+  border-top: 3px solid #3b82f6;
+}
+.study-timer-panel.phase-short-break {
+  border-top: 3px solid #10b981;
+}
+.study-timer-panel.phase-long-break {
+  border-top: 3px solid #8b5cf6;
+}
+
+/* ── Panel Header ────────────────────────────────────────── */
+.study-timer-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--border-color, #e2e8f0);
+  background: var(--surface-color, #ffffff);
+}
+
+.study-timer-header-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--text-primary, #1e293b);
+  font-family: var(--font-jp, sans-serif);
+}
+
+.study-timer-title-icon {
+  color: var(--accent-color, #2563eb);
+}
+
+.study-timer-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.study-timer-icon-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  border: none;
+  background: transparent;
+  color: var(--text-secondary, #64748b);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.study-timer-icon-btn:hover {
+  background: var(--surface-hover, #f1f5f9);
+  color: var(--text-primary, #1e293b);
+}
+
+/* ── Phase Badge ─────────────────────────────────────────── */
+.study-timer-phase-badge-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 16px 18px 4px;
+}
+
+.study-timer-phase-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 14px;
+  border-radius: 20px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  font-family: var(--font-jp, sans-serif);
+}
+
+.study-timer-phase-badge.phase-focus {
+  background: rgba(59, 130, 246, 0.12);
+  color: #2563eb;
+  border: 1px solid rgba(59, 130, 246, 0.25);
+}
+
+.study-timer-phase-badge.phase-short-break {
+  background: rgba(16, 185, 129, 0.12);
+  color: #059669;
+  border: 1px solid rgba(16, 185, 129, 0.25);
+}
+
+.study-timer-phase-badge.phase-long-break {
+  background: rgba(139, 92, 246, 0.12);
+  color: #7c3aed;
+  border: 1px solid rgba(139, 92, 246, 0.25);
+}
+
+.study-timer-phase-sub {
+  font-size: 0.76rem;
+  color: var(--text-muted, #94a3b8);
+  margin-top: 4px;
+  font-family: var(--font-jp, sans-serif);
+}
+
+/* ── Timer Display Card ──────────────────────────────────── */
+.study-timer-display-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 16px 20px;
+}
+
+.study-timer-time {
+  font-size: 3.4rem;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  font-family: var(--font-jp, -apple-system, sans-serif);
+  color: var(--text-primary, #1e293b);
+  letter-spacing: -0.04em;
+  line-height: 1.1;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+}
+
+/* Progress bar track */
+.study-timer-progress-track {
+  width: 100%;
+  height: 6px;
+  background: var(--border-color, #e2e8f0);
+  border-radius: 3px;
+  overflow: hidden;
+  margin-top: 14px;
+}
+
+.study-timer-progress-bar {
+  height: 100%;
+  background: var(--accent-color, #2563eb);
+  border-radius: 3px;
+  transition: width 0.4s ease;
+}
+
+.phase-short-break .study-timer-progress-bar {
+  background: var(--success-color, #10b981);
+}
+
+.phase-long-break .study-timer-progress-bar {
+  background: #8b5cf6;
+}
+
+/* ── Session Dots ────────────────────────────────────────── */
+.study-timer-sessions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  margin-top: 14px;
+}
+
+.study-timer-dots {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 1.1rem;
+}
+
+.study-timer-dot {
+  color: var(--text-muted, #94a3b8);
+  transition: color 0.2s ease, transform 0.2s ease;
+  line-height: 1;
+}
+
+.study-timer-dot.active {
+  color: var(--accent-color, #2563eb);
+  transform: scale(1.15);
+}
+
+.study-timer-dot.completed {
+  color: var(--accent-color, #2563eb);
+}
+
+.study-timer-session-label {
+  font-size: 0.78rem;
+  color: var(--text-secondary, #64748b);
+  font-weight: 600;
+  font-family: var(--font-jp, sans-serif);
+}
+
+/* ── Main Controls ───────────────────────────────────────── */
+.study-timer-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 4px 20px 16px;
+}
+
+.study-timer-btn-primary {
+  width: 100%;
+  padding: 12px 18px;
+  border-radius: 12px;
+  border: none;
+  background: var(--accent-color, #2563eb);
+  color: #ffffff;
+  font-size: 0.95rem;
+  font-weight: 700;
+  font-family: var(--font-jp, sans-serif);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(37, 99, 235, 0.3);
+  transition: transform 0.15s ease, background 0.2s ease, box-shadow 0.2s ease;
+}
+
+.study-timer-btn-primary:hover {
+  transform: translateY(-1px);
+  background: var(--accent-hover, #1d4ed8);
+  box-shadow: 0 6px 18px rgba(37, 99, 235, 0.4);
+}
+
+.study-timer-btn-primary:active {
+  transform: translateY(0);
+}
+
+.study-timer-btn-primary.warning {
+  background: #f59e0b;
+  box-shadow: 0 4px 14px rgba(245, 158, 11, 0.3);
+}
+
+.study-timer-btn-primary.warning:hover {
+  background: #d97706;
+}
+
+.study-timer-btn-primary.resume {
+  background: #10b981;
+  box-shadow: 0 4px 14px rgba(16, 185, 129, 0.3);
+}
+
+.study-timer-btn-primary.resume:hover {
+  background: #059669;
+}
+
+/* Sub-controls (Reset & Skip) */
+.study-timer-sub-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.study-timer-btn-sub {
+  flex: 1;
+  padding: 9px 12px;
+  border-radius: 10px;
+  border: 1px solid var(--border-color, #e2e8f0);
+  background: var(--surface-color, #ffffff);
+  color: var(--text-secondary, #64748b);
+  font-size: 0.85rem;
+  font-weight: 600;
+  font-family: var(--font-jp, sans-serif);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+}
+
+.study-timer-btn-sub:hover {
+  background: var(--surface-hover, #f1f5f9);
+  border-color: var(--text-muted, #94a3b8);
+  color: var(--text-primary, #1e293b);
+}
+
+/* ── Footer ──────────────────────────────────────────────── */
+.study-timer-footer {
+  padding: 10px 18px;
+  background: var(--surface-hover, #f8fafc);
+  border-top: 1px solid var(--border-color, #e2e8f0);
+  font-size: 0.75rem;
+  color: var(--text-secondary, #64748b);
+  text-align: center;
+  font-family: var(--font-jp, sans-serif);
+}
+
+.study-timer-footer strong {
+  color: var(--accent-color, #2563eb);
+}
+
+/* ── Settings View ───────────────────────────────────────── */
+.study-timer-settings-view {
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  max-height: 480px;
+  overflow-y: auto;
+}
+
+.study-timer-settings-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--border-color, #e2e8f0);
+}
+
+.study-timer-settings-title {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--text-primary, #1e293b);
+  margin: 0;
+  font-family: var(--font-jp, sans-serif);
+}
+
+.study-timer-error-banner {
+  margin: 10px 16px 0;
+  padding: 8px 12px;
+  border-radius: 8px;
+  background: var(--danger-light, #fef2f2);
+  border: 1px solid var(--danger-color, #ef4444);
+  color: var(--danger-color, #ef4444);
+  font-size: 0.78rem;
+  font-weight: 600;
+  font-family: var(--font-jp, sans-serif);
+}
+
+.study-timer-settings-form {
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.study-timer-field-group {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.study-timer-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.study-timer-field label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-secondary, #64748b);
+  font-family: var(--font-jp, sans-serif);
+}
+
+.study-timer-input-unit {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.study-timer-input-unit input {
+  width: 100%;
+  padding: 8px 30px 8px 10px;
+  border-radius: 8px;
+  border: 1px solid var(--border-color, #e2e8f0);
+  background: var(--surface-color, #ffffff);
+  color: var(--text-primary, #1e293b);
+  font-size: 0.9rem;
+  font-weight: 600;
+  font-family: var(--font-jp, sans-serif);
+  outline: none;
+  transition: border-color 0.15s ease;
+}
+
+.study-timer-input-unit input:focus {
+  border-color: var(--accent-color, #2563eb);
+}
+
+.study-timer-input-unit span {
+  position: absolute;
+  right: 10px;
+  font-size: 0.75rem;
+  color: var(--text-muted, #94a3b8);
+  pointer-events: none;
+  font-family: var(--font-jp, sans-serif);
+}
+
+.study-timer-toggles-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  border-top: 1px solid var(--border-color, #e2e8f0);
+  padding-top: 12px;
+}
+
+.study-timer-toggle-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  cursor: pointer;
+}
+
+.study-timer-toggle-label {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.study-timer-toggle-label span {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--text-primary, #1e293b);
+  font-family: var(--font-jp, sans-serif);
+}
+
+.study-timer-toggle-label small {
+  font-size: 0.7rem;
+  color: var(--text-muted, #94a3b8);
+  font-family: var(--font-jp, sans-serif);
+}
+
+.study-timer-toggle-item input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+  accent-color: var(--accent-color, #2563eb);
+}
+
+.study-timer-save-btn {
+  width: 100%;
+  padding: 10px 16px;
+  border-radius: 10px;
+  border: none;
+  background: var(--accent-color, #2563eb);
+  color: #ffffff;
+  font-size: 0.9rem;
+  font-weight: 700;
+  font-family: var(--font-jp, sans-serif);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.study-timer-save-btn:hover {
+  background: var(--accent-hover, #1d4ed8);
+}
+
+/* ── Mobile Backdrop ─────────────────────────────────────── */
+.study-timer-backdrop {
+  display: none;
+}
+
+/* ── Responsive Rules ────────────────────────────────────── */
+@media (max-width: 640px) {
+  .study-timer-backdrop {
+    display: block;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(2px);
+    z-index: 9997;
+  }
+
+  .study-timer-panel {
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    max-height: 85vh;
+    border-radius: 24px 24px 0 0;
+    transform-origin: bottom center;
+    animation: timerSheetIn 0.28s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
+  @keyframes timerSheetIn {
+    from { transform: translateY(100%); }
+    to   { transform: translateY(0); }
+  }
+
+  .study-timer-fab {
+    bottom: 18px;
+    right: 18px;
+    width: 52px;
+    height: 52px;
+  }
+}

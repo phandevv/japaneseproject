@@ -5,6 +5,7 @@ import Header from './components/Header';
 import { useAuth } from './context/AuthContext';
 import FeedbackModal from './components/FeedbackModal';
 import AIChatWidget from './components/AIChatWidget';
+import StudyTimerWidget from './components/StudyTimer/StudyTimerWidget';
 import QuickSelectionTranslator from './components/QuickSelectionTranslator';
 
 // Code Splitting via React.lazy
@@ -513,6 +514,7 @@ function App() {
       </main>
       {showFeedbackModal && <FeedbackModal onClose={() => setShowFeedbackModal(false)} />}
       <AIChatWidget />
+      <StudyTimerWidget />
       <QuickSelectionTranslator />
 
     </div>
