@@ -530,6 +530,29 @@ Tài liệu này đặc tả toàn bộ danh sách REST API endpoints được x
   * Đã dùng hết 5 lượt bù trong tháng.
   * Ngày đã được hoàn thành/điểm danh từ trước.
 
+---
 
+## 10. Module Tổng ôn tập (Master Review - `MasterReviewController`)
 
-
+### A. Lấy danh sách từ vựng phục vụ Tổng ôn
+* **Endpoint**: `GET /api/master-review/words`
+* **Xác thực**: Yêu cầu Token (`@AuthenticationPrincipal User user`)
+* **Tham số truy vấn (Query Params)**:
+  * `startDate` *(Tùy chọn, định dạng `yyyy-MM-dd`)*: Ngày bắt đầu khoảng thời gian rà soát.
+  * `endDate` *(Tùy chọn, định dạng `yyyy-MM-dd`)*: Ngày kết thúc khoảng thời gian rà soát.
+* **Cơ chế xử lý**:
+  * Nếu truyền `startDate` và `endDate`: Truy vấn qua `srsDataProvider.findByUserAndLastReviewedAtBetween(user, start, end)` và lọc từ vựng phân biệt (`distinct`).
+  * Nếu không truyền khoảng thời gian ("Tất cả từ đã học"): Truy vấn qua `srsDataProvider.findLearnedVocabulariesByUser(user)` (hỗ trợ cả MongoDB và JPA/MySQL).
+* **Phản hồi thành công (200 OK)**:
+  ```json
+  [
+    {
+      "id": 1955,
+      "kanji": "収入",
+      "hiragana": "しゅうにゅう",
+      "meaning": "Thu nhập",
+      "hanViet": "THU NHẬP",
+      "level": "N3"
+    }
+  ]
+  ```

@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { masterReviewApi, srsApi, analyticsApi, vocabApi } from '../services/api';
+import { useAuth } from '../context/AuthContext';
 import { ArrowLeft, BookOpen, Layers, CheckCircle, XCircle, RotateCcw, Calendar, FileQuestion, ListFilter, Keyboard, Send, Sparkles, Trophy, Play, Download, CornerUpLeft, ChevronRight, ArrowRight, Volume2, Eye, EyeOff } from 'lucide-react';
 import MascotLoader from '../components/MascotLoader';
 import KanjiDetailModal from '../components/KanjiDetailModal';
@@ -86,6 +87,7 @@ const SESSION_STORAGE_KEY = 'nihongo_master_review_session';
  * Phase 3: Mandatory Mastery Quiz (> 90% pass rate required to clear session, with AI Enriched feedback card)
  */
 const MasterReviewPage = ({ goBack }) => {
+  const { isAuthenticated } = useAuth();
   // Phase state: 0: Range Select, 1: Flashcard Screening, 2: Forgotten List, 4: Quiz Setup, 3: Quiz Execution
   const [phase, setPhase] = useState(0);
   const [loading, setLoading] = useState(false);
@@ -197,6 +199,10 @@ const MasterReviewPage = ({ goBack }) => {
   // ── Step 1: Start Screening ────────────────────────────────────────────────
   const handleStartScreening = async () => {
     setErrorMsg('');
+    if (!isAuthenticated) {
+      setErrorMsg('Vui lòng đăng nhập để sử dụng tính năng tổng ôn tập kiến thức.');
+      return;
+    }
     if (rangeType === 'range') {
       if (!startDate || !endDate) {
         setErrorMsg('Vui lòng chọn khoảng thời gian Từ ngày và Đến ngày!');
@@ -621,6 +627,14 @@ const MasterReviewPage = ({ goBack }) => {
   // ───────────────────────────────────────────────────────────────────────────
   if (phase === 1) {
     const current = allWords[cardIndex];
+    if (!current) {
+      return (
+        <div className="container animate-fade-in" style={{ padding: '40px 20px', maxWidth: '800px', margin: '40px auto', textAlign: 'center' }}>
+          <p style={{ color: 'var(--text-secondary)', fontSize: '1.1rem', marginBottom: '20px' }}>Không có thẻ từ vựng nào để hiển thị.</p>
+          <button className="btn btn-secondary" onClick={() => setPhase(0)}>Quay lại chọn phạm vi</button>
+        </div>
+      );
+    }
     return (
       <div className="container animate-fade-in" style={{ padding: '36px 20px', maxWidth: '1000px', margin: '0 auto' }}>
         {/* Header */}
@@ -1260,6 +1274,14 @@ const MasterReviewPage = ({ goBack }) => {
     }
 
     const current = quizWords[quizIndex];
+    if (!current) {
+      return (
+        <div className="container animate-fade-in" style={{ padding: '40px 20px', maxWidth: '800px', margin: '40px auto', textAlign: 'center' }}>
+          <p style={{ color: 'var(--text-secondary)', fontSize: '1.1rem', marginBottom: '20px' }}>Không tìm thấy câu hỏi bài Quiz.</p>
+          <button className="btn btn-secondary" onClick={() => setPhase(2)}>Quay lại danh sách từ</button>
+        </div>
+      );
+    }
     const isJaToVi = questionType === 'ja-to-vi';
 
     return (
