@@ -1,4 +1,5 @@
 import React, { useRef } from 'react';
+import { useLocation } from 'react-router-dom';
 import { LogOut, Palette, Flame, User as UserIcon, Image as ImageIcon } from 'lucide-react';
 import { getMediaUrl } from '../services/api';
 import { useTheme } from '../context/ThemeContext';
@@ -6,7 +7,7 @@ import { useTheme } from '../context/ThemeContext';
 import NotificationBell from './NotificationBell';
 
 const Header = ({ user, streak = 0, onProfileClick, onLogout }) => {
-  const { theme, changeTheme, customBg, applyCustomBackground } = useTheme();
+  const { theme, changeTheme, customBg, applyCustomBackground, sakuraPetalsEnabled, toggleSakuraPetals } = useTheme();
   const bgInputRef = useRef(null);
 
   const handleBgUpload = (e) => {
@@ -78,6 +79,29 @@ const Header = ({ user, streak = 0, onProfileClick, onLogout }) => {
             title="Ảnh nền tùy chỉnh"
           >
             <ImageIcon size={12} />
+          </button>
+
+          {/* Global Toggle Sakura Petals falling */}
+          <button
+            type="button"
+            onClick={toggleSakuraPetals}
+            className={`theme-dot ${sakuraPetalsEnabled ? 'active' : ''}`}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              background: sakuraPetalsEnabled ? 'rgba(244, 63, 94, 0.25)' : 'var(--surface-color)',
+              border: `1.5px solid ${sakuraPetalsEnabled ? '#f43f5e' : 'var(--border-color)'}`,
+              color: sakuraPetalsEnabled ? '#f43f5e' : 'var(--text-secondary)',
+              fontSize: '0.8rem',
+              marginLeft: '4px',
+              cursor: 'pointer',
+              transition: 'all 0.2s ease',
+              boxShadow: sakuraPetalsEnabled ? '0 0 10px rgba(244,63,94,0.45)' : 'none'
+            }}
+            title={sakuraPetalsEnabled ? "Tắt hiệu ứng hoa anh đào rơi toàn trang web" : "Bật hiệu ứng hoa anh đào rơi toàn trang web"}
+          >
+            🌸
           </button>
           <input
             type="file"

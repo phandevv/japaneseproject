@@ -105,6 +105,24 @@ const HomePage = ({ user: propUser, startStudy, streak, onLoginClick, onLogout, 
     return () => { active = false; };
   }, [user]);
 
+  // Listen for real-time study session updates (from heartbeat or card reviews)
+  useEffect(() => {
+    const handleSessionUpdate = async () => {
+      if (!user) return;
+      try {
+        const dashRes = await analyticsApi.getDashboard();
+        if (dashRes) {
+          setDashboardData(dashRes);
+        }
+      } catch (err) {
+        console.error("Failed to refresh dashboard on study session update:", err);
+      }
+    };
+
+    window.addEventListener('studySessionUpdated', handleSessionUpdate);
+    return () => window.removeEventListener('studySessionUpdated', handleSessionUpdate);
+  }, [user]);
+
   const handleUseFreeze = async () => {
     try {
       await analyticsApi.activateStreakFreeze();

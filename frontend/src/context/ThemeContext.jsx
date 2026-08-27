@@ -11,6 +11,11 @@ export const ThemeProvider = ({ children }) => {
     return localStorage.getItem('nihongo-custom-bg') || null;
   });
 
+  const [sakuraPetalsEnabled, setSakuraPetalsEnabled] = useState(() => {
+    const saved = localStorage.getItem('nihongo-sakura-petals');
+    return saved !== null ? saved === 'true' : true;
+  });
+
   useEffect(() => {
     // Apply data-theme attribute to html element
     document.documentElement.setAttribute('data-theme', theme);
@@ -38,8 +43,23 @@ export const ThemeProvider = ({ children }) => {
     localStorage.setItem('nihongo-custom-bg', base64Image);
   };
 
+  const toggleSakuraPetals = () => {
+    setSakuraPetalsEnabled(prev => {
+      const next = !prev;
+      localStorage.setItem('nihongo-sakura-petals', String(next));
+      return next;
+    });
+  };
+
   return (
-    <ThemeContext.Provider value={{ theme, changeTheme, customBg, applyCustomBackground }}>
+    <ThemeContext.Provider value={{
+      theme,
+      changeTheme,
+      customBg,
+      applyCustomBackground,
+      sakuraPetalsEnabled,
+      toggleSakuraPetals
+    }}>
       {children}
     </ThemeContext.Provider>
   );
