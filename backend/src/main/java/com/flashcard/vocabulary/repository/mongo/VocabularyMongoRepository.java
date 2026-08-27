@@ -7,6 +7,7 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,4 +32,6 @@ public interface VocabularyMongoRepository extends MongoRepository<VocabularyDoc
 
     @Query("{'$or': [{'kanji': {'$regex': ?0, '$options': 'i'}}, {'hiragana': {'$regex': ?0, '$options': 'i'}}, {'romaji': {'$regex': ?0, '$options': 'i'}}, {'hanViet': {'$regex': ?0, '$options': 'i'}}, {'meaning': {'$regex': ?0, '$options': 'i'}}]}")
     Page<VocabularyDoc> searchByKeywordRegex(String keyword, Pageable pageable);
+
+    long countByIdIn(Collection<Long> ids);
 }

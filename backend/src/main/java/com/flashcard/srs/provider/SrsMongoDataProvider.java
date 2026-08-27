@@ -99,7 +99,16 @@ public class SrsMongoDataProvider implements SrsDataProvider {
 
     @Override
     public long countLearnedWords(User user) {
-        return wordReviewMongoRepository.countByUserIdAndIntervalDaysGreaterThan(user.getId(), 0);
+        if (user == null) return 0;
+        List<WordReviewDoc> docs = wordReviewMongoRepository.findByUserIdAndIntervalDaysGreaterThan(user.getId(), 0);
+        if (docs == null || docs.isEmpty()) return 0;
+        List<Long> vocabIds = docs.stream()
+                .map(WordReviewDoc::getVocabularyId)
+                .filter(Objects::nonNull)
+                .distinct()
+                .collect(Collectors.toList());
+        if (vocabIds.isEmpty()) return 0;
+        return vocabularyMongoRepository.countByIdIn(vocabIds);
     }
 
     private Map<Long, UserDoc> getUserMap(Collection<Long> userIds) {
