@@ -74,17 +74,15 @@ $$EF' = EF + (0.1 - (5 - q) \times (0.08 + (5 - q) \times 0.02))$$
 ## 6. Quy tắc Phân luồng Ôn tập Kép (Dual-Loop Review System)
 
 * **Ôn tập buổi sáng (Morning SRS Review - `GET /api/study/queue`)**:
-  * Chứa danh sách các từ vựng cần ôn tập theo thuật toán SRS (quá hạn hoặc đến hạn trong ngày).
-  * **Đặc biệt**: Tự động gom thêm các từ vựng **mới học/ôn ngày hôm qua** vào danh sách buổi sáng để chủ động gợi nhớ lại trong khoảng thời gian quên nhanh nhất sau 24h.
+  * Truy vấn qua `srsDataProvider` (kết nối trực tiếp MongoDB / MySQL) đảm bảo tương thích 100% môi trường production.
+  * **Thứ tự lấy từ**: Lấy chính xác các từ phải ôn tập theo **thứ tự SRS**: sắp xếp theo ngày đến hạn `nextReview` tăng dần (`nextReview ASC`) — các từ quá hạn lâu nhất hoặc đến hạn sớm nhất sẽ xuất hiện ở đầu hàng đợi để ôn trước.
+  * **Bao quát thêm**: Tự động gom thêm các từ vựng mới học/ôn ngày hôm qua vào danh sách buổi sáng để củng cố trong khoảng thời gian quên nhanh nhất sau 24h.
+  * Nếu số từ đến hạn ít hơn giới hạn bài học, tự động bổ sung thêm các từ sắp đến hạn tiếp theo (`nextReview ASC`) từ kho từ đã học để ôn cuốn chiếu.
+  * Trường `queueSize` trong payload trả về tổng số lượng thẻ thực tế đến hạn hôm nay của người dùng (`srsDataProvider.countDueWordReviews`).
 * **Ôn lại hôm nay (Today's Review - `GET /api/study/today-reviewed`)**:
-  * Tự động tổng hợp **100% các từ vựng đã được tương tác/đánh dấu trạng thái TRONG NGÀY HÔM NAY** (từ 00:00:00 đến 23:59:59 theo múi giờ địa phương `Asia/Ho_Chi_Minh`).
-  * Bao quát toàn bộ dữ liệu từ **cả 3 phân hệ**:
-    1. **Flashcards**: Khi người dùng lật thẻ hoặc đánh giá trạng thái thẻ.
-    2. **Trắc nghiệm & Gõ chữ (Quiz)**: Tích hợp đầy đủ 2 định dạng bài tập:
-       - **Trắc nghiệm (Multiple Choice)**: Chọn 1 trong 4 phương án.
-       - **Gõ chữ (Typing Quiz)**: Tự luận gõ đáp án bằng bàn phím (hỗ trợ kiểm tra từ đồng nghĩa & sửa lỗi chính tả tiếng Việt).
-       - Hỗ trợ đảo chiều linh hoạt: **Nhật ➔ Việt** và **Việt ➔ Nhật**.
-    3. **Thử thách AI**: Khi thực hiện bài tập dịch AI, hội thoại AI Tutor hoặc nhập kiến thức AI.
+  * Truy vấn trực tiếp từ `srsDataProvider.findByUserAndLastReviewedAtBetween` dựa trên mốc thời gian từ 00:00:00 đến 23:59:59 ngày hôm nay theo múi giờ `Asia/Ho_Chi_Minh`.
+  * **Thứ tự hiển thị**: Sắp xếp theo thứ tự mới học gần nhất (`lastReviewedAt DESC`).
+  * Chỉ tập trung củng cố đúng các từ vựng người dùng đã học / đã tương tác đánh giá trong ngày hôm nay (từ Flashcard, Quiz, AI Translation, v.v.).
 
 ---
 

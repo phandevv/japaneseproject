@@ -1,20 +1,22 @@
 package com.flashcard.srs.controller;
 
+import com.flashcard.knowledge.service.SchedulerService;
 import com.flashcard.srs.dto.WordReviewDto;
+import com.flashcard.srs.model.WordReview;
+import com.flashcard.srs.provider.SrsDataProvider;
+import com.flashcard.srs.service.LearningStrategyService;
+import com.flashcard.srs.service.SpacedRepetitionAlgorithm;
 import com.flashcard.user.model.User;
 import com.flashcard.vocabulary.model.Vocabulary;
-import com.flashcard.srs.model.WordReview;
-import com.flashcard.srs.repository.ReviewLogRepository;
-import com.flashcard.srs.service.LearningStrategyService;
-import com.flashcard.knowledge.service.SchedulerService;
-import com.flashcard.srs.service.SpacedRepetitionAlgorithm;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.ZonedDateTime;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @RestController
@@ -24,27 +26,22 @@ public class StudyController {
     private final SchedulerService schedulerService;
     private final LearningStrategyService learningStrategyService;
     private final SpacedRepetitionAlgorithm spacedRepetitionAlgorithm;
-    private final ReviewLogRepository reviewLogRepository;
-    private final com.flashcard.srs.repository.WordReviewRepository wordReviewRepository;
-    private final com.flashcard.vocabulary.provider.VocabularyDataProvider vocabularyDataProvider;
+    private final SrsDataProvider srsDataProvider;
 
     public StudyController(SchedulerService schedulerService,
                            LearningStrategyService learningStrategyService,
                            SpacedRepetitionAlgorithm spacedRepetitionAlgorithm,
-                           ReviewLogRepository reviewLogRepository,
-                           com.flashcard.srs.repository.WordReviewRepository wordReviewRepository,
-                           com.flashcard.vocabulary.provider.VocabularyDataProvider vocabularyDataProvider) {
+                           SrsDataProvider srsDataProvider) {
         this.schedulerService = schedulerService;
         this.learningStrategyService = learningStrategyService;
         this.spacedRepetitionAlgorithm = spacedRepetitionAlgorithm;
-        this.reviewLogRepository = reviewLogRepository;
-        this.wordReviewRepository = wordReviewRepository;
-        this.vocabularyDataProvider = vocabularyDataProvider;
+        this.srsDataProvider = srsDataProvider;
     }
 
     /**
      * GET /api/study/queue?level={level}
      * Returns the optimized SRS review queue for today (morning review).
+     * Words are ordered strictly by SRS due date (earliest due first).
      */
     @GetMapping("/queue")
     public ResponseEntity<?> getStudyQueue(@AuthenticationPrincipal User user,
@@ -74,18 +71,28 @@ public class StudyController {
             return dto;
         }).collect(Collectors.toList());
 
+        // Queue size: Count total due cards for user today if available
+        long totalDueCount = dtoList.size();
+        try {
+            java.time.ZoneId zone = java.time.ZoneId.of("Asia/Ho_Chi_Minh");
+            java.time.Instant dueThreshold = java.time.ZonedDateTime.now(zone).toLocalDate().plusDays(1).atStartOfDay(zone).toInstant();
+            long realDue = srsDataProvider.countDueWordReviews(user, dueThreshold);
+            if (realDue > 0) {
+                totalDueCount = realDue;
+            }
+        } catch (Exception ignored) {}
+
         return ResponseEntity.ok(Map.of(
             "queue", dtoList,
             "newWordsLimit", newWordsLimit,
-            "queueSize", dtoList.size()
+            "queueSize", totalDueCount
         ));
     }
 
     /**
      * GET /api/study/today-reviewed
-     * Returns the list of distinct vocabulary words reviewed TODAY by the authenticated user
-     * across Flashcards, Quizzes, AI Exercises, and Knowledge Entry.
-     * Includes automatic fallback to recent/learned/recommended words when today has not started.
+     * Returns the list of distinct vocabulary words reviewed TODAY (Asia/Ho_Chi_Minh) by the authenticated user.
+     * Preserves the most recent review order (lastReviewedAt DESC).
      */
     @GetMapping("/today-reviewed")
     public ResponseEntity<?> getTodayReviewed(@AuthenticationPrincipal User user) {
@@ -98,84 +105,22 @@ public class StudyController {
         ZonedDateTime todayStart = ZonedDateTime.now(zone).toLocalDate().atStartOfDay(zone);
         ZonedDateTime todayEnd = todayStart.plusDays(1);
 
-        // 1. Vocabularies logged in ReviewLog today
-        List<Vocabulary> logWords = reviewLogRepository.findDistinctVocabularyByUserAndCreatedAtBetween(
-                user,
-                todayStart.toInstant(),
-                todayEnd.toInstant()
-        );
-
-        // 2. Vocabularies updated in WordReview today
-        List<WordReview> reviewWords = wordReviewRepository.findByUserAndLastReviewedAtBetween(
+        // Fetch distinct vocabulary words reviewed today through srsDataProvider
+        Page<WordReview> todayReviews = srsDataProvider.findByUserAndLastReviewedAtBetween(
                 user,
                 todayStart.toInstant(),
                 todayEnd.toInstant(),
-                org.springframework.data.domain.Pageable.unpaged()
-        ).getContent();
+                PageRequest.of(0, 1000, Sort.by(Sort.Direction.DESC, "lastReviewedAt"))
+        );
 
-        // 3. Merge into a distinct list preserving order
-        java.util.Set<Long> seenIds = new java.util.HashSet<>();
-        List<Vocabulary> result = new java.util.ArrayList<>();
+        Set<Long> seenIds = new LinkedHashSet<>();
+        List<Vocabulary> result = new ArrayList<>();
 
-        if (logWords != null) {
-            for (Vocabulary v : logWords) {
-                if (v != null && v.getId() != null && seenIds.add(v.getId())) {
-                    result.add(v);
-                }
-            }
-        }
-        if (reviewWords != null) {
-            for (WordReview wr : reviewWords) {
-                if (wr != null && wr.getVocabulary() != null && wr.getVocabulary().getId() != null && seenIds.add(wr.getVocabulary().getId())) {
-                    result.add(wr.getVocabulary());
-                }
-            }
-        }
-
-        // 4. Fallback: Nếu hôm nay chưa có lượt ôn nào, tìm từ đã ôn trong 48 giờ gần nhất
-        if (result.isEmpty()) {
-            ZonedDateTime recentStart = todayStart.minusDays(1);
-            List<WordReview> recentReviews = wordReviewRepository.findByUserAndLastReviewedAtBetween(
-                    user,
-                    recentStart.toInstant(),
-                    todayEnd.toInstant(),
-                    org.springframework.data.domain.Pageable.unpaged()
-            ).getContent();
-
-            if (recentReviews != null) {
-                for (WordReview wr : recentReviews) {
-                    if (wr != null && wr.getVocabulary() != null && wr.getVocabulary().getId() != null && seenIds.add(wr.getVocabulary().getId())) {
+        if (todayReviews != null && todayReviews.getContent() != null) {
+            for (WordReview wr : todayReviews.getContent()) {
+                if (wr != null && wr.getVocabulary() != null && wr.getVocabulary().getId() != null) {
+                    if (seenIds.add(wr.getVocabulary().getId())) {
                         result.add(wr.getVocabulary());
-                    }
-                }
-            }
-        }
-
-        // 5. Fallback: Nếu vẫn rỗng, lấy danh sách từ đã học gần nhất của user
-        if (result.isEmpty()) {
-            List<Vocabulary> learned = wordReviewRepository.findLearnedVocabulariesByUser(
-                    user,
-                    org.springframework.data.domain.PageRequest.of(0, 30)
-            );
-            if (learned != null) {
-                for (Vocabulary v : learned) {
-                    if (v != null && v.getId() != null && seenIds.add(v.getId())) {
-                        result.add(v);
-                    }
-                }
-            }
-        }
-
-        // 6. Fallback cuối: Nếu là user mới chưa học từ nào, gợi ý 20 từ vựng để ôn tập
-        if (result.isEmpty()) {
-            List<Vocabulary> fallbackVocabs = vocabularyDataProvider.getRandom(20);
-            if (fallbackVocabs == null || fallbackVocabs.isEmpty()) {
-                fallbackVocabs = vocabularyDataProvider.getRandomByLevel("N5", 20);
-            }
-            if (fallbackVocabs != null) {
-                for (Vocabulary v : fallbackVocabs) {
-                    if (v != null && v.getId() != null && seenIds.add(v.getId())) {
-                        result.add(v);
                     }
                 }
             }
@@ -184,4 +129,3 @@ public class StudyController {
         return ResponseEntity.ok(result);
     }
 }
-

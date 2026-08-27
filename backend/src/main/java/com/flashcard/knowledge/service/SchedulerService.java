@@ -3,77 +3,98 @@ package com.flashcard.knowledge.service;
 import com.flashcard.user.model.User;
 import com.flashcard.srs.model.WordReview;
 import com.flashcard.srs.model.WordReviewState;
-import com.flashcard.srs.repository.WordReviewRepository;
+import com.flashcard.srs.provider.SrsDataProvider;
 import com.flashcard.vocabulary.model.Vocabulary;
 import com.flashcard.vocabulary.provider.VocabularyDataProvider;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
-import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
 public class SchedulerService {
 
-    @Autowired
-    private WordReviewRepository wordReviewRepository;
+    private final SrsDataProvider srsDataProvider;
+    private final VocabularyDataProvider vocabularyDataProvider;
 
-    @Autowired
-    private VocabularyDataProvider vocabularyDataProvider;
+    public SchedulerService(SrsDataProvider srsDataProvider,
+                            VocabularyDataProvider vocabularyDataProvider) {
+        this.srsDataProvider = srsDataProvider;
+        this.vocabularyDataProvider = vocabularyDataProvider;
+    }
 
     /**
-     * Lấy danh sách các từ cần ôn tập (Morning Review Queue) dựa trên Priority Score.
-     * Bao gồm tất cả từ quá hạn, từ đến hạn hôm nay, từ vừa mới học/ôn ngày hôm qua,
-     * và tự động fallback sang từ đã học hoặc từ vựng theo trình độ nếu chưa có từ quá hạn.
+     * Lấy danh sách các từ cần ôn tập (Morning Review Queue) theo thứ tự SRS.
+     * Cứ lấy từ trong các từ phải ôn theo thứ tự SRS ra (nextReview tăng dần: từ quá hạn / đến hạn trước thì ôn trước).
      */
     public List<WordReview> getReviewQueue(User user, int limit) {
+        if (user == null) return Collections.emptyList();
+
         java.time.ZoneId zone = java.time.ZoneId.of("Asia/Ho_Chi_Minh");
         java.time.ZonedDateTime nowZoned = java.time.ZonedDateTime.now(zone);
         
-        // 1. Threshold: End of today local time
+        // 1. Ngưỡng đến hạn: Hết ngày hôm nay theo giờ Việt Nam
         java.time.Instant dueThreshold = nowZoned.toLocalDate().plusDays(1).atStartOfDay(zone).toInstant();
 
-        // 2. Yesterday range (00:00:00 to 23:59:59 yesterday)
+        // 2. Khoảng thời gian ngày hôm qua (để bắt thêm các từ vừa học hôm qua cần củng cố)
         java.time.ZonedDateTime yesterdayStart = nowZoned.minusDays(1).toLocalDate().atStartOfDay(zone);
         java.time.Instant yStart = yesterdayStart.toInstant();
         java.time.Instant yEnd = yesterdayStart.plusDays(1).toInstant();
 
-        List<WordReview> dueReviews = null;
-        if (user != null) {
-            dueReviews = wordReviewRepository.findMorningReviewQueue(user, dueThreshold, yStart, yEnd);
-            if (dueReviews == null || dueReviews.isEmpty()) {
-                dueReviews = wordReviewRepository.findByUserAndNextReviewBefore(user, Instant.now());
-            }
-            if (dueReviews == null || dueReviews.isEmpty()) {
-                dueReviews = wordReviewRepository.findAllByUserFetchVocabulary(user);
-            }
+        // Lấy danh sách các từ đến hạn theo Morning Review Queue (hoặc due reviews)
+        List<WordReview> dueReviews = srsDataProvider.findMorningReviewQueue(user, dueThreshold, yStart, yEnd);
+        if (dueReviews == null || dueReviews.isEmpty()) {
+            dueReviews = srsDataProvider.findDueWordReviews(user, dueThreshold);
+        }
+        if (dueReviews == null || dueReviews.isEmpty()) {
+            dueReviews = srsDataProvider.findDueWordReviews(user, Instant.now());
         }
 
         List<WordReview> resultList = new ArrayList<>();
-        Set<Long> seenVocabIds = new java.util.HashSet<>();
+        Set<Long> seenVocabIds = new HashSet<>();
 
+        // Sắp xếp các từ phải ôn theo thứ tự SRS (nextReview tăng dần: từ nào đến hạn / quá hạn trước thì ôn trước)
         if (dueReviews != null) {
-            for (WordReview wr : dueReviews) {
-                if (wr != null && wr.getVocabulary() != null && wr.getVocabulary().getId() != null) {
-                    if (seenVocabIds.add(wr.getVocabulary().getId())) {
-                        resultList.add(wr);
-                    }
+            List<WordReview> validReviews = dueReviews.stream()
+                    .filter(wr -> wr != null && wr.getVocabulary() != null && wr.getVocabulary().getId() != null)
+                    .sorted(Comparator.comparing(
+                            wr -> wr.getNextReview() != null ? wr.getNextReview() : Instant.EPOCH
+                    ))
+                    .collect(Collectors.toList());
+
+            for (WordReview wr : validReviews) {
+                if (seenVocabIds.add(wr.getVocabulary().getId())) {
+                    resultList.add(wr);
+                    if (resultList.size() >= limit) break;
                 }
             }
         }
 
-        // 3. Fallback: Nếu danh sách rỗng hoặc ít hơn limit, bổ sung từ vựng từ hệ thống
+        // 3. Nếu danh sách chưa đủ limit (hoặc user đã ôn hết từ quá hạn), bổ sung từ sắp đến hạn tiếp theo
         if (resultList.size() < limit) {
-            int needed = limit - resultList.size();
-            List<Vocabulary> extraVocabs = vocabularyDataProvider.getRandom(needed * 2);
+            List<WordReview> allLearned = srsDataProvider.findAllLearnedByUser(user);
+            if (allLearned != null) {
+                // Sắp xếp các từ đã học theo nextReview ASC để ôn cuốn chiếu
+                allLearned.stream()
+                        .filter(wr -> wr != null && wr.getVocabulary() != null && wr.getVocabulary().getId() != null)
+                        .sorted(Comparator.comparing(
+                                wr -> wr.getNextReview() != null ? wr.getNextReview() : Instant.EPOCH
+                        ))
+                        .forEach(wr -> {
+                            if (resultList.size() < limit && seenVocabIds.add(wr.getVocabulary().getId())) {
+                                resultList.add(wr);
+                            }
+                        });
+            }
+        }
+
+        // 4. Fallback cuối cùng: Chỉ dành cho user hoàn toàn mới (0 từ trong SRS)
+        if (resultList.isEmpty()) {
+            int needed = limit;
+            List<Vocabulary> extraVocabs = vocabularyDataProvider.getRandom(needed);
             if (extraVocabs == null || extraVocabs.isEmpty()) {
-                extraVocabs = vocabularyDataProvider.getRandomByLevel("N5", needed * 2);
+                extraVocabs = vocabularyDataProvider.getRandomByLevel("N5", needed);
             }
 
             if (extraVocabs != null) {
@@ -92,31 +113,7 @@ public class SchedulerService {
             }
         }
 
-        // 4. Sắp xếp theo Priority Score giảm dần
-        return resultList.stream()
-                .sorted(Comparator.comparingDouble(this::calculatePriorityScore).reversed())
-                .limit(limit)
-                .collect(Collectors.toList());
-    }
-
-    private double calculatePriorityScore(WordReview review) {
-        if (review == null) return 0.0;
-        Instant nextRev = review.getNextReview() != null ? review.getNextReview() : Instant.now();
-
-        // 1. Overdue Score: Từ quá hạn càng lâu, điểm càng cao (tính bằng ngày)
-        long daysOverdue = ChronoUnit.DAYS.between(nextRev, Instant.now());
-        double overdueScore = Math.max(0, daysOverdue) * 2.0;
-
-        // 2. Difficulty Score: Từ càng khó (difficulty cao), điểm càng cao
-        double difficultyScore = review.getDifficulty() * 1.5;
-
-        // 3. Consecutive Wrong Penalty: Nếu làm sai liên tục hoặc chuỗi đúng thấp, ưu tiên nhắc lại
-        double wrongWeight = (review.getConsecutiveCorrect() == 0) ? 5.0 : 0.0;
-        
-        // 4. Base Weight for low stability: Từ nào có stability thấp (nhanh quên) thì được cộng điểm
-        double stabilityPenalty = Math.max(0, 10 - review.getStability());
-
-        return overdueScore + difficultyScore + wrongWeight + stabilityPenalty;
+        return resultList;
     }
 }
 

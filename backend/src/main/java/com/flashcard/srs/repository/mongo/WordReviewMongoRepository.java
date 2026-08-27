@@ -33,7 +33,7 @@ public interface WordReviewMongoRepository extends MongoRepository<WordReviewDoc
 
     Page<WordReviewDoc> findByUserIdAndLastReviewedAtBetweenAndLastRatingIn(Long userId, Instant start, Instant end, List<Integer> ratings, Pageable pageable);
 
-    @Query("{'userId': ?0, '$or': [{'nextReview': {'$lte': ?1}}, {'lastReviewedAt': {'$gte': ?2, '$lte': ?3}}]}")
+    @Query(value = "{'userId': ?0, '$or': [{'nextReview': {'$lte': ?1}}, {'lastReviewedAt': {'$gte': ?2, '$lte': ?3}}]}", sort = "{'nextReview': 1}")
     List<WordReviewDoc> findMorningReviewQueue(Long userId, Instant dueThreshold, Instant yesterdayStart, Instant yesterdayEnd);
 
     void deleteByVocabularyIdIn(List<Long> vocabularyIds);

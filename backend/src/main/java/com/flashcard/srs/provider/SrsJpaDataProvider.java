@@ -1,6 +1,5 @@
 package com.flashcard.srs.provider;
 
-import com.flashcard.knowledge.model.GrammarCard;
 import com.flashcard.srs.model.*;
 import com.flashcard.srs.repository.*;
 import com.flashcard.user.model.User;
@@ -13,10 +12,7 @@ import org.springframework.stereotype.Component;
 
 import java.time.Instant;
 import java.time.LocalDate;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @Component
 @ConditionalOnProperty(name = "app.database.type", havingValue = "mysql", matchIfMissing = true)
@@ -109,7 +105,12 @@ public class SrsJpaDataProvider implements SrsDataProvider {
 
     @Override
     public List<WordReview> findMorningReviewQueue(User user, Instant dueThreshold, Instant yesterdayStart, Instant yesterdayEnd) {
-        return wordReviewRepository.findMorningReviewQueue(user, dueThreshold, yesterdayStart, yesterdayEnd);
+        List<WordReview> list = wordReviewRepository.findMorningReviewQueue(user, dueThreshold, yesterdayStart, yesterdayEnd);
+        if (list != null) {
+            list = new ArrayList<>(list);
+            list.sort(Comparator.comparing(wr -> wr.getNextReview() != null ? wr.getNextReview() : Instant.EPOCH));
+        }
+        return list;
     }
 
     @Override

@@ -86,6 +86,9 @@ public class SrsMongoDataProvider implements SrsDataProvider {
     @Override
     public List<WordReview> findDueWordReviews(User user, Instant time) {
         List<WordReviewDoc> docs = wordReviewMongoRepository.findByUserIdAndNextReviewBefore(user.getId(), time);
+        if (docs != null) {
+            docs.sort(Comparator.comparing(d -> d.getNextReview() != null ? d.getNextReview() : Instant.EPOCH));
+        }
         return hydrateWordReviews(docs, user);
     }
 
@@ -285,6 +288,9 @@ public class SrsMongoDataProvider implements SrsDataProvider {
     @Override
     public List<WordReview> findMorningReviewQueue(User user, Instant dueThreshold, Instant yesterdayStart, Instant yesterdayEnd) {
         List<WordReviewDoc> docs = wordReviewMongoRepository.findMorningReviewQueue(user.getId(), dueThreshold, yesterdayStart, yesterdayEnd);
+        if (docs != null) {
+            docs.sort(Comparator.comparing(d -> d.getNextReview() != null ? d.getNextReview() : Instant.EPOCH));
+        }
         return hydrateWordReviews(docs, user);
     }
 
