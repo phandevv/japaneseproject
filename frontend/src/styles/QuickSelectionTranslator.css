@@ -87,10 +87,11 @@
 }
 
 .quick-trans-reading {
-  font-size: 0.95rem;
-  color: var(--accent-color, #6366f1);
-  font-weight: 600;
-  margin-top: 4px;
+  font-size: 1.05rem;
+  color: var(--accent-color, #818cf8);
+  font-weight: 700;
+  margin-top: 3px;
+  letter-spacing: 0.5px;
 }
 
 .quick-trans-romaji {

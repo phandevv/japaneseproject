@@ -422,8 +422,8 @@ const isContainsKanji = (str) => {
     });
   }, [lessonData]);
 
-  // Extract items for Flashcards
-  const flashcardItems = useMemo(() => {
+  // Extract items for Flashcards (Default Sequence)
+  const defaultFlashcardItems = useMemo(() => {
     if (!lessonData) return [];
     const items = [];
 
@@ -499,16 +499,50 @@ const isContainsKanji = (str) => {
     return items;
   }, [lessonData, flashcardCategory]);
 
+  // Flashcard Order State: Default vs Shuffle
+  const [isShuffle, setIsShuffle] = useState(false);
+  const [shuffledItems, setShuffledItems] = useState([]);
+
+  // Fisher-Yates shuffle algorithm
+  const shuffleList = (arr) => {
+    const copy = [...arr];
+    for (let i = copy.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [copy[i], copy[j]] = [copy[j], copy[i]];
+    }
+    return copy;
+  };
+
+  // Re-shuffle when category or lesson data changes if currently in shuffle mode
+  useEffect(() => {
+    if (isShuffle) {
+      setShuffledItems(shuffleList(defaultFlashcardItems));
+    }
+    setCurrentFlashcardIndex(0);
+    setIsFlipped(false);
+  }, [defaultFlashcardItems, isShuffle]);
+
+  // Active flashcard items based on current mode
+  const flashcardItems = useMemo(() => {
+    return isShuffle ? shuffledItems : defaultFlashcardItems;
+  }, [isShuffle, shuffledItems, defaultFlashcardItems]);
+
   const currentFlashcardWord = useMemo(() => {
     if (flashcardItems.length === 0) return null;
     return flashcardItems[currentFlashcardIndex] || null;
   }, [flashcardItems, currentFlashcardIndex]);
 
-  // Reset Flashcard index when category changes
-  useEffect(() => {
-    setCurrentFlashcardIndex(0);
+  // Toggle between Shuffle and Default modes (Single Button)
+  const toggleShuffle = () => {
     setIsFlipped(false);
-  }, [flashcardCategory]);
+    setCurrentFlashcardIndex(0);
+    if (!isShuffle) {
+      setShuffledItems(shuffleList(defaultFlashcardItems));
+      setIsShuffle(true);
+    } else {
+      setIsShuffle(false);
+    }
+  };
 
   // Handle Flashcard Navigation
   const nextFlashcard = () => {
@@ -521,14 +555,6 @@ const isContainsKanji = (str) => {
     if (flashcardItems.length === 0) return;
     setIsFlipped(false);
     setCurrentFlashcardIndex(prev => (prev - 1 + flashcardItems.length) % flashcardItems.length);
-  };
-
-  const shuffleFlashcards = () => {
-    setIsFlipped(false);
-    if (flashcardItems.length > 0) {
-      const rand = Math.floor(Math.random() * flashcardItems.length);
-      setCurrentFlashcardIndex(rand);
-    }
   };
 
   const currentCategoryPoolCount = useMemo(() => {
@@ -1517,8 +1543,18 @@ const isContainsKanji = (str) => {
                   ) : (
                     <>
                       {/* Progress & Card Index */}
-                      <div style={{ fontSize: '0.9rem', color: 'var(--text-secondary)', fontWeight: 600 }}>
-                        Thẻ {currentFlashcardIndex + 1} / {flashcardItems.length}
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '0.9rem', color: 'var(--text-secondary)', fontWeight: 600 }}>
+                        <span>Thẻ {currentFlashcardIndex + 1} / {flashcardItems.length}</span>
+                        <span style={{
+                          fontSize: '0.75rem',
+                          padding: '2px 8px',
+                          borderRadius: '12px',
+                          background: isShuffle ? 'rgba(139, 92, 246, 0.15)' : 'var(--surface-hover)',
+                          color: isShuffle ? '#a78bfa' : 'var(--text-muted)',
+                          border: isShuffle ? '1px solid rgba(139, 92, 246, 0.3)' : '1px solid transparent'
+                        }}>
+                          {isShuffle ? '🔀 Ngẫu nhiên' : '📑 Mặc định'}
+                        </span>
                       </div>
 
                       {/* REUSED FLASHCARD CARD COMPONENT */}
@@ -1551,11 +1587,28 @@ const isContainsKanji = (str) => {
                           <ChevronLeft size={18} /> Thẻ trước
                         </button>
                         <button
-                          onClick={shuffleFlashcards}
-                          style={{ padding: '12px', borderRadius: '12px', border: '1px solid var(--border-color)', background: 'var(--surface-color)', cursor: 'pointer' }}
-                          title="Xáo trộn thẻ"
+                          onClick={toggleShuffle}
+                          style={{
+                            padding: '12px 20px',
+                            borderRadius: '12px',
+                            border: isShuffle ? '1.5px solid #8b5cf6' : '1px solid var(--border-color)',
+                            background: isShuffle 
+                              ? 'linear-gradient(135deg, rgba(139, 92, 246, 0.22), rgba(99, 102, 241, 0.25))' 
+                              : 'var(--surface-color)',
+                            color: isShuffle ? '#a78bfa' : 'var(--text-secondary)',
+                            cursor: 'pointer',
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '8px',
+                            fontWeight: 700,
+                            fontSize: '0.9rem',
+                            boxShadow: isShuffle ? '0 2px 10px rgba(139, 92, 246, 0.3)' : 'none',
+                            transition: 'all 0.2s ease'
+                          }}
+                          title={isShuffle ? "Chế độ hiện tại: Shuffle (Ngẫu nhiên). Bấm để chuyển về Default (Mặc định)" : "Chế độ hiện tại: Default (Mặc định). Bấm để chuyển sang Shuffle (Ngẫu nhiên)"}
                         >
-                          <Shuffle size={18} />
+                          <Shuffle size={18} style={{ color: isShuffle ? '#a78bfa' : 'var(--text-muted)' }} />
+                          <span>{isShuffle ? 'Shuffle' : 'Default'}</span>
                         </button>
                         <button
                           onClick={nextFlashcard}

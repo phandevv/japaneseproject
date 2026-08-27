@@ -1,5 +1,6 @@
 import * as wanakana from 'wanakana';
 import { getHanViet } from '../utils/hanVietDict';
+import { getOfflineReading } from '../utils/readingDict';
 
 // In-memory translation cache (0ms lookup on repeated phrases)
 const translationCache = new Map();
@@ -28,8 +29,15 @@ export const translateJapanese = async (text) => {
 
   // Pre-calculate offline linguistic attributes (0.01ms)
   const hanViet = getHanViet(clean);
-  const romaji = wanakana.toRomaji(clean);
-  const hiragana = wanakana.toHiragana(clean);
+  let hiragana = '';
+  if (wanakana.isKatakana(clean)) {
+    hiragana = wanakana.toHiragana(clean);
+  } else if (wanakana.isHiragana(clean)) {
+    hiragana = clean;
+  } else {
+    hiragana = getOfflineReading(clean);
+  }
+  let romaji = hiragana ? wanakana.toRomaji(hiragana) : wanakana.toRomaji(clean);
 
   let translatedText = '';
 

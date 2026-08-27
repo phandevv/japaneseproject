@@ -7,6 +7,7 @@ import * as wanakana from 'wanakana';
 import { vocabApi, knowledgeApi } from '../services/api';
 import { translateJapanese } from '../services/translatorService';
 import { getHanViet, containsKanji } from '../utils/hanVietDict';
+import { getOfflineReading } from '../utils/readingDict';
 import '../styles/QuickSelectionTranslator.css';
 
 // Client-side in-memory dictionary cache to ensure 0ms response on repeated words
@@ -24,6 +25,7 @@ const QuickSelectionTranslator = () => {
   const [segments, setSegments] = useState([]);
   const [liveTranslation, setLiveTranslation] = useState('');
   const [liveHanViet, setLiveHanViet] = useState('');
+  const [liveHiragana, setLiveHiragana] = useState('');
   const [liveRomaji, setLiveRomaji] = useState('');
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -109,7 +111,16 @@ const QuickSelectionTranslator = () => {
     // Immediate offline linguistic analysis (< 0.01ms)
     const hv = getHanViet(text);
     setLiveHanViet(hv);
-    setLiveRomaji(wanakana.toRomaji(text));
+    let instantReading = '';
+    if (wanakana.isKatakana(text)) {
+      instantReading = wanakana.toHiragana(text);
+    } else if (wanakana.isHiragana(text)) {
+      instantReading = text;
+    } else {
+      instantReading = getOfflineReading(text);
+    }
+    setLiveHiragana(instantReading);
+    setLiveRomaji(instantReading ? wanakana.toRomaji(instantReading) : wanakana.toRomaji(text));
 
     // Segment text if multiple words (via Intl.Segmenter)
     let segList = [];
@@ -147,6 +158,9 @@ const QuickSelectionTranslator = () => {
         setLiveTranslation(transResult.translatedText);
         if (transResult.romaji && !liveRomaji) setLiveRomaji(transResult.romaji);
         if (transResult.hanViet && !liveHanViet) setLiveHanViet(transResult.hanViet);
+        if (transResult.hiragana) {
+          setLiveHiragana(prev => prev || transResult.hiragana);
+        }
       } else {
         setLiveTranslation('Không thể dịch tự động.');
       }
@@ -193,6 +207,18 @@ const QuickSelectionTranslator = () => {
 
       localLookupCache.set(clean, items);
       setResults(items);
+
+      // If matched word in database has hiragana or hanViet, update live states
+      if (items.length > 0) {
+        const match = items.find(w => w.kanji === clean || w.word === clean) || items[0];
+        if (match.hiragana) {
+          setLiveHiragana(match.hiragana);
+          setLiveRomaji(wanakana.toRomaji(match.hiragana));
+        }
+        if (match.hanViet && !liveHanViet) {
+          setLiveHanViet(match.hanViet);
+        }
+      }
     } catch (err) {
       console.error('Error during local dictionary lookup:', err);
       setResults([]);
@@ -224,7 +250,7 @@ const QuickSelectionTranslator = () => {
     try {
       await knowledgeApi.save('vocabulary', {
         kanji: item.kanji || item.word || activeWord,
-        hiragana: item.hiragana || item.reading || '',
+        hiragana: item.hiragana || item.reading || liveHiragana || '',
         meaning: item.meaning || liveTranslation || '',
         hanViet: item.hanViet || item.han_viet || liveHanViet || '',
         wordType: item.wordType || item.word_type || '',
@@ -246,7 +272,7 @@ const QuickSelectionTranslator = () => {
     try {
       await knowledgeApi.save('vocabulary', {
         kanji: activeWord,
-        hiragana: wanakana.toHiragana(activeWord),
+        hiragana: liveHiragana || wanakana.toHiragana(activeWord),
         meaning: liveTranslation,
         hanViet: liveHanViet,
         wordType: 'Từ vựng',
@@ -304,6 +330,14 @@ const QuickSelectionTranslator = () => {
                   </span>
                 )}
               </div>
+
+              {/* Hiragana Reading Display */}
+              {liveHiragana && liveHiragana !== activeWord && (
+                <div className="quick-trans-reading font-jp" title="Cách đọc Hiragana">
+                  【{liveHiragana}】
+                </div>
+              )}
+
               {liveRomaji && <div className="quick-trans-romaji">{liveRomaji}</div>}
             </div>
 
@@ -346,7 +380,16 @@ const QuickSelectionTranslator = () => {
                     setActiveWord(seg);
                     const hv = getHanViet(seg);
                     setLiveHanViet(hv);
-                    setLiveRomaji(wanakana.toRomaji(seg));
+                    let segReading = '';
+                    if (wanakana.isKatakana(seg)) {
+                      segReading = wanakana.toHiragana(seg);
+                    } else if (wanakana.isHiragana(seg)) {
+                      segReading = seg;
+                    } else {
+                      segReading = getOfflineReading(seg);
+                    }
+                    setLiveHiragana(segReading);
+                    setLiveRomaji(segReading ? wanakana.toRomaji(segReading) : wanakana.toRomaji(seg));
                     performUniversalTranslation(seg);
                     executeDatabaseLookup(seg);
                   }}
