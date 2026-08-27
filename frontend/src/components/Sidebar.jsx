@@ -1,4 +1,4 @@
-import { BookOpen, ChevronLeft, ChevronRight, Cpu, Database, Home, Layers, Loader, LogIn, LogOut, MessageSquare, Palette, Search, ShieldCheck, Upload, LifeBuoy, Gamepad2, Sun, RefreshCw, Trophy, FileText, Sparkles, GraduationCap } from "lucide-react";
+import { BookOpen, ChevronLeft, ChevronRight, Cpu, Database, Home, Layers, Loader, LogIn, LogOut, MessageSquare, Palette, Search, ShieldCheck, Upload, LifeBuoy, Gamepad2, Sun, Sunset, Moon, RefreshCw, Trophy, FileText, Sparkles, GraduationCap } from "lucide-react";
 import { useRef, useState } from "react";
 import { useLanguage } from "../context/LanguageContext";
 import { useTheme } from "../context/ThemeContext";
@@ -116,13 +116,27 @@ const Sidebar = ({ isCollapsed, onToggleCollapse, currentPage, setCurrentPage, o
         </button>
 
         <div className="sidebar-section-label" style={{ marginTop: '10px' }}>Ôn tập</div>
-        <button
-          className={`sidebar-link${currentPage === "review-morning" ? " active" : ""}`}
-          onClick={() => setCurrentPage("review-morning")}
-        >
-          <Sun size={17} />
-          <span>Ôn tập buổi sáng</span>
-        </button>
+        {(() => {
+          const hour = new Date().getHours();
+          let reviewTimeLabel = 'Ôn tập buổi sáng';
+          let ReviewTimeIcon = Sun;
+          if (hour >= 12 && hour < 18) {
+            reviewTimeLabel = 'Ôn tập buổi chiều';
+            ReviewTimeIcon = Sunset;
+          } else if (hour >= 18 || hour < 5) {
+            reviewTimeLabel = 'Ôn tập buổi tối';
+            ReviewTimeIcon = Moon;
+          }
+          return (
+            <button
+              className={`sidebar-link${currentPage === "review-morning" ? " active" : ""}`}
+              onClick={() => setCurrentPage("review-morning")}
+            >
+              <ReviewTimeIcon size={17} />
+              <span>{reviewTimeLabel}</span>
+            </button>
+          );
+        })()}
         <button
           className={`sidebar-link${currentPage === "review-today" ? " active" : ""}`}
           onClick={() => setCurrentPage("review-today")}

@@ -375,7 +375,15 @@ const ReviewQuizPage = ({ mode = 'default', words: propWords = null, goBack }) =
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
           <FileQuestion size={22} color="var(--accent-color)" />
           <span style={{ fontWeight: 700, fontSize: '1.1rem' }}>
-            {mode === 'morning' ? 'Quiz Ôn tập buổi sáng' : mode === 'today' ? 'Quiz Ôn lại hôm nay' : 'Quiz Luyện tập'}
+            {(() => {
+              if (mode !== 'morning') {
+                return mode === 'today' ? 'Quiz Ôn lại hôm nay' : 'Quiz Luyện tập';
+              }
+              const hour = new Date().getHours();
+              if (hour >= 12 && hour < 18) return 'Quiz Ôn tập buổi chiều';
+              if (hour >= 18 || hour < 5) return 'Quiz Ôn tập buổi tối';
+              return 'Quiz Ôn tập buổi sáng';
+            })()}
           </span>
         </div>
         <div style={{ marginLeft: 'auto', display: 'flex', gap: '16px', fontSize: '1.05rem' }}>

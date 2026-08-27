@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Sun, RefreshCw, Layers, FileQuestion, Bot, ArrowLeft, Loader, Sparkles } from 'lucide-react';
+import { Sun, Sunset, Moon, RefreshCw, Layers, FileQuestion, Bot, ArrowLeft, Loader, Sparkles } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { studyApi, srsApi } from '../services/api';
 import FlashcardPage from './FlashcardPage';
@@ -88,24 +88,39 @@ const ReviewHubPage = ({ mode = 'morning', goBack }) => {
       <SakuraPetals />
 
       {/* Header */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '40px' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-          {isMorning
-            ? <Sun size={28} color="var(--accent-color)" />
-            : <RefreshCw size={28} color="var(--success-color)" />
-          }
-          <div>
-            <h1 style={{ margin: 0, fontSize: '1.8rem' }}>
-              {isMorning ? 'Ôn tập buổi sáng' : 'Ôn lại hôm nay'}
-            </h1>
-            <p style={{ margin: 0, color: 'var(--text-secondary)', fontSize: '0.9rem' }}>
+      {(() => {
+        const hour = new Date().getHours();
+        let timeLabel = 'Ôn tập buổi sáng';
+        let TimeIcon = Sun;
+        if (hour >= 12 && hour < 18) {
+          timeLabel = 'Ôn tập buổi chiều';
+          TimeIcon = Sunset;
+        } else if (hour >= 18 || hour < 5) {
+          timeLabel = 'Ôn tập buổi tối';
+          TimeIcon = Moon;
+        }
+
+        return (
+          <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '40px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
               {isMorning
-                ? 'Ôn lại kiến thức cũ dựa trên thuật toán FSRS thông minh'
-                : 'Củng cố các từ bạn vừa học trong ngày hôm nay'}
-            </p>
+                ? <TimeIcon size={28} color="var(--accent-color)" />
+                : <RefreshCw size={28} color="var(--success-color)" />
+              }
+              <div>
+                <h1 style={{ margin: 0, fontSize: '1.8rem' }}>
+                  {isMorning ? timeLabel : 'Ôn lại hôm nay'}
+                </h1>
+                <p style={{ margin: 0, color: 'var(--text-secondary)', fontSize: '0.9rem' }}>
+                  {isMorning
+                    ? 'Ôn lại kiến thức cũ dựa trên thuật toán FSRS thông minh'
+                    : 'Củng cố các từ bạn vừa học trong ngày hôm nay'}
+                </p>
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
+        );
+      })()}
 
       {/* Stats badge */}
       <div style={{
