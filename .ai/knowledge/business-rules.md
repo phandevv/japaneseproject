@@ -158,3 +158,19 @@ $$EF' = EF + (0.1 - (5 - q) \times (0.08 + (5 - q) \times 0.02))$$
   * Hệ thống khởi tạo/cập nhật bản ghi `StudySession` cho ngày `targetDate` với `isRepaired = true`, `wordsStudied = 1` và lưu vết vào `StreakRepairLogDoc`.
   * Thuật toán `calculateStreak` tự động liên kết các ngày học và khôi phục chuỗi Day Streak liên tục.
 
+---
+
+## 10. Quy tắc Bảng Xếp Hạng & Bảng Vinh Danh (Leaderboard & Podium Rules)
+
+* **3 Phân hệ xếp hạng cạnh tranh:**
+  * **⚡ Hôm nay (`words`)**: Xếp hạng theo số từ học được trong ngày (từ 00:00 đến 23:59 múi giờ Việt Nam). Khuyến khích sự bứt phá hàng ngày.
+  * **📚 Tổng học (`learned`)**: Xếp hạng theo tổng số từ vựng thực tế đã tích lũy thuộc lòng trong từ điển (`countByIdIn`).
+  * **🔥 Chuỗi ngày (`streak`)**: Xếp hạng theo độ kiên trì liên tục (Day Streak) không bỏ lỡ ngày nào.
+* **Bục vinh quang Top 3 (3D Podium Showcase):**
+  * Tự động hiển thị bục Top 3 với Rank 1 (Vàng - Vương miện Crown 👑 bay bổng), Rank 2 (Bạc 🥈), Rank 3 (Đồng 🥉).
+  * Hiển thị Avatar, tên người dùng và huy hiệu điểm số nổi bật.
+* **Tương tác Hồ sơ người dùng (Interactive Profile Modal):**
+  * Click vào bất kỳ người dùng nào trên bục hoặc danh sách top 4-10 đều mở trực tiếp `UserProfileModal` để xem chi tiết thông tin, cấp độ, thành tựu của họ.
+* **Thẻ vị trí của bạn (Your Rank Banner):**
+  * Tự động định vị và thông báo thứ hạng hiện tại của người dùng đang đăng nhập trong phân hệ đang xem.
+
