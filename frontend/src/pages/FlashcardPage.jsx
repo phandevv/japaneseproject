@@ -633,45 +633,45 @@ const FlashcardPage = ({ level: initialLevel, isSrs = false, stats, goBack, onDa
   const currentWord = words[currentIndex];
 
   return (
-    <div className="flashcard-page-premium-bg animate-fade-in" style={{ padding: '20px', maxWidth: '1000px', margin: '0 auto' }}>
+    <div className="flashcard-page-premium-bg animate-fade-in" style={{ padding: '16px 8px', maxWidth: '1000px', margin: '0 auto', width: '100%' }}>
       <SakuraPetals />
 
-      <div className="flashcard-content-wrapper">
+      <div className="flashcard-content-wrapper" style={{ padding: '10px 4px', width: '100%' }}>
         {/* Header */}
-        <div className="flex-between" style={{ marginBottom: '24px' }}>
-          <button className="btn btn-secondary" style={{ padding: '8px 16px', display: 'flex', alignItems: 'center', gap: '6px' }} onClick={handleBack}>
-            <CornerUpLeft size={18} /> {selectedDay !== null ? "Chọn ngày khác" : ((!initialLevel && activeLevel) ? t.flashcard.backSelection : t.flashcard.backDashboard)}
+        <div className="flex-between" style={{ marginBottom: '18px', flexWrap: 'wrap', gap: '10px' }}>
+          <button className="btn btn-secondary" style={{ padding: '8px 14px', display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.85rem' }} onClick={handleBack}>
+            <CornerUpLeft size={16} /> {selectedDay !== null ? "Chọn ngày khác" : ((!initialLevel && activeLevel) ? t.flashcard.backSelection : t.flashcard.backDashboard)}
           </button>
 
           <div style={{ textAlign: 'center' }}>
-            <h2 style={{ fontSize: '1.4rem', margin: 0 }}>
+            <h2 style={{ fontSize: '1.25rem', margin: 0 }}>
               {isSrs ? "Ôn tập SRS" : isLearnedStudy ? "Flashcard từ đã học" : `${t.flashcard.level}: `}
               {!isSrs && !isLearnedStudy && <span style={{ color: levelColors[activeLevel] || 'var(--accent-color)' }}>{t.home.levelLabels[activeLevel] || activeLevel} (Ngày {selectedDay})</span>}
             </h2>
           </div>
 
           {!isSrs && !isLearnedStudy ? (
-            <button className="btn btn-secondary" style={{ padding: '8px 16px', display: 'flex', alignItems: 'center', gap: '6px' }} onClick={() => fetchWordsForDay(selectedDay)}>
-              <Shuffle size={18} /> Trộn từ
+            <button className="btn btn-secondary" style={{ padding: '8px 14px', display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.85rem' }} onClick={() => fetchWordsForDay(selectedDay)}>
+              <Shuffle size={16} /> Trộn từ
             </button>
           ) : (
-            <div style={{ width: '100px' }}></div>
+            <div style={{ width: '80px' }}></div>
           )}
         </div>
 
         {/* Progress Bar */}
-        <div style={{ marginBottom: '32px' }}>
-          <div className="flex-between" style={{ marginBottom: '8px', fontSize: '0.9rem', color: 'var(--text-secondary)' }}>
+        <div style={{ marginBottom: '24px' }}>
+          <div className="flex-between" style={{ marginBottom: '6px', fontSize: '0.82rem', color: 'var(--text-secondary)' }}>
             <span>Thẻ {currentIndex + 1} / {words.length}</span>
             <span>{Math.round(progressPercentage)}% hoàn thành</span>
           </div>
-          <div className="progress-bg" style={{ height: '8px', borderRadius: '4px', overflow: 'hidden' }}>
+          <div className="progress-bg" style={{ height: '7px', borderRadius: '4px', overflow: 'hidden' }}>
             <div className="progress-fill" style={{ width: `${progressPercentage}%`, height: '100%', background: 'linear-gradient(90deg, #3b82f6, #10b981)', borderRadius: '4px' }}></div>
           </div>
         </div>
 
         {/* Flashcard Area */}
-        <div style={{ minHeight: '480px', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'visible' }}>
+        <div style={{ minHeight: '480px', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'visible', width: '100%' }}>
           <div className={`card-swipe-wrapper ${swipeAnim}`}>
             <FlashcardCard
               key={currentWord?.id || currentIndex}
@@ -684,17 +684,17 @@ const FlashcardPage = ({ level: initialLevel, isSrs = false, stats, goBack, onDa
         </div>
 
         {/* Navigation Controls */}
-        <div className="flex-center" style={{ gap: '24px', marginTop: '32px' }}>
+        <div className="flex-center" style={{ gap: '16px', marginTop: '20px', flexWrap: 'wrap' }}>
           <button
             className="btn-icon"
             onClick={handlePrev}
             disabled={currentIndex === 0}
-            style={{ width: '56px', height: '56px', borderRadius: '50%', opacity: currentIndex === 0 ? 0.4 : 1, cursor: currentIndex === 0 ? 'not-allowed' : 'pointer' }}
+            style={{ width: '48px', height: '48px', minWidth: '48px', borderRadius: '50%', opacity: currentIndex === 0 ? 0.4 : 1, cursor: currentIndex === 0 ? 'not-allowed' : 'pointer' }}
           >
-            <ArrowLeft size={26} />
+            <ArrowLeft size={22} />
           </button>
 
-          <div style={{ color: 'var(--text-secondary)', fontSize: '0.88rem', textAlign: 'center', minWidth: '180px', lineHeight: 1.4 }}>
+          <div style={{ color: 'var(--text-secondary)', fontSize: '0.8rem', textAlign: 'center', minWidth: '150px', lineHeight: 1.3 }}>
             Phím <strong>1-4</strong> hoặc <strong>Forgot/Good/Easy</strong> để đánh giá<br />
             Phím <strong>← →</strong> chuyển thẻ | <strong>Space</strong> lật thẻ
           </div>
@@ -703,13 +703,13 @@ const FlashcardPage = ({ level: initialLevel, isSrs = false, stats, goBack, onDa
             className="btn-icon"
             onClick={handleNext}
             style={{
-              width: '56px', height: '56px', borderRadius: '50%',
+              width: '48px', height: '48px', minWidth: '48px', borderRadius: '50%',
               backgroundColor: currentIndex === words.length - 1 ? '#10b981' : 'var(--accent-color)',
               color: 'white', border: 'none', cursor: 'pointer',
               boxShadow: currentIndex !== words.length - 1 ? '0 4px 14px rgba(37,99,235,0.35)' : '0 4px 14px rgba(16,185,129,0.35)'
             }}
           >
-            {currentIndex === words.length - 1 ? <Check size={26} /> : <ArrowRight size={26} />}
+            {currentIndex === words.length - 1 ? <Check size={22} /> : <ArrowRight size={22} />}
           </button>
         </div>
       </div>

@@ -1030,10 +1030,42 @@ input, textarea, select { font-family: var(--font-ui); color: var(--text-primary
   .grid-cols-4 { grid-template-columns: repeat(2, 1fr); }
   .grid-cols-3 { grid-template-columns: repeat(2, 1fr); }
   .grid-cols-2 { grid-template-columns: 1fr; }
-  .flashcard-container { height: auto; min-height: 520px; }
-  .flashcard-back-content { flex-direction: column; padding: 16px 12px; gap: 14px; }
-  .flashcard-back-left { flex: none; border-right: none; border-bottom: 1px solid var(--border-color); padding-right: 0; padding-bottom: 14px; }
-  .flashcard-back-right { width: 100%; min-height: 360px; }
+  
+  .flashcard-container {
+    height: clamp(520px, 76vh, 680px) !important;
+    max-height: calc(100vh - 160px);
+  }
+
+  .flashcard-face.flashcard-back {
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch;
+    display: block !important;
+  }
+
+  .flashcard-back-content {
+    flex-direction: column !important;
+    padding: 14px 10px !important;
+    gap: 14px !important;
+    min-height: 100% !important;
+    height: auto !important;
+  }
+
+  .flashcard-back-left {
+    flex: none !important;
+    width: 100% !important;
+    border-right: none !important;
+    border-bottom: 1px solid var(--border-color) !important;
+    padding-right: 0 !important;
+    padding-bottom: 14px !important;
+  }
+
+  .flashcard-back-right {
+    width: 100% !important;
+    flex: 1 1 auto !important;
+    min-height: 320px !important;
+    height: auto !important;
+    overflow-y: visible !important;
+  }
 }
 
 @media (max-width: 768px) {

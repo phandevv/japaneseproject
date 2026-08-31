@@ -1026,18 +1026,18 @@ const MasterReviewPage = ({ goBack }) => {
                   onClick={() => setPhase2IsFlipped(!phase2IsFlipped)}
                   className="card"
                   style={{
-                    padding: '50px 32px',
+                    padding: 'clamp(28px, 6vw, 50px) clamp(16px, 4vw, 32px)',
                     textAlign: 'center',
                     borderRadius: '24px',
                     cursor: 'pointer',
-                    minHeight: '290px',
+                    minHeight: '250px',
                     display: 'flex',
                     flexDirection: 'column',
                     alignItems: 'center',
                     justifyContent: 'center',
                     boxShadow: '0 12px 36px rgba(0,0,0,0.08)',
                     border: '2px solid var(--border-color)',
-                    marginBottom: '24px',
+                    marginBottom: '20px',
                     userSelect: 'none',
                     position: 'relative',
                     transition: 'all 0.2s ease',
@@ -1058,14 +1058,14 @@ const MasterReviewPage = ({ goBack }) => {
                     title="Phát âm từ vựng"
                     style={{
                       position: 'absolute',
-                      top: '18px',
-                      right: '18px',
+                      top: '16px',
+                      right: '16px',
                       background: 'var(--surface-hover)',
                       border: '1px solid var(--border-color)',
                       color: 'var(--text-primary)',
                       borderRadius: '50%',
-                      width: '42px',
-                      height: '42px',
+                      width: '38px',
+                      height: '38px',
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
@@ -1075,99 +1075,96 @@ const MasterReviewPage = ({ goBack }) => {
                     onMouseEnter={ev => ev.currentTarget.style.color = 'var(--accent-color)'}
                     onMouseLeave={ev => ev.currentTarget.style.color = 'var(--text-primary)'}
                   >
-                    <Volume2 size={19} />
+                    <Volume2 size={18} />
                   </button>
 
                   {!phase2IsFlipped ? (
                     /* FRONT OF FLASHCARD */
-                    <div className="animate-fade-in" style={{ width: '100%' }}>
-                      <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginBottom: '14px', display: 'block', letterSpacing: '1.2px', textTransform: 'uppercase', fontWeight: 700 }}>
+                    <div className="animate-fade-in" style={{ width: '100%', padding: '0 6px' }}>
+                      <span style={{ fontSize: '0.78rem', color: 'var(--text-muted)', marginBottom: '12px', display: 'block', letterSpacing: '1.2px', textTransform: 'uppercase', fontWeight: 700 }}>
                         MẶT TRƯỚC • TỪ VỰNG TIẾNG NHẬT
                       </span>
-                      <h1 className="jp-text" style={{ fontSize: '3.8rem', margin: '0 0 16px', fontWeight: 800, color: 'var(--text-primary)', lineHeight: 1.2 }}>
+                      <h1 className="jp-text" style={{ fontSize: 'clamp(2.4rem, 9vw, 3.8rem)', margin: '0 0 14px', fontWeight: 800, color: 'var(--text-primary)', lineHeight: 1.15, wordBreak: 'break-word' }}>
                         {currentCard.kanji || currentCard.hiragana}
                       </h1>
                       {currentCard.hanViet && (
                         <div style={{
                           display: 'inline-block',
-                          padding: '6px 18px',
+                          padding: '5px 14px',
                           borderRadius: '12px',
                           backgroundColor: 'rgba(245, 158, 11, 0.12)',
                           color: '#d97706',
                           fontWeight: 700,
-                          fontSize: '1.15rem',
-                          marginBottom: '18px',
+                          fontSize: '1.05rem',
+                          marginBottom: '14px',
                           letterSpacing: '1px'
                         }}>
                           Hán Việt: 【{currentCard.hanViet}】
                         </div>
                       )}
-                      <p style={{ marginTop: '24px', fontSize: '0.85rem', color: 'var(--text-muted)' }}>
+                      <p style={{ marginTop: '18px', fontSize: '0.82rem', color: 'var(--text-muted)' }}>
                         (Nhấn vào thẻ hoặc nhấn <kbd style={{ padding: '2px 8px', borderRadius: '4px', background: 'var(--surface-hover)', border: '1px solid var(--border-color)', fontWeight: 600 }}>Space</kbd> để lật xem nghĩa)
                       </p>
                     </div>
                   ) : (
                     /* BACK OF FLASHCARD */
-                    <div className="animate-fade-in" style={{ width: '100%' }}>
-                      <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginBottom: '10px', display: 'block', letterSpacing: '1.2px', textTransform: 'uppercase', fontWeight: 700 }}>
+                    <div className="animate-fade-in" style={{ width: '100%', padding: '0 6px' }}>
+                      <span style={{ fontSize: '0.78rem', color: 'var(--text-muted)', marginBottom: '8px', display: 'block', letterSpacing: '1.2px', textTransform: 'uppercase', fontWeight: 700 }}>
                         MẶT SAU • GIẢI NGHĨA & CÁCH ĐỌC
                       </span>
                       {currentCard.kanji && currentCard.hiragana && (
-                        <p className="jp-text" style={{ fontSize: '1.6rem', color: 'var(--accent-color)', margin: '0 0 12px', fontWeight: 700 }}>
+                        <p className="jp-text" style={{ fontSize: 'clamp(1.4rem, 5vw, 1.8rem)', color: 'var(--accent-color)', margin: '0 0 10px', fontWeight: 700, wordBreak: 'break-word' }}>
                           {currentCard.hiragana}
                         </p>
                       )}
-                      <h2 style={{ fontSize: '2.2rem', margin: '0 0 14px', fontWeight: 800, color: 'var(--text-primary)' }}>
+                      <h2 style={{ fontSize: 'clamp(1.25rem, 5vw, 2rem)', margin: '0 0 12px', fontWeight: 800, color: 'var(--text-primary)', wordBreak: 'break-word', lineHeight: 1.25 }}>
                         {currentCard.meaning}
                       </h2>
-                      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '12px', flexWrap: 'wrap', marginBottom: '14px' }}>
-                        {currentCard.hanViet && (
-                          <span style={{ fontSize: '0.95rem', color: 'var(--text-secondary)' }}>
-                            Hán Việt: <strong>{currentCard.hanViet}</strong>
-                          </span>
-                        )}
-                        {currentCard.wordType && (
-                          <span style={{ fontSize: '0.85rem', padding: '2px 8px', borderRadius: '6px', background: 'var(--surface-hover)', color: 'var(--text-secondary)' }}>
-                            {currentCard.wordType}
-                          </span>
-                        )}
-                      </div>
-
-                      {/* Sample sentence if available */}
-                      {currentCard.sampleSentence && (
-                        <div style={{
-                          marginTop: '16px',
-                          padding: '12px 18px',
-                          borderRadius: '12px',
-                          backgroundColor: 'var(--surface-hover)',
-                          borderLeft: '4px solid var(--accent-color)',
-                          textAlign: 'left'
-                        }}>
-                          <p className="jp-text" style={{ margin: '0 0 4px', fontSize: '1rem', fontWeight: 600, color: 'var(--text-primary)' }}>
-                            {currentCard.sampleSentence}
-                          </p>
-                          {currentCard.sampleTranslation && (
-                            <p style={{ margin: 0, fontSize: '0.9rem', color: 'var(--text-secondary)' }}>
-                              {currentCard.sampleTranslation}
-                            </p>
-                          )}
-                        </div>
+                      {currentCard.hanViet && (
+                        <span style={{ fontSize: '1rem', color: 'var(--text-secondary)', fontWeight: 600, display: 'block', marginBottom: '14px' }}>
+                          【{currentCard.hanViet}】
+                        </span>
                       )}
 
-                      <p style={{ marginTop: '16px', fontSize: '0.85rem', color: 'var(--text-muted)' }}>
-                        (Nhấn vào thẻ để lật lại mặt trước)
-                      </p>
+                      {currentCard.wordType && (
+                        <span style={{
+                          display: 'inline-block',
+                          padding: '3px 10px',
+                          borderRadius: '8px',
+                          backgroundColor: 'var(--surface-hover)',
+                          color: 'var(--text-secondary)',
+                          fontSize: '0.8rem',
+                          fontWeight: 600,
+                          marginBottom: '10px'
+                        }}>
+                          {currentCard.wordType}
+                        </span>
+                      )}
+
+                      {/* Related words or sample sentences */}
+                      {currentCard.tu_vung && Array.isArray(currentCard.tu_vung) && currentCard.tu_vung.length > 0 && (
+                        <div style={{ marginTop: '10px', textAlign: 'left', padding: '10px 12px', background: 'var(--surface-hover)', borderRadius: '12px', border: '1px solid var(--border-color)' }}>
+                          <span style={{ fontSize: '0.75rem', fontWeight: 700, color: 'var(--text-secondary)' }}>Từ vựng chứa chữ Hán:</span>
+                          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '4px', marginTop: '6px' }}>
+                            {currentCard.tu_vung.map((tv, idx) => (
+                              <span key={idx} style={{ fontSize: '0.78rem', background: 'var(--surface-color)', padding: '2px 8px', borderRadius: '6px', border: '1px solid var(--border-color)', color: 'var(--text-primary)' }}>
+                                {tv}
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+                      )}
                     </div>
                   )}
                 </div>
 
-                {/* Flashcard Navigation Bar */}
+                {/* Controls: Prev, Flip, Next */}
                 <div style={{
                   display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'space-between',
-                  gap: '14px',
-                  marginBottom: '26px'
+                  gap: '10px',
+                  width: '100%',
+                  flexWrap: 'wrap',
+                  marginBottom: '20px'
                 }}>
                   <button
                     type="button"
@@ -1176,18 +1173,18 @@ const MasterReviewPage = ({ goBack }) => {
                       setPhase2IsFlipped(false);
                       setPhase2CardIndex(prev => (prev > 0 ? prev - 1 : forgottenWords.length - 1));
                     }}
-                    style={{ flex: 1, padding: '14px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', fontWeight: 600 }}
+                    style={{ flex: '1 1 100px', padding: '12px 8px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px', fontWeight: 600, fontSize: '0.85rem' }}
                   >
-                    <ChevronLeft size={20} /> Từ trước
+                    <ChevronLeft size={18} /> Từ trước
                   </button>
 
                   <button
                     type="button"
                     className="btn btn-secondary"
                     onClick={() => setPhase2IsFlipped(!phase2IsFlipped)}
-                    style={{ flex: 1, padding: '14px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', fontWeight: 700, backgroundColor: 'var(--surface-hover)' }}
+                    style={{ flex: '1 1 110px', padding: '12px 8px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px', fontWeight: 700, backgroundColor: 'var(--surface-hover)', fontSize: '0.85rem' }}
                   >
-                    <RotateCcw size={18} /> {phase2IsFlipped ? 'Mặt trước' : 'Lật xem nghĩa'}
+                    <RotateCcw size={16} /> {phase2IsFlipped ? 'Mặt trước' : 'Lật xem nghĩa'}
                   </button>
 
                   <button
@@ -1197,9 +1194,9 @@ const MasterReviewPage = ({ goBack }) => {
                       setPhase2IsFlipped(false);
                       setPhase2CardIndex(prev => (prev + 1 < forgottenWords.length ? prev + 1 : 0));
                     }}
-                    style={{ flex: 1, padding: '14px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', fontWeight: 700 }}
+                    style={{ flex: '1 1 100px', padding: '12px 8px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px', fontWeight: 700, fontSize: '0.85rem' }}
                   >
-                    Từ sau <ChevronRight size={20} />
+                    Từ sau <ChevronRight size={18} />
                   </button>
                 </div>
 

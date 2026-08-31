@@ -491,7 +491,7 @@ export default function AiEnrichedTabbedView({ data, onReEnriched }) {
       </div>
 
       {/* Content */}
-      <div style={{ padding: '14px 16px', flex: 1, height: 0, overflowY: 'scroll', scrollbarGutter: 'stable', textAlign: 'left', width: '100%', boxSizing: 'border-box' }} className="custom-scrollbar">
+      <div style={{ padding: '14px 16px', flex: 1, minHeight: '220px', overflowY: 'auto', scrollbarGutter: 'stable', textAlign: 'left', width: '100%', boxSizing: 'border-box' }} className="custom-scrollbar ai-tab-scroll-body">
         
         {/* TAB 1: CORE & MEMORY */}
         {activeCardTab === 'core' && (

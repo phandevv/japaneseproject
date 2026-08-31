@@ -312,13 +312,13 @@ const FlashcardCard = ({ word, flipped, onFlip, onRateWord }) => {
           </div>
 
           {/* Main Japanese Word Display */}
-          <div style={{ marginTop: 'auto', marginBottom: 'auto', textAlign: 'center' }}>
+          <div style={{ marginTop: 'auto', marginBottom: 'auto', textAlign: 'center', width: '100%', padding: '0 8px' }}>
             {word.kanji ? (
-              <h2 className="jp-text" style={{ fontSize: '4.2rem', marginBottom: '0.5rem', color: 'var(--text-primary)', transition: 'font-size 0.2s' }}>
+              <h2 className="jp-text" style={{ fontSize: 'clamp(2.4rem, 10vw, 4.2rem)', marginBottom: '0.5rem', color: 'var(--text-primary)', transition: 'font-size 0.2s', wordBreak: 'break-word', lineHeight: 1.15 }}>
                 {word.kanji}
               </h2>
             ) : (
-              <p className="jp-text" style={{ fontSize: '3.6rem', color: 'var(--text-primary)', transition: 'font-size 0.2s' }}>
+              <p className="jp-text" style={{ fontSize: 'clamp(2rem, 8vw, 3.6rem)', color: 'var(--text-primary)', transition: 'font-size 0.2s', wordBreak: 'break-word', lineHeight: 1.15 }}>
                 {word.hiragana}
               </p>
             )}
@@ -328,22 +328,22 @@ const FlashcardCard = ({ word, flipped, onFlip, onRateWord }) => {
           {onRateWord && (() => {
             const proj = word.projections || { AGAIN: 0, HARD: 0, GOOD: 1, EASY: 5 };
             return (
-              <div style={{ display: 'flex', gap: '10px', width: '100%', maxWidth: '500px', justifyContent: 'center', marginTop: 'auto' }} onClick={e => e.stopPropagation()}>
-                <button className="glass-pill-btn glass-pill-forgot" onClick={() => onRateWord(1)} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '2px', flex: 1 }}>
-                  <span style={{fontSize: '0.72rem', opacity: 0.8}}>{proj.AGAIN === 0 ? '<10m' : proj.AGAIN + 'd'}</span>
-                  <span style={{ fontWeight: 700 }}>Forgot</span>
+              <div style={{ display: 'flex', gap: '6px', width: '100%', maxWidth: '500px', justifyContent: 'center', marginTop: 'auto' }} onClick={e => e.stopPropagation()}>
+                <button className="glass-pill-btn glass-pill-forgot" onClick={() => onRateWord(1)} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '2px', flex: 1, padding: '8px 2px' }}>
+                  <span style={{fontSize: '0.7rem', opacity: 0.8}}>{proj.AGAIN === 0 ? '<10m' : proj.AGAIN + 'd'}</span>
+                  <span style={{ fontWeight: 700, fontSize: '0.8rem' }}>Forgot</span>
                 </button>
-                <button className="glass-pill-btn glass-pill-hard" onClick={() => onRateWord(2)} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '2px', flex: 1 }}>
-                  <span style={{fontSize: '0.72rem', opacity: 0.8}}>{proj.HARD === 0 ? '<10m' : proj.HARD + 'd'}</span>
-                  <span style={{ fontWeight: 700 }}>Hard</span>
+                <button className="glass-pill-btn glass-pill-hard" onClick={() => onRateWord(2)} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '2px', flex: 1, padding: '8px 2px' }}>
+                  <span style={{fontSize: '0.7rem', opacity: 0.8}}>{proj.HARD === 0 ? '<10m' : proj.HARD + 'd'}</span>
+                  <span style={{ fontWeight: 700, fontSize: '0.8rem' }}>Hard</span>
                 </button>
-                <button className="glass-pill-btn glass-pill-good" onClick={() => onRateWord(3)} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '2px', flex: 1 }}>
-                  <span style={{fontSize: '0.72rem', opacity: 0.8}}>{proj.GOOD === 0 ? '<10m' : proj.GOOD + 'd'}</span>
-                  <span style={{ fontWeight: 700 }}>Good</span>
+                <button className="glass-pill-btn glass-pill-good" onClick={() => onRateWord(3)} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '2px', flex: 1, padding: '8px 2px' }}>
+                  <span style={{fontSize: '0.7rem', opacity: 0.8}}>{proj.GOOD === 0 ? '<10m' : proj.GOOD + 'd'}</span>
+                  <span style={{ fontWeight: 700, fontSize: '0.8rem' }}>Good</span>
                 </button>
-                <button className="glass-pill-btn glass-pill-easy" onClick={() => onRateWord(4)} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '2px', flex: 1 }}>
-                  <span style={{fontSize: '0.72rem', opacity: 0.8}}>{proj.EASY === 0 ? '<10m' : proj.EASY + 'd'}</span>
-                  <span style={{ fontWeight: 700 }}>Easy</span>
+                <button className="glass-pill-btn glass-pill-easy" onClick={() => onRateWord(4)} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '2px', flex: 1, padding: '8px 2px' }}>
+                  <span style={{fontSize: '0.7rem', opacity: 0.8}}>{proj.EASY === 0 ? '<10m' : proj.EASY + 'd'}</span>
+                  <span style={{ fontWeight: 700, fontSize: '0.8rem' }}>Easy</span>
                 </button>
               </div>
             );
@@ -480,14 +480,14 @@ const FlashcardCard = ({ word, flipped, onFlip, onRateWord }) => {
                   </div>
                 </div>
               ) : (
-                <div style={{ textAlign: 'center', marginTop: 'auto', marginBottom: 'auto' }}>
+                <div style={{ textAlign: 'center', marginTop: 'auto', marginBottom: 'auto', padding: '0 8px' }}>
                   {word.kanji && word.hiragana && (
-                    <h2 className="jp-text" style={{ fontSize: '2.2rem', marginBottom: '0.6rem', color: 'var(--accent-color)' }}>
+                    <h2 className="jp-text" style={{ fontSize: 'clamp(1.4rem, 5.5vw, 2.2rem)', marginBottom: '0.4rem', color: 'var(--accent-color)', wordBreak: 'break-word', lineHeight: 1.2 }}>
                       {word.hiragana}
                     </h2>
                   )}
                   
-                  <h3 style={{ fontSize: '1.8rem', marginBottom: '0.6rem', color: 'var(--success-color)' }}>
+                  <h3 style={{ fontSize: 'clamp(1.15rem, 4.5vw, 1.8rem)', marginBottom: '0.4rem', color: 'var(--success-color)', wordBreak: 'break-word', lineHeight: 1.3 }}>
                     {word.meaning || "N/A"}
                   </h3>
                   
@@ -594,22 +594,22 @@ const FlashcardCard = ({ word, flipped, onFlip, onRateWord }) => {
                 // Fallback default FSRS projections for NEW cards (when studying in Daily Study mode)
                 const proj = word.projections || { AGAIN: 0, HARD: 0, GOOD: 1, EASY: 5 };
                 return (
-                  <div style={{ display: 'flex', gap: '12px', width: '100%', justifyContent: 'center', marginTop: '20px' }} onClick={e => e.stopPropagation()}>
-                    <button className="glass-pill-btn glass-pill-forgot" onClick={() => onRateWord(1)} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '2px' }}>
-                      <span style={{fontSize: '0.75rem', opacity: 0.7}}>{proj.AGAIN === 0 ? '<10m' : proj.AGAIN + 'd'}</span>
-                      <span>Forgot</span>
+                  <div style={{ display: 'flex', gap: '6px', width: '100%', justifyContent: 'center', marginTop: '16px' }} onClick={e => e.stopPropagation()}>
+                    <button className="glass-pill-btn glass-pill-forgot" onClick={() => onRateWord(1)} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '2px', padding: '8px 2px' }}>
+                      <span style={{fontSize: '0.7rem', opacity: 0.7}}>{proj.AGAIN === 0 ? '<10m' : proj.AGAIN + 'd'}</span>
+                      <span style={{ fontWeight: 700, fontSize: '0.8rem' }}>Forgot</span>
                     </button>
-                    <button className="glass-pill-btn glass-pill-hard" onClick={() => onRateWord(2)} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '2px' }}>
-                      <span style={{fontSize: '0.75rem', opacity: 0.7}}>{proj.HARD === 0 ? '<10m' : proj.HARD + 'd'}</span>
-                      <span>Hard</span>
+                    <button className="glass-pill-btn glass-pill-hard" onClick={() => onRateWord(2)} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '2px', padding: '8px 2px' }}>
+                      <span style={{fontSize: '0.7rem', opacity: 0.7}}>{proj.HARD === 0 ? '<10m' : proj.HARD + 'd'}</span>
+                      <span style={{ fontWeight: 700, fontSize: '0.8rem' }}>Hard</span>
                     </button>
-                    <button className="glass-pill-btn glass-pill-good" onClick={() => onRateWord(3)} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '2px' }}>
-                      <span style={{fontSize: '0.75rem', opacity: 0.7}}>{proj.GOOD === 0 ? '<10m' : proj.GOOD + 'd'}</span>
-                      <span>Good</span>
+                    <button className="glass-pill-btn glass-pill-good" onClick={() => onRateWord(3)} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '2px', padding: '8px 2px' }}>
+                      <span style={{fontSize: '0.7rem', opacity: 0.7}}>{proj.GOOD === 0 ? '<10m' : proj.GOOD + 'd'}</span>
+                      <span style={{ fontWeight: 700, fontSize: '0.8rem' }}>Good</span>
                     </button>
-                    <button className="glass-pill-btn glass-pill-easy" onClick={() => onRateWord(4)} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '2px' }}>
-                      <span style={{fontSize: '0.75rem', opacity: 0.7}}>{proj.EASY === 0 ? '<10m' : proj.EASY + 'd'}</span>
-                      <span>Easy</span>
+                    <button className="glass-pill-btn glass-pill-easy" onClick={() => onRateWord(4)} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '2px', padding: '8px 2px' }}>
+                      <span style={{fontSize: '0.7rem', opacity: 0.7}}>{proj.EASY === 0 ? '<10m' : proj.EASY + 'd'}</span>
+                      <span style={{ fontWeight: 700, fontSize: '0.8rem' }}>Easy</span>
                     </button>
                   </div>
                 );
