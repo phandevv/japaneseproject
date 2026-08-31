@@ -16,6 +16,8 @@ public interface WordReviewMongoRepository extends MongoRepository<WordReviewDoc
 
     Optional<WordReviewDoc> findByUserIdAndVocabularyId(Long userId, Long vocabularyId);
 
+    Optional<WordReviewDoc> findFirstByUserIdAndWordKey(Long userId, String wordKey);
+
     List<WordReviewDoc> findByUserIdAndNextReviewBefore(Long userId, Instant time);
 
     long countByUserIdAndNextReviewBefore(Long userId, Instant time);

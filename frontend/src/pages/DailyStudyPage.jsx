@@ -824,14 +824,16 @@ const DailyStudyPage = ({ level, stats, goBack }) => {
             backgroundColor: 'var(--bg-color)', 
             padding: '15px 0', 
             borderBottom: '1px solid var(--border-color)',
-            marginBottom: '20px' 
+            marginBottom: '20px',
+            flexWrap: 'wrap',
+            gap: '12px'
           }}>
           <button className="btn btn-secondary" onClick={() => setPhase(1)}>
             <CornerUpLeft size={18} /> {t.daily.chooseAnotherDay}
           </button>
           <h2>{t.daily.day} {selectedDay} - {t.daily.studyReview}</h2>
           
-          <div style={{ display: 'flex', gap: '10px' }}>
+          <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
             <button 
               className="btn btn-secondary" 
               onClick={() => {
@@ -871,7 +873,7 @@ const DailyStudyPage = ({ level, stats, goBack }) => {
           Nhấn vào một từ để xem chi tiết và thứ tự nét viết
         </p>
 
-        <div className="card" style={{ padding: 0, overflow: 'hidden' }}>
+        <div className="card table-responsive-wrapper" style={{ padding: 0, overflowX: 'auto', WebkitOverflowScrolling: 'touch' }}>
           <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
             <thead style={{ backgroundColor: 'var(--surface-hover)', color: 'var(--text-secondary)' }}>
               <tr>

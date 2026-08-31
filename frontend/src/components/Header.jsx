@@ -1,12 +1,12 @@
 import React, { useRef } from 'react';
 import { useLocation } from 'react-router-dom';
-import { LogOut, Palette, Flame, User as UserIcon, Image as ImageIcon } from 'lucide-react';
+import { LogOut, Palette, Flame, User as UserIcon, Image as ImageIcon, Menu } from 'lucide-react';
 import { getMediaUrl } from '../services/api';
 import { useTheme } from '../context/ThemeContext';
 
 import NotificationBell from './NotificationBell';
 
-const Header = ({ user, streak = 0, onProfileClick, onLogout }) => {
+const Header = ({ user, streak = 0, onProfileClick, onLogout, onToggleMobileSidebar }) => {
   const { theme, changeTheme, customBg, applyCustomBackground, sakuraPetalsEnabled, toggleSakuraPetals } = useTheme();
   const bgInputRef = useRef(null);
 
@@ -32,8 +32,17 @@ const Header = ({ user, streak = 0, onProfileClick, onLogout }) => {
 
   return (
     <header className="app-header">
-      {/* Left section: Streak */}
+      {/* Left section: Mobile Menu Toggle + Streak */}
       <div className="header-left">
+        <button
+          type="button"
+          className="mobile-menu-toggle-btn"
+          onClick={onToggleMobileSidebar}
+          title="Mở menu"
+          aria-label="Mở menu điều hướng"
+        >
+          <Menu size={22} />
+        </button>
         {streak > 0 && (
           <div className="header-streak-badge" title="Chuỗi ngày học liên tục!">
             <span style={{ fontSize: '1.05rem', lineHeight: 1 }}>🌸</span>
@@ -126,7 +135,7 @@ const Header = ({ user, streak = 0, onProfileClick, onLogout }) => {
             
             <button className="header-logout-btn" onClick={onLogout} title="Đăng xuất">
               <LogOut size={16} />
-              <span>Đăng xuất</span>
+              <span className="header-logout-text">Đăng xuất</span>
             </button>
           </div>
         )}

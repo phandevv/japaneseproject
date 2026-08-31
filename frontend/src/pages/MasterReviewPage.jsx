@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { masterReviewApi, srsApi, analyticsApi, vocabApi } from '../services/api';
 import { useAuth } from '../context/AuthContext';
-import { ArrowLeft, BookOpen, Layers, CheckCircle, XCircle, RotateCcw, Calendar, FileQuestion, ListFilter, Keyboard, Send, Sparkles, Trophy, Play, Download, CornerUpLeft, ChevronRight, ArrowRight, Volume2, Eye, EyeOff } from 'lucide-react';
+import { ArrowLeft, BookOpen, Layers, CheckCircle, XCircle, RotateCcw, Calendar, FileQuestion, ListFilter, Keyboard, Send, Sparkles, Trophy, Play, Download, CornerUpLeft, ChevronRight, ArrowRight, Volume2, Eye, EyeOff, Shuffle, ChevronLeft, List, CreditCard } from 'lucide-react';
 import MascotLoader from '../components/MascotLoader';
 import KanjiDetailModal from '../components/KanjiDetailModal';
 import AiEnrichedTabbedView from '../components/AiEnrichedTabbedView';
@@ -110,6 +110,11 @@ const MasterReviewPage = ({ goBack }) => {
   // Detail Modal state (Phase 2)
   const [selectedModalIndex, setSelectedModalIndex] = useState(null);
 
+  // Quick Flashcard View state (Phase 2)
+  const [phase2ViewMode, setPhase2ViewMode] = useState('table'); // 'table' | 'flashcard'
+  const [phase2CardIndex, setPhase2CardIndex] = useState(0);
+  const [phase2IsFlipped, setPhase2IsFlipped] = useState(false);
+
   // Quiz Setup States (Phase 4)
   const [quizOptType, setQuizOptType] = useState('all'); // 'all', 'random', 'range'
   const [quizOptRandomCount, setQuizOptRandomCount] = useState(20);
@@ -143,12 +148,21 @@ const MasterReviewPage = ({ goBack }) => {
       if (savedSession) {
         const parsed = JSON.parse(savedSession);
         if (parsed && parsed.forgottenWords && parsed.forgottenWords.length > 0) {
-          setForgottenWords(parsed.forgottenWords);
+          // Auto-deduplicate in case the stored session contained duplicate entries from before the cleanup
+          const uniqueMap = new Map();
+          for (const w of parsed.forgottenWords) {
+            const key = (w.kanji && w.kanji.trim()) ? w.kanji.trim() : (w.hiragana ? w.hiragana.trim() : String(w.id));
+            if (!uniqueMap.has(key)) {
+              uniqueMap.set(key, w);
+            }
+          }
+          const deduplicatedList = Array.from(uniqueMap.values());
+          setForgottenWords(deduplicatedList);
           setRangeType(parsed.rangeType || 'all');
           setStartDate(parsed.startDate || '');
           setEndDate(parsed.endDate || '');
-          setQuizOptRandomCount(parsed.forgottenWords.length);
-          setQuizOptRangeEnd(parsed.forgottenWords.length);
+          setQuizOptRandomCount(deduplicatedList.length);
+          setQuizOptRangeEnd(deduplicatedList.length);
           // Resume at Phase 2 (Forgotten Words List View)
           setPhase(2);
         }
@@ -250,7 +264,11 @@ const MasterReviewPage = ({ goBack }) => {
     if (remembered) {
       srsApi.reviewWord(current.id, 3).catch(console.error);
     } else {
-      if (!updatedForgotten.some(w => w.id === current.id)) {
+      const currentKey = (current.kanji && current.kanji.trim()) ? current.kanji.trim() : (current.hiragana ? current.hiragana.trim() : String(current.id));
+      if (!updatedForgotten.some(w => {
+        const wKey = (w.kanji && w.kanji.trim()) ? w.kanji.trim() : (w.hiragana ? w.hiragana.trim() : String(w.id));
+        return wKey === currentKey || w.id === current.id;
+      })) {
         updatedForgotten.push(current);
         setForgottenWords(updatedForgotten);
       }
@@ -295,6 +313,28 @@ const MasterReviewPage = ({ goBack }) => {
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [phase, cardIndex, allWords, forgottenWords]);
+
+  // Keyboard navigation for Phase 2 Quick Flashcard View
+  useEffect(() => {
+    if (phase !== 2 || phase2ViewMode !== 'flashcard' || selectedModalIndex !== null || forgottenWords.length === 0) return;
+    const handleKeyDown = (e) => {
+      if (['INPUT', 'TEXTAREA', 'SELECT'].includes(e.target.tagName) || e.target.isContentEditable) return;
+      if (e.key === ' ') {
+        e.preventDefault();
+        setPhase2IsFlipped(prev => !prev);
+      } else if (e.key === 'ArrowLeft') {
+        e.preventDefault();
+        setPhase2IsFlipped(false);
+        setPhase2CardIndex(prev => (prev > 0 ? prev - 1 : forgottenWords.length - 1));
+      } else if (e.key === 'ArrowRight') {
+        e.preventDefault();
+        setPhase2IsFlipped(false);
+        setPhase2CardIndex(prev => (prev + 1 < forgottenWords.length ? prev + 1 : 0));
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [phase, phase2ViewMode, phase2CardIndex, selectedModalIndex, forgottenWords]);
 
   // ── Step 3: Open Quiz Setup Modal (Phase 4) ─────────────────────────────────
   const openQuizSetup = () => {
@@ -708,7 +748,7 @@ const MasterReviewPage = ({ goBack }) => {
         </div>
 
         {/* Action Buttons: Nhớ vs Quên */}
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '18px' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 140px), 1fr))', gap: '14px' }}>
           <button
             onClick={() => handleFlashcardRating(false)}
             style={{
@@ -769,8 +809,8 @@ const MasterReviewPage = ({ goBack }) => {
             display: selectedModalIndex !== null ? 'none' : 'block'
           }}
         >
-          {/* Top Bar matching Daily Study */}
-          <div className="flex-between" style={{
+          {/* Top Bar with View Mode Switcher */}
+          <div style={{
             position: 'sticky',
             top: '0px',
             zIndex: 100,
@@ -779,125 +819,558 @@ const MasterReviewPage = ({ goBack }) => {
             borderBottom: '1px solid var(--border-color)',
             marginBottom: '20px'
           }}>
-            <button className="btn btn-secondary" onClick={() => setPhase(0)} style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-              <CornerUpLeft size={18} /> Chọn lại phạm vi
-            </button>
-            <h2 style={{ margin: 0, fontSize: '1.4rem' }}>
-              Tổng ôn - {forgottenWords.length} từ cần học lại
-            </h2>
+            <div className="flex-between" style={{ flexWrap: 'wrap', gap: '14px', marginBottom: '12px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '12px', flexWrap: 'wrap' }}>
+                <button className="btn btn-secondary" onClick={() => setPhase(0)} style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                  <CornerUpLeft size={18} /> Chọn lại phạm vi
+                </button>
+                <h2 style={{ margin: 0, fontSize: '1.4rem' }}>
+                  Tổng ôn - {forgottenWords.length} từ cần học lại
+                </h2>
+              </div>
 
-            <div style={{ display: 'flex', gap: '10px' }}>
-              {/* Export Excel Button */}
-              <button
-                className="btn btn-secondary"
-                onClick={() => {
-                  const exportData = forgottenWords.map((w, index) => ({
-                    'No.': index + 1,
-                    'Kanji': w.kanji || '',
-                    'Hiragana': w.hiragana || '',
-                    'Nghĩa tiếng Việt (Meaning)': w.meaning || '',
-                    'Hán Việt': w.hanViet || '',
-                    'Level': w.level || 'REVIEW'
-                  }));
-                  const ws = XLSX.utils.json_to_sheet(exportData);
-                  const wb = XLSX.utils.book_new();
-                  XLSX.utils.book_append_sheet(wb, ws, 'Từ cần học lại');
-                  XLSX.writeFile(wb, `Master_Review_Forgotten_Words.xlsx`);
-                }}
-                style={{ display: 'flex', alignItems: 'center', gap: '6px' }}
-              >
-                <Download size={18} /> Xuất Excel
-              </button>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
+                {/* Segmented View Mode Toggle */}
+                <div style={{
+                  display: 'inline-flex',
+                  backgroundColor: 'var(--surface-hover)',
+                  padding: '3px',
+                  borderRadius: '10px',
+                  border: '1px solid var(--border-color)',
+                  gap: '2px'
+                }}>
+                  <button
+                    type="button"
+                    onClick={() => setPhase2ViewMode('table')}
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '6px',
+                      padding: '6px 12px',
+                      borderRadius: '8px',
+                      border: 'none',
+                      fontSize: '0.85rem',
+                      fontWeight: 600,
+                      cursor: 'pointer',
+                      backgroundColor: phase2ViewMode === 'table' ? 'var(--card-bg, #ffffff)' : 'transparent',
+                      color: phase2ViewMode === 'table' ? 'var(--accent-color)' : 'var(--text-secondary)',
+                      boxShadow: phase2ViewMode === 'table' ? '0 2px 6px rgba(0,0,0,0.1)' : 'none',
+                      transition: 'all 0.15s ease'
+                    }}
+                  >
+                    <List size={15} /> Danh sách
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setPhase2ViewMode('flashcard');
+                      setPhase2IsFlipped(false);
+                    }}
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '6px',
+                      padding: '6px 12px',
+                      borderRadius: '8px',
+                      border: 'none',
+                      fontSize: '0.85rem',
+                      fontWeight: 600,
+                      cursor: 'pointer',
+                      backgroundColor: phase2ViewMode === 'flashcard' ? 'var(--card-bg, #ffffff)' : 'transparent',
+                      color: phase2ViewMode === 'flashcard' ? 'var(--accent-color)' : 'var(--text-secondary)',
+                      boxShadow: phase2ViewMode === 'flashcard' ? '0 2px 6px rgba(0,0,0,0.1)' : 'none',
+                      transition: 'all 0.15s ease'
+                    }}
+                  >
+                    <CreditCard size={15} /> Flashcard xem nhanh
+                  </button>
+                </div>
 
-              {/* Toggle Hide Meanings Button */}
-              <button
-                className="btn btn-secondary"
-                onClick={() => setHideMeanings(!hideMeanings)}
-                style={{ display: 'flex', alignItems: 'center', gap: '6px' }}
-              >
-                {hideMeanings ? <Eye size={18} /> : <EyeOff size={18} />}
-                {hideMeanings ? 'Hiện nghĩa' : 'Ẩn nghĩa'}
-              </button>
+                {/* Export Excel Button */}
+                <button
+                  className="btn btn-secondary"
+                  onClick={() => {
+                    const exportData = forgottenWords.map((w, index) => ({
+                      'No.': index + 1,
+                      'Kanji': w.kanji || '',
+                      'Hiragana': w.hiragana || '',
+                      'Nghĩa tiếng Việt (Meaning)': w.meaning || '',
+                      'Hán Việt': w.hanViet || '',
+                      'Level': w.level || 'REVIEW'
+                    }));
+                    const ws = XLSX.utils.json_to_sheet(exportData);
+                    const wb = XLSX.utils.book_new();
+                    XLSX.utils.book_append_sheet(wb, ws, 'Từ cần học lại');
+                    XLSX.writeFile(wb, `Master_Review_Forgotten_Words.xlsx`);
+                  }}
+                  style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.88rem' }}
+                >
+                  <Download size={16} /> Xuất Excel
+                </button>
 
-              {/* Start Quiz Button */}
-              <button className="btn btn-primary" onClick={openQuizSetup} style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '10px 20px', fontWeight: 700 }}>
-                <Play size={18} /> Bắt đầu Quiz (&gt; 90%)
-              </button>
+                {/* Toggle Hide Meanings (Only in Table view) */}
+                {phase2ViewMode === 'table' && (
+                  <button
+                    className="btn btn-secondary"
+                    onClick={() => setHideMeanings(!hideMeanings)}
+                    style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.88rem' }}
+                  >
+                    {hideMeanings ? <Eye size={16} /> : <EyeOff size={16} />}
+                    {hideMeanings ? 'Hiện nghĩa' : 'Ẩn nghĩa'}
+                  </button>
+                )}
+
+                {/* Shuffle Cards (Only in Flashcard view) */}
+                {phase2ViewMode === 'flashcard' && (
+                  <button
+                    type="button"
+                    className="btn btn-secondary"
+                    title="Xáo trộn ngẫu nhiên thứ tự thẻ"
+                    onClick={() => {
+                      const shuffled = [...forgottenWords].sort(() => Math.random() - 0.5);
+                      setForgottenWords(shuffled);
+                      setPhase2CardIndex(0);
+                      setPhase2IsFlipped(false);
+                    }}
+                    style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.88rem' }}
+                  >
+                    <Shuffle size={16} /> Xáo trộn
+                  </button>
+                )}
+
+                {/* Start Quiz Button */}
+                <button className="btn btn-primary" onClick={openQuizSetup} style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '9px 18px', fontWeight: 700, fontSize: '0.92rem' }}>
+                  <Play size={17} /> Bắt đầu Quiz (&gt; 90%)
+                </button>
+              </div>
             </div>
           </div>
 
-          {/* Hint */}
-          <p style={{ color: 'var(--text-secondary)', fontSize: '0.85rem', marginBottom: '14px', display: 'flex', alignItems: 'center', gap: '6px' }}>
-            <ChevronRight size={14} />
-            Nhấn vào một từ để xem chi tiết và thứ tự nét viết
-          </p>
+          {/* VIEW MODE 1: FLASHCARD VIEW */}
+          {phase2ViewMode === 'flashcard' && (() => {
+            const currentCard = forgottenWords[phase2CardIndex] || forgottenWords[0];
+            if (!currentCard) return null;
 
-          {/* Forgotten Words Table */}
-          <div className="card" style={{ padding: 0, overflow: 'hidden', borderRadius: '16px' }}>
-            <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
-              <thead style={{ backgroundColor: 'var(--surface-hover)', color: 'var(--text-secondary)' }}>
-                <tr>
-                  <th style={{ padding: '15px 20px', width: '50px' }}>#</th>
-                  <th style={{ padding: '15px 20px' }}>Từ vựng (Kanji)</th>
-                  {!hideMeanings && <th style={{ padding: '15px 20px' }}>Cách đọc (Hiragana)</th>}
-                  {!hideMeanings && <th style={{ padding: '15px 20px' }}>Ý nghĩa</th>}
-                  <th style={{ padding: '15px 20px' }}>Hán Việt & Âm thanh</th>
-                </tr>
-              </thead>
-              <tbody>
-                {forgottenWords.map((word, index) => (
-                  <tr
-                    key={word.id || index}
-                    onClick={() => setSelectedModalIndex(index)}
-                    style={{
-                      borderBottom: '1px solid var(--border-color)',
-                      cursor: 'pointer',
-                      transition: 'background 0.15s ease',
+            return (
+              <div className="animate-fade-in" style={{ maxWidth: '780px', margin: '0 auto' }}>
+                {/* Sub-Header Bar */}
+                <div style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  marginBottom: '14px',
+                  flexWrap: 'wrap',
+                  gap: '10px'
+                }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                    <span style={{
+                      padding: '5px 14px',
+                      borderRadius: '20px',
+                      backgroundColor: 'var(--surface-hover)',
+                      fontSize: '0.92rem',
+                      fontWeight: 700,
+                      color: 'var(--text-primary)',
+                      border: '1px solid var(--border-color)'
+                    }}>
+                      Thẻ {phase2CardIndex + 1} / {forgottenWords.length}
+                    </span>
+                    {currentCard.level && (
+                      <span style={{
+                        padding: '4px 10px',
+                        borderRadius: '12px',
+                        backgroundColor: 'rgba(59, 130, 246, 0.12)',
+                        color: '#3b82f6',
+                        fontSize: '0.8rem',
+                        fontWeight: 700
+                      }}>
+                        {currentCard.level}
+                      </span>
+                    )}
+                  </div>
+
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <button
+                      type="button"
+                      className="btn btn-secondary"
+                      title="Mở chi tiết nét vẽ, bộ thủ & phân tích AI chuyên sâu"
+                      onClick={() => setSelectedModalIndex(phase2CardIndex)}
+                      style={{
+                        padding: '7px 14px',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '6px',
+                        fontSize: '0.85rem',
+                        color: 'var(--accent-color)',
+                        borderColor: 'var(--accent-color)',
+                        fontWeight: 600
+                      }}
+                    >
+                      <BookOpen size={15} /> Xem chi tiết từ & Nét viết
+                    </button>
+                  </div>
+                </div>
+
+                {/* Progress bar */}
+                <div style={{ height: '6px', background: 'var(--surface-hover)', borderRadius: '3px', marginBottom: '22px', overflow: 'hidden' }}>
+                  <div style={{
+                    height: '100%',
+                    width: `${((phase2CardIndex + 1) / forgottenWords.length) * 100}%`,
+                    background: 'linear-gradient(90deg, #3b82f6, #8b5cf6)',
+                    borderRadius: '3px',
+                    transition: 'width 0.25s ease'
+                  }} />
+                </div>
+
+                {/* 3D Flippable Flashcard */}
+                <div
+                  onClick={() => setPhase2IsFlipped(!phase2IsFlipped)}
+                  className="card"
+                  style={{
+                    padding: '50px 32px',
+                    textAlign: 'center',
+                    borderRadius: '24px',
+                    cursor: 'pointer',
+                    minHeight: '290px',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    boxShadow: '0 12px 36px rgba(0,0,0,0.08)',
+                    border: '2px solid var(--border-color)',
+                    marginBottom: '24px',
+                    userSelect: 'none',
+                    position: 'relative',
+                    transition: 'all 0.2s ease',
+                    background: phase2IsFlipped 
+                      ? 'linear-gradient(145deg, var(--surface-color) 0%, rgba(59, 130, 246, 0.04) 100%)' 
+                      : 'var(--surface-color)'
+                  }}
+                  onMouseEnter={e => e.currentTarget.style.transform = 'translateY(-2px)'}
+                  onMouseLeave={e => e.currentTarget.style.transform = 'translateY(0)'}
+                >
+                  {/* Speaker Button on Card Top Right */}
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      speakWord(currentCard);
                     }}
-                    onMouseEnter={e => e.currentTarget.style.background = 'var(--surface-hover)'}
-                    onMouseLeave={e => e.currentTarget.style.background = 'transparent'}
+                    title="Phát âm từ vựng"
+                    style={{
+                      position: 'absolute',
+                      top: '18px',
+                      right: '18px',
+                      background: 'var(--surface-hover)',
+                      border: '1px solid var(--border-color)',
+                      color: 'var(--text-primary)',
+                      borderRadius: '50%',
+                      width: '42px',
+                      height: '42px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      cursor: 'pointer',
+                      transition: 'all 0.15s ease'
+                    }}
+                    onMouseEnter={ev => ev.currentTarget.style.color = 'var(--accent-color)'}
+                    onMouseLeave={ev => ev.currentTarget.style.color = 'var(--text-primary)'}
                   >
-                    <td style={{ padding: '15px 20px', color: 'var(--text-secondary)' }}>{index + 1}</td>
-                    <td className="jp-text" style={{ padding: '15px 20px', fontSize: '1.2rem', fontWeight: 700 }}>
-                      {word.kanji || word.hiragana}
-                    </td>
-                    {!hideMeanings && <td className="jp-text" style={{ padding: '15px 20px', color: 'var(--accent-color)' }}>{word.hiragana}</td>}
-                    {!hideMeanings && <td style={{ padding: '15px 20px', fontWeight: 500 }}>{word.meaning}</td>}
-                    <td style={{ padding: '15px 20px', color: 'var(--text-secondary)' }}>
-                      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '8px' }}>
-                        <span>{word.hanViet ? `【${word.hanViet}】` : ''}</span>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                          <button
-                            type="button"
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              speakWord(word);
-                            }}
-                            style={{
-                              background: 'none',
-                              border: 'none',
-                              color: 'var(--text-secondary)',
-                              cursor: 'pointer',
-                              padding: '4px',
-                              display: 'flex',
-                              alignItems: 'center',
-                              borderRadius: '4px',
-                              transition: 'color 0.15s ease'
-                            }}
-                            onMouseEnter={ev => ev.currentTarget.style.color = 'var(--accent-color)'}
-                            onMouseLeave={ev => ev.currentTarget.style.color = 'var(--text-secondary)'}
-                          >
-                            <Volume2 size={16} />
-                          </button>
-                          <ChevronRight size={14} style={{ opacity: 0.3, flexShrink: 0 }} />
+                    <Volume2 size={19} />
+                  </button>
+
+                  {!phase2IsFlipped ? (
+                    /* FRONT OF FLASHCARD */
+                    <div className="animate-fade-in" style={{ width: '100%' }}>
+                      <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginBottom: '14px', display: 'block', letterSpacing: '1.2px', textTransform: 'uppercase', fontWeight: 700 }}>
+                        MẶT TRƯỚC • TỪ VỰNG TIẾNG NHẬT
+                      </span>
+                      <h1 className="jp-text" style={{ fontSize: '3.8rem', margin: '0 0 16px', fontWeight: 800, color: 'var(--text-primary)', lineHeight: 1.2 }}>
+                        {currentCard.kanji || currentCard.hiragana}
+                      </h1>
+                      {currentCard.hanViet && (
+                        <div style={{
+                          display: 'inline-block',
+                          padding: '6px 18px',
+                          borderRadius: '12px',
+                          backgroundColor: 'rgba(245, 158, 11, 0.12)',
+                          color: '#d97706',
+                          fontWeight: 700,
+                          fontSize: '1.15rem',
+                          marginBottom: '18px',
+                          letterSpacing: '1px'
+                        }}>
+                          Hán Việt: 【{currentCard.hanViet}】
                         </div>
+                      )}
+                      <p style={{ marginTop: '24px', fontSize: '0.85rem', color: 'var(--text-muted)' }}>
+                        (Nhấn vào thẻ hoặc nhấn <kbd style={{ padding: '2px 8px', borderRadius: '4px', background: 'var(--surface-hover)', border: '1px solid var(--border-color)', fontWeight: 600 }}>Space</kbd> để lật xem nghĩa)
+                      </p>
+                    </div>
+                  ) : (
+                    /* BACK OF FLASHCARD */
+                    <div className="animate-fade-in" style={{ width: '100%' }}>
+                      <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginBottom: '10px', display: 'block', letterSpacing: '1.2px', textTransform: 'uppercase', fontWeight: 700 }}>
+                        MẶT SAU • GIẢI NGHĨA & CÁCH ĐỌC
+                      </span>
+                      {currentCard.kanji && currentCard.hiragana && (
+                        <p className="jp-text" style={{ fontSize: '1.6rem', color: 'var(--accent-color)', margin: '0 0 12px', fontWeight: 700 }}>
+                          {currentCard.hiragana}
+                        </p>
+                      )}
+                      <h2 style={{ fontSize: '2.2rem', margin: '0 0 14px', fontWeight: 800, color: 'var(--text-primary)' }}>
+                        {currentCard.meaning}
+                      </h2>
+                      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '12px', flexWrap: 'wrap', marginBottom: '14px' }}>
+                        {currentCard.hanViet && (
+                          <span style={{ fontSize: '0.95rem', color: 'var(--text-secondary)' }}>
+                            Hán Việt: <strong>{currentCard.hanViet}</strong>
+                          </span>
+                        )}
+                        {currentCard.wordType && (
+                          <span style={{ fontSize: '0.85rem', padding: '2px 8px', borderRadius: '6px', background: 'var(--surface-hover)', color: 'var(--text-secondary)' }}>
+                            {currentCard.wordType}
+                          </span>
+                        )}
                       </div>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+
+                      {/* Sample sentence if available */}
+                      {currentCard.sampleSentence && (
+                        <div style={{
+                          marginTop: '16px',
+                          padding: '12px 18px',
+                          borderRadius: '12px',
+                          backgroundColor: 'var(--surface-hover)',
+                          borderLeft: '4px solid var(--accent-color)',
+                          textAlign: 'left'
+                        }}>
+                          <p className="jp-text" style={{ margin: '0 0 4px', fontSize: '1rem', fontWeight: 600, color: 'var(--text-primary)' }}>
+                            {currentCard.sampleSentence}
+                          </p>
+                          {currentCard.sampleTranslation && (
+                            <p style={{ margin: 0, fontSize: '0.9rem', color: 'var(--text-secondary)' }}>
+                              {currentCard.sampleTranslation}
+                            </p>
+                          )}
+                        </div>
+                      )}
+
+                      <p style={{ marginTop: '16px', fontSize: '0.85rem', color: 'var(--text-muted)' }}>
+                        (Nhấn vào thẻ để lật lại mặt trước)
+                      </p>
+                    </div>
+                  )}
+                </div>
+
+                {/* Flashcard Navigation Bar */}
+                <div style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  gap: '14px',
+                  marginBottom: '26px'
+                }}>
+                  <button
+                    type="button"
+                    className="btn btn-secondary"
+                    onClick={() => {
+                      setPhase2IsFlipped(false);
+                      setPhase2CardIndex(prev => (prev > 0 ? prev - 1 : forgottenWords.length - 1));
+                    }}
+                    style={{ flex: 1, padding: '14px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', fontWeight: 600 }}
+                  >
+                    <ChevronLeft size={20} /> Từ trước
+                  </button>
+
+                  <button
+                    type="button"
+                    className="btn btn-secondary"
+                    onClick={() => setPhase2IsFlipped(!phase2IsFlipped)}
+                    style={{ flex: 1, padding: '14px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', fontWeight: 700, backgroundColor: 'var(--surface-hover)' }}
+                  >
+                    <RotateCcw size={18} /> {phase2IsFlipped ? 'Mặt trước' : 'Lật xem nghĩa'}
+                  </button>
+
+                  <button
+                    type="button"
+                    className="btn btn-primary"
+                    onClick={() => {
+                      setPhase2IsFlipped(false);
+                      setPhase2CardIndex(prev => (prev + 1 < forgottenWords.length ? prev + 1 : 0));
+                    }}
+                    style={{ flex: 1, padding: '14px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', fontWeight: 700 }}
+                  >
+                    Từ sau <ChevronRight size={20} />
+                  </button>
+                </div>
+
+                {/* Quick Word Scroller Strip */}
+                <div style={{ marginTop: '20px' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '10px' }}>
+                    <span style={{ fontSize: '0.85rem', fontWeight: 600, color: 'var(--text-secondary)' }}>
+                      Chọn nhanh từ trong danh sách ({forgottenWords.length} từ):
+                    </span>
+                    <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>
+                      Dùng phím ← / → để chuyển từ nhanh
+                    </span>
+                  </div>
+                  <div style={{
+                    display: 'flex',
+                    gap: '8px',
+                    overflowX: 'auto',
+                    paddingBottom: '12px',
+                    scrollbarWidth: 'thin'
+                  }}>
+                    {forgottenWords.map((w, idx) => {
+                      const isCurrent = idx === phase2CardIndex;
+                      return (
+                        <button
+                          key={w.id || idx}
+                          type="button"
+                          onClick={() => {
+                            setPhase2CardIndex(idx);
+                            setPhase2IsFlipped(false);
+                          }}
+                          style={{
+                            flexShrink: 0,
+                            padding: '8px 14px',
+                            borderRadius: '12px',
+                            border: isCurrent ? '2px solid var(--accent-color)' : '1px solid var(--border-color)',
+                            backgroundColor: isCurrent ? 'var(--accent-color)' : 'var(--surface-color)',
+                            color: isCurrent ? '#ffffff' : 'var(--text-primary)',
+                            fontSize: '0.9rem',
+                            fontWeight: isCurrent ? 700 : 500,
+                            cursor: 'pointer',
+                            transition: 'all 0.15s ease',
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '6px'
+                          }}
+                        >
+                          <span style={{ opacity: isCurrent ? 0.9 : 0.6, fontSize: '0.75rem' }}>#{idx + 1}</span>
+                          <span className="jp-text">{w.kanji || w.hiragana}</span>
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+              </div>
+            );
+          })()}
+
+          {/* VIEW MODE 2: TABLE VIEW */}
+          {phase2ViewMode === 'table' && (
+            <div className="animate-fade-in">
+              {/* Hint */}
+              <p style={{ color: 'var(--text-secondary)', fontSize: '0.85rem', marginBottom: '14px', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                <ChevronRight size={14} />
+                Nhấn vào một hàng để xem chi tiết & thứ tự nét viết • Hoặc bấm nút <strong>"Thẻ"</strong> để xem nhanh Flashcard
+              </p>
+
+              {/* Forgotten Words Table */}
+              <div className="card table-responsive-wrapper" style={{ padding: 0, overflowX: 'auto', WebkitOverflowScrolling: 'touch', borderRadius: '16px' }}>
+                <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
+                  <thead style={{ backgroundColor: 'var(--surface-hover)', color: 'var(--text-secondary)' }}>
+                    <tr>
+                      <th style={{ padding: '15px 20px', width: '50px' }}>#</th>
+                      <th style={{ padding: '15px 20px' }}>Từ vựng (Kanji)</th>
+                      {!hideMeanings && <th style={{ padding: '15px 20px' }}>Cách đọc (Hiragana)</th>}
+                      {!hideMeanings && <th style={{ padding: '15px 20px' }}>Ý nghĩa</th>}
+                      <th style={{ padding: '15px 20px' }}>Hán Việt & Thao tác</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {forgottenWords.map((word, index) => (
+                      <tr
+                        key={word.id || index}
+                        onClick={() => setSelectedModalIndex(index)}
+                        style={{
+                          borderBottom: '1px solid var(--border-color)',
+                          cursor: 'pointer',
+                          transition: 'background 0.15s ease',
+                        }}
+                        onMouseEnter={e => e.currentTarget.style.background = 'var(--surface-hover)'}
+                        onMouseLeave={e => e.currentTarget.style.background = 'transparent'}
+                      >
+                        <td style={{ padding: '15px 20px', color: 'var(--text-secondary)' }}>{index + 1}</td>
+                        <td className="jp-text" style={{ padding: '15px 20px', fontSize: '1.2rem', fontWeight: 700 }}>
+                          {word.kanji || word.hiragana}
+                        </td>
+                        {!hideMeanings && <td className="jp-text" style={{ padding: '15px 20px', color: 'var(--accent-color)' }}>{word.hiragana}</td>}
+                        {!hideMeanings && <td style={{ padding: '15px 20px', fontWeight: 500 }}>{word.meaning}</td>}
+                        <td style={{ padding: '15px 20px', color: 'var(--text-secondary)' }}>
+                          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '8px' }}>
+                            <span>{word.hanViet ? `【${word.hanViet}】` : ''}</span>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                              {/* Quick Flashcard button */}
+                              <button
+                                type="button"
+                                title="Xem nhanh từ này dưới dạng Flashcard"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  setPhase2CardIndex(index);
+                                  setPhase2IsFlipped(false);
+                                  setPhase2ViewMode('flashcard');
+                                }}
+                                style={{
+                                  background: 'rgba(59, 130, 246, 0.1)',
+                                  border: '1px solid rgba(59, 130, 246, 0.3)',
+                                  color: '#3b82f6',
+                                  cursor: 'pointer',
+                                  padding: '4px 8px',
+                                  borderRadius: '6px',
+                                  fontSize: '0.78rem',
+                                  fontWeight: 600,
+                                  display: 'flex',
+                                  alignItems: 'center',
+                                  gap: '4px',
+                                  transition: 'all 0.15s ease'
+                                }}
+                                onMouseEnter={ev => {
+                                  ev.currentTarget.style.background = '#3b82f6';
+                                  ev.currentTarget.style.color = '#ffffff';
+                                }}
+                                onMouseLeave={ev => {
+                                  ev.currentTarget.style.background = 'rgba(59, 130, 246, 0.1)';
+                                  ev.currentTarget.style.color = '#3b82f6';
+                                }}
+                              >
+                                <Layers size={13} /> Thẻ
+                              </button>
+
+                              {/* Speaker Audio button */}
+                              <button
+                                type="button"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  speakWord(word);
+                                }}
+                                style={{
+                                  background: 'none',
+                                  border: 'none',
+                                  color: 'var(--text-secondary)',
+                                  cursor: 'pointer',
+                                  padding: '4px',
+                                  display: 'flex',
+                                  alignItems: 'center',
+                                  borderRadius: '4px',
+                                  transition: 'color 0.15s ease'
+                                }}
+                                onMouseEnter={ev => ev.currentTarget.style.color = 'var(--accent-color)'}
+                                onMouseLeave={ev => ev.currentTarget.style.color = 'var(--text-secondary)'}
+                              >
+                                <Volume2 size={16} />
+                              </button>
+                              <ChevronRight size={14} style={{ opacity: 0.3, flexShrink: 0 }} />
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          )}
         </div>
 
         {/* Kanji Detail Modal popup */}
@@ -1346,7 +1819,7 @@ const MasterReviewPage = ({ goBack }) => {
 
         {/* Format A: Multiple Choice */}
         {quizFormat === 'choice' && (
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 220px), 1fr))', gap: '14px' }}>
             {choices.map((choice, i) => {
               const isCorrect = choice.id === current.id;
               const isSelected = selectedChoice?.id === choice.id;

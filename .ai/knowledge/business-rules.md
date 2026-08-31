@@ -174,3 +174,30 @@ $$EF' = EF + (0.1 - (5 - q) \times (0.08 + (5 - q) \times 0.02))$$
 * **Thẻ vị trí của bạn (Your Rank Banner):**
   * Tự động định vị và thông báo thứ hạng hiện tại của người dùng đang đăng nhập trong phân hệ đang xem.
 
+---
+
+## 11. Quy tắc Độc lập Giáo trình & Chuẩn hóa Từ vựng (Curriculum Isolation & Vocabulary Standards)
+
+* **Tách biệt độc lập các giáo trình (Không gộp từ vựng giữa các nguồn khác nhau)**:
+  * **N3 Chuẩn (Học hàng ngày - `level = 'N3'`)**: Chuẩn hóa chính xác **822 từ vựng** (khoảng ~800 từ, học 20 từ/ngày tương ứng 41 ngày) theo danh mục JLPT N3 từ file giáo trình gốc `Từ-vựng-N5-N1.xlsx` (Sheet N3).
+  * **N3 Course (Ôn luyện N3 - `level = 'N3_COURSE'`)**: Gồm **2,452 từ & chữ Hán** phân bổ chính xác theo 9 Chương × 3 Bài = 27 bài học theo lộ trình Tổng ôn N3 (`Tổng ôn N3 - Chương X Bài Y`).
+  * **Mimikara N3 (`level = 'MIMIKARA_N3'`)**: Gồm đúng **880 từ vựng** theo giáo trình chuyên biệt *Mimikara Oboeru N3*.
+* **Bảo toàn tiến độ học tập (SRS Review Preservation)**:
+  * Tuyệt đối không xóa hay làm mất trạng thái `is_learned`, `intervalDays`, `easeFactor`, `repetitions` của người dùng.
+  * Khi chuẩn hóa ID từ vựng, hệ thống tự động ánh xạ (map) toàn bộ bản ghi `word_reviews` từ các ID cũ sang ID chuẩn mới tương ứng.
+
+---
+
+## 12. Quy tắc Khử Trùng Lặp Kho Từ Đã Học & Hàng Đợi Cần Ôn (Learned Words Ingestion Deduplication & Due Queue Integrity)
+
+* **Giữ nguyên nội dung và trải nghiệm trong khóa học**:
+  * Các khóa học (N3 Chuẩn, N3 Course, Mimikara N3) giữ nguyên toàn bộ bài học, thẻ Flashcard, bài tập theo giáo trình. Không tự ý ẩn hay bỏ qua từ của người dùng.
+* **Khử trùng lặp tại Cửa ngõ Ghi nhận (`word_reviews`)**:
+  * Mỗi từ vựng tiếng Nhật trong kho "Từ đã học" của người dùng được định danh độc nhất bằng `wordKey` (chữ Kanji hoặc Hiragana).
+  * Đánh chỉ mục duy nhất: `UNIQUE (userId, wordKey)`.
+  * Khi người dùng học hoặc ôn tập một từ ở bất kỳ khóa học nào, hệ thống kiểm tra qua `findByUserAndWordKey`. Nếu từ đó đã tồn tại trong kho "Từ đã học" của người dùng, hệ thống chỉ cập nhật tiến độ SRS trên bản ghi hiện có, **tuyệt đối không sinh thêm bản ghi thứ 2**.
+* **Đảm bảo tính toàn vẹn của Hàng Đợi Cần Ôn (Due Words Queue)**:
+  * Toàn bộ các thẻ đến hạn ôn tập (`nextReview <= now`) phải là từ vựng thực tế tồn tại trong `vocabularies`, có đầy đủ Kanji, Hiragana và Nghĩa tiếng Việt.
+  * Bảng `word_reviews` chỉ chứa từ vựng; toàn bộ các thẻ Ngữ pháp được chuyển sang và quản lý độc lập tại `grammar_reviews`.
+  * Đảm bảo độ sạch dữ liệu 100% DISTINCT cho cả Bảng Từ đã học, Bảng Ngữ pháp đã học và Hàng đợi Từ cần ôn.
+

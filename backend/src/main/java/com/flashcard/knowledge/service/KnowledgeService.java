@@ -1017,6 +1017,9 @@ public class KnowledgeService {
                 .orElseThrow(() -> new IllegalArgumentException("Không tìm thấy người dùng."));
         Optional<WordReview> existingReview = srsDataProvider.findByUserAndVocabulary(managedUser, savedVocab);
         if (existingReview.isEmpty()) {
+            existingReview = srsDataProvider.findByUserAndWordKey(managedUser, savedVocab);
+        }
+        if (existingReview.isEmpty()) {
             WordReview newReview = new WordReview(managedUser, savedVocab);
             srsDataProvider.saveWordReview(newReview);
 

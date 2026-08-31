@@ -21,6 +21,7 @@ import java.time.Instant;
 @Builder
 @CompoundIndexes({
     @CompoundIndex(name = "user_vocab_unique_idx", def = "{'userId': 1, 'vocabularyId': 1}", unique = true),
+    @CompoundIndex(name = "user_word_key_idx", def = "{'userId': 1, 'wordKey': 1}"),
     @CompoundIndex(name = "user_srs_due_idx", def = "{'userId': 1, 'nextReview': 1}"),
     @CompoundIndex(name = "user_learned_idx", def = "{'userId': 1, 'intervalDays': 1}"),
     @CompoundIndex(name = "user_last_reviewed_idx", def = "{'userId': 1, 'lastReviewedAt': -1}"),
@@ -33,6 +34,7 @@ public class WordReviewDoc {
 
     private Long userId;
     private Long vocabularyId;
+    private String wordKey;
 
     @Builder.Default
     private WordReviewState state = WordReviewState.NEW;

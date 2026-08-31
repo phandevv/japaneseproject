@@ -79,8 +79,14 @@ public class SrsService {
 
         WordReview review = wordReviewBatchService.getPendingReview(user != null ? user.getId() : null, vocab.getId());
         if (review == null) {
-            review = srsDataProvider.findByUserAndVocabulary(user, vocab)
-                    .orElseGet(() -> new WordReview(user, vocab));
+            review = srsDataProvider.findByUserAndVocabulary(user, vocab).orElse(null);
+        }
+        if (review == null) {
+            // Deduplication gateway: Check if user already has this word in learned words (e.g. from another curriculum)
+            review = srsDataProvider.findByUserAndWordKey(user, vocab).orElse(null);
+        }
+        if (review == null) {
+            review = new WordReview(user, vocab);
         }
 
         ReviewRating rating = ReviewRating.fromValue(quality);

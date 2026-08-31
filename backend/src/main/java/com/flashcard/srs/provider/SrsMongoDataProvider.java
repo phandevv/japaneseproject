@@ -84,6 +84,44 @@ public class SrsMongoDataProvider implements SrsDataProvider {
     }
 
     @Override
+    public Optional<WordReview> findByUserAndWordKey(User user, Vocabulary vocabulary) {
+        if (user == null || user.getId() == null || vocabulary == null) {
+            return Optional.empty();
+        }
+        String wordKey = resolveWordKey(vocabulary);
+        if (wordKey == null || wordKey.isEmpty()) {
+            return Optional.empty();
+        }
+
+        // Fast path: find directly by user and wordKey
+        Optional<WordReviewDoc> byKey = wordReviewMongoRepository.findFirstByUserIdAndWordKey(user.getId(), wordKey);
+        if (byKey.isPresent()) {
+            return byKey.map(doc -> toWordReview(doc, user, vocabulary));
+        }
+
+        // Fallback: check matching vocabularies with same kanji/hiragana in case wordKey was unset
+        List<VocabularyDoc> matching = vocabularyMongoRepository.findByKanji(wordKey);
+        if (matching.isEmpty()) {
+            matching = vocabularyMongoRepository.findByHiragana(wordKey);
+        }
+        for (VocabularyDoc vDoc : matching) {
+            if (vDoc.getId() != null) {
+                Optional<WordReviewDoc> byId = wordReviewMongoRepository.findByUserIdAndVocabularyId(user.getId(), vDoc.getId());
+                if (byId.isPresent()) {
+                    WordReviewDoc doc = byId.get();
+                    if (doc.getWordKey() == null) {
+                        doc.setWordKey(wordKey);
+                        wordReviewMongoRepository.save(doc);
+                    }
+                    return Optional.of(toWordReview(doc, user, vocabulary));
+                }
+            }
+        }
+
+        return Optional.empty();
+    }
+
+    @Override
     public List<WordReview> findDueWordReviews(User user, Instant time) {
         List<WordReviewDoc> docs = wordReviewMongoRepository.findByUserIdAndNextReviewBefore(user.getId(), time);
         if (docs != null) {
@@ -527,11 +565,23 @@ public class SrsMongoDataProvider implements SrsDataProvider {
         return wr;
     }
 
+    private String resolveWordKey(Vocabulary vocab) {
+        if (vocab == null) return null;
+        if (vocab.getKanji() != null && !vocab.getKanji().trim().isEmpty()) {
+            return vocab.getKanji().trim();
+        }
+        if (vocab.getHiragana() != null && !vocab.getHiragana().trim().isEmpty()) {
+            return vocab.getHiragana().trim();
+        }
+        return null;
+    }
+
     private WordReviewDoc toWordReviewDoc(WordReview wr) {
         return WordReviewDoc.builder()
                 .id(wr.getId())
                 .userId(wr.getUser() != null ? wr.getUser().getId() : null)
                 .vocabularyId(wr.getVocabulary() != null ? wr.getVocabulary().getId() : null)
+                .wordKey(resolveWordKey(wr.getVocabulary()))
                 .state(wr.getState())
                 .difficulty(wr.getDifficulty())
                 .stability(wr.getStability())
@@ -551,6 +601,9 @@ public class SrsMongoDataProvider implements SrsDataProvider {
     private void updateDocFromWordReview(WordReviewDoc doc, WordReview wr) {
         doc.setUserId(wr.getUser() != null ? wr.getUser().getId() : null);
         doc.setVocabularyId(wr.getVocabulary() != null ? wr.getVocabulary().getId() : null);
+        if (doc.getWordKey() == null || doc.getWordKey().isBlank()) {
+            doc.setWordKey(resolveWordKey(wr.getVocabulary()));
+        }
         doc.setState(wr.getState());
         doc.setDifficulty(wr.getDifficulty());
         doc.setStability(wr.getStability());

@@ -22,7 +22,11 @@ public interface VocabularyMongoRepository extends MongoRepository<VocabularyDoc
 
     Optional<VocabularyDoc> findFirstByKanji(String kanji);
 
+    List<VocabularyDoc> findByKanji(String kanji);
+
     Optional<VocabularyDoc> findFirstByHiragana(String hiragana);
+
+    List<VocabularyDoc> findByHiragana(String hiragana);
 
     Optional<VocabularyDoc> findFirstByKanjiAndCategory(String kanji, String category);
 

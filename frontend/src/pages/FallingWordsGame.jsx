@@ -175,25 +175,27 @@ const FallingWordsGame = () => {
     <div className="daily-study-page-bg animate-fade-in" style={{ height: 'calc(100vh - 64px)', overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
       
       {/* Header */}
-      <div style={{ padding: '20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', zIndex: 10, background: 'rgba(255,255,255,0.1)', backdropFilter: 'blur(10px)' }}>
+      <div style={{ padding: '20px', display: 'flex', justifyContent: 'center', zIndex: 10, background: 'rgba(255,255,255,0.1)', backdropFilter: 'blur(10px)' }}>
+      <div style={{ width: '100%', maxWidth: '1000px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '12px' }}>
         <button className="btn" onClick={() => {
           if (gameState === 'lobby') navigate('/games');
           else setGameState('lobby');
         }} style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
           <ArrowLeft size={18} /> {gameState === 'lobby' ? 'Sảnh Trò Chơi' : 'Thoát Trò Chơi'}
         </button>
-        <h2 style={{ fontSize: '1.8rem', fontWeight: 800 }}>Mưa Từ Vựng {gameState !== 'lobby' && `- ${selectedLevel}`}</h2>
+        <h2 style={{ fontSize: '1.5rem', fontWeight: 800 }}>Mưa Từ Vựng {gameState !== 'lobby' && `- ${selectedLevel}`}</h2>
         
         {gameState === 'playing' ? (
-          <div style={{ display: 'flex', gap: '30px', alignItems: 'center' }}>
-            <div style={{ fontSize: '1.2rem', fontWeight: 800 }}>Điểm: <span style={{ color: 'var(--accent-color)' }}>{score}</span></div>
-            <div style={{ display: 'flex', gap: '5px' }}>
+          <div style={{ display: 'flex', gap: '20px', alignItems: 'center' }}>
+            <div style={{ fontSize: '1rem', fontWeight: 800 }}>Điểm: <span style={{ color: 'var(--accent-color)' }}>{score}</span></div>
+            <div style={{ display: 'flex', gap: '4px' }}>
               {[...Array(3)].map((_, i) => (
-                <Heart key={i} size={24} fill={i < lives ? "#ef4444" : "transparent"} color={i < lives ? "#ef4444" : "#ccc"} />
+                <Heart key={i} size={20} fill={i < lives ? "#ef4444" : "transparent"} color={i < lives ? "#ef4444" : "#ccc"} />
               ))}
             </div>
           </div>
         ) : <div></div>}
+      </div>
       </div>
 
       {/* Game Area */}
@@ -207,17 +209,17 @@ const FallingWordsGame = () => {
           display: 'flex',
           justifyContent: 'center',
           alignItems: gameState === 'playing' ? 'stretch' : 'flex-start',
-          padding: gameState !== 'playing' ? '20px' : 0
+          padding: gameState !== 'playing' ? '16px 12px' : 0
         }}
       >
         {gameState === 'lobby' && (
-          <div className="animate-fade-in" style={{ margin: 'auto', display: 'flex', gap: '30px', width: '100%', maxWidth: '1000px', flexWrap: 'wrap', justifyContent: 'center', zIndex: 20 }}>
+          <div className="animate-fade-in" style={{ margin: 'auto', display: 'flex', gap: '20px', width: '100%', maxWidth: '1000px', flexWrap: 'wrap', justifyContent: 'center', zIndex: 20 }}>
             
             {/* Left Column: Config & Guide */}
-            <div style={{ flex: '1 1 400px', display: 'flex', flexDirection: 'column', gap: '20px' }}>
-              <div className="glass-card" style={{ padding: '40px', textAlign: 'center' }}>
-                <h3 style={{ fontSize: '1.5rem', marginBottom: '20px', color: 'var(--text-primary)' }}>Chọn Cấp Độ</h3>
-                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px', justifyContent: 'center', marginBottom: '30px' }}>
+            <div style={{ flex: '1 1 320px', display: 'flex', flexDirection: 'column', gap: '20px' }}>
+              <div className="glass-card" style={{ padding: '30px 20px', textAlign: 'center' }}>
+                <h3 style={{ fontSize: '1.3rem', marginBottom: '16px', color: 'var(--text-primary)' }}>Chọn Cấp Độ</h3>
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px', justifyContent: 'center', marginBottom: '24px' }}>
                   {LEVELS.map(lvl => (
                     <button 
                       key={lvl}
@@ -229,8 +231,8 @@ const FallingWordsGame = () => {
                   ))}
                 </div>
 
-                <h3 style={{ fontSize: '1.5rem', marginBottom: '20px', color: 'var(--text-primary)' }}>Số Lượng Từ Vựng</h3>
-                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px', justifyContent: 'center', marginBottom: '40px' }}>
+                <h3 style={{ fontSize: '1.3rem', marginBottom: '16px', color: 'var(--text-primary)' }}>Số Lượng Từ Vựng</h3>
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px', justifyContent: 'center', marginBottom: '30px' }}>
                   {WORD_COUNTS.map(count => (
                     <button 
                       key={count}

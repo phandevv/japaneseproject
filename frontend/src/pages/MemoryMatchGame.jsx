@@ -235,37 +235,37 @@ const MemoryMatchGame = () => {
       `}</style>
 
       {/* Header Shared */}
-      <div style={{ width: '100%', maxWidth: '1000px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '30px' }}>
+      <div style={{ width: '100%', maxWidth: '1000px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px', flexWrap: 'wrap', gap: '12px' }}>
         <button className="btn" onClick={() => {
           if (gameState === 'lobby') navigate('/games');
           else setGameState('lobby');
         }} style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
           <ArrowLeft size={18} /> {gameState === 'lobby' ? 'Sảnh Trò Chơi' : 'Thoát Trò Chơi'}
         </button>
-        <h2 style={{ fontSize: '1.8rem', fontWeight: 800 }}>Tìm Thẻ Cặp {gameState !== 'lobby' && `- ${selectedLevel}`}</h2>
+        <h2 style={{ fontSize: '1.5rem', fontWeight: 800 }}>Tìm Thẻ Cặp {gameState !== 'lobby' && `- ${selectedLevel}`}</h2>
         
         {gameState === 'playing' && (
-          <div style={{ display: 'flex', gap: '20px', alignItems: 'center' }}>
+          <div style={{ display: 'flex', gap: '12px', alignItems: 'center', flexWrap: 'wrap' }}>
             <button 
               className="btn"
               onClick={useHint}
               disabled={hintsLeft === 0 || isHintActive}
               style={{
-                display: 'flex', alignItems: 'center', gap: '8px',
+                display: 'flex', alignItems: 'center', gap: '6px',
                 background: hintsLeft > 0 ? 'var(--accent-color)' : 'rgba(0,0,0,0.1)',
                 color: hintsLeft > 0 ? 'white' : 'var(--text-secondary)',
                 padding: '6px 12px', borderRadius: '20px',
-                fontSize: '1rem', fontWeight: 600,
+                fontSize: '0.9rem', fontWeight: 600,
                 cursor: (hintsLeft === 0 || isHintActive) ? 'not-allowed' : 'pointer'
               }}
             >
-              <Eye size={18} /> Gợi ý: {hintsLeft}
+              <Eye size={16} /> Gợi ý: {hintsLeft}
             </button>
-            <div style={{ fontSize: '1.2rem', fontWeight: 600, color: 'var(--text-secondary)', display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <div style={{ fontSize: '1rem', fontWeight: 600, color: 'var(--text-secondary)', display: 'flex', alignItems: 'center', gap: '6px' }}>
               Lượt: <span style={{ color: 'var(--accent-color)', fontWeight: 800 }}>{moves}</span>
             </div>
-            <div style={{ fontSize: '1.2rem', fontWeight: 600, color: 'var(--text-secondary)', display: 'flex', alignItems: 'center', gap: '8px', background: 'rgba(255,255,255,0.2)', padding: '6px 12px', borderRadius: '20px' }}>
-              <Clock size={20} /> <span style={{ fontFamily: 'monospace', fontSize: '1.3rem' }}>{formatTime(time)}</span>
+            <div style={{ fontSize: '1rem', fontWeight: 600, color: 'var(--text-secondary)', display: 'flex', alignItems: 'center', gap: '6px', background: 'rgba(255,255,255,0.2)', padding: '6px 12px', borderRadius: '20px' }}>
+              <Clock size={16} /> <span style={{ fontFamily: 'monospace', fontSize: '1.1rem' }}>{formatTime(time)}</span>
             </div>
           </div>
         )}
@@ -273,13 +273,13 @@ const MemoryMatchGame = () => {
       </div>
 
       {gameState === 'lobby' && (
-        <div className="animate-fade-in" style={{ margin: 'auto', display: 'flex', gap: '30px', width: '100%', maxWidth: '1000px', flexWrap: 'wrap', justifyContent: 'center' }}>
+        <div className="animate-fade-in" style={{ margin: 'auto', display: 'flex', gap: '24px', width: '100%', maxWidth: '1000px', flexWrap: 'wrap', justifyContent: 'center' }}>
           
           {/* Left Column: Config & Guide */}
-          <div style={{ flex: '1 1 400px', display: 'flex', flexDirection: 'column', gap: '20px' }}>
-            <div className="glass-card" style={{ padding: '40px', textAlign: 'center' }}>
-              <h3 style={{ fontSize: '1.5rem', marginBottom: '20px', color: 'var(--text-primary)' }}>Chọn Cấp Độ</h3>
-              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px', justifyContent: 'center', marginBottom: '30px' }}>
+          <div style={{ flex: '1 1 340px', display: 'flex', flexDirection: 'column', gap: '20px' }}>
+            <div className="glass-card" style={{ padding: '30px 20px', textAlign: 'center' }}>
+              <h3 style={{ fontSize: '1.3rem', marginBottom: '16px', color: 'var(--text-primary)' }}>Chọn Cấp Độ</h3>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px', justifyContent: 'center', marginBottom: '24px' }}>
                 {LEVELS.map(lvl => (
                   <button 
                     key={lvl}
@@ -291,8 +291,8 @@ const MemoryMatchGame = () => {
                 ))}
               </div>
 
-              <h3 style={{ fontSize: '1.5rem', marginBottom: '20px', color: 'var(--text-primary)' }}>Số Lượng Từ Vựng</h3>
-              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px', justifyContent: 'center', marginBottom: '40px' }}>
+              <h3 style={{ fontSize: '1.3rem', marginBottom: '16px', color: 'var(--text-primary)' }}>Số Lượng Từ Vựng</h3>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px', justifyContent: 'center', marginBottom: '32px' }}>
                 {WORD_COUNTS.map(count => (
                   <button 
                     key={count}
@@ -304,14 +304,14 @@ const MemoryMatchGame = () => {
                 ))}
               </div>
 
-              <button className="btn btn-primary" onClick={startGame} style={{ fontSize: '1.3rem', padding: '15px 40px', display: 'flex', alignItems: 'center', gap: '10px', margin: '0 auto' }}>
-                <Play size={24} /> Bắt Đầu Chơi
+              <button className="btn btn-primary" onClick={startGame} style={{ fontSize: '1.15rem', padding: '12px 32px', display: 'flex', alignItems: 'center', gap: '10px', margin: '0 auto' }}>
+                <Play size={20} /> Bắt Đầu Chơi
               </button>
             </div>
 
-            <div className="glass-card" style={{ padding: '30px', textAlign: 'left' }}>
-              <h3 style={{ fontSize: '1.3rem', marginBottom: '15px', color: 'var(--text-primary)' }}>📖 Hướng dẫn chơi</h3>
-              <ul style={{ color: 'var(--text-secondary)', lineHeight: '1.6', paddingLeft: '20px', margin: 0, fontSize: '1rem' }}>
+            <div className="glass-card" style={{ padding: '24px 20px', textAlign: 'left' }}>
+              <h3 style={{ fontSize: '1.2rem', marginBottom: '12px', color: 'var(--text-primary)' }}>📖 Hướng dẫn chơi</h3>
+              <ul style={{ color: 'var(--text-secondary)', lineHeight: '1.6', paddingLeft: '20px', margin: 0, fontSize: '0.95rem' }}>
                 <li style={{ marginBottom: '8px' }}>Lật 2 thẻ giống nhau (1 thẻ Kanji/Hiragana và 1 thẻ nghĩa Tiếng Việt) để ghép cặp.</li>
                 <li style={{ marginBottom: '8px' }}>Bạn có <strong>2 lượt Gợi ý</strong> (biểu tượng con mắt) để xem lướt qua tất cả các thẻ trong 1 giây.</li>
                 <li>Ghép đúng tất cả các thẻ trong thời gian ngắn nhất và số lượt lật ít nhất để leo lên Bảng xếp hạng!</li>
@@ -320,7 +320,7 @@ const MemoryMatchGame = () => {
           </div>
 
           {/* Right Column: Leaderboard */}
-          <div style={{ flex: '1 1 400px' }}>
+          <div style={{ flex: '1 1 340px' }}>
             <PodiumLeaderboard data={leaderboard} type="time" />
           </div>
         </div>
@@ -332,8 +332,8 @@ const MemoryMatchGame = () => {
         ) : (
           <div className="animate-fade-in" style={{ 
             display: 'grid', 
-            gridTemplateColumns: `repeat(auto-fit, minmax(140px, 1fr))`, 
-            gap: '15px', 
+            gridTemplateColumns: `repeat(auto-fit, minmax(min(100%, 105px), 1fr))`, 
+            gap: '12px', 
             width: '100%', 
             maxWidth: '1000px',
             perspective: '1000px' 
@@ -347,7 +347,7 @@ const MemoryMatchGame = () => {
                   key={index}
                   className="memory-card"
                   style={{
-                    height: '140px',
+                    height: '115px',
                     position: 'relative',
                     cursor: isMatched ? 'default' : 'pointer',
                     transformStyle: 'preserve-3d',

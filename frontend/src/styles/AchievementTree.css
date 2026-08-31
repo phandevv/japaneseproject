@@ -309,3 +309,29 @@
   color: #10b981;
   margin-top: 4px;
 }
+
+@media (max-width: 768px) {
+  .achievement-tabs-row {
+    grid-template-columns: 1fr;
+  }
+
+  .ach-tree-banner {
+    flex-direction: column;
+    padding: 16px;
+    gap: 12px;
+  }
+
+  .ach-node-card {
+    padding: 14px 12px;
+    gap: 12px;
+  }
+
+  .ach-node-icon {
+    width: 44px;
+    height: 44px;
+  }
+
+  .ach-node-title {
+    font-size: 0.95rem;
+  }
+}

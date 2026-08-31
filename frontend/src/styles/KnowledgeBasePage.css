@@ -1786,6 +1786,51 @@
   100% { transform: translateY(0px); }
 }
 
+/* ── Mobile Responsive for Knowledge Base ── */
+@media (max-width: 768px) {
+  .kb-container {
+    padding: 16px 8px;
+  }
+
+  .kb-header-section {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+
+  .kb-tabs {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    width: 100%;
+    justify-content: flex-start;
+  }
+
+  .kb-tab-btn {
+    white-space: nowrap;
+    padding: 8px 12px;
+    font-size: 0.8rem;
+  }
+
+  .glass-panel {
+    padding: 16px 12px;
+    border-radius: 16px;
+  }
+
+  .kb-title-block h1 {
+    font-size: 1.4rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .kb-container {
+    padding: 12px 4px;
+  }
+
+  .card-tab-content-container {
+    min-height: auto;
+  }
+}
+
 
 
 

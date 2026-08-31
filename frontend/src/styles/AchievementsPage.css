@@ -95,3 +95,27 @@
 .stat-val.blue {
   color: #3b82f6;
 }
+
+@media (max-width: 768px) {
+  .ach-hero-card {
+    padding: 20px 16px;
+    border-radius: 18px;
+    gap: 16px;
+  }
+
+  .ach-hero-info {
+    flex-direction: column;
+    text-align: center;
+    gap: 12px;
+  }
+
+  .ach-hero-title {
+    font-size: 1.4rem;
+    justify-content: center;
+  }
+
+  .ach-stats-grid {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+}

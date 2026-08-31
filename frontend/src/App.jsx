@@ -62,6 +62,7 @@ function App() {
   const location = useLocation();
 
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(() => localStorage.getItem('nihongo-sidebarCollapsed') === 'true');
+  const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
   const [selectedLevelState, setSelectedLevelState] = useState(() => {
     const val = localStorage.getItem('nihongo-selectedLevel');
     return val === 'null' ? null : val;
@@ -69,6 +70,11 @@ function App() {
   const [stats, setStats] = useState(null);
   const [showStudySection, setShowStudySection] = useState(false);
   const [showFeedbackModal, setShowFeedbackModal] = useState(false);
+
+  // Close mobile sidebar drawer automatically on navigation
+  useEffect(() => {
+    setIsMobileSidebarOpen(false);
+  }, [location.pathname]);
 
   // Smart Active Study Duration Heartbeat (with Anti-Idle & Tab Visibility Detection)
   useEffect(() => {
@@ -506,11 +512,14 @@ function App() {
         <Sidebar
           isCollapsed={isSidebarCollapsed}
           onToggleCollapse={() => setIsSidebarCollapsed(!isSidebarCollapsed)}
+          isMobileOpen={isMobileSidebarOpen}
+          onCloseMobile={() => setIsMobileSidebarOpen(false)}
           currentPage={currentPage}
           setCurrentPage={(page, resetLevel) => {
             if (resetLevel || page === 'flashcard' || page === 'daily') {
               setSelectedLevelState(null);
             }
+            setIsMobileSidebarOpen(false);
             setCurrentPage(page);
           }}
           onLoginClick={() => navigate('/auth')}
@@ -518,6 +527,7 @@ function App() {
           onLogout={handleLogout}
           onProfileClick={() => navigate('/profile')}
           onFeedbackClick={() => {
+            setIsMobileSidebarOpen(false);
             if (isAuthenticated) {
               setShowFeedbackModal(true);
             } else {
@@ -534,6 +544,7 @@ function App() {
             streak={dbStreak !== null ? dbStreak : (userStreakData?.streak || 0)}
             onProfileClick={() => navigate('/profile')}
             onLogout={handleLogout}
+            onToggleMobileSidebar={() => setIsMobileSidebarOpen(prev => !prev)}
           />
         )}
         <Suspense fallback={

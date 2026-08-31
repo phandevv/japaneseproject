@@ -251,24 +251,19 @@ const WordConnectGame = () => {
   );
 
   const renderGame = () => {
-    // Determine grid columns based on word count
-    let gridCols = 'repeat(auto-fill, minmax(140px, 1fr))';
-    if (wordCount === 10) gridCols = 'repeat(4, 1fr)';
-    else if (wordCount === 20) gridCols = 'repeat(5, 1fr)';
-
     return (
-      <div className="animate-fade-in" style={{ padding: '20px', maxWidth: '1000px', margin: '0 auto' }}>
-        <div className="flex-between" style={{ marginBottom: '20px' }}>
+      <div className="animate-fade-in" style={{ padding: '16px 12px', maxWidth: '1000px', margin: '0 auto' }}>
+        <div className="flex-between" style={{ marginBottom: '16px', flexWrap: 'wrap', gap: '12px' }}>
           <button className="btn-icon" onClick={() => setGameState('lobby')} title="Thoát">
-            <ArrowLeft size={24} />
+            <ArrowLeft size={22} />
           </button>
           
-          <div className="glass-card" style={{ padding: '10px 20px', display: 'flex', gap: '20px' }}>
-            <div className="flex-center" style={{ gap: '8px', fontWeight: 600 }}>
-              <Clock size={18} color="var(--accent-color)" /> {formatTime(time)}
+          <div className="glass-card" style={{ padding: '8px 16px', display: 'flex', gap: '16px' }}>
+            <div className="flex-center" style={{ gap: '6px', fontWeight: 600, fontSize: '0.92rem' }}>
+              <Clock size={16} color="var(--accent-color)" /> {formatTime(time)}
             </div>
-            <div className="flex-center" style={{ gap: '8px', fontWeight: 600 }}>
-              <RefreshCw size={18} color="var(--success-color)" /> {moves} bước
+            <div className="flex-center" style={{ gap: '6px', fontWeight: 600, fontSize: '0.92rem' }}>
+              <RefreshCw size={16} color="var(--success-color)" /> {moves} bước
             </div>
           </div>
         </div>
@@ -276,9 +271,9 @@ const WordConnectGame = () => {
         <div 
           style={{ 
             display: 'grid', 
-            gridTemplateColumns: gridCols, 
-            gap: '12px',
-            marginTop: '20px'
+            gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 120px), 1fr))', 
+            gap: '10px',
+            marginTop: '16px'
           }}
         >
           {cards.map((card, index) => {

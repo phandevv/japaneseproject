@@ -284,14 +284,14 @@ const UserProfilePage = () => {
               </div>
 
               <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-                <div style={{ display: 'flex', gap: '12px' }}>
-                  <div style={{ flex: 1 }}>
+                <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
+                  <div style={{ flex: '1 1 200px' }}>
                     <label style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', fontWeight: 600, display: 'block', marginBottom: '6px' }}>Tên hiển thị</label>
                     <input type="text" value={displayName} onChange={(e) => setDisplayName(e.target.value)} placeholder="Tên hiển thị..."
                       style={{ width: '100%', padding: '10px 14px', borderRadius: '12px', border: '1px solid var(--border-color)', backgroundColor: 'var(--bg-color)', color: 'var(--text-primary)', boxSizing: 'border-box' }}
                     />
                   </div>
-                  <div style={{ flex: 1 }}>
+                  <div style={{ flex: '1 1 200px' }}>
                     <label style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', fontWeight: 600, display: 'block', marginBottom: '6px' }}>Tên đăng nhập</label>
                     <input type="text" value={user?.username || ''} disabled
                       style={{ width: '100%', padding: '10px 14px', borderRadius: '12px', border: '1px solid var(--border-color)', backgroundColor: 'var(--surface-hover)', color: 'var(--text-secondary)', cursor: 'not-allowed', boxSizing: 'border-box' }}
@@ -299,14 +299,14 @@ const UserProfilePage = () => {
                   </div>
                 </div>
 
-                <div style={{ display: 'flex', gap: '12px' }}>
-                  <div style={{ flex: 1 }}>
+                <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
+                  <div style={{ flex: '1 1 200px' }}>
                     <label style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', fontWeight: 600, display: 'block', marginBottom: '6px' }}>Số điện thoại</label>
                     <input type="text" value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="09xx..."
                       style={{ width: '100%', padding: '10px 14px', borderRadius: '12px', border: '1px solid var(--border-color)', backgroundColor: 'var(--bg-color)', color: 'var(--text-primary)', boxSizing: 'border-box' }}
                     />
                   </div>
-                  <div style={{ flex: 1 }}>
+                  <div style={{ flex: '1 1 200px' }}>
                     <label style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', fontWeight: 600, display: 'block', marginBottom: '6px' }}>Ngành nghề</label>
                     <input type="text" value={occupation} onChange={(e) => setOccupation(e.target.value)} placeholder="IT, Sinh viên..."
                       style={{ width: '100%', padding: '10px 14px', borderRadius: '12px', border: '1px solid var(--border-color)', backgroundColor: 'var(--bg-color)', color: 'var(--text-primary)', boxSizing: 'border-box' }}

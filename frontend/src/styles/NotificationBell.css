@@ -200,3 +200,14 @@
   border-radius: 50%;
   background-color: var(--accent-color);
 }
+
+@media (max-width: 480px) {
+  .notification-dropdown {
+    position: fixed;
+    top: 60px;
+    left: 12px;
+    right: 12px;
+    width: auto;
+    max-width: calc(100vw - 24px);
+  }
+}

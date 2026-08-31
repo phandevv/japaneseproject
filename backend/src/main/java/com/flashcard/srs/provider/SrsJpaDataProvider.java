@@ -43,6 +43,25 @@ public class SrsJpaDataProvider implements SrsDataProvider {
     }
 
     @Override
+    public Optional<WordReview> findByUserAndWordKey(User user, Vocabulary vocabulary) {
+        if (user == null || vocabulary == null) return Optional.empty();
+        String kanji = vocabulary.getKanji() != null ? vocabulary.getKanji().trim() : "";
+        String hiragana = vocabulary.getHiragana() != null ? vocabulary.getHiragana().trim() : "";
+        String wordKey = !kanji.isEmpty() ? kanji : hiragana;
+        if (wordKey.isEmpty()) return Optional.empty();
+
+        return wordReviewRepository.findAllByUserFetchVocabulary(user).stream()
+                .filter(r -> {
+                    if (r.getVocabulary() == null) return false;
+                    String rKanji = r.getVocabulary().getKanji() != null ? r.getVocabulary().getKanji().trim() : "";
+                    String rHira = r.getVocabulary().getHiragana() != null ? r.getVocabulary().getHiragana().trim() : "";
+                    String rKey = !rKanji.isEmpty() ? rKanji : rHira;
+                    return wordKey.equals(rKey);
+                })
+                .findFirst();
+    }
+
+    @Override
     public List<WordReview> findDueWordReviews(User user, Instant time) {
         return wordReviewRepository.findByUserAndNextReviewBefore(user, time);
     }
