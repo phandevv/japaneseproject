@@ -33,8 +33,8 @@ export function useStudyTimer() {
   // 2. Timer machine state
   const [timerState, setTimerState] = useState(() => loadTimerState(settings));
 
-  // 3. UI tick driver (only used to trigger re-renders)
-  const [, setTick] = useState(0);
+  // 3. Real-time timestamp state (triggers real-time tick calculations)
+  const [now, setNow] = useState(() => Date.now());
   const intervalRef = useRef(null);
 
   // Helper: calculate target duration in ms for a given mode
@@ -50,11 +50,11 @@ export function useStudyTimer() {
     }
   }, [settings]);
 
-  // Derive remaining milliseconds accurately using timestamp
+  // Derive remaining milliseconds accurately using timestamp & current now
   const remainingMs = useMemo(() => {
     const { status, endAt, remainingAtPause, targetDurationMs } = timerState;
     if (status === 'RUNNING' && endAt) {
-      return Math.max(0, endAt - Date.now());
+      return Math.max(0, endAt - now);
     }
     if (status === 'PAUSED' && remainingAtPause !== null) {
       return Math.max(0, remainingAtPause);
@@ -63,7 +63,7 @@ export function useStudyTimer() {
       return 0;
     }
     return targetDurationMs || getDurationForMode(timerState.mode);
-  }, [timerState, getDurationForMode]);
+  }, [timerState, now, getDurationForMode]);
 
   // Derived progress ratio (0 to 1)
   const progressRatio = useMemo(() => {
@@ -137,19 +137,22 @@ export function useStudyTimer() {
     }
   }, [settings, getDurationForMode]);
 
-  // 5. Timer UI Interval Loop (Refreshes UI only, does not calculate time)
+  // 5. Timer UI Interval Loop (Updates real-time timestamp and handles phase completion)
   useEffect(() => {
     if (timerState.status === 'RUNNING') {
+      // Sync immediately on entering RUNNING
+      setNow(Date.now());
+
       intervalRef.current = setInterval(() => {
-        const now = Date.now();
-        if (timerState.endAt && now >= timerState.endAt) {
+        const currentNow = Date.now();
+        setNow(currentNow);
+
+        if (timerState.endAt && currentNow >= timerState.endAt) {
           clearInterval(intervalRef.current);
+          intervalRef.current = null;
           handlePhaseComplete(timerState);
-        } else {
-          // Trigger render
-          setTick(t => t + 1);
         }
-      }, 500);
+      }, 200);
     } else {
       if (intervalRef.current) {
         clearInterval(intervalRef.current);
@@ -169,11 +172,10 @@ export function useStudyTimer() {
   useEffect(() => {
     const handleVisibilityChange = () => {
       if (document.visibilityState === 'visible' && timerState.status === 'RUNNING') {
-        const now = Date.now();
-        if (timerState.endAt && now >= timerState.endAt) {
+        const currentNow = Date.now();
+        setNow(currentNow);
+        if (timerState.endAt && currentNow >= timerState.endAt) {
           handlePhaseComplete(timerState);
-        } else {
-          setTick(t => t + 1);
         }
       }
     };
@@ -188,6 +190,7 @@ export function useStudyTimer() {
       if (e.key === 'nihongo_study_timer_state_v1' && e.newValue) {
         try {
           const remoteState = JSON.parse(e.newValue);
+          setNow(Date.now());
           setTimerState(remoteState);
         } catch (err) {}
       } else if (e.key === 'nihongo_study_timer_settings_v1' && e.newValue) {
@@ -208,7 +211,7 @@ export function useStudyTimer() {
   const start = useCallback(() => {
     if (timerState.status === 'RUNNING') return;
 
-    const now = Date.now();
+    const currentNow = Date.now();
     const durationMs = timerState.remainingAtPause !== null
       ? timerState.remainingAtPause
       : (timerState.targetDurationMs || getDurationForMode(timerState.mode));
@@ -216,11 +219,12 @@ export function useStudyTimer() {
     const updated = {
       ...timerState,
       status: 'RUNNING',
-      startedAt: now,
-      endAt: now + durationMs,
+      startedAt: currentNow,
+      endAt: currentNow + durationMs,
       remainingAtPause: null,
       targetDurationMs: timerState.targetDurationMs || durationMs,
     };
+    setNow(currentNow);
     setTimerState(updated);
     saveTimerState(updated);
   }, [timerState, getDurationForMode]);
@@ -229,8 +233,8 @@ export function useStudyTimer() {
   const pause = useCallback(() => {
     if (timerState.status !== 'RUNNING') return;
 
-    const now = Date.now();
-    const remaining = timerState.endAt ? Math.max(0, timerState.endAt - now) : 0;
+    const currentNow = Date.now();
+    const remaining = timerState.endAt ? Math.max(0, timerState.endAt - currentNow) : 0;
 
     const updated = {
       ...timerState,
@@ -238,6 +242,7 @@ export function useStudyTimer() {
       endAt: null,
       remainingAtPause: remaining,
     };
+    setNow(currentNow);
     setTimerState(updated);
     saveTimerState(updated);
   }, [timerState]);
@@ -246,15 +251,16 @@ export function useStudyTimer() {
   const resume = useCallback(() => {
     if (timerState.status !== 'PAUSED') return;
 
-    const now = Date.now();
+    const currentNow = Date.now();
     const remaining = timerState.remainingAtPause || getDurationForMode(timerState.mode);
 
     const updated = {
       ...timerState,
       status: 'RUNNING',
-      endAt: now + remaining,
+      endAt: currentNow + remaining,
       remainingAtPause: null,
     };
+    setNow(currentNow);
     setTimerState(updated);
     saveTimerState(updated);
   }, [timerState, getDurationForMode]);
@@ -270,6 +276,7 @@ export function useStudyTimer() {
       remainingAtPause: null,
       targetDurationMs: defaultDuration,
     };
+    setNow(Date.now());
     setTimerState(updated);
     saveTimerState(updated);
   }, [timerState, getDurationForMode]);
