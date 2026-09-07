@@ -249,6 +249,26 @@ const FlashcardCard = ({ word, flipped, onFlip, onRateWord }) => {
     };
   }, [word?.id]);
 
+  // Auto pronounce word when flashcard is flipped to back side
+  useEffect(() => {
+    if (flipped && word) {
+      if (typeof window === 'undefined' || !window.speechSynthesis) return;
+      const textToSpeak = word.hiragana || word.kanji || word.word || word.cau_truc || word.grammar || '';
+      if (!textToSpeak) return;
+
+      try {
+        window.speechSynthesis.cancel();
+        const utterance = new SpeechSynthesisUtterance(textToSpeak);
+        utterance.lang = 'ja-JP';
+        utterance.rate = 0.95;
+        utterance.pitch = 1;
+        window.speechSynthesis.speak(utterance);
+      } catch (err) {
+        console.error("Auto-speech synthesis error:", err);
+      }
+    }
+  }, [flipped, word?.id, word?.kanji, word?.hiragana, word?.word, word?.cau_truc, word?.grammar]);
+
   const handleFlip = () => {
     if (onFlip) {
       onFlip();
@@ -256,10 +276,10 @@ const FlashcardCard = ({ word, flipped, onFlip, onRateWord }) => {
   };
 
   const handleSpeak = (e) => {
-    e.stopPropagation();
+    if (e && e.stopPropagation) e.stopPropagation();
     if (typeof window === 'undefined' || !window.speechSynthesis) return;
 
-    const textToSpeak = word?.hiragana || word?.kanji || word?.meaning || '';
+    const textToSpeak = word?.hiragana || word?.kanji || word?.word || word?.cau_truc || word?.grammar || '';
     if (!textToSpeak) return;
 
     window.speechSynthesis.cancel();
@@ -579,11 +599,27 @@ const FlashcardCard = ({ word, flipped, onFlip, onRateWord }) => {
                     </div>
                   )}
 
-                  {/* Sample sentence for Vocab */}
+                  {/* Sample sentence for Vocab / Grammar */}
                   {word.sampleSentence && !word.tu_vung && (
                     <div style={{ marginTop: '8px', width: '100%', textAlign: 'left', padding: '8px', background: 'var(--surface-hover)', borderRadius: '8px', border: '1px solid var(--border-color)', fontSize: '0.8rem', color: 'var(--text-primary)' }}>
                       <span style={{ fontWeight: 700, color: 'var(--text-secondary)', display: 'block', marginBottom: '2px' }}>Ví dụ:</span>
-                      {word.sampleSentence}
+                      {typeof word.sampleSentence === 'string' ? (
+                        word.sampleSentence
+                      ) : typeof word.sampleSentence === 'object' && word.sampleSentence !== null ? (
+                        <div>
+                          <div className="font-jp" style={{ fontWeight: 600, color: 'var(--text-primary)' }}>
+                            {word.sampleSentence.ja || word.sampleSentence.jp || word.sampleSentence.text || ''}
+                            {word.sampleSentence.reading ? ` (${word.sampleSentence.reading})` : ''}
+                          </div>
+                          {(word.sampleSentence.vi || word.sampleSentence.vn || word.sampleSentence.meaning) && (
+                            <div style={{ color: 'var(--text-secondary)', fontSize: '0.75rem', marginTop: '2px' }}>
+                              👉 {word.sampleSentence.vi || word.sampleSentence.vn || word.sampleSentence.meaning}
+                            </div>
+                          )}
+                        </div>
+                      ) : (
+                        String(word.sampleSentence)
+                      )}
                     </div>
                   )}
                 </div>

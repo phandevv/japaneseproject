@@ -536,8 +536,29 @@ public class JlptN3CourseService {
                     }
                 }
 
-                // 4. Parse Grammar (ngu_phap)
+                // 4. Parse Grammar (ngu_phap) with Upsert & Overwrite to prevent duplication
                 if (root.has("ngu_phap") && root.get("ngu_phap").isArray()) {
+                    String weekName = "Chương " + chuong;
+                    String dayName = "Bài " + bai;
+                    List<GrammarCard> existingWeekGrammars = knowledgeDataProvider.findGrammarByJlptAndWeekAndDay("N3", weekName, dayName);
+                    if (existingWeekGrammars == null || existingWeekGrammars.isEmpty()) {
+                        existingWeekGrammars = knowledgeDataProvider.findAllGrammar().stream()
+                                .filter(g -> "N3".equalsIgnoreCase(g.getJlpt()) &&
+                                             g.getWeekName() != null && g.getWeekName().contains(weekName) &&
+                                             g.getDayName() != null && g.getDayName().contains(dayName))
+                                .collect(Collectors.toList());
+                    }
+                    Map<String, GrammarCard> existingMap = new HashMap<>();
+                    if (existingWeekGrammars != null) {
+                        for (GrammarCard eg : existingWeekGrammars) {
+                            if (eg.getGrammar() != null) {
+                                existingMap.put(eg.getGrammar().trim().toLowerCase(), eg);
+                            }
+                        }
+                    }
+
+                    Set<Long> retainedIds = new HashSet<>();
+
                     for (JsonNode gNode : root.get("ngu_phap")) {
                         String cauTruc = gNode.path("cau_truc").asText("").trim();
                         if (cauTruc.isEmpty()) continue;
@@ -548,17 +569,27 @@ public class JlptN3CourseService {
                         List<String> viDuList = new ArrayList<>();
                         if (gNode.has("vi_du") && gNode.get("vi_du").isArray()) {
                             for (JsonNode vd : gNode.get("vi_du")) {
-                                viDuList.add(vd.asText());
+                                if (vd.isTextual()) {
+                                    viDuList.add(vd.asText());
+                                } else {
+                                    viDuList.add(vd.toString());
+                                }
                             }
                         }
 
-                        GrammarCard g = new GrammarCard();
+                        GrammarCard g = existingMap.get(cauTruc.toLowerCase());
+                        if (g == null) {
+                            g = new GrammarCard();
+                        } else {
+                            retainedIds.add(g.getId());
+                        }
+
                         g.setGrammar(cauTruc);
                         g.setMeaning(yNghia);
                         g.setFormation(cachChia);
                         g.setJlpt("N3");
-                        g.setWeekName("Chương " + chuong);
-                        g.setDayName("Bài " + bai);
+                        g.setWeekName(weekName);
+                        g.setDayName(dayName);
                         g.setLessonTitle("Bài " + bai + " (Tổng ôn N3)");
 
                         if (!viDuList.isEmpty()) {
@@ -569,6 +600,16 @@ public class JlptN3CourseService {
 
                         toSaveGrammars.add(g);
                         fileGrammar++;
+                    }
+
+                    // Remove obsolete grammar cards for this lesson that are no longer in uploaded JSON
+                    if (existingWeekGrammars != null) {
+                        List<GrammarCard> toDelete = existingWeekGrammars.stream()
+                                .filter(eg -> eg.getId() != null && !retainedIds.contains(eg.getId()))
+                                .collect(Collectors.toList());
+                        if (!toDelete.isEmpty()) {
+                            knowledgeDataProvider.deleteAllGrammar(toDelete);
+                        }
                     }
                 }
 

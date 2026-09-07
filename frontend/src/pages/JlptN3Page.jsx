@@ -180,6 +180,52 @@ const JlptN3Page = () => {
     }
   };
 
+  const formatSampleSentence = (raw) => {
+    if (!raw) return '';
+    if (typeof raw === 'string') return raw;
+    if (Array.isArray(raw)) {
+      if (raw.length === 0) return '';
+      return formatSampleSentence(raw[0]);
+    }
+    if (typeof raw === 'object' && raw !== null) {
+      const ja = raw.ja || raw.jp || raw.text || raw.sentence || '';
+      const reading = raw.reading ? ` (${raw.reading})` : '';
+      const vi = raw.vi || raw.vn || raw.meaning || '';
+      if (ja && vi) return `${ja}${reading} — ${vi}`;
+      return ja || vi || '';
+    }
+    return String(raw);
+  };
+
+  const normalizeGrammarExamples = (raw) => {
+    if (!raw) return '[]';
+    let list = [];
+    if (Array.isArray(raw)) {
+      list = raw;
+    } else if (typeof raw === 'string') {
+      try {
+        const parsed = JSON.parse(raw);
+        list = Array.isArray(parsed) ? parsed : [parsed];
+      } catch (e) {
+        list = [{ ja: raw, reading: '', vi: '' }];
+      }
+    } else if (typeof raw === 'object' && raw !== null) {
+      list = [raw];
+    }
+    const mapped = list.map(v => {
+      if (typeof v === 'string') return { ja: v, reading: '', vi: '' };
+      if (v && typeof v === 'object') {
+        return {
+          ja: v.ja || v.jp || v.sentence || v.text || '',
+          reading: v.reading || v.furigana || v.hiragana || '',
+          vi: v.vi || v.vn || v.meaning || v.translation || ''
+        };
+      }
+      return null;
+    }).filter(Boolean);
+    return JSON.stringify(mapped);
+  };
+
   const openGrammarModal = async (g) => {
     if (g.id) {
       try {
@@ -188,18 +234,18 @@ const JlptN3Page = () => {
       } catch {
         setSelectedGrammarModal({
           id: g.id,
-          grammar: g.cau_truc,
-          meaning: g.y_nghia,
-          formation: g.cach_chia,
-          examples: JSON.stringify(g.vi_du ? g.vi_du.map(v => ({ ja: v, vi: '' })) : [])
+          grammar: g.cau_truc || g.grammar,
+          meaning: g.y_nghia || g.meaning,
+          formation: g.cach_chia || g.formation,
+          examples: normalizeGrammarExamples(g.vi_du || g.examples)
         });
       }
     } else {
       setSelectedGrammarModal({
-        grammar: g.cau_truc,
-        meaning: g.y_nghia,
-        formation: g.cach_chia,
-        examples: JSON.stringify(g.vi_du ? g.vi_du.map(v => ({ ja: v, vi: '' })) : [])
+        grammar: g.cau_truc || g.grammar,
+        meaning: g.y_nghia || g.meaning,
+        formation: g.cach_chia || g.formation,
+        examples: normalizeGrammarExamples(g.vi_du || g.examples)
       });
     }
   };
@@ -481,15 +527,24 @@ const isContainsKanji = (str) => {
     // Grammar Items
     if (lessonData.ngu_phap && (flashcardCategory === 'all' || flashcardCategory === 'grammar')) {
       lessonData.ngu_phap.forEach((g, idx) => {
+        let sample = '';
+        if (g.vi_du && Array.isArray(g.vi_du) && g.vi_du.length > 0) {
+          sample = formatSampleSentence(g.vi_du[0]);
+        } else if (g.vi_du) {
+          sample = formatSampleSentence(g.vi_du);
+        } else if (g.examples) {
+          sample = formatSampleSentence(g.examples);
+        }
+
         items.push({
-          id: `grammar-${idx}`,
-          kanji: g.cau_truc,
-          hiragana: g.cau_truc,
-          meaning: g.y_nghia,
+          id: g.id ? `grammar-${g.id}` : `grammar-${idx}`,
+          kanji: g.cau_truc || g.grammar || '',
+          hiragana: g.cau_truc || g.grammar || '',
+          meaning: g.y_nghia || g.meaning || '',
           hanViet: 'Ngữ Pháp N3',
           wordType: 'Grammar',
           level: 'N3',
-          sampleSentence: g.vi_du ? g.vi_du[0] : '',
+          sampleSentence: sample,
           category: 'grammar',
           badge: 'Ngữ Pháp N3'
         });
@@ -1889,9 +1944,25 @@ const isContainsKanji = (str) => {
                             </div>
                           )}
                           {g.vi_du && g.vi_du.length > 0 && (
-                            <div style={{ fontSize: '0.88rem', color: 'var(--text-primary)', marginTop: '4px', display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                            <div style={{ fontSize: '0.88rem', color: 'var(--text-primary)', marginTop: '4px', display: 'flex', flexDirection: 'column', gap: '6px' }}>
                               <strong>Ví dụ mẫu:</strong>
-                              {g.vi_du.map((ex, i) => <div key={i}>• {ex}</div>)}
+                              {g.vi_du.map((ex, i) => {
+                                if (typeof ex === 'string') {
+                                  return <div key={i} style={{ lineHeight: '1.5' }}>• {ex}</div>;
+                                }
+                                if (typeof ex === 'object' && ex !== null) {
+                                  const ja = ex.ja || ex.jp || ex.sentence || ex.text || '';
+                                  const rd = ex.reading ? ` (${ex.reading})` : '';
+                                  const vi = ex.vi || ex.vn || ex.meaning || '';
+                                  return (
+                                    <div key={i} style={{ display: 'flex', flexDirection: 'column', gap: '2px', padding: '6px 10px', background: 'var(--surface-hover)', borderRadius: '8px' }}>
+                                      <div className="font-jp" style={{ fontWeight: 600 }}>• {ja}{rd}</div>
+                                      {vi && <div style={{ color: 'var(--text-secondary)', fontSize: '0.82rem', paddingLeft: '12px' }}>👉 {vi}</div>}
+                                    </div>
+                                  );
+                                }
+                                return null;
+                              })}
                             </div>
                           )}
                           <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '6px' }}>

@@ -107,6 +107,26 @@ public class KnowledgeMongoDataProvider implements KnowledgeDataProvider {
     }
 
     @Override
+    public void deleteGrammar(GrammarCard gc) {
+        if (gc != null && gc.getId() != null) {
+            grammarCardMongoRepository.deleteById(gc.getId());
+        }
+    }
+
+    @Override
+    public void deleteAllGrammar(List<GrammarCard> grammarCards) {
+        if (grammarCards != null && !grammarCards.isEmpty()) {
+            List<Long> ids = grammarCards.stream()
+                    .map(GrammarCard::getId)
+                    .filter(Objects::nonNull)
+                    .collect(Collectors.toList());
+            if (!ids.isEmpty()) {
+                grammarCardMongoRepository.deleteAllById(ids);
+            }
+        }
+    }
+
+    @Override
     public long countGrammar() {
         return grammarCardMongoRepository.count();
     }

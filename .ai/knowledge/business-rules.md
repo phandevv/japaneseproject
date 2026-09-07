@@ -61,6 +61,7 @@ $$EF' = EF + (0.1 - (5 - q) \times (0.08 + (5 - q) \times 0.02))$$
 * **Nếu từ vựng/ngữ pháp ĐÃ CÓ trong DB**:
   * Cập nhật thông tin chi tiết (nghĩa, ví dụ, mnemonic...) trực tiếp trên bản ghi hiện tại mà **không đổi ID hoặc vị trí**.
   * Nếu người dùng đã học từ này trước đó (`WordReview`/`GrammarReview` đã tồn tại), **bảo toàn nguyên vẹn** trạng thái `is_learned` và lịch trình ôn tập SRS, không reset điểm quality.
+  * **Upload Giáo trình JSON (JlptN3CourseService)**: Khi import/re-upload file JSON bài học N3, hệ thống tự động tìm kiếm ngữ pháp theo cấu trúc (`cau_truc`), ghi đè (`Upsert`) nội dung thay vì cộng dồn, đồng thời dọn dẹp các mẫu bị loại bỏ mà vẫn bảo toàn ID và lịch sử ôn tập (`GrammarReview`).
 * **Mặc định mức độ khó nhớ nhất (Highest Priority / Hardest)**:
   * Khi nhập kiến thức mới học vào hệ thống, các từ/mẫu ngữ pháp này mặc định được đánh dấu ở mức độ **Khó nhớ nhất (Quality = 1: AGAIN)** và gán ngày ôn tập `nextReview = NOW()` để ưu tiên nhắc nhở ngay trong Ôn tập buổi sáng.
 * **Nếu từ vựng/ngữ pháp CHƯA CÓ trong DB**:

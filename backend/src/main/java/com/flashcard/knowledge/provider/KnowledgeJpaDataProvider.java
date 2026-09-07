@@ -74,6 +74,20 @@ public class KnowledgeJpaDataProvider implements KnowledgeDataProvider {
     }
 
     @Override
+    public void deleteGrammar(GrammarCard grammarCard) {
+        if (grammarCard != null) {
+            grammarCardRepository.delete(grammarCard);
+        }
+    }
+
+    @Override
+    public void deleteAllGrammar(List<GrammarCard> grammarCards) {
+        if (grammarCards != null && !grammarCards.isEmpty()) {
+            grammarCardRepository.deleteAll(grammarCards);
+        }
+    }
+
+    @Override
     public long countGrammar() {
         return grammarCardRepository.count();
     }

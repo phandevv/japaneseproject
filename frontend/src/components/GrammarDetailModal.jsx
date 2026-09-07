@@ -161,15 +161,32 @@ const GrammarDetailModal = ({ grammarCard, onClose, onReEnriched }) => {
 
   const parseExamples = (val) => {
     if (!val) return [];
-    if (Array.isArray(val)) return val;
-    if (typeof val !== 'string') return [];
-    try {
-      const parsed = JSON.parse(val);
-      if (Array.isArray(parsed)) return parsed;
-      return [parsed];
-    } catch (e) {
-      return [{ ja: val, reading: '', vi: '' }];
+    let list = [];
+    if (Array.isArray(val)) {
+      list = val;
+    } else if (typeof val === 'string') {
+      try {
+        const parsed = JSON.parse(val);
+        list = Array.isArray(parsed) ? parsed : [parsed];
+      } catch (e) {
+        list = [{ ja: val, reading: '', vi: '' }];
+      }
+    } else if (typeof val === 'object' && val !== null) {
+      list = [val];
     }
+    return list.map(item => {
+      if (typeof item === 'string') {
+        return { ja: item, reading: '', vi: '' };
+      }
+      if (item && typeof item === 'object') {
+        return {
+          ja: item.ja || item.jp || item.text || item.sentence || '',
+          reading: item.reading || item.furigana || item.hiragana || '',
+          vi: item.vi || item.vn || item.meaning || item.translation || ''
+        };
+      }
+      return null;
+    }).filter(Boolean);
   };
 
   const exampleList = parseExamples(data.examples);

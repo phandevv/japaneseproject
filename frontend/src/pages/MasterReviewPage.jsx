@@ -197,13 +197,13 @@ const MasterReviewPage = ({ goBack }) => {
   // Audio speech synthesis
   const speakWord = (word) => {
     if (!word) return;
-    const text = word.kanji || word.hiragana;
+    const text = word.hiragana || word.kanji || word.word || word.cau_truc || word.grammar;
     if (!text || typeof window === 'undefined' || !('speechSynthesis' in window)) return;
     try {
       window.speechSynthesis.cancel();
       const utterance = new SpeechSynthesisUtterance(text);
       utterance.lang = 'ja-JP';
-      utterance.rate = 0.9;
+      utterance.rate = 0.92;
       window.speechSynthesis.speak(utterance);
     } catch (e) {
       console.error("Speech audio error:", e);
@@ -335,6 +335,20 @@ const MasterReviewPage = ({ goBack }) => {
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [phase, phase2ViewMode, phase2CardIndex, selectedModalIndex, forgottenWords]);
+
+  // Auto-pronounce word when flipping flashcard in Phase 1
+  useEffect(() => {
+    if (phase === 1 && isFlipped && allWords[cardIndex]) {
+      speakWord(allWords[cardIndex]);
+    }
+  }, [isFlipped, phase, cardIndex, allWords]);
+
+  // Auto-pronounce word when flipping flashcard in Phase 2
+  useEffect(() => {
+    if (phase === 2 && phase2ViewMode === 'flashcard' && phase2IsFlipped && forgottenWords[phase2CardIndex]) {
+      speakWord(forgottenWords[phase2CardIndex]);
+    }
+  }, [phase2IsFlipped, phase, phase2ViewMode, phase2CardIndex, forgottenWords]);
 
   // ── Step 3: Open Quiz Setup Modal (Phase 4) ─────────────────────────────────
   const openQuizSetup = () => {

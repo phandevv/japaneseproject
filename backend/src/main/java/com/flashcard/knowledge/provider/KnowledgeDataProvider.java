@@ -19,6 +19,8 @@ public interface KnowledgeDataProvider {
     List<GrammarCard> findGrammarByJlptAndWeekAndDay(String jlpt, String weekName, String dayName);
     GrammarCard saveGrammar(GrammarCard grammarCard);
     List<GrammarCard> saveAllGrammar(List<GrammarCard> grammarCards);
+    void deleteGrammar(GrammarCard grammarCard);
+    void deleteAllGrammar(List<GrammarCard> grammarCards);
     long countGrammar();
     Page<GrammarCard> searchGrammar(String keyword, Pageable pageable);
     Page<GrammarCard> searchGrammarCards(String jlpt, String weekName, String dayName, String query, Pageable pageable);
