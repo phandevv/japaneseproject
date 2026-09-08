@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
-import { vocabApi, srsApi, analyticsApi, userSettingsApi, studyApi } from '../services/api';
+import { vocabApi, srsApi, reviewApi, analyticsApi, userSettingsApi, studyApi } from '../services/api';
 import FlashcardCard from '../components/FlashcardCard';
 import ShojiScreen from '../components/ShojiScreen';
 import { ArrowLeft, ArrowRight, Shuffle, CornerUpLeft, Settings, Check, Loader, Sparkles, Play } from 'lucide-react';
@@ -43,6 +43,7 @@ const FlashcardPage = ({ level: initialLevel, isSrs = false, stats, goBack, onDa
   const [phase, setPhase] = useState(1); // 0: Settings, 1: Day selection, 2: Study
   const [customInput, setCustomInput] = useState('');
   const [swipeAnim, setSwipeAnim] = useState('');
+  const [submittingRate, setSubmittingRate] = useState(false);
   const isAnimatingRef = useRef(false);
 
   useEffect(() => {
@@ -63,6 +64,34 @@ const FlashcardPage = ({ level: initialLevel, isSrs = false, stats, goBack, onDa
   }, [stats]);
 
   const activeStatsLevels = stats?.levels || localStats?.levels || DEFAULT_LEVEL_COUNTS;
+
+  // Level selector switch
+  const handleLevelChange = (newLevel) => {
+    setActiveLevel(newLevel);
+    setSelectedDay(null);
+  };
+
+  // Change words per day
+  const handleWordsPerDayChange = async (newCount) => {
+    const val = parseInt(newCount, 10);
+    if (isNaN(val) || val <= 0) return;
+
+    setLoadingSettings(true);
+    try {
+      if (isAuthenticated) {
+        await userSettingsApi.saveSetting(activeLevel, val);
+      } else {
+        localStorage.setItem(`wordsPerDay_${activeLevel}`, val.toString());
+        localStorage.setItem('wordsPerDay', val.toString());
+      }
+      setWordsPerDay(val);
+      setPhase(1);
+    } catch (error) {
+      console.error("Failed to save settings in FlashcardPage:", error);
+    } finally {
+      setLoadingSettings(false);
+    }
+  };
 
   const handleSaveSettings = async (value) => {
     const val = parseInt(value, 10);
@@ -136,15 +165,32 @@ const FlashcardPage = ({ level: initialLevel, isSrs = false, stats, goBack, onDa
       let data = [];
       if (isSrs) {
         try {
-          const response = await studyApi.getQueue(activeLevel || 'N5');
-          const rawItems = Array.isArray(response) ? response : (response?.queue || response?.content || []);
-          data = rawItems.map(item => ({
-            ...(item.vocabulary || item),
-            projections: item.projectedIntervals || item.projections,
-            wordReviewId: item.id
-          }));
+          const dueCards = await reviewApi.getTodayReviews();
+          if (dueCards && dueCards.length > 0) {
+            data = dueCards.map(item => ({
+              id: item.vocabularyId,
+              cardId: item.cardId,
+              kanji: item.kanji,
+              hiragana: item.hiragana,
+              meaning: item.meaning,
+              hanViet: item.hanViet,
+              level: item.level,
+              wordType: item.wordType,
+              projections: item.projectedIntervals,
+              dueAt: item.dueAt,
+              state: item.state
+            }));
+          } else {
+            const response = await studyApi.getQueue(activeLevel || 'N5');
+            const rawItems = Array.isArray(response) ? response : (response?.queue || response?.content || []);
+            data = rawItems.map(item => ({
+              ...(item.vocabulary || item),
+              projections: item.projectedIntervals || item.projections,
+              wordReviewId: item.id
+            }));
+          }
         } catch (queueErr) {
-          console.warn("Queue API fallback to due words:", queueErr);
+          console.warn("Review API fallback to due words:", queueErr);
           const dueData = await srsApi.getDueWords();
           data = Array.isArray(dueData) ? dueData : (dueData?.content || []);
         }
@@ -304,10 +350,11 @@ const FlashcardPage = ({ level: initialLevel, isSrs = false, stats, goBack, onDa
   }, [currentIndex, triggerNextWithToss]);
 
   const handleRateWord = useCallback(async (quality) => {
-    if (words.length === 0) return;
+    if (words.length === 0 || submittingRate) return;
     const currentWord = words[currentIndex];
     if (!currentWord) return;
 
+    setSubmittingRate(true);
     const isNew = !seenWordIds.has(currentWord.id);
     if (isNew) {
       setSeenWordIds(prev => {
@@ -319,7 +366,12 @@ const FlashcardPage = ({ level: initialLevel, isSrs = false, stats, goBack, onDa
 
     if (isAuthenticated) {
       try {
-        await srsApi.reviewWord(currentWord.id, quality);
+        if (currentWord.cardId) {
+          const ratingMap = { 1: 'AGAIN', 2: 'HARD', 3: 'GOOD', 4: 'EASY' };
+          await reviewApi.reviewCard(currentWord.cardId, ratingMap[quality] || 'GOOD');
+        } else {
+          await srsApi.reviewWord(currentWord.id, quality);
+        }
         await analyticsApi.logSession(1, quality >= 3 ? 1 : 0, 1, 0);
       } catch (error) {
         console.error("Failed to save SRS review:", error);
@@ -332,11 +384,13 @@ const FlashcardPage = ({ level: initialLevel, isSrs = false, stats, goBack, onDa
       triggerNextWithToss(direction, () => {
         setCurrentIndex(prev => prev + 1);
         setFlipped(false);
+        setSubmittingRate(false);
       });
     } else {
+      setSubmittingRate(false);
       handleSessionComplete();
     }
-  }, [words, currentIndex, seenWordIds, isAuthenticated, handleSessionComplete, triggerNextWithToss]);
+  }, [words, currentIndex, seenWordIds, isAuthenticated, submittingRate, handleSessionComplete, triggerNextWithToss]);
 
   // Keyboard navigation
   useEffect(() => {

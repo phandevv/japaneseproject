@@ -380,6 +380,21 @@ export const srsApi = {
   }
 };
 
+export const reviewApi = {
+  getTodayReviews: async () => {
+    const response = await axios.get(`${API_BASE_URL}/reviews/today`);
+    return response.data;
+  },
+  reviewCard: async (cardId, rating) => {
+    const response = await axios.post(`${API_BASE_URL}/reviews/${cardId}`, { rating });
+    return response.data;
+  },
+  markMastered: async (vocabularyId) => {
+    const response = await axios.post(`${API_BASE_URL}/vocabularies/${vocabularyId}/master`);
+    return response.data;
+  }
+};
+
 export const masterReviewApi = {
   getWords: async (startDate = null, endDate = null) => {
     let url = `${API_BASE_URL}/master-review/words`;

@@ -62,8 +62,21 @@ public class SrsJpaDataProvider implements SrsDataProvider {
     }
 
     @Override
+    public Optional<WordReview> findWordReviewById(Long id) {
+        if (id == null) return Optional.empty();
+        return wordReviewRepository.findById(id);
+    }
+
+    @Override
     public List<WordReview> findDueWordReviews(User user, Instant time) {
         return wordReviewRepository.findByUserAndNextReviewBefore(user, time);
+    }
+
+    @Override
+    public List<WordReview> findDueWordReviews(User user, Instant time, int limit) {
+        return wordReviewRepository.findByUserAndNextReviewBeforeOrderByNextReviewAsc(
+                user, time, org.springframework.data.domain.PageRequest.of(0, limit)
+        );
     }
 
     @Override

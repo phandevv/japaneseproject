@@ -122,12 +122,40 @@ public class SrsMongoDataProvider implements SrsDataProvider {
     }
 
     @Override
+    public Optional<WordReview> findWordReviewById(Long id) {
+        if (id == null) return Optional.empty();
+        return wordReviewMongoRepository.findById(id).map(doc -> {
+            User user = userMongoRepository.findById(doc.getUserId())
+                    .map(u -> {
+                        User entity = new User(u.getUsername(), u.getPassword());
+                        entity.setId(u.getId());
+                        entity.setRole(u.getRole());
+                        return entity;
+                    })
+                    .orElse(null);
+            Vocabulary vocab = vocabularyMongoRepository.findById(doc.getVocabularyId())
+                    .map(vocabularyMongoDataProvider::toEntity)
+                    .orElse(null);
+            return toWordReview(doc, user, vocab);
+        });
+    }
+
+    @Override
     public List<WordReview> findDueWordReviews(User user, Instant time) {
         List<WordReviewDoc> docs = wordReviewMongoRepository.findByUserIdAndNextReviewBefore(user.getId(), time);
         if (docs != null) {
             docs.sort(Comparator.comparing(d -> d.getNextReview() != null ? d.getNextReview() : Instant.EPOCH));
         }
         return hydrateWordReviews(docs, user);
+    }
+
+    @Override
+    public List<WordReview> findDueWordReviews(User user, Instant time, int limit) {
+        List<WordReview> due = findDueWordReviews(user, time);
+        if (due != null && due.size() > limit) {
+            return due.subList(0, limit);
+        }
+        return due != null ? due : Collections.emptyList();
     }
 
     @Override

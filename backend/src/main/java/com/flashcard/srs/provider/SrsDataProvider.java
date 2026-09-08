@@ -14,9 +14,11 @@ import java.util.Optional;
 
 public interface SrsDataProvider {
     // Word Review
+    Optional<WordReview> findWordReviewById(Long id);
     Optional<WordReview> findByUserAndVocabulary(User user, Vocabulary vocabulary);
     Optional<WordReview> findByUserAndWordKey(User user, Vocabulary vocabulary);
     List<WordReview> findDueWordReviews(User user, Instant time);
+    List<WordReview> findDueWordReviews(User user, Instant time, int limit);
     long countDueWordReviews(User user, Instant time);
     long countLearnedWords(User user);
     List<Map<String, Object>> getLearnedLeaderboard(Pageable pageable);

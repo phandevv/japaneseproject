@@ -30,16 +30,18 @@ Tài liệu này chi tiết hóa các module nghiệp vụ lớn trong dự án 
 
 ---
 
-## 3. Module Học Tập Giãn Cách (SRS Module)
-* **Mục tiêu**: Lập lịch ôn tập thông minh bằng thuật toán SM-2, lọc các từ đến hạn, theo dõi thống kê học tập.
+## 3. Module Học Tập Giãn Cách (SRS & Review Module với FSRS)
+* **Mục tiêu**: Lập lịch ôn tập thông minh bằng thuật toán **FSRS (Free Spaced Repetition Scheduler)** thông qua thư viện chuẩn `io.github.open-spaced-repetition:fsrs:1.0.0`. Tự động tính toán độ ổn định (stability), độ khó (difficulty) và thời điểm ôn tập kế tiếp (`nextReview`/`dueAt`).
 * **Lớp tham gia**:
-  * Controller: `SrsController`
-  * Service: `SrsService`
-  * Repository: `WordReviewRepository`
-  * Entity: `WordReview`, `Vocabulary`
+  * Controllers: `ReviewController` (`/api/reviews/today`, `/api/reviews/{cardId}`, `/api/vocabularies/{vocabularyId}/master`), `SrsController` (`/api/srs/due`, `/api/srs/review`)
+  * Services: `ReviewService`, `FsrsSchedulerService`, `FsrsAlgorithm`, `SrsService`
+  * Repository & Provider: `WordReviewRepository`, `SrsDataProvider` (JPA/Mongo)
+  * Entity & DTO: `WordReview`, `ReviewLog`, `ReviewCardResponse`, `ReviewResultResponse`, `ReviewRequest`
+  * Frontend: Tái sử dụng component `FlashcardCard.jsx` với 4 mức đánh giá FSRS (Again, Hard, Good, Easy) cùng các chỉ số dự phóng thời gian lặp lại (projected intervals).
 * **Nghiệp vụ đặc thù**:
-  * Lọc từ ôn tập hôm nay: So khớp ngày `nextReview` $\le$ ngày hiện tại.
-  * **Quy tắc bảo toàn**: Một từ đã học (từng có đánh giá $\ge 3$) khi ôn tập fail (Forgot/Hard) sẽ reset chu kỳ ôn tập về 1 ngày nhưng không bị xóa ra khỏi tổng số từ đã học.
+  * Lọc thẻ cần ôn hôm nay: So khớp `nextReview <= NOW()`, giới hạn cấu hình `review.daily-limit` (mặc định 20 từ).
+  * Chống lặp từ: Tận dụng trực tiếp bảng `word_reviews` của user đã được lọc trùng (Deduplication Gateway).
+  * **Quy tắc bảo toàn**: Giữ nguyên toàn bộ lịch sử và trạng thái `is_learned` của từ vựng đã học. Đảm bảo Entity/DTO không dùng Lombok theo đúng quy định kiến trúc.
 
 ---
 

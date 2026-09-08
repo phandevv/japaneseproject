@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Sun, RefreshCw, Layers, FileQuestion, Bot, ArrowLeft, Loader, Sparkles } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
-import { studyApi, srsApi } from '../services/api';
+import { studyApi, srsApi, reviewApi } from '../services/api';
 import FlashcardPage from './FlashcardPage';
 import AiTranslationStudy from './AiTranslationStudy';
 import ReviewQuizPage from './ReviewQuizPage';
@@ -30,8 +30,13 @@ const ReviewHubPage = ({ mode = 'morning', goBack }) => {
       setLoadingQueue(true);
       try {
         if (isMorning) {
-          const resp = await studyApi.getQueue();
-          setQueueSize(resp.queueSize || 0);
+          try {
+            const todayReviews = await reviewApi.getTodayReviews();
+            setQueueSize(Array.isArray(todayReviews) ? todayReviews.length : 0);
+          } catch (e) {
+            const resp = await studyApi.getQueue();
+            setQueueSize(resp.queueSize || 0);
+          }
         } else {
           const resp = await srsApi.getTodayReviewed();
           setTodayCount(Array.isArray(resp) ? resp.length : 0);

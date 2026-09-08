@@ -556,3 +556,63 @@ Tài liệu này đặc tả toàn bộ danh sách REST API endpoints được x
     }
   ]
   ```
+
+---
+
+## 12. Module Ôn tập FSRS (Spaced Repetition Scheduler - `ReviewController`)
+
+### A. Lấy danh sách thẻ từ vựng cần ôn tập hôm nay (Daily Due Reviews)
+* **Endpoint**: `GET /api/reviews/today`
+* **Xác thực**: Yêu cầu Token (`@AuthenticationPrincipal User user`)
+* **Mô tả**: Truy vấn các thẻ đến hạn ôn tập (`dueAt <= NOW()`), sắp xếp tăng dần theo thời gian đến hạn, giới hạn số lượng theo cấu hình `review.daily-limit` (mặc định 20). Kèm theo `projectedIntervals` tính bằng thuật toán FSRS.
+* **Phản hồi thành công (200 OK)**:
+  ```json
+  [
+    {
+      "cardId": 101,
+      "vocabularyId": 1955,
+      "kanji": "収入",
+      "hiragana": "しゅうにゅう",
+      "meaning": "Thu nhập",
+      "hanViet": "THU NHẬP",
+      "level": "N3",
+      "wordType": "Danh từ",
+      "dueAt": "2026-09-08T00:00:00Z",
+      "state": "LEARNING",
+      "projectedIntervals": {
+        "AGAIN": 0,
+        "HARD": 1,
+        "GOOD": 3,
+        "EASY": 7
+      }
+    }
+  ]
+  ```
+
+### B. Đánh giá chất lượng nhớ thẻ (Submit Card Review Rating)
+* **Endpoint**: `POST /api/reviews/{cardId}`
+* **Xác thực**: Yêu cầu Token
+* **Request Body**:
+  ```json
+  {
+    "rating": "GOOD" // AGAIN (1), HARD (2), GOOD (3), EASY (4)
+  }
+  ```
+* **Phản hồi thành công (200 OK)**:
+  ```json
+  {
+    "cardId": 101,
+    "rating": "GOOD",
+    "nextDueAt": "2026-09-11T02:00:00Z",
+    "intervalDays": 3,
+    "stability": 3.42,
+    "difficulty": 4.85,
+    "state": "REVIEW"
+  }
+  ```
+
+### C. Đưa từ vựng vào SRS ("Đã thuộc" / Mastered)
+* **Endpoint**: `POST /api/vocabularies/{vocabularyId}/master`
+* **Xác thực**: Yêu cầu Token
+* **Mô tả**: Đưa từ vựng vào hệ thống FSRS SRS của người dùng. Nếu từ vựng đã tồn tại trong SRS, trả về thông tin thẻ hiện tại mà không tạo bản ghi trùng lặp.
+
