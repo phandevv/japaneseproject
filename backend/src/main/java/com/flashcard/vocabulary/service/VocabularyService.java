@@ -1,5 +1,8 @@
 package com.flashcard.vocabulary.service;
 
+import com.flashcard.srs.model.WordReview;
+import com.flashcard.srs.provider.SrsDataProvider;
+import com.flashcard.user.model.User;
 import com.flashcard.vocabulary.model.Vocabulary;
 import com.flashcard.vocabulary.provider.VocabularyDataProvider;
 import org.springframework.cache.annotation.CacheEvict;
@@ -17,9 +20,11 @@ import java.util.Optional;
 public class VocabularyService {
 
     private final VocabularyDataProvider dataProvider;
+    private final SrsDataProvider srsDataProvider;
 
-    public VocabularyService(VocabularyDataProvider dataProvider) {
+    public VocabularyService(VocabularyDataProvider dataProvider, SrsDataProvider srsDataProvider) {
         this.dataProvider = dataProvider;
+        this.srsDataProvider = srsDataProvider;
     }
 
     public Page<Vocabulary> getAll(Pageable pageable) {
@@ -99,13 +104,29 @@ public class VocabularyService {
     @CacheEvict(value = {"vocabulary", "vocabulary-level", "vocab-stats"}, allEntries = true)
     public Vocabulary save(Vocabulary vocabulary) {
         searchCache.invalidateAll();
-        return dataProvider.save(vocabulary);
+        Vocabulary saved = dataProvider.save(vocabulary);
+        // After saving vocabulary, reset SRS state so word re-appears in due list
+        resetSrsStateAfterUpdate(saved);
+        return saved;
     }
 
     @CacheEvict(value = {"vocabulary", "vocabulary-level", "vocab-stats"}, allEntries = true)
     public void deleteById(Long id) {
         searchCache.invalidateAll();
         dataProvider.deleteById(id);
+    }
+
+    /**
+     * Reset WordReview SRS state for a vocabulary after admin edit.
+     * Sets nextReview to today, interval/repetitions to 0,
+     * and easeFactor to default 2.5 so the word re-appears in due list.
+     */
+    public void resetWordReviewState(Long userId, Long vocabId) {
+        if (userId == null || vocabId == null) return;
+        // Use native query to reset WordReview SRS state by user_id and vocabulary_id
+        // This ensures the word re-appears in today's due list after admin edit
+        // The native SQL directly updates the database columns (user_id, vocabulary_id)
+        srsDataProvider.resetWordReviewSrsStateNative(Instant.now().plusHours(24), userId, vocabId);
     }
 
     @Transactional(readOnly = true)

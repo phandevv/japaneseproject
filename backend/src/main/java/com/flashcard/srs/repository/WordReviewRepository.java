@@ -97,5 +97,13 @@ public interface WordReviewRepository extends JpaRepository<WordReview, Long> {
     @org.springframework.data.jpa.repository.Modifying
     @org.springframework.transaction.annotation.Transactional
     void deleteByVocabularyIn(List<Vocabulary> vocabularies);
+
+    @Modifying
+    @Query(value = "UPDATE word_reviews SET next_review = :now, interval_days = 0, repetitions = 0, ease_factor = 2.5, state = 'NEW' WHERE user_id = :userId AND vocabulary_id = :vocabId", nativeQuery = true)
+    @org.springframework.transaction.annotation.Transactional
+    public void resetWordReviewSrsStateNative(@Param("now") Instant now, @Param("userId") Long userId, @Param("vocabId") Long vocabId);
+
+    @Query("SELECT wr FROM WordReview wr WHERE wr.userId = :userId AND wr.vocabularyId = :vocabId")
+    Optional<WordReview> findByUserIdAndVocabularyId(@Param("userId") Long userId, @Param("vocabId") Long vocabId);
 }
 

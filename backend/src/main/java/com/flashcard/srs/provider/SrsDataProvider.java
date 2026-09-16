@@ -37,6 +37,9 @@ public interface SrsDataProvider {
     void deleteWordReview(WordReview review);
     void deleteWordReviewsByVocabularies(List<Vocabulary> vocabularies);
 
+    // New method: Reset WordReview SRS state after vocabulary edit
+    void resetWordReviewState(Long userId, Long vocabId);
+
     // Grammar Review
     Optional<GrammarReview> findGrammarReview(Long userId, Long grammarId);
     List<GrammarReview> findGrammarReviewsByUser(Long userId);

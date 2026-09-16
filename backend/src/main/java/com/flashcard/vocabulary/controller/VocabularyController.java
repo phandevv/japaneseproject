@@ -14,7 +14,8 @@ import java.util.concurrent.CompletableFuture;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.flashcard.knowledge.service.AiEnrichmentQueueService;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import com.flashcard.user.model.User;
 import com.flashcard.knowledge.service.JlptN3CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -127,7 +128,8 @@ public class VocabularyController {
      * PUT /api/vocab/{id}
      */
     @PutMapping("/{id}")
-    public ResponseEntity<?> update(@PathVariable Long id, @RequestBody Vocabulary vocabulary) {
+    public ResponseEntity<?> update(@PathVariable Long id, @RequestBody Vocabulary vocabulary,
+                                    @AuthenticationPrincipal User user) {
         return service.getById(id).map(existing -> {
             existing.setKanji(vocabulary.getKanji());
             existing.setHiragana(vocabulary.getHiragana());
@@ -153,9 +155,14 @@ public class VocabularyController {
             existing.setOnReading(vocabulary.getOnReading());
             existing.setKunReading(vocabulary.getKunReading());
             Vocabulary saved = service.save(existing);
-            if (courseService != null) {
-                courseService.clearLessonCache();
+            // Reset SRS state so the word re-appears in today's due list after edit
+            if (user != null && saved.getId() != null) {
+                service.resetWordReviewSrsState(user.getId(), saved.getId());
             }
+            // TẠM VỪA: Bỏ qua clearLessonCache để không làm rớt association lesson-vocab
+            // if (courseService != null) {
+            //     courseService.clearLessonCache();
+            // }
             return ResponseEntity.ok(saved);
         }).orElse(ResponseEntity.notFound().build());
     }
