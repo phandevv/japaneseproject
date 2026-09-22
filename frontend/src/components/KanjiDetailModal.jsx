@@ -570,7 +570,7 @@ const KanjiPracticeCanvas = ({ word, onBack }) => {
 /* ─────────────────────────────────────────────
    KanjiDetailModal
    ───────────────────────────────────────────── */
-const KanjiDetailModal = ({ words, initialIndex = 0, onClose, vocab }) => {
+const KanjiDetailModal = ({ words, initialIndex = 0, onClose, vocab, onWordUpdated }) => {
   useLanguage();
   const { user } = useAuth();
   const isAdmin = user && (user.username === "admin" || user.role === "ADMIN" || user.roles?.includes("ADMIN") || user.roles?.includes("ROLE_ADMIN"));
@@ -625,6 +625,9 @@ const KanjiDetailModal = ({ words, initialIndex = 0, onClose, vocab }) => {
       const saved = await vocabApi.update(word.id, payload);
       Object.assign(word, saved);
       setEnriched(saved);
+      if (typeof onWordUpdated === 'function') {
+        onWordUpdated(saved);
+      }
       const savedSec = editingLeftSection;
       setEditingLeftSection(null);
       setEditLeftDraft({});
@@ -1262,7 +1265,12 @@ const KanjiDetailModal = ({ words, initialIndex = 0, onClose, vocab }) => {
 
                 <AiEnrichedTabbedView 
                   data={enriched || word} 
-                  onReEnriched={(updated) => setEnriched(updated)}
+                  onReEnriched={(updated) => {
+                    setEnriched(updated);
+                    if (typeof onWordUpdated === 'function') {
+                      onWordUpdated(updated);
+                    }
+                  }}
                 />
               </div>
             </div>

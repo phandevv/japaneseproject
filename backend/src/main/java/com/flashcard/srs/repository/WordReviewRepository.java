@@ -4,6 +4,7 @@ import com.flashcard.user.model.User;
 import com.flashcard.vocabulary.model.Vocabulary;
 import com.flashcard.srs.model.WordReview;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -103,7 +104,7 @@ public interface WordReviewRepository extends JpaRepository<WordReview, Long> {
     @org.springframework.transaction.annotation.Transactional
     public void resetWordReviewSrsStateNative(@Param("now") Instant now, @Param("userId") Long userId, @Param("vocabId") Long vocabId);
 
-    @Query("SELECT wr FROM WordReview wr WHERE wr.userId = :userId AND wr.vocabularyId = :vocabId")
+    @Query("SELECT wr FROM WordReview wr WHERE wr.user.id = :userId AND wr.vocabulary.id = :vocabId")
     Optional<WordReview> findByUserIdAndVocabularyId(@Param("userId") Long userId, @Param("vocabId") Long vocabId);
 }
 

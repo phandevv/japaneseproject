@@ -264,6 +264,8 @@ public class JlptN3CourseService {
                 item.put("conversationExamples", v.getConversationExamples());
                 item.put("usageGuide", v.getUsageGuide());
                 item.put("kanjiWords", v.getKanjiWords());
+                item.put("category", v.getCategory());
+                item.put("level", v.getLevel() != null ? v.getLevel() : "N3");
                 tuVungList.add(item);
             }
 
@@ -287,6 +289,8 @@ public class JlptN3CourseService {
                 kItem.put("meaning", k.getMeaning());
                 kItem.put("mnemonic", k.getMnemonic());
                 kItem.put("kanjiWords", k.getKanjiWords());
+                kItem.put("category", k.getCategory());
+                kItem.put("level", k.getLevel() != null ? k.getLevel() : "N3");
                 if (k.getKanjiWords() != null && !k.getKanjiWords().isBlank()) {
                     try {
                         kItem.put("tu_vung", objectMapper.readValue(k.getKanjiWords(), List.class));

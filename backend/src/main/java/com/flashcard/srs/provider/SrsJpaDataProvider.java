@@ -232,6 +232,6 @@ public class SrsJpaDataProvider implements SrsDataProvider {
         // Use native query to reset WordReview SRS state by user_id and vocabulary_id
         // This ensures the word re-appears in today's due list after admin edit
         // The native SQL directly updates the database columns (user_id, vocabulary_id)
-        wordReviewRepository.resetWordReviewSrsStateNative(Instant.now().plusHours(24), userId, vocabId);
+        wordReviewRepository.resetWordReviewSrsStateNative(Instant.now(), userId, vocabId);
     }
 }

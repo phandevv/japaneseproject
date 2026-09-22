@@ -17,6 +17,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import com.flashcard.user.model.User;
 import com.flashcard.knowledge.service.JlptN3CourseService;
+import com.flashcard.knowledge.service.AiEnrichmentQueueService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @RestController
@@ -131,38 +132,44 @@ public class VocabularyController {
     public ResponseEntity<?> update(@PathVariable Long id, @RequestBody Vocabulary vocabulary,
                                     @AuthenticationPrincipal User user) {
         return service.getById(id).map(existing -> {
-            existing.setKanji(vocabulary.getKanji());
-            existing.setHiragana(vocabulary.getHiragana());
-            existing.setRomaji(vocabulary.getRomaji());
-            existing.setHanViet(vocabulary.getHanViet());
-            existing.setMeaning(vocabulary.getMeaning());
-            existing.setWordType(vocabulary.getWordType());
-            existing.setLevel(vocabulary.getLevel());
-            existing.setCategory(vocabulary.getCategory());
-            existing.setKanjiWords(vocabulary.getKanjiWords());
-            existing.setSampleSentence(vocabulary.getSampleSentence());
-            existing.setSampleTranslation(vocabulary.getSampleTranslation());
-            existing.setSampleReading(vocabulary.getSampleReading());
-            existing.setPitchAccent(vocabulary.getPitchAccent());
-            existing.setSynonyms(vocabulary.getSynonyms());
-            existing.setAntonyms(vocabulary.getAntonyms());
-            existing.setCommonMistakes(vocabulary.getCommonMistakes());
-            existing.setCollocations(vocabulary.getCollocations());
-            existing.setMnemonic(vocabulary.getMnemonic());
-            existing.setConversationExamples(vocabulary.getConversationExamples());
-            existing.setExampleSentences(vocabulary.getExampleSentences());
-            existing.setUsageGuide(vocabulary.getUsageGuide());
-            existing.setOnReading(vocabulary.getOnReading());
-            existing.setKunReading(vocabulary.getKunReading());
+            if (vocabulary.getKanji() != null) existing.setKanji(vocabulary.getKanji());
+            if (vocabulary.getHiragana() != null) existing.setHiragana(vocabulary.getHiragana());
+            if (vocabulary.getRomaji() != null) existing.setRomaji(vocabulary.getRomaji());
+            if (vocabulary.getHanViet() != null) existing.setHanViet(vocabulary.getHanViet());
+            if (vocabulary.getMeaning() != null) existing.setMeaning(vocabulary.getMeaning());
+            if (vocabulary.getWordType() != null) existing.setWordType(vocabulary.getWordType());
+            if (vocabulary.getLevel() != null && !vocabulary.getLevel().isBlank()) {
+                existing.setLevel(vocabulary.getLevel());
+            }
+            if (vocabulary.getCategory() != null && !vocabulary.getCategory().isBlank()
+                    && !vocabulary.getCategory().equalsIgnoreCase("vocab")
+                    && !vocabulary.getCategory().equalsIgnoreCase("kanji")
+                    && !vocabulary.getCategory().equalsIgnoreCase("grammar")) {
+                existing.setCategory(vocabulary.getCategory());
+            }
+            if (vocabulary.getKanjiWords() != null) existing.setKanjiWords(vocabulary.getKanjiWords());
+            if (vocabulary.getSampleSentence() != null) existing.setSampleSentence(vocabulary.getSampleSentence());
+            if (vocabulary.getSampleTranslation() != null) existing.setSampleTranslation(vocabulary.getSampleTranslation());
+            if (vocabulary.getSampleReading() != null) existing.setSampleReading(vocabulary.getSampleReading());
+            if (vocabulary.getPitchAccent() != null) existing.setPitchAccent(vocabulary.getPitchAccent());
+            if (vocabulary.getSynonyms() != null) existing.setSynonyms(vocabulary.getSynonyms());
+            if (vocabulary.getAntonyms() != null) existing.setAntonyms(vocabulary.getAntonyms());
+            if (vocabulary.getCommonMistakes() != null) existing.setCommonMistakes(vocabulary.getCommonMistakes());
+            if (vocabulary.getCollocations() != null) existing.setCollocations(vocabulary.getCollocations());
+            if (vocabulary.getMnemonic() != null) existing.setMnemonic(vocabulary.getMnemonic());
+            if (vocabulary.getConversationExamples() != null) existing.setConversationExamples(vocabulary.getConversationExamples());
+            if (vocabulary.getExampleSentences() != null) existing.setExampleSentences(vocabulary.getExampleSentences());
+            if (vocabulary.getUsageGuide() != null) existing.setUsageGuide(vocabulary.getUsageGuide());
+            if (vocabulary.getOnReading() != null) existing.setOnReading(vocabulary.getOnReading());
+            if (vocabulary.getKunReading() != null) existing.setKunReading(vocabulary.getKunReading());
             Vocabulary saved = service.save(existing);
             // Reset SRS state so the word re-appears in today's due list after edit
             if (user != null && saved.getId() != null) {
-                service.resetWordReviewSrsState(user.getId(), saved.getId());
+                service.resetWordReviewState(user.getId(), saved.getId());
             }
-            // TẠM VỪA: Bỏ qua clearLessonCache để không làm rớt association lesson-vocab
-            // if (courseService != null) {
-            //     courseService.clearLessonCache();
-            // }
+            if (courseService != null) {
+                courseService.clearLessonCache();
+            }
             return ResponseEntity.ok(saved);
         }).orElse(ResponseEntity.notFound().build());
     }

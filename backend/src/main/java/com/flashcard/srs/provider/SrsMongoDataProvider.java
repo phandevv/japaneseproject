@@ -761,4 +761,17 @@ public class SrsMongoDataProvider implements SrsDataProvider {
         doc.setRetentionRate(d.getRetentionRate());
         doc.setLearningTimeMs(d.getLearningTimeMs());
     }
+
+    @Override
+    public void resetWordReviewState(Long userId, Long vocabId) {
+        if (userId == null || vocabId == null) return;
+        wordReviewMongoRepository.findByUserIdAndVocabularyId(userId, vocabId).ifPresent(doc -> {
+            doc.setNextReview(Instant.now());
+            doc.setIntervalDays(0);
+            doc.setRepetitions(0);
+            doc.setEaseFactor(2.5);
+            doc.setState(WordReviewState.NEW);
+            wordReviewMongoRepository.save(doc);
+        });
+    }
 }

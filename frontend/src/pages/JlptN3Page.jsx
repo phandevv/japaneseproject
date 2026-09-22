@@ -417,7 +417,8 @@ const isContainsKanji = (str) => {
         meaning: v.nghia || v.meaning || '',
         hanViet: v.am_han || v.han_viet || v.hanViet || '',
         wordType: v.loai_tu || v.wordType || 'N',
-        level: 'N3',
+        level: v.level || 'N3',
+        category: v.category || (selectedChapter && selectedLesson ? ("Tổng ôn N3 - Chương " + selectedChapter + " Bài " + selectedLesson) : undefined),
         sampleSentence: v.vi_du || v.sampleSentence || '',
         pitchAccent: v.pitchAccent,
         mnemonic: v.mnemonic,
@@ -430,7 +431,7 @@ const isContainsKanji = (str) => {
         usageGuide: v.usageGuide
       };
     });
-  }, [lessonData]);
+  }, [lessonData, selectedChapter, selectedLesson]);
 
   // Convert chu_han items into Vocabulary objects for modal preview
   const formattedKanjiWords = useMemo(() => {
@@ -458,7 +459,8 @@ const isContainsKanji = (str) => {
         hanViet: k.han_viet || k.am_han || k.hanViet || '',
         romaji: k.am_doc || '',
         wordType: 'Kanji',
-        level: 'N3',
+        level: k.level || 'N3',
+        category: k.category || (selectedChapter && selectedLesson ? ("Tổng ôn N3 - Chương " + selectedChapter + " Bài " + selectedLesson + " - Kanji") : undefined),
         tu_vung: wordsList,
         sampleSentence: wordsList.length > 0 ? wordsList.join(', ') : '',
         pitchAccent: k.pitchAccent,
@@ -466,7 +468,7 @@ const isContainsKanji = (str) => {
         exampleSentences: k.exampleSentences
       };
     });
-  }, [lessonData]);
+  }, [lessonData, selectedChapter, selectedLesson]);
 
   // Extract items for Flashcards (Default Sequence)
   const defaultFlashcardItems = useMemo(() => {
@@ -496,7 +498,7 @@ const isContainsKanji = (str) => {
           commonMistakes: v.commonMistakes,
           conversationExamples: v.conversationExamples,
           usageGuide: v.usageGuide,
-          category: 'vocab',
+          category: v.category || (selectedChapter && selectedLesson ? ("Tổng ôn N3 - Chương " + selectedChapter + " Bài " + selectedLesson) : 'vocab'),
           badge: `Từ Vựng [${v.loai_tu || 'N'}]`
         });
       });
@@ -513,12 +515,12 @@ const isContainsKanji = (str) => {
           hanViet: k.han_viet || k.am_han || k.hanViet || '',
           romaji: k.am_doc || '',
           wordType: 'Kanji',
-          level: 'N3',
+          level: k.level || 'N3',
           sampleSentence: k.tu_vung ? (Array.isArray(k.tu_vung) ? k.tu_vung.join(', ') : k.tu_vung) : '',
           pitchAccent: k.pitchAccent,
           mnemonic: k.mnemonic,
           exampleSentences: k.exampleSentences,
-          category: 'kanji',
+          category: k.category || (selectedChapter && selectedLesson ? ("Tổng ôn N3 - Chương " + selectedChapter + " Bài " + selectedLesson + " - Kanji") : 'kanji'),
           badge: `Hán Tự • ${k.han_viet || ''}`
         });
       });
@@ -1204,6 +1206,30 @@ const isContainsKanji = (str) => {
           words={listSubTab === 'vocab' ? formattedVocabWords : formattedKanjiWords}
           initialIndex={detailModalIndex}
           onClose={() => setDetailModalIndex(null)}
+          onWordUpdated={(updatedWord) => {
+            setLessonData(prev => {
+              if (!prev) return prev;
+              const updateList = (list) => (list || []).map(item => {
+                if (item.id === updatedWord.id) {
+                  return {
+                    ...item,
+                    ...updatedWord,
+                    tu: updatedWord.kanji || updatedWord.hiragana || item.tu,
+                    cach_doc: updatedWord.hiragana || item.cach_doc,
+                    nghia: updatedWord.meaning || item.nghia,
+                    am_han: updatedWord.hanViet || item.am_han,
+                    han_viet: updatedWord.hanViet || item.han_viet
+                  };
+                }
+                return item;
+              });
+              return {
+                ...prev,
+                tu_vung: updateList(prev.tu_vung),
+                chu_han: updateList(prev.chu_han)
+              };
+            });
+          }}
         />
       )}
       
