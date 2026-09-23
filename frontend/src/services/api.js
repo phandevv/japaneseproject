@@ -381,8 +381,9 @@ export const srsApi = {
 };
 
 export const reviewApi = {
-  getTodayReviews: async () => {
-    const response = await axios.get(`${API_BASE_URL}/reviews/today`);
+  getTodayReviews: async (limit) => {
+    const url = limit ? `${API_BASE_URL}/reviews/today?limit=${limit}` : `${API_BASE_URL}/reviews/today`;
+    const response = await axios.get(url);
     return response.data;
   },
   reviewCard: async (cardId, rating) => {

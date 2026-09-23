@@ -27,12 +27,13 @@ public class ReviewController {
      * Retrieve vocabulary cards due for review today.
      */
     @GetMapping("/api/reviews/today")
-    public ResponseEntity<?> getTodayReviews(@AuthenticationPrincipal User user) {
+    public ResponseEntity<?> getTodayReviews(@AuthenticationPrincipal User user,
+                                             @RequestParam(required = false) Integer limit) {
         if (user == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("error", "Unauthorized"));
         }
 
-        List<ReviewCardResponse> reviews = reviewService.getTodayReviews(user);
+        List<ReviewCardResponse> reviews = reviewService.getTodayReviews(user, limit);
         return ResponseEntity.ok(reviews);
     }
 

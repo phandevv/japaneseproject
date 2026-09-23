@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { ArrowLeft, Loader, Bot, CheckCircle, XCircle, Send, Sparkles, RefreshCw, Clock } from 'lucide-react';
-import { studyApi, srsApi } from '../services/api';
+import { studyApi, srsApi, reviewApi } from '../services/api';
 import axios from 'axios';
 
 // Use same URL logic as api.js - works on both localhost and production
@@ -79,23 +79,23 @@ const AiTranslationStudy = ({ mode = 'morning', goBack }) => {
         let vocabIds = [];
 
         if (mode === 'morning') {
-          const resp = await studyApi.getQueue();
-          vocabIds = (resp.queue || []).slice(0, 15).map(item => item.vocabulary?.id || item.id).filter(Boolean);
-          if (vocabIds.length === 0) {
-            const learned = await srsApi.getRandomLearnedWords(20);
-            vocabIds = (Array.isArray(learned) ? learned : []).slice(0, 15).map(w => w.id).filter(Boolean);
-          }
+          const reviews = await reviewApi.getTodayReviews();
+          vocabIds = (Array.isArray(reviews) ? reviews : [])
+            .slice(0, 15)
+            .map(item => item.vocabularyId || item.id)
+            .filter(Boolean);
         } else {
           const resp = await srsApi.getTodayReviewed();
-          vocabIds = (Array.isArray(resp) ? resp : []).slice(0, 15).map(w => w.id).filter(Boolean);
-          if (vocabIds.length === 0) {
-            const learned = await srsApi.getRandomLearnedWords(20);
-            vocabIds = (Array.isArray(learned) ? learned : []).slice(0, 15).map(w => w.id).filter(Boolean);
-          }
+          vocabIds = (Array.isArray(resp) ? resp : [])
+            .slice(0, 15)
+            .map(w => w.id || w.vocabularyId)
+            .filter(Boolean);
         }
 
         if (vocabIds.length === 0) {
-          setError('Không có từ nào để tạo bài tập. Hãy học thêm từ mới trước!');
+          setError(mode === 'morning'
+            ? 'Tuyệt vời! Bạn không còn từ nào cần ôn tập sáng nay. 🎉'
+            : 'Hôm nay bạn chưa học từ mới nào. Hãy vào mục "Học Hàng Ngày" để học trước nhé!');
           setPhase('exercise');
           return;
         }

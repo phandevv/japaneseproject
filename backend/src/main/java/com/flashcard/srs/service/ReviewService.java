@@ -18,13 +18,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
-import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 
 @Service
 public class ReviewService {
@@ -51,17 +49,27 @@ public class ReviewService {
 
     /**
      * GET /api/reviews/today
-     * Fetches due cards for current user (dueAt <= current time), limited by daily-limit.
+     * Fetches due cards for current user (dueAt <= end-of-today), limited by default dailyLimit.
      */
     @Transactional(readOnly = true)
     public List<ReviewCardResponse> getTodayReviews(User user) {
+        return getTodayReviews(user, null);
+    }
+
+    /**
+     * GET /api/reviews/today?limit={limit}
+     * Fetches due cards for current user (dueAt <= end-of-today), limited by specified limit or dailyLimit.
+     */
+    @Transactional(readOnly = true)
+    public List<ReviewCardResponse> getTodayReviews(User user, Integer limit) {
         if (user == null) {
             return Collections.emptyList();
         }
 
-        java.time.ZoneId zone = java.time.ZoneId.of("Asia/Ho_Chi_Minh");
-        Instant dueThreshold = java.time.ZonedDateTime.now(zone).toLocalDate().plusDays(1).atStartOfDay(zone).toInstant();
-        List<WordReview> dueReviews = srsDataProvider.findDueWordReviews(user, dueThreshold, dailyLimit);
+        ZoneId zone = ZoneId.of("Asia/Ho_Chi_Minh");
+        Instant dueThreshold = ZonedDateTime.now(zone).toLocalDate().plusDays(1).atStartOfDay(zone).toInstant();
+        int effectiveLimit = (limit != null && limit > 0) ? limit : this.dailyLimit;
+        List<WordReview> dueReviews = srsDataProvider.findDueWordReviews(user, dueThreshold, effectiveLimit);
 
         if (dueReviews == null || dueReviews.isEmpty()) {
             return Collections.emptyList();

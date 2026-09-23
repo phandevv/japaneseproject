@@ -80,6 +80,9 @@ $$EF' = EF + (0.1 - (5 - q) \times (0.08 + (5 - q) \times 0.02))$$
 * **Ôn tập buổi sáng (Morning SRS Review - `/review-morning`)**:
   * Truy vấn qua `srsDataProvider` (kết nối trực tiếp H2 / MySQL) đảm bảo tương thích 100% môi trường dev và production.
   * **Thứ tự lấy từ**: Lấy chính xác các từ phải ôn tập theo **thứ tự SRS**: sắp xếp theo ngày đến hạn `nextReview` tăng dần (`nextReview ASC`) — các từ quá hạn lâu nhất hoặc đến hạn sớm nhất sẽ xuất hiện ở đầu hàng đợi để ôn trước.
+  * **Đồng bộ 3 chế độ (Flashcard, Quiz, Thử thách AI)**: Cả 3 chế độ con trong Ôn tập buổi sáng đều dùng chung API sạch `reviewApi.getTodayReviews()` từ FSRS, không bị phụ thuộc vào legacy queue hay rơi vào fallback từ vựng ngẫu nhiên.
+  * **Hỗ trợ Tham số Phân trang `limit` & Mở rộng Giới hạn Hàng đợi**: API `GET /api/reviews/today?limit={n}` hỗ trợ nạp linh hoạt theo chỉ số yêu cầu; cấu hình `review.daily-limit` được nâng mặc định lên 100 thẻ để người dùng học toàn bộ từ đến hạn trong ngày mà không bị cắt vụn thành từng cụm 20 từ.
+  * **Bảo vệ Dữ liệu Chu kỳ SRS (Startup Safety Guard)**: `SrsResetRunner` được bảo vệ bằng cấu hình `@ConditionalOnProperty(name = "srs.reset-on-startup", havingValue = "true")`. Ngăn chặn hoàn toàn việc server tự động reset toàn bộ chu kỳ FSRS về trạng thái DUE khi khởi động lại trên MySQL production.
   * **Bảo toàn trạng thái rỗng**: Khi người dùng không có từ nào đến hạn ôn tập hôm nay, hệ thống hiển thị màn hình chúc mừng hoàn thành thay vì tự ý nạp 20 từ N5 ngẫu nhiên.
   * Khi người dùng đánh giá thẻ trong Flashcard, hệ thống map chính xác `cardId` để gọi FSRS (`POST /api/reviews/{cardId}`).
 * **Ôn lại hôm nay (Today's Review - `/review-today`)**:

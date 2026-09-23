@@ -88,6 +88,17 @@ class ReviewServiceTest {
     }
 
     @Test
+    void testGetTodayReviewsWithCustomLimit() {
+        when(srsDataProvider.findDueWordReviews(eq(testUser), any(Instant.class), eq(50)))
+                .thenReturn(List.of(testCard));
+
+        List<ReviewCardResponse> reviews = reviewService.getTodayReviews(testUser, 50);
+
+        assertEquals(1, reviews.size());
+        assertEquals(100L, reviews.get(0).getCardId());
+    }
+
+    @Test
     void testReviewCardSuccess() {
         when(srsDataProvider.findWordReviewById(100L)).thenReturn(Optional.of(testCard));
         when(srsDataProvider.saveWordReview(any(WordReview.class))).thenAnswer(inv -> inv.getArgument(0));

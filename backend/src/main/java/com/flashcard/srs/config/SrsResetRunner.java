@@ -12,8 +12,13 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
 
+/**
+ * Runner to reset SRS items to DUE on startup.
+ * WARNING: Must only be enabled explicitly via srs.reset-on-startup=true for dev/testing.
+ * Never enable by default on MySQL to prevent wiping user spaced-repetition intervals.
+ */
 @Component
-@ConditionalOnProperty(name = "app.database.type", havingValue = "mysql")
+@ConditionalOnProperty(name = "srs.reset-on-startup", havingValue = "true")
 public class SrsResetRunner {
 
     private static final Logger log = LoggerFactory.getLogger(SrsResetRunner.class);
