@@ -581,21 +581,54 @@ const HomePage = ({ user: propUser, startStudy, streak, onLoginClick, onLogout, 
 
                   {/* Compact Stats Row */}
                   <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap' }}>
-                    <div style={{ flex: 1, display: 'flex', alignItems: 'center', gap: '14px', background: 'var(--surface-color)', padding: '16px 20px', borderRadius: '14px', border: '1px solid var(--border-color)', boxShadow: 'var(--shadow-sm)' }}>
+                    <div
+                      onClick={() => navigate('/review/morning')}
+                      style={{
+                        flex: 1, display: 'flex', alignItems: 'center', gap: '14px',
+                        background: 'var(--surface-color)', padding: '16px 20px', borderRadius: '14px',
+                        border: '1px solid var(--border-color)', boxShadow: 'var(--shadow-sm)',
+                        cursor: 'pointer', transition: 'all 0.2s ease'
+                      }}
+                      onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-3px)'; e.currentTarget.style.borderColor = 'var(--accent-color)'; }}
+                      onMouseLeave={e => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.borderColor = 'var(--border-color)'; }}
+                      title="Bấm để vào Ôn tập buổi sáng (SRS)"
+                    >
                       <div style={{ width: '48px', height: '48px', borderRadius: '10px', background: 'var(--accent-light)', color: 'var(--accent-color)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><Brain size={24} /></div>
                       <div>
                         <div style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', fontWeight: 600 }}>Cần ôn hôm nay</div>
                         <div style={{ fontSize: '1.75rem', fontWeight: 800, lineHeight: 1, marginTop: '4px', color: 'var(--text-primary)' }}>{dashboardData.dueCount}</div>
                       </div>
                     </div>
-                    <div style={{ flex: 1, display: 'flex', alignItems: 'center', gap: '14px', background: 'var(--surface-color)', padding: '16px 20px', borderRadius: '14px', border: '1px solid var(--border-color)', boxShadow: 'var(--shadow-sm)' }}>
+                    <div
+                      onClick={() => navigate('/review/today')}
+                      style={{
+                        flex: 1, display: 'flex', alignItems: 'center', gap: '14px',
+                        background: 'var(--surface-color)', padding: '16px 20px', borderRadius: '14px',
+                        border: '1px solid var(--border-color)', boxShadow: 'var(--shadow-sm)',
+                        cursor: 'pointer', transition: 'all 0.2s ease'
+                      }}
+                      onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-3px)'; e.currentTarget.style.borderColor = 'var(--success-color)'; }}
+                      onMouseLeave={e => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.borderColor = 'var(--border-color)'; }}
+                      title="Bấm để vào Ôn lại các từ đã học hôm nay"
+                    >
                       <div style={{ width: '48px', height: '48px', borderRadius: '10px', background: 'var(--success-light)', color: 'var(--success-color)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><Play size={24} /></div>
                       <div>
                         <div style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', fontWeight: 600 }}>Đã học hôm nay</div>
                         <div style={{ fontSize: '1.75rem', fontWeight: 800, lineHeight: 1, marginTop: '4px', color: 'var(--text-primary)' }}>{dashboardData.wordsStudiedToday || 0}</div>
                       </div>
                     </div>
-                    <div style={{ flex: 1, display: 'flex', alignItems: 'center', gap: '14px', background: 'var(--surface-color)', padding: '16px 20px', borderRadius: '14px', border: '1px solid var(--border-color)', boxShadow: 'var(--shadow-sm)' }}>
+                    <div
+                      onClick={() => navigate('/master-review')}
+                      style={{
+                        flex: 1, display: 'flex', alignItems: 'center', gap: '14px',
+                        background: 'var(--surface-color)', padding: '16px 20px', borderRadius: '14px',
+                        border: '1px solid var(--border-color)', boxShadow: 'var(--shadow-sm)',
+                        cursor: 'pointer', transition: 'all 0.2s ease'
+                      }}
+                      onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-3px)'; e.currentTarget.style.borderColor = 'var(--accent-color)'; }}
+                      onMouseLeave={e => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.borderColor = 'var(--border-color)'; }}
+                      title="Bấm để vào Tổng ôn tập toàn bộ từ vựng"
+                    >
                       <div style={{ width: '48px', height: '48px', borderRadius: '10px', background: 'var(--success-light)', color: 'var(--success-color)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><CheckCircle2 size={24} /></div>
                       <div>
                         <div style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', fontWeight: 600 }}>Tổng đã học</div>

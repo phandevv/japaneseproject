@@ -181,13 +181,7 @@ const FlashcardPage = ({ level: initialLevel, isSrs = false, stats, goBack, onDa
               state: item.state
             }));
           } else {
-            const response = await studyApi.getQueue(activeLevel || 'N5');
-            const rawItems = Array.isArray(response) ? response : (response?.queue || response?.content || []);
-            data = rawItems.map(item => ({
-              ...(item.vocabulary || item),
-              projections: item.projectedIntervals || item.projections,
-              wordReviewId: item.id
-            }));
+            data = [];
           }
         } catch (queueErr) {
           console.warn("Review API fallback to due words:", queueErr);
@@ -196,16 +190,16 @@ const FlashcardPage = ({ level: initialLevel, isSrs = false, stats, goBack, onDa
         }
       } else if (isLearnedStudy) {
         if (activeLevel === 'TODAY') {
-          data = await srsApi.getTodayReviewed();
-          if (!data || data.length === 0) {
-            data = await srsApi.getRandomLearnedWords(50);
-          }
+          const todayData = await srsApi.getTodayReviewed();
+          data = Array.isArray(todayData) ? todayData : [];
         } else {
-          data = await srsApi.getRandomLearnedWords(50);
+          const learnedData = await srsApi.getRandomLearnedWords(50);
+          data = Array.isArray(learnedData) ? learnedData : [];
         }
       }
 
-      if (!data || data.length === 0) {
+      // Fallback to random N5 only for generic non-SRS non-today levels
+      if ((!data || data.length === 0) && !isSrs && !isLearnedStudy) {
         const fallbackData = await vocabApi.getRandom('N5', 20).catch(() => []);
         data = Array.isArray(fallbackData) ? fallbackData : [];
       }
@@ -216,10 +210,14 @@ const FlashcardPage = ({ level: initialLevel, isSrs = false, stats, goBack, onDa
       setSeenWordIds(new Set());
     } catch (error) {
       console.error("Failed to fetch srs/learned words:", error);
-      try {
-        const fallbackData = await vocabApi.getRandom('N5', 20).catch(() => []);
-        setWords(Array.isArray(fallbackData) ? fallbackData : []);
-      } catch {
+      if (!isSrs && !isLearnedStudy) {
+        try {
+          const fallbackData = await vocabApi.getRandom('N5', 20).catch(() => []);
+          setWords(Array.isArray(fallbackData) ? fallbackData : []);
+        } catch {
+          setWords([]);
+        }
+      } else {
         setWords([]);
       }
     } finally {
@@ -308,8 +306,18 @@ const FlashcardPage = ({ level: initialLevel, isSrs = false, stats, goBack, onDa
   }, [currentIndex]);
 
   const handleSessionComplete = useCallback(async () => {
+    if (words.length > 0 && currentIndex < words.length) {
+      const currentWord = words[currentIndex];
+      if (currentWord && !isSrs && !isLearnedStudy && !seenWordIds.has(currentWord.id)) {
+        setSeenWordIds(prev => new Set(prev).add(currentWord.id));
+        if (isAuthenticated) {
+          srsApi.reviewWord(currentWord.id, 3).catch(console.error);
+          analyticsApi.logSession(1, 1, 1, 0).catch(console.error);
+        }
+      }
+    }
     setShowShoji(true);
-  }, []);
+  }, [currentIndex, words, isSrs, isLearnedStudy, seenWordIds, isAuthenticated]);
 
   const triggerNextWithToss = useCallback((direction, callback) => {
     if (isAnimatingRef.current) {
@@ -330,6 +338,17 @@ const FlashcardPage = ({ level: initialLevel, isSrs = false, stats, goBack, onDa
   }, []);
 
   const handleNext = useCallback(() => {
+    if (words.length > 0 && currentIndex < words.length) {
+      const currentWord = words[currentIndex];
+      if (currentWord && !isSrs && !isLearnedStudy && !seenWordIds.has(currentWord.id)) {
+        setSeenWordIds(prev => new Set(prev).add(currentWord.id));
+        if (isAuthenticated) {
+          srsApi.reviewWord(currentWord.id, 3).catch(console.error);
+          analyticsApi.logSession(1, 1, 1, 0).catch(console.error);
+        }
+      }
+    }
+
     if (currentIndex < words.length - 1) {
       triggerNextWithToss('right', () => {
         setFlipped(false);
@@ -338,7 +357,7 @@ const FlashcardPage = ({ level: initialLevel, isSrs = false, stats, goBack, onDa
     } else {
       handleSessionComplete();
     }
-  }, [currentIndex, words.length, handleSessionComplete, triggerNextWithToss]);
+  }, [currentIndex, words, seenWordIds, isSrs, isLearnedStudy, isAuthenticated, handleSessionComplete, triggerNextWithToss]);
 
   const handlePrev = useCallback(() => {
     if (currentIndex > 0) {
@@ -366,9 +385,10 @@ const FlashcardPage = ({ level: initialLevel, isSrs = false, stats, goBack, onDa
 
     if (isAuthenticated) {
       try {
-        if (currentWord.cardId) {
+        const cardId = currentWord.cardId || currentWord.wordReviewId;
+        if (cardId) {
           const ratingMap = { 1: 'AGAIN', 2: 'HARD', 3: 'GOOD', 4: 'EASY' };
-          await reviewApi.reviewCard(currentWord.cardId, ratingMap[quality] || 'GOOD');
+          await reviewApi.reviewCard(cardId, ratingMap[quality] || 'GOOD');
         } else {
           await srsApi.reviewWord(currentWord.id, quality);
         }
@@ -673,7 +693,7 @@ const FlashcardPage = ({ level: initialLevel, isSrs = false, stats, goBack, onDa
           {isSrs
             ? "Bạn không có từ nào đến hạn ôn tập hôm nay! 🎉"
             : isLearnedStudy
-              ? "Bạn chưa có từ đã học nào để học flashcard! Hãy hoàn thành bài học trước."
+              ? (activeLevel === 'TODAY' ? "Hôm nay bạn chưa học từ mới nào. Hãy vào mục 'Học Hàng Ngày' hoặc 'Thẻ ghi nhớ' để học trước nhé! 📚" : "Bạn chưa có từ đã học nào để học flashcard! Hãy hoàn thành bài học trước.")
               : t.flashcard.noWords || "Không tìm thấy từ vựng cho phạm vi này."}
         </h2>
         <button className="btn btn-primary" onClick={handleBack} style={{ padding: '12px 28px', borderRadius: '12px', fontWeight: 700 }}>

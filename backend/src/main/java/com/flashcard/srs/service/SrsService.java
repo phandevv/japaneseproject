@@ -45,19 +45,23 @@ public class SrsService {
     }
 
     /**
-     * Get count of due words to review today
+     * Get count of due words to review today (up to end of today in Asia/Ho_Chi_Minh).
      */
     @Transactional(readOnly = true)
     public long getDueCount(User user) {
-        return srsDataProvider.countDueWordReviews(user, Instant.now());
+        java.time.ZoneId zone = java.time.ZoneId.of("Asia/Ho_Chi_Minh");
+        Instant dueThreshold = java.time.ZonedDateTime.now(zone).toLocalDate().plusDays(1).atStartOfDay(zone).toInstant();
+        return srsDataProvider.countDueWordReviews(user, dueThreshold);
     }
 
     /**
-     * Get list of Vocabulary objects that are due for review
+     * Get list of Vocabulary objects that are due for review today (up to end of today in Asia/Ho_Chi_Minh).
      */
     @Transactional(readOnly = true)
     public List<Vocabulary> getDueVocabulary(User user) {
-        return srsDataProvider.findDueWordReviews(user, Instant.now())
+        java.time.ZoneId zone = java.time.ZoneId.of("Asia/Ho_Chi_Minh");
+        Instant dueThreshold = java.time.ZonedDateTime.now(zone).toLocalDate().plusDays(1).atStartOfDay(zone).toInstant();
+        return srsDataProvider.findDueWordReviews(user, dueThreshold)
                 .stream()
                 .map(WordReview::getVocabulary)
                 .collect(Collectors.toList());

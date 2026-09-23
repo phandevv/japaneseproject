@@ -140,22 +140,38 @@ const ReviewQuizPage = ({ mode = 'default', words: propWords = null, goBack }) =
         if (propWords && propWords.length > 0) {
           rawData = propWords;
         } else if (mode === 'morning') {
-          const resp = await studyApi.getQueue();
-          if (resp && resp.queue && resp.queue.length > 0) {
-            rawData = resp.queue.map(q => q.vocabulary || q).filter(Boolean);
-          } else {
-            rawData = await srsApi.getRandomLearnedWords(20);
+          try {
+            const dueCards = await reviewApi.getTodayReviews();
+            if (dueCards && dueCards.length > 0) {
+              rawData = dueCards.map(item => ({
+                id: item.vocabularyId,
+                cardId: item.cardId,
+                kanji: item.kanji,
+                hiragana: item.hiragana,
+                meaning: item.meaning,
+                hanViet: item.hanViet,
+                level: item.level,
+                wordType: item.wordType
+              }));
+            } else {
+              rawData = [];
+            }
+          } catch (err) {
+            const resp = await studyApi.getQueue();
+            if (resp && resp.queue && resp.queue.length > 0) {
+              rawData = resp.queue.map(q => q.vocabulary || q).filter(Boolean);
+            } else {
+              rawData = [];
+            }
           }
         } else if (mode === 'today') {
-          rawData = await srsApi.getTodayReviewed();
-          if (!rawData || rawData.length === 0) {
-            rawData = await srsApi.getRandomLearnedWords(20);
-          }
+          const todayData = await srsApi.getTodayReviewed();
+          rawData = Array.isArray(todayData) ? todayData : [];
         } else {
           rawData = await srsApi.getRandomLearnedWords(20);
         }
 
-        if (!rawData || rawData.length === 0) {
+        if ((!rawData || rawData.length === 0) && mode !== 'morning' && mode !== 'today') {
           const fallbackData = await vocabApi.getRandom('N5', 20).catch(() => []);
           rawData = Array.isArray(fallbackData) ? fallbackData : [];
         }
@@ -168,10 +184,14 @@ const ReviewQuizPage = ({ mode = 'default', words: propWords = null, goBack }) =
         }
       } catch (e) {
         console.error('Failed to load words for ReviewQuizPage:', e);
-        try {
-          const fallbackData = await vocabApi.getRandom('N5', 20).catch(() => []);
-          setWords(Array.isArray(fallbackData) ? fallbackData : []);
-        } catch {
+        if (mode !== 'morning' && mode !== 'today') {
+          try {
+            const fallbackData = await vocabApi.getRandom('N5', 20).catch(() => []);
+            setWords(Array.isArray(fallbackData) ? fallbackData : []);
+          } catch {
+            setWords([]);
+          }
+        } else {
           setWords([]);
         }
       } finally {

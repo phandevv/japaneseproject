@@ -59,8 +59,9 @@ public class ReviewService {
             return Collections.emptyList();
         }
 
-        Instant now = Instant.now();
-        List<WordReview> dueReviews = srsDataProvider.findDueWordReviews(user, now, dailyLimit);
+        java.time.ZoneId zone = java.time.ZoneId.of("Asia/Ho_Chi_Minh");
+        Instant dueThreshold = java.time.ZonedDateTime.now(zone).toLocalDate().plusDays(1).atStartOfDay(zone).toInstant();
+        List<WordReview> dueReviews = srsDataProvider.findDueWordReviews(user, dueThreshold, dailyLimit);
 
         if (dueReviews == null || dueReviews.isEmpty()) {
             return Collections.emptyList();

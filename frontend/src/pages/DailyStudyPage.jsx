@@ -34,6 +34,26 @@ const DailyStudyPage = ({ level, stats, goBack }) => {
   const [words, setWords] = useState([]);
   const [loading, setLoading] = useState(false);
   const [hideMeanings, setHideMeanings] = useState(false);
+  const [markingLearned, setMarkingLearned] = useState(false);
+  const [markedLearnedToday, setMarkedLearnedToday] = useState(false);
+
+  const handleMarkAllAsLearned = async () => {
+    if (!words || words.length === 0 || !isAuthenticated || markingLearned) return;
+    setMarkingLearned(true);
+    try {
+      for (const w of words) {
+        if (w && w.id) {
+          await srsApi.reviewWord(w.id, 3).catch(console.error);
+        }
+      }
+      await analyticsApi.logSession(words.length, words.length, words.length, 5).catch(console.error);
+      setMarkedLearnedToday(true);
+    } catch (e) {
+      console.error("Failed to mark all words as learned:", e);
+    } finally {
+      setMarkingLearned(false);
+    }
+  };
 
   // Modal state
   const [modalIndex, setModalIndex] = useState(null); // null = closed, number = open at that index
@@ -338,6 +358,7 @@ const DailyStudyPage = ({ level, stats, goBack }) => {
         setWords(data.content || []);
       }
       setSelectedDay(day);
+      setMarkedLearnedToday(false);
       setPhase(2);
     } catch (error) {
       console.error("Failed to fetch words for day", error);
@@ -860,6 +881,16 @@ const DailyStudyPage = ({ level, stats, goBack }) => {
             >
               {hideMeanings ? <Eye size={18} /> : <EyeOff size={18} />}
               {hideMeanings ? t.daily.showMeanings : t.daily.hideMeanings}
+            </button>
+            <button 
+              className="btn btn-secondary" 
+              onClick={handleMarkAllAsLearned}
+              disabled={markingLearned || words.length === 0}
+              style={{ display: 'flex', alignItems: 'center', gap: '6px' }}
+              title="Ghi nhận tất cả các từ trong bài học hôm nay vào SRS để ôn tập"
+            >
+              <CheckCircle size={18} color="var(--success-color)" />
+              {markedLearnedToday ? "Đã ghi nhận hôm nay ✓" : (markingLearned ? "Đang lưu..." : "Đánh dấu đã học")}
             </button>
             <button className="btn btn-primary" onClick={openQuizSetup}>
               <Play size={18} /> {t.daily.startQuiz}

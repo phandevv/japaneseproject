@@ -74,16 +74,20 @@ $$EF' = EF + (0.1 - (5 - q) \times (0.08 + (5 - q) \times 0.02))$$
 
 ## 6. Quy tắc Phân luồng Ôn tập Kép (Dual-Loop Review System)
 
-* **Ôn tập buổi sáng (Morning SRS Review - `GET /api/study/queue`)**:
-  * Truy vấn qua `srsDataProvider` (kết nối trực tiếp MongoDB / MySQL) đảm bảo tương thích 100% môi trường production.
+* **Chuẩn hóa mốc thời gian (End-of-Day GMT+7)**:
+  * Toàn bộ các API tính số lượng từ đến hạn trong ngày (`SrsService.getDueCount`, `ReviewService.getTodayReviews`, `StudyController.getQueue`, và Dashboard `dueCount`) đều sử dụng mốc tính **hết ngày hôm nay theo giờ Việt Nam (`Asia/Ho_Chi_Minh`)**: `LocalDate.now().plusDays(1).atStartOfDay()`.
+  * Điều này đảm bảo tính nhất quán 100% giữa số lượng trên HomePage, badge trên ReviewHubPage và số thẻ thực tế trong buổi học, bất kể người dùng truy cập lúc sáng sớm hay chiều tối.
+* **Ôn tập buổi sáng (Morning SRS Review - `/review-morning`)**:
+  * Truy vấn qua `srsDataProvider` (kết nối trực tiếp H2 / MySQL) đảm bảo tương thích 100% môi trường dev và production.
   * **Thứ tự lấy từ**: Lấy chính xác các từ phải ôn tập theo **thứ tự SRS**: sắp xếp theo ngày đến hạn `nextReview` tăng dần (`nextReview ASC`) — các từ quá hạn lâu nhất hoặc đến hạn sớm nhất sẽ xuất hiện ở đầu hàng đợi để ôn trước.
-  * **Bao quát thêm**: Tự động gom thêm các từ vựng mới học/ôn ngày hôm qua vào danh sách buổi sáng để củng cố trong khoảng thời gian quên nhanh nhất sau 24h.
-  * Nếu số từ đến hạn ít hơn giới hạn bài học, tự động bổ sung thêm các từ sắp đến hạn tiếp theo (`nextReview ASC`) từ kho từ đã học để ôn cuốn chiếu.
-  * Trường `queueSize` trong payload trả về tổng số lượng thẻ thực tế đến hạn hôm nay của người dùng (`srsDataProvider.countDueWordReviews`).
-* **Ôn lại hôm nay (Today's Review - `GET /api/study/today-reviewed`)**:
+  * **Bảo toàn trạng thái rỗng**: Khi người dùng không có từ nào đến hạn ôn tập hôm nay, hệ thống hiển thị màn hình chúc mừng hoàn thành thay vì tự ý nạp 20 từ N5 ngẫu nhiên.
+  * Khi người dùng đánh giá thẻ trong Flashcard, hệ thống map chính xác `cardId` để gọi FSRS (`POST /api/reviews/{cardId}`).
+* **Ôn lại hôm nay (Today's Review - `/review-today`)**:
   * Truy vấn trực tiếp từ `srsDataProvider.findByUserAndLastReviewedAtBetween` dựa trên mốc thời gian từ 00:00:00 đến 23:59:59 ngày hôm nay theo múi giờ `Asia/Ho_Chi_Minh`.
-  * **Thứ tự hiển thị**: Sắp xếp theo thứ tự mới học gần nhất (`lastReviewedAt DESC`).
-  * Chỉ tập trung củng cố đúng các từ vựng người dùng đã học / đã tương tác đánh giá trong ngày hôm nay (từ Flashcard, Quiz, AI Translation, v.v.).
+  * **Ghi nhận từ đã học**:
+    * Trong Flashcard thông thường (theo bài/ngày), khi chuyển thẻ bằng nút Next hoặc vuốt thẻ, từ được tự động lưu vào SRS với mức đánh giá mặc định (Good - 3) để ghi nhận đã học hôm nay.
+    * Trong Học Hàng Ngày, bảng từ vựng cung cấp nút "Đánh dấu đã học" để ghi nhận toàn bộ bài học vào phiên học hôm nay mà không bắt buộc phải làm Quiz.
+  * **Bảo toàn trạng thái rỗng**: Nếu trong ngày chưa học từ nào, hệ thống hiển thị thông báo hướng dẫn rõ ràng kèm nút chuyển hướng đến bài học thay vì tự ý tải 50 từ ngẫu nhiên.
 
 ---
 
