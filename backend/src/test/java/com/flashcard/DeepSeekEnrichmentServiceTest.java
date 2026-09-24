@@ -26,7 +26,9 @@ class DeepSeekEnrichmentServiceTest {
         vocabularyDataProvider = Mockito.mock(VocabularyDataProvider.class);
         Mockito.when(vocabularyDataProvider.save(any(Vocabulary.class))).thenAnswer(i -> i.getArgument(0));
         objectMapper = new ObjectMapper();
-        enrichmentService = new DeepSeekEnrichmentService(vocabularyDataProvider, null, objectMapper);
+        com.flashcard.common.config.AiConfig mockAiConfig = Mockito.mock(com.flashcard.common.config.AiConfig.class);
+        Mockito.when(mockAiConfig.getApiKey()).thenReturn("");
+        enrichmentService = new DeepSeekEnrichmentService(vocabularyDataProvider, null, objectMapper, mockAiConfig);
 
         testVocabulary = new Vocabulary();
         testVocabulary.setId(1L);
