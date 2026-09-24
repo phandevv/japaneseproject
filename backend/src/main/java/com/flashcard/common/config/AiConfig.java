@@ -24,6 +24,8 @@ public class AiConfig {
     private final String apiUrl;
     private final String model;
     private final String configuredApiKey;
+    private final String explicitApiUrl;
+    private final String explicitModel;
     private volatile String resolvedApiKey;
 
     public AiConfig(
@@ -38,21 +40,27 @@ public class AiConfig {
         // 1. API URL resolution
         if (apiUrl != null && !apiUrl.isBlank() && !apiUrl.equals("https://api.deepseek.com/chat/completions")) {
             this.apiUrl = apiUrl.trim();
+            this.explicitApiUrl = apiUrl.trim();
         } else if (localFileUrl != null && !localFileUrl.isBlank()) {
             this.apiUrl = localFileUrl.trim();
+            this.explicitApiUrl = null;
         } else {
             String fileUrl = loadPropertyFromEnvFiles("DEEPSEEK_API_URL");
             this.apiUrl = (fileUrl != null && !fileUrl.isBlank()) ? fileUrl.trim() : "https://api.deepseek.com/chat/completions";
+            this.explicitApiUrl = null;
         }
 
         // 2. Model resolution
         if (model != null && !model.isBlank() && !model.equals("deepseek-chat")) {
             this.model = model.trim();
+            this.explicitModel = model.trim();
         } else if (localFileModel != null && !localFileModel.isBlank()) {
             this.model = localFileModel.trim();
+            this.explicitModel = null;
         } else {
             String fileModel = loadPropertyFromEnvFiles("DEEPSEEK_MODEL");
             this.model = (fileModel != null && !fileModel.isBlank()) ? fileModel.trim() : "deepseek-chat";
+            this.explicitModel = null;
         }
 
         // 3. API Key resolution
@@ -71,10 +79,24 @@ public class AiConfig {
     }
 
     public String getApiUrl() {
+        if (explicitApiUrl != null) {
+            return explicitApiUrl;
+        }
+        String localFileUrl = loadPropertyFromLocalEnvFiles("DEEPSEEK_API_URL");
+        if (localFileUrl != null && !localFileUrl.isBlank()) {
+            return localFileUrl.trim();
+        }
         return apiUrl;
     }
 
     public String getModel() {
+        if (explicitModel != null) {
+            return explicitModel;
+        }
+        String localFileModel = loadPropertyFromLocalEnvFiles("DEEPSEEK_MODEL");
+        if (localFileModel != null && !localFileModel.isBlank()) {
+            return localFileModel.trim();
+        }
         return model;
     }
 

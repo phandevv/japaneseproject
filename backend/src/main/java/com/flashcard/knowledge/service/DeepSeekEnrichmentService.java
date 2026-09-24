@@ -936,7 +936,7 @@ public class DeepSeekEnrichmentService {
     }
 
     private String cleanJsonContent(String content) {
-        if (content == null) return "{}";
+        if (content == null || content.isBlank()) return "{}";
         String trimmed = content.trim();
         if (trimmed.contains("data: [DONE]")) {
             trimmed = trimmed.replace("data: [DONE]", "").trim();
@@ -949,7 +949,29 @@ public class DeepSeekEnrichmentService {
         if (trimmed.endsWith("```")) {
             trimmed = trimmed.substring(0, trimmed.length() - 3);
         }
-        return trimmed.trim();
+        trimmed = trimmed.trim();
+
+        // Extract JSON slice between first { or [ and last } or ]
+        int firstBrace = trimmed.indexOf('{');
+        int firstBracket = trimmed.indexOf('[');
+        int startIdx = -1;
+        if (firstBrace != -1 && firstBracket != -1) {
+            startIdx = Math.min(firstBrace, firstBracket);
+        } else if (firstBrace != -1) {
+            startIdx = firstBrace;
+        } else if (firstBracket != -1) {
+            startIdx = firstBracket;
+        }
+
+        int lastBrace = trimmed.lastIndexOf('}');
+        int lastBracket = trimmed.lastIndexOf(']');
+        int endIdx = Math.max(lastBrace, lastBracket);
+
+        if (startIdx != -1 && endIdx != -1 && endIdx >= startIdx) {
+            return trimmed.substring(startIdx, endIdx + 1).trim();
+        }
+
+        return trimmed;
     }
 
     // ──────────────────────────────────────────────────────────────────────────
