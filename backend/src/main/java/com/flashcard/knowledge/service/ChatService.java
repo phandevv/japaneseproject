@@ -1,5 +1,7 @@
 package com.flashcard.knowledge.service;
 
+import com.flashcard.common.config.AiConfig;
+
 import com.flashcard.knowledge.model.Conversation;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -50,14 +52,17 @@ public class ChatService {
     private final HttpClient httpClient;
     private final WordReviewRepository wordReviewRepository;
     private final GrammarReviewRepository grammarReviewRepository;
+    private final AiConfig aiConfig;
 
     @Autowired
     public ChatService(ObjectMapper objectMapper,
                        WordReviewRepository wordReviewRepository,
-                       GrammarReviewRepository grammarReviewRepository) {
+                       GrammarReviewRepository grammarReviewRepository,
+                       AiConfig aiConfig) {
         this.objectMapper = objectMapper;
         this.wordReviewRepository = wordReviewRepository;
         this.grammarReviewRepository = grammarReviewRepository;
+        this.aiConfig = aiConfig;
         this.httpClient = HttpClient.newBuilder()
                 .connectTimeout(Duration.ofSeconds(10))
                 .build();
@@ -78,11 +83,7 @@ public class ChatService {
             );
         }
 
-        String apiKey = System.getenv("DEEPSEEK_API_KEY");
-        if (apiKey == null || apiKey.isBlank()) {
-            apiKey = System.getProperty("DEEPSEEK_API_KEY");
-        }
-
+        String apiKey = aiConfig.getApiKey();
         if (apiKey == null || apiKey.isBlank()) {
             bulkheadSemaphore.release();
             log.warn("DEEPSEEK_API_KEY not set — chat service unavailable.");
@@ -138,14 +139,14 @@ public class ChatService {
             messages.add(Map.of("role", "user", "content", truncatedMessage));
 
             Map<String, Object> requestBodyMap = Map.of(
-                "model", "deepseek-chat",
+                "model", aiConfig.getModel(),
                 "max_tokens", 2048,
                 "temperature", 0.6,
                 "messages", messages
             );
             String requestBody = objectMapper.writeValueAsString(requestBodyMap);
 
-            HttpRequest request = HttpRequest.newBuilder(URI.create("https://api.deepseek.com/chat/completions"))
+            HttpRequest request = HttpRequest.newBuilder(URI.create(aiConfig.getApiUrl()))
                     .header("Content-Type", "application/json; charset=UTF-8")
                     .header("Authorization", "Bearer " + apiKey)
                     .POST(HttpRequest.BodyPublishers.ofString(requestBody, java.nio.charset.StandardCharsets.UTF_8))

@@ -1,6 +1,5 @@
 package com.flashcard.common.config;
 
-import com.flashcard.knowledge.model.Conversation;
 import com.flashcard.knowledge.controller.ConversationWebSocketHandler;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.socket.config.annotation.EnableWebSocket;

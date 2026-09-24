@@ -1,5 +1,7 @@
 package com.flashcard.knowledge.service;
 
+import com.flashcard.common.config.AiConfig;
+
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.flashcard.knowledge.model.GrammarCard;
@@ -44,9 +46,23 @@ public class KnowledgeService {
     private final GrammarSrsService grammarSrsService;
     private final DeepSeekEnrichmentService deepSeekEnrichmentService;
     private final AiEnrichmentQueueService aiEnrichmentQueueService;
+    private final AiConfig aiConfig;
 
     // Bulkhead to protect AI APIs
     private final Semaphore bulkheadSemaphore = new Semaphore(50);
+
+    public KnowledgeService(VocabularyDataProvider vocabularyDataProvider,
+                            KnowledgeDataProvider knowledgeDataProvider,
+                            SrsDataProvider srsDataProvider,
+                            UserDataProvider userDataProvider,
+                            ObjectMapper objectMapper,
+                            SrsService srsService,
+                            GrammarSrsService grammarSrsService,
+                            DeepSeekEnrichmentService deepSeekEnrichmentService,
+                            AiEnrichmentQueueService aiEnrichmentQueueService) {
+        this(vocabularyDataProvider, knowledgeDataProvider, srsDataProvider, userDataProvider, objectMapper,
+                srsService, grammarSrsService, deepSeekEnrichmentService, aiEnrichmentQueueService, new AiConfig(null, null, null));
+    }
 
     @Autowired
     public KnowledgeService(VocabularyDataProvider vocabularyDataProvider,
@@ -57,7 +73,8 @@ public class KnowledgeService {
                             @Autowired(required = false) SrsService srsService,
                             @Autowired(required = false) GrammarSrsService grammarSrsService,
                             @Autowired(required = false) DeepSeekEnrichmentService deepSeekEnrichmentService,
-                            @Autowired(required = false) AiEnrichmentQueueService aiEnrichmentQueueService) {
+                            @Autowired(required = false) AiEnrichmentQueueService aiEnrichmentQueueService,
+                            @Autowired(required = false) AiConfig aiConfig) {
         this.vocabularyDataProvider = vocabularyDataProvider;
         this.knowledgeDataProvider = knowledgeDataProvider;
         this.srsDataProvider = srsDataProvider;
@@ -66,6 +83,7 @@ public class KnowledgeService {
         this.grammarSrsService = grammarSrsService;
         this.deepSeekEnrichmentService = deepSeekEnrichmentService;
         this.aiEnrichmentQueueService = aiEnrichmentQueueService;
+        this.aiConfig = (aiConfig != null) ? aiConfig : new AiConfig(null, null, null);
         this.objectMapper = objectMapper.copy()
                 .configure(com.fasterxml.jackson.core.JsonParser.Feature.ALLOW_UNQUOTED_CONTROL_CHARS, true)
                 .configure(com.fasterxml.jackson.core.JsonParser.Feature.ALLOW_BACKSLASH_ESCAPING_ANY_CHARACTER, true);
@@ -99,7 +117,7 @@ public class KnowledgeService {
             );
 
             Map<String, Object> requestBodyMap = Map.of(
-                "model", "deepseek-chat",
+                "model", aiConfig.getModel(),
                 "max_tokens", 250,
                 "temperature", 0.1,
                 "response_format", Map.of("type", "json_object"),
@@ -110,7 +128,7 @@ public class KnowledgeService {
             );
 
             String requestBody = objectMapper.writeValueAsString(requestBodyMap);
-            HttpRequest request = HttpRequest.newBuilder(URI.create("https://api.deepseek.com/chat/completions"))
+            HttpRequest request = HttpRequest.newBuilder(URI.create(aiConfig.getApiUrl()))
                     .header("Content-Type", "application/json")
                     .header("Authorization", "Bearer " + apiKey)
                     .POST(HttpRequest.BodyPublishers.ofString(requestBody))
@@ -121,8 +139,11 @@ public class KnowledgeService {
                 throw new RuntimeException("DeepSeek API error status: " + response.statusCode());
             }
 
-            JsonNode root = objectMapper.readTree(response.body());
-            String jsonContent = root.path("choices").get(0).path("message").path("content").asText();
+            JsonNode root = objectMapper.readTree(cleanResponseBody(response.body()));
+            String jsonContent = root.path("choices").get(0).path("message").path("content").asText(null);
+            if (jsonContent == null || jsonContent.isBlank()) {
+                jsonContent = root.path("choices").get(0).path("message").path("reasoning").asText("");
+            }
 
             // Use robust parsing with retry/repair
             Map<String, Object> aiResult = parseAiJsonResponse(jsonContent);
@@ -223,7 +244,7 @@ public class KnowledgeService {
                     if (apiKey != null) {
                         String microPrompt = String.format("Giải thích chi tiết hướng dẫn sử dụng, sắc thái ngữ pháp và trường hợp dùng thực tế bằng tiếng Việt cho cấu trúc ngữ pháp tiếng Nhật: \"%s\" (Nghĩa: %s). Trả về JSON duy nhất: {\"usageGuide\":\"...\"}", g.getGrammar(), g.getMeaning());
                         Map<String, Object> reqBodyMap = Map.of(
-                            "model", "deepseek-chat",
+                            "model", aiConfig.getModel(),
                             "temperature", 0.0,
                             "max_tokens", 150,
                             "response_format", Map.of("type", "json_object"),
@@ -233,7 +254,7 @@ public class KnowledgeService {
                             }
                         );
                         String reqBody = objectMapper.writeValueAsString(reqBodyMap);
-                        HttpRequest req = HttpRequest.newBuilder(URI.create("https://api.deepseek.com/chat/completions"))
+                        HttpRequest req = HttpRequest.newBuilder(URI.create(aiConfig.getApiUrl()))
                                 .header("Content-Type", "application/json")
                                 .header("Authorization", "Bearer " + apiKey)
                                 .POST(HttpRequest.BodyPublishers.ofString(reqBody))
@@ -241,8 +262,12 @@ public class KnowledgeService {
                                 .build();
                         HttpResponse<String> resp = httpClient.send(req, HttpResponse.BodyHandlers.ofString());
                         if (resp.statusCode() == 200) {
-                            JsonNode root = objectMapper.readTree(resp.body());
-                            String contentStr = cleanJsonContent(root.path("choices").get(0).path("message").path("content").asText());
+                            JsonNode root = objectMapper.readTree(cleanResponseBody(resp.body()));
+                            String rawContent = root.path("choices").get(0).path("message").path("content").asText(null);
+                            if (rawContent == null || rawContent.isBlank()) {
+                                rawContent = root.path("choices").get(0).path("message").path("reasoning").asText("");
+                            }
+                            String contentStr = cleanJsonContent(rawContent);
                             JsonNode contentNode = objectMapper.readTree(contentStr);
                             if (contentNode.has("usageGuide")) {
                                 g.setUsageGuide(contentNode.path("usageGuide").asText());
@@ -307,7 +332,7 @@ public class KnowledgeService {
             );
 
             Map<String, Object> requestBodyMap = Map.of(
-                "model", "deepseek-chat",
+                "model", aiConfig.getModel(),
                 "temperature", 0.0,
                 "max_tokens", 350,
                 "response_format", Map.of("type", "json_object"),
@@ -318,7 +343,7 @@ public class KnowledgeService {
             );
 
             String requestBody = objectMapper.writeValueAsString(requestBodyMap);
-            HttpRequest request = HttpRequest.newBuilder(URI.create("https://api.deepseek.com/chat/completions"))
+            HttpRequest request = HttpRequest.newBuilder(URI.create(aiConfig.getApiUrl()))
                     .header("Content-Type", "application/json")
                     .header("Authorization", "Bearer " + apiKey)
                     .POST(HttpRequest.BodyPublishers.ofString(requestBody))
@@ -326,8 +351,11 @@ public class KnowledgeService {
 
             HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
             if (response.statusCode() == 200) {
-                JsonNode root = objectMapper.readTree(response.body());
-                String jsonContent = root.path("choices").get(0).path("message").path("content").asText();
+                JsonNode root = objectMapper.readTree(cleanResponseBody(response.body()));
+                String jsonContent = root.path("choices").get(0).path("message").path("content").asText(null);
+                if (jsonContent == null || jsonContent.isBlank()) {
+                    jsonContent = root.path("choices").get(0).path("message").path("reasoning").asText("");
+                }
 
                 Map<String, Object> aiResult = parseAiJsonResponse(jsonContent);
 
@@ -512,7 +540,7 @@ public class KnowledgeService {
             );
 
             Map<String, Object> requestBodyMap = Map.of(
-                "model", "deepseek-chat",
+                "model", aiConfig.getModel(),
                 "max_tokens", 800,
                 "temperature", 0.1,
                 "response_format", Map.of("type", "json_object"),
@@ -523,7 +551,7 @@ public class KnowledgeService {
             );
 
             String requestBody = objectMapper.writeValueAsString(requestBodyMap);
-            HttpRequest request = HttpRequest.newBuilder(URI.create("https://api.deepseek.com/chat/completions"))
+            HttpRequest request = HttpRequest.newBuilder(URI.create(aiConfig.getApiUrl()))
                     .header("Content-Type", "application/json")
                     .header("Authorization", "Bearer " + apiKey)
                     .POST(HttpRequest.BodyPublishers.ofString(requestBody))
@@ -534,8 +562,11 @@ public class KnowledgeService {
                 throw new RuntimeException("API error status: " + response.statusCode());
             }
 
-            JsonNode root = objectMapper.readTree(response.body());
-            String jsonContent = root.path("choices").get(0).path("message").path("content").asText();
+            JsonNode root = objectMapper.readTree(cleanResponseBody(response.body()));
+            String jsonContent = root.path("choices").get(0).path("message").path("content").asText(null);
+            if (jsonContent == null || jsonContent.isBlank()) {
+                jsonContent = root.path("choices").get(0).path("message").path("reasoning").asText("");
+            }
 
             return parseAiJsonResponse(jsonContent);
         } finally {
@@ -571,7 +602,7 @@ public class KnowledgeService {
             );
 
             Map<String, Object> requestBodyMap = Map.of(
-                "model", "deepseek-chat",
+                "model", aiConfig.getModel(),
                 "max_tokens", 250,
                 "temperature", 0.1,
                 "response_format", Map.of("type", "json_object"),
@@ -582,7 +613,7 @@ public class KnowledgeService {
             );
 
             String requestBody = objectMapper.writeValueAsString(requestBodyMap);
-            HttpRequest request = HttpRequest.newBuilder(URI.create("https://api.deepseek.com/chat/completions"))
+            HttpRequest request = HttpRequest.newBuilder(URI.create(aiConfig.getApiUrl()))
                     .header("Content-Type", "application/json")
                     .header("Authorization", "Bearer " + apiKey)
                     .POST(HttpRequest.BodyPublishers.ofString(requestBody))
@@ -593,8 +624,11 @@ public class KnowledgeService {
                 throw new RuntimeException("API error status: " + response.statusCode());
             }
 
-            JsonNode root = objectMapper.readTree(response.body());
-            String jsonContent = root.path("choices").get(0).path("message").path("content").asText();
+            JsonNode root = objectMapper.readTree(cleanResponseBody(response.body()));
+            String jsonContent = root.path("choices").get(0).path("message").path("content").asText(null);
+            if (jsonContent == null || jsonContent.isBlank()) {
+                jsonContent = root.path("choices").get(0).path("message").path("reasoning").asText("");
+            }
 
             Map<String, Object> result = parseAiJsonResponse(jsonContent);
             result.put("isFast", true);
@@ -630,7 +664,7 @@ public class KnowledgeService {
             );
 
             Map<String, Object> requestBodyMap = Map.of(
-                "model", "deepseek-chat",
+                "model", aiConfig.getModel(),
                 "max_tokens", 300,
                 "temperature", 0.1,
                 "response_format", Map.of("type", "json_object"),
@@ -641,7 +675,7 @@ public class KnowledgeService {
             );
 
             String requestBody = objectMapper.writeValueAsString(requestBodyMap);
-            HttpRequest request = HttpRequest.newBuilder(URI.create("https://api.deepseek.com/chat/completions"))
+            HttpRequest request = HttpRequest.newBuilder(URI.create(aiConfig.getApiUrl()))
                     .header("Content-Type", "application/json")
                     .header("Authorization", "Bearer " + apiKey)
                     .POST(HttpRequest.BodyPublishers.ofString(requestBody))
@@ -652,8 +686,11 @@ public class KnowledgeService {
                 throw new RuntimeException("API error status: " + response.statusCode());
             }
 
-            JsonNode root = objectMapper.readTree(response.body());
-            String jsonContent = root.path("choices").get(0).path("message").path("content").asText();
+            JsonNode root = objectMapper.readTree(cleanResponseBody(response.body()));
+            String jsonContent = root.path("choices").get(0).path("message").path("content").asText(null);
+            if (jsonContent == null || jsonContent.isBlank()) {
+                jsonContent = root.path("choices").get(0).path("message").path("reasoning").asText("");
+            }
 
             Map<String, Object> result = parseAiJsonResponse(jsonContent);
             result.put("isFast", true);
@@ -707,7 +744,7 @@ public class KnowledgeService {
             );
 
             Map<String, Object> requestBodyMap = Map.of(
-                "model", "deepseek-chat",
+                "model", aiConfig.getModel(),
                 "max_tokens", 1200,
                 "temperature", 0.1,
                 "response_format", Map.of("type", "json_object"),
@@ -718,7 +755,7 @@ public class KnowledgeService {
             );
 
             String requestBody = objectMapper.writeValueAsString(requestBodyMap);
-            HttpRequest request = HttpRequest.newBuilder(URI.create("https://api.deepseek.com/chat/completions"))
+            HttpRequest request = HttpRequest.newBuilder(URI.create(aiConfig.getApiUrl()))
                     .header("Content-Type", "application/json")
                     .header("Authorization", "Bearer " + apiKey)
                     .POST(HttpRequest.BodyPublishers.ofString(requestBody))
@@ -729,8 +766,11 @@ public class KnowledgeService {
                 throw new RuntimeException("API error status: " + response.statusCode());
             }
 
-            JsonNode root = objectMapper.readTree(response.body());
-            String jsonContent = root.path("choices").get(0).path("message").path("content").asText();
+            JsonNode root = objectMapper.readTree(cleanResponseBody(response.body()));
+            String jsonContent = root.path("choices").get(0).path("message").path("content").asText(null);
+            if (jsonContent == null || jsonContent.isBlank()) {
+                jsonContent = root.path("choices").get(0).path("message").path("reasoning").asText("");
+            }
 
             return parseAiJsonResponse(jsonContent);
         } finally {
@@ -839,7 +879,7 @@ public class KnowledgeService {
             // json_object mode forces DeepSeek to buffer until full JSON is ready — killing real-time streaming.
             // Instead stream freely and parse JSON from the accumulated content at the end.
             Map<String, Object> requestBodyMap = new java.util.LinkedHashMap<>();
-            requestBodyMap.put("model", "deepseek-chat");
+            requestBodyMap.put("model", aiConfig.getModel());
             requestBodyMap.put("stream", true);
             requestBodyMap.put("temperature", 0.2);
             requestBodyMap.put("max_tokens", 1000);
@@ -849,7 +889,7 @@ public class KnowledgeService {
             });
 
             String requestBody = objectMapper.writeValueAsString(requestBodyMap);
-            HttpRequest request = HttpRequest.newBuilder(URI.create("https://api.deepseek.com/chat/completions"))
+            HttpRequest request = HttpRequest.newBuilder(URI.create(aiConfig.getApiUrl()))
                     .header("Content-Type", "application/json")
                     .header("Authorization", "Bearer " + apiKey)
                     .POST(HttpRequest.BodyPublishers.ofString(requestBody))
@@ -1159,34 +1199,7 @@ public class KnowledgeService {
     }
 
     private String getApiKey() {
-        String apiKey = System.getenv("DEEPSEEK_API_KEY");
-        if (apiKey == null || apiKey.trim().isEmpty()) {
-            apiKey = System.getProperty("DEEPSEEK_API_KEY");
-        }
-        if (apiKey == null || apiKey.trim().isEmpty()) {
-            try {
-                java.nio.file.Path envPath = java.nio.file.Paths.get(".env");
-                if (!java.nio.file.Files.exists(envPath)) {
-                    envPath = java.nio.file.Paths.get("../.env");
-                }
-                if (!java.nio.file.Files.exists(envPath)) {
-                    envPath = java.nio.file.Paths.get("../../.env");
-                }
-                if (java.nio.file.Files.exists(envPath)) {
-                    for (String line : java.nio.file.Files.readAllLines(envPath)) {
-                        line = line.trim();
-                        if (line.startsWith("DEEPSEEK_API_KEY=")) {
-                            apiKey = line.substring("DEEPSEEK_API_KEY=".length()).trim();
-                            if (apiKey.startsWith("\"") && apiKey.endsWith("\"")) {
-                                apiKey = apiKey.substring(1, apiKey.length() - 1);
-                            }
-                            break;
-                        }
-                    }
-                }
-            } catch (Exception ignored) {}
-        }
-        return (apiKey == null || apiKey.trim().isEmpty()) ? null : apiKey;
+        return aiConfig.getApiKey();
     }
 
     /**
@@ -1307,6 +1320,15 @@ public class KnowledgeService {
                 log.error("Failed background AI enrichment for type: {}, id: {}: {}", type, id, e.getMessage(), e);
             }
         });
+    }
+
+    private String cleanResponseBody(String body) {
+        if (body == null) return "{}";
+        String trimmed = body.trim();
+        if (trimmed.contains("data: [DONE]")) {
+            trimmed = trimmed.replace("data: [DONE]", "").trim();
+        }
+        return trimmed;
     }
 }
 

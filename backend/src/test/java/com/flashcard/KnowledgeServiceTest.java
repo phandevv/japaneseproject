@@ -1,6 +1,5 @@
 package com.flashcard;
 
-import com.flashcard.knowledge.model.KnowledgeVersion;
 import com.flashcard.knowledge.provider.KnowledgeDataProvider;
 import com.flashcard.knowledge.service.KnowledgeService;
 import com.flashcard.srs.model.WordReview;

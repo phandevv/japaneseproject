@@ -178,4 +178,85 @@ public class JlptN3CourseController {
         Map<String, Object> result = enrichmentService.evaluateQuizAnswer(targetAnswer, userAnswer, questionContext);
         return ResponseEntity.ok(result);
     }
+
+    private boolean isCurrentUserAdmin() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth != null && auth.isAuthenticated() && !"anonymousUser".equals(auth.getPrincipal())) {
+            if (auth.getPrincipal() instanceof User user) {
+                return "ADMIN".equalsIgnoreCase(user.getRole());
+            }
+            String username = auth.getName();
+            Optional<User> u = userDataProvider.findByUsername(username);
+            return u.isPresent() && "ADMIN".equalsIgnoreCase(u.get().getRole());
+        }
+        return false;
+    }
+
+    /**
+     * Get Reading Comprehension data for a specific Chapter and Lesson.
+     * GET /api/jlpt-n3/chapter/{chapter}/lesson/{lesson}/reading
+     */
+    @GetMapping("/chapter/{chapter}/lesson/{lesson}/reading")
+    public ResponseEntity<?> getReadingComprehension(
+            @PathVariable("chapter") int chapter,
+            @PathVariable("lesson") int lesson) {
+        Map<String, Object> data = courseService.getReadingComprehension(chapter, lesson);
+        return ResponseEntity.ok(data);
+    }
+
+    /**
+     * Trigger 2-step AI generation of Reading Comprehension for Chapter and Lesson (Admin only).
+     * POST /api/jlpt-n3/chapter/{chapter}/lesson/{lesson}/reading/generate
+     */
+    @PostMapping("/chapter/{chapter}/lesson/{lesson}/reading/generate")
+    public ResponseEntity<?> generateReadingComprehension(
+            @PathVariable("chapter") int chapter,
+            @PathVariable("lesson") int lesson) {
+        if (!isCurrentUserAdmin()) {
+            return ResponseEntity.status(403).body(Map.of("error", "Chỉ tài khoản ADMIN mới có quyền nạp hoặc tạo lại bài đọc hiểu AI."));
+        }
+        try {
+            Map<String, Object> data = courseService.generateReadingComprehension(chapter, lesson);
+            return ResponseEntity.ok(data);
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body(Map.of("error", "Lỗi khi sinh bài đọc hiểu: " + e.getMessage()));
+        }
+    }
+
+    /**
+     * Update Reading Comprehension manually (Admin only).
+     * PUT /api/jlpt-n3/chapter/{chapter}/lesson/{lesson}/reading
+     */
+    @PutMapping("/chapter/{chapter}/lesson/{lesson}/reading")
+    public ResponseEntity<?> updateReadingComprehension(
+            @PathVariable("chapter") int chapter,
+            @PathVariable("lesson") int lesson,
+            @RequestBody Map<String, Object> body) {
+        if (!isCurrentUserAdmin()) {
+            return ResponseEntity.status(403).body(Map.of("error", "Chỉ tài khoản ADMIN mới có quyền chỉnh sửa bài đọc hiểu."));
+        }
+        try {
+            Map<String, Object> data = courseService.updateReadingComprehension(chapter, lesson, body);
+            return ResponseEntity.ok(data);
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body(Map.of("error", "Lỗi khi cập nhật bài đọc hiểu: " + e.getMessage()));
+        }
+    }
+
+    /**
+     * Submit Reading Comprehension Quiz Score (10 Questions).
+     * Passes reading component if score >= 8 (accuracy >= 80%).
+     * POST /api/jlpt-n3/chapter/{chapter}/lesson/{lesson}/reading/submit
+     */
+    @PostMapping("/chapter/{chapter}/lesson/{lesson}/reading/submit")
+    public ResponseEntity<?> submitReadingQuiz(
+            @PathVariable("chapter") int chapter,
+            @PathVariable("lesson") int lesson,
+            @RequestBody Map<String, Object> body) {
+        int score = body.containsKey("score") ? ((Number) body.get("score")).intValue() : 0;
+        int total = body.containsKey("total") ? ((Number) body.get("total")).intValue() : 10;
+        Long userId = getCurrentUserId();
+        Map<String, Object> result = courseService.submitReadingQuiz(userId, chapter, lesson, score, total);
+        return ResponseEntity.ok(result);
+    }
 }

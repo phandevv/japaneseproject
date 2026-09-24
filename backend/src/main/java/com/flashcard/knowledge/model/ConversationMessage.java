@@ -1,6 +1,5 @@
 package com.flashcard.knowledge.model;
 
-import com.flashcard.user.model.User;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 

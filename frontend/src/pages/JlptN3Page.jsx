@@ -11,6 +11,7 @@ import KanjiDetailModal from '../components/KanjiDetailModal';
 import GrammarDetailModal from '../components/GrammarDetailModal';
 import AiEnrichedTabbedView from '../components/AiEnrichedTabbedView';
 import LessonQuizView from '../components/LessonQuizView';
+import JlptN3ReadingView from '../components/JlptN3ReadingView';
 
 // ─── Helper: detect kanji characters in a string ──────────────────────────
 const isContainsKanji = (str) => /[\u4e00-\u9faf\u3400-\u4dbf]/.test(str);
@@ -1578,6 +1579,23 @@ const isContainsKanji = (str) => {
                 >
                   <Award size={18} /> Trắc Nghiệm 20 Câu {lessonData?.quizPassed ? '✓ (100%)' : '(Cần 100% Pass)'}
                 </button>
+                <button
+                  onClick={() => handleTabClick('reading')}
+                  style={{
+                    flex: 1.1, minWidth: '180px', padding: '12px', borderRadius: '10px', border: 'none',
+                    fontWeight: 800, fontSize: '0.92rem', cursor: 'pointer',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px',
+                    background: activeTab === 'reading' 
+                      ? 'linear-gradient(135deg, #6366f1, #8b5cf6)' 
+                      : lessonData?.readingPassed 
+                        ? 'rgba(99, 102, 241, 0.12)' 
+                        : 'transparent',
+                    color: activeTab === 'reading' ? 'white' : lessonData?.readingPassed ? '#818cf8' : 'var(--text-secondary)',
+                    boxShadow: activeTab === 'reading' ? '0 4px 14px rgba(99, 102, 241, 0.3)' : 'none'
+                  }}
+                >
+                  <BookOpen size={18} /> Đọc Hiểu (Dokkai) {lessonData?.readingPassed ? '✓ (Pass)' : ''}
+                </button>
               </div>
 
 
@@ -2900,6 +2918,29 @@ const isContainsKanji = (str) => {
                         quizPassed: res.quizPassed || (res.passed && res.score === res.total) || prev.quizPassed,
                         completed: res.completed || prev.completed,
                         bestScore: Math.max(prev.bestScore || 0, res.accuracy || 0)
+                      }) : prev);
+                      loadOverview();
+                    }
+                  }}
+                />
+              )}
+
+              {/* ───────────────────────────────────────────────────────────────
+                  TAB 5: READING COMPREHENSION (DOKKAI - PASS >= 8/10)
+                 ─────────────────────────────────────────────────────────────── */}
+              {activeTab === 'reading' && (
+                <JlptN3ReadingView
+                  chapter={selectedChapter}
+                  lesson={selectedLesson}
+                  lessonData={lessonData}
+                  isAdmin={isAdmin}
+                  onProgressUpdate={(res) => {
+                    if (res) {
+                      setLessonData(prev => prev ? ({
+                        ...prev,
+                        readingPassed: res.readingPassed !== undefined ? res.readingPassed : prev.readingPassed,
+                        readingScore: res.readingScore !== undefined ? res.readingScore : prev.readingScore,
+                        completed: res.completed !== undefined ? res.completed : prev.completed
                       }) : prev);
                       loadOverview();
                     }

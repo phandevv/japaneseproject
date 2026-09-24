@@ -20,14 +20,17 @@ public class JlptN3JpaDataProvider implements JlptN3DataProvider {
     private final JlptN3ProgressRepository progressRepository;
     private final JlptN3GrammarQuizRepository grammarQuizRepository;
     private final JlptN3LessonQuizRepository lessonQuizRepository;
+    private final com.flashcard.knowledge.repository.JlptN3ReadingRepository readingRepository;
 
     @Autowired
     public JlptN3JpaDataProvider(JlptN3ProgressRepository progressRepository,
                                  JlptN3GrammarQuizRepository grammarQuizRepository,
-                                 @Autowired(required = false) JlptN3LessonQuizRepository lessonQuizRepository) {
+                                 @Autowired(required = false) JlptN3LessonQuizRepository lessonQuizRepository,
+                                 @Autowired(required = false) com.flashcard.knowledge.repository.JlptN3ReadingRepository readingRepository) {
         this.progressRepository = progressRepository;
         this.grammarQuizRepository = grammarQuizRepository;
         this.lessonQuizRepository = lessonQuizRepository;
+        this.readingRepository = readingRepository;
     }
 
     @Override
@@ -68,5 +71,15 @@ public class JlptN3JpaDataProvider implements JlptN3DataProvider {
     @Override
     public JlptN3LessonQuiz saveLessonQuiz(JlptN3LessonQuiz quiz) {
         return lessonQuizRepository != null ? lessonQuizRepository.save(quiz) : quiz;
+    }
+
+    @Override
+    public Optional<com.flashcard.knowledge.model.JlptN3Reading> findReading(Integer chapterId, Integer lessonId) {
+        return readingRepository != null ? readingRepository.findByChapterIdAndLessonId(chapterId, lessonId) : Optional.empty();
+    }
+
+    @Override
+    public com.flashcard.knowledge.model.JlptN3Reading saveReading(com.flashcard.knowledge.model.JlptN3Reading reading) {
+        return readingRepository != null ? readingRepository.save(reading) : reading;
     }
 }

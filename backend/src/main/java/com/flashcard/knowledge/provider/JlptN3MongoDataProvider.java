@@ -25,16 +25,19 @@ public class JlptN3MongoDataProvider implements JlptN3DataProvider {
     private final JlptN3ProgressMongoRepository progressMongoRepository;
     private final JlptN3GrammarQuizMongoRepository quizMongoRepository;
     private final JlptN3LessonQuizMongoRepository lessonQuizMongoRepository;
+    private final com.flashcard.knowledge.repository.mongo.JlptN3ReadingMongoRepository readingMongoRepository;
     private final SequenceGeneratorService sequenceGeneratorService;
 
     @Autowired
     public JlptN3MongoDataProvider(JlptN3ProgressMongoRepository progressMongoRepository,
                                    JlptN3GrammarQuizMongoRepository quizMongoRepository,
                                    JlptN3LessonQuizMongoRepository lessonQuizMongoRepository,
+                                   com.flashcard.knowledge.repository.mongo.JlptN3ReadingMongoRepository readingMongoRepository,
                                    SequenceGeneratorService sequenceGeneratorService) {
         this.progressMongoRepository = progressMongoRepository;
         this.quizMongoRepository = quizMongoRepository;
         this.lessonQuizMongoRepository = lessonQuizMongoRepository;
+        this.readingMongoRepository = readingMongoRepository;
         this.sequenceGeneratorService = sequenceGeneratorService;
     }
 
@@ -124,6 +127,8 @@ public class JlptN3MongoDataProvider implements JlptN3DataProvider {
         p.setKanjiPassed(doc.getKanjiPassed());
         p.setGrammarPassed(doc.getGrammarPassed());
         p.setQuizPassed(doc.getQuizPassed());
+        p.setReadingPassed(doc.getReadingPassed());
+        p.setReadingScore(doc.getReadingScore());
         p.setCompleted(doc.getCompleted());
         p.setBestScore(doc.getBestScore());
         p.setCompletedAt(doc.getCompletedAt());
@@ -142,6 +147,8 @@ public class JlptN3MongoDataProvider implements JlptN3DataProvider {
                 .kanjiPassed(p.getKanjiPassed())
                 .grammarPassed(p.getGrammarPassed())
                 .quizPassed(p.getQuizPassed())
+                .readingPassed(p.getReadingPassed())
+                .readingScore(p.getReadingScore())
                 .completed(p.getCompleted())
                 .bestScore(p.getBestScore())
                 .completedAt(p.getCompletedAt())
@@ -158,6 +165,8 @@ public class JlptN3MongoDataProvider implements JlptN3DataProvider {
         doc.setKanjiPassed(p.getKanjiPassed());
         doc.setGrammarPassed(p.getGrammarPassed());
         doc.setQuizPassed(p.getQuizPassed());
+        doc.setReadingPassed(p.getReadingPassed());
+        doc.setReadingScore(p.getReadingScore());
         doc.setCompleted(p.getCompleted());
         doc.setBestScore(p.getBestScore());
         doc.setCompletedAt(p.getCompletedAt());
@@ -206,5 +215,69 @@ public class JlptN3MongoDataProvider implements JlptN3DataProvider {
                 .questionsJson(q.getQuestionsJson())
                 .updatedAt(q.getUpdatedAt())
                 .build();
+    }
+
+    @Override
+    public Optional<com.flashcard.knowledge.model.JlptN3Reading> findReading(Integer chapterId, Integer lessonId) {
+        return readingMongoRepository.findByChapterIdAndLessonId(chapterId, lessonId)
+                .map(this::toReading);
+    }
+
+    @Override
+    public com.flashcard.knowledge.model.JlptN3Reading saveReading(com.flashcard.knowledge.model.JlptN3Reading reading) {
+        if (reading == null) return null;
+        com.flashcard.knowledge.document.JlptN3ReadingDoc doc;
+        if (reading.getId() == null) {
+            Optional<com.flashcard.knowledge.document.JlptN3ReadingDoc> existing = readingMongoRepository.findByChapterIdAndLessonId(
+                    reading.getChapterId(), reading.getLessonId());
+            if (existing.isPresent()) {
+                doc = existing.get();
+                doc.setTitle(reading.getTitle());
+                doc.setPassage(reading.getPassage());
+                doc.setTranslation(reading.getTranslation());
+                doc.setQuestionsJson(reading.getQuestionsJson());
+                doc.setUpdatedAt(java.time.LocalDateTime.now());
+            } else {
+                doc = toReadingDoc(reading);
+                doc.setId(sequenceGeneratorService.generateSequence("jlpt_n3_reading_sequence"));
+                doc.setCreatedAt(java.time.LocalDateTime.now());
+                doc.setUpdatedAt(java.time.LocalDateTime.now());
+            }
+        } else {
+            doc = toReadingDoc(reading);
+            doc.setUpdatedAt(java.time.LocalDateTime.now());
+        }
+        com.flashcard.knowledge.document.JlptN3ReadingDoc saved = readingMongoRepository.save(doc);
+        return toReading(saved);
+    }
+
+    private com.flashcard.knowledge.model.JlptN3Reading toReading(com.flashcard.knowledge.document.JlptN3ReadingDoc doc) {
+        if (doc == null) return null;
+        com.flashcard.knowledge.model.JlptN3Reading r = new com.flashcard.knowledge.model.JlptN3Reading();
+        r.setId(doc.getId());
+        r.setChapterId(doc.getChapterId());
+        r.setLessonId(doc.getLessonId());
+        r.setTitle(doc.getTitle());
+        r.setPassage(doc.getPassage());
+        r.setTranslation(doc.getTranslation());
+        r.setQuestionsJson(doc.getQuestionsJson());
+        r.setCreatedAt(doc.getCreatedAt());
+        r.setUpdatedAt(doc.getUpdatedAt());
+        return r;
+    }
+
+    private com.flashcard.knowledge.document.JlptN3ReadingDoc toReadingDoc(com.flashcard.knowledge.model.JlptN3Reading r) {
+        if (r == null) return null;
+        com.flashcard.knowledge.document.JlptN3ReadingDoc doc = new com.flashcard.knowledge.document.JlptN3ReadingDoc();
+        doc.setId(r.getId());
+        doc.setChapterId(r.getChapterId());
+        doc.setLessonId(r.getLessonId());
+        doc.setTitle(r.getTitle());
+        doc.setPassage(r.getPassage());
+        doc.setTranslation(r.getTranslation());
+        doc.setQuestionsJson(r.getQuestionsJson());
+        doc.setCreatedAt(r.getCreatedAt());
+        doc.setUpdatedAt(r.getUpdatedAt());
+        return doc;
     }
 }

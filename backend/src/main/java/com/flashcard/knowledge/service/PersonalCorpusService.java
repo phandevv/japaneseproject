@@ -1,5 +1,7 @@
 package com.flashcard.knowledge.service;
 
+import com.flashcard.common.config.AiConfig;
+
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
@@ -28,6 +30,7 @@ public class PersonalCorpusService {
     private final GrammarReviewRepository grammarReviewRepository;
     private final ObjectMapper objectMapper;
     private final HttpClient httpClient;
+    private final AiConfig aiConfig;
 
     // Bulkhead pattern for personal corpus generation
     private final Semaphore bulkheadSemaphore = new Semaphore(50);
@@ -35,10 +38,12 @@ public class PersonalCorpusService {
     @Autowired
     public PersonalCorpusService(WordReviewRepository wordReviewRepository,
                                  GrammarReviewRepository grammarReviewRepository,
-                                 ObjectMapper objectMapper) {
+                                 ObjectMapper objectMapper,
+                                 AiConfig aiConfig) {
         this.wordReviewRepository = wordReviewRepository;
         this.grammarReviewRepository = grammarReviewRepository;
         this.objectMapper = objectMapper;
+        this.aiConfig = aiConfig;
         this.httpClient = HttpClient.newBuilder()
                 .connectTimeout(Duration.ofSeconds(20))
                 .build();
@@ -53,7 +58,7 @@ public class PersonalCorpusService {
         }
 
         try {
-            String apiKey = getApiKey();
+            String apiKey = aiConfig.getApiKey();
             if (apiKey == null) {
                 throw new RuntimeException("Chưa cấu hình DEEPSEEK_API_KEY.");
             }
@@ -103,7 +108,7 @@ public class PersonalCorpusService {
             );
 
             Map<String, Object> requestBodyMap = Map.of(
-                "model", "deepseek-chat",
+                "model", aiConfig.getModel(),
                 "max_tokens", 1500,
                 "temperature", 0.1,
                 "response_format", Map.of("type", "json_object"),
@@ -114,7 +119,7 @@ public class PersonalCorpusService {
             );
 
             String requestBody = objectMapper.writeValueAsString(requestBodyMap);
-            HttpRequest request = HttpRequest.newBuilder(URI.create("https://api.deepseek.com/chat/completions"))
+            HttpRequest request = HttpRequest.newBuilder(URI.create(aiConfig.getApiUrl()))
                     .header("Content-Type", "application/json")
                     .header("Authorization", "Bearer " + apiKey)
                     .POST(HttpRequest.BodyPublishers.ofString(requestBody))
@@ -141,7 +146,7 @@ public class PersonalCorpusService {
         }
 
         try {
-            String apiKey = getApiKey();
+            String apiKey = aiConfig.getApiKey();
             if (apiKey == null) {
                 throw new RuntimeException("Chưa cấu hình API Key.");
             }
@@ -179,7 +184,7 @@ public class PersonalCorpusService {
             );
 
             Map<String, Object> requestBodyMap = Map.of(
-                "model", "deepseek-chat",
+                "model", aiConfig.getModel(),
                 "max_tokens", 1500,
                 "temperature", 0.1,
                 "response_format", Map.of("type", "json_object"),
@@ -190,7 +195,7 @@ public class PersonalCorpusService {
             );
 
             String requestBody = objectMapper.writeValueAsString(requestBodyMap);
-            HttpRequest request = HttpRequest.newBuilder(URI.create("https://api.deepseek.com/chat/completions"))
+            HttpRequest request = HttpRequest.newBuilder(URI.create(aiConfig.getApiUrl()))
                     .header("Content-Type", "application/json")
                     .header("Authorization", "Bearer " + apiKey)
                     .POST(HttpRequest.BodyPublishers.ofString(requestBody))
@@ -256,37 +261,6 @@ public class PersonalCorpusService {
             throw new RuntimeException("Dữ liệu JSON rỗng sau khi giải mã.");
         }
         return objectMapper.readValue(cleaned, Map.class);
-    }
-
-    private String getApiKey() {
-        String apiKey = System.getenv("DEEPSEEK_API_KEY");
-        if (apiKey == null || apiKey.trim().isEmpty()) {
-            apiKey = System.getProperty("DEEPSEEK_API_KEY");
-        }
-        if (apiKey == null || apiKey.trim().isEmpty()) {
-            try {
-                java.nio.file.Path envPath = java.nio.file.Paths.get(".env");
-                if (!java.nio.file.Files.exists(envPath)) {
-                    envPath = java.nio.file.Paths.get("../.env");
-                }
-                if (!java.nio.file.Files.exists(envPath)) {
-                    envPath = java.nio.file.Paths.get("../../.env");
-                }
-                if (java.nio.file.Files.exists(envPath)) {
-                    for (String line : java.nio.file.Files.readAllLines(envPath)) {
-                        line = line.trim();
-                        if (line.startsWith("DEEPSEEK_API_KEY=")) {
-                            apiKey = line.substring("DEEPSEEK_API_KEY=".length()).trim();
-                            if (apiKey.startsWith("\"") && apiKey.endsWith("\"")) {
-                                apiKey = apiKey.substring(1, apiKey.length() - 1);
-                            }
-                            break;
-                        }
-                    }
-                }
-            } catch (Exception ignored) {}
-        }
-        return (apiKey == null || apiKey.trim().isEmpty()) ? null : apiKey;
     }
 }
 

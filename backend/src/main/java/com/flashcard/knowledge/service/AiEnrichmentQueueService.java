@@ -1,9 +1,7 @@
 package com.flashcard.knowledge.service;
 
 import com.flashcard.vocabulary.model.Vocabulary;
-import com.flashcard.vocabulary.repository.VocabularyRepository;
 import com.flashcard.knowledge.model.GrammarCard;
-import com.flashcard.knowledge.repository.GrammarCardRepository;
 import com.flashcard.vocabulary.provider.VocabularyDataProvider;
 import com.flashcard.knowledge.provider.KnowledgeDataProvider;
 import org.slf4j.Logger;

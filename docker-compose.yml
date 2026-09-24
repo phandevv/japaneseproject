@@ -17,6 +17,8 @@ services:
       - CORS_ORIGINS=${CORS_ORIGINS:-https://phandeptrai.id.vn}
       - DB_USER=${DB_USER:-sa}
       - DEEPSEEK_API_KEY=${DEEPSEEK_API_KEY}
+      - DEEPSEEK_API_URL=${DEEPSEEK_API_URL:-https://api.deepseek.com/chat/completions}
+      - DEEPSEEK_MODEL=${DEEPSEEK_MODEL:-deepseek-chat}
       - SENTRY_DSN=${SENTRY_DSN}
       - REDIS_URL=${REDIS_URL:-}
       - TZ=Asia/Ho_Chi_Minh

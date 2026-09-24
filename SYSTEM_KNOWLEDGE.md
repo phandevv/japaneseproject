@@ -46,7 +46,20 @@ Hệ thống được thiết kế theo mô hình **Client-Server** phân tách 
 
 ### Cơ Sở Dữ Liệu (Dual-Database)
 * **Local (H2 File)**: Sử dụng H2 database dạng file lưu trữ tại `./data/flashcard` giúp lập trình viên phát triển nhanh không cần cài MySQL cá nhân.
-* **Production / Docker Local**: Chạy cơ sở dữ liệu **MySQL 8.0** để đảm bảo tính an toàn dữ liệu, tính bền vững và hỗ trợ mở rộng.
+### Cơ Cấu AI Động & Phân Tách Môi Trường (Dynamic AI & Profile Separation)
+* **Dùng Chung Database (Atlas & Redis Cloud)**: Môi trường Local và Production dùng chung cơ sở dữ liệu MongoDB Atlas và Redis Cloud để đảm bảo dữ liệu học tập thực tế và thống nhất.
+* **Phân Tách Môi Trường Gọi AI**:
+  * **Local (`application-local.properties`)**: Mặc định chuyển hướng các cuộc gọi LLM sang **9router** (`https://api.9router.com/v1/chat/completions`, model `deepseek/deepseek-chat`). Hỗ trợ cấu hình riêng qua file `.env.local` (nằm trong `.gitignore`).
+  * **Production (`application-prod.properties` / `docker-compose.yml`)**: Kết nối trực tiếp đến **DeepSeek chính thức** (`https://api.deepseek.com/chat/completions`, model `deepseek-chat`).
+* **Biến Môi Trường**:
+  * `DEEPSEEK_API_KEY`: API Key cho LLM (9router key ở local, DeepSeek key ở prod).
+  * `DEEPSEEK_API_URL`: Endpoint gọi API (9router / DeepSeek / OpenAI-compatible).
+  * `DEEPSEEK_MODEL`: Model sử dụng (ví dụ `deepseek/deepseek-chat` ở local, `deepseek-chat` ở prod).
+* **Cơ Chế Nạp Động (Priority Cascade trong `AiConfig`)**:
+  1. Quét tệp cục bộ `.env.local` (ưu tiên cao nhất cho dev máy local).
+  2. Spring Property (`ai.deepseek.*`) / OS Environment Variable.
+  3. Java System Property (`-DDEEPSEEK_*`).
+  4. Quét tệp `.env` (`.env`, `../.env`, `../../.env`).
 
 ---
 
@@ -55,7 +68,7 @@ Hệ thống được thiết kế theo mô hình **Client-Server** phân tách 
 ### Backend Modules (`com.flashcard.*`)
 Cấu trúc tái cấu trúc theo mô hình **Module-based / Package-by-feature**:
 * **`common`**: Các cấu hình hệ thống & AI core shared.
-  * `common.config`: `SecurityConfig`, `JwtAuthFilter`, `WebSocketConfig`, `SearchIndexer`, `ExcelDataLoader`.
+  * `common.config`: `SecurityConfig`, `JwtAuthFilter`, `WebSocketConfig`, `SearchIndexer`, `ExcelDataLoader`, `AiConfig`.
   * `common.ai`: `AIProvider`, `DeepSeekProvider`, `PromptBuilder`.
 * **`user`**: Module quản lý người dùng và xác thực.
   * `user.controller`: `AuthController`, `UserController`, `UserSettingController`.
@@ -73,11 +86,12 @@ Cấu trúc tái cấu trúc theo mô hình **Module-based / Package-by-feature*
   * `srs.repository`: `WordReviewRepository`, `GrammarReviewRepository`, `ReviewLogRepository`, `ReviewRecommendationRepository`, `StudySessionRepository`, `DailyStudyStatsRepository`.
   * `srs.model`: `WordReview`, `GrammarReview`, `ReviewLog`, `ReviewRecommendation`, `ReviewRating`, `WordReviewState`, `StudySession`, `DailyStudyStats`.
   * `srs.dto`: `WordReviewDto`.
-* **`knowledge`**: Module AI Enrichment, Kho tri thức cá nhân, Chat & Hội thoại.
-  * `knowledge.controller`: `KnowledgeController`, `AiExerciseController`, `ChatController`, `ConversationController`, `ConversationWebSocketHandler`, `FeedbackController`.
-  * `knowledge.service`: `KnowledgeService`, `DeepSeekEnrichmentService`, `PersonalCorpusService`, `ChatService`, `ConversationManager`, `FeedbackService`, `SchedulerService`.
-  * `knowledge.repository`: `GrammarCardRepository`, `KnowledgeVersionRepository`, `ConversationRepository`, `ConversationMessageRepository`, `ConversationCorrectionRepository`, `SpeakingStatisticsRepository`, `FeedbackRepository`.
-  * `knowledge.model`: `GrammarCard`, `KnowledgeVersion`, `Conversation`, `ConversationMessage`, `ConversationCorrection`, `SpeakingStatistics`, `Feedback`.
+* **`knowledge`**: Module AI Enrichment, Kho tri thức cá nhân, Khóa học JLPT N3 & Đọc hiểu Trường văn, Chat & Hội thoại.
+  * `knowledge.controller`: `KnowledgeController`, `JlptN3CourseController`, `AiExerciseController`, `ChatController`, `ConversationController`, `ConversationWebSocketHandler`, `FeedbackController`.
+  * `knowledge.service`: `KnowledgeService`, `JlptN3CourseService`, `DeepSeekEnrichmentService`, `PersonalCorpusService`, `ChatService`, `ConversationManager`, `FeedbackService`, `SchedulerService`.
+  * `knowledge.repository`: `GrammarCardRepository`, `JlptN3ReadingRepository`, `KnowledgeVersionRepository`, `ConversationRepository`, `ConversationMessageRepository`, `ConversationCorrectionRepository`, `SpeakingStatisticsRepository`, `FeedbackRepository`.
+  * `knowledge.model`: `GrammarCard`, `JlptN3Reading`, `JlptN3Progress`, `KnowledgeVersion`, `Conversation`, `ConversationMessage`, `ConversationCorrection`, `SpeakingStatistics`, `Feedback`.
+  * **Quy chuẩn Đọc hiểu JLPT N3**: Sinh bài đọc trường văn (1500-2500 ký tự) bắt buộc bảo đảm **100% ngữ pháp** của bài học và **> 50% từ vựng** (được đối soát tự động bởi `calculateReadingCoverage` và hiển thị trực quan trên giao diện `JlptN3ReadingView.jsx`).
 * **`analytics`**: Module thống kê tiến trình học tập và bảng xếp hạng.
   * `analytics.controller`: `AnalyticsController`.
   * `analytics.service`: `AnalyticsService`.
@@ -258,6 +272,13 @@ Dưới đây là một số API RESTful chính được công bố trên backen
   * `GET /api/grammar`: Lấy danh sách mẫu ngữ pháp phân trang, lọc theo cấp độ (N3), Tuần (`week`), Ngày (`day`), và từ khóa tìm kiếm (`query`).
   * `GET /api/grammar/navigation`: Lấy cây điều hướng phân loại danh sách các Tuần và Ngày của cấp độ tương ứng.
   * `GET /api/grammar/{id}`: Lấy chi tiết mẫu ngữ pháp theo ID.
+* **Khóa học & Đọc hiểu JLPT N3 (`/api/jlpt-n3/*`)**:
+  * `GET /api/jlpt-n3/overview`: Lấy tổng quan 9 chương 27 bài kèm tiến độ học viên.
+  * `GET /api/jlpt-n3/chapter/{c}/lesson/{l}`: Chi tiết từ vựng, hán tự, ngữ pháp bài học.
+  * `GET /api/jlpt-n3/chapter/{c}/lesson/{l}/reading`: Lấy bài đọc hiểu trường văn N3 (~1500-2000 ký tự) và 10 câu trắc nghiệm.
+  * `POST /api/jlpt-n3/chapter/{c}/lesson/{l}/reading/generate`: (Admin) Gọi DeepSeek AI sinh bài đọc hiểu và 10 câu trắc nghiệm.
+  * `PUT /api/jlpt-n3/chapter/{c}/lesson/{l}/reading`: (Admin) Chỉnh sửa thủ công nội dung bài đọc, bản dịch và câu hỏi.
+  * `POST /api/jlpt-n3/chapter/{c}/lesson/{l}/reading/submit`: Nộp bài kiểm tra đọc hiểu 10 câu (Đạt khi đúng >= 8 câu).
 
 ---
 

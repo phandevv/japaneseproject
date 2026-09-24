@@ -34,6 +34,12 @@ public class JlptN3Progress {
     @Column(name = "quiz_passed")
     private Boolean quizPassed = false;
 
+    @Column(name = "reading_passed")
+    private Boolean readingPassed = false;
+
+    @Column(name = "reading_score")
+    private Integer readingScore = 0;
+
     @Column(name = "completed", nullable = false)
     private Boolean completed = false;
 
@@ -134,6 +140,22 @@ public class JlptN3Progress {
 
     public void setQuizPassed(Boolean quizPassed) {
         this.quizPassed = quizPassed;
+    }
+
+    public Boolean getReadingPassed() {
+        return readingPassed != null ? readingPassed : false;
+    }
+
+    public void setReadingPassed(Boolean readingPassed) {
+        this.readingPassed = readingPassed;
+    }
+
+    public Integer getReadingScore() {
+        return readingScore != null ? readingScore : 0;
+    }
+
+    public void setReadingScore(Integer readingScore) {
+        this.readingScore = readingScore;
     }
 
     public Boolean getCompleted() {

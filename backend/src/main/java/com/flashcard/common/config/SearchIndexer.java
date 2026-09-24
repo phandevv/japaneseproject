@@ -1,6 +1,5 @@
 package com.flashcard.common.config;
 
-import com.flashcard.vocabulary.model.Vocabulary;
 import org.hibernate.search.mapper.orm.Search;
 import org.hibernate.search.mapper.orm.massindexing.MassIndexer;
 import org.hibernate.search.mapper.orm.session.SearchSession;

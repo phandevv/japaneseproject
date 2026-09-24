@@ -1,5 +1,7 @@
 package com.flashcard.knowledge.service;
 
+import com.flashcard.common.config.AiConfig;
+
 import com.flashcard.knowledge.model.Feedback;
 import com.flashcard.user.model.User;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -41,18 +43,27 @@ public class DeepSeekEnrichmentService {
     private final KnowledgeDataProvider knowledgeDataProvider;
     private final ObjectMapper objectMapper;
     private final HttpClient httpClient;
+    private final AiConfig aiConfig;
 
     public DeepSeekEnrichmentService(VocabularyDataProvider vocabularyDataProvider, ObjectMapper objectMapper) {
-        this(vocabularyDataProvider, null, objectMapper);
+        this(vocabularyDataProvider, null, objectMapper, new AiConfig(null, null, null));
+    }
+
+    public DeepSeekEnrichmentService(VocabularyDataProvider vocabularyDataProvider,
+                                  KnowledgeDataProvider knowledgeDataProvider,
+                                  ObjectMapper objectMapper) {
+        this(vocabularyDataProvider, knowledgeDataProvider, objectMapper, new AiConfig(null, null, null));
     }
 
     @Autowired
     public DeepSeekEnrichmentService(VocabularyDataProvider vocabularyDataProvider,
                                   @Autowired(required = false) KnowledgeDataProvider knowledgeDataProvider,
-                                  ObjectMapper objectMapper) {
+                                  ObjectMapper objectMapper,
+                                  @Autowired(required = false) AiConfig aiConfig) {
         this.vocabularyDataProvider = vocabularyDataProvider;
         this.knowledgeDataProvider = knowledgeDataProvider;
         this.objectMapper = objectMapper;
+        this.aiConfig = (aiConfig != null) ? aiConfig : new AiConfig(null, null, null);
         this.httpClient = HttpClient.newBuilder()
                 .connectTimeout(Duration.ofSeconds(10))
                 .build();
@@ -168,7 +179,7 @@ public class DeepSeekEnrichmentService {
 
                 // Construct payload compatible with DeepSeek chat model (Prompt Caching enabled)
                 Map<String, Object> requestBodyMap = Map.of(
-                    "model", "deepseek-chat",
+                    "model", aiConfig.getModel(),
                     "max_tokens", 1200,
                     "temperature", 0.1,
                     "response_format", Map.of("type", "json_object"),
@@ -179,7 +190,7 @@ public class DeepSeekEnrichmentService {
                 );
                 String requestBody = objectMapper.writeValueAsString(requestBodyMap);
 
-                HttpRequest request = HttpRequest.newBuilder(URI.create("https://api.deepseek.com/chat/completions"))
+                HttpRequest request = HttpRequest.newBuilder(URI.create(aiConfig.getApiUrl()))
                         .header("Content-Type", "application/json")
                         .header("Authorization", "Bearer " + apiKey)
                         .POST(HttpRequest.BodyPublishers.ofString(requestBody))
@@ -190,8 +201,11 @@ public class DeepSeekEnrichmentService {
                         .thenApply(response -> {
                             try {
                                 if (response.statusCode() == 200) {
-                                    JsonNode root = objectMapper.readTree(response.body());
-                                    String contentJson = root.path("choices").get(0).path("message").path("content").asText();
+                                    JsonNode root = objectMapper.readTree(cleanResponseBody(response.body()));
+                                    String contentJson = root.path("choices").get(0).path("message").path("content").asText(null);
+                                    if (contentJson == null || contentJson.isBlank()) {
+                                        contentJson = root.path("choices").get(0).path("message").path("reasoning").asText("");
+                                    }
 
                                     // Clean potential markdown enclosing tags
                                     contentJson = cleanJsonContent(contentJson);
@@ -307,13 +321,13 @@ public class DeepSeekEnrichmentService {
             );
 
             HttpRequest request = HttpRequest.newBuilder()
-                    .uri(URI.create("https://api.deepseek.com/chat/completions"))
+                    .uri(URI.create(aiConfig.getApiUrl()))
                     .header("Content-Type", "application/json")
                     .header("Authorization", "Bearer " + apiKey)
                     .timeout(Duration.ofSeconds(30))
                     .POST(HttpRequest.BodyPublishers.ofString(
                         objectMapper.writeValueAsString(Map.of(
-                            "model", "deepseek-chat",
+                            "model", aiConfig.getModel(),
                             "messages", java.util.List.of(
                                 Map.of("role", "system", "content", "Bạn là chuyên gia ngữ pháp tiếng Nhật cao cấp cho người Việt. BẮT BUỘC: Mọi giải thích, dịch nghĩa, cấu trúc, phân biệt và sửa lỗi PHẢI viết bằng 100% TIẾNG VIỆT, tuyệt đối không dùng tiếng Nhật hoặc tiếng Trung trong các trường giải thích. Phản hồi duy nhất bằng JSON hợp lệ."),
                                 Map.of("role", "user", "content", prompt)
@@ -328,8 +342,11 @@ public class DeepSeekEnrichmentService {
                     .thenApply(response -> {
                         try {
                             if (response.statusCode() == 200) {
-                                JsonNode responseRoot = objectMapper.readTree(response.body());
-                                String rawText = responseRoot.path("choices").get(0).path("message").path("content").asText();
+                                JsonNode responseRoot = objectMapper.readTree(cleanResponseBody(response.body()));
+                                String rawText = responseRoot.path("choices").get(0).path("message").path("content").asText(null);
+                                if (rawText == null || rawText.isBlank()) {
+                                    rawText = responseRoot.path("choices").get(0).path("message").path("reasoning").asText("");
+                                }
                                 String contentJson = cleanJsonContent(rawText);
                                 JsonNode contentNode = objectMapper.readTree(contentJson);
 
@@ -382,7 +399,7 @@ public class DeepSeekEnrichmentService {
         }
         try {
             Map<String, Object> requestBodyMap = Map.of(
-                "model", "deepseek-chat",
+                "model", aiConfig.getModel(),
                 "max_tokens", maxTokens,
                 "temperature", 0.1,
                 "response_format", Map.of("type", "json_object"),
@@ -392,7 +409,7 @@ public class DeepSeekEnrichmentService {
                 }
             );
             String requestBody = objectMapper.writeValueAsString(requestBodyMap);
-            HttpRequest request = HttpRequest.newBuilder(URI.create("https://api.deepseek.com/chat/completions"))
+            HttpRequest request = HttpRequest.newBuilder(URI.create(aiConfig.getApiUrl()))
                     .header("Content-Type", "application/json")
                     .header("Authorization", "Bearer " + apiKey)
                     .POST(HttpRequest.BodyPublishers.ofString(requestBody))
@@ -403,8 +420,11 @@ public class DeepSeekEnrichmentService {
                     .thenApply(response -> {
                         try {
                             if (response.statusCode() == 200) {
-                                JsonNode root = objectMapper.readTree(response.body());
-                                String contentJson = root.path("choices").get(0).path("message").path("content").asText();
+                                JsonNode root = objectMapper.readTree(cleanResponseBody(response.body()));
+                                String contentJson = root.path("choices").get(0).path("message").path("content").asText(null);
+                                if (contentJson == null || contentJson.isBlank()) {
+                                    contentJson = root.path("choices").get(0).path("message").path("reasoning").asText("");
+                                }
                                 contentJson = cleanJsonContent(contentJson);
                                 JsonNode contentNode = objectMapper.readTree(contentJson);
                                 mapper.accept(contentNode, card);
@@ -568,7 +588,7 @@ public class DeepSeekEnrichmentService {
         }
         try {
             Map<String, Object> requestBodyMap = Map.of(
-                "model", "deepseek-chat",
+                "model", aiConfig.getModel(),
                 "max_tokens", maxTokens,
                 "temperature", 0.1,
                 "response_format", Map.of("type", "json_object"),
@@ -578,7 +598,7 @@ public class DeepSeekEnrichmentService {
                 }
             );
             String requestBody = objectMapper.writeValueAsString(requestBodyMap);
-            HttpRequest request = HttpRequest.newBuilder(URI.create("https://api.deepseek.com/chat/completions"))
+            HttpRequest request = HttpRequest.newBuilder(URI.create(aiConfig.getApiUrl()))
                     .header("Content-Type", "application/json")
                     .header("Authorization", "Bearer " + apiKey)
                     .POST(HttpRequest.BodyPublishers.ofString(requestBody))
@@ -589,8 +609,11 @@ public class DeepSeekEnrichmentService {
                     .thenApply(response -> {
                         try {
                             if (response.statusCode() == 200) {
-                                JsonNode root = objectMapper.readTree(response.body());
-                                String contentJson = root.path("choices").get(0).path("message").path("content").asText();
+                                JsonNode root = objectMapper.readTree(cleanResponseBody(response.body()));
+                                String contentJson = root.path("choices").get(0).path("message").path("content").asText(null);
+                                if (contentJson == null || contentJson.isBlank()) {
+                                    contentJson = root.path("choices").get(0).path("message").path("reasoning").asText("");
+                                }
                                 contentJson = cleanJsonContent(contentJson);
                                 JsonNode contentNode = objectMapper.readTree(contentJson);
                                 mapper.accept(contentNode, vocab);
@@ -903,18 +926,30 @@ public class DeepSeekEnrichmentService {
         });
     }
 
+    private String cleanResponseBody(String body) {
+        if (body == null) return "{}";
+        String trimmed = body.trim();
+        if (trimmed.contains("data: [DONE]")) {
+            trimmed = trimmed.replace("data: [DONE]", "").trim();
+        }
+        return trimmed;
+    }
+
     private String cleanJsonContent(String content) {
         if (content == null) return "{}";
-        content = content.trim();
-        if (content.startsWith("```json")) {
-            content = content.substring(7);
-        } else if (content.startsWith("```")) {
-            content = content.substring(3);
+        String trimmed = content.trim();
+        if (trimmed.contains("data: [DONE]")) {
+            trimmed = trimmed.replace("data: [DONE]", "").trim();
         }
-        if (content.endsWith("```")) {
-            content = content.substring(0, content.length() - 3);
+        if (trimmed.startsWith("```json")) {
+            trimmed = trimmed.substring(7);
+        } else if (trimmed.startsWith("```")) {
+            trimmed = trimmed.substring(3);
         }
-        return content.trim();
+        if (trimmed.endsWith("```")) {
+            trimmed = trimmed.substring(0, trimmed.length() - 3);
+        }
+        return trimmed.trim();
     }
 
     // ──────────────────────────────────────────────────────────────────────────
@@ -1034,63 +1069,41 @@ public class DeepSeekEnrichmentService {
     }
 
     private String getApiKey() {
-        String apiKey = System.getenv("DEEPSEEK_API_KEY");
-        if (apiKey == null || apiKey.trim().isEmpty()) {
-            apiKey = System.getProperty("DEEPSEEK_API_KEY");
-        }
-        if (apiKey == null || apiKey.trim().isEmpty()) {
-            try {
-                java.nio.file.Path envPath = java.nio.file.Paths.get(".env");
-                if (!java.nio.file.Files.exists(envPath)) {
-                    envPath = java.nio.file.Paths.get("../.env");
-                }
-                if (!java.nio.file.Files.exists(envPath)) {
-                    envPath = java.nio.file.Paths.get("../../.env");
-                }
-                if (java.nio.file.Files.exists(envPath)) {
-                    for (String line : java.nio.file.Files.readAllLines(envPath)) {
-                        line = line.trim();
-                        if (line.startsWith("DEEPSEEK_API_KEY=")) {
-                            apiKey = line.substring("DEEPSEEK_API_KEY=".length()).trim();
-                            if (apiKey.startsWith("\"") && apiKey.endsWith("\"")) {
-                                apiKey = apiKey.substring(1, apiKey.length() - 1);
-                            }
-                            break;
-                        }
-                    }
-                }
-            } catch (Exception ignored) {}
-        }
-        if (apiKey == null || apiKey.trim().isEmpty()) {
-            log.warn("DEEPSEEK_API_KEY is not set in env or .env file. Returning fallback.");
-            return null;
-        }
-        return apiKey;
+        return aiConfig.getApiKey();
     }
 
     /** Synchronous DeepSeek call, returns the content string of first choice. */
-    private String callDeepSeekRaw(String apiKey, String userPrompt) throws Exception {
+    public String callDeepSeekRaw(String apiKey, String userPrompt) throws Exception {
+        return callDeepSeekRawWithParams(apiKey, userPrompt, 512, 30);
+    }
+
+    /** Synchronous DeepSeek call with customizable maxTokens and timeoutSeconds. */
+    public String callDeepSeekRawWithParams(String apiKey, String userPrompt, int maxTokens, int timeoutSeconds) throws Exception {
         String requestBody = objectMapper.writeValueAsString(Map.of(
-            "model", "deepseek-chat",
+            "model", aiConfig.getModel(),
             "messages", java.util.List.of(Map.of("role", "user", "content", userPrompt)),
-            "max_tokens", 512,
+            "max_tokens", maxTokens,
             "temperature", 0.7
         ));
 
         HttpRequest request = HttpRequest.newBuilder()
-            .uri(URI.create("https://api.deepseek.com/v1/chat/completions"))
+            .uri(URI.create(aiConfig.getApiUrl()))
             .header("Content-Type", "application/json")
             .header("Authorization", "Bearer " + apiKey)
-            .timeout(Duration.ofSeconds(30))
+            .timeout(Duration.ofSeconds(timeoutSeconds))
             .POST(HttpRequest.BodyPublishers.ofString(requestBody))
             .build();
 
         HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
         if (response.statusCode() != 200) {
-            throw new RuntimeException("DeepSeek API error: " + response.statusCode());
+            throw new RuntimeException("DeepSeek API error: " + response.statusCode() + " - " + response.body());
         }
-        JsonNode root = objectMapper.readTree(response.body());
-        return root.path("choices").get(0).path("message").path("content").asText();
+        JsonNode root = objectMapper.readTree(cleanResponseBody(response.body()));
+        String content = root.path("choices").get(0).path("message").path("content").asText(null);
+        if (content == null || content.isBlank()) {
+            content = root.path("choices").get(0).path("message").path("reasoning").asText("");
+        }
+        return content;
     }
 
     /**
@@ -1378,6 +1391,252 @@ public class DeepSeekEnrichmentService {
             return objectMapper.writeValueAsString(questions);
         } catch (Exception e) {
             log.error("Failed to serialize fallback 30 grammar questions: {}", e.getMessage());
+            return "[]";
+        }
+    }
+
+    /**
+     * Step 1 of Pipeline: Generate an extensive JLPT N3 reading passage (~1500 - 2000 Japanese characters)
+     * incorporating the lesson's target vocabulary and grammar, with [Kanji|hiragana] furigana format.
+     */
+    public Map<String, String> generateN3ReadingPassage(int chapter, int lesson,
+                                                         java.util.List<Map<String, Object>> vocabList,
+                                                         java.util.List<Map<String, Object>> grammarList) {
+        String apiKey = getApiKey();
+        if (apiKey == null || apiKey.trim().isEmpty()) {
+            log.warn("DEEPSEEK_API_KEY is not configured. Generating fallback reading passage for Chapter {} Lesson {}.", chapter, lesson);
+            return generateFallbackReadingPassage(chapter, lesson, vocabList, grammarList);
+        }
+
+        int totalVocab = vocabList != null ? vocabList.size() : 0;
+        int minVocabRequired = totalVocab > 0 ? (int) Math.floor(totalVocab * 0.5) + 1 : 0;
+        int totalGrammar = grammarList != null ? grammarList.size() : 0;
+
+        StringBuilder vocabInfo = new StringBuilder();
+        if (vocabList != null) {
+            int vIdx = 1;
+            for (Map<String, Object> v : vocabList) {
+                String word = String.valueOf(v.getOrDefault("tu", v.getOrDefault("kanji", "")));
+                String reading = String.valueOf(v.getOrDefault("furigana", v.getOrDefault("hiragana", "")));
+                String meaning = String.valueOf(v.getOrDefault("nghia", v.getOrDefault("meaning", "")));
+                if (!word.isBlank()) {
+                    vocabInfo.append(vIdx++).append(". ").append(word).append(" (").append(reading).append("): ").append(meaning).append("\n");
+                }
+            }
+        }
+
+        StringBuilder grammarInfo = new StringBuilder();
+        if (grammarList != null) {
+            int gIdx = 1;
+            for (Map<String, Object> g : grammarList) {
+                String struc = String.valueOf(g.getOrDefault("cau_truc", ""));
+                String meaning = String.valueOf(g.getOrDefault("y_nghia", ""));
+                if (!struc.isBlank()) {
+                    grammarInfo.append(gIdx++).append(". ").append(struc).append(": ").append(meaning).append("\n");
+                }
+            }
+        }
+
+        String prompt = String.format(
+            "Bạn là chuyên gia sư phạm tiếng Nhật JLPT N3 và là một nhà văn Nhật Bản giàu kinh nghiệm.\n" +
+            "Nhiệm vụ: Viết một bài văn đọc hiểu tiếng Nhật dài khoảng 1500 đến 2500 ký tự (chuẩn độ dài Trường văn JLPT N3) thuộc chủ đề bài học Chương %d Bài %d.\n\n" +
+            "QUY ĐỊNH BẮT BUỘC VỀ ĐỘ PHỦ TỪ VỰNG & NGỮ PHÁP (TIÊU CHÍ SỐNG CÒN):\n" +
+            "1. ĐỘ PHỦ NGỮ PHÁP: BẮT BUỘC PHẢI DÙNG ĐỦ 100%% (TOÀN BỘ %d/%d CẤU TRÚC NGỮ PHÁP DƯỚI ĐÂY). Không được bỏ sót bất kỳ mẫu nào.\n" +
+            "2. ĐỘ PHỦ TỪ VỰNG: BẮT BUỘC PHẢI DÙNG TỐI THIỂU %d/%d TỪ VỰNG DƯỚI ĐÂY (> 50%% TỔNG SỐ TỪ VỰNG CỦA BÀI HỌC).\n\n" +
+            "YÊU CẦU NỘI DUNG & Ý NGHĨA:\n" +
+            "1. Bài viết phải có chủ đề sâu sắc, mạch lạc, có cốt truyện hoặc phân tích vấn đề đời sống/xã hội Nhật Bản (ví dụ: môi trường sống, văn hóa công sở, công nghệ và con người, sự nỗ lực vượt qua khó khăn, bài học cuộc sống ý nghĩa).\n" +
+            "2. Bài viết gồm 4 đến 6 đoạn văn có liên kết chặt chẽ (Mở bài, Phát triển ý 1, Phát triển ý 2, Mở rộng vấn đề, Kết luận rút ra bài học sâu sắc).\n" +
+            "3. Lồng ghép tự nhiên các từ vựng và ngữ pháp vào văn cảnh, không gượng ép.\n\n" +
+            "--- DANH SÁCH TỔNG CỘNG %d TỪ VỰNG (BẮT BUỘC DÙNG TỐI THIỂU %d TỪ) ---\n%s\n" +
+            "--- DANH SÁCH TỔNG CỘNG %d CẤU TRÚC NGỮ PHÁP (BẮT BUỘC DÙNG ĐỦ 100%%) ---\n%s\n\n" +
+            "QUY TẮC FURIGANA BẮT BUỘC:\n" +
+            "- Mọi chữ Kanji ghép hoặc Kanji khó PHẢI đính kèm Furigana theo đúng định dạng: [Kanji|hiragana] (Ví dụ: [環境|かんきょう], [問題|もんだい], [地球温暖化|ちきゅうおんだんか], [大切|たいせつ], [経験|けいけん]).\n" +
+            "- Không dùng thẻ HTML <ruby>, chỉ dùng đúng cú pháp [Từ_Kanji|cách_đọc_hiragana] để hệ thống tự động render.\n\n" +
+            "Trả về duy nhất 1 JSON Object (KHÔNG DÙNG MARKDOWN, KHÔNG GIẢI THÍCH NGOÀI):\n" +
+            "{\n" +
+            "  \"title\": \"Tiêu đề bài đọc tiếng Nhật (có furigana [Kanji|hiragana] nếu có kanji)\",\n" +
+            "  \"passage\": \"Toàn bộ nội dung bài văn 1500~2500 chữ chia nhiều đoạn rõ ràng bằng \\n\\n, có định dạng furigana [Kanji|hiragana]...\",\n" +
+            "  \"translation\": \"Bản dịch nghĩa tiếng Việt đầy đủ, tự nhiên, văn phong trau chuốt của toàn bộ bài văn...\",\n" +
+            "  \"used_grammars\": [\"liệt kê tất cả các mẫu ngữ pháp của bài đã dùng\"],\n" +
+            "  \"used_vocabularies\": [\"liệt kê tất cả các từ vựng của bài đã dùng\"]\n" +
+            "}",
+            chapter, lesson,
+            totalGrammar, totalGrammar,
+            minVocabRequired, totalVocab,
+            totalVocab, minVocabRequired, vocabInfo.toString(),
+            totalGrammar, grammarInfo.toString()
+        );
+
+        try {
+            String rawText = callDeepSeekRawWithParams(apiKey, prompt, 4500, 120);
+            String cleanJson = cleanJsonContent(rawText);
+            JsonNode root = objectMapper.readTree(cleanJson);
+            if (root.has("title") && root.has("passage")) {
+                Map<String, String> res = new HashMap<>();
+                res.put("title", root.path("title").asText("Bài đọc hiểu N3"));
+                res.put("passage", root.path("passage").asText(""));
+                res.put("translation", root.path("translation").asText(""));
+                return res;
+            }
+        } catch (Exception e) {
+            log.error("Failed to generate reading passage via DeepSeek API for Chapter {} Lesson {}: {}", chapter, lesson, e.getMessage());
+        }
+
+        return generateFallbackReadingPassage(chapter, lesson, vocabList, grammarList);
+    }
+
+    /**
+     * Step 2 of Pipeline: Generate 10 N3 reading comprehension multiple choice questions based on the generated passage.
+     */
+    public String generateN3ReadingQuestions(int chapter, int lesson, String passage,
+                                             java.util.List<Map<String, Object>> grammarList) {
+        String apiKey = getApiKey();
+        if (apiKey == null || apiKey.trim().isEmpty()) {
+            log.warn("DEEPSEEK_API_KEY is not configured. Generating fallback reading questions for Chapter {} Lesson {}.", chapter, lesson);
+            return generateFallbackReadingQuestions(chapter, lesson, grammarList);
+        }
+
+        String prompt = String.format(
+            "Bạn là chuyên gia biên soạn đề thi đọc hiểu JLPT N3 chính thức theo tiêu chuẩn Japan Foundation.\n" +
+            "Dưới đây là một bài đọc hiểu tiếng Nhật JLPT N3 (Chương %d Bài %d):\n\n" +
+            "--- BÀI ĐỌC HIỂU ---\n%s\n\n" +
+            "Nhiệm vụ: Dựa hoàn toàn vào nội dung bài đọc trên, hãy biên soạn đúng 10 CÂU HỎI TRẮC NGHIỆM ĐỌC HIỂU (Chuẩn định dạng kỳ thi JLPT N3 Dokkai):\n" +
+            "● Phân loại 10 câu hỏi:\n" +
+            "  - Câu 1-4: Hỏi về thông tin chi tiết, nguyên nhân, lý do của một hiện tượng/hành động được đề cập trong bài (Ví dụ: なぜ..., どうして...).\n" +
+            "  - Câu 5-7: Hỏi về ý nghĩa của từ ngữ trong ngữ cảnh, cụm từ gạch chân chỉ điều gì, hoặc chọn từ ngữ/ngữ pháp phù hợp điền vào mạch văn.\n" +
+            "  - Câu 8-10: Hỏi về tư tưởng chủ đạo, thái độ/quan điểm của tác giả, thông điệp mà bài văn muốn truyền tải nhất (Ví dụ: 筆者が最も言いたいことは何か).\n\n" +
+            "● YÊU CẦU MỖI CÂU HỎI:\n" +
+            "  - \"id\": số nguyên từ 1 đến 10.\n" +
+            "  - \"question\": Câu hỏi bằng tiếng Nhật (mọi Kanji đều đính kèm [Kanji|hiragana]).\n" +
+            "  - \"options\": Mảng đúng 4 lựa chọn [\"A. ...\", \"B. ...\", \"C. ...\", \"D. ...\"].\n" +
+            "  - \"answer\": Chuỗi khớp chính xác 1 trong 4 lựa chọn (Ví dụ: \"A. ...\").\n" +
+            "  - \"explanation\": GIẢI THÍCH 100%% BẰNG TIẾNG VIỆT CHI TIẾT:\n" +
+            "      1. Dịch nghĩa câu hỏi và 4 lựa chọn sang tiếng Việt.\n" +
+            "      2. Trích dẫn câu văn cụ thể trong bài đọc làm bằng chứng và giải thích tại sao đáp án đúng là ĐÚNG.\n" +
+            "      3. Phân tích rõ ràng tại sao 3 đáp án còn lại SAI.\n\n" +
+            "Trả về duy nhất 1 JSON Array gồm đúng 10 phần tử (KHÔNG DÙNG MARKDOWN, KHÔNG GIẢI THÍCH NGOÀI):\n" +
+            "[\n" +
+            "  {\n" +
+            "    \"id\": 1,\n" +
+            "    \"question\": \"1. [本文|ほんぶん]によると、...\",\n" +
+            "    \"options\": [\"A. ...\", \"B. ...\", \"C. ...\", \"D. ...\"],\n" +
+            "    \"answer\": \"A. ...\",\n" +
+            "    \"explanation\": \"• Dịch nghĩa: ...\\n• Đáp án A ĐÚNG: Căn cứ theo câu văn '...' ở đoạn 2...\\n• Các đáp án khác sai:\\n - B sai vì...\\n - C sai vì...\\n - D sai vì...\"\n" +
+            "  }\n" +
+            "]",
+            chapter, lesson, passage
+        );
+
+        try {
+            String rawText = callDeepSeekRawWithParams(apiKey, prompt, 4096, 90);
+            String cleanJson = cleanJsonContent(rawText);
+            JsonNode root = objectMapper.readTree(cleanJson);
+            if (root.isArray() && root.size() >= 5) {
+                return objectMapper.writeValueAsString(root);
+            }
+        } catch (Exception e) {
+            log.error("Failed to generate reading questions via DeepSeek API for Chapter {} Lesson {}: {}", chapter, lesson, e.getMessage());
+        }
+
+        return generateFallbackReadingQuestions(chapter, lesson, grammarList);
+    }
+
+    /** Fallback Reading Passage generator */
+    private Map<String, String> generateFallbackReadingPassage(int chapter, int lesson,
+                                                               java.util.List<Map<String, Object>> vocabList,
+                                                               java.util.List<Map<String, Object>> grammarList) {
+        StringBuilder passage = new StringBuilder();
+        passage.append("　[現代|げんだい]の[社会|しゃかい]において、[私|わたし]たちの[生活|せいかつ]は[日々|ひび][大|おお]きく[変化|へんか]しています。[技術|ぎじゅつ]の[進歩|しんぽ]によって、いつでもどこでも[情報|じょうほう]を[得|え]ることができるようになり、[世界中|せかいじゅう]の[人々|ひとびと]と[簡単|かんたん]に[繋|つな]がることができるようになりました。しかし、そのような[便利|べんり]な[世|よ]の[中|なか]になった[一方|いっぽう]で、[私|わたし]たちが[失|うしな]いつつある[大切|たいせつ]なものもあるのではないでしょうか。\n\n");
+        passage.append("　[例|たと]えば、[自然|しぜん]や[環境|かんきょう]についての[問題|もんだい]です。[経済|けいざい]の[発展|はってん]を[優先|ゆうせん]するあまり、[緑|みどり]の[豊|ゆた]かな[森|もり]が[減|へ]少し、[川|かわ]や[海|うみ]が[汚|よご]れてしまう[事態|じたい]が[起|お]きています。[地球温暖化|ちきゅうおんだんか]の[影響|えいきょう]で、[世界各地|せかいかくち]で[異常気象|いじょうきしょう]が[報告|ほうこく]されており、これは[人間|にんげん]だけでなく、そこに[暮|く]らす[多|おお]くの[動物|どうぶつ]たちの[命|いのち]をも[脅|おびや]かしています。[将来|しょうらい]の[世代|せだい]のために、[持続可能|じぞくかのう]な[社会|しゃかい]を[築|きず]き[上|あ]げていくことが、[今|いま]まさに[求|もと]められているのです。\n\n");
+        passage.append("　また、[人間関係|にんげんかんけい]においても[同|おな]じことが[言|い]えます。SNSなどの[普及|ふきゅう]によって、[直接|ちょくせつ][顔|かお]を[合|あ]わせなくても[意思疎通|いしそつう]ができるようになりましたが、その[反面|はんめん]、[相手|あいて]の[気持|きも]ちを[深|ふか]く[思|おも]いやり、じっくりと[対話|たいわ]をする[機会|きかい]が[少|すく]なくなってきているように[感|かん]じられます。[言葉|ことば]の[奥|おく]にある[温|あたた]かさや、[直接|ちょくせつ]のふれあいを通じてこそ[育|そだ]まれる[信頼関係|しんらいかんけい]の[尊|とうと]さを、[私|わたし]たちはもう[一度|いちど][見直|みなお]すべきではないでしょうか。\n\n");
+        passage.append("　[目標|もくひょう]に[向|む]かって[努力|どりょく]を[続|つづ]けることの[意義|いぎ]も[忘|わす]れてはなりません。[結果|けっか]をすぐに[求|もと]めるあまり、[途中|とちゅう]の[過程|かてい]で[得|え]られる[貴重|きちょう]な[経験|けいけん]や[学|まな]びを[軽視|けいし]してしまうことがあります。たとえ[失敗|しっぱい]したとしても、そこから[何|なに]を[学|まな]び、どのように[次|つぎ]の[一歩|いっぽ]を[踏|ふ]み[出|だ]すかが[重要|じゅうよう]なのです。[諦|あきら]めずに[挑戦|ちょうせん]し[続|つづ]けることで、[自分自身|じぶんじしん]の[可能性|かのうせい]を[広|ひろ]げることができます。\n\n");
+        passage.append("　[結|むす]びとして、[便利|べんり]さを[享受|きょうじゅ]しながらも、[環境|かんきょう]への[配慮|はいりょ]や[人|ひと]への[感謝|かんしゃ]の[心|こころ]を[失|うしな]わず、バランスのとれた[生活|せいかつ]を[送|おく]ることが[大切|たいせつ]です。[自分|じぶん]の[身|み]の[回|まわ]りのささやかなことから[行動|こうどう]を[起|お]こし、よりよい[未来|みらい]を[共|とも]に[創|つく]り[出|だ]していくことが、[現代|げんだい]を[生|い]きる[私|わたし]たちに[課|か]せられた[使命|しめい]であると[確信|かくしん]しています。");
+
+        StringBuilder trans = new StringBuilder();
+        trans.append("Trong xã hội hiện đại, cuộc sống của chúng ta đang thay đổi từng ngày. Sự tiến bộ của công nghệ cho phép chúng ta tiếp nhận thông tin mọi lúc mọi nơi và dễ dàng kết nối với mọi người trên khắp thế giới. Tuy nhiên, cùng với việc xã hội trở nên tiện lợi như vậy, liệu có phải chúng ta cũng đang dần đánh mất đi những điều quý giá hay không?\n\n");
+        trans.append("Lấy ví dụ về vấn đề tự nhiên và môi trường. Do quá ưu tiên phát triển kinh tế, những cánh rừng xanh tươi bị thu hẹp, sông ngòi và biển cả bị ô nhiễm. Dưới tác động của hiện tượng nóng lên toàn cầu, thời tiết dị thường đang được ghi nhận ở khắp nơi trên thế giới, đe dọa không chỉ tính mạng con người mà cả muôn loài động vật. Việc xây dựng một xã hội phát triển bền vững cho các thế hệ tương lai chính là điều đang được đòi hỏi cấp bách hiện nay.\n\n");
+        trans.append("Điều tương tự cũng đúng trong mối quan hệ giữa người với người. Mạng xã hội giúp chúng ta giao tiếp mà không cần gặp mặt trực tiếp, nhưng mặt khác, cơ hội để thấu hiểu sâu sắc cảm xúc của đối phương và đối thoại chân thành dường như đang ít dần đi. Chúng ta cần nhìn nhận lại sự ấm áp đằng sau từng lời nói và giá trị của sự tin tưởng được nuôi dưỡng qua những lần tiếp xúc trực tiếp.\n\n");
+        trans.append("Ý nghĩa của việc kiên trì nỗ lực hướng tới mục tiêu cũng là điều không thể lãng quên. Việc quá nôn nóng đòi hỏi kết quả tức thì đôi khi khiến chúng ta xem nhẹ những kinh nghiệm và bài học quý giá tích lũy trên chặng đường đi. Cho dù có thất bại, điều quan trọng nhất là ta học được gì từ đó và bước tiếp bước đi kế tiếp ra sao. Kiên trì thử thách không bỏ cuộc sẽ giúp ta mở rộng tiềm năng của chính mình.\n\n");
+        trans.append("Tóm lại, trong khi tận hưởng sự tiện nghi hiện đại, điều cốt lõi là không đánh mất lòng quan tâm đến môi trường và sự biết ơn đối với mọi người xung quanh, hướng tới một cuộc sống cân bằng. Bắt đầu hành động từ những việc nhỏ nhất quanh mình để cùng kiến tạo một tương lai tốt đẹp hơn chính là sứ mệnh được giao phó cho mỗi chúng ta hôm nay.");
+
+        Map<String, String> res = new HashMap<>();
+        res.put("title", String.format("[現代社会|げんだいしゃかい]における[調和|ちょうわ]と[未来|みらい]への[挑戦|ちょうせん] (Chương %d Bài %d)", chapter, lesson));
+        res.put("passage", passage.toString());
+        res.put("translation", trans.toString());
+        return res;
+    }
+
+    /** Fallback Reading Questions generator */
+    private String generateFallbackReadingQuestions(int chapter, int lesson,
+                                                     java.util.List<Map<String, Object>> grammarList) {
+        java.util.List<Map<String, Object>> list = new ArrayList<>();
+
+        String[] questionsJa = {
+            "1. [本文|ほんぶん]によると、[現代社会|げんだいしゃかい]の[大|おお]きな[特徴|とくちょう]として[正|ただ]しいものはどれか。",
+            "2. [自然環境|しぜんかんきょう]が[悪化|あっか]している[大|おお]きな[原因|げんいん]として、[筆者|ひっしゃ]は何を挙げているか。",
+            "3. [本文|ほんぶん]の「その[反面|はんめん]」が[指|さ]している[内容|ないよう]はどれか。",
+            "4. [人間関係|にんげんかんけい]において、[筆者|ひっしゃ]が「もう[一度|いちど][見直|みなお]すべきだ」と[述|の]べていることは何か。",
+            "5. [目標|もくひょう]に[向|む]かって[努力|どりょく]する[際|さい]に、[最|もっと]も[大切|たいせつ]だとされていることはどれか。",
+            "6. [本文|ほんぶん]の[下線部|かせんぶ]「[持続可能|じぞくかのう]な[社会|しゃかい]」の[説明|せつめい]として[最|もっと]も[適切|てきせつ]なものはどれか。",
+            "7. [失敗|しっぱい]について、[筆者|ひっしゃ]の[考|かんが]えと[一致|いっち]するものはどれか。",
+            "8. [現代|げんだい]のSNSによるコミュニケーションについて、[筆者|ひっしゃ]はどのように[捉|とら]えているか。",
+            "9. [筆者|ひっしゃ]が[最後|さいご]に[読者|どくしゃ]に[求|もと]めている「[使命|しめい]」とは何か。",
+            "10. この[文章|ぶんしょう]で[筆者|ひっしゃ]が[最|もっと]も[伝|つた]えたいこと（[主張|しゅちょう]）は何か。"
+        };
+
+        String[][] optionsArr = {
+            {"A. 技術の進歩によって世界中の人々と簡単に繋がれるようになったこと", "B. 経済発展によりすべての環境問題が解決したこと", "C. 人々が直接対面での会話を何よりも好むようになったこと", "D. 将来の世代に対する関心が薄れてしまったこと"},
+            {"A. 科学技術の研究が完全に停滞してしまったこと", "B. 経済の発展を優先しすぎたこと", "C. 人々がSNSを全く利用しなくなったこと", "D. 世界各地で動物の数が増えすぎたこと"},
+            {"A. 相手の気持ちを深く思いやる機会が増えたこと", "B. 直接顔を合わせなくても意思疎通ができる便利さがあること", "C. 人間関係が昔よりも親密になったこと", "D. 自然環境が美しく回復したこと"},
+            {"A. SNSでの友達の数をできる限り増やすこと", "B. 言葉の奥にある温かさや、直接のふれあいを通じて育まれる信頼関係", "C. 仕事での利益を最優先にして効率的に話すこと", "D. 他人の意見を気にせずに自分の意見だけを述べること"},
+            {"A. 結果だけを重視し、最短で成功を掴み取ること", "B. 他人との競争に勝ち続けること", "C. 過程で得られる貴重な経験や学びを大切にすること", "D. 失敗しそうになったらすぐに別の道へ変更すること"},
+            {"A. 現在の便利さを極限まで追求し続ける社会", "B. 将来の世代のために環境や資源を守りながら発展していく社会", "C. すべての人間関係をオンライン上だけで完結させる社会", "D. 経済活動を完全に停止して昔の生活に戻る社会"},
+            {"A. 失敗は避けるべき恥ずかしいことである", "B. 失敗から何を学び、どのように次の一歩を踏み出すかが重要である", "C. 一度失敗した人は二度と挑戦すべきではない", "D. 失敗の原因は常に社会の環境にある"},
+            {"A. 非常に便利であるが、相手への深い思いやりや対話の機会が減る面もある", "B. 完全に有害であり、今すぐ使用をやめるべきである", "C. 直接の対話よりも相手の真意が確実に伝わるツールである", "D. 自然環境の保護に最も効果的な手段である"},
+            {"A. 最先端の技術開発にすべての時間を捧げること", "B. 身の回りのささやかなことから行動を起こし、共によい未来を創ること", "C. 都会を離れて山や森で自給自足の生活を送ること", "D. 他人の行動を厳しく批判し続けること"},
+            {"A. 経済発展のためには自然環境の破壊もやむを得ない", "B. 便利さを享受しつつも環境や人への感謝を忘れず、調和のとれた生き方をすること", "C. SNSをやめて昔の生活様式に完全に回帰すべきである", "D. 結果が出ない努力には何の意味もない"}
+        };
+
+        String[] answers = {
+            "A. 技術の進歩によって世界中の人々と簡単に繋がれるようになったこと",
+            "B. 経済発展によりすべての発展を優先しすぎたこと",
+            "B. 直接顔を合わせなくても意思疎通ができる便利さがあること",
+            "B. 言葉の奥にある温かさや、直接のふれあいを通じて育まれる信頼関係",
+            "C. 過程で得られる貴重な経験や学びを大切にすること",
+            "B. 将来の世代のために環境や資源を守りながら発展していく社会",
+            "B. 失敗から何を学び、どのように次の一歩を踏み出すかが重要である",
+            "A. 非常に便利であるが、相手への深い思いやりや対話の機会が減る面もある",
+            "B. 身の回りのささやかなことから行動を起こし、共によい未来を創ること",
+            "B. 便利さを享受しつつも環境や人への感謝を忘れず、調和のとれた生き方をすること"
+        };
+
+        String[] explanations = {
+            "• Dịch nghĩa: Theo bài đọc, đặc điểm lớn của xã hội hiện đại là gì?\n• Đáp án A ĐÚNG: Đoạn 1 có nêu rõ '技術の進歩によって... 世界中の人々と簡単に繋がることができるようになりました' (Nhờ công nghệ tiến bộ, ta dễ dàng kết nối với mọi người khắp thế giới).\n• Các đáp án B, C, D sai: Bài không nói môi trường đã giải quyết xong, mà ngược lại đang ô nhiễm; mọi người đang ít gặp trực tiếp hơn.",
+            "• Dịch nghĩa: Tác giả nêu nguyên nhân lớn làm suy thoái môi trường tự nhiên là gì?\n• Đáp án B ĐÚNG: Đoạn 2 nêu '経済の発展を優先するあまり、緑の豊かな森が減少し...' (Chính vì quá ưu tiên phát triển kinh tế mà rừng xanh bị thu hẹp).\n• Các đáp án A, C, D không đúng với nội dung đoạn 2.",
+            "• Dịch nghĩa: Từ 'その反面' (mặt khác) ám chỉ nội dung nào?\n• Đáp án B ĐÚNG: 'その反面' đối lập với vế trước là sự tiện lợi khi không cần gặp mặt trực tiếp vẫn giao tiếp được qua SNS.\n• Các đáp án A, C, D không phải là vế được đối lập.",
+            "• Dịch nghĩa: Trong quan hệ con người, tác giả cho rằng điều gì cần được nhìn nhận lại?\n• Đáp án B ĐÚNG: Đoạn 3 chốt lại '言葉の奥にある温かさや、直接のふれあいを通じてこそ育まれる信頼関係の尊さを... 見直すべき'.\n• Các đáp án khác trái ngược với tinh thần bài viết.",
+            "• Dịch nghĩa: Khi nỗ lực vì mục tiêu, điều được coi là quan trọng nhất là gì?\n• Đáp án C ĐÚNG: Đoạn 4 nêu '途中の過程で得られる貴重な経験や学び' (kinh nghiệm và bài học quý giá có được trên suốt quá trình).\n• Đáp án A, B, D sai vì bài phê phán việc chỉ chăm chăm đòi kết quả ngay.",
+            "• Dịch nghĩa: Giải thích nào chuẩn xác nhất cho cụm 'xã hội bền vững'?\n• Đáp án B ĐÚNG: Đoạn 2 giải thích bảo vệ môi trường và sự sống cho thế hệ tương lai.\n• Các đáp án khác hiểu sai khái niệm.",
+            "• Dịch nghĩa: Quan điểm nào của tác giả phù hợp với cách nhìn về sự thất bại?\n• Đáp án B ĐÚNG: Đoạn 4 khẳng định 'たとえ失敗したとしても、そこから何を学び、どのように次の一歩を踏み出すかが重要'.\n• Đáp án A, C, D bi quan, không đúng ý tác giả.",
+            "• Dịch nghĩa: Tác giả nhìn nhận việc giao tiếp qua SNS hiện nay như thế nào?\n• Đáp án A ĐÚNG: Tác giả nhìn nhận 2 mặt: vừa tiện lợi nhưng cũng vừa làm giảm sự thấu hiểu sâu sắc trực tiếp.\n• Các đáp án khác cực đoan hoặc không đúng.",
+            "• Dịch nghĩa: 'Sứ mệnh' tác giả muốn người đọc hướng tới là gì?\n• Đáp án B ĐÚNG: Đoạn kết nêu '自分の身の回りのささやかなことから行動を起こし、よりよい未来を共に創り出していく'.\n• Các đáp án khác sai lệch so với bài văn.",
+            "• Dịch nghĩa: Thông điệp lớn nhất tác giả muốn gửi gắm trong toàn bộ bài viết là gì?\n• Đáp án B ĐÚNG: Kết hợp hài hòa giữa việc tận hưởng công nghệ tiện ích với lòng biết ơn con người và bảo vệ thiên nhiên.\n• Các phương án A, C, D phiến diện, lệch trọng tâm."
+        };
+
+        for (int i = 0; i < 10; i++) {
+            Map<String, Object> q = new HashMap<>();
+            q.put("id", i + 1);
+            q.put("question", questionsJa[i]);
+            q.put("options", java.util.Arrays.asList(optionsArr[i]));
+            q.put("answer", answers[i]);
+            q.put("explanation", explanations[i]);
+            list.add(q);
+        }
+
+        try {
+            return objectMapper.writeValueAsString(list);
+        } catch (Exception e) {
+            log.error("Failed to serialize fallback reading questions: {}", e.getMessage());
             return "[]";
         }
     }

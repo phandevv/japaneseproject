@@ -788,6 +788,31 @@ export const jlptN3Api = {
       questionContext
     });
     return response.data;
+  },
+  getReading: async (chapter, lesson) => {
+    return cachedGet(`${API_BASE_URL}/jlpt-n3/chapter/${chapter}/lesson/${lesson}/reading`, {}, 60000);
+  },
+  generateReading: async (chapter, lesson) => {
+    const response = await axios.post(`${API_BASE_URL}/jlpt-n3/chapter/${chapter}/lesson/${lesson}/reading/generate`, {}, {
+      timeout: 180000
+    });
+    clearApiCache('/jlpt-n3/chapter');
+    return response.data;
+  },
+  updateReading: async (chapter, lesson, data) => {
+    const response = await axios.put(`${API_BASE_URL}/jlpt-n3/chapter/${chapter}/lesson/${lesson}/reading`, data);
+    clearApiCache('/jlpt-n3/chapter');
+    return response.data;
+  },
+  submitReadingQuiz: async (chapter, lesson, score, total = 10) => {
+    const response = await axios.post(`${API_BASE_URL}/jlpt-n3/chapter/${chapter}/lesson/${lesson}/reading/submit`, {
+      score,
+      total
+    });
+    clearApiCache('/jlpt-n3/overview');
+    clearApiCache('/jlpt-n3/chapter');
+    clearApiCache('/analytics/dashboard');
+    return response.data;
   }
 };
 

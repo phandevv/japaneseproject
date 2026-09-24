@@ -212,15 +212,48 @@ Cơ sở dữ liệu được khởi tạo và nâng cấp thông qua Flyway t�
 
 ---
 
-## 4. Cấu trúc MongoDB Collections (JLPT N3 Course & Quizzes)
+* **`V30__add_grammar_quiz_cache_and_lesson_pass_fields.sql`**: Bổ sung `vocab_passed`, `kanji_passed`, `grammar_passed` và bảng `jlpt_n3_grammar_quizzes`.
+* **`V31__create_jlpt_n3_reading_table.sql`**: Tạo bảng `jlpt_n3_readings` lưu bài đọc hiểu trường văn N3 (~1500-2000 ký tự) kèm 10 câu hỏi trắc nghiệm, và bổ sung cột `reading_passed`, `reading_score` vào bảng `jlpt_n3_progress`.
 
-Hệ thống lưu trữ dữ liệu khóa học JLPT N3 và bộ 520 câu trắc nghiệm trực tiếp trong MongoDB:
+---
+
+## 3. Cấu hình Hibernate Search & Apache Lucene Index
+
+Để hỗ trợ tìm kiếm mờ thời gian thực hiệu năng cao, dự án sử dụng **Hibernate Search** kết hợp **Apache Lucene**:
+
+* Lớp `Vocabulary.java` được đánh dấu annotation `@Indexed`.
+* Các trường được lập chỉ mục tìm kiếm (`@FullTextField` hoặc `@KeywordField`):
+  * `kanji`: Phục vụ tìm kiếm Hán tự.
+  * `hiragana`: Phục vụ tìm kiếm chữ viết Kana.
+  * `romaji`: Phục vụ tìm kiếm bằng phiên âm Latin.
+  * `meaning`: Phục vụ tìm kiếm bằng nghĩa tiếng Việt.
+* Lớp `SearchIndexer.java` thực hiện quét toàn bộ bảng từ vựng trong DB và khởi tạo chỉ mục Lucene lưu trên ổ đĩa cứng khi ứng dụng Spring Boot vừa khởi chạy:
+  ```java
+  SearchSession searchSession = Search.session(entityManager);
+  MassIndexer indexer = searchSession.massIndexer(Vocabulary.class);
+  indexer.startAndWait();
+  ```
+* Đường dẫn lưu file index ở môi trường sản xuất (EC2/Docker): `/data/lucene-index`.
+* Môi trường local: `./data/lucene-index`.
+
+---
+
+## 4. Cấu trúc MongoDB Collections (JLPT N3 Course & Quizzes & Reading)
+
+Hệ thống lưu trữ dữ liệu khóa học JLPT N3, bộ trắc nghiệm và bài đọc hiểu trực tiếp trong MongoDB:
+* **`jlpt_n3_readings`**: Lưu trữ bài đọc hiểu trường văn N3 (~1500 - 2000 ký tự tiếng Nhật) có Furigana `[Kanji|hiragana]`, bản dịch tiếng Việt, và bộ 10 câu hỏi đọc hiểu kèm trích dẫn giải thích 100% tiếng Việt.
+  * `_id`: Long sequence ID
+  * `chapterId`, `lessonId`: Chương và Bài học (Compound unique index `{ chapterId: 1, lessonId: 1 }`)
+  * `title`: Tiêu đề bài đọc
+  * `passage`: Nội dung bài văn 1500~2000 chữ có cú pháp `[Kanji|hiragana]`
+  * `translation`: Bản dịch nghĩa tiếng Việt đầy đủ
+  * `questionsJson`: Chuỗi JSON mảng 10 câu hỏi (`id`, `question`, `options`, `answer`, `explanation`)
 * **`jlpt_n3_lesson_quizzes`**: Chứa 20 câu hỏi trắc nghiệm kèm dịch câu, giải thích đáp án cho 26 bài học N3 (tổng 520 câu).
   * `_id`: `chapterId * 10 + lessonId`
   * `chapterId`, `lessonId`, `totalQuestions`: 20
   * `questions`: Danh sách 20 đối tượng câu hỏi (`id`, `question`, `translation`, `answer`, `options`)
   * `questionsJson`: Chuỗi JSON nạp siêu tốc
   * Index: `{ chapterId: 1, lessonId: 1 }`
-* **`jlpt_n3_progress`**: Tiến độ học từng bài của học viên (`vocabPassed`, `kanjiPassed`, `grammarPassed`, `quizPassed`, `completed`, `bestScore`).
+* **`jlpt_n3_progress`**: Tiến độ học từng bài của học viên (`vocabPassed`, `kanjiPassed`, `grammarPassed`, `quizPassed`, `readingPassed`, `readingScore`, `completed`, `bestScore`).
 * **`jlpt_n3_grammar_quizzes`**: Bộ 30 câu hỏi trắc nghiệm ngữ pháp AI tạo.
 

@@ -171,13 +171,17 @@ public class JlptN3CourseService {
                 boolean kanjiPassed = progress != null && Boolean.TRUE.equals(progress.getKanjiPassed());
                 boolean grammarPassed = progress != null && Boolean.TRUE.equals(progress.getGrammarPassed());
                 boolean quizPassed = progress != null && Boolean.TRUE.equals(progress.getQuizPassed());
+                boolean readingPassed = progress != null && Boolean.TRUE.equals(progress.getReadingPassed());
                 int bestScore = progress != null ? progress.getBestScore() : 0;
+                int readingScore = progress != null ? progress.getReadingScore() : 0;
 
                 lessonData.put("completed", isCompleted);
                 lessonData.put("vocabPassed", vocabPassed);
                 lessonData.put("kanjiPassed", kanjiPassed);
                 lessonData.put("grammarPassed", grammarPassed);
                 lessonData.put("quizPassed", quizPassed);
+                lessonData.put("readingPassed", readingPassed);
+                lessonData.put("readingScore", readingScore);
                 lessonData.put("bestScore", bestScore);
 
                 if (isCompleted) {
@@ -362,8 +366,10 @@ public class JlptN3CourseService {
         boolean kanjiPassed = false;
         boolean grammarPassed = false;
         boolean quizPassed = false;
+        boolean readingPassed = false;
         boolean completed = false;
         int bestScore = 0;
+        int readingScore = 0;
 
         if (userId != null && jlptN3DataProvider != null) {
             Optional<JlptN3Progress> progOpt = jlptN3DataProvider.findProgress(userId, chapter, lesson);
@@ -373,8 +379,10 @@ public class JlptN3CourseService {
                 kanjiPassed = Boolean.TRUE.equals(p.getKanjiPassed());
                 grammarPassed = Boolean.TRUE.equals(p.getGrammarPassed());
                 quizPassed = Boolean.TRUE.equals(p.getQuizPassed());
+                readingPassed = Boolean.TRUE.equals(p.getReadingPassed());
                 completed = Boolean.TRUE.equals(p.getCompleted());
                 bestScore = p.getBestScore() != null ? p.getBestScore() : 0;
+                readingScore = p.getReadingScore() != null ? p.getReadingScore() : 0;
             }
         }
 
@@ -382,6 +390,8 @@ public class JlptN3CourseService {
         target.put("kanjiPassed", kanjiPassed);
         target.put("grammarPassed", grammarPassed);
         target.put("quizPassed", quizPassed);
+        target.put("readingPassed", readingPassed);
+        target.put("readingScore", readingScore);
         target.put("completed", completed);
         target.put("bestScore", bestScore);
     }
@@ -689,7 +699,9 @@ public class JlptN3CourseService {
 
             if (Boolean.TRUE.equals(progress.getVocabPassed())
                     && Boolean.TRUE.equals(progress.getKanjiPassed())
-                    && Boolean.TRUE.equals(progress.getGrammarPassed())) {
+                    && Boolean.TRUE.equals(progress.getGrammarPassed())
+                    && Boolean.TRUE.equals(progress.getQuizPassed())
+                    && Boolean.TRUE.equals(progress.getReadingPassed())) {
                 progress.setCompleted(true);
                 progress.setCompletedAt(LocalDateTime.now());
             }
@@ -826,11 +838,12 @@ public class JlptN3CourseService {
                 progress.setQuizPassed(true);
             }
 
-            // Check if all 4 components (vocab, kanji, grammar, quiz) or completed
+            // Check if all 5 components (vocab, kanji, grammar, quiz, reading) are completed
             if (Boolean.TRUE.equals(progress.getVocabPassed())
                     && Boolean.TRUE.equals(progress.getKanjiPassed())
                     && Boolean.TRUE.equals(progress.getGrammarPassed())
-                    && Boolean.TRUE.equals(progress.getQuizPassed())) {
+                    && Boolean.TRUE.equals(progress.getQuizPassed())
+                    && Boolean.TRUE.equals(progress.getReadingPassed())) {
                 progress.setCompleted(true);
                 progress.setCompletedAt(LocalDateTime.now());
             }
@@ -852,6 +865,264 @@ public class JlptN3CourseService {
         result.put("completed", progress != null && Boolean.TRUE.equals(progress.getCompleted()));
         result.put("bestScore", progress != null ? progress.getBestScore() : accuracy);
 
+        return result;
+    }
+
+    /**
+     * Get Reading Comprehension for Chapter and Lesson from Provider (MongoDB or JPA).
+     */
+    public Map<String, Object> getReadingComprehension(int chapter, int lesson) {
+        Optional<com.flashcard.knowledge.model.JlptN3Reading> readingOpt = jlptN3DataProvider.findReading(chapter, lesson);
+        if (readingOpt.isEmpty()) {
+            Map<String, Object> empty = new HashMap<>();
+            empty.put("exists", false);
+            empty.put("chapterId", chapter);
+            empty.put("lessonId", lesson);
+            return empty;
+        }
+
+        com.flashcard.knowledge.model.JlptN3Reading reading = readingOpt.get();
+        Map<String, Object> res = new HashMap<>();
+        res.put("exists", true);
+        res.put("id", reading.getId());
+        res.put("chapterId", reading.getChapterId());
+        res.put("lessonId", reading.getLessonId());
+        res.put("title", reading.getTitle());
+        res.put("passage", reading.getPassage());
+        res.put("translation", reading.getTranslation());
+        res.put("updatedAt", reading.getUpdatedAt());
+
+        try {
+            if (reading.getQuestionsJson() != null && !reading.getQuestionsJson().isBlank()) {
+                res.put("questions", objectMapper.readValue(reading.getQuestionsJson(), Object.class));
+            } else {
+                res.put("questions", Collections.emptyList());
+            }
+        } catch (Exception e) {
+            log.error("Failed to parse reading questions JSON for chapter {} lesson {}: {}", chapter, lesson, e.getMessage());
+            res.put("questions", Collections.emptyList());
+        }
+
+        // Attach vocabulary & grammar coverage analysis
+        try {
+            Map<String, Object> lessonData = getLessonData(chapter, lesson);
+            @SuppressWarnings("unchecked")
+            List<Map<String, Object>> vocabList = (List<Map<String, Object>>) lessonData.getOrDefault("tu_vung", Collections.emptyList());
+            @SuppressWarnings("unchecked")
+            List<Map<String, Object>> grammarList = (List<Map<String, Object>>) lessonData.getOrDefault("ngu_phap", Collections.emptyList());
+            res.put("coverage", calculateReadingCoverage(reading.getPassage(), vocabList, grammarList));
+        } catch (Exception e) {
+            log.warn("Failed to calculate reading coverage for Chapter {} Lesson {}: {}", chapter, lesson, e.getMessage());
+        }
+
+        return res;
+    }
+
+    /**
+     * Calculate vocabulary and grammar coverage percentage for a reading passage.
+     */
+    public Map<String, Object> calculateReadingCoverage(String passage,
+                                                         List<Map<String, Object>> vocabList,
+                                                         List<Map<String, Object>> grammarList) {
+        Map<String, Object> result = new HashMap<>();
+        if (passage == null) passage = "";
+        String cleanPassage = passage.replaceAll("\\[([^\\|\\]]+)\\|[^\\]]+\\]", "$1");
+
+        // 1. Analyze Grammar Coverage (Target: 100%)
+        int totalGrammar = grammarList != null ? grammarList.size() : 0;
+        List<String> matchedGrammars = new ArrayList<>();
+        List<String> missingGrammars = new ArrayList<>();
+
+        if (grammarList != null) {
+            for (Map<String, Object> g : grammarList) {
+                String struc = String.valueOf(g.getOrDefault("cau_truc", "")).trim();
+                if (struc.isBlank()) continue;
+                String normalizedStruc = struc.replaceAll("[〜~\\.\\…\\s]", "");
+                if (!normalizedStruc.isBlank() && (cleanPassage.contains(normalizedStruc) || passage.contains(struc) || cleanPassage.contains(struc))) {
+                    matchedGrammars.add(struc);
+                } else {
+                    missingGrammars.add(struc);
+                }
+            }
+        }
+
+        int matchedGrammarCount = matchedGrammars.size();
+        double grammarCoveragePercent = totalGrammar > 0 ? Math.round(((double) matchedGrammarCount / totalGrammar) * 1000.0) / 10.0 : 100.0;
+
+        // 2. Analyze Vocabulary Coverage (Target: > 50%)
+        int totalVocab = vocabList != null ? vocabList.size() : 0;
+        int minVocabRequired = totalVocab > 0 ? (int) Math.floor(totalVocab * 0.5) + 1 : 0;
+        List<Map<String, String>> matchedVocabs = new ArrayList<>();
+        List<Map<String, String>> missingVocabs = new ArrayList<>();
+
+        if (vocabList != null) {
+            for (Map<String, Object> v : vocabList) {
+                String word = String.valueOf(v.getOrDefault("tu", v.getOrDefault("kanji", ""))).trim();
+                String reading = String.valueOf(v.getOrDefault("furigana", v.getOrDefault("hiragana", ""))).trim();
+                String meaning = String.valueOf(v.getOrDefault("nghia", v.getOrDefault("meaning", ""))).trim();
+                if (word.isBlank() && reading.isBlank()) continue;
+
+                boolean matched = false;
+                if (!word.isBlank() && (cleanPassage.contains(word) || passage.contains(word))) {
+                    matched = true;
+                } else if (!reading.isBlank() && (cleanPassage.contains(reading) || passage.contains(reading))) {
+                    matched = true;
+                }
+
+                Map<String, String> item = new HashMap<>();
+                item.put("word", !word.isBlank() ? word : reading);
+                item.put("reading", reading);
+                item.put("meaning", meaning);
+
+                if (matched) {
+                    matchedVocabs.add(item);
+                } else {
+                    missingVocabs.add(item);
+                }
+            }
+        }
+
+        int matchedVocabCount = matchedVocabs.size();
+        double vocabCoveragePercent = totalVocab > 0 ? Math.round(((double) matchedVocabCount / totalVocab) * 1000.0) / 10.0 : 100.0;
+        boolean passedCriteria = (grammarCoveragePercent >= 100.0 && (totalVocab == 0 || matchedVocabCount >= minVocabRequired));
+
+        result.put("totalGrammar", totalGrammar);
+        result.put("matchedGrammarCount", matchedGrammarCount);
+        result.put("grammarCoveragePercent", grammarCoveragePercent);
+        result.put("matchedGrammars", matchedGrammars);
+        result.put("missingGrammars", missingGrammars);
+
+        result.put("totalVocab", totalVocab);
+        result.put("minVocabRequired", minVocabRequired);
+        result.put("matchedVocabCount", matchedVocabCount);
+        result.put("vocabCoveragePercent", vocabCoveragePercent);
+        result.put("matchedVocabs", matchedVocabs);
+        result.put("missingVocabs", missingVocabs);
+
+        result.put("passedCriteria", passedCriteria);
+        return result;
+    }
+
+    /**
+     * 2-Step Pipeline: Generate Reading Comprehension for Chapter and Lesson via DeepSeek AI.
+     */
+    @Transactional
+    public Map<String, Object> generateReadingComprehension(int chapter, int lesson) {
+        Map<String, Object> lessonData = getLessonData(chapter, lesson);
+        @SuppressWarnings("unchecked")
+        List<Map<String, Object>> vocabList = (List<Map<String, Object>>) lessonData.getOrDefault("tu_vung", Collections.emptyList());
+        @SuppressWarnings("unchecked")
+        List<Map<String, Object>> grammarList = (List<Map<String, Object>>) lessonData.getOrDefault("ngu_phap", Collections.emptyList());
+
+        // Step 1: Generate passage with furigana [Kanji|hiragana]
+        Map<String, String> passageResult = enrichmentService.generateN3ReadingPassage(chapter, lesson, vocabList, grammarList);
+        String title = passageResult.getOrDefault("title", "Bài đọc hiểu N3");
+        String passage = passageResult.getOrDefault("passage", "");
+        String translation = passageResult.getOrDefault("translation", "");
+
+        // Step 2: Generate 10 reading questions
+        String questionsJson = enrichmentService.generateN3ReadingQuestions(chapter, lesson, passage, grammarList);
+
+        // Step 3: Save to DataProvider (MongoDB / JPA)
+        Optional<com.flashcard.knowledge.model.JlptN3Reading> existingOpt = jlptN3DataProvider.findReading(chapter, lesson);
+        com.flashcard.knowledge.model.JlptN3Reading reading = existingOpt.orElseGet(com.flashcard.knowledge.model.JlptN3Reading::new);
+        reading.setChapterId(chapter);
+        reading.setLessonId(lesson);
+        reading.setTitle(title);
+        reading.setPassage(passage);
+        reading.setTranslation(translation);
+        reading.setQuestionsJson(questionsJson);
+        reading.setUpdatedAt(LocalDateTime.now());
+
+        jlptN3DataProvider.saveReading(reading);
+
+        return getReadingComprehension(chapter, lesson);
+    }
+
+    /**
+     * Update Reading Comprehension manually (Admin Edit feature).
+     */
+    @Transactional
+    public Map<String, Object> updateReadingComprehension(int chapter, int lesson, Map<String, Object> updateDto) {
+        Optional<com.flashcard.knowledge.model.JlptN3Reading> existingOpt = jlptN3DataProvider.findReading(chapter, lesson);
+        com.flashcard.knowledge.model.JlptN3Reading reading = existingOpt.orElseGet(com.flashcard.knowledge.model.JlptN3Reading::new);
+        reading.setChapterId(chapter);
+        reading.setLessonId(lesson);
+
+        if (updateDto.containsKey("title")) {
+            reading.setTitle(String.valueOf(updateDto.get("title")));
+        }
+        if (updateDto.containsKey("passage")) {
+            reading.setPassage(String.valueOf(updateDto.get("passage")));
+        }
+        if (updateDto.containsKey("translation")) {
+            reading.setTranslation(String.valueOf(updateDto.get("translation")));
+        }
+        if (updateDto.containsKey("questions")) {
+            try {
+                reading.setQuestionsJson(objectMapper.writeValueAsString(updateDto.get("questions")));
+            } catch (Exception e) {
+                log.error("Failed to serialize updated questions: {}", e.getMessage());
+            }
+        } else if (updateDto.containsKey("questionsJson")) {
+            reading.setQuestionsJson(String.valueOf(updateDto.get("questionsJson")));
+        }
+        reading.setUpdatedAt(LocalDateTime.now());
+
+        jlptN3DataProvider.saveReading(reading);
+        return getReadingComprehension(chapter, lesson);
+    }
+
+    /**
+     * Submit Reading Comprehension Quiz Score (10 Questions).
+     * Rule: Pass if score >= 8 (accuracy >= 80%).
+     */
+    @Transactional
+    @CacheEvict(value = "jlpt-overview", allEntries = true)
+    public Map<String, Object> submitReadingQuiz(Long userId, int chapter, int lesson, int score, int total) {
+        if (total <= 0) {
+            throw new IllegalArgumentException("Tổng số câu hỏi phải lớn hơn 0");
+        }
+
+        int accuracy = Math.round((float) score * 100 / total);
+        boolean passed = (score >= 8 || accuracy >= 80);
+
+        JlptN3Progress progress = null;
+        if (userId != null) {
+            progress = jlptN3DataProvider.findProgress(userId, chapter, lesson)
+                    .orElseGet(() -> new JlptN3Progress(userId, chapter, lesson, false, 0));
+
+            if (score > progress.getReadingScore()) {
+                progress.setReadingScore(score);
+            }
+
+            if (passed) {
+                progress.setReadingPassed(true);
+            }
+
+            // Check if all 5 components (vocab, kanji, grammar, quiz, reading) are completed
+            if (Boolean.TRUE.equals(progress.getVocabPassed())
+                    && Boolean.TRUE.equals(progress.getKanjiPassed())
+                    && Boolean.TRUE.equals(progress.getGrammarPassed())
+                    && Boolean.TRUE.equals(progress.getQuizPassed())
+                    && Boolean.TRUE.equals(progress.getReadingPassed())) {
+                progress.setCompleted(true);
+                progress.setCompletedAt(LocalDateTime.now());
+            }
+
+            jlptN3DataProvider.saveProgress(progress);
+        }
+
+        Map<String, Object> result = new HashMap<>();
+        result.put("chapterId", chapter);
+        result.put("lessonId", lesson);
+        result.put("score", score);
+        result.put("total", total);
+        result.put("accuracy", accuracy);
+        result.put("passed", passed);
+        result.put("readingPassed", progress != null && Boolean.TRUE.equals(progress.getReadingPassed()));
+        result.put("readingScore", progress != null ? progress.getReadingScore() : score);
+        result.put("completed", progress != null && Boolean.TRUE.equals(progress.getCompleted()));
         return result;
     }
 }

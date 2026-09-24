@@ -2,6 +2,7 @@ package com.flashcard.common.ai;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.flashcard.common.config.AiConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -29,24 +30,29 @@ public class DeepSeekProvider implements AIProvider {
     private final HttpClient httpClient = HttpClient.newBuilder()
             .connectTimeout(Duration.ofSeconds(10))
             .build();
+    private final AiConfig aiConfig;
+
+    public DeepSeekProvider(AiConfig aiConfig) {
+        this.aiConfig = aiConfig;
+    }
 
     @Override
     public void streamChat(List<Map<String, String>> messages, Consumer<String> chunkConsumer, Consumer<Throwable> errorConsumer, Runnable onComplete) {
         CompletableFuture.runAsync(() -> {
             try {
-                String apiKey = getApiKey();
+                String apiKey = aiConfig.getApiKey();
                 if (apiKey == null) {
                     throw new IllegalStateException("DEEPSEEK_API_KEY environment variable is not configured.");
                 }
 
                 Map<String, Object> requestBodyMap = new HashMap<>();
-                requestBodyMap.put("model", "deepseek-chat");
+                requestBodyMap.put("model", aiConfig.getModel());
                 requestBodyMap.put("messages", messages);
                 requestBodyMap.put("stream", true);
 
                 String requestBody = objectMapper.writeValueAsString(requestBodyMap);
 
-                HttpRequest request = HttpRequest.newBuilder(URI.create("https://api.deepseek.com/chat/completions"))
+                HttpRequest request = HttpRequest.newBuilder(URI.create(aiConfig.getApiUrl()))
                         .header("Content-Type", "application/json")
                         .header("Authorization", "Bearer " + apiKey)
                         .POST(HttpRequest.BodyPublishers.ofString(requestBody))
@@ -92,37 +98,6 @@ public class DeepSeekProvider implements AIProvider {
                 errorConsumer.accept(e);
             }
         });
-    }
-
-    private String getApiKey() {
-        String apiKey = System.getenv("DEEPSEEK_API_KEY");
-        if (apiKey == null || apiKey.trim().isEmpty()) {
-            apiKey = System.getProperty("DEEPSEEK_API_KEY");
-        }
-        if (apiKey == null || apiKey.trim().isEmpty()) {
-            try {
-                java.nio.file.Path envPath = java.nio.file.Paths.get(".env");
-                if (!java.nio.file.Files.exists(envPath)) {
-                    envPath = java.nio.file.Paths.get("../.env");
-                }
-                if (!java.nio.file.Files.exists(envPath)) {
-                    envPath = java.nio.file.Paths.get("../../.env");
-                }
-                if (java.nio.file.Files.exists(envPath)) {
-                    for (String line : java.nio.file.Files.readAllLines(envPath)) {
-                        line = line.trim();
-                        if (line.startsWith("DEEPSEEK_API_KEY=")) {
-                            apiKey = line.substring("DEEPSEEK_API_KEY=".length()).trim();
-                            if (apiKey.startsWith("\"") && apiKey.endsWith("\"")) {
-                                apiKey = apiKey.substring(1, apiKey.length() - 1);
-                            }
-                            break;
-                        }
-                    }
-                }
-            } catch (Exception ignored) {}
-        }
-        return (apiKey == null || apiKey.trim().isEmpty()) ? null : apiKey;
     }
 }
 

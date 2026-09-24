@@ -1,6 +1,5 @@
 package com.flashcard.knowledge.controller;
 
-import com.flashcard.knowledge.model.Feedback;
 import com.flashcard.user.model.User;
 import com.flashcard.vocabulary.model.Vocabulary;
 import com.flashcard.vocabulary.repository.VocabularyRepository;

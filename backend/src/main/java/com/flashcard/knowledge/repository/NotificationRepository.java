@@ -1,8 +1,6 @@
 package com.flashcard.knowledge.repository;
 
-
 import com.flashcard.knowledge.model.Notification;
-import com.flashcard.user.model.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
