@@ -14,9 +14,14 @@ import java.util.Optional;
 
 import com.flashcard.user.provider.UserDataProvider;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 @RestController
 @RequestMapping("/api/jlpt-n3")
 public class JlptN3CourseController {
+
+    private static final Logger log = LoggerFactory.getLogger(JlptN3CourseController.class);
 
     private final JlptN3CourseService courseService;
     private final UserDataProvider userDataProvider;
@@ -212,15 +217,53 @@ public class JlptN3CourseController {
     public ResponseEntity<?> generateReadingComprehension(
             @PathVariable("chapter") int chapter,
             @PathVariable("lesson") int lesson) {
-        if (!isCurrentUserAdmin()) {
-            return ResponseEntity.status(403).body(Map.of("error", "Chỉ tài khoản ADMIN mới có quyền nạp hoặc tạo lại bài đọc hiểu AI."));
-        }
+        Long userId = getCurrentUserId();
+        log.info("👉 [API REQUEST] Nhận lệnh nạp bài đọc hiểu AI cho Chương {} Bài {} (User ID: {})...", chapter, lesson, userId);
         try {
             Map<String, Object> data = courseService.generateReadingComprehension(chapter, lesson);
             return ResponseEntity.ok(data);
         } catch (Exception e) {
+            log.error("❌ [API ERROR] Lỗi khi nạp bài đọc hiểu Chương {} Bài {}: {}", chapter, lesson, e.getMessage());
             return ResponseEntity.status(500).body(Map.of("error", "Lỗi khi sinh bài đọc hiểu: " + e.getMessage()));
         }
+    }
+
+    /**
+     * Batch pre-generate Reading Comprehension for all lessons in a chapter (Admin only, Background Async).
+     * POST /api/jlpt-n3/chapter/{chapter}/reading/generate-all
+     */
+    @PostMapping("/chapter/{chapter}/reading/generate-all")
+    public ResponseEntity<?> generateAllReadingsForChapter(
+            @PathVariable("chapter") int chapter) {
+        if (!isCurrentUserAdmin()) {
+            return ResponseEntity.status(403).body(Map.of("error", "Chỉ tài khoản ADMIN mới có quyền nạp bài đọc hiểu AI."));
+        }
+        java.util.concurrent.CompletableFuture.runAsync(() -> {
+            log.info("════════════════════════════════════════════════════════════════════════════════");
+            log.info("🚀 [TIẾN TRÌNH NẠP BATCH ĐỌC HIỂU] Bắt đầu nạp ngầm toàn bộ bài đọc hiểu CHƯƠNG {}", chapter);
+            log.info("════════════════════════════════════════════════════════════════════════════════");
+            int successCount = 0;
+            int failCount = 0;
+            for (int l = 1; l <= 7; l++) {
+                log.info("▶️ [TIẾN ĐỘ BATCH] Đang nạp Chương {} Bài {}/7...", chapter, l);
+                try {
+                    courseService.generateReadingComprehension(chapter, l);
+                    successCount++;
+                    log.info("✅ [TIẾN ĐỘ BATCH] Hoàn thành Chương {} Bài {}/7! (Tổng thành công: {}/7 bài)", chapter, l, successCount);
+                } catch (Exception e) {
+                    failCount++;
+                    log.error("❌ [TIẾN ĐỘ BATCH] Lỗi khi nạp Chương {} Bài {}/7: {}", chapter, l, e.getMessage());
+                }
+            }
+            log.info("════════════════════════════════════════════════════════════════════════════════");
+            log.info("🏁 [HOÀN TẤT NẠP BATCH CHƯƠNG {}] Tổng kết: {}/7 bài thành công, {}/7 bài thất bại.", chapter, successCount, failCount);
+            log.info("════════════════════════════════════════════════════════════════════════════════");
+        });
+        return ResponseEntity.ok(Map.of(
+            "message", "Đã khởi chạy tiến trình nạp ngầm toàn bộ bài đọc hiểu cho Chương " + chapter + ". Hãy theo dõi tiến trình trong log console!",
+            "status", "STARTED",
+            "chapter", chapter
+        ));
     }
 
     /**

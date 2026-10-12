@@ -5,6 +5,7 @@ import { getMediaUrl } from '../services/api';
 import { useTheme } from '../context/ThemeContext';
 
 import NotificationBell from './NotificationBell';
+import StreakFlame from './StreakFlame';
 
 const Header = ({ user, streak = 0, onProfileClick, onLogout, onToggleMobileSidebar }) => {
   const { theme, changeTheme, customBg, applyCustomBackground, sakuraPetalsEnabled, toggleSakuraPetals } = useTheme();
@@ -45,7 +46,7 @@ const Header = ({ user, streak = 0, onProfileClick, onLogout, onToggleMobileSide
         </button>
         {streak > 0 && (
           <div className="header-streak-badge" title="Chuỗi ngày học liên tục!">
-            <span style={{ fontSize: '1.05rem', lineHeight: 1 }}>🌸</span>
+            <StreakFlame size={20} active={true} showGlow={true} />
             <span>{streak} ngày</span>
           </div>
         )}

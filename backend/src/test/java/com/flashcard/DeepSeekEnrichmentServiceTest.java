@@ -42,4 +42,20 @@ class DeepSeekEnrichmentServiceTest {
         assertEquals("日本", result.getKanji());
         assertEquals("Nhật Bản", result.getMeaning());
     }
+
+    @Test
+    void testGenerateN3ReadingPassage_ThrowsIllegalStateException_WhenApiKeyMissing() {
+        IllegalStateException ex = assertThrows(IllegalStateException.class, () -> {
+            enrichmentService.generateN3ReadingPassage(1, 1, java.util.Collections.emptyList(), java.util.Collections.emptyList());
+        });
+        assertTrue(ex.getMessage().contains("DEEPSEEK_API_KEY"));
+    }
+
+    @Test
+    void testGenerateN3ReadingQuestions_ThrowsIllegalStateException_WhenApiKeyMissing() {
+        IllegalStateException ex = assertThrows(IllegalStateException.class, () -> {
+            enrichmentService.generateN3ReadingQuestions(1, 1, "test passage", java.util.Collections.emptyList());
+        });
+        assertTrue(ex.getMessage().contains("DEEPSEEK_API_KEY"));
+    }
 }

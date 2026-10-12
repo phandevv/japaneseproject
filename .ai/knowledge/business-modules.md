@@ -107,9 +107,11 @@ Tài liệu này chi tiết hóa các module nghiệp vụ lớn trong dự án 
   * Provider & Repository: `JlptN3DataProvider` (JPA/Mongo), `JlptN3ReadingRepository`, `JlptN3ReadingMongoRepository`
   * Model/Document: `JlptN3Reading`, `JlptN3ReadingDoc`, `JlptN3Progress`
   * Frontend: `JlptN3Page.jsx`, `JlptN3ReadingView.jsx`, `FuriganaText.jsx`
-* **Quy tắc bảo đảm độ phủ kiến thức (Coverage Invariants)**:
+* **Quy tắc bảo đảm độ phủ kiến thức & Chất lượng AI (Coverage & AI Invariants)**:
+  * **100% Sinh từ AI (Zero Fallback)**: Loại bỏ hoàn toàn fallback tĩnh. Toàn bộ nội dung bài đọc và 10 câu hỏi đọc hiểu 100% được sinh trực tiếp từ AI (`deepseek-chat`). Nếu gọi AI thất bại hoặc cấu hình thiếu key, hệ thống ném ngoại lệ rõ ràng (`IllegalStateException`/`RuntimeException`), không lưu dữ liệu giả vào Database.
+  * **Vocabulary-First Storytelling**: Bài đọc không dùng chủ đề định sẵn hay mở bài sáo rỗng (`現代の社会において...`), mà tự động phân tích ngữ cảnh từ vựng bài học để chọn bối cảnh cốt truyện phù hợp.
   * **100% Ngữ pháp**: Toàn bộ các mẫu ngữ pháp của bài học bắt buộc phải xuất hiện trong văn cảnh bài đọc.
   * **> 50% Từ vựng**: Với mỗi bài học (~70–80 từ vựng), bài đọc bắt buộc phải lồng ghép tối thiểu hơn 50% tổng số từ vựng (ví dụ: $\ge 41/80$ từ).
-  * **Self-Check Checklist**: Prompt yêu cầu LLM liệt kê mảng `used_grammars` và `used_vocabularies` để đối soát.
+  * **Độ dài**: 3000 – 4500 ký tự (chuẩn đại trường văn N3).
   * **Backend Verification & UI Metrics**: `JlptN3CourseService.calculateReadingCoverage` tính toán tỷ lệ bao phủ thực tế và trả về kèm payload để frontend hiển thị **Coverage Bar** và danh sách đối soát chi tiết.
 

@@ -2,12 +2,9 @@ package com.flashcard.knowledge.service;
 
 import com.flashcard.common.config.AiConfig;
 
-import com.flashcard.knowledge.model.Feedback;
-import com.flashcard.user.model.User;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.flashcard.vocabulary.model.Vocabulary;
-import com.flashcard.vocabulary.repository.VocabularyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -1426,8 +1423,7 @@ public class DeepSeekEnrichmentService {
                                                          java.util.List<Map<String, Object>> grammarList) {
         String apiKey = getApiKey();
         if (apiKey == null || apiKey.trim().isEmpty()) {
-            log.warn("DEEPSEEK_API_KEY is not configured. Generating fallback reading passage for Chapter {} Lesson {}.", chapter, lesson);
-            return generateFallbackReadingPassage(chapter, lesson, vocabList, grammarList);
+            throw new IllegalStateException("DeepSeek/OpenRouter API key chưa được cấu hình. Vui lòng cấu hình DEEPSEEK_API_KEY để sinh bài đọc hiểu AI (100% AI, không sử dụng dữ liệu tĩnh).");
         }
 
         int totalVocab = vocabList != null ? vocabList.size() : 0;
@@ -1442,7 +1438,14 @@ public class DeepSeekEnrichmentService {
                 String reading = String.valueOf(v.getOrDefault("furigana", v.getOrDefault("hiragana", "")));
                 String meaning = String.valueOf(v.getOrDefault("nghia", v.getOrDefault("meaning", "")));
                 if (!word.isBlank()) {
-                    vocabInfo.append(vIdx++).append(". ").append(word).append(" (").append(reading).append("): ").append(meaning).append("\n");
+                    vocabInfo.append(vIdx++).append(". ").append(word);
+                    if (!reading.isBlank() && !reading.equals(word)) {
+                        vocabInfo.append(" (").append(reading).append(")");
+                    }
+                    if (!meaning.isBlank()) {
+                        vocabInfo.append(": ").append(meaning);
+                    }
+                    vocabInfo.append("\n");
                 }
             }
         }
@@ -1461,50 +1464,173 @@ public class DeepSeekEnrichmentService {
 
         String prompt = String.format(
             "Bạn là chuyên gia sư phạm tiếng Nhật JLPT N3 và là một nhà văn Nhật Bản giàu kinh nghiệm.\n" +
-            "Nhiệm vụ: Viết một bài văn đọc hiểu tiếng Nhật dài khoảng 1500 đến 2500 ký tự (chuẩn độ dài Trường văn JLPT N3) thuộc chủ đề bài học Chương %d Bài %d.\n\n" +
-            "QUY ĐỊNH BẮT BUỘC VỀ ĐỘ PHỦ TỪ VỰNG & NGỮ PHÁP (TIÊU CHÍ SỐNG CÒN):\n" +
-            "1. ĐỘ PHỦ NGỮ PHÁP: BẮT BUỘC PHẢI DÙNG ĐỦ 100%% (TOÀN BỘ %d/%d CẤU TRÚC NGỮ PHÁP DƯỚI ĐÂY). Không được bỏ sót bất kỳ mẫu nào.\n" +
-            "2. ĐỘ PHỦ TỪ VỰNG: BẮT BUỘC PHẢI DÙNG TỐI THIỂU %d/%d TỪ VỰNG DƯỚI ĐÂY (> 50%% TỔNG SỐ TỪ VỰNG CỦA BÀI HỌC).\n\n" +
-            "YÊU CẦU NỘI DUNG & Ý NGHĨA:\n" +
-            "1. Bài viết phải có chủ đề sâu sắc, mạch lạc, có cốt truyện hoặc phân tích vấn đề đời sống/xã hội Nhật Bản (ví dụ: môi trường sống, văn hóa công sở, công nghệ và con người, sự nỗ lực vượt qua khó khăn, bài học cuộc sống ý nghĩa).\n" +
-            "2. Bài viết gồm 4 đến 6 đoạn văn có liên kết chặt chẽ (Mở bài, Phát triển ý 1, Phát triển ý 2, Mở rộng vấn đề, Kết luận rút ra bài học sâu sắc).\n" +
-            "3. Lồng ghép tự nhiên các từ vựng và ngữ pháp vào văn cảnh, không gượng ép.\n\n" +
-            "--- DANH SÁCH TỔNG CỘNG %d TỪ VỰNG (BẮT BUỘC DÙNG TỐI THIỂU %d TỪ) ---\n%s\n" +
-            "--- DANH SÁCH TỔNG CỘNG %d CẤU TRÚC NGỮ PHÁP (BẮT BUỘC DÙNG ĐỦ 100%%) ---\n%s\n\n" +
+            "Nhiệm vụ: Viết một bài văn đọc hiểu tiếng Nhật DÀI, CHUYÊN SÂU TỪ 3000 ĐẾN 4500 KÝ TỰ (chuẩn độ dài Đại trường văn JLPT N3 Dokkai chất lượng cao) cho Chương %d Bài %d.\n\n" +
+            "QUY TẮC CỐT LÕI - PHÁT TRIỂN CHỦ ĐỀ TỪ DANH SÁCH TỪ VỰNG (VOCABULARY-FIRST STORYTELLING):\n" +
+            "1. DỰA VÀO TỪ VỰNG ĐỂ XÁC ĐỊNH CHỦ ĐỀ: Hãy đọc kỹ danh sách %d từ vựng bên dưới để tìm ra ngữ cảnh và chủ đề đời sống thực tế chung của chúng. Cốt truyện, tình huống và bối cảnh của bài viết BẮT BUỘC PHẢI SINH RA TỪ CHÍNH NHÓM TỪ VỰNG NÀY.\n" +
+            "   (Ví dụ: nếu từ vựng nhiều từ về nhà cửa, phòng ốc, tiền thuê, chuyển nhà -> chủ đề PHẢI là câu chuyện tìm phòng, chuyển nhà; nếu từ vựng về nấu nướng, đồ ăn -> chủ đề PHẢI là ẩm thực, gia đình).\n" +
+            "   TUYỆT ĐỐI KHÔNG chọn trước một chủ đề trừu tượng viển vông rồi mới cố gượng ép nhét từ vựng vào!\n" +
+            "2. TUYỆT ĐỐI CẤM MỞ BÀI SÁO RỖNG (ANTI-CLICHE): TUYỆT ĐỐI KHÔNG mở bài bằng các câu sáo rỗng như: '現代の社会において...', '現代社会では...', '私たちの生活は日々変化して...', '近年...'. Hãy mở bài trực tiếp bằng một câu chuyện cụ thể, trải nghiệm thực tế hoặc đối thoại sinh động gắn liền với bối cảnh của các từ vựng trong bài.\n" +
+            "3. ĐỘ PHỦ TỪ VỰNG (> 50%%): BẮT BUỘC PHẢI DÙNG TỐI THIỂU %d/%d TỪ VỰNG DƯỚI ĐÂY (trên 50%% tổng số từ vựng). Vì bài viết xoay quanh đúng chủ đề của từ vựng, hãy lồng ghép các từ một cách tự nhiên, mạch lạc vào từng tình huống.\n" +
+            "4. ĐỘ PHỦ NGỮ PHÁP (100%% BẮT BUỘC): BẮT BUỘC PHẢI DÙNG TOÀN BỘ %d/%d CẤU TRÚC NGỮ PHÁP DƯỚI ĐÂY trong mạch văn. Không được bỏ sót bất kỳ mẫu nào. Hãy chia động từ/hình thái tự nhiên trong câu (Ví dụ: '~ようにする' -> '〜ようにしました' hoặc '〜ようにしてください'; '~を中心' -> '〜を中心として' hoặc '〜を中心に'; '~ざるを得ない' -> '〜ざるを得ませんでした'). ĐẶC BIỆT: Đối với các mẫu có cấu trúc tương tự nhau (như 〜ように, 〜ようにする, 〜ようにしている), bạn BẮT BUỘC phải dùng chúng ở các câu riêng biệt thể hiện đúng chức năng của từng mẫu (1 câu mục đích, 1 câu nỗ lực, 1 câu thói quen).\n" +
+            "5. ĐỘ DÀI BẮT BUỘC: Bài văn BẮT BUỘC DÀI TỪ 3000 ĐẾN 4500 KÝ TỰ TIẾNG NHẬT (tính cả các ký tự Furigana), gồm 5 đến 7 đoạn văn lớn, có cốt truyện (Storytelling) hấp dẫn, chuyển ý mượt mà.\n" +
+            "6. DANH SÁCH KIỂM ĐỊNH NGỮ PHÁP: Trong trường 'used_grammars', BẮT BUỘC phải có ĐỦ %d phần tử tương ứng với toàn bộ %d mẫu ngữ pháp từ 1 đến %d, trích dẫn chính xác câu văn từ bài đọc đã sử dụng mẫu đó để chứng minh độ phủ 100%%.\n\n" +
+            "--- DANH SÁCH TỔNG CỘNG %d TỪ VỰNG (BẮT BUỘC DÙNG TỐI THIỂU %d TỪ TRỞ LÊN) ---\n%s\n\n" +
+            "--- DANH SÁCH TỔNG CỘNG %d CẤU TRÚC NGỮ PHÁP (BẮT BUỘC DÙNG ĐỦ 100%% CÁC MẪU NÀY) ---\n%s\n\n" +
             "QUY TẮC FURIGANA BẮT BUỘC:\n" +
-            "- Mọi chữ Kanji ghép hoặc Kanji khó PHẢI đính kèm Furigana theo đúng định dạng: [Kanji|hiragana] (Ví dụ: [環境|かんきょう], [問題|もんだい], [地球温暖化|ちきゅうおんだんか], [大切|たいせつ], [経験|けいけん]).\n" +
+            "- Mọi chữ Kanji ghép hoặc Kanji khó PHẢI đính kèm Furigana theo đúng định dạng: [Kanji|hiragana] (Ví dụ: [環境|かんきょう], [生活|せいかつ], [部屋|へや], [経験|けいけん]).\n" +
             "- Không dùng thẻ HTML <ruby>, chỉ dùng đúng cú pháp [Từ_Kanji|cách_đọc_hiragana] để hệ thống tự động render.\n\n" +
             "Trả về duy nhất 1 JSON Object (KHÔNG DÙNG MARKDOWN, KHÔNG GIẢI THÍCH NGOÀI):\n" +
             "{\n" +
             "  \"title\": \"Tiêu đề bài đọc tiếng Nhật (có furigana [Kanji|hiragana] nếu có kanji)\",\n" +
-            "  \"passage\": \"Toàn bộ nội dung bài văn 1500~2500 chữ chia nhiều đoạn rõ ràng bằng \\n\\n, có định dạng furigana [Kanji|hiragana]...\",\n" +
+            "  \"passage\": \"Toàn bộ nội dung bài văn 3000~4500 chữ chia 5-7 đoạn rõ ràng bằng \\n\\n, có định dạng furigana [Kanji|hiragana]...\",\n" +
             "  \"translation\": \"Bản dịch nghĩa tiếng Việt đầy đủ, tự nhiên, văn phong trau chuốt của toàn bộ bài văn...\",\n" +
-            "  \"used_grammars\": [\"liệt kê tất cả các mẫu ngữ pháp của bài đã dùng\"],\n" +
-            "  \"used_vocabularies\": [\"liệt kê tất cả các từ vựng của bài đã dùng\"]\n" +
+            "  \"used_grammars\": [\n" +
+            "    {\"pattern\": \"Tên mẫu ngữ pháp\", \"sentence\": \"Trích nguyên văn câu trong passage có chứa mẫu này\"}\n" +
+            "  ]\n" +
             "}",
             chapter, lesson,
-            totalGrammar, totalGrammar,
+            totalVocab,
             minVocabRequired, totalVocab,
+            totalGrammar, totalGrammar,
+            totalGrammar, totalGrammar, totalGrammar,
             totalVocab, minVocabRequired, vocabInfo.toString(),
             totalGrammar, grammarInfo.toString()
         );
 
+        log.info("  [AI CALL] Gửi yêu cầu sinh bài văn đọc hiểu tới API (Max tokens: 5500, Timeout: 120s)...");
+        long startCall = System.currentTimeMillis();
         try {
-            String rawText = callDeepSeekRawWithParams(apiKey, prompt, 4500, 120);
+            String rawText = callDeepSeekRawWithParams(apiKey, prompt, 5500, 120);
+            log.info("  [AI CALL] Đã nhận phản hồi bài văn từ API trong {}s (Độ dài: {} ký tự). Đang xử lý Furigana & parse JSON...", 
+                (System.currentTimeMillis() - startCall) / 1000.0, rawText.length());
             String cleanJson = cleanJsonContent(rawText);
             JsonNode root = objectMapper.readTree(cleanJson);
             if (root.has("title") && root.has("passage")) {
+                String title = root.path("title").asText("Bài đọc hiểu N3");
+                String passage = root.path("passage").asText("");
+                String translation = root.path("translation").asText("");
+
+                if (passage.trim().isEmpty()) {
+                    throw new IllegalStateException("AI không trả về nội dung bài đọc (passage rỗng) cho Chương " + chapter + " Bài " + lesson);
+                }
+
+                // Normalize any model variations like Kanji[hiragana] into [Kanji|hiragana]
+                title = title.replaceAll("([\\u4e00-\\u9faf\\u3400-\\u4dbf]+)\\[([^\\|\\]]+)\\]", "[$1|$2]");
+                passage = passage.replaceAll("([\\u4e00-\\u9faf\\u3400-\\u4dbf]+)\\[([^\\|\\]]+)\\]", "[$1|$2]");
+
+                if (root.has("used_grammars") && root.get("used_grammars").isArray()) {
+                    log.info("  [AI CALL] AI đã báo cáo trích dẫn {}/{} mẫu ngữ pháp trong mảng used_grammars.",
+                        root.get("used_grammars").size(), totalGrammar);
+                }
+
+                log.info("  [AI CALL] Parse thành công bài đọc: '{}' (Độ dài bài văn: {} ký tự)", title, passage.length());
                 Map<String, String> res = new HashMap<>();
-                res.put("title", root.path("title").asText("Bài đọc hiểu N3"));
-                res.put("passage", root.path("passage").asText(""));
-                res.put("translation", root.path("translation").asText(""));
+                res.put("title", title);
+                res.put("passage", passage);
+                res.put("translation", translation);
                 return res;
+            } else {
+                throw new IllegalStateException("Phản hồi JSON từ AI thiếu trường 'title' hoặc 'passage' cho Chương " + chapter + " Bài " + lesson);
             }
         } catch (Exception e) {
             log.error("Failed to generate reading passage via DeepSeek API for Chapter {} Lesson {}: {}", chapter, lesson, e.getMessage());
+            throw new RuntimeException("Lỗi khi sinh bài đọc hiểu AI (Chương " + chapter + " Bài " + lesson + "): " + e.getMessage(), e);
+        }
+    }
+
+    /**
+     * Self-Healing Repair Pipeline: When a generated passage is missing 1 or more grammar patterns,
+     * this targeted call requests AI to seamlessly inject sentences with the missing patterns into the existing passage,
+     * guaranteeing 100% grammar coverage without regenerating from scratch.
+     */
+    public Map<String, String> repairMissingGrammars(int chapter, int lesson,
+                                                     String currentTitle, String currentPassage, String currentTranslation,
+                                                     java.util.List<String> missingGrammars,
+                                                     java.util.List<Map<String, Object>> grammarList) {
+        String apiKey = getApiKey();
+        if (apiKey == null || apiKey.trim().isEmpty() || missingGrammars == null || missingGrammars.isEmpty()) {
+            return Map.of("title", currentTitle, "passage", currentPassage, "translation", currentTranslation);
         }
 
-        return generateFallbackReadingPassage(chapter, lesson, vocabList, grammarList);
+        Map<String, String> meaningMap = new HashMap<>();
+        if (grammarList != null) {
+            for (Map<String, Object> g : grammarList) {
+                String struc = String.valueOf(g.getOrDefault("cau_truc", "")).trim();
+                String meaning = String.valueOf(g.getOrDefault("y_nghia", "")).trim();
+                if (!struc.isBlank()) {
+                    meaningMap.put(struc, meaning);
+                }
+            }
+        }
+
+        StringBuilder missingInfo = new StringBuilder();
+        int idx = 1;
+        for (String m : missingGrammars) {
+            missingInfo.append(idx++).append(". ").append(m);
+            String mn = meaningMap.get(m);
+            if (mn != null && !mn.isBlank()) {
+                missingInfo.append(": ").append(mn);
+            }
+            missingInfo.append("\n");
+        }
+
+        String prompt = String.format(
+            "Bạn là biên tập viên tiếng Nhật JLPT N3 xuất sắc.\n" +
+            "Dưới đây là một bài đọc hiểu tiếng Nhật vừa được viết cho Chương %d Bài %d:\n\n" +
+            "【TIÊU ĐỀ HIỆN TẠI】: %s\n\n" +
+            "【BÀI VĂN HIỆN TẠI】:\n%s\n\n" +
+            "【BẢN DỊCH HIỆN TẠI】:\n%s\n\n" +
+            "⚠️ VẤN ĐỀ CẦN SỬA ĐỔI: Bài văn trên rất hay nhưng hiện ĐANG THIẾU %d MẪU NGỮ PHÁP BẮT BUỘC sau đây:\n%s\n\n" +
+            "NHIỆM VỤ BIÊN TẬP:\n" +
+            "1. BẮT BUỘC chèn/lồng ghép tự nhiên các câu văn chứa ĐẦY ĐỦ %d mẫu ngữ pháp bị thiếu ở trên vào các đoạn văn thích hợp trong bài.\n" +
+            "2. Giữ nguyên toàn bộ cốt truyện, bối cảnh, nhân vật và văn phong của bài văn hiện tại, không được cắt ngắn bài văn.\n" +
+            "3. Mọi chữ Hán mới thêm PHẢI có furigana dạng [Kanji|hiragana].\n" +
+            "4. Cập nhật lại bản dịch tiếng Việt cho các câu mới chèn vào.\n" +
+            "5. Trong trường 'used_grammars', hãy trích dẫn câu văn tương ứng trong bài đọc cho TOÀN BỘ các mẫu vừa bổ sung.\n\n" +
+            "Trả về duy nhất JSON (KHÔNG DÙNG MARKDOWN, KHÔNG GIẢI THÍCH NGOÀI):\n" +
+            "{\n" +
+            "  \"title\": \"%s\",\n" +
+            "  \"passage\": \"Toàn bộ bài văn hoàn chỉnh sau khi đã bổ sung đầy đủ các mẫu ngữ pháp (có furigana [Kanji|hiragana])...\",\n" +
+            "  \"translation\": \"Bản dịch tiếng Việt hoàn chỉnh sau khi đã cập nhật...\",\n" +
+            "  \"used_grammars\": [\n" +
+            "    {\"pattern\": \"Tên mẫu\", \"sentence\": \"Trích nguyên văn câu văn có chứa mẫu\"}\n" +
+            "  ]\n" +
+            "}",
+            chapter, lesson, currentTitle, currentPassage, currentTranslation,
+            missingGrammars.size(), missingInfo.toString(),
+            missingGrammars.size(),
+            currentTitle
+        );
+
+        log.info("  [AI REPAIR] Gửi yêu cầu tự động bổ sung {} mẫu ngữ pháp còn thiếu tới API...", missingGrammars.size());
+        long startCall = System.currentTimeMillis();
+        try {
+            String rawText = callDeepSeekRawWithParams(apiKey, prompt, 5500, 120);
+            log.info("  [AI REPAIR] Đã nhận phản hồi sửa đổi từ API trong {}s. Đang xử lý Furigana & parse JSON...",
+                (System.currentTimeMillis() - startCall) / 1000.0);
+            String cleanJson = cleanJsonContent(rawText);
+            JsonNode root = objectMapper.readTree(cleanJson);
+            if (root.has("passage")) {
+                String title = root.path("title").asText(currentTitle);
+                String passage = root.path("passage").asText("");
+                String translation = root.path("translation").asText(currentTranslation);
+
+                if (!passage.trim().isEmpty()) {
+                    title = title.replaceAll("([\\u4e00-\\u9faf\\u3400-\\u4dbf]+)\\[([^\\|\\]]+)\\]", "[$1|$2]");
+                    passage = passage.replaceAll("([\\u4e00-\\u9faf\\u3400-\\u4dbf]+)\\[([^\\|\\]]+)\\]", "[$1|$2]");
+
+                    Map<String, String> res = new HashMap<>();
+                    res.put("title", title);
+                    res.put("passage", passage);
+                    res.put("translation", translation);
+                    return res;
+                }
+            }
+        } catch (Exception e) {
+            log.error("Failed to repair missing grammars for Chapter {} Lesson {}: {}", chapter, lesson, e.getMessage());
+        }
+
+        return Map.of("title", currentTitle, "passage", currentPassage, "translation", currentTranslation);
     }
 
     /**
@@ -1514,8 +1640,7 @@ public class DeepSeekEnrichmentService {
                                              java.util.List<Map<String, Object>> grammarList) {
         String apiKey = getApiKey();
         if (apiKey == null || apiKey.trim().isEmpty()) {
-            log.warn("DEEPSEEK_API_KEY is not configured. Generating fallback reading questions for Chapter {} Lesson {}.", chapter, lesson);
-            return generateFallbackReadingQuestions(chapter, lesson, grammarList);
+            throw new IllegalStateException("DeepSeek/OpenRouter API key chưa được cấu hình. Vui lòng cấu hình DEEPSEEK_API_KEY để sinh câu hỏi trắc nghiệm đọc hiểu AI (100% AI, không sử dụng dữ liệu tĩnh).");
         }
 
         String prompt = String.format(
@@ -1532,10 +1657,7 @@ public class DeepSeekEnrichmentService {
             "  - \"question\": Câu hỏi bằng tiếng Nhật (mọi Kanji đều đính kèm [Kanji|hiragana]).\n" +
             "  - \"options\": Mảng đúng 4 lựa chọn [\"A. ...\", \"B. ...\", \"C. ...\", \"D. ...\"].\n" +
             "  - \"answer\": Chuỗi khớp chính xác 1 trong 4 lựa chọn (Ví dụ: \"A. ...\").\n" +
-            "  - \"explanation\": GIẢI THÍCH 100%% BẰNG TIẾNG VIỆT CHI TIẾT:\n" +
-            "      1. Dịch nghĩa câu hỏi và 4 lựa chọn sang tiếng Việt.\n" +
-            "      2. Trích dẫn câu văn cụ thể trong bài đọc làm bằng chứng và giải thích tại sao đáp án đúng là ĐÚNG.\n" +
-            "      3. Phân tích rõ ràng tại sao 3 đáp án còn lại SAI.\n\n" +
+            "  - \"explanation\": Giải thích súc tích 100%% bằng tiếng Việt (Dịch câu hỏi và trích dẫn câu văn trong bài chứng minh đáp án đúng).\n\n" +
             "Trả về duy nhất 1 JSON Array gồm đúng 10 phần tử (KHÔNG DÙNG MARKDOWN, KHÔNG GIẢI THÍCH NGOÀI):\n" +
             "[\n" +
             "  {\n" +
@@ -1543,123 +1665,42 @@ public class DeepSeekEnrichmentService {
             "    \"question\": \"1. [本文|ほんぶん]によると、...\",\n" +
             "    \"options\": [\"A. ...\", \"B. ...\", \"C. ...\", \"D. ...\"],\n" +
             "    \"answer\": \"A. ...\",\n" +
-            "    \"explanation\": \"• Dịch nghĩa: ...\\n• Đáp án A ĐÚNG: Căn cứ theo câu văn '...' ở đoạn 2...\\n• Các đáp án khác sai:\\n - B sai vì...\\n - C sai vì...\\n - D sai vì...\"\n" +
+            "    \"explanation\": \"• Dịch nghĩa: ...\\n• Đáp án A ĐÚNG vì căn cứ theo câu văn '...' trong bài đọc.\"\n" +
             "  }\n" +
             "]",
             chapter, lesson, passage
         );
 
+        log.info("  [AI CALL] Gửi yêu cầu sinh 10 câu hỏi trắc nghiệm tới API (Max tokens: 5000, Timeout: 120s)...");
+        long startCallQ = System.currentTimeMillis();
         try {
-            String rawText = callDeepSeekRawWithParams(apiKey, prompt, 4096, 90);
+            String rawText = callDeepSeekRawWithParams(apiKey, prompt, 5000, 120);
+            log.info("  [AI CALL] Đã nhận phản hồi câu hỏi từ API trong {}s (Độ dài: {} ký tự). Đang parse danh sách câu hỏi...",
+                (System.currentTimeMillis() - startCallQ) / 1000.0, rawText.length());
             String cleanJson = cleanJsonContent(rawText);
-            JsonNode root = objectMapper.readTree(cleanJson);
+            cleanJson = cleanJson.replaceAll("([\\u4e00-\\u9faf\\u3400-\\u4dbf]+)\\[([^\\|\\]]+)\\]", "[$1|$2]");
+            JsonNode root;
+            try {
+                root = objectMapper.readTree(cleanJson);
+            } catch (Exception parseEx) {
+                // Resilient recovery: if output was cut off mid-string, recover up to last valid closed object
+                int lastBrace = cleanJson.lastIndexOf('}');
+                if (cleanJson.startsWith("[") && lastBrace > 0) {
+                    log.warn("  [AI CALL] Phản hồi JSON câu hỏi chưa đóng ngoặc vuông, đang tự động khôi phục mảng JSON tới ký tự '}' cuối cùng...");
+                    root = objectMapper.readTree(cleanJson.substring(0, lastBrace + 1) + "]");
+                } else {
+                    throw parseEx;
+                }
+            }
             if (root.isArray() && root.size() >= 5) {
+                log.info("  [AI CALL] Parse thành công {} câu hỏi trắc nghiệm đọc hiểu kèm giải thích!", root.size());
                 return objectMapper.writeValueAsString(root);
+            } else {
+                throw new IllegalStateException("AI trả về danh sách câu hỏi không đúng định dạng JSON Array hoặc ít hơn 5 câu cho Chương " + chapter + " Bài " + lesson);
             }
         } catch (Exception e) {
             log.error("Failed to generate reading questions via DeepSeek API for Chapter {} Lesson {}: {}", chapter, lesson, e.getMessage());
-        }
-
-        return generateFallbackReadingQuestions(chapter, lesson, grammarList);
-    }
-
-    /** Fallback Reading Passage generator */
-    private Map<String, String> generateFallbackReadingPassage(int chapter, int lesson,
-                                                               java.util.List<Map<String, Object>> vocabList,
-                                                               java.util.List<Map<String, Object>> grammarList) {
-        StringBuilder passage = new StringBuilder();
-        passage.append("　[現代|げんだい]の[社会|しゃかい]において、[私|わたし]たちの[生活|せいかつ]は[日々|ひび][大|おお]きく[変化|へんか]しています。[技術|ぎじゅつ]の[進歩|しんぽ]によって、いつでもどこでも[情報|じょうほう]を[得|え]ることができるようになり、[世界中|せかいじゅう]の[人々|ひとびと]と[簡単|かんたん]に[繋|つな]がることができるようになりました。しかし、そのような[便利|べんり]な[世|よ]の[中|なか]になった[一方|いっぽう]で、[私|わたし]たちが[失|うしな]いつつある[大切|たいせつ]なものもあるのではないでしょうか。\n\n");
-        passage.append("　[例|たと]えば、[自然|しぜん]や[環境|かんきょう]についての[問題|もんだい]です。[経済|けいざい]の[発展|はってん]を[優先|ゆうせん]するあまり、[緑|みどり]の[豊|ゆた]かな[森|もり]が[減|へ]少し、[川|かわ]や[海|うみ]が[汚|よご]れてしまう[事態|じたい]が[起|お]きています。[地球温暖化|ちきゅうおんだんか]の[影響|えいきょう]で、[世界各地|せかいかくち]で[異常気象|いじょうきしょう]が[報告|ほうこく]されており、これは[人間|にんげん]だけでなく、そこに[暮|く]らす[多|おお]くの[動物|どうぶつ]たちの[命|いのち]をも[脅|おびや]かしています。[将来|しょうらい]の[世代|せだい]のために、[持続可能|じぞくかのう]な[社会|しゃかい]を[築|きず]き[上|あ]げていくことが、[今|いま]まさに[求|もと]められているのです。\n\n");
-        passage.append("　また、[人間関係|にんげんかんけい]においても[同|おな]じことが[言|い]えます。SNSなどの[普及|ふきゅう]によって、[直接|ちょくせつ][顔|かお]を[合|あ]わせなくても[意思疎通|いしそつう]ができるようになりましたが、その[反面|はんめん]、[相手|あいて]の[気持|きも]ちを[深|ふか]く[思|おも]いやり、じっくりと[対話|たいわ]をする[機会|きかい]が[少|すく]なくなってきているように[感|かん]じられます。[言葉|ことば]の[奥|おく]にある[温|あたた]かさや、[直接|ちょくせつ]のふれあいを通じてこそ[育|そだ]まれる[信頼関係|しんらいかんけい]の[尊|とうと]さを、[私|わたし]たちはもう[一度|いちど][見直|みなお]すべきではないでしょうか。\n\n");
-        passage.append("　[目標|もくひょう]に[向|む]かって[努力|どりょく]を[続|つづ]けることの[意義|いぎ]も[忘|わす]れてはなりません。[結果|けっか]をすぐに[求|もと]めるあまり、[途中|とちゅう]の[過程|かてい]で[得|え]られる[貴重|きちょう]な[経験|けいけん]や[学|まな]びを[軽視|けいし]してしまうことがあります。たとえ[失敗|しっぱい]したとしても、そこから[何|なに]を[学|まな]び、どのように[次|つぎ]の[一歩|いっぽ]を[踏|ふ]み[出|だ]すかが[重要|じゅうよう]なのです。[諦|あきら]めずに[挑戦|ちょうせん]し[続|つづ]けることで、[自分自身|じぶんじしん]の[可能性|かのうせい]を[広|ひろ]げることができます。\n\n");
-        passage.append("　[結|むす]びとして、[便利|べんり]さを[享受|きょうじゅ]しながらも、[環境|かんきょう]への[配慮|はいりょ]や[人|ひと]への[感謝|かんしゃ]の[心|こころ]を[失|うしな]わず、バランスのとれた[生活|せいかつ]を[送|おく]ることが[大切|たいせつ]です。[自分|じぶん]の[身|み]の[回|まわ]りのささやかなことから[行動|こうどう]を[起|お]こし、よりよい[未来|みらい]を[共|とも]に[創|つく]り[出|だ]していくことが、[現代|げんだい]を[生|い]きる[私|わたし]たちに[課|か]せられた[使命|しめい]であると[確信|かくしん]しています。");
-
-        StringBuilder trans = new StringBuilder();
-        trans.append("Trong xã hội hiện đại, cuộc sống của chúng ta đang thay đổi từng ngày. Sự tiến bộ của công nghệ cho phép chúng ta tiếp nhận thông tin mọi lúc mọi nơi và dễ dàng kết nối với mọi người trên khắp thế giới. Tuy nhiên, cùng với việc xã hội trở nên tiện lợi như vậy, liệu có phải chúng ta cũng đang dần đánh mất đi những điều quý giá hay không?\n\n");
-        trans.append("Lấy ví dụ về vấn đề tự nhiên và môi trường. Do quá ưu tiên phát triển kinh tế, những cánh rừng xanh tươi bị thu hẹp, sông ngòi và biển cả bị ô nhiễm. Dưới tác động của hiện tượng nóng lên toàn cầu, thời tiết dị thường đang được ghi nhận ở khắp nơi trên thế giới, đe dọa không chỉ tính mạng con người mà cả muôn loài động vật. Việc xây dựng một xã hội phát triển bền vững cho các thế hệ tương lai chính là điều đang được đòi hỏi cấp bách hiện nay.\n\n");
-        trans.append("Điều tương tự cũng đúng trong mối quan hệ giữa người với người. Mạng xã hội giúp chúng ta giao tiếp mà không cần gặp mặt trực tiếp, nhưng mặt khác, cơ hội để thấu hiểu sâu sắc cảm xúc của đối phương và đối thoại chân thành dường như đang ít dần đi. Chúng ta cần nhìn nhận lại sự ấm áp đằng sau từng lời nói và giá trị của sự tin tưởng được nuôi dưỡng qua những lần tiếp xúc trực tiếp.\n\n");
-        trans.append("Ý nghĩa của việc kiên trì nỗ lực hướng tới mục tiêu cũng là điều không thể lãng quên. Việc quá nôn nóng đòi hỏi kết quả tức thì đôi khi khiến chúng ta xem nhẹ những kinh nghiệm và bài học quý giá tích lũy trên chặng đường đi. Cho dù có thất bại, điều quan trọng nhất là ta học được gì từ đó và bước tiếp bước đi kế tiếp ra sao. Kiên trì thử thách không bỏ cuộc sẽ giúp ta mở rộng tiềm năng của chính mình.\n\n");
-        trans.append("Tóm lại, trong khi tận hưởng sự tiện nghi hiện đại, điều cốt lõi là không đánh mất lòng quan tâm đến môi trường và sự biết ơn đối với mọi người xung quanh, hướng tới một cuộc sống cân bằng. Bắt đầu hành động từ những việc nhỏ nhất quanh mình để cùng kiến tạo một tương lai tốt đẹp hơn chính là sứ mệnh được giao phó cho mỗi chúng ta hôm nay.");
-
-        Map<String, String> res = new HashMap<>();
-        res.put("title", String.format("[現代社会|げんだいしゃかい]における[調和|ちょうわ]と[未来|みらい]への[挑戦|ちょうせん] (Chương %d Bài %d)", chapter, lesson));
-        res.put("passage", passage.toString());
-        res.put("translation", trans.toString());
-        return res;
-    }
-
-    /** Fallback Reading Questions generator */
-    private String generateFallbackReadingQuestions(int chapter, int lesson,
-                                                     java.util.List<Map<String, Object>> grammarList) {
-        java.util.List<Map<String, Object>> list = new ArrayList<>();
-
-        String[] questionsJa = {
-            "1. [本文|ほんぶん]によると、[現代社会|げんだいしゃかい]の[大|おお]きな[特徴|とくちょう]として[正|ただ]しいものはどれか。",
-            "2. [自然環境|しぜんかんきょう]が[悪化|あっか]している[大|おお]きな[原因|げんいん]として、[筆者|ひっしゃ]は何を挙げているか。",
-            "3. [本文|ほんぶん]の「その[反面|はんめん]」が[指|さ]している[内容|ないよう]はどれか。",
-            "4. [人間関係|にんげんかんけい]において、[筆者|ひっしゃ]が「もう[一度|いちど][見直|みなお]すべきだ」と[述|の]べていることは何か。",
-            "5. [目標|もくひょう]に[向|む]かって[努力|どりょく]する[際|さい]に、[最|もっと]も[大切|たいせつ]だとされていることはどれか。",
-            "6. [本文|ほんぶん]の[下線部|かせんぶ]「[持続可能|じぞくかのう]な[社会|しゃかい]」の[説明|せつめい]として[最|もっと]も[適切|てきせつ]なものはどれか。",
-            "7. [失敗|しっぱい]について、[筆者|ひっしゃ]の[考|かんが]えと[一致|いっち]するものはどれか。",
-            "8. [現代|げんだい]のSNSによるコミュニケーションについて、[筆者|ひっしゃ]はどのように[捉|とら]えているか。",
-            "9. [筆者|ひっしゃ]が[最後|さいご]に[読者|どくしゃ]に[求|もと]めている「[使命|しめい]」とは何か。",
-            "10. この[文章|ぶんしょう]で[筆者|ひっしゃ]が[最|もっと]も[伝|つた]えたいこと（[主張|しゅちょう]）は何か。"
-        };
-
-        String[][] optionsArr = {
-            {"A. 技術の進歩によって世界中の人々と簡単に繋がれるようになったこと", "B. 経済発展によりすべての環境問題が解決したこと", "C. 人々が直接対面での会話を何よりも好むようになったこと", "D. 将来の世代に対する関心が薄れてしまったこと"},
-            {"A. 科学技術の研究が完全に停滞してしまったこと", "B. 経済の発展を優先しすぎたこと", "C. 人々がSNSを全く利用しなくなったこと", "D. 世界各地で動物の数が増えすぎたこと"},
-            {"A. 相手の気持ちを深く思いやる機会が増えたこと", "B. 直接顔を合わせなくても意思疎通ができる便利さがあること", "C. 人間関係が昔よりも親密になったこと", "D. 自然環境が美しく回復したこと"},
-            {"A. SNSでの友達の数をできる限り増やすこと", "B. 言葉の奥にある温かさや、直接のふれあいを通じて育まれる信頼関係", "C. 仕事での利益を最優先にして効率的に話すこと", "D. 他人の意見を気にせずに自分の意見だけを述べること"},
-            {"A. 結果だけを重視し、最短で成功を掴み取ること", "B. 他人との競争に勝ち続けること", "C. 過程で得られる貴重な経験や学びを大切にすること", "D. 失敗しそうになったらすぐに別の道へ変更すること"},
-            {"A. 現在の便利さを極限まで追求し続ける社会", "B. 将来の世代のために環境や資源を守りながら発展していく社会", "C. すべての人間関係をオンライン上だけで完結させる社会", "D. 経済活動を完全に停止して昔の生活に戻る社会"},
-            {"A. 失敗は避けるべき恥ずかしいことである", "B. 失敗から何を学び、どのように次の一歩を踏み出すかが重要である", "C. 一度失敗した人は二度と挑戦すべきではない", "D. 失敗の原因は常に社会の環境にある"},
-            {"A. 非常に便利であるが、相手への深い思いやりや対話の機会が減る面もある", "B. 完全に有害であり、今すぐ使用をやめるべきである", "C. 直接の対話よりも相手の真意が確実に伝わるツールである", "D. 自然環境の保護に最も効果的な手段である"},
-            {"A. 最先端の技術開発にすべての時間を捧げること", "B. 身の回りのささやかなことから行動を起こし、共によい未来を創ること", "C. 都会を離れて山や森で自給自足の生活を送ること", "D. 他人の行動を厳しく批判し続けること"},
-            {"A. 経済発展のためには自然環境の破壊もやむを得ない", "B. 便利さを享受しつつも環境や人への感謝を忘れず、調和のとれた生き方をすること", "C. SNSをやめて昔の生活様式に完全に回帰すべきである", "D. 結果が出ない努力には何の意味もない"}
-        };
-
-        String[] answers = {
-            "A. 技術の進歩によって世界中の人々と簡単に繋がれるようになったこと",
-            "B. 経済発展によりすべての発展を優先しすぎたこと",
-            "B. 直接顔を合わせなくても意思疎通ができる便利さがあること",
-            "B. 言葉の奥にある温かさや、直接のふれあいを通じて育まれる信頼関係",
-            "C. 過程で得られる貴重な経験や学びを大切にすること",
-            "B. 将来の世代のために環境や資源を守りながら発展していく社会",
-            "B. 失敗から何を学び、どのように次の一歩を踏み出すかが重要である",
-            "A. 非常に便利であるが、相手への深い思いやりや対話の機会が減る面もある",
-            "B. 身の回りのささやかなことから行動を起こし、共によい未来を創ること",
-            "B. 便利さを享受しつつも環境や人への感謝を忘れず、調和のとれた生き方をすること"
-        };
-
-        String[] explanations = {
-            "• Dịch nghĩa: Theo bài đọc, đặc điểm lớn của xã hội hiện đại là gì?\n• Đáp án A ĐÚNG: Đoạn 1 có nêu rõ '技術の進歩によって... 世界中の人々と簡単に繋がることができるようになりました' (Nhờ công nghệ tiến bộ, ta dễ dàng kết nối với mọi người khắp thế giới).\n• Các đáp án B, C, D sai: Bài không nói môi trường đã giải quyết xong, mà ngược lại đang ô nhiễm; mọi người đang ít gặp trực tiếp hơn.",
-            "• Dịch nghĩa: Tác giả nêu nguyên nhân lớn làm suy thoái môi trường tự nhiên là gì?\n• Đáp án B ĐÚNG: Đoạn 2 nêu '経済の発展を優先するあまり、緑の豊かな森が減少し...' (Chính vì quá ưu tiên phát triển kinh tế mà rừng xanh bị thu hẹp).\n• Các đáp án A, C, D không đúng với nội dung đoạn 2.",
-            "• Dịch nghĩa: Từ 'その反面' (mặt khác) ám chỉ nội dung nào?\n• Đáp án B ĐÚNG: 'その反面' đối lập với vế trước là sự tiện lợi khi không cần gặp mặt trực tiếp vẫn giao tiếp được qua SNS.\n• Các đáp án A, C, D không phải là vế được đối lập.",
-            "• Dịch nghĩa: Trong quan hệ con người, tác giả cho rằng điều gì cần được nhìn nhận lại?\n• Đáp án B ĐÚNG: Đoạn 3 chốt lại '言葉の奥にある温かさや、直接のふれあいを通じてこそ育まれる信頼関係の尊さを... 見直すべき'.\n• Các đáp án khác trái ngược với tinh thần bài viết.",
-            "• Dịch nghĩa: Khi nỗ lực vì mục tiêu, điều được coi là quan trọng nhất là gì?\n• Đáp án C ĐÚNG: Đoạn 4 nêu '途中の過程で得られる貴重な経験や学び' (kinh nghiệm và bài học quý giá có được trên suốt quá trình).\n• Đáp án A, B, D sai vì bài phê phán việc chỉ chăm chăm đòi kết quả ngay.",
-            "• Dịch nghĩa: Giải thích nào chuẩn xác nhất cho cụm 'xã hội bền vững'?\n• Đáp án B ĐÚNG: Đoạn 2 giải thích bảo vệ môi trường và sự sống cho thế hệ tương lai.\n• Các đáp án khác hiểu sai khái niệm.",
-            "• Dịch nghĩa: Quan điểm nào của tác giả phù hợp với cách nhìn về sự thất bại?\n• Đáp án B ĐÚNG: Đoạn 4 khẳng định 'たとえ失敗したとしても、そこから何を学び、どのように次の一歩を踏み出すかが重要'.\n• Đáp án A, C, D bi quan, không đúng ý tác giả.",
-            "• Dịch nghĩa: Tác giả nhìn nhận việc giao tiếp qua SNS hiện nay như thế nào?\n• Đáp án A ĐÚNG: Tác giả nhìn nhận 2 mặt: vừa tiện lợi nhưng cũng vừa làm giảm sự thấu hiểu sâu sắc trực tiếp.\n• Các đáp án khác cực đoan hoặc không đúng.",
-            "• Dịch nghĩa: 'Sứ mệnh' tác giả muốn người đọc hướng tới là gì?\n• Đáp án B ĐÚNG: Đoạn kết nêu '自分の身の回りのささやかなことから行動を起こし、よりよい未来を共に創り出していく'.\n• Các đáp án khác sai lệch so với bài văn.",
-            "• Dịch nghĩa: Thông điệp lớn nhất tác giả muốn gửi gắm trong toàn bộ bài viết là gì?\n• Đáp án B ĐÚNG: Kết hợp hài hòa giữa việc tận hưởng công nghệ tiện ích với lòng biết ơn con người và bảo vệ thiên nhiên.\n• Các phương án A, C, D phiến diện, lệch trọng tâm."
-        };
-
-        for (int i = 0; i < 10; i++) {
-            Map<String, Object> q = new HashMap<>();
-            q.put("id", i + 1);
-            q.put("question", questionsJa[i]);
-            q.put("options", java.util.Arrays.asList(optionsArr[i]));
-            q.put("answer", answers[i]);
-            q.put("explanation", explanations[i]);
-            list.add(q);
-        }
-
-        try {
-            return objectMapper.writeValueAsString(list);
-        } catch (Exception e) {
-            log.error("Failed to serialize fallback reading questions: {}", e.getMessage());
-            return "[]";
+            throw new RuntimeException("Lỗi khi sinh câu hỏi đọc hiểu AI (Chương " + chapter + " Bài " + lesson + "): " + e.getMessage(), e);
         }
     }
 }

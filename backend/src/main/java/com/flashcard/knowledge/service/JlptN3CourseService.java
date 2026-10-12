@@ -310,7 +310,19 @@ public class JlptN3CourseService {
             }
 
             List<Map<String, Object>> nguPhapList = new ArrayList<>();
+            Set<String> seenGrammarKeys = new HashSet<>();
             for (GrammarCard g : dbGrammars) {
+                String struc = g.getGrammar();
+                if (struc == null || struc.isBlank()) continue;
+                String normKey = struc.replaceAll("[〜~\\.\\…\\s\\-\\+]", "")
+                                      .replaceAll("（", "(").replaceAll("）", ")")
+                                      .replaceAll("／", "/")
+                                      .toLowerCase();
+                if (!seenGrammarKeys.add(normKey)) {
+                    // Skip exact duplicate grammar card imported multiple times
+                    continue;
+                }
+
                 Map<String, Object> gItem = new HashMap<>();
                 gItem.put("id", g.getId());
                 gItem.put("cau_truc", g.getGrammar());
@@ -410,10 +422,14 @@ public class JlptN3CourseService {
         int importedGrammar = 0;
         List<String> details = new ArrayList<>();
 
+        log.info("📥 [UPLOAD JSON] Bắt đầu nạp {} tệp JSON tải lên...", files.length);
+        int fileIdx = 0;
         for (MultipartFile file : files) {
+            fileIdx++;
             if (file.isEmpty()) continue;
 
             String originalName = file.getOriginalFilename();
+            log.info("⏳ [UPLOAD JSON] Đang nạp tệp [{}/{}] '{}'...", fileIdx, files.length, originalName);
             try {
                 byte[] bytes = file.getBytes();
                 if (bytes == null || bytes.length == 0) {
@@ -641,14 +657,16 @@ public class JlptN3CourseService {
                 importedGrammar += fileGrammar;
 
                 details.add(String.format("Đã nạp %s (Chương %d - Bài %d): %d từ vựng, %d chữ Hán, %d ngữ pháp", originalName, chuong, bai, fileVocab, fileKanji, fileGrammar));
+                log.info("✅ [UPLOAD JSON] Nạp thành công [{}/{}]: Chương {} Bài {} ({} từ, {} kanji, {} ngữ pháp)",
+                    fileIdx, files.length, chuong, bai, fileVocab, fileKanji, fileGrammar);
             } catch (Exception e) {
-                log.error("Failed to process uploaded file {}: {}", originalName, e.getMessage(), e);
+                log.error("❌ [UPLOAD JSON] Lỗi khi nạp [{}/{}] {}: {}", fileIdx, files.length, originalName, e.getMessage(), e);
                 details.add("Lỗi khi đọc " + originalName + ": " + e.getMessage());
             }
         }
 
         clearLessonCache();
-        log.info("Persisted to DB: {} files, {} vocab, {} kanji, {} grammar.", processedFilesCount, importedVocab, importedKanji, importedGrammar);
+        log.info("🏁 [UPLOAD JSON] Hoàn tất nạp {} tệp! Tổng cộng: {} từ vựng, {} kanji, {} ngữ pháp.", processedFilesCount, importedVocab, importedKanji, importedGrammar);
 
         Map<String, Object> response = new HashMap<>();
         response.put("success", true);
@@ -937,8 +955,10 @@ public class JlptN3CourseService {
             for (Map<String, Object> g : grammarList) {
                 String struc = String.valueOf(g.getOrDefault("cau_truc", "")).trim();
                 if (struc.isBlank()) continue;
-                String normalizedStruc = struc.replaceAll("[〜~\\.\\…\\s]", "");
-                if (!normalizedStruc.isBlank() && (cleanPassage.contains(normalizedStruc) || passage.contains(struc) || cleanPassage.contains(struc))) {
+
+                boolean matched = isGrammarPatternMatched(cleanPassage, passage, struc);
+
+                if (matched) {
                     matchedGrammars.add(struc);
                 } else {
                     missingGrammars.add(struc);
@@ -962,11 +982,25 @@ public class JlptN3CourseService {
                 String meaning = String.valueOf(v.getOrDefault("nghia", v.getOrDefault("meaning", ""))).trim();
                 if (word.isBlank() && reading.isBlank()) continue;
 
+                // Clean syllabus notation like "~中 (ちゅう)" -> "中"
+                String cleanWord = word.replaceAll("[\\(（][^\\)）]*[\\)）]", "")
+                                       .replaceAll("[〜~\\-\\s]", "")
+                                       .trim();
+                String cleanReading = reading.replaceAll("[\\(（][^\\)）]*[\\)）]", "")
+                                             .replaceAll("[〜~\\-\\s]", "")
+                                             .trim();
+
                 boolean matched = false;
-                if (!word.isBlank() && (cleanPassage.contains(word) || passage.contains(word))) {
+                if (!cleanWord.isBlank() && (cleanPassage.contains(cleanWord) || passage.contains(cleanWord))) {
                     matched = true;
-                } else if (!reading.isBlank() && (cleanPassage.contains(reading) || passage.contains(reading))) {
+                } else if (!cleanReading.isBlank() && (cleanPassage.contains(cleanReading) || passage.contains(cleanReading))) {
                     matched = true;
+                } else if (!cleanWord.isBlank() && cleanWord.length() >= 2) {
+                    // Check verb/adjective stem for conjugated forms e.g. 倒す -> 倒, 積む -> 積, 切れる -> 切れ
+                    String stem = cleanWord.substring(0, cleanWord.length() - 1);
+                    if (stem.length() >= 1 && (cleanPassage.contains(stem) || passage.contains(stem))) {
+                        matched = true;
+                    }
                 }
 
                 Map<String, String> item = new HashMap<>();
@@ -1004,10 +1038,185 @@ public class JlptN3CourseService {
     }
 
     /**
+     * Check if a JLPT grammar pattern matches in the reading passage.
+     * Supports multi-part patterns, conjugations, polite/past forms, and optional parentheses.
+     */
+    public boolean isGrammarPatternMatched(String cleanPassage, String passage, String struc) {
+        if (struc == null || struc.isBlank()) return false;
+        if (cleanPassage == null) cleanPassage = "";
+        if (passage == null) passage = "";
+
+        // 1. Check multi-part / split patterns
+        if (struc.contains("ば") && struc.contains("ほど")) {
+            if (cleanPassage.matches("(?s).*ば.{1,50}ほど.*") || passage.matches("(?s).*ば.{1,50}ほど.*")) return true;
+        }
+        if (struc.contains("さえ") && struc.contains("ば")) {
+            if (cleanPassage.matches("(?s).*さえ.{1,50}ば.*") || passage.matches("(?s).*さえ.{1,50}ば.*")) return true;
+        }
+        if (struc.contains("から") && struc.contains("にかけて")) {
+            if (cleanPassage.matches("(?s).*から.{1,50}にかけて.*") || passage.matches("(?s).*から.{1,50}にかけて.*")) return true;
+        }
+        if (struc.contains("も") && struc.contains("ば") && struc.lastIndexOf("も") > struc.indexOf("ば")) {
+            if (cleanPassage.matches("(?s).*も.{1,40}ば.{1,40}も.*") || passage.matches("(?s).*も.{1,40}ば.{1,40}も.*")) return true;
+        }
+        if (struc.contains("ほど") && (struc.contains("ない") || struc.contains("客観") || struc.contains("はない"))) {
+            if (cleanPassage.matches("(?s).*ほど.{1,40}(ない|なかった|ません|客観|ず).*") || passage.matches("(?s).*ほど.{1,40}(ない|なかった|ません|客観|ず).*")) return true;
+        }
+
+        // 2. Normalize and split into alternative variants
+        String normalizedStruc = struc.replaceAll("[\\(（][0-9０-９]+[\\)）]", ""); // remove (1), (2), （１）
+        List<String> rawParts = new ArrayList<>();
+        // If not a paired pattern and contains multiple ~ or 〜 e.g. 〜など〜なんか〜なんて
+        if (normalizedStruc.replaceAll("[^〜~]", "").length() > 1 && !normalizedStruc.contains("ほど") && !normalizedStruc.contains("かけて") && !normalizedStruc.contains("ば")) {
+            for (String sub : normalizedStruc.split("[〜~]")) {
+                if (!sub.isBlank()) rawParts.add(sub);
+            }
+        } else {
+            for (String sub : normalizedStruc.split("[/／,]")) {
+                if (!sub.isBlank()) rawParts.add(sub);
+            }
+        }
+
+        // 3. Expand optional parenthesized variations e.g. 上(に), わりに(は), をもとに(して), ぬき(で)
+        List<String> candidateParts = new ArrayList<>();
+        for (String raw : rawParts) {
+            String trimmed = raw.trim();
+            if (trimmed.isBlank()) continue;
+
+            if (trimmed.matches(".*[\\(（][^0-9０-９\\)）]+[\\)）].*")) {
+                // Variant 1: include the content inside parentheses e.g. 上(に) -> 上に
+                String withParenContent = trimmed.replaceAll("[\\(（]([^\\)）]+)[\\)）]", "$1");
+                candidateParts.add(withParenContent);
+                // Variant 2: exclude the parentheses and content e.g. 上(に) -> 上
+                String withoutParenContent = trimmed.replaceAll("[\\(（][^\\)）]+[\\)）]", "");
+                candidateParts.add(withoutParenContent);
+            } else {
+                candidateParts.add(trimmed);
+            }
+        }
+
+        // 4. Test each candidate part and its morphological conjugations
+        for (String part : candidateParts) {
+            String clean = part.replaceAll("[〜~\\.\\…\\s\\-\\+\\(\\)]", "").trim();
+            if (clean.isBlank()) continue;
+
+            // Strip leading POS tags e.g. Vたらどう -> たらどう, Vる+ところだ -> ところだ, N向け -> 向け
+            clean = clean.replaceAll("^[VvNnA][るたたないて]?[\\+]?", "");
+            // Strip trailing copula だ (e.g. ところだ -> ところ, わけだ -> わけ, べきだ -> べき, はずだ -> はず)
+            clean = clean.replaceAll("だ$", "");
+
+            // Generate search forms
+            Set<String> searchForms = new LinkedHashSet<>();
+            searchForms.add(clean);
+
+            // Conjugation 1: ようにする -> ようにし
+            if (clean.endsWith("ようにする")) {
+                searchForms.add(clean.substring(0, clean.length() - 2) + "し");
+            }
+            // Conjugation 2: ようにしている -> ようにしてい
+            if (clean.endsWith("ようにしている")) {
+                searchForms.add(clean.substring(0, clean.length() - 1));
+            }
+            // Conjugation 3: ようとする -> ようとし
+            if (clean.endsWith("ようとする")) {
+                searchForms.add(clean.substring(0, clean.length() - 2) + "し");
+            }
+            // Conjugation 4: ようとしない -> ようとしな, ようとしませ
+            if (clean.endsWith("ようとしない")) {
+                searchForms.add(clean.substring(0, clean.length() - 1));
+                searchForms.add(clean.substring(0, clean.length() - 2) + "ませ");
+            }
+            // Conjugation 5: わけにはいかない -> わけにはいか, わけにはいき, わけにもいか, わけにもいき
+            if (clean.contains("わけにはいかない")) {
+                searchForms.add("わけにはいか");
+                searchForms.add("わけにはいき");
+                searchForms.add("わけにもいか");
+                searchForms.add("わけにもいき");
+            }
+            // Conjugation 6: ざるを得ない -> ざるを得
+            if (clean.contains("ざるを得ない")) {
+                searchForms.add("ざるを得");
+            }
+            // Conjugation 7: に違いない / にちがいない -> に違い, にちがい
+            if (clean.endsWith("に違いない")) {
+                searchForms.add("に違い");
+            }
+            if (clean.endsWith("にちがいない")) {
+                searchForms.add("にちがい");
+            }
+            // Conjugation 8: に決まっている -> に決まって
+            if (clean.endsWith("に決まっている")) {
+                searchForms.add("に決まって");
+            }
+            // Conjugation 9: に相違ない -> に相違
+            if (clean.endsWith("に相違ない")) {
+                searchForms.add("に相違");
+            }
+            // Conjugation 10: 恐れがある / おそれがある -> 恐れがあ, おそれがあ
+            if (clean.endsWith("恐れがある")) {
+                searchForms.add("恐れがあ");
+            }
+            if (clean.endsWith("おそれがある")) {
+                searchForms.add("おそれがあ");
+            }
+            // Conjugation 11: かねない / かねる -> かね
+            if (clean.endsWith("かねない") || clean.endsWith("かねる")) {
+                searchForms.add("かね");
+            }
+            // Conjugation 12: たばかり -> ばかり
+            if (clean.startsWith("たばかり")) {
+                searchForms.add("ばかり");
+            }
+            // Conjugation 13: た途端 / たとたん -> 途端, とたん
+            if (clean.contains("途端")) {
+                searchForms.add("途端");
+            }
+            if (clean.contains("とたん")) {
+                searchForms.add("とたん");
+            }
+            // Conjugation 14: Verbs ending in ている -> てい (catches ています, ていた)
+            if (clean.endsWith("ている") && clean.length() >= 4) {
+                searchForms.add(clean.substring(0, clean.length() - 1));
+            }
+            // Conjugation 15: Verbs ending in する -> し (catches して, した, します)
+            if (clean.endsWith("する") && clean.length() >= 3) {
+                searchForms.add(clean.substring(0, clean.length() - 2) + "し");
+            }
+            // Conjugation 16: Patterns starting with を e.g. を中心 -> 中心, 中心に, 中心の, 中心として
+            if (clean.startsWith("を") && clean.length() >= 3) {
+                String core = clean.substring(1);
+                searchForms.add(core + "の");
+                searchForms.add(core + "に");
+                searchForms.add(core + "として");
+                searchForms.add(core + "にして");
+            }
+
+            // Test all search forms in passage
+            for (String form : searchForms) {
+                if (form.length() >= 2) {
+                    if (cleanPassage.contains(form) || passage.contains(form)) {
+                        return true;
+                    }
+                } else if (form.length() == 1) {
+                    if (cleanPassage.contains(form) || passage.contains(form)) {
+                        return true;
+                    }
+                }
+            }
+        }
+
+        return false;
+    }
+
+    /**
      * 2-Step Pipeline: Generate Reading Comprehension for Chapter and Lesson via DeepSeek AI.
      */
-    @Transactional
     public Map<String, Object> generateReadingComprehension(int chapter, int lesson) {
+        log.info("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+        log.info("🚀 [NẠP ĐỌC HIỂU AI] Bắt đầu quy trình nạp cho Chương {} Bài {}", chapter, lesson);
+        log.info("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+        long startTotal = System.currentTimeMillis();
+
         Map<String, Object> lessonData = getLessonData(chapter, lesson);
         @SuppressWarnings("unchecked")
         List<Map<String, Object>> vocabList = (List<Map<String, Object>>) lessonData.getOrDefault("tu_vung", Collections.emptyList());
@@ -1015,15 +1224,52 @@ public class JlptN3CourseService {
         List<Map<String, Object>> grammarList = (List<Map<String, Object>>) lessonData.getOrDefault("ngu_phap", Collections.emptyList());
 
         // Step 1: Generate passage with furigana [Kanji|hiragana]
+        log.info("▶️ [Bước 1/3] Đang gọi DeepSeek AI sinh bài văn đọc hiểu (Dữ liệu đầu vào: {} từ vựng, {} ngữ pháp)...", vocabList.size(), grammarList.size());
+        long startP = System.currentTimeMillis();
         Map<String, String> passageResult = enrichmentService.generateN3ReadingPassage(chapter, lesson, vocabList, grammarList);
         String title = passageResult.getOrDefault("title", "Bài đọc hiểu N3");
         String passage = passageResult.getOrDefault("passage", "");
         String translation = passageResult.getOrDefault("translation", "");
+        if (passage == null || passage.trim().isEmpty()) {
+            throw new IllegalStateException("Không nhận được nội dung bài đọc từ AI cho Chương " + chapter + " Bài " + lesson);
+        }
+        log.info("✅ [Bước 1/3] Hoàn thành sinh bài văn trong {}s! Tiêu đề: '{}' (Độ dài: {} ký tự).", 
+            (System.currentTimeMillis() - startP) / 1000.0, title, passage.length());
+
+        // Verify grammar coverage and automatically repair if any patterns are missing
+        Map<String, Object> initialCoverage = calculateReadingCoverage(passage, vocabList, grammarList);
+        @SuppressWarnings("unchecked")
+        List<String> missingGrammars = (List<String>) initialCoverage.getOrDefault("missingGrammars", Collections.emptyList());
+        if (!missingGrammars.isEmpty()) {
+            log.warn("⚠️ [TỰ ĐỘNG BỔ SUNG NGỮ PHÁP] Bài đọc ban đầu còn thiếu {}/{} mẫu: {}. Đang kích hoạt sửa đổi AI...",
+                missingGrammars.size(), grammarList.size(), missingGrammars);
+            Map<String, String> repaired = enrichmentService.repairMissingGrammars(
+                chapter, lesson, title, passage, translation, missingGrammars, grammarList);
+            if (repaired != null && repaired.get("passage") != null && !repaired.get("passage").isBlank()) {
+                passage = repaired.get("passage");
+                if (repaired.containsKey("title") && !repaired.get("title").isBlank()) {
+                    title = repaired.get("title");
+                }
+                if (repaired.containsKey("translation") && !repaired.get("translation").isBlank()) {
+                    translation = repaired.get("translation");
+                }
+                log.info("✅ [TỰ ĐỘNG BỔ SUNG NGỮ PHÁP] Đã sửa đổi bài văn thành công! Tiêu đề: '{}' (Độ dài: {} ký tự).",
+                    title, passage.length());
+            }
+        }
 
         // Step 2: Generate 10 reading questions
+        log.info("▶️ [Bước 2/3] Đang gọi DeepSeek AI sinh 10 câu hỏi trắc nghiệm đọc hiểu...");
+        long startQ = System.currentTimeMillis();
         String questionsJson = enrichmentService.generateN3ReadingQuestions(chapter, lesson, passage, grammarList);
+        if (questionsJson == null || questionsJson.trim().isEmpty() || "[]".equals(questionsJson.trim())) {
+            throw new IllegalStateException("Không nhận được câu hỏi đọc hiểu từ AI cho Chương " + chapter + " Bài " + lesson);
+        }
+        log.info("✅ [Bước 2/3] Hoàn thành sinh 10 câu hỏi trắc nghiệm đọc hiểu trong {}s!", 
+            (System.currentTimeMillis() - startQ) / 1000.0);
 
         // Step 3: Save to DataProvider (MongoDB / JPA)
+        log.info("▶️ [Bước 3/3] Đang lưu bài đọc hiểu và 10 câu hỏi vào CSDL (MongoDB / JPA)...");
         Optional<com.flashcard.knowledge.model.JlptN3Reading> existingOpt = jlptN3DataProvider.findReading(chapter, lesson);
         com.flashcard.knowledge.model.JlptN3Reading reading = existingOpt.orElseGet(com.flashcard.knowledge.model.JlptN3Reading::new);
         reading.setChapterId(chapter);
@@ -1035,8 +1281,19 @@ public class JlptN3CourseService {
         reading.setUpdatedAt(LocalDateTime.now());
 
         jlptN3DataProvider.saveReading(reading);
+        log.info("💾 [Bước 3/3] Đã lưu bản ghi đọc hiểu ID={} cho Chương {} Bài {} vào CSDL!", reading.getId(), chapter, lesson);
 
-        return getReadingComprehension(chapter, lesson);
+        Map<String, Object> finalResult = getReadingComprehension(chapter, lesson);
+        @SuppressWarnings("unchecked")
+        Map<String, Object> coverage = (Map<String, Object>) finalResult.get("coverage");
+        Object grammarPct = coverage != null ? coverage.get("grammarCoveragePercent") : "N/A";
+        Object vocabPct = coverage != null ? coverage.get("vocabCoveragePercent") : "N/A";
+
+        log.info("🎉 [HOÀN TẤT NẠP AI] Chương {} Bài {} nạp thành công trong {}s! Độ phủ: Ngữ pháp {}%, Từ vựng {}%",
+            chapter, lesson, (System.currentTimeMillis() - startTotal) / 1000.0, grammarPct, vocabPct);
+        log.info("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+
+        return finalResult;
     }
 
     /**

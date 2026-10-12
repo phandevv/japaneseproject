@@ -272,35 +272,36 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #fff;
   position: relative;
 }
 
-.streak-day-flower svg {
+.streak-day-flower svg.sakura-flower-svg {
   position: absolute;
   top: 0; left: 0;
   width: 100%; height: 100%;
 }
 
-@keyframes flower-sparkle-glow {
-  0%, 100% {
-    filter: drop-shadow(0 0 6px rgba(45, 212, 191, 0.7)) drop-shadow(0 0 14px rgba(45, 212, 191, 0.4));
-    transform: scale(1);
-  }
-  50% {
-    filter: drop-shadow(0 0 12px rgba(45, 212, 191, 0.95)) drop-shadow(0 0 24px rgba(45, 212, 191, 0.75));
-    transform: scale(1.08) rotate(4deg);
-  }
+.streak-flame-container {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
-@keyframes star-twinkle-burst {
-  0%, 100% { opacity: 0.15; transform: scale(0.4) rotate(0deg); }
-  50% { opacity: 1; transform: scale(1.25) rotate(90deg); }
+.streak-flame-container.is-active:hover {
+  transform: scale(1.15);
 }
 
 .streak-day-check {
-  z-index: 1;
+  position: absolute;
+  bottom: 0px;
+  right: 0px;
+  z-index: 3;
   color: #fff;
+  background: #10b981;
+  border-radius: 50%;
+  padding: 2px;
+  box-shadow: 0 0 6px rgba(16, 185, 129, 0.7);
 }
 
 .streak-message {

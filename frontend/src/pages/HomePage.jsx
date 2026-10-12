@@ -10,6 +10,7 @@ import StudyHistoryDetailsWidget from '../components/StudyHistoryDetailsWidget';
 import SakuraPetals from '../components/SakuraPetals';
 import MascotLoader from '../components/MascotLoader';
 import LeaderboardWidget from '../components/LeaderboardWidget';
+import StreakFlame from '../components/StreakFlame';
 import AuthPage from './AuthPage';
 import '../styles/HomePage.css';
 
@@ -493,15 +494,15 @@ const HomePage = ({ user: propUser, startStudy, streak, onLoginClick, onLogout, 
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%', flexWrap: 'wrap', gap: '12px' }}>
               <div className="star-streak-info" style={{ flex: 1 }}>
                 <div className="star-streak-title" style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                    <span className="streak-fire" style={{ fontSize: '1.35rem', lineHeight: 1 }}>🌸</span>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <StreakFlame size={28} active={true} showGlow={true} />
                     <span>{t.home.streakTitle} - {dashboardData?.streak !== undefined ? dashboardData.streak : (streak || 0)} ngày</span>
                   </div>
 
                   <button
                     onClick={() => setShowStreakModal(true)}
                     style={{
-                      background: 'linear-gradient(135deg, #ff4d6d, #f43f5e)',
+                      background: 'linear-gradient(135deg, #a855f7, #7c3aed)',
                       color: '#fff',
                       border: 'none',
                       padding: '6px 14px',
@@ -509,14 +510,14 @@ const HomePage = ({ user: propUser, startStudy, streak, onLoginClick, onLogout, 
                       fontSize: '0.82rem',
                       fontWeight: '800',
                       cursor: 'pointer',
-                      boxShadow: '0 2px 10px rgba(255,77,109,0.35)',
+                      boxShadow: '0 2px 10px rgba(168,85,247,0.35)',
                       display: 'inline-flex',
                       alignItems: 'center',
                       gap: '6px',
                       transition: 'transform 0.2s ease'
                     }}
                   >
-                    <span>🌸 Điểm danh bù</span>
+                    <span>🔥 Điểm danh bù</span>
                     <span style={{ opacity: 0.85, fontSize: '0.75rem' }}>({dashboardData?.todayDurationMinutes || 0}/60 phút)</span>
                   </button>
                 </div>
@@ -527,10 +528,10 @@ const HomePage = ({ user: propUser, startStudy, streak, onLoginClick, onLogout, 
                     return (
                       <div key={i} className="star-streak-item" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                         <span className={`star-day-name ${day.isToday ? 'is-today' : ''}`}>{day.name}</span>
-                        <SakuraFlower
-                          filled={day.completed}
-                          size={day.completed ? 30 : 22}
-                          color={day.completed ? '#2dd4bf' : '#94a3b8'}
+                        <StreakFlame
+                          active={day.completed}
+                          size={day.completed ? 32 : 24}
+                          showGlow={day.completed}
                         />
                         {canRepairThisDay && (
                           <button
@@ -546,14 +547,14 @@ const HomePage = ({ user: propUser, startStudy, streak, onLoginClick, onLogout, 
                               fontWeight: '700',
                               borderRadius: '10px',
                               border: 'none',
-                              background: dashboardData?.canRepairToday ? 'linear-gradient(135deg, #ff4d6d, #f43f5e)' : 'var(--surface-hover)',
+                              background: dashboardData?.canRepairToday ? 'linear-gradient(135deg, #a855f7, #7c3aed)' : 'var(--surface-hover)',
                               color: dashboardData?.canRepairToday ? '#fff' : 'var(--text-secondary)',
                               cursor: dashboardData?.canRepairToday ? 'pointer' : 'not-allowed',
-                              boxShadow: dashboardData?.canRepairToday ? '0 2px 6px rgba(255,77,109,0.3)' : 'none',
+                              boxShadow: dashboardData?.canRepairToday ? '0 2px 6px rgba(168,85,247,0.3)' : 'none',
                               transition: 'all 0.2s ease'
                             }}
                           >
-                            Bù 🌸
+                            Bù 🔥
                           </button>
                         )}
                       </div>
@@ -1086,8 +1087,8 @@ const HomePage = ({ user: propUser, startStudy, streak, onLoginClick, onLogout, 
             <div className="streak-visual-container" style={{ margin: 0, boxShadow: 'none' }}>
               <div className="streak-visual-header">
                 <img src="/assets/mascot_siro_kimono_nobg.png" alt="Siro Mascot" style={{ height: '110px', objectFit: 'contain', marginRight: '10px', filter: 'drop-shadow(0 4px 8px rgba(0,0,0,0.15))' }} />
-                <div className="streak-flower-main">
-                  <SakuraFlower filled={true} size={80} />
+                <div className="streak-flower-main" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <StreakFlame active={true} size={92} showGlow={true} />
                 </div>
                 <div className="streak-count-text">
                   <span className="streak-number">{dashboardData?.streak !== undefined ? dashboardData.streak : (streak || 0)}</span>
@@ -1121,7 +1122,7 @@ const HomePage = ({ user: propUser, startStudy, streak, onLoginClick, onLogout, 
                     <div style={{
                       width: `${Math.min(100, Math.round(((dashboardData?.todayDurationMinutes || 0) / 60) * 100))}%`,
                       height: '100%',
-                      background: 'linear-gradient(90deg, #2dd4bf, #10b981)',
+                      background: 'linear-gradient(90deg, #a855f7, #c084fc)',
                       borderRadius: '4px',
                       transition: 'width 0.5s ease'
                     }} />
@@ -1140,8 +1141,8 @@ const HomePage = ({ user: propUser, startStudy, streak, onLoginClick, onLogout, 
                       <div key={i} className="streak-day-col">
                         <span className={`streak-day-name ${day.isToday ? 'is-today' : ''}`}>{day.name}</span>
                         <div className="streak-day-flower">
-                          <SakuraFlower filled={day.completed} color={day.completed ? '#2dd4bf' : '#ccfbf1'} />
-                          {day.completed && <Check className="streak-day-check" size={20} strokeWidth={3.5} />}
+                          <StreakFlame active={day.completed} size={38} showGlow={day.completed} />
+                          {day.completed && <Check className="streak-day-check" size={16} strokeWidth={3.5} />}
                         </div>
                         {canRepairThisDay && (
                           <button
@@ -1155,14 +1156,14 @@ const HomePage = ({ user: propUser, startStudy, streak, onLoginClick, onLogout, 
                               fontWeight: '700',
                               borderRadius: '12px',
                               border: 'none',
-                              background: dashboardData?.canRepairToday ? 'linear-gradient(135deg, #ff4d6d, #f43f5e)' : 'var(--surface-hover)',
+                              background: dashboardData?.canRepairToday ? 'linear-gradient(135deg, #a855f7, #7c3aed)' : 'var(--surface-hover)',
                               color: dashboardData?.canRepairToday ? '#fff' : 'var(--text-secondary)',
                               cursor: dashboardData?.canRepairToday ? 'pointer' : 'not-allowed',
-                              boxShadow: dashboardData?.canRepairToday ? '0 2px 8px rgba(255,77,109,0.35)' : 'none',
+                              boxShadow: dashboardData?.canRepairToday ? '0 2px 8px rgba(168,85,247,0.35)' : 'none',
                               transition: 'all 0.2s ease'
                             }}
                           >
-                            Bù 🌸
+                            Bù 🔥
                           </button>
                         )}
                       </div>

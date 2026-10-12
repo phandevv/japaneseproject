@@ -230,6 +230,104 @@ const JlptN3ReadingView = ({
   const targetVocabs = useMemo(() => lessonData?.tu_vung || [], [lessonData]);
   const targetGrammars = useMemo(() => lessonData?.ngu_phap || [], [lessonData]);
 
+  const isGrammarPatternMatched = (cleanPassage, passage, struc) => {
+    if (!struc) return false;
+    cleanPassage = cleanPassage || '';
+    passage = passage || '';
+
+    // 1. Multi-part patterns
+    if (struc.includes('ば') && struc.includes('ほど')) {
+      if (/ば.{1,50}ほど/s.test(cleanPassage) || /ば.{1,50}ほど/s.test(passage)) return true;
+    }
+    if (struc.includes('さえ') && struc.includes('ば')) {
+      if (/さえ.{1,50}ば/s.test(cleanPassage) || /さえ.{1,50}ば/s.test(passage)) return true;
+    }
+    if (struc.includes('から') && struc.includes('にかけて')) {
+      if (/から.{1,50}にかけて/s.test(cleanPassage) || /から.{1,50}にかけて/s.test(passage)) return true;
+    }
+    if (struc.includes('も') && struc.includes('ば') && struc.lastIndexOf('も') > struc.indexOf('ば')) {
+      if (/も.{1,40}ば.{1,40}も/s.test(cleanPassage) || /も.{1,40}ば.{1,40}も/s.test(passage)) return true;
+    }
+    if (struc.includes('ほど') && (struc.includes('ない') || struc.includes('客観') || struc.includes('はない'))) {
+      if (/ほど.{1,40}(ない|なかった|ません|客観|ず)/s.test(cleanPassage) || /ほど.{1,40}(ない|なかった|ません|客観|ず)/s.test(passage)) return true;
+    }
+
+    // 2. Split variants
+    const normalizedStruc = struc.replace(/[\(（][0-9０-９]+[\)）]/g, '');
+    let rawParts = [];
+    if (normalizedStruc.replace(/[^〜~]/g, '').length > 1 && !normalizedStruc.includes('ほど') && !normalizedStruc.includes('かけて') && !normalizedStruc.includes('ば')) {
+      rawParts = normalizedStruc.split(/[〜~]/).filter(Boolean);
+    } else {
+      rawParts = normalizedStruc.split(/[\/／,]/).filter(Boolean);
+    }
+
+    // 3. Optional parenthesized variations
+    const candidateParts = [];
+    for (const raw of rawParts) {
+      const trimmed = raw.trim();
+      if (!trimmed) continue;
+      if (/[\(（][^0-9０-９\)）]+[\)）]/.test(trimmed)) {
+        candidateParts.push(trimmed.replace(/[\(（]([^\)）]+)[\)）]/g, '$1'));
+        candidateParts.push(trimmed.replace(/[\(（][^\)）]+[\)）]/g, ''));
+      } else {
+        candidateParts.push(trimmed);
+      }
+    }
+
+    // 4. Test candidate parts and inflections
+    for (const part of candidateParts) {
+      let clean = part.replace(/[〜~\.\…\s\-\+\(\)]/g, '').trim();
+      if (!clean) continue;
+      clean = clean.replace(/^[VvNnA][るたたないて]?[\+]?/, '');
+      clean = clean.replace(/だ$/, '');
+
+      const searchForms = new Set();
+      searchForms.add(clean);
+
+      if (clean.endsWith('ようにする')) searchForms.add(clean.slice(0, -2) + 'し');
+      if (clean.endsWith('ようにしている')) searchForms.add(clean.slice(0, -1));
+      if (clean.endsWith('ようとする')) searchForms.add(clean.slice(0, -2) + 'し');
+      if (clean.endsWith('ようとしない')) {
+        searchForms.add(clean.slice(0, -1));
+        searchForms.add(clean.slice(0, -2) + 'ませ');
+      }
+      if (clean.includes('わけにはいかない')) {
+        searchForms.add('わけにはいか');
+        searchForms.add('わけにはいき');
+        searchForms.add('わけにもいか');
+        searchForms.add('わけにもいき');
+      }
+      if (clean.includes('ざるを得ない')) searchForms.add('ざるを得');
+      if (clean.endsWith('に違いない')) searchForms.add('に違い');
+      if (clean.endsWith('にちがいない')) searchForms.add('にちがい');
+      if (clean.endsWith('に決まっている')) searchForms.add('に決まって');
+      if (clean.endsWith('に相違ない')) searchForms.add('に相違');
+      if (clean.endsWith('恐れがある')) searchForms.add('恐れがあ');
+      if (clean.endsWith('おそれがある')) searchForms.add('おそれがあ');
+      if (clean.endsWith('かねない') || clean.endsWith('かねる')) searchForms.add('かね');
+      if (clean.startsWith('たばかり')) searchForms.add('ばかり');
+      if (clean.includes('途端')) searchForms.add('途端');
+      if (clean.includes('とたん')) searchForms.add('とたん');
+      if (clean.endsWith('ている') && clean.length >= 4) searchForms.add(clean.slice(0, -1));
+      if (clean.endsWith('する') && clean.length >= 3) searchForms.add(clean.slice(0, -2) + 'し');
+      if (clean.startsWith('を') && clean.length >= 3) {
+        const core = clean.substring(1);
+        searchForms.add(core + 'の');
+        searchForms.add(core + 'に');
+        searchForms.add(core + 'として');
+        searchForms.add(core + 'にして');
+      }
+
+      for (const form of searchForms) {
+        if (form.length >= 1 && (cleanPassage.includes(form) || passage.includes(form))) {
+          return true;
+        }
+      }
+    }
+
+    return false;
+  };
+
   // Analyze coverage of lesson's vocabulary (> 50%) and grammar (100%)
   const coverageData = useMemo(() => {
     if (reading?.coverage) {
@@ -246,8 +344,7 @@ const JlptN3ReadingView = ({
     targetGrammars.forEach(g => {
       const struc = (g.cau_truc || '').trim();
       if (!struc) return;
-      const normalized = struc.replace(/[〜~\.\…\s]/g, '');
-      if (normalized && (cleanPassage.includes(normalized) || passage.includes(struc) || cleanPassage.includes(struc))) {
+      if (isGrammarPatternMatched(cleanPassage, passage, struc)) {
         matchedGrammars.push(struc);
       } else {
         missingGrammars.push(struc);

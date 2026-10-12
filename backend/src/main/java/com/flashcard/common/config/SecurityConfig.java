@@ -84,7 +84,7 @@ public class SecurityConfig {
                 // ── Vocabulary, Grammar & Course Reading (Public / Authenticated) ──────────────
                 .requestMatchers(HttpMethod.GET, "/api/vocab/**").permitAll()
                 .requestMatchers(HttpMethod.GET, "/api/grammar", "/api/grammar/**").permitAll()
-                .requestMatchers(HttpMethod.GET, "/api/jlpt-n3/**").permitAll()
+                .requestMatchers("/api/jlpt-n3/**").permitAll()
                 .requestMatchers(HttpMethod.GET, "/api/users/*/avatar").permitAll()
                 
                 // ── Feedback/Error Reports (Submit: Authenticated, View/Update: Admin) ─────

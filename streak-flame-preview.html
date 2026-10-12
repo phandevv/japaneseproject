@@ -1,0 +1,839 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Unity 2D Sprite Animator - Lửa Đen & Sét Tím (20 Frames Loop)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg-dark: #0a0910;
+      --bg-card: rgba(18, 16, 26, 0.82);
+      --border-card: rgba(168, 85, 247, 0.2);
+      --text-main: #f3f0fa;
+      --text-muted: #9c95ab;
+      --accent-purple: #a855f7;
+      --accent-glow: #c084fc;
+      --unity-header: #201e2b;
+      --unity-accent: #8b2ec9;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: radial-gradient(circle at 50% 12%, #1b102c 0%, #0c0a14 65%, #050408 100%);
+      color: var(--text-main);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 24px 16px 60px;
+    }
+
+    .container {
+      max-width: 1060px;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 22px;
+    }
+
+    /* Header */
+    header {
+      text-align: center;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 14px;
+      background: rgba(168, 85, 247, 0.15);
+      border: 1px solid rgba(168, 85, 247, 0.35);
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 700;
+      color: #d8b4fe;
+      margin-bottom: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+    }
+
+    .badge::before {
+      content: '';
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #c084fc;
+      box-shadow: 0 0 10px #c084fc;
+    }
+
+    h1 {
+      font-size: 28px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      background: linear-gradient(135deg, #ffffff 0%, #e9d5ff 60%, #c084fc 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 6px;
+    }
+
+    p.subtitle {
+      color: var(--text-muted);
+      font-size: 14px;
+      max-width: 660px;
+      margin: 0 auto;
+      line-height: 1.5;
+    }
+
+    /* Main Showcase Grid */
+    .showcase-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 20px;
+    }
+
+    @media (max-width: 860px) {
+      .showcase-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-card);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-radius: 20px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      box-shadow: 0 20px 45px -15px rgba(0, 0, 0, 0.7);
+    }
+
+    .card-header {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 14px;
+    }
+
+    .card-title {
+      font-size: 12px;
+      font-weight: 700;
+      color: #d8b4fe;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .card-title .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #a855f7;
+      box-shadow: 0 0 10px #a855f7;
+    }
+
+    /* Viewport Area */
+    .viewport-box {
+      width: 100%;
+      height: 260px;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      transition: background 0.3s;
+    }
+
+    .bg-dark-radial {
+      background: radial-gradient(circle at 50% 65%, #251739 0%, #0d0a14 70%, #07050b 100%);
+    }
+
+    .bg-checkerboard {
+      background-color: #1e1b26;
+      background-image:
+        linear-gradient(45deg, #2b2636 25%, transparent 25%),
+        linear-gradient(-45deg, #2b2636 25%, transparent 25%),
+        linear-gradient(45deg, transparent 75%, #2b2636 75%),
+        linear-gradient(-45deg, transparent 75%, #2b2636 75%);
+      background-size: 16px 16px;
+      background-position: 0 0, 0 8px, 8px -8px, -8px 0px;
+    }
+
+    .bg-glass {
+      background: rgba(25, 21, 36, 0.5);
+      border: 1px solid rgba(168, 85, 247, 0.3);
+      box-shadow: inset 0 0 30px rgba(168, 85, 247, 0.1);
+    }
+
+    .active-sprite-img {
+      max-width: 90%;
+      max-height: 90%;
+      object-fit: contain;
+      user-select: none;
+      filter: drop-shadow(0 0 14px rgba(176, 38, 255, 0.35));
+    }
+
+    .frame-pill {
+      position: absolute;
+      top: 10px;
+      left: 12px;
+      background: rgba(10, 8, 16, 0.75);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(168, 85, 247, 0.3);
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-family: 'JetBrains Mono', monospace;
+      color: #e9d5ff;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .frame-pill .rec-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #ef4444;
+      animation: blinkRec 1s infinite;
+    }
+
+    @keyframes blinkRec {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+
+    /* Unity Animation Dopesheet / Controller Window */
+    .unity-anim-window {
+      width: 100%;
+      background: rgba(14, 12, 20, 0.95);
+      border: 1px solid var(--border-card);
+      border-radius: 18px;
+      padding: 16px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      box-shadow: 0 12px 35px rgba(0, 0, 0, 0.6);
+    }
+
+    .anim-toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .playback-btns {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .unity-btn {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: var(--text-main);
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      transition: all 0.15s ease;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .unity-btn:hover {
+      background: rgba(168, 85, 247, 0.2);
+      border-color: rgba(168, 85, 247, 0.4);
+      color: #fff;
+    }
+
+    .unity-btn.active {
+      background: #8b2ec9;
+      border-color: #c084fc;
+      color: #fff;
+      box-shadow: 0 0 10px rgba(168, 85, 247, 0.5);
+    }
+
+    .fps-selector {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--text-muted);
+    }
+
+    .fps-selector select {
+      background: #181424;
+      border: 1px solid rgba(168, 85, 247, 0.3);
+      color: #fff;
+      padding: 4px 8px;
+      border-radius: 6px;
+      font-family: inherit;
+      font-size: 12px;
+      outline: none;
+      cursor: pointer;
+    }
+
+    /* Dopesheet Scrubber Timeline */
+    .dopesheet-wrapper {
+      position: relative;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 8px;
+      padding: 8px 12px 14px;
+      user-select: none;
+    }
+
+    .dopesheet-header {
+      display: flex;
+      justify-content: space-between;
+      font-size: 11px;
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+
+    .dopesheet-track {
+      position: relative;
+      height: 24px;
+      background: rgba(0, 0, 0, 0.4);
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      padding: 0 6px;
+    }
+
+    .keyframe-marker {
+      position: absolute;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      width: 10px;
+      height: 10px;
+      background: rgba(168, 85, 247, 0.4);
+      border: 1px solid #c084fc;
+      transform: translate(-50%, -50%) rotate(45deg);
+      transition: background 0.15s, transform 0.15s;
+    }
+
+    .keyframe-marker.active {
+      background: #e0aaff;
+      border-color: #ffffff;
+      box-shadow: 0 0 10px #c084fc;
+      transform: translate(-50%, -50%) rotate(45deg) scale(1.3);
+    }
+
+    .dopesheet-playhead {
+      position: absolute;
+      top: -4px;
+      bottom: -4px;
+      width: 2px;
+      background: #ffffff;
+      box-shadow: 0 0 8px #c084fc;
+      pointer-events: none;
+      transform: translateX(-50%);
+      left: 0%;
+      transition: left 0.05s linear;
+    }
+
+    .dopesheet-playhead::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      border-left: 5px solid transparent;
+      border-right: 5px solid transparent;
+      border-top: 6px solid #ffffff;
+    }
+
+    /* Sliced Sprite Grid Sheet Preview (Unity Sprite Editor style) */
+    .sprite-sheet-card {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .sprite-grid-view {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      grid-template-rows: repeat(4, 1fr);
+      gap: 4px;
+      background: #110e19;
+      border: 1px solid rgba(168, 85, 247, 0.25);
+      border-radius: 12px;
+      padding: 8px;
+      position: relative;
+    }
+
+    .sprite-cell {
+      aspect-ratio: 204.8 / 143;
+      border-radius: 4px;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      cursor: pointer;
+      overflow: hidden;
+      transition: all 0.15s ease;
+    }
+
+    .sprite-cell:hover {
+      border-color: rgba(168, 85, 247, 0.5);
+      background: rgba(168, 85, 247, 0.1);
+    }
+
+    .sprite-cell.current-playing {
+      border-color: #22c55e;
+      background: rgba(34, 197, 94, 0.15);
+      box-shadow: 0 0 10px rgba(34, 197, 94, 0.4);
+    }
+
+    .sprite-cell img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    .sprite-cell-num {
+      position: absolute;
+      top: 2px;
+      left: 3px;
+      font-size: 8px;
+      font-weight: 700;
+      color: rgba(255, 255, 255, 0.5);
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    /* In-App Widget Simulation */
+    .app-streak-widget {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 14px 18px;
+      border-radius: 16px;
+      background: rgba(22, 17, 33, 0.85);
+      border: 1px solid rgba(168, 85, 247, 0.3);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+      margin-top: 8px;
+    }
+
+    .streak-mini-stage {
+      width: 60px;
+      height: 60px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .streak-mini-stage img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    .streak-info {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .streak-count {
+      font-size: 22px;
+      font-weight: 800;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .streak-count span {
+      font-size: 11px;
+      font-weight: 700;
+      color: #c084fc;
+      background: rgba(168, 85, 247, 0.15);
+      padding: 3px 8px;
+      border-radius: 6px;
+    }
+
+    .streak-desc {
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    /* Specs info */
+    .spec-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+      margin-top: 10px;
+    }
+
+    .spec-table td {
+      padding: 6px 10px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .spec-table td:first-child {
+      color: var(--text-muted);
+      width: 40%;
+      font-weight: 500;
+    }
+
+    .spec-table td:last-child {
+      color: #f3f0fa;
+      font-weight: 600;
+    }
+
+    .tag-ok {
+      color: #4ade80;
+      font-size: 11px;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <header>
+      <div class="badge">NihongoCards • Unity 2D Sprite Animator</div>
+      <h1>Lửa Đen & Sét Tím (Sprite Sheet Animation)</h1>
+      <p class="subtitle">
+        Toàn bộ 20 frames đã được cắt tách sạch nền trong suốt (True Alpha PNG), chạy loop liên tục chuẩn theo cơ chế Sprite Animation trong Unity.
+      </p>
+    </header>
+
+    <!-- Main Showcase Grid -->
+    <div class="showcase-grid">
+      <!-- Card 1: Animator Viewport & Controls -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">
+            <span class="dot"></span>
+            Unity Game Viewport (Active Sprite Loop)
+          </div>
+          <!-- BG Switcher -->
+          <div class="playback-btns">
+            <button class="unity-btn active" id="bgDark">Nền tối</button>
+            <button class="unity-btn" id="bgCheck">Bàn cờ</button>
+            <button class="unity-btn" id="bgGlass">Glass UI</button>
+          </div>
+        </div>
+
+        <div class="viewport-box bg-dark-radial" id="viewportBox">
+          <div class="frame-pill">
+            <span class="rec-dot"></span>
+            <span id="pillText">FRAME 00 / 19</span>
+          </div>
+
+          <!-- Dynamic Active Frame Image -->
+          <img id="activeSprite" class="active-sprite-img" src="sprites/frame_00.png" alt="2D Sprite Flame" />
+        </div>
+
+        <!-- Dopesheet / Animation Controller -->
+        <div class="unity-anim-window" style="margin-top: 14px;">
+          <div class="anim-toolbar">
+            <!-- Transport Controls -->
+            <div class="playback-btns">
+              <button class="unity-btn" id="btnFirst" title="Về Frame đầu">⏮</button>
+              <button class="unity-btn" id="btnPrev" title="Frame trước">◀</button>
+              <button class="unity-btn active" id="btnPlay" title="Play/Pause">⏸ Pause</button>
+              <button class="unity-btn" id="btnNext" title="Frame tiếp">▶</button>
+              <button class="unity-btn" id="btnLast" title="Tới Frame cuối">⏭</button>
+            </div>
+
+            <!-- FPS Selector -->
+            <div class="fps-selector">
+              <span>FPS:</span>
+              <select id="fpsSelect">
+                <option value="8">8 FPS (2.50s)</option>
+                <option value="10">10 FPS (2.00s)</option>
+                <option value="12" selected>12 FPS (1.67s - Chuẩn Anime)</option>
+                <option value="15">15 FPS (1.33s)</option>
+                <option value="20">20 FPS (1.00s)</option>
+                <option value="24">24 FPS (0.83s)</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Dopesheet Track -->
+          <div class="dopesheet-wrapper">
+            <div class="dopesheet-header">
+              <span id="phaseName">PHA: 0.0s Cháy êm đềm</span>
+              <span id="timeCounter">0.00s / 1.67s</span>
+            </div>
+
+            <div class="dopesheet-track" id="dopesheetTrack">
+              <!-- 20 Keyframe Diamond Markers -->
+              <!-- Generated dynamically by JS -->
+              <div class="dopesheet-playhead" id="playhead"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 2: 5x4 Sprite Sheet Grid & App Mockup -->
+      <div class="card sprite-sheet-card">
+        <div class="card-header">
+          <div class="card-title">
+            <span class="dot" style="background: #22c55e; box-shadow: 0 0 10px #22c55e;"></span>
+            Sprite Sheet Slices (5 × 4 = 20 Frames)
+          </div>
+          <span style="font-size: 11px; font-family: 'JetBrains Mono'; color: #4ade80;">● Đang sync</span>
+        </div>
+
+        <!-- 5x4 Grid View: Click any cell to inspect -->
+        <div class="sprite-grid-view" id="spriteGrid">
+          <!-- 20 Cells generated by JS -->
+        </div>
+
+        <!-- In-App Widget Mockup -->
+        <div class="app-streak-widget">
+          <div class="streak-mini-stage">
+            <img id="widgetSprite" src="sprites/frame_00.png" alt="Streak Flame" />
+          </div>
+          <div class="streak-info">
+            <div class="streak-count">
+              30 <span>NGÀY LIÊN TIẾP</span>
+            </div>
+            <div class="streak-desc">🔥 Hắc Hỏa Amaterasu • Unity 2D Sprite Loop</div>
+          </div>
+        </div>
+
+        <!-- Tech Spec Table -->
+        <table class="spec-table">
+          <tr>
+            <td>Quy cách cắt</td>
+            <td><span class="tag-ok">✓ 20 frames (4 hàng × 5 cột, đều nhau 100%)</span></td>
+          </tr>
+          <tr>
+            <td>Định dạng ảnh</td>
+            <td><span class="tag-ok">✓ True Alpha PNG (Đã khử sạch bàn cờ)</span></td>
+          </tr>
+          <tr>
+            <td>Cơ chế lặp</td>
+            <td><span class="tag-ok">✓ Seamless Loop (Frame 19 ➔ Frame 0 mượt mà)</span></td>
+          </tr>
+          <tr>
+            <td>Thư mục chứa Sprite</td>
+            <td><code>./sprites/frame_00.png ... frame_18.png</code></td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const TOTAL_FRAMES = 19;
+    let currentFrame = 0;
+    let fps = 12;
+    let isPlaying = true;
+    let animInterval = null;
+
+    // Elements
+    const activeSprite = document.getElementById('activeSprite');
+    const widgetSprite = document.getElementById('widgetSprite');
+    const pillText = document.getElementById('pillText');
+    const phaseName = document.getElementById('phaseName');
+    const timeCounter = document.getElementById('timeCounter');
+    const playhead = document.getElementById('playhead');
+    const dopesheetTrack = document.getElementById('dopesheetTrack');
+    const spriteGrid = document.getElementById('spriteGrid');
+    const fpsSelect = document.getElementById('fpsSelect');
+    const btnPlay = document.getElementById('btnPlay');
+    const btnPrev = document.getElementById('btnPrev');
+    const btnNext = document.getElementById('btnNext');
+    const btnFirst = document.getElementById('btnFirst');
+    const btnLast = document.getElementById('btnLast');
+
+    // BG Buttons
+    const viewportBox = document.getElementById('viewportBox');
+    const bgDark = document.getElementById('bgDark');
+    const bgCheck = document.getElementById('bgCheck');
+    const bgGlass = document.getElementById('bgGlass');
+
+    // Preload image paths
+    const framePaths = [];
+    for (let i = 0; i < TOTAL_FRAMES; i++) {
+      const pad = i < 10 ? '0' + i : '' + i;
+      framePaths.push(`sprites/frame_${pad}.png`);
+    }
+
+    // Phase descriptions for each frame
+    function getPhase(f) {
+      if (f <= 5) return '🔥 Lửa đen cháy êm đềm';
+      if (f <= 9) return '⚡ Tia sét tím nhen nhóm & tích năng lượng';
+      if (f === 10) return '⚡ Sét tím giáng xuống đỉnh ngọn lửa!';
+      if (f === 11 || f === 12) return '💥 Nén va chạm & SÉT TÍM BÒ RẼ NHÁNH MẶT ĐẤT!';
+      if (f <= 15) return '🌋 Ngọn hắc hỏa phun trào cực đại (Burst)!';
+      return '✨ Hắc hỏa dịu dần & khép vòng lặp mượt mà';
+    }
+
+    // Generate Dopesheet Markers & Grid Cells
+    const markerElements = [];
+    const cellElements = [];
+
+    for (let i = 0; i < TOTAL_FRAMES; i++) {
+      // Dopesheet keyframe marker
+      const marker = document.createElement('div');
+      marker.className = 'keyframe-marker';
+      const pct = (i / (TOTAL_FRAMES - 1)) * 100;
+      marker.style.left = `${pct}%`;
+      marker.title = `Frame ${i}`;
+      marker.addEventListener('click', (e) => {
+        e.stopPropagation();
+        setFrame(i);
+      });
+      dopesheetTrack.appendChild(marker);
+      markerElements.push(marker);
+
+      // Grid Cell
+      const cell = document.createElement('div');
+      cell.className = 'sprite-cell';
+      cell.innerHTML = `
+        <span class="sprite-cell-num">${i}</span>
+        <img src="${framePaths[i]}" alt="Frame ${i}" />
+      `;
+      cell.addEventListener('click', () => {
+        setFrame(i);
+      });
+      spriteGrid.appendChild(cell);
+      cellElements.push(cell);
+    }
+
+    // Set Frame
+    function setFrame(f) {
+      currentFrame = (f + TOTAL_FRAMES) % TOTAL_FRAMES;
+      const pad = currentFrame < 10 ? '0' + currentFrame : '' + currentFrame;
+      const path = framePaths[currentFrame];
+
+      activeSprite.src = path;
+      widgetSprite.src = path;
+
+      pillText.textContent = `FRAME ${pad} / 19`;
+      phaseName.textContent = getPhase(currentFrame);
+
+      const totalLoopTime = TOTAL_FRAMES / fps;
+      const curTime = (currentFrame / fps);
+      timeCounter.textContent = `${curTime.toFixed(2)}s / ${totalLoopTime.toFixed(2)}s`;
+
+      // Update playhead
+      const pct = (currentFrame / (TOTAL_FRAMES - 1)) * 100;
+      playhead.style.left = `${pct}%`;
+
+      // Update active markers
+      markerElements.forEach((m, idx) => {
+        if (idx === currentFrame) m.classList.add('active');
+        else m.classList.remove('active');
+      });
+
+      // Update grid cells
+      cellElements.forEach((c, idx) => {
+        if (idx === currentFrame) c.classList.add('current-playing');
+        else c.classList.remove('current-playing');
+      });
+    }
+
+    // Animation Loop
+    function startLoop() {
+      if (animInterval) clearInterval(animInterval);
+      animInterval = setInterval(() => {
+        if (isPlaying) {
+          setFrame(currentFrame + 1);
+        }
+      }, 1000 / fps);
+    }
+
+    // Transport buttons
+    btnPlay.addEventListener('click', () => {
+      isPlaying = !isPlaying;
+      if (isPlaying) {
+        btnPlay.textContent = '⏸ Pause';
+        btnPlay.classList.add('active');
+      } else {
+        btnPlay.textContent = '▶ Play';
+        btnPlay.classList.remove('active');
+      }
+    });
+
+    btnNext.addEventListener('click', () => {
+      isPlaying = false;
+      btnPlay.textContent = '▶ Play';
+      btnPlay.classList.remove('active');
+      setFrame(currentFrame + 1);
+    });
+
+    btnPrev.addEventListener('click', () => {
+      isPlaying = false;
+      btnPlay.textContent = '▶ Play';
+      btnPlay.classList.remove('active');
+      setFrame(currentFrame - 1);
+    });
+
+    btnFirst.addEventListener('click', () => {
+      setFrame(0);
+    });
+
+    btnLast.addEventListener('click', () => {
+      setFrame(TOTAL_FRAMES - 1);
+    });
+
+    // FPS selector
+    fpsSelect.addEventListener('change', (e) => {
+      fps = parseInt(e.target.value, 10);
+      startLoop();
+    });
+
+    // Scrubbing on Dopesheet track
+    dopesheetTrack.addEventListener('click', (e) => {
+      const rect = dopesheetTrack.getBoundingClientRect();
+      const clickX = e.clientX - rect.left;
+      const pct = Math.max(0, Math.min(1, clickX / rect.width));
+      const targetFrame = Math.round(pct * (TOTAL_FRAMES - 1));
+      setFrame(targetFrame);
+    });
+
+    // BG Switchers
+    function setBg(cls, btn) {
+      viewportBox.className = 'viewport-box ' + cls;
+      [bgDark, bgCheck, bgGlass].forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+    }
+    bgDark.addEventListener('click', () => setBg('bg-dark-radial', bgDark));
+    bgCheck.addEventListener('click', () => setBg('bg-checkerboard', bgCheck));
+    bgGlass.addEventListener('click', () => setBg('bg-glass', bgGlass));
+
+    // Initialize
+    setFrame(0);
+    startLoop();
+  </script>
+</body>
+</html>

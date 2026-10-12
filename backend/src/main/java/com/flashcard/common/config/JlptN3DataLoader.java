@@ -146,10 +146,14 @@ public class JlptN3DataLoader implements CommandLineRunner {
             return res;
         }
 
+        logger.info("📦 [IMPORT DATA] Tìm thấy {} tệp JSON cần import. Bắt đầu nạp vào CSDL...", jsonNodesToProcess.size());
+        int itemIndex = 0;
         // Process all collected JSON roots
         for (JsonNode root : jsonNodesToProcess) {
+            itemIndex++;
             int chuong = root.path("chuong").asInt(1);
             int bai = root.path("bai").asInt(1);
+            logger.info("⏳ [IMPORT DATA] Đang nạp [{}/{}] Chương {} Bài {}...", itemIndex, jsonNodesToProcess.size(), chuong, bai);
 
             String vocabCategory = "Tổng ôn N3 - Chương " + chuong + " Bài " + bai;
             String kanjiCategory = "Tổng ôn N3 - Chương " + chuong + " Bài " + bai + " - Kanji";
@@ -321,10 +325,11 @@ public class JlptN3DataLoader implements CommandLineRunner {
                 }
             }
 
-            logger.info("Imported Chapter {} Lesson {} into DB successfully.", chuong, bai);
+            logger.info("✅ [IMPORT DATA] Hoàn tất nạp [{}/{}] Chương {} Bài {} vào CSDL.", itemIndex, jsonNodesToProcess.size(), chuong, bai);
         }
 
-        logger.info("✅ JLPT N3 Data Import Finished! Imported {} Vocab, {} Kanji, {} Grammar.", importedVocab, importedKanji, importedGrammar);
+        logger.info("🏁 [HOÀN TẤT IMPORT DATA] Toàn bộ {} tệp đã nạp xong! Tổng cộng: {} Từ vựng, {} Chữ Hán, {} Ngữ pháp.",
+            jsonNodesToProcess.size(), importedVocab, importedKanji, importedGrammar);
 
         Map<String, Object> result = new HashMap<>();
         result.put("success", true);
