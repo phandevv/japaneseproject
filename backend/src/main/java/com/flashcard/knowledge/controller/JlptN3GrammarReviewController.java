@@ -49,6 +49,19 @@ public class JlptN3GrammarReviewController {
         return null;
     }
 
+    private boolean isCurrentUserAdmin() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth != null && auth.isAuthenticated() && !"anonymousUser".equals(auth.getPrincipal())) {
+            if (auth.getPrincipal() instanceof User user) {
+                return "ADMIN".equalsIgnoreCase(user.getRole());
+            }
+            String username = auth.getName();
+            Optional<User> u = userDataProvider.findByUsername(username);
+            return u.isPresent() && "ADMIN".equalsIgnoreCase(u.get().getRole());
+        }
+        return false;
+    }
+
     @GetMapping
     public ResponseEntity<GrammarGroupOverviewResponse> getGrammarGroupOverview() {
         Long userId = getCurrentUserId();
@@ -68,25 +81,31 @@ public class JlptN3GrammarReviewController {
 
     @PostMapping("/generate")
     public ResponseEntity<Map<String, Object>> generateGrammarGroups() {
-        try {
-            com.flashcard.knowledge.dto.GenerateResult result = reviewService.generateGrammarGroupsFromAi();
-            return ResponseEntity.ok(Map.of(
-                    "success", true,
-                    "groupsSaved", result.groupsSaved(),
-                    "quizzesSaved", result.quizzesSaved(),
-                    "message", "Successfully generated grammar review groups"
-            ));
-        } catch (Exception e) {
-            log.error("Failed to generate grammar groups: {}", e.getMessage(), e);
-            return ResponseEntity.internalServerError().body(Map.of(
-                    "success", false,
-                    "message", "Failed to generate: " + e.getMessage()
-            ));
+        if (!isCurrentUserAdmin()) {
+            return ResponseEntity.status(403).body(Map.of("error", "Chỉ tài khoản ADMIN mới có quyền sinh nhóm ngữ pháp AI."));
         }
+        java.util.concurrent.CompletableFuture.runAsync(() -> {
+            log.info("🚀 [GRAMMAR REVIEW] Bắt đầu sinh toàn bộ nhóm ngữ pháp JLPT N3 qua AI...");
+            try {
+                GenerateResult result = reviewService.generateGrammarGroupsFromAi();
+                log.info("🏁 [GRAMMAR REVIEW] Hoàn thành: {} nhóm, {} bộ câu hỏi", result.groupsSaved(), result.quizzesSaved());
+            } catch (Exception e) {
+                log.error("❌ [GRAMMAR REVIEW] Lỗi khi sinh nhóm ngữ pháp: {}", e.getMessage(), e);
+            }
+        });
+        return ResponseEntity.ok(Map.of(
+                "success", true,
+                "status", "STARTED",
+                "message", "Đã khởi chạy sinh nhóm ngữ pháp nền. Quá trình mất 10-20 phút, hãy theo dõi log console và tải lại trang sau."
+        ));
     }
 
     @PostMapping("/import")
     public ResponseEntity<ImportGrammarGroupResponse> importGrammarGroupData(@RequestBody String jsonData) {
+        if (!isCurrentUserAdmin()) {
+            return ResponseEntity.status(403).body(new ImportGrammarGroupResponse(0, 0,
+                    List.of("Chỉ tài khoản ADMIN mới có quyền nhập dữ liệu nhóm ngữ pháp.")));
+        }
         try {
             ImportGrammarGroupResponse response = reviewService.importGrammarGroupData(jsonData);
             return ResponseEntity.ok(response);
@@ -100,6 +119,9 @@ public class JlptN3GrammarReviewController {
     public ResponseEntity<GrammarGroupDetailResponse> updateGrammarGroup(
             @PathVariable String groupCode,
             @RequestBody Map<String, Object> updates) {
+        if (!isCurrentUserAdmin()) {
+            return ResponseEntity.status(403).build();
+        }
         try {
             GrammarGroupDetailResponse response = reviewService.updateGrammarGroup(groupCode, updates);
             return ResponseEntity.ok(response);

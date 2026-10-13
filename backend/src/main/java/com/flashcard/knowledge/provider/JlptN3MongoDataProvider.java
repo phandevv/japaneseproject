@@ -340,6 +340,16 @@ public class JlptN3MongoDataProvider implements JlptN3DataProvider {
     }
 
     @Override
+    public void deleteAllGroupQuizzes() {
+        List<com.flashcard.knowledge.document.JlptN3GrammarQuizDoc> groupQuizzes = quizMongoRepository.findAll().stream()
+                .filter(q -> q.getGroupCode() != null && !q.getGroupCode().isBlank())
+                .collect(Collectors.toList());
+        if (!groupQuizzes.isEmpty()) {
+            quizMongoRepository.deleteAll(groupQuizzes);
+        }
+    }
+
+    @Override
     public List<Map<String, Object>> findQuizzesByGroupCode(String groupCode) {
         return quizMongoRepository.findByGroupCodeOrderByCreatedAtAsc(groupCode).stream()
                 .map(q -> {

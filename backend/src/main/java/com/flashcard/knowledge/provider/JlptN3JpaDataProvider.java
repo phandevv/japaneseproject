@@ -111,6 +111,16 @@ public class JlptN3JpaDataProvider implements JlptN3DataProvider {
     }
 
     @Override
+    public void deleteAllGroupQuizzes() {
+        List<JlptN3GrammarQuiz> groupQuizzes = grammarQuizRepository.findAll().stream()
+                .filter(q -> q.getGroupCode() != null && !q.getGroupCode().isBlank())
+                .collect(Collectors.toList());
+        if (!groupQuizzes.isEmpty()) {
+            grammarQuizRepository.deleteAll(groupQuizzes);
+        }
+    }
+
+    @Override
     public List<Map<String, Object>> findQuizzesByGroupCode(String groupCode) {
         return grammarQuizRepository.findByGroupCodeOrderByCreatedAtAsc(groupCode).stream()
                 .map(q -> {

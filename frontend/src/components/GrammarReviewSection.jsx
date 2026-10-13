@@ -46,22 +46,25 @@ const GrammarReviewSection = ({ isAdmin }) => {
 
   const handleGenerateAll = async () => {
     if (!isAdmin) return;
-    const confirmed = window.confirm('Bạn có chắc chắn muốn sinh lại toàn bộ nhóm ngữ pháp qua AI? Hành động này sẽ xóa dữ liệu cũ.');
+    const confirmed = window.confirm('Bạn có chắc chắn muốn sinh lại toàn bộ nhóm ngữ pháp qua AI? Hành động này sẽ xóa dữ liệu cũ. Quá trình chạy nền mất 10-20 phút.');
     if (!confirmed) return;
 
     setGenerating(true);
-    setGenStep('Đang phân tích và nhóm hoá ngữ pháp...');
+    setGenStep('Đang khởi chạy AI nền...');
     try {
       const data = await jlptN3GrammarReviewApi.generateGrammarGroups();
-      setGenStep('Hoàn tất!');
-      if (data) {
-        setGenerating(false);
-        fetchGroups();
-      }
+      setGenerating(false);
+      setGenStep('');
+      window.alert(
+        (data && data.message) ||
+          'Đã khởi chạy tiến trình sinh nhóm ngữ pháp nền. Mở console server để theo dõi tiến trình, sau đó tải lại trang.'
+      );
+      setTimeout(fetchGroups, 5000);
     } catch (err) {
       console.error('Error generating grammar groups:', err);
       setError('Lỗi khi sinh nhóm ngữ pháp: ' + err.message);
       setGenerating(false);
+      setGenStep('');
     }
   };
 

@@ -15,6 +15,7 @@ import com.flashcard.knowledge.model.JlptN3Progress;
 import com.flashcard.knowledge.provider.JlptN3DataProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -38,6 +39,7 @@ public class JlptN3GrammarReviewService {
         this(dataProvider, objectMapper, null);
     }
 
+    @Autowired
     public JlptN3GrammarReviewService(JlptN3DataProvider dataProvider,
                                       ObjectMapper objectMapper,
                                       DeepSeekEnrichmentService enrichmentService) {
@@ -266,7 +268,12 @@ public class JlptN3GrammarReviewService {
         return new ImportGrammarGroupResponse(groupsSaved, quizzesSaved, errors);
     }
 
-    @Transactional
+    /**
+     * Sinh lại toàn bộ nhóm ngữ pháp qua AI (2 phase để không vượt giới hạn token):
+     * Phase 1: AI clustering theo pattern_indices → tạo groups (chưa có câu hỏi).
+     * Phase 2: Với mỗi nhóm, AI sinh description/usage_guide/usage_cases + 30 câu hỏi.
+     * Không bọc @Transactional toàn cục vì mỗi lượt gọi AI mất 10-20 phút.
+     */
     public GenerateResult generateGrammarGroupsFromAi() {
         if (enrichmentService == null) {
             throw new IllegalStateException("DeepSeekEnrichmentService is not configured");
@@ -279,15 +286,150 @@ public class JlptN3GrammarReviewService {
         }
 
         String clusteredJson = enrichmentService.clusterGrammarPatternsToGroups(allPatterns);
-        if (clusteredJson == null || clusteredJson.equals("[]")) {
+        if (clusteredJson == null || clusteredJson.isBlank() || clusteredJson.equals("[]")) {
             log.warn("AI clustering returned empty or failed");
             return new GenerateResult(0, 0);
         }
 
-        dataProvider.deleteAllGrammarGroups();
+        List<GroupPlan> plans;
+        try {
+            plans = buildGroupPlans(clusteredJson, allPatterns);
+        } catch (Exception e) {
+            log.error("Failed to parse AI clustering result: {}", e.getMessage(), e);
+            return new GenerateResult(0, 0);
+        }
+        if (plans.isEmpty()) {
+            log.warn("AI clustering produced no valid groups");
+            return new GenerateResult(0, 0);
+        }
 
-        ImportGrammarGroupResponse importResult = importGrammarGroupData(clusteredJson);
-        return new GenerateResult(importResult.groupsSaved(), importResult.quizzesSaved());
+        dataProvider.deleteAllGrammarGroups();
+        dataProvider.deleteAllGroupQuizzes();
+
+        String assembledJson;
+        try {
+            assembledJson = assembleGroupsJson(plans);
+        } catch (Exception e) {
+            log.error("Failed to assemble grammar groups JSON: {}", e.getMessage(), e);
+            return new GenerateResult(0, 0);
+        }
+        ImportGrammarGroupResponse importResult = importGrammarGroupData(assembledJson);
+        int groupsSaved = importResult.groupsSaved();
+        if (!importResult.errors().isEmpty()) {
+            log.warn("Grammar group import warnings: {}", importResult.errors());
+        }
+
+        int quizzesSaved = 0;
+        int contentFailed = 0;
+        for (GroupPlan plan : plans) {
+            try {
+                String contentJson = enrichmentService.generateGrammarGroupContent(
+                        plan.groupCode(), plan.title(), plan.patterns());
+                if (contentJson == null || contentJson.isBlank()) {
+                    contentFailed++;
+                    log.warn("No content generated for group {}", plan.groupCode());
+                    continue;
+                }
+
+                JsonNode content = objectMapper.readTree(contentJson);
+                Optional<JlptN3GrammarGroup> groupOpt = dataProvider.findGrammarGroupByCode(plan.groupCode());
+                if (groupOpt.isEmpty()) {
+                    contentFailed++;
+                    log.warn("Group {} not found after import", plan.groupCode());
+                    continue;
+                }
+
+                JlptN3GrammarGroup group = groupOpt.get();
+                if (content.hasNonNull("description")) group.setDescription(content.get("description").asText());
+                if (content.hasNonNull("usage_guide")) group.setUsageGuide(content.get("usage_guide").asText());
+                if (content.hasNonNull("usage_cases")) group.setUsageCases(content.get("usage_cases").asText());
+                group.setUpdatedAt(LocalDateTime.now());
+                dataProvider.saveGrammarGroup(group);
+
+                JsonNode questionsNode = content.get("questions");
+                if (questionsNode != null && questionsNode.isArray() && questionsNode.size() > 0) {
+                    JlptN3GrammarQuiz quiz = new JlptN3GrammarQuiz();
+                    quiz.setGroupId(group.getId());
+                    quiz.setGroupCode(plan.groupCode());
+                    quiz.setQuestionsJson(questionsNode.toString());
+                    quiz.setQuestionType("MCQ");
+                    dataProvider.saveQuiz(quiz);
+                    quizzesSaved++;
+                } else {
+                    contentFailed++;
+                    log.warn("Content for group {} has no questions", plan.groupCode());
+                }
+            } catch (Exception e) {
+                contentFailed++;
+                log.error("Failed to generate content for group {}: {}", plan.groupCode(), e.getMessage(), e);
+            }
+        }
+
+        log.info("Grammar review generation finished: {} groups, {} quizzes, {} content failures",
+                groupsSaved, quizzesSaved, contentFailed);
+        return new GenerateResult(groupsSaved, quizzesSaved);
+    }
+
+    private List<GroupPlan> buildGroupPlans(String clusteredJson, List<Map<String, Object>> allPatterns) throws Exception {
+        JsonNode root = objectMapper.readTree(clusteredJson);
+        JsonNode groupsNode = root.has("groups") ? root.get("groups") : root;
+
+        List<GroupPlan> plans = new ArrayList<>();
+        Set<Integer> assigned = new HashSet<>();
+        int sortOrder = 1;
+        for (JsonNode g : groupsNode) {
+            if (g == null || !g.has("pattern_indices") || !g.get("pattern_indices").isArray()) {
+                continue;
+            }
+            String groupCode = g.hasNonNull("group_code")
+                    ? g.get("group_code").asText()
+                    : String.format("GRP_%02d", sortOrder);
+            String title = g.hasNonNull("title") ? g.get("title").asText() : "Nhóm " + sortOrder;
+
+            List<Map<String, Object>> patterns = new ArrayList<>();
+            for (JsonNode idxNode : g.get("pattern_indices")) {
+                int idx = idxNode.asInt(-1);
+                if (idx >= 0 && idx < allPatterns.size() && assigned.add(idx)) {
+                    patterns.add(allPatterns.get(idx));
+                }
+            }
+            if (patterns.isEmpty()) {
+                continue;
+            }
+            plans.add(new GroupPlan(groupCode, title, sortOrder++, patterns));
+        }
+
+        if (plans.isEmpty()) {
+            return plans;
+        }
+
+        int leftover = 0;
+        for (int idx = 0; idx < allPatterns.size(); idx++) {
+            if (!assigned.contains(idx)) {
+                plans.get(leftover % plans.size()).patterns().add(allPatterns.get(idx));
+                leftover++;
+            }
+        }
+        if (leftover > 0) {
+            log.warn("AI clustering left {} patterns unassigned, redistributed round-robin", leftover);
+        }
+        return plans;
+    }
+
+    private String assembleGroupsJson(List<GroupPlan> plans) throws Exception {
+        List<Map<String, Object>> groups = new ArrayList<>();
+        for (GroupPlan plan : plans) {
+            Map<String, Object> g = new HashMap<>();
+            g.put("group_code", plan.groupCode());
+            g.put("title", plan.title());
+            g.put("sort_order", plan.sortOrder());
+            g.put("patterns", plan.patterns());
+            groups.add(g);
+        }
+        return objectMapper.writeValueAsString(Map.of("groups", groups));
+    }
+
+    private record GroupPlan(String groupCode, String title, int sortOrder, List<Map<String, Object>> patterns) {
     }
 
     @Transactional

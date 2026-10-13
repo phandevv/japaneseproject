@@ -1751,35 +1751,26 @@ public class DeepSeekEnrichmentService {
         try {
             StringBuilder prompt = new StringBuilder();
             prompt.append("Bạn là trợ lý dạy tiếng Nhật chuyên về môn thi JLPT N3.\n\n");
-            prompt.append("Hãy phân loại các mẫu ngữ pháp sau vào các nhóm chủ đề (khoảng 10-35 nhóm). ");
-            prompt.append("Mỗi nhóm chứa ~5-15 mẫu ngữ pháp có tính chất tương đồng. ");
-            prompt.append("Với mỗi nhóm, hãy tạo:\n");
-            prompt.append("- group_code: mã nhóm dạng GRP_01, GRP_02, ...\n");
+            prompt.append("Phân loại các mẫu ngữ pháp sau (đánh số index bắt đầu từ 0) thành 10-35 nhóm chủ đề. ");
+            prompt.append("Mỗi nhóm chứa khoảng 5-15 mẫu ngữ pháp có tính chất tương đồng. ");
+            prompt.append("Mỗi index PHẢI thuộc đúng 1 nhóm, KHÔNG được bỏ sót index nào, KHÔNG được lặp index.\n");
+            prompt.append("Với mỗi nhóm, tạo:\n");
+            prompt.append("- group_code: mã nhóm dạng GRP_01, GRP_02, ... (tăng dần theo thứ tự)\n");
             prompt.append("- title: tiêu đề ngắn gọn bằng tiếng Việt\n");
-            prompt.append("- description: mô tả ngắn về nhóm ngữ pháp (100-200 từ)\n");
-            prompt.append("- usage_guide: hướng dẫn cách dùng chi tiết (150-250 từ)\n");
-            prompt.append("- usage_cases: các trường hợp sử dụng thực tế ví dụ (150-250 từ)\n");
-            prompt.append("- patterns: mảng mỗi phần tử có cau_truc, y_nghia, examples (3 câu ví dụ)\n");
-            prompt.append("- questions: mảng 30 câu hỏi trắc nghiệm với type (MCQ/FILL_BLANK/CHOOSE_PATTERN), question, options, answer, explanation\n");
+            prompt.append("- pattern_indices: mảng các index (số nguyên) thuộc nhóm này\n");
             prompt.append("\nDanh sách mẫu ngữ pháp:\n");
-            for (Map<String, Object> p : allPatterns) {
-                prompt.append("- ").append(p.getOrDefault("cau_truc", p.getOrDefault("structure", ""))).append(": ")
-                      .append(p.getOrDefault("y_nghia", p.getOrDefault("meaning", ""))).append("\n");
+            for (int i = 0; i < allPatterns.size(); i++) {
+                Map<String, Object> p = allPatterns.get(i);
+                prompt.append("[").append(i).append("] ")
+                      .append(p.getOrDefault("cau_truc", p.getOrDefault("structure", "")))
+                      .append(": ")
+                      .append(p.getOrDefault("y_nghia", p.getOrDefault("meaning", "")))
+                      .append("\n");
             }
-            prompt.append("\nTrả về JSON duy nhất với cấu trúc: {\"groups\": [...]}");
-            prompt.append(" Đảm bảo JSON hợp lệ, không thêm markdown wrapper.");
+            prompt.append("\nTrả về JSON duy nhất với cấu trúc: {\"groups\": [{\"group_code\": \"GRP_01\", \"title\": \"...\", \"pattern_indices\": [0, 1, 2]}]}");
+            prompt.append(" Đảm bảo JSON hợp lệ, không markdown wrapper.");
 
-            String promptJson = objectMapper.writeValueAsString(Map.of(
-                    "model", "deepseek-chat",
-                    "messages", List.of(Map.of(
-                            "role", "user",
-                            "content", prompt.toString()
-                    )),
-                    "temperature", 0.7,
-                    "max_tokens", 12000
-            ));
-
-            String response = callDeepSeekRawWithParams(aiConfig.getApiKey(), buildUserPrompt(prompt.toString()), 16000, 120);
+            String response = callDeepSeekRawWithParams(aiConfig.getApiKey(), buildUserPrompt(prompt.toString()), 4000, 120);
 
             JsonNode root = objectMapper.readTree(response);
             JsonNode choices = root.get("choices");
@@ -1797,6 +1788,68 @@ public class DeepSeekEnrichmentService {
         } catch (Exception e) {
             log.error("Failed to cluster grammar patterns via AI: {}", e.getMessage(), e);
             return "[]";
+        }
+    }
+
+    /**
+     * Sinh nội dung chi tiết cho MỘT nhóm ngữ pháp: description, usage_guide, usage_cases
+     * và bộ 30 câu hỏi trắc nghiệm (MCQ / FILL_BLANK / CHOOSE_PATTERN).
+     * Tách riêng từng nhóm để không vượt giới hạn token của DeepSeek.
+     */
+    public String generateGrammarGroupContent(String groupCode, String title, List<Map<String, Object>> patterns) {
+        if (patterns == null || patterns.isEmpty()) {
+            return null;
+        }
+
+        String apiKey = getApiKey();
+        if (apiKey == null) {
+            log.warn("DEEPSEEK_API_KEY is not configured, cannot generate content for group {}", groupCode);
+            return null;
+        }
+
+        StringBuilder patternInfo = new StringBuilder();
+        for (Map<String, Object> p : patterns) {
+            patternInfo.append("- ").append(p.getOrDefault("cau_truc", ""))
+                      .append(": ").append(p.getOrDefault("y_nghia", ""))
+                      .append("\n");
+            Object examples = p.get("examples");
+            if (examples instanceof List<?> exList && !exList.isEmpty()) {
+                for (Object ex : exList) {
+                    patternInfo.append("    + Ví dụ: ").append(ex).append("\n");
+                }
+            }
+        }
+
+        String prompt = String.format(
+            "Bạn là chuyên gia biên soạn giáo trình JLPT N3 tiếng Nhật.\n" +
+            "Nhóm ngữ pháp: %s - %s\n\n" +
+            "DANH SÁCH CẤU TRÚC NGỮ PHÁP TRONG NHÓM:\n%s\n\n" +
+            "Hãy tạo JSON chứa:\n" +
+            "- description: mô tả nhóm ngữ pháp (80-120 từ tiếng Việt)\n" +
+            "- usage_guide: hướng dẫn cách dùng chi tiết từng cấu trúc trong nhóm (200-300 từ tiếng Việt)\n" +
+            "- usage_cases: các trường hợp sử dụng thực tế trong giao tiếp/ôn thi (200-300 từ tiếng Việt)\n" +
+            "- questions: mảng ĐÚNG 30 câu hỏi trắc nghiệm, phân bố đều 3 dạng:\n" +
+            "  + MCQ (10 câu): câu hỏi tiếng Nhật có 4 lựa chọn A/B/C/D, chọn đáp án đúng\n" +
+            "  + FILL_BLANK (10 câu): câu tiếng Nhật có chỗ trống (　　), chọn cấu trúc điền vào đúng nhất\n" +
+            "  + CHOOSE_PATTERN (10 câu): đưa ra ngữ cảnh tiếng Nhật, chọn cấu trúc ngữ pháp phù hợp nhất\n" +
+            "  Mỗi câu có: type, question, options (4 lựa chọn), answer (đáp án đúng), explanation (giải thích tiếng Việt)\n\n" +
+            "Trả về JSON duy nhất: {\"description\": \"...\", \"usage_guide\": \"...\", \"usage_cases\": \"...\", \"questions\": [...]}\n" +
+            "JSON hợp lệ, không markdown wrapper, explanation viết tiếng Việt ngắn gọn.",
+            groupCode, title, patternInfo.toString()
+        );
+
+        try {
+            String rawText = callDeepSeekRaw(apiKey, prompt);
+            String cleanJson = cleanJsonContent(rawText);
+            JsonNode root = objectMapper.readTree(cleanJson);
+            if (root.has("questions") && root.get("questions").isArray()) {
+                return cleanJson;
+            }
+            log.warn("AI content for group {} missing questions array", groupCode);
+            return null;
+        } catch (Exception e) {
+            log.error("Failed to generate content for grammar group {}: {}", groupCode, e.getMessage(), e);
+            return null;
         }
     }
 

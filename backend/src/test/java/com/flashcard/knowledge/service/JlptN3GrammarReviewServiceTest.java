@@ -11,6 +11,7 @@ import org.mockito.*;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.*;
+import java.util.concurrent.atomic.AtomicLong;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
@@ -203,5 +204,137 @@ class JlptN3GrammarReviewServiceTest {
         assertThat(result.quizzesSaved()).isEqualTo(1);
         verify(dataProvider, times(1)).saveGrammarGroup(any());
         verify(dataProvider, times(1)).saveQuiz(any());
+    }
+
+    @Test
+    void generateGrammarGroupsFromAi_shouldClusterImportAndGenerateContentPerGroup() {
+        DeepSeekEnrichmentService enrichment = mock(DeepSeekEnrichmentService.class);
+        JlptN3GrammarReviewService genService =
+                new JlptN3GrammarReviewService(dataProvider, new ObjectMapper(), enrichment);
+
+        List<Map<String, Object>> patterns = List.of(
+                patternMap("～について", "về vấn đề"),
+                patternMap("～によって", "do, bằng cách"),
+                patternMap("～わけだ", "thì phải")
+        );
+        String clusterJson = """
+            {"groups":[
+                {"group_code":"GRP_01","title":"Nhóm 1","pattern_indices":[0,1]},
+                {"group_code":"GRP_02","title":"Nhóm 2","pattern_indices":[2]}
+            ]}
+            """;
+
+        when(enrichment.collectAllN3GrammarPatterns()).thenReturn(patterns);
+        when(enrichment.clusterGrammarPatternsToGroups(any())).thenReturn(clusterJson);
+        when(enrichment.generateGrammarGroupContent(anyString(), anyString(), anyList()))
+                .thenReturn(contentJson());
+
+        Map<String, JlptN3GrammarGroup> savedGroups = new HashMap<>();
+        stubGroupSaving(savedGroups);
+
+        var result = genService.generateGrammarGroupsFromAi();
+
+        assertThat(result.groupsSaved()).isEqualTo(2);
+        assertThat(result.quizzesSaved()).isEqualTo(2);
+        verify(dataProvider).deleteAllGrammarGroups();
+        verify(dataProvider).deleteAllGroupQuizzes();
+        verify(dataProvider, times(2)).saveQuiz(any(JlptN3GrammarQuiz.class));
+        assertThat(savedGroups.get("GRP_01").getDescription()).isEqualTo("desc");
+        assertThat(savedGroups.get("GRP_01").getUsageGuide()).isEqualTo("guide");
+        assertThat(savedGroups.get("GRP_01").getUsageCases()).isEqualTo("cases");
+        assertThat(savedGroups.get("GRP_01").getTotalPatterns()).isEqualTo(2);
+        assertThat(savedGroups.get("GRP_02").getTotalPatterns()).isEqualTo(1);
+    }
+
+    @Test
+    void generateGrammarGroupsFromAi_shouldRedistributeUnassignedPatterns() {
+        DeepSeekEnrichmentService enrichment = mock(DeepSeekEnrichmentService.class);
+        JlptN3GrammarReviewService genService =
+                new JlptN3GrammarReviewService(dataProvider, new ObjectMapper(), enrichment);
+
+        List<Map<String, Object>> patterns = List.of(
+                patternMap("～について", "về vấn đề"),
+                patternMap("～によって", "do, bằng cách"),
+                patternMap("～わけだ", "thì phải")
+        );
+        String clusterJson = """
+            {"groups":[{"group_code":"GRP_01","title":"Nhóm 1","pattern_indices":[0]}]}
+            """;
+
+        when(enrichment.collectAllN3GrammarPatterns()).thenReturn(patterns);
+        when(enrichment.clusterGrammarPatternsToGroups(any())).thenReturn(clusterJson);
+        when(enrichment.generateGrammarGroupContent(anyString(), anyString(), anyList()))
+                .thenReturn(contentJson());
+
+        Map<String, JlptN3GrammarGroup> savedGroups = new HashMap<>();
+        stubGroupSaving(savedGroups);
+
+        var result = genService.generateGrammarGroupsFromAi();
+
+        assertThat(result.groupsSaved()).isEqualTo(1);
+        assertThat(result.quizzesSaved()).isEqualTo(1);
+        assertThat(savedGroups.get("GRP_01").getTotalPatterns()).isEqualTo(3);
+    }
+
+    @Test
+    void generateGrammarGroupsFromAi_shouldCountOnlySuccessfulContentGeneration() {
+        DeepSeekEnrichmentService enrichment = mock(DeepSeekEnrichmentService.class);
+        JlptN3GrammarReviewService genService =
+                new JlptN3GrammarReviewService(dataProvider, new ObjectMapper(), enrichment);
+
+        List<Map<String, Object>> patterns = List.of(
+                patternMap("～について", "về vấn đề"),
+                patternMap("～わけだ", "thì phải")
+        );
+        String clusterJson = """
+            {"groups":[
+                {"group_code":"GRP_01","title":"Nhóm 1","pattern_indices":[0]},
+                {"group_code":"GRP_02","title":"Nhóm 2","pattern_indices":[1]}
+            ]}
+            """;
+
+        when(enrichment.collectAllN3GrammarPatterns()).thenReturn(patterns);
+        when(enrichment.clusterGrammarPatternsToGroups(any())).thenReturn(clusterJson);
+        when(enrichment.generateGrammarGroupContent(eq("GRP_01"), anyString(), anyList())).thenReturn(null);
+        when(enrichment.generateGrammarGroupContent(eq("GRP_02"), anyString(), anyList()))
+                .thenReturn(contentJson());
+
+        Map<String, JlptN3GrammarGroup> savedGroups = new HashMap<>();
+        stubGroupSaving(savedGroups);
+
+        var result = genService.generateGrammarGroupsFromAi();
+
+        assertThat(result.groupsSaved()).isEqualTo(2);
+        assertThat(result.quizzesSaved()).isEqualTo(1);
+        verify(dataProvider, times(1)).saveQuiz(any(JlptN3GrammarQuiz.class));
+    }
+
+    private void stubGroupSaving(Map<String, JlptN3GrammarGroup> savedGroups) {
+        AtomicLong idSeq = new AtomicLong(1);
+        when(dataProvider.saveGrammarGroup(any(JlptN3GrammarGroup.class))).thenAnswer(inv -> {
+            JlptN3GrammarGroup g = inv.getArgument(0);
+            if (g.getId() == null) {
+                g.setId(idSeq.incrementAndGet());
+            }
+            savedGroups.put(g.getGroupCode(), g);
+            return g;
+        });
+        when(dataProvider.findGrammarGroupByCode(anyString())).thenAnswer(inv ->
+                Optional.ofNullable(savedGroups.get(inv.<String>getArgument(0))));
+        when(dataProvider.saveQuiz(any(JlptN3GrammarQuiz.class))).thenAnswer(inv -> inv.getArgument(0));
+    }
+
+    private Map<String, Object> patternMap(String cauTruc, String yNghia) {
+        Map<String, Object> p = new HashMap<>();
+        p.put("cau_truc", cauTruc);
+        p.put("y_nghia", yNghia);
+        p.put("examples", List.of("例文です。"));
+        return p;
+    }
+
+    private String contentJson() {
+        return "{\"description\":\"desc\",\"usage_guide\":\"guide\",\"usage_cases\":\"cases\","
+                + "\"questions\":[{\"type\":\"MCQ\",\"question\":\"Q1\","
+                + "\"options\":[\"A\",\"B\",\"C\",\"D\"],\"answer\":\"A\",\"explanation\":\"e\"}]}";
     }
 }

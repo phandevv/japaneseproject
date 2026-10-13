@@ -29,6 +29,7 @@ public interface JlptN3DataProvider {
     Optional<JlptN3GrammarGroup> findGrammarGroupByCode(String groupCode);
     JlptN3GrammarGroup saveGrammarGroup(JlptN3GrammarGroup group);
     void deleteAllGrammarGroups();
+    void deleteAllGroupQuizzes();
 
     java.util.List<Map<String, Object>> findQuizzesByGroupCode(String groupCode);
 }

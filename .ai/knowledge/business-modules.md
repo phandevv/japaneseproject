@@ -115,3 +115,20 @@ Tài liệu này chi tiết hóa các module nghiệp vụ lớn trong dự án 
   * **Độ dài**: 3000 – 4500 ký tự (chuẩn đại trường văn N3).
   * **Backend Verification & UI Metrics**: `JlptN3CourseService.calculateReadingCoverage` tính toán tỷ lệ bao phủ thực tế và trả về kèm payload để frontend hiển thị **Coverage Bar** và danh sách đối soát chi tiết.
 
+---
+
+## 9. Module Tổng Ôn Ngữ Pháp (Grammar Review Module)
+* **Mục tiêu**: Gom toàn bộ ~244 mẫu ngữ pháp JLPT N3 vào ~10-35 nhóm chủ đề (mỗi nhóm ~5-15 mẫu) bằng DeepSeek AI clustering. Mỗi nhóm có view giới thiệu (mô tả, hướng dẫn cách dùng, trường hợp sử dụng, danh sách cấu trúc + ví dụ) kèm bộ 30 câu hỏi trắc nghiệm 3 dạng (MCQ / FILL_BLANK / CHOOSE_PATTERN). Hiển thị dưới Chương 9 Bài 3 trong trang JLPT N3.
+* **Lớp tham gia**:
+  * Controller: `JlptN3GrammarReviewController`
+  * Service: `JlptN3GrammarReviewService`, `DeepSeekEnrichmentService` (`collectAllN3GrammarPatterns`, `clusterGrammarPatternsToGroups`, `generateGrammarGroupContent`)
+  * Provider & Repository: `JlptN3DataProvider` (JPA/Mongo), `JlptN3GrammarGroupRepository`, `JlptN3GrammarGroupMongoRepository`, `JlptN3GrammarQuizRepository`, `JlptN3GrammarQuizMongoRepository`
+  * Model/Document: `JlptN3GrammarGroup`, `JlptN3GrammarGroupDoc`, `JlptN3GrammarQuiz`, `JlptN3GrammarQuizDoc`, `GrammarQuestionType`
+  * Migration: `V32__create_jlpt_n3_grammar_groups_table.sql`, `V33__add_grammar_group_and_review_fields.sql`
+  * Frontend: `GrammarReviewSection.jsx`, `JlptN3Page.jsx`, `api.js` (`jlptN3GrammarReviewApi`)
+* **Cơ chế & Quy tắc**:
+  * **2-Phase AI Generation (token-safe)**: Phase 1 AI clustering theo `pattern_indices` (output nhỏ, ~2-4k tokens) → tạo groups; Phase 2 từng nhóm một gọi AI sinh `description`/`usage_guide`/`usage_cases` + 30 câu hỏi (~5-7k tokens/nhóm) để không vượt giới hạn token DeepSeek. Chạy nền async (`CompletableFuture.runAsync`), mất 10-20 phút.
+  * **Không mất dữ liệu**: Pattern bị AI sót được phân bổ round-robin vào các nhóm; khi sinh lại xóa toàn bộ group + group quiz cũ (`deleteAllGroupQuizzes`) để tránh câu hỏi trùng.
+  * **Pass rule**: Quiz nhóm đạt khi score ≥ 80% (24/30), lưu tại `jlpt_n3_progress` với `chapterId=0, lessonId=0` (`grammar_review_passed/score/best_score`).
+  * **3 dạng câu hỏi**: `MCQ` (chọn đáp án), `FILL_BLANK` (điền vào chỗ trống), `CHOOSE_PATTERN` (chọn cấu trúc phù hợp) — cùng kiểu dữ liệu `QuestionDto {type, question, options, answer, explanation}`.
+
