@@ -12,6 +12,7 @@ import GrammarDetailModal from '../components/GrammarDetailModal';
 import AiEnrichedTabbedView from '../components/AiEnrichedTabbedView';
 import LessonQuizView from '../components/LessonQuizView';
 import JlptN3ReadingView from '../components/JlptN3ReadingView';
+import GrammarReviewSection from '../components/GrammarReviewSection';
 
 // ─── Helper: detect kanji characters in a string ──────────────────────────
 const isContainsKanji = (str) => /[\u4e00-\u9faf\u3400-\u4dbf]/.test(str);
@@ -2949,6 +2950,12 @@ const isContainsKanji = (str) => {
               )}
             </>
           )}
+        </div>
+      )}
+
+      {phase === 'lesson' && selectedChapter === 9 && selectedLesson === 3 && (
+        <div className="grammar-review-wrapper">
+          <GrammarReviewSection isAdmin={isAdmin} />
         </div>
       )}
 

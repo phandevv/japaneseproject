@@ -25,6 +25,15 @@ public class JlptN3GrammarQuiz {
     @Column(name = "created_at", insertable = false, updatable = false)
     private LocalDateTime createdAt;
 
+    @Column(name = "group_id")
+    private Long groupId;
+
+    @Column(name = "group_code", length = 100)
+    private String groupCode;
+
+    @Column(name = "question_type", length = 50)
+    private String questionType = "MCQ";
+
     public JlptN3GrammarQuiz() {
     }
 
@@ -32,6 +41,13 @@ public class JlptN3GrammarQuiz {
         this.chapterId = chapterId;
         this.lessonId = lessonId;
         this.questionsJson = questionsJson;
+    }
+
+    public JlptN3GrammarQuiz(Long groupId, String groupCode, String questionsJson, String questionType) {
+        this.groupId = groupId;
+        this.groupCode = groupCode;
+        this.questionsJson = questionsJson;
+        this.questionType = questionType != null ? questionType : "MCQ";
     }
 
     // Pure Getters and Setters (No Lombok)
@@ -73,5 +89,29 @@ public class JlptN3GrammarQuiz {
 
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public Long getGroupId() {
+        return groupId;
+    }
+
+    public void setGroupId(Long groupId) {
+        this.groupId = groupId;
+    }
+
+    public String getGroupCode() {
+        return groupCode;
+    }
+
+    public void setGroupCode(String groupCode) {
+        this.groupCode = groupCode;
+    }
+
+    public String getQuestionType() {
+        return questionType;
+    }
+
+    public void setQuestionType(String questionType) {
+        this.questionType = questionType;
     }
 }

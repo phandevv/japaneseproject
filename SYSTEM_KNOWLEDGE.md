@@ -277,6 +277,12 @@ Dưới đây là một số API RESTful chính được công bố trên backen
   * `GET /api/jlpt-n3/chapter/{c}/lesson/{l}`: Chi tiết từ vựng, hán tự, ngữ pháp bài học.
   * `GET /api/jlpt-n3/chapter/{c}/lesson/{l}/reading`: Lấy bài đọc hiểu trường văn N3 (~1500-2000 ký tự) và 10 câu trắc nghiệm.
   * `POST /api/jlpt-n3/chapter/{c}/lesson/{l}/reading/generate`: (Admin) Gọi DeepSeek AI sinh bài đọc hiểu và 10 câu trắc nghiệm.
+  * `GET /api/jlpt-n3/grammar-review`: Lấy danh sách nhóm ngữ pháp + tiến độ.
+  * `GET /api/jlpt-n3/grammar-review/group/{code}`: Chi tiết nhóm ngữ pháp + 30 câu hỏi.
+  * `POST /api/jlpt-n3/grammar-review/generate`: (Admin) AI phân loại ~244 mẫu ngữ pháp thành ~25-35 nhóm.
+  * `POST /api/jlpt-n3/grammar-review/import`: (Admin) Nhập dữ liệu nhóm ngữ pháp từ JSON.
+  * `PUT /api/jlpt-n3/grammar-review/group/{code}`: (Admin) Cập nhật chi tiết nhóm.
+  * `POST /api/jlpt-n3/grammar-review/submit`: Nộp bài quiz nhóm (pass nếu score >= 80%).
   * `PUT /api/jlpt-n3/chapter/{c}/lesson/{l}/reading`: (Admin) Chỉnh sửa thủ công nội dung bài đọc, bản dịch và câu hỏi.
   * `POST /api/jlpt-n3/chapter/{c}/lesson/{l}/reading/submit`: Nộp bài kiểm tra đọc hiểu 10 câu (Đạt khi đúng >= 8 câu).
 

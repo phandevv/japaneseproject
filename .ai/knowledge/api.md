@@ -616,3 +616,75 @@ Tài liệu này đặc tả toàn bộ danh sách REST API endpoints được x
 * **Xác thực**: Yêu cầu Token
 * **Mô tả**: Đưa từ vựng vào hệ thống FSRS SRS của người dùng. Nếu từ vựng đã tồn tại trong SRS, trả về thông tin thẻ hiện tại mà không tạo bản ghi trùng lặp.
 
+---
+
+## 14. Module Tổng Ôn Ngữ Pháp (Grammar Review)
+
+### A. Lấy danh sách nhóm ngữ pháp
+* **Endpoint**: `GET /api/jlpt-n3/grammar-review`
+* **Xác thực**: Yêu cầu Token
+* **Mô tả**: Trả về danh sách tất cả nhóm ngữ pháp JLPT N3 được phân loại theo chủ đề, kèm trạng thái tiến độ.
+* **Phản hồi thành công (200 OK)**:
+  ```json
+  {
+    "groups": [
+      {
+        "id": 1,
+        "groupCode": "GRP_01",
+        "title": "Thể điều kiện và phủ định",
+        "description": "...",
+        "totalPatterns": 10,
+        "sortOrder": 1,
+        "passed": false,
+        "bestScore": 0
+      }
+    ],
+    "totalGroups": 1
+  }
+  ```
+
+### B. Chi tiết nhóm ngữ pháp + câu hỏi
+* **Endpoint**: `GET /api/jlpt-n3/grammar-review/group/{groupCode}`
+* **Xác thực**: Yêu cầu Token
+* **Mô tả**: Trả về chi tiết nhóm, các mẫu ngữ pháp và 30 câu hỏi trắc nghiệm.
+* **Phản hồi thành công (200 OK)**:
+  ```json
+  {
+    "id": 1,
+    "groupCode": "GRP_01",
+    "title": "...",
+    "description": "...",
+    "usageGuide": "...",
+    "usageCases": "...",
+    "patterns": [{"cauTruc": "...", "yNghia": "...", "examples": ["..."]}],
+    "questions": [{"type": "MCQ", "question": "...", "options": [], "answer": "...", "explanation": "..."}],
+    "passed": false,
+    "bestScore": 0,
+    "currentScore": 0
+  }
+  ```
+
+### C. Sinh nhóm ngữ pháp qua AI (Admin)
+* **Endpoint**: `POST /api/jlpt-n3/grammar-review/generate`
+* **Xác thực**: Yêu cầu quyền Admin
+* **Mô tả**: AI phân loại ~244 mẫu ngữ pháp thành các nhóm, tự động sinh chi tiết và 30 câu hỏi mỗi nhóm.
+
+### D. Nhập dữ liệu nhóm ngữ pháp (Admin)
+* **Endpoint**: `POST /api/jlpt-n3/grammar-review/import`
+* **Xác thực**: Yêu cầu quyền Admin
+* **Request Body**: JSON theo schema định nghĩa trong ADR-0005.
+
+### E. Cập nhật nhóm ngữ pháp (Admin)
+* **Endpoint**: `PUT /api/jlpt-n3/grammar-review/group/{groupCode}`
+* **Xác thực**: Yêu cầu quyền Admin
+
+### F. Nộp bài quiz nhóm ngữ pháp
+* **Endpoint**: `POST /api/jlpt-n3/grammar-review/submit`
+* **Xác thực**: Yêu cầu Token
+* **Request Body**:
+  ```json
+  {"groupCode": "GRP_01", "score": 24, "total": 30}
+  ```
+* **Quy tắc pass**: Điểm >= 80% (24/30).
+
+

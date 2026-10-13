@@ -14,6 +14,7 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.time.Duration;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -1702,6 +1703,105 @@ public class DeepSeekEnrichmentService {
             log.error("Failed to generate reading questions via DeepSeek API for Chapter {} Lesson {}: {}", chapter, lesson, e.getMessage());
             throw new RuntimeException("Lỗi khi sinh câu hỏi đọc hiểu AI (Chương " + chapter + " Bài " + lesson + "): " + e.getMessage(), e);
         }
+    }
+
+    public List<Map<String, Object>> collectAllN3GrammarPatterns() {
+        List<Map<String, Object>> allPatterns = new ArrayList<>();
+        try {
+            List<GrammarCard> grammarCards = knowledgeDataProvider.findGrammarByJlpt("N3");
+            for (GrammarCard card : grammarCards) {
+                Map<String, Object> pattern = new HashMap<>();
+                pattern.put("cau_truc", card.getGrammar());
+                pattern.put("y_nghia", card.getMeaning());
+                pattern.put("usage_guide", card.getUsageGuide());
+                pattern.put("usage_desc", card.getUsageDesc());
+                pattern.put("formation", card.getFormation());
+                pattern.put("similar_grammar", card.getSimilarGrammar());
+                pattern.put("difference", card.getDifference());
+                pattern.put("common_mistakes", card.getCommonMistakes());
+                if (card.getExamples() != null) {
+                    try {
+                        List<?> examples = objectMapper.readValue(card.getExamples(), List.class);
+                        pattern.put("examples", examples);
+                    } catch (Exception ignored) {
+                        pattern.put("examples", Collections.emptyList());
+                    }
+                } else {
+                    pattern.put("examples", Collections.emptyList());
+                }
+                allPatterns.add(pattern);
+            }
+        } catch (Exception e) {
+            log.error("Failed to collect N3 grammar patterns: {}", e.getMessage(), e);
+        }
+        log.info("Collected {} grammar patterns for clustering", allPatterns.size());
+        return allPatterns;
+    }
+
+    public String clusterGrammarPatternsToGroups(List<Map<String, Object>> allPatterns) {
+        if (allPatterns == null || allPatterns.isEmpty()) {
+            return "[]";
+        }
+
+        if (aiConfig == null || aiConfig.getApiKey() == null || aiConfig.getApiKey().isBlank()) {
+            log.warn("AI config not available, returning empty clustering result");
+            return "[]";
+        }
+
+        try {
+            StringBuilder prompt = new StringBuilder();
+            prompt.append("Bạn là trợ lý dạy tiếng Nhật chuyên về môn thi JLPT N3.\n\n");
+            prompt.append("Hãy phân loại các mẫu ngữ pháp sau vào các nhóm chủ đề (khoảng 10-35 nhóm). ");
+            prompt.append("Mỗi nhóm chứa ~5-15 mẫu ngữ pháp có tính chất tương đồng. ");
+            prompt.append("Với mỗi nhóm, hãy tạo:\n");
+            prompt.append("- group_code: mã nhóm dạng GRP_01, GRP_02, ...\n");
+            prompt.append("- title: tiêu đề ngắn gọn bằng tiếng Việt\n");
+            prompt.append("- description: mô tả ngắn về nhóm ngữ pháp (100-200 từ)\n");
+            prompt.append("- usage_guide: hướng dẫn cách dùng chi tiết (150-250 từ)\n");
+            prompt.append("- usage_cases: các trường hợp sử dụng thực tế ví dụ (150-250 từ)\n");
+            prompt.append("- patterns: mảng mỗi phần tử có cau_truc, y_nghia, examples (3 câu ví dụ)\n");
+            prompt.append("- questions: mảng 30 câu hỏi trắc nghiệm với type (MCQ/FILL_BLANK/CHOOSE_PATTERN), question, options, answer, explanation\n");
+            prompt.append("\nDanh sách mẫu ngữ pháp:\n");
+            for (Map<String, Object> p : allPatterns) {
+                prompt.append("- ").append(p.getOrDefault("cau_truc", p.getOrDefault("structure", ""))).append(": ")
+                      .append(p.getOrDefault("y_nghia", p.getOrDefault("meaning", ""))).append("\n");
+            }
+            prompt.append("\nTrả về JSON duy nhất với cấu trúc: {\"groups\": [...]}");
+            prompt.append(" Đảm bảo JSON hợp lệ, không thêm markdown wrapper.");
+
+            String promptJson = objectMapper.writeValueAsString(Map.of(
+                    "model", "deepseek-chat",
+                    "messages", List.of(Map.of(
+                            "role", "user",
+                            "content", prompt.toString()
+                    )),
+                    "temperature", 0.7,
+                    "max_tokens", 12000
+            ));
+
+            String response = callDeepSeekRawWithParams(aiConfig.getApiKey(), buildUserPrompt(prompt.toString()), 16000, 120);
+
+            JsonNode root = objectMapper.readTree(response);
+            JsonNode choices = root.get("choices");
+            if (choices != null && choices.isArray() && !choices.isEmpty()) {
+                String content = choices.get(0).get("message").get("content").asText();
+                if (content.startsWith("```json")) {
+                    content = content.substring(7);
+                }
+                if (content.endsWith("```")) {
+                    content = content.substring(0, content.length() - 3);
+                }
+                return content.trim();
+            }
+            return "[]";
+        } catch (Exception e) {
+            log.error("Failed to cluster grammar patterns via AI: {}", e.getMessage(), e);
+            return "[]";
+        }
+    }
+
+    private String buildUserPrompt(String input) {
+        return input;
     }
 }
 

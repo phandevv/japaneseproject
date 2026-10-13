@@ -1,11 +1,13 @@
 package com.flashcard.knowledge.provider;
 
+import com.flashcard.knowledge.model.JlptN3GrammarGroup;
 import com.flashcard.knowledge.model.JlptN3GrammarQuiz;
 import com.flashcard.knowledge.model.JlptN3LessonQuiz;
 import com.flashcard.knowledge.model.JlptN3Progress;
 import com.flashcard.knowledge.model.JlptN3Reading;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 public interface JlptN3DataProvider {
@@ -22,4 +24,11 @@ public interface JlptN3DataProvider {
 
     Optional<JlptN3Reading> findReading(Integer chapterId, Integer lessonId);
     JlptN3Reading saveReading(JlptN3Reading reading);
+
+    List<JlptN3GrammarGroup> findAllGrammarGroups();
+    Optional<JlptN3GrammarGroup> findGrammarGroupByCode(String groupCode);
+    JlptN3GrammarGroup saveGrammarGroup(JlptN3GrammarGroup group);
+    void deleteAllGrammarGroups();
+
+    java.util.List<Map<String, Object>> findQuizzesByGroupCode(String groupCode);
 }

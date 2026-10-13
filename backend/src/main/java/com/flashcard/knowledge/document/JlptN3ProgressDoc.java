@@ -27,6 +27,9 @@ public class JlptN3ProgressDoc {
     private Integer readingScore = 0;
     private Boolean completed = false;
     private Integer bestScore = 0;
+    private Boolean grammarReviewPassed = false;
+    private Integer grammarReviewScore = 0;
+    private Integer grammarReviewBestScore = 0;
 
     private LocalDateTime completedAt;
 
@@ -44,6 +47,17 @@ public class JlptN3ProgressDoc {
                              Boolean quizPassed, Boolean readingPassed, Integer readingScore,
                              Boolean completed, Integer bestScore,
                              LocalDateTime completedAt, LocalDateTime createdAt, LocalDateTime updatedAt) {
+        this(id, userId, chapterId, lessonId, vocabPassed, kanjiPassed, grammarPassed,
+             quizPassed, readingPassed, readingScore, completed, bestScore,
+             false, 0, 0, completedAt, createdAt, updatedAt);
+    }
+
+    public JlptN3ProgressDoc(Long id, Long userId, Integer chapterId, Integer lessonId,
+                             Boolean vocabPassed, Boolean kanjiPassed, Boolean grammarPassed,
+                             Boolean quizPassed, Boolean readingPassed, Integer readingScore,
+                             Boolean completed, Integer bestScore,
+                             Boolean grammarReviewPassed, Integer grammarReviewScore, Integer grammarReviewBestScore,
+                             LocalDateTime completedAt, LocalDateTime createdAt, LocalDateTime updatedAt) {
         this.id = id;
         this.userId = userId;
         this.chapterId = chapterId;
@@ -56,6 +70,9 @@ public class JlptN3ProgressDoc {
         this.readingScore = readingScore != null ? readingScore : 0;
         this.completed = completed != null ? completed : false;
         this.bestScore = bestScore != null ? bestScore : 0;
+        this.grammarReviewPassed = grammarReviewPassed != null ? grammarReviewPassed : false;
+        this.grammarReviewScore = grammarReviewScore != null ? grammarReviewScore : 0;
+        this.grammarReviewBestScore = grammarReviewBestScore != null ? grammarReviewBestScore : 0;
         this.completedAt = completedAt;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
@@ -79,6 +96,9 @@ public class JlptN3ProgressDoc {
         private Integer readingScore = 0;
         private Boolean completed = false;
         private Integer bestScore = 0;
+        private Boolean grammarReviewPassed = false;
+        private Integer grammarReviewScore = 0;
+        private Integer grammarReviewBestScore = 0;
         private LocalDateTime completedAt;
         private LocalDateTime createdAt;
         private LocalDateTime updatedAt;
@@ -95,13 +115,18 @@ public class JlptN3ProgressDoc {
         public Builder readingScore(Integer readingScore) { this.readingScore = readingScore; return this; }
         public Builder completed(Boolean completed) { this.completed = completed; return this; }
         public Builder bestScore(Integer bestScore) { this.bestScore = bestScore; return this; }
+        public Builder grammarReviewPassed(Boolean grammarReviewPassed) { this.grammarReviewPassed = grammarReviewPassed; return this; }
+        public Builder grammarReviewScore(Integer grammarReviewScore) { this.grammarReviewScore = grammarReviewScore; return this; }
+        public Builder grammarReviewBestScore(Integer grammarReviewBestScore) { this.grammarReviewBestScore = grammarReviewBestScore; return this; }
         public Builder completedAt(LocalDateTime completedAt) { this.completedAt = completedAt; return this; }
         public Builder createdAt(LocalDateTime createdAt) { this.createdAt = createdAt; return this; }
         public Builder updatedAt(LocalDateTime updatedAt) { this.updatedAt = updatedAt; return this; }
 
         public JlptN3ProgressDoc build() {
             return new JlptN3ProgressDoc(id, userId, chapterId, lessonId, vocabPassed, kanjiPassed,
-                    grammarPassed, quizPassed, readingPassed, readingScore, completed, bestScore, completedAt, createdAt, updatedAt);
+                    grammarPassed, quizPassed, readingPassed, readingScore, completed, bestScore,
+                    grammarReviewPassed, grammarReviewScore, grammarReviewBestScore,
+                    completedAt, createdAt, updatedAt);
         }
     }
 
@@ -150,4 +175,13 @@ public class JlptN3ProgressDoc {
 
     public LocalDateTime getUpdatedAt() { return updatedAt; }
     public void setUpdatedAt(LocalDateTime updatedAt) { this.updatedAt = updatedAt; }
+
+    public Boolean getGrammarReviewPassed() { return grammarReviewPassed != null ? grammarReviewPassed : false; }
+    public void setGrammarReviewPassed(Boolean grammarReviewPassed) { this.grammarReviewPassed = grammarReviewPassed; }
+
+    public Integer getGrammarReviewScore() { return grammarReviewScore != null ? grammarReviewScore : 0; }
+    public void setGrammarReviewScore(Integer grammarReviewScore) { this.grammarReviewScore = grammarReviewScore; }
+
+    public Integer getGrammarReviewBestScore() { return grammarReviewBestScore != null ? grammarReviewBestScore : 0; }
+    public void setGrammarReviewBestScore(Integer grammarReviewBestScore) { this.grammarReviewBestScore = grammarReviewBestScore; }
 }

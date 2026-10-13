@@ -1,13 +1,16 @@
 package com.flashcard.knowledge.provider;
 
 import com.flashcard.common.service.SequenceGeneratorService;
+import com.flashcard.knowledge.document.JlptN3GrammarGroupDoc;
 import com.flashcard.knowledge.document.JlptN3GrammarQuizDoc;
 import com.flashcard.knowledge.document.JlptN3LessonQuizDoc;
 import com.flashcard.knowledge.document.JlptN3ProgressDoc;
+import com.flashcard.knowledge.model.JlptN3GrammarGroup;
 import com.flashcard.knowledge.model.JlptN3GrammarQuiz;
 import com.flashcard.knowledge.model.JlptN3LessonQuiz;
 import com.flashcard.knowledge.model.JlptN3Progress;
 import com.flashcard.knowledge.repository.mongo.JlptN3GrammarQuizMongoRepository;
+import com.flashcard.knowledge.repository.mongo.JlptN3GrammarGroupMongoRepository;
 import com.flashcard.knowledge.repository.mongo.JlptN3LessonQuizMongoRepository;
 import com.flashcard.knowledge.repository.mongo.JlptN3ProgressMongoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +18,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -24,6 +28,7 @@ public class JlptN3MongoDataProvider implements JlptN3DataProvider {
 
     private final JlptN3ProgressMongoRepository progressMongoRepository;
     private final JlptN3GrammarQuizMongoRepository quizMongoRepository;
+    private final JlptN3GrammarGroupMongoRepository grammarGroupMongoRepository;
     private final JlptN3LessonQuizMongoRepository lessonQuizMongoRepository;
     private final com.flashcard.knowledge.repository.mongo.JlptN3ReadingMongoRepository readingMongoRepository;
     private final SequenceGeneratorService sequenceGeneratorService;
@@ -31,11 +36,13 @@ public class JlptN3MongoDataProvider implements JlptN3DataProvider {
     @Autowired
     public JlptN3MongoDataProvider(JlptN3ProgressMongoRepository progressMongoRepository,
                                    JlptN3GrammarQuizMongoRepository quizMongoRepository,
+                                   JlptN3GrammarGroupMongoRepository grammarGroupMongoRepository,
                                    JlptN3LessonQuizMongoRepository lessonQuizMongoRepository,
                                    com.flashcard.knowledge.repository.mongo.JlptN3ReadingMongoRepository readingMongoRepository,
                                    SequenceGeneratorService sequenceGeneratorService) {
         this.progressMongoRepository = progressMongoRepository;
         this.quizMongoRepository = quizMongoRepository;
+        this.grammarGroupMongoRepository = grammarGroupMongoRepository;
         this.lessonQuizMongoRepository = lessonQuizMongoRepository;
         this.readingMongoRepository = readingMongoRepository;
         this.sequenceGeneratorService = sequenceGeneratorService;
@@ -87,6 +94,9 @@ public class JlptN3MongoDataProvider implements JlptN3DataProvider {
             doc = quizMongoRepository.findById(quiz.getId()).orElseGet(() -> toQuizDoc(quiz));
             doc.setQuestionsJson(quiz.getQuestionsJson());
             doc.setCreatedAt(quiz.getCreatedAt());
+            doc.setGroupId(quiz.getGroupId());
+            doc.setGroupCode(quiz.getGroupCode());
+            doc.setQuestionType(quiz.getQuestionType());
         }
         JlptN3GrammarQuizDoc saved = quizMongoRepository.save(doc);
         return toQuiz(saved);
@@ -131,6 +141,9 @@ public class JlptN3MongoDataProvider implements JlptN3DataProvider {
         p.setReadingScore(doc.getReadingScore());
         p.setCompleted(doc.getCompleted());
         p.setBestScore(doc.getBestScore());
+        p.setGrammarReviewPassed(doc.getGrammarReviewPassed());
+        p.setGrammarReviewScore(doc.getGrammarReviewScore());
+        p.setGrammarReviewBestScore(doc.getGrammarReviewBestScore());
         p.setCompletedAt(doc.getCompletedAt());
         p.setCreatedAt(doc.getCreatedAt());
         p.setUpdatedAt(doc.getUpdatedAt());
@@ -151,6 +164,9 @@ public class JlptN3MongoDataProvider implements JlptN3DataProvider {
                 .readingScore(p.getReadingScore())
                 .completed(p.getCompleted())
                 .bestScore(p.getBestScore())
+                .grammarReviewPassed(p.getGrammarReviewPassed())
+                .grammarReviewScore(p.getGrammarReviewScore())
+                .grammarReviewBestScore(p.getGrammarReviewBestScore())
                 .completedAt(p.getCompletedAt())
                 .createdAt(p.getCreatedAt())
                 .updatedAt(p.getUpdatedAt())
@@ -169,6 +185,9 @@ public class JlptN3MongoDataProvider implements JlptN3DataProvider {
         doc.setReadingScore(p.getReadingScore());
         doc.setCompleted(p.getCompleted());
         doc.setBestScore(p.getBestScore());
+        doc.setGrammarReviewPassed(p.getGrammarReviewPassed());
+        doc.setGrammarReviewScore(p.getGrammarReviewScore());
+        doc.setGrammarReviewBestScore(p.getGrammarReviewBestScore());
         doc.setCompletedAt(p.getCompletedAt());
         doc.setUpdatedAt(p.getUpdatedAt());
     }
@@ -181,17 +200,17 @@ public class JlptN3MongoDataProvider implements JlptN3DataProvider {
         q.setLessonId(doc.getLessonId());
         q.setQuestionsJson(doc.getQuestionsJson());
         q.setCreatedAt(doc.getCreatedAt());
+        q.setGroupId(doc.getGroupId());
+        q.setGroupCode(doc.getGroupCode());
+        q.setQuestionType(doc.getQuestionType());
         return q;
     }
 
     private JlptN3GrammarQuizDoc toQuizDoc(JlptN3GrammarQuiz q) {
-        return JlptN3GrammarQuizDoc.builder()
-                .id(q.getId())
-                .chapterId(q.getChapterId())
-                .lessonId(q.getLessonId())
-                .questionsJson(q.getQuestionsJson())
-                .createdAt(q.getCreatedAt())
-                .build();
+        return new JlptN3GrammarQuizDoc(
+                q.getId(), q.getChapterId(), q.getLessonId(), q.getQuestionsJson(),
+                q.getCreatedAt(), q.getGroupId(), q.getGroupCode(), q.getQuestionType()
+        );
     }
 
     private JlptN3LessonQuiz toLessonQuiz(JlptN3LessonQuizDoc doc) {
@@ -278,6 +297,95 @@ public class JlptN3MongoDataProvider implements JlptN3DataProvider {
         doc.setQuestionsJson(r.getQuestionsJson());
         doc.setCreatedAt(r.getCreatedAt());
         doc.setUpdatedAt(r.getUpdatedAt());
+        return doc;
+    }
+
+    @Override
+    public List<JlptN3GrammarGroup> findAllGrammarGroups() {
+        return grammarGroupMongoRepository.findAll().stream()
+                .map(this::toGrammarGroup)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public Optional<JlptN3GrammarGroup> findGrammarGroupByCode(String groupCode) {
+        return grammarGroupMongoRepository.findByGroupCode(groupCode)
+                .map(this::toGrammarGroup);
+    }
+
+    @Override
+    public JlptN3GrammarGroup saveGrammarGroup(JlptN3GrammarGroup group) {
+        JlptN3GrammarGroupDoc doc;
+        if (group.getId() == null) {
+            group.setId(sequenceGeneratorService.generateSequence("jlpt_n3_grammar_group_seq"));
+            doc = toGrammarGroupDoc(group);
+        } else {
+            doc = grammarGroupMongoRepository.findById(group.getId()).orElseGet(() -> toGrammarGroupDoc(group));
+            doc.setTitle(group.getTitle());
+            doc.setDescription(group.getDescription());
+            doc.setUsageGuide(group.getUsageGuide());
+            doc.setUsageCases(group.getUsageCases());
+            doc.setGrammarPatternIds(group.getGrammarPatternIds());
+            doc.setExampleSentencesJson(group.getExampleSentencesJson());
+            doc.setSortOrder(group.getSortOrder());
+            doc.setTotalPatterns(group.getTotalPatterns());
+        }
+        JlptN3GrammarGroupDoc saved = grammarGroupMongoRepository.save(doc);
+        return toGrammarGroup(saved);
+    }
+
+    @Override
+    public void deleteAllGrammarGroups() {
+        grammarGroupMongoRepository.deleteAll();
+    }
+
+    @Override
+    public List<Map<String, Object>> findQuizzesByGroupCode(String groupCode) {
+        return quizMongoRepository.findByGroupCodeOrderByCreatedAtAsc(groupCode).stream()
+                .map(q -> {
+                    Map<String, Object> m = new java.util.HashMap<>();
+                    m.put("id", q.getId());
+                    m.put("groupId", q.getGroupId());
+                    m.put("groupCode", q.getGroupCode());
+                    m.put("questionType", q.getQuestionType());
+                    m.put("questionsJson", q.getQuestionsJson());
+                    return m;
+                })
+                .collect(Collectors.toList());
+    }
+
+    private JlptN3GrammarGroup toGrammarGroup(JlptN3GrammarGroupDoc doc) {
+        if (doc == null) return null;
+        JlptN3GrammarGroup g = new JlptN3GrammarGroup();
+        g.setId(doc.getId());
+        g.setGroupCode(doc.getGroupCode());
+        g.setTitle(doc.getTitle());
+        g.setDescription(doc.getDescription());
+        g.setUsageGuide(doc.getUsageGuide());
+        g.setUsageCases(doc.getUsageCases());
+        g.setGrammarPatternIds(doc.getGrammarPatternIds());
+        g.setExampleSentencesJson(doc.getExampleSentencesJson());
+        g.setSortOrder(doc.getSortOrder());
+        g.setTotalPatterns(doc.getTotalPatterns());
+        g.setCreatedAt(doc.getCreatedAt());
+        g.setUpdatedAt(doc.getUpdatedAt());
+        return g;
+    }
+
+    private JlptN3GrammarGroupDoc toGrammarGroupDoc(JlptN3GrammarGroup g) {
+        JlptN3GrammarGroupDoc doc = new JlptN3GrammarGroupDoc();
+        doc.setId(g.getId());
+        doc.setGroupCode(g.getGroupCode());
+        doc.setTitle(g.getTitle());
+        doc.setDescription(g.getDescription());
+        doc.setUsageGuide(g.getUsageGuide());
+        doc.setUsageCases(g.getUsageCases());
+        doc.setGrammarPatternIds(g.getGrammarPatternIds());
+        doc.setExampleSentencesJson(g.getExampleSentencesJson());
+        doc.setSortOrder(g.getSortOrder());
+        doc.setTotalPatterns(g.getTotalPatterns());
+        doc.setCreatedAt(g.getCreatedAt());
+        doc.setUpdatedAt(g.getUpdatedAt());
         return doc;
     }
 }

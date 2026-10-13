@@ -816,4 +816,40 @@ export const jlptN3Api = {
   }
 };
 
+export const jlptN3GrammarReviewApi = {
+  getGrammarGroupOverview: async () => {
+    return cachedGet(`${API_BASE_URL}/jlpt-n3/grammar-review`, {}, 60000);
+  },
+  getGrammarGroupDetail: async (groupCode) => {
+    return cachedGet(`${API_BASE_URL}/jlpt-n3/grammar-review/group/${groupCode}`, {}, 60000);
+  },
+  generateGrammarGroups: async () => {
+    const response = await axios.post(`${API_BASE_URL}/jlpt-n3/grammar-review/generate`);
+    clearApiCache('/jlpt-n3/grammar-review');
+    return response.data;
+  },
+  importGrammarGroupData: async (jsonData) => {
+    const response = await axios.post(`${API_BASE_URL}/jlpt-n3/grammar-review/import`, jsonData, {
+      headers: { 'Content-Type': 'application/json' }
+    });
+    clearApiCache('/jlpt-n3/grammar-review');
+    return response.data;
+  },
+  updateGrammarGroup: async (groupCode, updates) => {
+    const response = await axios.put(`${API_BASE_URL}/jlpt-n3/grammar-review/group/${groupCode}`, updates);
+    clearApiCache('/jlpt-n3/grammar-review');
+    return response.data;
+  },
+  submitGroupQuiz: async (groupCode, score, total) => {
+    const response = await axios.post(`${API_BASE_URL}/jlpt-n3/grammar-review/submit`, {
+      groupCode,
+      score,
+      total
+    });
+    clearApiCache('/jlpt-n3/grammar-review');
+    clearApiCache('/jlpt-n3/overview');
+    return response.data;
+  }
+};
+
 export const api = axios;

@@ -214,6 +214,8 @@ Cơ sở dữ liệu được khởi tạo và nâng cấp thông qua Flyway t�
 
 * **`V30__add_grammar_quiz_cache_and_lesson_pass_fields.sql`**: Bổ sung `vocab_passed`, `kanji_passed`, `grammar_passed` và bảng `jlpt_n3_grammar_quizzes`.
 * **`V31__create_jlpt_n3_reading_table.sql`**: Tạo bảng `jlpt_n3_readings` lưu bài đọc hiểu trường văn N3 (~1500-2000 ký tự) kèm 10 câu hỏi trắc nghiệm, và bổ sung cột `reading_passed`, `reading_score` vào bảng `jlpt_n3_progress`.
+* **`V32__create_jlpt_n3_grammar_groups_table.sql`**: Tạo bảng `jlpt_n3_grammar_groups` lưu nhóm ngữ pháp AI clustering.
+* **`V33__add_grammar_group_and_review_fields.sql`**: Thêm `group_id`, `group_code`, `question_type` vào `jlpt_n3_grammar_quizzes`; thêm `grammar_review_passed`, `grammar_review_score`, `grammar_review_best_score` vào `jlpt_n3_progress`.
 
 ---
 
@@ -254,6 +256,7 @@ Hệ thống lưu trữ dữ liệu khóa học JLPT N3, bộ trắc nghiệm v�
   * `questions`: Danh sách 20 đối tượng câu hỏi (`id`, `question`, `translation`, `answer`, `options`)
   * `questionsJson`: Chuỗi JSON nạp siêu tốc
   * Index: `{ chapterId: 1, lessonId: 1 }`
-* **`jlpt_n3_progress`**: Tiến độ học từng bài của học viên (`vocabPassed`, `kanjiPassed`, `grammarPassed`, `quizPassed`, `readingPassed`, `readingScore`, `completed`, `bestScore`).
-* **`jlpt_n3_grammar_quizzes`**: Bộ 30 câu hỏi trắc nghiệm ngữ pháp AI tạo.
+* **`jlpt_n3_progress`**: Tiến độ học từng bài của học viên (`vocabPassed`, `kanjiPassed`, `grammarPassed`, `quizPassed`, `readingPassed`, `readingScore`, `completed`, `bestScore`, `grammarReviewPassed`, `grammarReviewScore`, `grammarReviewBestScore`).
+* **`jlpt_n3_grammar_quizzes`**: Bộ 30 câu hỏi trắc nghiệm ngữ pháp AI tạo. Bổ sung `groupId`, `groupCode`, `questionType` cho Grammar Review.
+* **`jlpt_n3_grammar_groups`**: Nhóm ngữ pháp AI clustering (~25-35 nhóm), chứa `groupCode`, `title`, `description`, `usageGuide`, `usageCases`, `grammarPatternIds`, `exampleSentencesJson`, `sortOrder`, `totalPatterns`.
 

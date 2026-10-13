@@ -46,6 +46,15 @@ public class JlptN3Progress {
     @Column(name = "best_score", nullable = false)
     private Integer bestScore = 0;
 
+    @Column(name = "grammar_review_passed")
+    private Boolean grammarReviewPassed = false;
+
+    @Column(name = "grammar_review_score")
+    private Integer grammarReviewScore = 0;
+
+    @Column(name = "grammar_review_best_score")
+    private Integer grammarReviewBestScore = 0;
+
     @Column(name = "completed_at")
     private LocalDateTime completedAt;
 
@@ -172,6 +181,30 @@ public class JlptN3Progress {
 
     public void setBestScore(Integer bestScore) {
         this.bestScore = bestScore;
+    }
+
+    public Boolean getGrammarReviewPassed() {
+        return grammarReviewPassed != null ? grammarReviewPassed : false;
+    }
+
+    public void setGrammarReviewPassed(Boolean grammarReviewPassed) {
+        this.grammarReviewPassed = grammarReviewPassed;
+    }
+
+    public Integer getGrammarReviewScore() {
+        return grammarReviewScore != null ? grammarReviewScore : 0;
+    }
+
+    public void setGrammarReviewScore(Integer grammarReviewScore) {
+        this.grammarReviewScore = grammarReviewScore;
+    }
+
+    public Integer getGrammarReviewBestScore() {
+        return grammarReviewBestScore != null ? grammarReviewBestScore : 0;
+    }
+
+    public void setGrammarReviewBestScore(Integer grammarReviewBestScore) {
+        this.grammarReviewBestScore = grammarReviewBestScore;
     }
 
     public LocalDateTime getCompletedAt() {
