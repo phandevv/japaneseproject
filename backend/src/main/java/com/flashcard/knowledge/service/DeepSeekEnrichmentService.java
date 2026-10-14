@@ -60,11 +60,27 @@ public class DeepSeekEnrichmentService {
                                   @Autowired(required = false) AiConfig aiConfig) {
         this.vocabularyDataProvider = vocabularyDataProvider;
         this.knowledgeDataProvider = knowledgeDataProvider;
-        this.objectMapper = objectMapper;
+        // AI responses often embed raw control characters (e.g. newlines) inside JSON
+        // string values (passage / translation / usage_guide). The shared ObjectMapper
+        // is strict and rejects these; use a lenient copy for parsing AI output so the
+        // repair / reading / grammar pipelines do not throw "Illegal unquoted control
+        // character". Write operations are unaffected by parse features.
+        this.objectMapper = lenientObjectMapper(objectMapper);
         this.aiConfig = (aiConfig != null) ? aiConfig : new AiConfig(null, null, null);
         this.httpClient = HttpClient.newBuilder()
                 .connectTimeout(Duration.ofSeconds(10))
                 .build();
+    }
+
+    /**
+     * Returns a copy of the given mapper configured to tolerate bare control characters
+     * (raw newlines, tabs...) that AI responses sometimes leave unescaped inside JSON
+     * string values. Mirrors the lenient setup already used in {@code KnowledgeService}.
+     */
+    static ObjectMapper lenientObjectMapper(ObjectMapper source) {
+        return source.copy()
+                .configure(com.fasterxml.jackson.core.JsonParser.Feature.ALLOW_UNQUOTED_CONTROL_CHARS, true)
+                .configure(com.fasterxml.jackson.core.JsonParser.Feature.ALLOW_BACKSLASH_ESCAPING_ANY_CHARACTER, true);
     }
 
     public CompletableFuture<Vocabulary> enrichVocabulary(Vocabulary vocab) {

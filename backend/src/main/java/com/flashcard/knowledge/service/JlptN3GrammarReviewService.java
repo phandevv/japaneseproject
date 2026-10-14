@@ -44,7 +44,9 @@ public class JlptN3GrammarReviewService {
                                       ObjectMapper objectMapper,
                                       DeepSeekEnrichmentService enrichmentService) {
         this.dataProvider = dataProvider;
-        this.objectMapper = objectMapper;
+        this.objectMapper = objectMapper.copy()
+                .configure(com.fasterxml.jackson.core.JsonParser.Feature.ALLOW_UNQUOTED_CONTROL_CHARS, true)
+                .configure(com.fasterxml.jackson.core.JsonParser.Feature.ALLOW_BACKSLASH_ESCAPING_ANY_CHARACTER, true);
         this.enrichmentService = enrichmentService;
     }
 
