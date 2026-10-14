@@ -2953,8 +2953,10 @@ const isContainsKanji = (str) => {
         </div>
       )}
 
-      {phase === 'lesson' && selectedChapter === 9 && selectedLesson === 3 && (
-        <div className="grammar-review-wrapper">
+      {/* Grammar Review: rendered at the end of overview (beneath Chapter 9, the last chapter),
+          visible as a comprehensive review without forcing users to dive into Lesson 3. */}
+      {phase === 'overview' && (
+        <div className="grammar-review-wrapper" style={{ marginTop: '16px' }}>
           <GrammarReviewSection isAdmin={isAdmin} />
         </div>
       )}
