@@ -7,6 +7,7 @@ import {
 } from 'lucide-react';
 import { mockExamApi, getMediaUrl } from '../services/api';
 import FormattedQuestionText from '../components/FormattedQuestionText';
+import { renderTextWithFurigana } from '../utils/furiganaUtils';
 
 export default function MockExamResultPage({ attemptId: propAttemptId }) {
   const params = useParams();
@@ -540,7 +541,7 @@ export default function MockExamResultPage({ attemptId: propAttemptId }) {
                               fontFamily: 'var(--font-jp)',
                               flex: 1
                             }}>
-                              {cText}
+                              {renderTextWithFurigana(cText, { keyPrefix: `res-ch-${cIdx}` })}
                             </div>
                             {isCorrectAnswer && (
                               <span style={{ fontSize: 11, fontWeight: 700, color: 'var(--success-color)' }}>

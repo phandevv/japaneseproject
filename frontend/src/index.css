@@ -1383,3 +1383,48 @@ input, textarea, select { font-family: var(--font-ui); color: var(--text-primary
   color: #38bdf8;
 }
 
+/* ============================================================
+   GLOBAL FURIGANA & RUBY STYLING (Overhead Kanji Readings)
+   ============================================================ */
+ruby,
+.furigana-ruby {
+  display: inline-ruby !important;
+  ruby-position: over !important;
+  ruby-align: center;
+  line-height: normal;
+  vertical-align: baseline;
+}
+
+ruby rt,
+.furigana-ruby rt,
+.furigana-rt {
+  display: ruby-text !important;
+  font-size: 0.56em !important;
+  line-height: 1.1 !important;
+  text-align: center;
+  user-select: none;
+  font-weight: 600;
+  color: var(--accent-color, #6366f1);
+  font-feature-settings: "ruby" 1;
+}
+
+[data-theme='dark'] ruby rt,
+[data-theme='dark'] .furigana-ruby rt,
+[data-theme='dark'] .furigana-rt {
+  color: #818cf8;
+}
+
+.exam-target-word ruby rt {
+  color: inherit;
+  opacity: 0.95;
+  font-size: 0.52em !important;
+}
+
+/* Adequate line spacing for text containing furigana overhead */
+.formatted-exam-text,
+.exam-passage-text,
+.furigana-container {
+  line-height: 2.2 !important;
+}
+
+

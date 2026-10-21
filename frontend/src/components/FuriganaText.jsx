@@ -50,20 +50,32 @@ const FuriganaText = ({
     const paragraphs = text.split(/\n+/);
 
     return paragraphs.map((para, pIdx) => {
-      // Regex to find [Kanji|hiragana]
-      const regex = /\[([^\|\]]+)\|([^\]]+)\]/g;
+      // Regex to find [Kanji|hiragana] or Kanji(hiragana) / Kanji（hiragana）
+      const regex = /\[([^|\]]+)\|([^\]]+)\]|([\u4e00-\u9faf々〆〇]+)[(（]([\u3040-\u309f\u30a0-\u30ff]{1,8})[)）]/g;
       const elements = [];
       let lastIndex = 0;
       let match;
 
       while ((match = regex.exec(para)) !== null) {
+        let kanji = '';
+        let hiragana = '';
+        const fullMatch = match[0];
+
+        if (match[1] && match[2]) {
+          kanji = match[1];
+          hiragana = match[2];
+        } else if (match[3] && match[4]) {
+          kanji = match[3];
+          hiragana = match[4];
+          if (hiragana.includes('など') || (kanji.length >= 2 && ['な', 'に', 'の', 'だ', 'する', 'される', 'ない'].includes(hiragana))) {
+            continue;
+          }
+        }
+
         const preText = para.substring(lastIndex, match.index);
         if (preText) {
           elements.push(...renderPlainSegment(preText, pIdx, elements.length, showHighlight, vocabMap, grammarMap));
         }
-
-        const kanji = match[1];
-        const hiragana = match[2];
 
         // Check if kanji is target vocab or grammar
         const vocabMeaning = vocabMap.get(kanji);
@@ -86,11 +98,13 @@ const FuriganaText = ({
               borderBottom: isHighlight
                 ? `2px solid ${grammarMeaning ? '#0ea5e9' : '#f59e0b'}`
                 : 'none',
-              cursor: isHighlight ? 'help' : 'inherit'
+              cursor: isHighlight ? 'help' : 'inherit',
+              rubyPosition: 'over'
             }}
           >
             {kanji}
             <rt
+              className="furigana-rt"
               style={{
                 display: showFurigana ? 'ruby-text' : 'none',
                 userSelect: 'none',
@@ -104,7 +118,7 @@ const FuriganaText = ({
           </ruby>
         );
 
-        lastIndex = regex.lastIndex;
+        lastIndex = match.index + fullMatch.length;
       }
 
       if (lastIndex < para.length) {

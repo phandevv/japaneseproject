@@ -8,6 +8,7 @@ import {
 import { mockExamApi, getMediaUrl } from '../services/api';
 import ListeningSectionView from '../components/ListeningSectionView';
 import FormattedQuestionText from '../components/FormattedQuestionText';
+import { renderTextWithFurigana } from '../utils/furiganaUtils';
 
 export default function MockExamRunnerPage({ examId: propExamId }) {
   const params = useParams();
@@ -522,7 +523,7 @@ export default function MockExamRunnerPage({ examId: propExamId }) {
                         whiteSpace: 'pre-wrap',
                         fontFamily: 'var(--font-jp)'
                       }}>
-                        {activeQuestion.passage}
+                        {renderTextWithFurigana(activeQuestion.passage, { keyPrefix: 'runner-psg' })}
                       </div>
                     )}
                   </div>
@@ -610,7 +611,7 @@ export default function MockExamRunnerPage({ examId: propExamId }) {
                           fontFamily: 'var(--font-jp)',
                           flex: 1
                         }}>
-                          {choiceText}
+                          {renderTextWithFurigana(choiceText, { keyPrefix: `runner-ch-${cIdx}` })}
                         </div>
                       </div>
                     );

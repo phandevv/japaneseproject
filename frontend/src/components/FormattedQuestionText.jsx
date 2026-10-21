@@ -1,10 +1,12 @@
 import React from 'react';
+import { renderTextWithFurigana } from '../utils/furiganaUtils';
 
 /**
  * FormattedQuestionText
  * Parses <u>...</u> tags in JLPT question texts and renders
  * an eye-catching, high-contrast underlined + highlighted badge for the target word.
- * Also formats ( ), （ ） blanks into a stylish dashed blank slot.
+ * Also formats ( ), （ ） blanks into a stylish dashed blank slot,
+ * and renders Furigana on top of Kanji using standard <ruby><rt> annotations.
  *
  * If no <u> is present but questionType is KANJI_READING or KANJI_WRITING,
  * it attempts a smart fallback to detect and highlight the tested word.
@@ -30,18 +32,18 @@ export default function FormattedQuestionText({
     while ((match = regex.exec(text)) !== null) {
       const target = match[1] || match[2];
       if (match.index > lastIndex) {
-        parts.push(renderPlainTextWithBlanks(text.slice(lastIndex, match.index)));
+        parts.push(renderPlainTextWithBlanks(text.slice(lastIndex, match.index), `pt-${lastIndex}`));
       }
       parts.push(
         <span key={`target-${match.index}`} className="exam-target-word">
-          {target}
+          {renderTextWithFurigana(target, { keyPrefix: `tgt-${match.index}` })}
         </span>
       );
       lastIndex = regex.lastIndex;
     }
 
     if (lastIndex < text.length) {
-      parts.push(renderPlainTextWithBlanks(text.slice(lastIndex)));
+      parts.push(renderPlainTextWithBlanks(text.slice(lastIndex), `pt-${lastIndex}`));
     }
 
     return (
@@ -88,9 +90,11 @@ export default function FormattedQuestionText({
 
     return (
       <span style={style} className="formatted-exam-text">
-        {renderPlainTextWithBlanks(before)}
-        <span className="exam-target-word">{detectedTarget}</span>
-        {renderPlainTextWithBlanks(after)}
+        {renderPlainTextWithBlanks(before, 'fb-pre')}
+        <span className="exam-target-word">
+          {renderTextWithFurigana(detectedTarget, { keyPrefix: 'fb-tgt' })}
+        </span>
+        {renderPlainTextWithBlanks(after, 'fb-post')}
       </span>
     );
   }
@@ -98,19 +102,20 @@ export default function FormattedQuestionText({
   // Default: render text with blank slot formatting
   return (
     <span style={style} className="formatted-exam-text">
-      {renderPlainTextWithBlanks(text)}
+      {renderPlainTextWithBlanks(text, 'def')}
     </span>
   );
 }
 
 /**
  * Format blanks like ( ), （ ）, (   ) into dashed slots
+ * and render Japanese text with furigana directly above Kanji.
  */
-function renderPlainTextWithBlanks(plainText) {
+function renderPlainTextWithBlanks(plainText, keyPrefix = 'blank') {
   if (!plainText) return null;
   const blankRegex = /\(\s*\)|（\s*）|\(\s{2,}\)|（\s{2,}）/g;
   if (!blankRegex.test(plainText)) {
-    return plainText;
+    return renderTextWithFurigana(plainText, { keyPrefix });
   }
 
   const parts = [];
@@ -120,7 +125,11 @@ function renderPlainTextWithBlanks(plainText) {
 
   while ((match = blankRegex.exec(plainText)) !== null) {
     if (match.index > lastIndex) {
-      parts.push(plainText.slice(lastIndex, match.index));
+      parts.push(
+        renderTextWithFurigana(plainText.slice(lastIndex, match.index), {
+          keyPrefix: `${keyPrefix}-sub-${lastIndex}`
+        })
+      );
     }
     parts.push(
       <span key={`blank-${match.index}`} className="exam-blank-slot">
@@ -131,7 +140,11 @@ function renderPlainTextWithBlanks(plainText) {
   }
 
   if (lastIndex < plainText.length) {
-    parts.push(plainText.slice(lastIndex));
+    parts.push(
+      renderTextWithFurigana(plainText.slice(lastIndex), {
+        keyPrefix: `${keyPrefix}-sub-${lastIndex}`
+      })
+    );
   }
 
   return parts;

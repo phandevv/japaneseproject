@@ -5,37 +5,10 @@ import {
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { grammarApi } from '../services/api';
+import { renderTextWithFurigana } from '../utils/furiganaUtils';
 
 const FuriganaRuby = ({ text }) => {
-  if (!text) return null;
-  const str = String(text);
-  const regex = /([^\s\(\)▶👉\u3040-\u309F\u30A0-\u30FF]+)\(([^)]+)\)/g;
-  const elements = [];
-  let lastIndex = 0;
-  let match;
-
-  while ((match = regex.exec(str)) !== null) {
-    if (match.index > lastIndex) {
-      elements.push(str.substring(lastIndex, match.index));
-    }
-    const baseText = match[1];
-    const furigana = match[2];
-    elements.push(
-      <ruby key={match.index} style={{ rubyPosition: 'over' }}>
-        <span>{baseText}</span>
-        <rt style={{ fontSize: '0.65em', color: 'var(--accent-color)', fontWeight: '600', userSelect: 'none', paddingBottom: '2px' }}>
-          {furigana}
-        </rt>
-      </ruby>
-    );
-    lastIndex = regex.lastIndex;
-  }
-
-  if (lastIndex < str.length) {
-    elements.push(str.substring(lastIndex));
-  }
-
-  return <>{elements}</>;
+  return renderTextWithFurigana(text, { keyPrefix: 'gdm-furi' });
 };
 
 const GrammarDetailModal = ({ grammarCard, onClose, onReEnriched }) => {
