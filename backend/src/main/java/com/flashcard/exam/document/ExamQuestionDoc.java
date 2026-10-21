@@ -1,10 +1,17 @@
 package com.flashcard.exam.document;
 
+import org.springframework.data.mongodb.core.mapping.Field;
+
 import java.util.List;
 
 public class ExamQuestionDoc {
 
+    @Field("id")
     private String id;
+
+    @Field("_id")
+    private String underscoreId;
+
     private Integer mondaiNumber;
     private String mondaiTitle;
     private Integer questionNumber;
@@ -25,6 +32,7 @@ public class ExamQuestionDoc {
                            Integer correctAnswer, String explanation, Integer points,
                            Integer audioTimestampSeconds, String imageUrl) {
         this.id = id;
+        this.underscoreId = id;
         this.mondaiNumber = mondaiNumber;
         this.mondaiTitle = mondaiTitle;
         this.questionNumber = questionNumber;
@@ -39,11 +47,20 @@ public class ExamQuestionDoc {
     }
 
     public String getId() {
-        return id;
+        if (id != null && !id.isBlank()) return id;
+        return underscoreId;
     }
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getUnderscoreId() {
+        return underscoreId;
+    }
+
+    public void setUnderscoreId(String underscoreId) {
+        this.underscoreId = underscoreId;
     }
 
     public Integer getMondaiNumber() {

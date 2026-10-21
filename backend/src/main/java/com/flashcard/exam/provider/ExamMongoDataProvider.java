@@ -104,9 +104,16 @@ public class ExamMongoDataProvider implements ExamDataProvider {
         List<SectionDto> sectionDtos = new ArrayList<>();
 
         if (doc.getSections() != null) {
+            int secIdx = 0;
             for (ExamSectionDoc s : doc.getSections()) {
+                secIdx++;
+                String secId = s.getId();
+                if (secId == null || secId.isBlank()) {
+                    secId = s.getSectionType() != null ? s.getSectionType().toLowerCase() : ("sec-" + secIdx);
+                }
+
                 SectionDto sDto = new SectionDto();
-                sDto.setSectionId(s.getId());
+                sDto.setSectionId(secId);
                 sDto.setTitle(s.getTitle());
                 sDto.setTitleVi(s.getTitle());
                 sDto.setTimeLimitSec((s.getTimeLimitMinutes() != null) ? s.getTimeLimitMinutes() * 60 : 1800);
@@ -114,12 +121,22 @@ public class ExamMongoDataProvider implements ExamDataProvider {
 
                 List<QuestionDto> qDtos = new ArrayList<>();
                 if (s.getQuestions() != null) {
+                    int qIdx = 0;
                     for (ExamQuestionDoc q : s.getQuestions()) {
+                        qIdx++;
+                        int mondai = (q.getMondaiNumber() != null) ? q.getMondaiNumber() : 1;
+                        int qNum = (q.getQuestionNumber() != null) ? q.getQuestionNumber() : qIdx;
+
+                        String qId = q.getId();
+                        if (qId == null || qId.isBlank()) {
+                            qId = doc.getId() + "-" + secId + "-m" + mondai + "-q" + qNum;
+                        }
+
                         QuestionDto qDto = new QuestionDto();
-                        qDto.setId(q.getId());
-                        qDto.setSection(s.getId());
-                        qDto.setMondai((q.getMondaiNumber() != null) ? q.getMondaiNumber() : 1);
-                        qDto.setQuestionNumber((q.getQuestionNumber() != null) ? q.getQuestionNumber() : 1);
+                        qDto.setId(qId);
+                        qDto.setSection(secId);
+                        qDto.setMondai(mondai);
+                        qDto.setQuestionNumber(qNum);
                         qDto.setQuestionType(s.getSectionType());
                         qDto.setPassage(q.getPassageText());
                         qDto.setQuestionText(q.getQuestionText());

@@ -1,11 +1,18 @@
 package com.flashcard.exam.document;
 
+import org.springframework.data.mongodb.core.mapping.Field;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class ExamSectionDoc {
 
+    @Field("id")
     private String id;
+
+    @Field("_id")
+    private String underscoreId;
+
     private String sectionType;
     private String title;
     private Integer timeLimitMinutes;
@@ -19,6 +26,7 @@ public class ExamSectionDoc {
     public ExamSectionDoc(String id, String sectionType, String title, Integer timeLimitMinutes,
                           Integer orderIndex, List<ExamQuestionDoc> questions) {
         this.id = id;
+        this.underscoreId = id;
         this.sectionType = sectionType;
         this.title = title;
         this.timeLimitMinutes = timeLimitMinutes;
@@ -27,11 +35,20 @@ public class ExamSectionDoc {
     }
 
     public String getId() {
-        return id;
+        if (id != null && !id.isBlank()) return id;
+        return underscoreId;
     }
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getUnderscoreId() {
+        return underscoreId;
+    }
+
+    public void setUnderscoreId(String underscoreId) {
+        this.underscoreId = underscoreId;
     }
 
     public String getSectionType() {

@@ -49,11 +49,37 @@ export default function MockExamRunnerPage({ examId: propExamId }) {
       setLoading(true);
       try {
         const attemptData = await mockExamApi.startExam(examId);
+
+        // Normalize exam so every question is guaranteed to have a unique valid id
+        const rawExam = attemptData.exam;
+        if (rawExam && Array.isArray(rawExam.sections)) {
+          rawExam.sections = rawExam.sections.map((sec, secIdx) => {
+            const secId = sec.sectionId || `sec-${secIdx}`;
+            return {
+              ...sec,
+              sectionId: secId,
+              questions: (sec.questions || []).map((q, qIdx) => ({
+                ...q,
+                id: (q.id && String(q.id).trim() !== '' && q.id !== 'undefined' && q.id !== 'null')
+                  ? String(q.id)
+                  : `${rawExam.examId || examId}-${secId}-m${q.mondai || 1}-q${q.questionNumber || (qIdx + 1)}`
+              }))
+            };
+          });
+        }
+
         setAttempt(attemptData);
-        setExam(attemptData.exam);
+        setExam(rawExam);
 
         const saved = attemptData.savedAnswers || {};
-        setAnswers(saved);
+        // Clean out any invalid keys
+        const cleanSaved = {};
+        for (const [k, v] of Object.entries(saved)) {
+          if (k && k !== 'undefined' && k !== 'null') {
+            cleanSaved[k] = v;
+          }
+        }
+        setAnswers(cleanSaved);
 
         const secIdx = attemptData.currentSectionIndex || 0;
         setCurrentSectionIndex(secIdx);
@@ -109,7 +135,7 @@ export default function MockExamRunnerPage({ examId: propExamId }) {
     const handleKeyDown = (e) => {
       if (['1', '2', '3', '4'].includes(e.key)) {
         const activeQ = currentSection?.questions?.[currentQuestionIndex];
-        if (activeQ) {
+        if (activeQ && activeQ.id) {
           const choiceNum = Number(e.key);
           if (choiceNum <= (activeQ.choices?.length || 4)) {
             handleSelectAnswer(activeQ.id, choiceNum);
@@ -158,6 +184,7 @@ export default function MockExamRunnerPage({ examId: propExamId }) {
   const isListeningSection = currentSection?.sectionId === 'listening';
 
   const handleSelectAnswer = (qId, choiceNum) => {
+    if (!qId || qId === 'undefined' || qId === 'null') return;
     setAnswers(prev => ({
       ...prev,
       [qId]: choiceNum
@@ -165,6 +192,7 @@ export default function MockExamRunnerPage({ examId: propExamId }) {
   };
 
   const toggleFlagQuestion = (qId) => {
+    if (!qId || qId === 'undefined' || qId === 'null') return;
     setFlagged(prev => ({
       ...prev,
       [qId]: !prev[qId]
@@ -217,8 +245,8 @@ export default function MockExamRunnerPage({ examId: propExamId }) {
 
   // Count answered questions in current section
   const sectionQuestions = currentSection?.questions || [];
-  const answeredCount = sectionQuestions.filter(q => answers[q.id] != null).length;
-  const flaggedCount = sectionQuestions.filter(q => flagged[q.id]).length;
+  const answeredCount = sectionQuestions.filter(q => q?.id && answers[q.id] != null).length;
+  const flaggedCount = sectionQuestions.filter(q => q?.id && flagged[q.id]).length;
 
   if (loading && !exam) {
     return (
@@ -440,23 +468,23 @@ export default function MockExamRunnerPage({ examId: propExamId }) {
                   {/* Flag for review */}
                   <button
                     type="button"
-                    onClick={() => toggleFlagQuestion(activeQuestion.id)}
+                    onClick={() => toggleFlagQuestion(activeQuestion?.id)}
                     style={{
                       display: 'flex',
                       alignItems: 'center',
                       gap: 6,
                       padding: '6px 12px',
                       borderRadius: 'var(--radius-md)',
-                      background: flagged[activeQuestion.id] ? 'var(--warning-light)' : 'transparent',
-                      color: flagged[activeQuestion.id] ? 'var(--warning-color)' : 'var(--text-muted)',
-                      border: `1px solid ${flagged[activeQuestion.id] ? 'var(--warning-color)' : 'var(--border-color)'}`,
+                      background: (activeQuestion?.id && flagged[activeQuestion.id]) ? 'var(--warning-light)' : 'transparent',
+                      color: (activeQuestion?.id && flagged[activeQuestion.id]) ? 'var(--warning-color)' : 'var(--text-muted)',
+                      border: `1px solid ${(activeQuestion?.id && flagged[activeQuestion.id]) ? 'var(--warning-color)' : 'var(--border-color)'}`,
                       cursor: 'pointer',
                       fontSize: 12,
                       fontWeight: 600
                     }}
                   >
-                    {flagged[activeQuestion.id] ? <BookmarkCheck size={14} /> : <Bookmark size={14} />}
-                    {flagged[activeQuestion.id] ? 'Đã đánh dấu' : 'Đánh dấu xem lại'}
+                    {(activeQuestion?.id && flagged[activeQuestion.id]) ? <BookmarkCheck size={14} /> : <Bookmark size={14} />}
+                    {(activeQuestion?.id && flagged[activeQuestion.id]) ? 'Đã đánh dấu' : 'Đánh dấu xem lại'}
                   </button>
                 </div>
 
@@ -537,12 +565,12 @@ export default function MockExamRunnerPage({ examId: propExamId }) {
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
                   {activeQuestion.choices?.map((choiceText, cIdx) => {
                     const choiceNum = cIdx + 1;
-                    const isSelected = answers[activeQuestion.id] === choiceNum;
+                    const isSelected = Boolean(activeQuestion?.id && answers[activeQuestion.id] === choiceNum);
 
                     return (
                       <div
                         key={cIdx}
-                        onClick={() => handleSelectAnswer(activeQuestion.id, choiceNum)}
+                        onClick={() => handleSelectAnswer(activeQuestion?.id, choiceNum)}
                         style={{
                           display: 'flex',
                           alignItems: 'center',
@@ -692,8 +720,8 @@ export default function MockExamRunnerPage({ examId: propExamId }) {
           }}>
             {sectionQuestions.map((q, qIdx) => {
               const isCurrent = qIdx === currentQuestionIndex;
-              const isAnswered = answers[q.id] != null;
-              const isFlagged = flagged[q.id];
+              const isAnswered = Boolean(q?.id && answers[q.id] != null);
+              const isFlagged = Boolean(q?.id && flagged[q.id]);
 
               let bg = 'var(--bg-color)';
               let color = 'var(--text-primary)';
@@ -717,7 +745,7 @@ export default function MockExamRunnerPage({ examId: propExamId }) {
 
               return (
                 <button
-                  key={q.id}
+                  key={q?.id || qIdx}
                   type="button"
                   onClick={() => setCurrentQuestionIndex(qIdx)}
                   style={{

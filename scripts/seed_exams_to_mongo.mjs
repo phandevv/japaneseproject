@@ -58,8 +58,10 @@ async function main() {
           totalSections++;
           const questions = (sec.questions || []).map((q, qIdx) => {
             totalQuestions++;
+            const qId = q.id || `${examId}-${sec.sectionId || ('sec-' + secIdx)}-m${q.mondai || 1}-q${q.questionNumber || (qIdx + 1)}`;
             return {
-              id: q.id,
+              _id: qId,
+              id: qId,
               mondaiNumber: q.mondai,
               mondaiTitle: q.mondaiTitle || null,
               questionNumber: q.questionNumber,
@@ -74,8 +76,10 @@ async function main() {
             };
           });
 
+          const secId = sec.sectionId || `sec-${secIdx}`;
           return {
-            id: sec.sectionId || `sec-${secIdx}`,
+            _id: secId,
+            id: secId,
             sectionType: sec.sectionId === 'vocab' ? 'LANGUAGE_KNOWLEDGE' : (sec.sectionId === 'reading' ? 'READING' : 'LISTENING'),
             title: sec.title,
             titleVi: sec.titleVi || sec.title,
