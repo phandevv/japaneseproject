@@ -83,6 +83,8 @@ public class SecurityConfig {
                 
                 .requestMatchers(HttpMethod.GET, "/api/vocab/**").permitAll()
                 .requestMatchers(HttpMethod.GET, "/api/grammar", "/api/grammar/**").permitAll()
+                .requestMatchers(HttpMethod.GET, "/api/grammar-frequency", "/api/grammar-frequency/**").permitAll()
+                .requestMatchers(HttpMethod.POST, "/api/grammar-frequency/*/review").authenticated()
                 .requestMatchers("/api/jlpt-n3/**").permitAll()
                 .requestMatchers("/exams/**").permitAll()
                 .requestMatchers(HttpMethod.GET, "/api/mock-exams", "/api/mock-exams/*").permitAll()

@@ -130,5 +130,20 @@ Tài liệu này chi tiết hóa các module nghiệp vụ lớn trong dự án 
   * **2-Phase AI Generation (token-safe)**: Phase 1 AI clustering theo `pattern_indices` (output nhỏ, ~2-4k tokens) → tạo groups; Phase 2 từng nhóm một gọi AI sinh `description`/`usage_guide`/`usage_cases` + 30 câu hỏi (~5-7k tokens/nhóm) để không vượt giới hạn token DeepSeek. Chạy nền async (`CompletableFuture.runAsync`), mất 10-20 phút.
   * **Không mất dữ liệu**: Pattern bị AI sót được phân bổ round-robin vào các nhóm; khi sinh lại xóa toàn bộ group + group quiz cũ (`deleteAllGroupQuizzes`) để tránh câu hỏi trùng.
   * **Pass rule**: Quiz nhóm đạt khi score ≥ 80% (24/30), lưu tại `jlpt_n3_progress` với `chapterId=0, lessonId=0` (`grammar_review_passed/score/best_score`).
-  * **3 dạng câu hỏi**: `MCQ` (chọn đáp án), `FILL_BLANK` (điền vào chỗ trống), `CHOOSE_PATTERN` (chọn cấu trúc phù hợp) — cùng kiểu dữ liệu `QuestionDto {type, question, options, answer, explanation}`.
 
+---
+
+## 10. Module Flashcard Ngữ Pháp Tần Suất Cao Đề Thi Thật JLPT N3 (High-Frequency Grammar Module)
+* **Mục tiêu**: Hệ thống hoá và cung cấp giao diện Flashcard 3D thông minh cho 79 mẫu ngữ pháp xuất hiện nhiều nhất qua 30 kỳ thi JLPT N3 chính thức từ năm 2010 đến 2025. Hỗ trợ ôn luyện ngắt quãng (SRS SM-2), trích dẫn câu hỏi đề thi thật có Furigana, mẹo làm bài, ngữ cảnh thi và quiz phân biệt bẫy ngữ pháp.
+* **Lớp tham gia**:
+  * Controller: `HighFrequencyGrammarController` (`/api/grammar-frequency/**`)
+  * Service: `HighFrequencyGrammarService` (xử lý SM-2 SRS, due cards calculation, filter)
+  * Repository: `HighFrequencyGrammarRepository`, `HighFrequencyGrammarReviewRepository`
+  * Entity & DTO: `HighFrequencyGrammar`, `HighFrequencyGrammarReview`, `HighFrequencyGrammarDto`, `HighFrequencyGrammarReviewRequest`
+  * Loader: `HighFrequencyGrammarDataLoader` (seed 79 mẫu từ `jlpt_n3_high_frequency_grammar.json`)
+  * Migration: `V36__create_high_frequency_grammar_tables.sql`
+  * Frontend: `HighFrequencyGrammarFlashcardPage.jsx` (`/jlpt-n3/grammar-flashcards`, `/grammar/high-frequency`), `api.js` (`grammarFrequencyApi`)
+* **Quy tắc cốt lõi & Tính năng**:
+  * **SM-2 Invariant**: Bảo lưu tuyệt đối `is_learned = true` khi đánh giá chất lượng < 3.
+  * **Tabs phân loại**: All (79 mẫu), Critical TOP 20 (>= 7 lần), N3 Thuần túy, N4 hay ra đề N3, Cần ôn hôm nay (SRS Due).
+  * **Tương tác**: Phím tắt bàn phím (Space để lật, ArrowLeft/Right chuyển thẻ, 1-4 chấm điểm SRS, TTS phát âm).

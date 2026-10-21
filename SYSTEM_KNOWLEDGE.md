@@ -86,11 +86,11 @@ Cấu trúc tái cấu trúc theo mô hình **Module-based / Package-by-feature*
   * `srs.repository`: `WordReviewRepository`, `GrammarReviewRepository`, `ReviewLogRepository`, `ReviewRecommendationRepository`, `StudySessionRepository`, `DailyStudyStatsRepository`.
   * `srs.model`: `WordReview`, `GrammarReview`, `ReviewLog`, `ReviewRecommendation`, `ReviewRating`, `WordReviewState`, `StudySession`, `DailyStudyStats`.
   * `srs.dto`: `WordReviewDto`.
-* **`knowledge`**: Module AI Enrichment, Kho tri thức cá nhân, Khóa học JLPT N3 & Đọc hiểu Trường văn, Chat & Hội thoại.
-  * `knowledge.controller`: `KnowledgeController`, `JlptN3CourseController`, `AiExerciseController`, `ChatController`, `ConversationController`, `ConversationWebSocketHandler`, `FeedbackController`.
-  * `knowledge.service`: `KnowledgeService`, `JlptN3CourseService`, `DeepSeekEnrichmentService`, `PersonalCorpusService`, `ChatService`, `ConversationManager`, `FeedbackService`, `SchedulerService`.
-  * `knowledge.repository`: `GrammarCardRepository`, `JlptN3ReadingRepository`, `KnowledgeVersionRepository`, `ConversationRepository`, `ConversationMessageRepository`, `ConversationCorrectionRepository`, `SpeakingStatisticsRepository`, `FeedbackRepository`.
-  * `knowledge.model`: `GrammarCard`, `JlptN3Reading`, `JlptN3Progress`, `KnowledgeVersion`, `Conversation`, `ConversationMessage`, `ConversationCorrection`, `SpeakingStatistics`, `Feedback`.
+* **`knowledge`**: Module AI Enrichment, Kho tri thức cá nhân, Khóa học JLPT N3 & Đọc hiểu Trường văn, Chat & Hội thoại, Flashcard Ngữ Pháp Tần Suất Cao Đề Thi Thật (79 mẫu 2010-2025).
+  * `knowledge.controller`: `KnowledgeController`, `JlptN3CourseController`, `HighFrequencyGrammarController`, `AiExerciseController`, `ChatController`, `ConversationController`, `ConversationWebSocketHandler`, `FeedbackController`.
+  * `knowledge.service`: `KnowledgeService`, `JlptN3CourseService`, `HighFrequencyGrammarService`, `DeepSeekEnrichmentService`, `PersonalCorpusService`, `ChatService`, `ConversationManager`, `FeedbackService`, `SchedulerService`.
+  * `knowledge.repository`: `GrammarCardRepository`, `HighFrequencyGrammarRepository`, `HighFrequencyGrammarReviewRepository`, `JlptN3ReadingRepository`, `KnowledgeVersionRepository`, `ConversationRepository`, `ConversationMessageRepository`, `ConversationCorrectionRepository`, `SpeakingStatisticsRepository`, `FeedbackRepository`.
+  * `knowledge.model`: `GrammarCard`, `HighFrequencyGrammar`, `HighFrequencyGrammarReview`, `JlptN3Reading`, `JlptN3Progress`, `KnowledgeVersion`, `Conversation`, `ConversationMessage`, `ConversationCorrection`, `SpeakingStatistics`, `Feedback`.
   * **Quy chuẩn Đọc hiểu JLPT N3**: Sinh bài đọc trường văn (1500-2500 ký tự) bắt buộc bảo đảm **100% ngữ pháp** của bài học và **> 50% từ vựng** (được đối soát tự động bởi `calculateReadingCoverage` và hiển thị trực quan trên giao diện `JlptN3ReadingView.jsx`).
 * **`analytics`**: Module thống kê tiến trình học tập và bảng xếp hạng.
   * `analytics.controller`: `AnalyticsController`.
@@ -109,10 +109,11 @@ Cấu trúc tái cấu trúc theo mô hình **Module-based / Package-by-feature*
   * `HomePage.jsx`: Dashboard chính, bảng xếp hạng điểm số và lưới lịch sử học tập 30 ngày.
   * `DailyStudyPage.jsx`: Chế độ học hàng ngày theo bài học và bài kiểm tra trắc nghiệm/tự luận.
   * `FlashcardPage.jsx`: Chế độ ôn tập qua Flashcards hỗ trợ lọc theo ngày và SRS.
+  * `HighFrequencyGrammarFlashcardPage.jsx`: Chế độ Flashcard 3D ôn tập 79 mẫu ngữ pháp xuất hiện nhiều nhất qua 30 kỳ thi JLPT N3 (2010-2025) tích hợp SM-2 SRS, trích dẫn đề thi thật có Furigana, mẹo thi và quiz.
   * `SearchPage.jsx`: Tìm kiếm từ vựng thời gian thực qua Kanji, Kana, Romaji hoặc nghĩa tiếng Việt.
   * `VocabAdminPage.jsx`: Trang quản lý từ điển dành riêng cho tài khoản admin.
   * `AuthPage.jsx`: Trang đăng nhập và đăng ký.
-* **`services/api.js`**: Cấu hình Axios Client kết nối backend, tích hợp tự động Token và Base URL động.
+* **`services/api.js`**: Cấu hình Axios Client kết nối backend, tích hợp tự động Token và Base URL động (`grammarFrequencyApi`, `vocabularyApi`, v.v.).
 
 ---
 
@@ -130,6 +131,8 @@ Cấu trúc cơ sở dữ liệu bao gồm các bảng chính được thiết k
    * `id` (Primary Key), `user_id` (Foreign Key -> `users.id`), `vocab_id` (Foreign Key -> `vocabulary.id`), `next_review` (DateTime), `ease_factor` (Double), `interval_days` (Int), `repetition` (Int), `is_learned` (Boolean).
 5. **`study_sessions`**: Ghi nhận lịch sử làm bài để vẽ biểu đồ commit.
    * `id` (Primary Key), `user_id` (Foreign Key -> `users.id`), `study_date` (Date), `words_studied` (Int), `correct_answers` (Int), `total_questions` (Int).
+6. **`jlpt_n3_high_frequency_grammar`**: Lưu trữ 79 mẫu ngữ pháp tần suất cao từ 30 kỳ thi JLPT N3 (2010-2025) kèm số lần ra đề, năm xuất hiện, công thức, ngữ cảnh đề thi, danh sách câu hỏi đề thi thật có Furigana và bẫy ngữ pháp.
+7. **`high_frequency_grammar_reviews`**: Lập lịch ôn tập SRS SM-2 cho từng mẫu ngữ pháp theo tài khoản học viên (`user_id`, `grammar_id`, `repetitions`, `interval_days`, `ease_factor`, `is_learned`, `next_review`).
 
 ---
 

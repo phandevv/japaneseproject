@@ -687,4 +687,77 @@ Tài liệu này đặc tả toàn bộ danh sách REST API endpoints được x
   ```
 * **Quy tắc pass**: Điểm >= 80% (24/30).
 
+---
+
+## 11. Module Ngữ Pháp Tần Suất Cao Đề Thi Thật (High Frequency Grammar) - `HighFrequencyGrammarController`
+
+### A. Lấy danh sách mẫu ngữ pháp tần suất cao
+* **Endpoint**: `GET /api/grammar-frequency?filter={all|critical|n3|n4|due}`
+* **Xác thực**: Không yêu cầu (Public, có gắn kèm tiến độ SRS nếu người dùng đã đăng nhập)
+* **Query Params**:
+  * `filter`: `all` (toàn bộ 79 mẫu), `critical` (TOP 20 mẫu $\ge 7$ lần thi), `n3` (ngữ pháp N3 thuần túy), `n4` (ngữ pháp N4 hay ra đề N3), `due` (các thẻ đến hạn ôn tập)
+* **Phản hồi thành công (200 OK)**:
+  ```json
+  [
+    {
+      "id": 1,
+      "rankNumber": 1,
+      "grammar": "～わけだ / ～わけではない / ～わけがない",
+      "meaning": "Đương nhiên là / Không hẳn là / Không thể nào",
+      "category": "N3_CRITICAL",
+      "occurrences": 15,
+      "examYears": ["2010.07", "2011.12", "2013.07", "2015.12", "2024.12"],
+      "formula": "V/A-i/A-na/N + わけだ",
+      "examContext": "Thường ra trong Mondai 7 bài văn hoặc câu phân loại...",
+      "realExams": [
+        {
+          "examSession": "2011.12",
+          "sentence": "毎日練習しているんだから、上手に[なる|わけだ]。",
+          "translation": "Vì luyện tập mỗi ngày nên đương nhiên là giỏi lên rồi."
+        }
+      ],
+      "trapTip": "Phân biệt kỹわけだ (đương nhiên) với わけではない (phủ định một phần)",
+      "review": {
+        "repetitions": 3,
+        "intervalDays": 6,
+        "easeFactor": 2.5,
+        "isLearned": true,
+        "nextReview": "2026-10-27T10:00:00"
+      }
+    }
+  ]
+  ```
+
+### B. Lấy chi tiết mẫu ngữ pháp
+* **Endpoint**: `GET /api/grammar-frequency/{id}`
+* **Xác thực**: Public / Token
+
+### C. Gửi đánh giá SRS ôn tập
+* **Endpoint**: `POST /api/grammar-frequency/{id}/review`
+* **Xác thực**: Yêu cầu Token
+* **Request Body**:
+  ```json
+  {
+    "quality": 3
+  }
+  ```
+  *(1: Quên / Lặp lại, 2: Khó, 3: Nhớ / Tốt, 4: Dễ)*
+* **Quy tắc**: SM-2. Khi `quality < 3`, `isLearned` luôn được bảo lưu nếu trước đó đã học (`isLearned = true`).
+
+### D. Lấy danh sách thẻ đến hạn ôn tập
+* **Endpoint**: `GET /api/grammar-frequency/due`
+* **Xác thực**: Yêu cầu Token
+
+### E. Thống kê tiến độ ôn tập
+* **Endpoint**: `GET /api/grammar-frequency/stats`
+* **Xác thực**: Yêu cầu Token
+* **Phản hồi thành công (200 OK)**:
+  ```json
+  {
+    "total": 79,
+    "learned": 15,
+    "dueToday": 3
+  }
+  ```
+
 

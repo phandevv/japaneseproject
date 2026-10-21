@@ -32,6 +32,7 @@ const AchievementsPage = lazy(() => import('./pages/AchievementsPage'));
 const GrammarPage = lazy(() => import('./pages/GrammarPage'));
 const MasterReviewPage = lazy(() => import('./pages/MasterReviewPage'));
 const JlptN3Page = lazy(() => import('./pages/JlptN3Page'));
+const HighFrequencyGrammarFlashcardPage = lazy(() => import('./pages/HighFrequencyGrammarFlashcardPage'));
 const MockExamListPage = lazy(() => import('./pages/MockExamListPage'));
 const MockExamRunnerPage = lazy(() => import('./pages/MockExamRunnerPage'));
 const MockExamResultPage = lazy(() => import('./pages/MockExamResultPage'));
@@ -132,6 +133,7 @@ function App() {
     if (path === '/admin-feedback') return 'admin-feedback';
     if (path === '/admin-ai') return 'admin-ai';
     if (path === '/search') return 'search';
+    if (path === '/jlpt-n3/grammar-flashcards' || path === '/grammar/high-frequency') return 'grammar-frequency';
     if (path.startsWith('/jlpt-n3') || path.startsWith('/jlptn3')) return 'jlpt-n3';
     if (path.startsWith('/mock-exams/run')) return 'mock-exam-runner';
     if (path.startsWith('/mock-exams/result')) return 'mock-exam-result';
@@ -174,6 +176,7 @@ function App() {
       case 'admin-ai': navigate('/admin-ai'); break;
       case 'search': navigate('/search'); break;
       case 'jlpt-n3': navigate('/jlpt-n3'); break;
+      case 'grammar-frequency': navigate('/jlpt-n3/grammar-flashcards'); break;
       case 'mock-exams': navigate('/mock-exams'); break;
       case 'grammar': navigate('/grammar'); break;
       case 'knowledge': navigate('/knowledge'); break;
@@ -440,6 +443,8 @@ function App() {
         );
       case 'mock-exams':
         return <MockExamListPage />;
+      case 'grammar-frequency':
+        return <HighFrequencyGrammarFlashcardPage />;
       case 'mock-exam-runner':
         return <MockExamRunnerPage examId={mockExamRunMatch ? mockExamRunMatch[1] : null} />;
       case 'mock-exam-result':
@@ -458,6 +463,12 @@ function App() {
         return {
           title: 'Thi Thử JLPT N3 Đề Thật Có Bấm Giờ & Chấm Điểm | SIRO NIHONGO',
           description: 'Luyện thi thử JLPT N3 trực tuyến với 30 bộ đề thi thật từ năm 2010 - 2025 có âm thanh nghe hiểu, tranh minh họa và giải thích chi tiết.',
+          ogImage: 'https://phandeptrai.id.vn/assets/siro_logo.png'
+        };
+      case 'grammar-frequency':
+        return {
+          title: 'Flashcard 79 Mẫu Ngữ Pháp Tần Suất Cao JLPT N3 (2010-2025) | SIRO NIHONGO',
+          description: 'Ôn tập 79 mẫu ngữ pháp xuất hiện nhiều nhất trong 30 kỳ thi JLPT N3 thực tế với thuật toán ghi nhớ SM-2 SRS, câu đố và trích dẫn đề thật.',
           ogImage: 'https://phandeptrai.id.vn/assets/siro_logo.png'
         };
       case 'home':

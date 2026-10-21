@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useMemo } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { 
   BookOpen, Search, Filter, Volume2, Bookmark, Check, Sparkles, 
-  ChevronRight, RefreshCw, Layers, Eye, EyeOff, X, Award, HelpCircle
+  ChevronRight, RefreshCw, Layers, Eye, EyeOff, X, Award, HelpCircle, Flame
 } from 'lucide-react';
 import { grammarApi, knowledgeApi } from '../services/api';
 import GrammarDetailModal from '../components/GrammarDetailModal';
@@ -81,6 +82,7 @@ const ModalQuizItem = ({ quiz, index }) => {
 };
 
 const GrammarPage = () => {
+  const navigate = useNavigate();
   const [grammarCards, setGrammarCards] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -304,6 +306,28 @@ const GrammarPage = () => {
 
         {/* Global Action Controls */}
         <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
+          <button
+            type="button"
+            onClick={() => navigate('/jlpt-n3/grammar-flashcards')}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '8px',
+              background: 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)',
+              border: 'none',
+              color: '#fff',
+              padding: '10px 18px',
+              borderRadius: '12px',
+              cursor: 'pointer',
+              fontWeight: '700',
+              fontSize: '14px',
+              boxShadow: '0 4px 12px rgba(245, 158, 11, 0.25)',
+              transition: 'all 0.2s ease'
+            }}
+          >
+            <Flame size={16} /> 79 Ngữ Pháp Đề Thật N3
+          </button>
+
           <button
             onClick={() => setShowFurigana(!showFurigana)}
             style={{

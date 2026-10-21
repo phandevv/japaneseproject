@@ -217,6 +217,7 @@ Cơ sở dữ liệu được khởi tạo và nâng cấp thông qua Flyway t�
 * **`V32__create_jlpt_n3_grammar_groups_table.sql`**: Tạo bảng `jlpt_n3_grammar_groups` lưu nhóm ngữ pháp AI clustering.
 * **`V33__add_grammar_group_and_review_fields.sql`**: Thêm `group_id`, `group_code`, `question_type` vào `jlpt_n3_grammar_quizzes`; thêm `grammar_review_passed`, `grammar_review_score`, `grammar_review_best_score` vào `jlpt_n3_progress`.
 * **`V35__add_mock_exam_compound_indexes.sql`**: Bổ sung các chỉ mục phức hợp (Compound Indexes) cho bảng `jlpt_exams` và `mock_exam_attempts` tối ưu hóa truy vấn lọc đề thi theo trình độ/thời gian và tra cứu lịch sử thi thử.
+* **`V36__create_high_frequency_grammar_tables.sql`**: Tạo bảng `jlpt_n3_high_frequency_grammar` (chứa 79 mẫu ngữ pháp xuất hiện nhiều nhất qua 30 kỳ thi JLPT N3 2010-2025) và bảng `high_frequency_grammar_reviews` (lưu tiến độ ôn tập ngắt quãng SRS SM-2 theo từng học viên, bảo lưu `is_learned = true` khi đánh giá < 3).
 
 ---
 

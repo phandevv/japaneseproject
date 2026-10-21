@@ -3,7 +3,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { 
   BookOpen, CheckCircle, XCircle, ChevronRight, ChevronLeft, RotateCcw, 
   Trophy, ArrowLeft, ArrowRight, Play, Sparkles, Layers, List, Award, 
-  HelpCircle, AlertCircle, Volume2, Shuffle, Upload, FileText, Eye, EyeOff, Trash2
+  HelpCircle, AlertCircle, Volume2, Shuffle, Upload, FileText, Eye, EyeOff, Trash2, Flame
 } from 'lucide-react';
 import { jlptN3Api, srsApi, vocabApi, grammarApi } from '../services/api';
 import { useAuth } from '../context/AuthContext';
@@ -1338,6 +1338,56 @@ const isContainsKanji = (str) => {
                 </div>
               )}
             </div>
+          </div>
+
+          {/* High-Frequency Exam Grammar Banner Card */}
+          <div style={{
+            background: 'linear-gradient(135deg, rgba(245, 158, 11, 0.12) 0%, rgba(239, 68, 68, 0.08) 50%, var(--surface-color) 100%)',
+            border: '1.5px solid rgba(245, 158, 11, 0.35)',
+            borderRadius: '20px',
+            padding: '24px 28px',
+            boxShadow: '0 8px 24px rgba(245, 158, 11, 0.08)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            flexWrap: 'wrap',
+            gap: '20px',
+            position: 'relative',
+            overflow: 'hidden'
+          }}>
+            <div style={{ flex: '1 1 500px' }}>
+              <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '4px 12px', background: 'rgba(245, 158, 11, 0.18)', color: '#d97706', borderRadius: '12px', fontSize: '0.8rem', fontWeight: 800, marginBottom: '10px' }}>
+                <Flame size={15} /> PHÂN TÍCH ĐỀ THẬT 2010 – 2025 (30 KỲ THI)
+              </div>
+              <h2 style={{ margin: '0 0 8px 0', fontSize: '1.45rem', fontWeight: 800, color: 'var(--text-primary)', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                79 Mẫu Ngữ Pháp Tần Suất Cao Nhất JLPT N3
+              </h2>
+              <p style={{ margin: 0, color: 'var(--text-secondary)', fontSize: '0.95rem', lineHeight: 1.6 }}>
+                Tổng hợp 79 cấu trúc xuất hiện liên tục trong đề thi thật N3 (gồm cả ngữ pháp N4 mở rộng &amp; N3 cốt lõi). Học qua Thẻ Flashcard 3D thông minh, trắc nghiệm nhanh, mẹo làm bài và thuật toán <strong>SM-2 SRS</strong> ghi nhớ ngắt quãng!
+              </p>
+            </div>
+            <button
+              type="button"
+              onClick={() => navigate('/jlpt-n3/grammar-flashcards')}
+              className="card-hover"
+              style={{
+                background: 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)',
+                color: 'white',
+                border: 'none',
+                borderRadius: '14px',
+                padding: '14px 26px',
+                fontSize: '1rem',
+                fontWeight: 800,
+                cursor: 'pointer',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '10px',
+                boxShadow: '0 4px 16px rgba(245, 158, 11, 0.35)',
+                whiteSpace: 'nowrap'
+              }}
+            >
+              <Flame size={18} /> Luyện 79 Mẫu Ngữ Pháp <ArrowRight size={18} />
+            </button>
           </div>
 
           {/* Chapters List */}

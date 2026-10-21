@@ -34,4 +34,4 @@ build/
 
 ### Application Data ###
 data/
-src/main/resources/data/
+!src/main/resources/data/

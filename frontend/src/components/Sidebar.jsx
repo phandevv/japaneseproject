@@ -1,4 +1,4 @@
-import { BookOpen, ChevronLeft, ChevronRight, Cpu, Database, Home, Layers, Loader, LogIn, LogOut, MessageSquare, Palette, Search, ShieldCheck, Upload, LifeBuoy, Gamepad2, Sun, RefreshCw, Trophy, FileText, Sparkles, GraduationCap, X, Award } from "lucide-react";
+import { BookOpen, ChevronLeft, ChevronRight, Cpu, Database, Home, Layers, Loader, LogIn, LogOut, MessageSquare, Palette, Search, ShieldCheck, Upload, LifeBuoy, Gamepad2, Sun, RefreshCw, Trophy, FileText, Sparkles, GraduationCap, X, Award, Flame } from "lucide-react";
 import { useRef, useState } from "react";
 import { useLanguage } from "../context/LanguageContext";
 import { useTheme } from "../context/ThemeContext";
@@ -105,6 +105,14 @@ const Sidebar = ({ isCollapsed, onToggleCollapse, isMobileOpen, onCloseMobile, c
           >
             <Award size={17} />
             <span>Thi thử JLPT N3</span>
+          </button>
+          <button
+            className={`sidebar-link${currentPage === "grammar-frequency" ? " active" : ""}`}
+            onClick={() => handleNavClick("grammar-frequency")}
+            title="79 Mẫu Ngữ Pháp Tần Suất Cao Đề Thật 2010-2025"
+          >
+            <Flame size={17} color="#f59e0b" />
+            <span>TOP Ngữ Pháp N3</span>
           </button>
           <button
             className={`sidebar-link${currentPage === "grammar" ? " active" : ""}`}

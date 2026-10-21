@@ -1,0 +1,246 @@
+{
+  "groups": [
+    {
+      "group_code": "GRP_01",
+      "title": "Thể điều kiện & lời khuyên",
+      "description": "Các mẫu diễn tả điều kiện, phụ thuộc 'nếu... thì...' và lời khuyên trong giao tiếp hàng ngày.",
+      "usage_guide": "～ば trong thể tương lai/hành độngngữ nghĩa 'nếu... thì...'. ～たら dùng trong thể quá khứ/liên tệp. ～もし...は dùng nhấn mạnh điều kiện. Kết hợp với ～てもいいです (được phép) và ～てはいけません (cấm).",
+      "usage_cases": "Dùng ～ば khi nêu điều kiện chung (N3: 日本へ行けば、友だちと会える). Dùng ～たら khi nhấn mạnh thời điểm/luận thì (疲れたら、帰ろう). ～てもいいです dùng để đề nghị/gợi ý tế nhị.",
+      "sort_order": 1,
+      "patterns": [
+        {
+          "cau_truc": "～(ば)ば",
+          "y_nghia": "Nếu... thì... (giả thiết chung, điều kiện tự nhiên)",
+          "examples": ["雨(あめ)が降(ふ)れば、ピクニックはキャンセルです。", "その店(てん)が安(やす)ければ、買(か)います。"]
+        },
+        {
+          "cau_truc": "～(た)たら(だったら)",
+          "y_nghia": "Nếu... thì... (điều kiện thời điểm, luận thì)",
+          "examples": ["たろうと思(おも)していたら、電話(でんわ)が来(き)た。", "もし暇(ひま)だったら、手伝(てつ)ってください。"]
+        },
+        {
+          "cau_truc": "～もし～は",
+          "y_nghia": "Nếu... (nhấn mạnh điều kiện)",
+          "examples": ["もし時間(じかん)があれば、一緒(いっしょ)に行(い)きましょう。"]
+        },
+        {
+          "cau_truc": "～てもいいです",
+          "y_nghia": "Được phép... (gợi ý/đề nghị tế nhĩ)",
+          "examples": ["この問題(もんだい)、教(おし)えてもいいですか？", "もう少(しょう)し頑張(がんば)ってもいいですよ。"]
+        },
+        {
+          "cau_truc": "～てはいけません",
+          "y_nghia": "Cấm...; không được...",
+          "examples": ["このエリアでタバコを吸(す)ってはいけません。", "宣言(せんげん)されていないものを持(も)ってはいけません。"]
+        },
+        {
+          "cau_truc": "～ば＋～てもいい／～てはいけない",
+          "y_nghia": "Kết hợp điều kiện với phép phép / cấm",
+          "examples": ["時間(じかん)があれば、もう一度(いちど)挑戦(ちょうせん)してもいいです。"]
+        }
+      ],
+      "questions": [
+        {
+          "type": "MCQ",
+          "question": "1. 雨が降れば、ピクニックはキャンセルです。 ⇒ Điệp lại đúng?",
+          "options": ["A. Nếu trời mưa, chuyến dạo phố bị hủy.", "B. Vì trời đẹp nên mới đi dạo phố.", "C. Cứ có mưa là phải hủy bỏ.", "D. Đi dạo phố khi trời đẹp."],
+          "answer": "A",
+          "explanation": "Cấu trúc ～ば diễn tả 'nếu... thì...'. Câu nghĩa: 'Nếu trời mưa, (thì) chuyến dạo phố bị hủy.'"
+        },
+        {
+          "type": "MCQ",
+          "question": "2. Điền vào chỗ trống: もし暇________、手伝ってください。",
+          "options": ["A. だったら", "B. なら", "C. と", "D. ので"],
+          "answer": "A",
+          "explanation": "もし～は + 形 thức だったら đúng — 'Nếu có thời gian rảnh...'"
+        },
+        {
+          "type": "FILL_BLANK",
+          "question": "3. (　　) があれば、一緒に行きましょう。 (chọn cấu trúc điền vào chỗ trống)",
+          "options": ["A. 時間", "B. もし時間", "C. 時間が", "D. もし"],
+          "answer": "A (thấy ngữ cảnh 'nếu có thời gian thì...')",
+          "explanation": "Câu đề bày đưa ra mẫu ～ば: thời gianがあれば. Ở đây chọn '時間' kèm 'が' là đúng nhất."
+        },
+        {
+          "type": "CHOOSE_PATTERN",
+          "question": "4. 'Nếu hôm nay thoit đẹp, chúng ta sẽ đi cắm trại' → chọn cấu trúc phù hợp nhất",
+          "options": ["A. ～てもいいです", "B. ～てはいけません", "C. ～ば", "D. ～たら"],
+          "answer": "C",
+          "explanation": "Nhấn mạnh điều kiện tự nhiên chung → dùng ～ば."
+        },
+        {
+          "type": "MCQ",
+          "question": "5. Bạn muốn nói 'Tôi được phép nghỉ' → dùng gì?",
+          "options": ["A. やめてはいけません", "B. やめてもいいです", "C. やめない", "D. やめてください"],
+          "answer": "B",
+          "explanation": "～てもいいです = 'được phép / có thể'. ～てはいけません = 'cấm'."
+        },
+        {
+          "type": "FILL_BLANK",
+          "question": "6. Câu nào dùng đúng cấu trúc cấm (　　)?",
+          "options": ["A. タバコを吸うてはいけません", "B. タバコを吸ってはいけない", "C. タバコを吸うもいいです", "D. タバコを吸うばいいです"],
+          "answer": "B",
+          "explanation": "Cấm dùng cấu trúc ～てはいけない (dạng từ điển phủ định). A sai vì '吸うて' không tồn tại."
+        }
+      ]
+    },
+    {
+      "group_code": "GRP_02",
+      "title": "Thể phủ định & câu hỏi",
+      "description": "Các mẫu ngữ pháp phủ định, hỏi/khẳng định lại và biểu đạt nghi ngờ trong tiếng Nhật.",
+      "usage_guide": "～ない = phủ định trực tiếp. ～か dùng để hỏi/nghi ngờ ngắn. ～のか/～のかな = hỏi giụng nghĩ. ～かもしれない = nghi ngờ khả năng. ～でしょう = dự đoán nhẹ nhàng.",
+      "usage_cases": "Dùng ～ない khi không muốn hành động (行かない). Dùng ～か để tạo câu hỏi/giả thiết (どうか). ～かもしれない dùng khi chưa chắc (田中さんは来ないかもしれない).",
+      "sort_order": 2,
+      "patterns": [
+        {
+          "cau_truc": "～ない",
+          "y_nghia": "Phủ định hành động/kết quả",
+          "examples": ["彼(かれ)は来(こ)ない。", "この商品(しょうひん)は高(たか)くないです。"]
+        },
+        {
+          "cau_truc": "～か",
+          "y_nghia": "Câu hỏi/ngãi giải, hoặc liệt kê trong câu",
+          "examples": ["どうしたのか、わかりますか？", "りんごかバナナか、どっちが好きですか？"]
+        },
+        {
+          "cau_truc": "～のか（＋かな)",
+          "y_nghia": "Nhận xét hỏi/giả định nhẹ nhàng",
+          "examples": ["学生(がくせい)のかな、その問題は難(むずか)しい。"]
+        },
+        {
+          "cau_truc": "～かもしれない",
+          "y_nghia": "Nghi ngờ, khả năng có thể",
+          "examples": ["雨(あめ)が降(ふ)るかもしれないから、傘(かさ)を持(も)っていった。"]
+        },
+        {
+          "cau_truc": "～でしょう",
+          "y_nghia": "Dự đoán nhẹ nhàng, suy luận",
+          "examples": ["彼(かれ)はもう帰(かえ)っているでしょう。"]
+        }
+      ],
+      "questions": [
+        {
+          "type": "MCQ",
+          "question": "7. Khẳng định nào có nghĩa 'Có thể Anh ấy/đi chưa chắc'?",
+          "options": ["A. 彼は来ない。", "B. 彼は来ないかもしれない。", "C. 彼は来ないでしょう。", "D. 彼は来ないのか。"],
+          "answer": "B",
+          "explanation": "～かもしれない biểu thị khả năng, trùng hợp với 'có thể'. Dự đoán khẳng định dùng ～でしょう."
+        },
+        {
+          "type": "CHOICE_PATTERN",
+          "question": "8. Chọn cấu trúc đúng cho 'Tôi tự hỏi liệu...' trong 'Anh ấy đang nghĩ gì?'",
+          "options": ["A. か", "B. のか", "C. かもしれない", "D. でしょう"],
+          "answer": "B",
+          "explanation": "～のか dùng để hỏi mong muốn/tự hỏi trong nội tâm."
+        },
+        {
+          "type": "FILL_BLANK",
+          "question": "9. Hoàn thiện: 田中さんは来ない ____ (có thể Anh ấy/đi chưa chắc).",
+          "options": ["A. かもしれない", "B. でしょう", "C. か", "D. のか"],
+          "answer": "A",
+          "explanation": "「来ないかもしれない」 = 'có thể không đến' (khả năng)."
+        },
+        {
+          "type": "MCQ",
+          "question": "10. Câu hỏi nào dùng ～か đúng cách?",
+          "options": ["A. どこかに行ったのか。", "B. どこかに行ったか。", "C. どこかに行ったのではないか。", "D. どこかに行ったかな。"],
+          "answer": "B",
+          "explanation": "～か đứng cuối câu hỏi: どこかに行ったか。 = 'Anh ta đi đâu?' Dạng ～かな (D) là câu tự nhủ."
+        },
+        {
+          "type": "CHOOSE_PATTERN",
+          "question": "11. Chọn cấu trúc cho 'Chắc hẳn chưa đến giờ còn lại' (dự đoán nhẹ nhàng).",
+          "options": ["A. ない", "B. か", "C. かもしれない", "D. でしょう"],
+          "answer": "D",
+          "explanation": "～でしょう dùng dự đoán/suy luận nhẹ nhàng."
+        },
+        {
+          "type": "FILL_BLANK",
+          "question": "12. Phủ định nào sai cú pháp?",
+          "options": ["A. この本は面白くないです。", "B. 彼は学生ないです。", "C. 行きたくないです。", "D. ないよ。"],
+          "answer": "B",
+          "explanation": "Danh từ + ない phải đặt ở sau động từ/mệnh đề: 彼は学生ではない / 学生ではないです."
+        }
+      ]
+    },
+    {
+      "group_code": "GRP_03",
+      "title": "Giới từ & liên từ nối",
+      "description": "Các giới từ (について, によって, が/は...) và từ nối (ので, けど...) phân biệt nhấn xuất và liên kết luận.",
+      "usage_guide": "～について = 'về vấn đề'. ～によって = 'do/tùy thuộc vào'. が vs は: が chỉ chủ đề mới/chưa biết, は chỉ chủ đề đã biết/đối chiếu. ～ので = lý do nguyên nhân. ～けど = lý do nhưng ngược lại.",
+      "usage_cases": "Dùng は khi chủ đề đã nêu (Hàn quốc: かれは、...), dùng が khi giới thiệu thông tin mới.",
+      "sort_order": 3,
+      "patterns": [
+        {
+          "cau_truc": "～について",
+          "y_nghia": "Về vấn đề / về mặt...",
+          "examples": ["この件(けん)について、意見(いけん)を聞(き)きたいです。", "この映画(えいが)についてのレビュー。"]
+        },
+        {
+          "cau_truc": "～によって",
+          "y_nghia": "Do / do do, tùy thuộc vào",
+          "examples": ["天気(てんき)によって、予定(よてい)が変(か)わります。", "この薬(くすり)によって効果(こうか)が違(ちが)う。"]
+        },
+        {
+          "cau_truc": "が vs は",
+          "y_nghia": "Phân biệt chủ đề mới (が) và chủ đề đã biết/đối chiếu (は)",
+          "examples": ["新(あたら)しい先生(せんせい)がきました。(intro new)", "先生はきました。(topic known)"]
+        },
+        {
+          "cau_truc": "～ので",
+          "y_nghia": "Lý do, nguyên nhân (trang trọng, nhẹ nhàng)",
+          "examples": ["雨(あめ)なので、試合(しあい)は中止(ちゅうち)です。", "忙(いそが)しいので、明日(あした)は休(やす)みましょう。"]
+        },
+        {
+          "cau_truc": "～けど",
+          "y_nghia": "Lý do nhưng mở đầu phản biện / nhường nhăn",
+          "examples": ["雨(あめ)だけど、行(い)きたいです。", "この本(ほん)は面白(おもしろ)いけど、高(たか)いです。"]
+        }
+      ],
+      "questions": [
+        {
+          "type": "CHOOSE_PATTERN",
+          "question": "13. Chọn cấu trúc cho 'Về vấn đề này tôi muốn nghe ý kiến': この件____意見を聞きたいです。",
+          "options": ["A. が", "B. は", "C. について", "D. によって"],
+          "answer": "C",
+          "explanation": "について = 'về...': この件について（về vấn đề này）."
+        },
+        {
+          "type": "MCQ",
+          "question": "14. 'Anh ấy đến — が/は' — dùng nào giới thiệu người chưa biết?",
+          "options": ["A. が", "B. は", "C. が hay は đều đúng", "D. không dùng trợ từ"],
+          "answer": "A",
+          "explanation": "が dùng để đưa ra thông tin mới (người chưa biết), は dùng cho chủ đề đã biết."
+        },
+        {
+          "type": "FILL_BLANK",
+          "question": "15. Chọn giới từ cho 'do cách trình bày mà khác nhau': 天気____予定が変わります。",
+          "options": ["A. についてで", "B. によって", "C. は", "D. が"],
+          "answer": "B",
+          "explanation": "do...mà → によて. 天気によって予定が変わります."
+        },
+        {
+          "type": "CHOOSE_PATTERN",
+          "question": "16. 'Vì mưa nên hủy' → dùng cấu trúc nào (trang trọng)?",
+          "options": ["A. ない", "B. が", "C. ので", "D. けど"],
+          "answer": "C",
+          "explanation": "～ので = lý do nguyên nhân trang trọng. ～けど là phiên phiếu chuyển câu."
+        },
+        {
+          "type": "MCQ",
+          "question": "17. 'Tôi thích nhưng trời mưa' → dùng gì?",
+          "options": ["A. 雨になる", "B. 雨だけど", "C. 雨ので", "D. 雨が"],
+          "answer": "B",
+          "explanation": "～だけど dùng ngắn gọn để nêu lý do + mở đầu phản biện."
+        },
+        {
+          "type": "FILL_BLANK",
+          "question": "18. Hoàn thiện: このレストランは、 __ が違います。(ở đây tùy thuộc vào người)",
+          "options": ["A. について", "B. によって", "C. は", "D. が"],
+          "answer": "B",
+          "explanation": "tùy thuộc vào → によつて: このレストランは、料理によって違います."
+        }
+      ]
+    }
+  ]
+}

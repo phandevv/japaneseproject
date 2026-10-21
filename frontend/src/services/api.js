@@ -939,4 +939,28 @@ export const mockExamApi = {
   }
 };
 
+export const grammarFrequencyApi = {
+  getList: async (filter = 'all') => {
+    return cachedGet(`${API_BASE_URL}/grammar-frequency`, { params: { filter } }, 15000);
+  },
+  getDetail: async (id) => {
+    return cachedGet(`${API_BASE_URL}/grammar-frequency/${id}`, {}, 60000);
+  },
+  review: async (id, quality) => {
+    const response = await axios.post(`${API_BASE_URL}/grammar-frequency/${id}/review`, null, {
+      params: { quality }
+    });
+    clearApiCache('/grammar-frequency');
+    return response.data;
+  },
+  getDue: async () => {
+    const response = await axios.get(`${API_BASE_URL}/grammar-frequency/due`);
+    return response.data;
+  },
+  getStats: async () => {
+    return cachedGet(`${API_BASE_URL}/grammar-frequency/stats`, {}, 10000);
+  }
+};
+
 export const api = axios;
+
