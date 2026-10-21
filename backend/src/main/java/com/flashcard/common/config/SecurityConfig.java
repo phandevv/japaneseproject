@@ -81,10 +81,12 @@ public class SecurityConfig {
                 .requestMatchers(HttpMethod.DELETE, "/api/vocab/**").hasRole("ADMIN")
                 .requestMatchers("/api/import/**").hasRole("ADMIN")
                 
-                // ── Vocabulary, Grammar & Course Reading (Public / Authenticated) ──────────────
                 .requestMatchers(HttpMethod.GET, "/api/vocab/**").permitAll()
                 .requestMatchers(HttpMethod.GET, "/api/grammar", "/api/grammar/**").permitAll()
                 .requestMatchers("/api/jlpt-n3/**").permitAll()
+                .requestMatchers("/exams/**").permitAll()
+                .requestMatchers(HttpMethod.GET, "/api/mock-exams", "/api/mock-exams/*").permitAll()
+                .requestMatchers("/api/mock-exams/**").authenticated()
                 .requestMatchers(HttpMethod.GET, "/api/users/*/avatar").permitAll()
                 
                 // ── Feedback/Error Reports (Submit: Authenticated, View/Update: Admin) ─────

@@ -100,6 +100,13 @@ const Sidebar = ({ isCollapsed, onToggleCollapse, isMobileOpen, onCloseMobile, c
             <span>Ôn Luyện JLPT N3</span>
           </button>
           <button
+            className={`sidebar-link${currentPage?.startsWith("mock-exam") ? " active" : ""}`}
+            onClick={() => handleNavClick("mock-exams")}
+          >
+            <Award size={17} />
+            <span>Thi thử JLPT N3</span>
+          </button>
+          <button
             className={`sidebar-link${currentPage === "grammar" ? " active" : ""}`}
             onClick={() => handleNavClick("grammar")}
           >

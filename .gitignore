@@ -40,3 +40,7 @@ scratch/
 
 # macOS
 .DS_Store
+
+# Large exam media files (audio mp3 & images — too big for git)
+backend/src/main/resources/static/exams/audio/
+backend/src/main/resources/static/exams/images/

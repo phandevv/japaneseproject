@@ -32,6 +32,9 @@ const AchievementsPage = lazy(() => import('./pages/AchievementsPage'));
 const GrammarPage = lazy(() => import('./pages/GrammarPage'));
 const MasterReviewPage = lazy(() => import('./pages/MasterReviewPage'));
 const JlptN3Page = lazy(() => import('./pages/JlptN3Page'));
+const MockExamListPage = lazy(() => import('./pages/MockExamListPage'));
+const MockExamRunnerPage = lazy(() => import('./pages/MockExamRunnerPage'));
+const MockExamResultPage = lazy(() => import('./pages/MockExamResultPage'));
 
 const getTodayKey = () => new Date().toISOString().slice(0, 10);
 
@@ -110,6 +113,8 @@ function App() {
   // Extract level from pathname if it starts with /flashcard/ or /daily/
   const flashcardMatch = location.pathname.match(/^\/flashcard\/(.+)$/);
   const dailyMatch = location.pathname.match(/^\/daily\/(.+)$/);
+  const mockExamRunMatch = location.pathname.match(/^\/mock-exams\/run\/(.+)$/);
+  const mockExamResultMatch = location.pathname.match(/^\/mock-exams\/result\/(.+)$/);
   const currentLevelFromPath = flashcardMatch ? flashcardMatch[1] : (dailyMatch ? dailyMatch[1] : null);
   const selectedLevel = currentLevelFromPath || selectedLevelState;
 
@@ -127,6 +132,9 @@ function App() {
     if (path === '/admin-ai') return 'admin-ai';
     if (path === '/search') return 'search';
     if (path === '/jlpt-n3') return 'jlpt-n3';
+    if (path.startsWith('/mock-exams/run')) return 'mock-exam-runner';
+    if (path.startsWith('/mock-exams/result')) return 'mock-exam-result';
+    if (path === '/mock-exams') return 'mock-exams';
     if (path === '/grammar') return 'grammar';
     if (path === '/knowledge') return 'knowledge';
     if (path === '/achievements') return 'achievements';
@@ -165,6 +173,7 @@ function App() {
       case 'admin-ai': navigate('/admin-ai'); break;
       case 'search': navigate('/search'); break;
       case 'jlpt-n3': navigate('/jlpt-n3'); break;
+      case 'mock-exams': navigate('/mock-exams'); break;
       case 'grammar': navigate('/grammar'); break;
       case 'knowledge': navigate('/knowledge'); break;
       case 'achievements': navigate('/achievements'); break;
@@ -423,6 +432,12 @@ function App() {
         );
       case 'jlpt-n3':
         return <JlptN3Page />;
+      case 'mock-exams':
+        return <MockExamListPage />;
+      case 'mock-exam-runner':
+        return <MockExamRunnerPage examId={mockExamRunMatch ? mockExamRunMatch[1] : null} />;
+      case 'mock-exam-result':
+        return <MockExamResultPage attemptId={mockExamResultMatch ? mockExamResultMatch[1] : null} />;
       default:
         return <HomePage startStudy={startStudy} user={isAuthenticated ? authUser : null} />;
     }
@@ -431,6 +446,14 @@ function App() {
   // Dynamic SEO Metadata and Open Graph tags
   const getSeoMetadata = (page) => {
     switch (page) {
+      case 'mock-exams':
+      case 'mock-exam-runner':
+      case 'mock-exam-result':
+        return {
+          title: 'Thi Thử JLPT N3 Đề Thật Có Bấm Giờ & Chấm Điểm | SIRO NIHONGO',
+          description: 'Luyện thi thử JLPT N3 trực tuyến với 30 bộ đề thi thật từ năm 2010 - 2025 có âm thanh nghe hiểu, tranh minh họa và giải thích chi tiết.',
+          ogImage: 'https://phandeptrai.id.vn/assets/siro_logo.png'
+        };
       case 'home':
         return {
           title: 'SIRO NIHONGO - Học Tiếng Nhật Thông Minh',
@@ -506,9 +529,11 @@ function App() {
     }
   }, [seoMeta]);
 
+  const isExamRunner = currentPage === 'mock-exam-runner';
+
   return (
-    <div className={`app-layout ${isSidebarCollapsed ? 'sidebar-collapsed' : ''} ${!isAuthenticated ? 'no-sidebar' : ''}`}>
-      {isAuthenticated && (
+    <div className={`app-layout ${isSidebarCollapsed ? 'sidebar-collapsed' : ''} ${!isAuthenticated || isExamRunner ? 'no-sidebar' : ''} ${isExamRunner ? 'exam-runner-mode' : ''}`}>
+      {isAuthenticated && !isExamRunner && (
         <Sidebar
           isCollapsed={isSidebarCollapsed}
           onToggleCollapse={() => setIsSidebarCollapsed(!isSidebarCollapsed)}
@@ -538,7 +563,7 @@ function App() {
         />
       )}
       <main className="app-main">
-        {isAuthenticated && (
+        {isAuthenticated && !isExamRunner && (
           <Header
             user={isAuthenticated ? authUser : null}
             streak={dbStreak !== null ? dbStreak : (userStreakData?.streak || 0)}

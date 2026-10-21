@@ -1,0 +1,1944 @@
+{
+  "examId": "n3-2024-07",
+  "level": "N3",
+  "year": 2024,
+  "month": 7,
+  "title": "JLPT N3 — Tháng 7/2024",
+  "totalQuestions": 101,
+  "audioFile": "n3-2024-07.mp3",
+  "sections": [
+    {
+      "sectionId": "vocab",
+      "title": "言語知識（文字・語彙）",
+      "titleVi": "Văn tự - Từ vựng",
+      "timeLimitSec": 1800,
+      "totalQuestions": 35,
+      "questions": [
+        {
+          "id": "n3-2024-07-vocab-m1-q1",
+          "section": "vocab",
+          "mondai": 1,
+          "questionNumber": 1,
+          "questionType": "KANJI_READING",
+          "questionText": "すみません、弟がこれを割ってしまいました。",
+          "passage": null,
+          "choices": [
+            "けって",
+            "おって",
+            "わって",
+            "さわって"
+          ],
+          "correctAnswer": 3,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2024-07-vocab-m1-q2",
+          "section": "vocab",
+          "mondai": 1,
+          "questionNumber": 2,
+          "questionType": "KANJI_READING",
+          "questionText": "ピアノを基本から習いたい。",
+          "passage": null,
+          "choices": [
+            "ぎほん",
+            "しほん",
+            "きほん",
+            "じほん"
+          ],
+          "correctAnswer": 3,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2024-07-vocab-m1-q3",
+          "section": "vocab",
+          "mondai": 1,
+          "questionNumber": 3,
+          "questionType": "KANJI_READING",
+          "questionText": "かばんは横においてください。",
+          "passage": null,
+          "choices": [
+            "よこ",
+            "そば",
+            "となり",
+            "ゆか"
+          ],
+          "correctAnswer": 1,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2024-07-vocab-m1-q4",
+          "section": "vocab",
+          "mondai": 1,
+          "questionNumber": 4,
+          "questionType": "KANJI_READING",
+          "questionText": "この仕事は今日が最初です。",
+          "passage": null,
+          "choices": [
+            "さいしょ",
+            "さいしゅう",
+            "さいしょう",
+            "さいしゅ"
+          ],
+          "correctAnswer": 1,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2024-07-vocab-m1-q5",
+          "section": "vocab",
+          "mondai": 1,
+          "questionNumber": 5,
+          "questionType": "KANJI_READING",
+          "questionText": "昨日、山田さんに本を返しました。",
+          "passage": null,
+          "choices": [
+            "わかしました",
+            "もどしました",
+            "かしました",
+            "かえしました"
+          ],
+          "correctAnswer": 4,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2024-07-vocab-m1-q6",
+          "section": "vocab",
+          "mondai": 1,
+          "questionNumber": 6,
+          "questionType": "KANJI_READING",
+          "questionText": "この包丁は使いやすい。",
+          "passage": null,
+          "choices": [
+            "ぼうちょう",
+            "ほうちょう",
+            "ほうちょ",
+            "ぼうちょ"
+          ],
+          "correctAnswer": 2,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2024-07-vocab-m1-q7",
+          "section": "vocab",
+          "mondai": 1,
+          "questionNumber": 7,
+          "questionType": "KANJI_READING",
+          "questionText": "適当なやり方を教えてください。",
+          "passage": null,
+          "choices": [
+            "てきどう",
+            "てきとう",
+            "ていとう",
+            "ていどう"
+          ],
+          "correctAnswer": 2,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2024-07-vocab-m1-q8",
+          "section": "vocab",
+          "mondai": 1,
+          "questionNumber": 8,
+          "questionType": "KANJI_READING",
+          "questionText": "部屋が狭いので、大きな家具は置けません。",
+          "passage": null,
+          "choices": [
+            "やぐう",
+            "かぐう",
+            "やぐ",
+            "かぐ 選びなさい。"
+          ],
+          "correctAnswer": 4,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2024-07-vocab-m2-q9",
+          "section": "vocab",
+          "mondai": 2,
+          "questionNumber": 9,
+          "questionType": "KANJI_WRITING",
+          "questionText": "この質問をといてください。",
+          "passage": null,
+          "choices": [
+            "試いて",
+            "答いて",
+            "解いて",
+            "調いて"
+          ],
+          "correctAnswer": 3,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2024-07-vocab-m2-q10",
+          "section": "vocab",
+          "mondai": 2,
+          "questionNumber": 10,
+          "questionType": "KANJI_WRITING",
+          "questionText": "今日は少しこしが痛い。",
+          "passage": null,
+          "choices": [
+            "胸",
+            "腹",
+            "脇",
+            "腰"
+          ],
+          "correctAnswer": 4,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2024-07-vocab-m2-q11",
+          "section": "vocab",
+          "mondai": 2,
+          "questionNumber": 11,
+          "questionType": "KANJI_WRITING",
+          "questionText": "入学式のよくしゅうから講義が始まる。",
+          "passage": null,
+          "choices": [
+            "翌週",
+            "次週",
+            "明週",
+            "遠週"
+          ],
+          "correctAnswer": 1,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2024-07-vocab-m2-q12",
+          "section": "vocab",
+          "mondai": 2,
+          "questionNumber": 12,
+          "questionType": "KANJI_WRITING",
+          "questionText": "今朝は気温がひくかったので、水が凍っていた。",
+          "passage": null,
+          "choices": [
+            "寒かった",
+            "底かった",
+            "低かった",
+            "暑かった"
+          ],
+          "correctAnswer": 3,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2024-07-vocab-m2-q13",
+          "section": "vocab",
+          "mondai": 2,
+          "questionNumber": 13,
+          "questionType": "KANJI_WRITING",
+          "questionText": "湖はどのほうこうにありますか。",
+          "passage": null,
+          "choices": [
+            "方向",
+            "方角",
+            "法向",
+            "法角"
+          ],
+          "correctAnswer": 1,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2024-07-vocab-m2-q14",
+          "section": "vocab",
+          "mondai": 2,
+          "questionNumber": 14,
+          "questionType": "KANJI_WRITING",
+          "questionText": "学校のきそくが少し変わるそうだ。",
+          "passage": null,
+          "choices": [
+            "規側",
+            "規則",
+            "期則",
+            "期側"
+          ],
+          "correctAnswer": 2,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2024-07-vocab-m3-q15",
+          "section": "vocab",
+          "mondai": 3,
+          "questionNumber": 15,
+          "questionType": "VOCAB_CONTEXT",
+          "questionText": "野球が好きな友人の（  ）で、私も野球に興味を持った。",
+          "passage": null,
+          "choices": [
+            "指定",
+            "申請",
+            "影響",
+            "通知"
+          ],
+          "correctAnswer": 3,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2024-07-vocab-m3-q16",
+          "section": "vocab",
+          "mondai": 3,
+          "questionNumber": 16,
+          "questionType": "VOCAB_CONTEXT",
+          "questionText": "私は歌が下手なので、歌の上手な人が（  ）です。",
+          "passage": null,
+          "choices": [
+            "残念",
+            "なつかしい",
+            "うらやましい",
+            "不安"
+          ],
+          "correctAnswer": 3,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2024-07-vocab-m3-q17",
+          "section": "vocab",
+          "mondai": 3,
+          "questionNumber": 17,
+          "questionType": "VOCAB_CONTEXT",
+          "questionText": "ゴールまでもう少しだったので、足の痛みを（  ）して走ってきた。",
+          "passage": null,
+          "choices": [
+            "我慢",
+            "苦労",
+            "遠慮",
+            "努力"
+          ],
+          "correctAnswer": 1,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2024-07-vocab-m3-q18",
+          "section": "vocab",
+          "mondai": 3,
+          "questionNumber": 18,
+          "questionType": "VOCAB_CONTEXT",
+          "questionText": "林さんは会議ではいつも（  ）なので、あまり自分の意見を言わない。",
+          "passage": null,
+          "choices": [
+            "人工的",
+            "消極的",
+            "自動的",
+            "間接的"
+          ],
+          "correctAnswer": 2,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2024-07-vocab-m3-q19",
+          "section": "vocab",
+          "mondai": 3,
+          "questionNumber": 19,
+          "questionType": "VOCAB_CONTEXT",
+          "questionText": "このバスは駅を出発してから、図書館を（  ）して美術館へ行きます。",
+          "passage": null,
+          "choices": [
+            "移動",
+            "経由",
+            "進行",
+            "下車"
+          ],
+          "correctAnswer": 2,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2024-07-vocab-m3-q20",
+          "section": "vocab",
+          "mondai": 3,
+          "questionNumber": 20,
+          "questionType": "VOCAB_CONTEXT",
+          "questionText": "あの兄弟はとても（  ）がいいので、ほとんどけんかをしないそうです。",
+          "passage": null,
+          "choices": [
+            "組",
+            "間",
+            "形",
+            "仲"
+          ],
+          "correctAnswer": 4,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2024-07-vocab-m3-q21",
+          "section": "vocab",
+          "mondai": 3,
+          "questionNumber": 21,
+          "questionType": "VOCAB_CONTEXT",
+          "questionText": "家のドアを開けるために、ポケットの中から鍵を（  ）。",
+          "passage": null,
+          "choices": [
+            "取り付けた",
+            "取り出した",
+            "引き受けた",
+            "引き落とした"
+          ],
+          "correctAnswer": 2,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2024-07-vocab-m3-q22",
+          "section": "vocab",
+          "mondai": 3,
+          "questionNumber": 22,
+          "questionType": "VOCAB_CONTEXT",
+          "questionText": "たくさんのことを（  ）言われても、覚えられません。",
+          "passage": null,
+          "choices": [
+            "一度に",
+            "偶然",
+            "十分",
+            "平等に"
+          ],
+          "correctAnswer": 1,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2024-07-vocab-m3-q23",
+          "section": "vocab",
+          "mondai": 3,
+          "questionNumber": 23,
+          "questionType": "VOCAB_CONTEXT",
+          "questionText": "このホテルは空港からの（  ）がいいので、外国からのお客さんが多い。",
+          "passage": null,
+          "choices": [
+            "ストップ",
+            "セット",
+            "テイクアウト",
+            "アクセス"
+          ],
+          "correctAnswer": 4,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2024-07-vocab-m3-q24",
+          "section": "vocab",
+          "mondai": 3,
+          "questionNumber": 24,
+          "questionType": "VOCAB_CONTEXT",
+          "questionText": "大好きな歌手のコンサートに行きたかったが、チケットが高くて買えない ので行くのを（  ）。",
+          "passage": null,
+          "choices": [
+            "きらった",
+            "うたがった",
+            "あきらめた",
+            "うばった"
+          ],
+          "correctAnswer": 3,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2024-07-vocab-m3-q25",
+          "section": "vocab",
+          "mondai": 3,
+          "questionNumber": 25,
+          "questionType": "VOCAB_CONTEXT",
+          "questionText": "タクシーの乗り場がわからなくて、駅の周りを（  ）歩き回った。",
+          "passage": null,
+          "choices": [
+            "うろうろ",
+            "どきどき",
+            "ざあざあ",
+            "ちかちか"
+          ],
+          "correctAnswer": 1,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2024-07-vocab-m4-q26",
+          "section": "vocab",
+          "mondai": 4,
+          "questionNumber": 26,
+          "questionType": "VOCAB_SYNONYM",
+          "questionText": "この商品は売り切れました。",
+          "passage": null,
+          "choices": [
+            "ほとんど売れました",
+            "全部売れました",
+            "あまり売れませんでした",
+            "全然売れませんでした"
+          ],
+          "correctAnswer": 2,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2024-07-vocab-m4-q27",
+          "section": "vocab",
+          "mondai": 4,
+          "questionNumber": 27,
+          "questionType": "VOCAB_SYNONYM",
+          "questionText": "あそこは道がカーブしていますので、気をつけてください。",
+          "passage": null,
+          "choices": [
+            "狭くなって",
+            "曲がって",
+            "込んで",
+            "暗くなって"
+          ],
+          "correctAnswer": 2,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2024-07-vocab-m4-q28",
+          "section": "vocab",
+          "mondai": 4,
+          "questionNumber": 28,
+          "questionType": "VOCAB_SYNONYM",
+          "questionText": "今夜は家に誰もいないから退屈だ。",
+          "passage": null,
+          "choices": [
+            "つまらない",
+            "怖い",
+            "さびしい",
+            "忙しい"
+          ],
+          "correctAnswer": 1,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2024-07-vocab-m4-q29",
+          "section": "vocab",
+          "mondai": 4,
+          "questionNumber": 29,
+          "questionType": "VOCAB_SYNONYM",
+          "questionText": "テレビで紹介された店にさっそく行った。",
+          "passage": null,
+          "choices": [
+            "初めて",
+            "やっと",
+            "たまに",
+            "すぐに"
+          ],
+          "correctAnswer": 4,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2024-07-vocab-m4-q30",
+          "section": "vocab",
+          "mondai": 4,
+          "questionNumber": 30,
+          "questionType": "VOCAB_SYNONYM",
+          "questionText": "このズボンはゆるいので、別のズボンが欲しい。",
+          "passage": null,
+          "choices": [
+            "古い",
+            "小さい",
+            "大きい",
+            "薄い"
+          ],
+          "correctAnswer": 3,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2024-07-vocab-m5-q31",
+          "section": "vocab",
+          "mondai": 5,
+          "questionNumber": 31,
+          "questionType": "VOCAB_USAGE",
+          "questionText": "知識",
+          "passage": null,
+          "choices": [
+            "いつ財布を落としたか知識がありません。",
+            "はさみはどこにあるか知識がありますか。",
+            "パーティーには私の知識のある人も大勢来ていた。",
+            "この仕事は医学の知識がないとできない。"
+          ],
+          "correctAnswer": 2,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2024-07-vocab-m5-q32",
+          "section": "vocab",
+          "mondai": 5,
+          "questionNumber": 32,
+          "questionType": "VOCAB_USAGE",
+          "questionText": "ひびく",
+          "passage": null,
+          "choices": [
+            "台所からおいしそうなにおいがひびいている。",
+            "この技術は 100 年くらい前に外国からひびいたものだ。",
+            "この広場で歌を歌うと声がよくひびく。",
+            "社長が代わるといううわさが会社中でひびいている。"
+          ],
+          "correctAnswer": 2,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2024-07-vocab-m5-q33",
+          "section": "vocab",
+          "mondai": 5,
+          "questionNumber": 33,
+          "questionType": "VOCAB_USAGE",
+          "questionText": "完成",
+          "passage": null,
+          "choices": [
+            "みんなの意見が一つに完成したので、これから発表します。",
+            "娘は子どものころからの夢が完成して医者になった。",
+            "親戚の結婚が完成したので、お祝いを贈ろうと思います。",
+            "今建てている家が完成したら、ぜひ遊びに来てください。"
+          ],
+          "correctAnswer": 1,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2024-07-vocab-m5-q34",
+          "section": "vocab",
+          "mondai": 5,
+          "questionNumber": 34,
+          "questionType": "VOCAB_USAGE",
+          "questionText": "あわてる",
+          "passage": null,
+          "choices": [
+            "昨日大雨が降ったので、今日は川の水があわてて流れている。",
+            "寝坊をして、あわてて家を出たので、携帯電話を忘れてきてしまった。",
+            "マラソン大会で優勝するため、私はゴールまであわてて走り続けた。",
+            "あのレストランは人気があるので、お店の人はいつもあわてて働いている。"
+          ],
+          "correctAnswer": 4,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2024-07-vocab-m5-q35",
+          "section": "vocab",
+          "mondai": 5,
+          "questionNumber": 35,
+          "questionType": "VOCAB_USAGE",
+          "questionText": "実物",
+          "passage": null,
+          "choices": [
+            "服はインターネットの写真だけではなく、実物を見てから買いたい。",
+            "そのときは彼女の実物の気持ちが分からなかった。",
+            "デパートで買い物をしたとき、実物が足りなかったので、クレジットカード で払った。",
+            "緊張したので発表のときは失敗しましたが、実物はもっと上手にできました。"
+          ],
+          "correctAnswer": 3,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        }
+      ]
+    },
+    {
+      "sectionId": "grammar",
+      "title": "言語知識（文法）・読解",
+      "titleVi": "Ngữ pháp - Đọc hiểu",
+      "timeLimitSec": 4200,
+      "totalQuestions": 38,
+      "questions": [
+        {
+          "id": "n3-2024-07-grammar-m1-q1",
+          "section": "grammar",
+          "mondai": 1,
+          "questionNumber": 1,
+          "questionType": "GRAMMAR_CHOICE",
+          "questionText": "久しぶりに大学時代の友人と会って、楽しい時間（  ）過ごした。",
+          "passage": null,
+          "choices": [
+            "で",
+            "に",
+            "が",
+            "を"
+          ],
+          "correctAnswer": 4,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2024-07-grammar-m1-q2",
+          "section": "grammar",
+          "mondai": 1,
+          "questionNumber": 2,
+          "questionType": "GRAMMAR_CHOICE",
+          "questionText": "私の家の近くにはスーパーが 2 軒あって、 （  ）歩いて行けるので便利だ。 1   どちらから 2    どちらへも",
+          "passage": null,
+          "choices": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ],
+          "correctAnswer": 2,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2024-07-grammar-m1-q3",
+          "section": "grammar",
+          "mondai": 1,
+          "questionNumber": 3,
+          "questionType": "GRAMMAR_CHOICE",
+          "questionText": "どちらかでも 4   どちらかまで 3    子供のころからバスが大好きだったので、バスの運転手（  ）働いている。",
+          "passage": null,
+          "choices": [
+            "として",
+            "のほうが",
+            "にとって",
+            "のほかに"
+          ],
+          "correctAnswer": 1,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2024-07-grammar-m1-q4",
+          "section": "grammar",
+          "mondai": 1,
+          "questionNumber": 4,
+          "questionType": "GRAMMAR_CHOICE",
+          "questionText": "今朝、寝坊して会議に遅れそうだったので、タクシーに乗ったが、道が 込んでいて（  ）遅刻してしまった。",
+          "passage": null,
+          "choices": [
+            "つい",
+            "結局",
+            "次第に",
+            "ほとんど"
+          ],
+          "correctAnswer": 2,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2024-07-grammar-m1-q5",
+          "section": "grammar",
+          "mondai": 1,
+          "questionNumber": 5,
+          "questionType": "GRAMMAR_CHOICE",
+          "questionText": "この歌を（  ）たびに大学時代のことを思い出す。",
+          "passage": null,
+          "choices": [
+            "聞き",
+            "聞く",
+            "聞いた",
+            "聞いている"
+          ],
+          "correctAnswer": 2,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2024-07-grammar-m1-q6",
+          "section": "grammar",
+          "mondai": 1,
+          "questionNumber": 6,
+          "questionType": "GRAMMAR_CHOICE",
+          "questionText": "(大学で) ゆうき「アンさんは、卒業後はどうするんですか。 」 アン「国に帰りますが、帰ってからどう（  ）まだ決めていません。 」",
+          "passage": null,
+          "choices": [
+            "するかは",
+            "するかが",
+            "することは",
+            "することが"
+          ],
+          "correctAnswer": 1,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2024-07-grammar-m1-q7",
+          "section": "grammar",
+          "mondai": 1,
+          "questionNumber": 7,
+          "questionType": "GRAMMAR_CHOICE",
+          "questionText": "インターネットで買ったセーターが届いた。サイズが少し大きいかもしれない と心配していたが、実際に（  ）ぴったりだった。 1   着てみると 3   着るとしたら 2   着たのだから 4   着ていることで",
+          "passage": null,
+          "choices": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ],
+          "correctAnswer": 1,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2024-07-grammar-m1-q8",
+          "section": "grammar",
+          "mondai": 1,
+          "questionNumber": 8,
+          "questionType": "GRAMMAR_CHOICE",
+          "questionText": "（大学で） A「今日、授業の後、晩ご飯食べに行かない?」 B「ごめん、授業の後は図書館へ行くつもりなんだ。明日レポートを （  ）まだ終わってなくて。 」",
+          "passage": null,
+          "choices": [
+            "出したほうがよくても",
+            "出さなくてもいいのに",
+            "出してはいけなくても",
+            "出さないといけないのに"
+          ],
+          "correctAnswer": 4,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2024-07-grammar-m1-q9",
+          "section": "grammar",
+          "mondai": 1,
+          "questionNumber": 9,
+          "questionType": "GRAMMAR_CHOICE",
+          "questionText": "この夏祭りは、100 年以上前から、この町に住む人々によって（  ）。",
+          "passage": null,
+          "choices": [
+            "続けてもらえる",
+            "続けさせられる",
+            "続けられている",
+            "続けてくれている"
+          ],
+          "correctAnswer": 3,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2024-07-grammar-m1-q10",
+          "section": "grammar",
+          "mondai": 1,
+          "questionNumber": 10,
+          "questionType": "GRAMMAR_CHOICE",
+          "questionText": "A「このクッキー、おいしいね。どこで（  ）？」 B「さくらデパートだよ。 」",
+          "passage": null,
+          "choices": [
+            "買ったの",
+            "買ったよね",
+            "買ったことある",
+            "買ったんじゃない"
+          ],
+          "correctAnswer": 1,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2024-07-grammar-m1-q11",
+          "section": "grammar",
+          "mondai": 1,
+          "questionNumber": 11,
+          "questionType": "GRAMMAR_CHOICE",
+          "questionText": "(会議室で) A「会議、お疲れさまでした。この会議室、あとでまた使うので、エアコンは つけたままに（  ）。」 B「はい、わかりました。 」",
+          "passage": null,
+          "choices": [
+            "していませんか",
+            "なっていませんか",
+            "しておいてください",
+            "なっておいてください"
+          ],
+          "correctAnswer": 3,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2024-07-grammar-m1-q12",
+          "section": "grammar",
+          "mondai": 1,
+          "questionNumber": 12,
+          "questionType": "GRAMMAR_CHOICE",
+          "questionText": "昨日読んだ雑誌に、 「忘れることは、必ずしも（  ） 」と書いてあった。",
+          "passage": null,
+          "choices": [
+            "悪いことなのだ",
+            "悪いことではない",
+            "悪いことのはずだ",
+            "悪いことかもしれない"
+          ],
+          "correctAnswer": 2,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2024-07-grammar-m1-q13",
+          "section": "grammar",
+          "mondai": 1,
+          "questionNumber": 13,
+          "questionType": "GRAMMAR_CHOICE",
+          "questionText": "学生「先生、ふだん何かスポーツを（  ）。」 先生「ええ。ときどきゴルフに行きますよ。」",
+          "passage": null,
+          "choices": [
+            "いたしますか",
+            "まいりますか",
+            "なさいますか",
+            "いらっしゃいますか"
+          ],
+          "correctAnswer": 3,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2024-07-grammar-m2-q14",
+          "section": "grammar",
+          "mondai": 2,
+          "questionNumber": 14,
+          "questionType": "GRAMMAR_REORDER",
+          "questionText": "朝、近所のパン屋の前を通ると、パン          ★                     する。",
+          "passage": null,
+          "choices": [
+            "が",
+            "焼ける",
+            "の",
+            "いいにおい"
+          ],
+          "correctAnswer": 4,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2024-07-grammar-m2-q15",
+          "section": "grammar",
+          "mondai": 2,
+          "questionNumber": 15,
+          "questionType": "GRAMMAR_REORDER",
+          "questionText": "平日はなかなか運動する時間がないので、日常生活の中で、エレベーターでは なくて階段を            ★              とかしている。",
+          "passage": null,
+          "choices": [
+            "とか",
+            "歩く",
+            "使う",
+            "スピードを速くする"
+          ],
+          "correctAnswer": 2,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2024-07-grammar-m2-q16",
+          "section": "grammar",
+          "mondai": 2,
+          "questionNumber": 16,
+          "questionType": "GRAMMAR_REORDER",
+          "questionText": "森田「西山さん、新しいアルバイトはどうですか。 」 西山「始めた             ★          大変ですが、楽しいです 。」",
+          "passage": null,
+          "choices": [
+            "多くて",
+            "覚えなければいけない",
+            "ことが",
+            "ばかりなので"
+          ],
+          "correctAnswer": 3,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2024-07-grammar-m2-q17",
+          "section": "grammar",
+          "mondai": 2,
+          "questionNumber": 17,
+          "questionType": "GRAMMAR_REORDER",
+          "questionText": "初めて登山をしたとき、山の上からの景色を見て、「       ★ 」と感動した。",
+          "passage": null,
+          "choices": [
+            "きれいな",
+            "なんて",
+            "なんだろう",
+            "眺め"
+          ],
+          "correctAnswer": 4,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2024-07-grammar-m2-q18",
+          "section": "grammar",
+          "mondai": 2,
+          "questionNumber": 18,
+          "questionType": "GRAMMAR_REORDER",
+          "questionText": "（会社で） 田中「ねえ、知ってる？営業課の山下さん、来月         ★          。」 石川「え、そうなんだ。知らなかった。」",
+          "passage": null,
+          "choices": [
+            "結婚するんだ",
+            "って",
+            "と",
+            "受付の林さん"
+          ],
+          "correctAnswer": 1,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2024-07-grammar-m3-q19",
+          "section": "grammar",
+          "mondai": 3,
+          "questionNumber": 19,
+          "questionType": "GRAMMAR_PASSAGE",
+          "questionText": "",
+          "passage": "問題 3 つぎの文章を読んで、文章全体の内容を考えて、 19 から 22 の中に入る最も\nよいものを、1・2・3・4 から一つえらびなさい。\n私の友達\nミラー・ジョナサン\n私は近所の小さい喫茶店によく行きます。店長は林さんという 70 歳の男性です。\n林さんは私より 50 歳も年上ですが、私たちは友達です 。\nそのお 店には 半年 ぐらい 前から 行くようになりました。 私が行くと、 林さんは\nいつも １９  。それで、私たちはだんだん仲がよくなりました。\nほかのお客さんがいないとき、私たちはよくおしゃべりをしてます。林さんはコーヒーの\n種類について詳しくて、私はコーヒーのことがよくわかるようになりました。ときどき、\n林さんに日本の生活で困っていることを相談することもあります 。林さんはいつもいい\nアドバイス をくれます。  ２０  私たちは 二人とも映画が好きなので、 映画の話も\nよくします 。この間は、一緒に映画を見に行きました。\n日本で林さん ２１ 友達ができることは 予想していませんでした。こんなに 年上\nの友達ができたのは 初めてでしたが、 年齢の差は重要ではないことがわかりました。\n日本で林さんに ２２ よかったです 。\n1 話しかけていました     2 話しかけてあげました\n3 話しかけてくれました    4 話しかけてもらいました\n1 確かに       2 ところが\n3 例えば       4 それから\n1  にも  2 のような   3 にだけ   4  のほかに\n1 会えて   2  会うから  3 会えるのが  4 会っても\n読解\n問題 4 つぎの(1)から(4)の文章\nぶんしょう\nを読んで、質問に答えなさい。答えは、1・2・3・4\nから最もよいものを一つえらびなさい。\n（１）\nこれは、野村さんが部長会議の出席予定者に書いたメールである。\n部長会議にご出席予定の皆様へ\nあさって 12 日(金)の部長会議について、ご連絡します 。\n天気予報では、明日の夜、台風が東京の近くを通ることが予想されています 。そのため、\nあさってまで交通機関に影響が残る可能性があります 。明日の予報で台風が東京を通る\nことが確実になった場合は、会議を来週に延期することにします 。最終的なご連絡は、\n明日 11 日(木)の 15 時にメールでいたします 。\n以上、よろしくお願いします 。\n第一営業部\n野村マリア\n23  野村さんがこのメールで知らせたいことは何か。\n1 部長会議は、来週に延期する。\n2 部長会議は、明日の 15 時から行う。\n3 部長会議は天気に関係なく、あさって行う。\n4 部長会議を延期するかどうか、明日の 15 時に連絡する。\n（２）\n高校生の孫が「来週、E スポーツ大会に出るんだ」と言った。コンピューターゲームの\n大会だと説明され、私は不思議な気がした。なぜ、それがスポーツの大会なのだろうか。\n聞いてみると、 英語の「スポーツ」には、ルールを守りながら勝ったり負けたりす\nることを楽しむものという意味があるそうだ。それで、最近ではコンピューターゲーム\nもスポーツと言うらしい。\n体を動かすことをスポーツだと思っていた私は驚いた。\n24  不思議な気がしたとあるが、どうしてか。\n1 高校生なのに、孫が有名な E スポーツの大会に出ると言っているから。\n2 コンピューターゲームにも大会があると聞いたから。\n3 体を動かさないのに、コンピューターゲームをスポーツと言っているから。\n4 子供のころからずっとなりたいと思い続けていた先生になれたから。\n（３）\n(大学で)\nこのお知らせが掲示板にはってある。\n留学生日本語カラオケ大会\n参加者募集\n5 月 29 日(土)の 13 時から、大教室(A103)で「留学生日本語カラオケ大会」を行います。\n参加したい人は、歌いたい日本語の歌を決めて、5 月 7 日(金)までに留学生課で申し\n込んでください。\nなお、当日の集合時間は 12 時ですが、希望者は午前中に会場の A103 で練習するこ\nとができます 。その場合の集合時間は 10 時になります 。希望者は、参加の申し込み\nのときに、練習も申し込んでください。\n参加をお待ちしています 。\n留学生課\n25  カラオケ大会に参加したい人で、当日、会場で練習したい人はとうしなければ\nならないか。\n1 5 月 7 日までに留学生課で参加と練習の申し込みをして、29 日の10 時に会場へ行く。\n2 5 月 7 日までに留学生課で参加と練習の申し込みをして、29 日の12 時に会場へ行く。\n3 5 月 7 日までに留学生課で参加の申し込みだけして、29 日の10 時に会場へ行く。\n4 5 月 29日の10時までに留学生課で参加と練習の申し込みをして、12時に会場へ行く。\n（４）\nコーヒーを飲むと眠れなくなるから、 寝る前には飲まないという 人が多いだろう。\nしかし最近、昼寝の前にはコーヒーを飲むといいと言われるようになってきた。\n昼寝をすると起きたあとの集中力が上がるが、長く寝るのはよくない。そこで、 飲\nむと目が覚めるというコーヒーの効果を利用するのだ。この効果は、飲んでから約 30\n分後に出るので、昼寝の前に飲むと、30 分ぐらいで自然に目が覚める。\nぜひやってみてほしい。\n26  この文章を書いた人が言いたいことは何か。\n1 コーヒーを飲むと眠れなくなるから、昼寝の前には飲まないほうがいい。\n2 集中力が高くなるから、昼寝のあとで 30 分以内にコーヒーを飲むといい。\n3 昼寝で寝すぎないためには、昼寝をする 30 分前にコーヒーを飲むといい。\n4 昼寝で、30 分ぐらいで自然に起きるためには、昼寝の直前にコーヒーを\n飲むといい。\n問題 5  つぎの(1)と(2)の文章\nぶんしょう\nを読んで、質問に答えなさい。答えは、1・2・3・4\nから最もよいものを一つえらびなさい。\n（１）\n私は、前から自分で野菜を育てたいと思っていました。私のうちには庭もベランダ\nもないので、①諦めていたのですが、先月、友達から部屋の中でホウレンソウを育てて\nいるという 話を聞きました。 室内でできるなら 私もやってみたいと 思い、準備をしま\nした。\n外に似た環境がいいだろうと考え、窓の近くで育て始めたら、4 日で芽が出始めまし\nた。少しずつ大きくなるのがうれしかったです 。ところが、だんだん葉が黄色くなって、\n全部枯れてしまったのです 。太陽の光が足りなかったのかもしれないと思いました。\n②がっかりして、友達に電話をして聞いてみると、 ホウレンソウ は夜になったら、\n光が当たってはいけないということがわかりました。 私の場合は、部屋の電気の光が\nよくなかったようです 。友達は、段ボール箱でホウレンソウ にカバーをしているのだ\nそうです 。\n私も同じようにやってみたら、③ 今度は元気に育ちました。サラダにして食べたら、\nとてもおいしかったです 。\n27  ①諦めていたとあるが、何を諦めていたのか。\n1 自分で野菜を育てること\n2 庭やベランダがある家に住むこと\n3 友達に野菜の育て方を教えてもらうこと\n4 部屋の中でホウレンソウを育てること\n28  ②がっかりしてとあるが、どうしてがっかりしたのか。\n1 ホウレンソウの芽が出なかったから。\n2 ホウレンソウが全部枯れてしまったから。\n3 ホウレンソウについての友達の知識が間違っていたから。\n4 うまく育ったホウレンソウが少なかったから。\n29      ③今度は元気に育ちましたとあるが、どうして元気に育ったのか。\n1 昼、ホウレンソウにもっと光が当たるようにしたから。\n2    昼、ホウレンソウにあまり光が当たらないようにしたから。\n3 夜、ホウレンンソウに光が当たるようにしたから。\n4 夜、ホウレンソウに光が当たらないようにしたから。\n（２）\n日本に留学したばかりのころ、 文房具店 に入って驚いてしまった 。私の国では、\nシャープぺンシルはあまり売られていないが、その店には 100 円の安い物から 5000 円\n以上する高い物まで、すごい 数のシャーペン が並んでいたのだ。 芯も太さが 0.3mm\nから 1.5mm まであって、濃さもいろいろな物が売られていた。\nイギリスで生まれたシャーペンだが、初めは 1.5mm や 1.0mm の芯しかなかった。\nだが、 約 60 年前、 ある日本の会社が、複雑な漢字でも美しく書けるよう、 世界で\n初めて 0.5mm の折れにくい 芯を作ることに チャレンジ して、成功したのだそうだ。\nそれからシャーペンが日本中で使われるようになったらしい。\n私は、来日してからずっとシャーペンを愛用している。鉛筆のように先が丸くならず 、\n小さい字がきれいに書けるからだ。今、使っているのは安い物だが、来年、就職したら、\n少しいい物を買おうと思っている。\n30  驚いてしまったとあるが、文房具店のどんなことに驚いたのか。\n１ シャーペンがあまり売られていなかったこと\n２ たくさんの種類のシャーペンや芯が売られていたこと\n３ 値段の高いシャーペンばかりが売られていたこと\n４ シャーペンの芯だけを売る専門の店だったこと\n31  シャーペンが日本中で使われるようになったのは、いつからか。\n1 日本の会社が、太くて折れにくい芯を作ってから。\n2  日本の会社が、細くて折れにくい芯を作ってから。\n3 日本の会社が、日本でイギリスのシャーペンを売るようになってから。\n4  日本の会社が、世界で初めてシャーペンを作ってから。\n32  「私」が今、シャーペンを使っているのはなぜか。\n1 日本中で使われているから。\n2 小さい字が書きやすいから。\n3 鉛筆より安く買えるから。\n4 高くていい物を買ったから。\n問題 6  つぎの文章\nぶんしょう\nを読んで、質問に答えなさい。答えは、1・2・3・4 から最もよい\nものを一つえらびなさい。\n野球やサッカーなどのプロスポーツ の経営では、試合会場に来てくれる客を増やす\nことが重要だ。また見たいと思うようないい試合が続けば、客は自然に増えるだろう。\nしかし、どんなに選手が努力しても、そのような試合をずっと続けるのは難しい。そこ\nで、①経営者のさまざまな工夫が必要になる。\nその一つに、②試合会場の工夫がある。例えば、ある会場では、試合がある日に、\nいろいろな 飲食店 の食べ物や飲み物を 1000 種類も選べるようにしている。また、\n(注)バーベキユーをしながら試合が見られる観客席を作っているところもある。会場を\n楽しく過ごせる場所にして、また来たいと思ってもらおうという考え方だ。経営という\n点では、試合を見ること以外にも会場に来る目的を作ることが重要なのだ。\nもちろん、試合を楽しむために来る客を増やす工夫もしている。例えば、新しい客\nに来てもらうために、無料のチケットを配るという方法がある。一度会場に来て試合を\n楽しんでくれたら、次はチケットを買って来てくれる可能性が広がるという考えからだ。\nただ、③この考え方には反対意見もある。無料のチケットで来た客は、普段のチケ\nットを高く感じてしまう。すると、結局チケットを買わなくなるので、収入は増えない\nと考える経営者もいる。\nプロスポーツ の経営者 は、客に来てもらうために、いろいろな 工夫をしている。\n手段はさまざまだが、客に満足してもらい、何度も来てもらいたいという気持ちは共通\nしているのだ。\n(注) バーベキュー：肉や野菜を焼いて食べること\n33  ①経営者のさまざまな工夫が必要になるとあるが、なぜか。\n1 選手が、客を増やすことに関心を持っていないから。\n2 選手がどんなにいい試合を続けても、客の数には影響しないから。\n3 選手がいい試合をし続けて客を増やすことは、難しいから。\n4 選手が努力することがなく、客が減っているから。\n34   ②試合会場の工夫とあるが、どのような工夫を例として書いているか。\n1  会場内の飲食店の案内をわかりやすくする工夫\n2  会場で食べ物や飲み物を注文しやすくする工夫\n3  会場で集中して試合を見てもらうための観客席の工夫\n4  会場で試合以外に飲食も楽しんでもらうための工夫\n35  ③この考え方とあるが、どのような考え方か。\n1 無料のチケットを配って客が増えれば、選手たちのやる気が出るだろう。\n2 無料のチケットを配っても、見に来る客はほとんどいないだろう。\n3 無料のチケットで試合を楽しんだ客は、次はチケットを買って来るだろう。\n4 無料のチケットで試合を楽しんだ客は、次もチケットを買わないだろう。\n36  この文章全体のテーマは何か。\n1 プロスポーツの経営者が、試合会場に来る客を増やすためにしていること\n2 プロスポーツの経営者が、選手を強くするためにしていること\n3 プロスポーツの経営者が、試合会場を客が楽しめる場所にするためにしていること\n4 プロスポーツの経営者が、客に安く試合を見てもらうためにしていること\n問題 7  右のページは、外\nがい\n国\nこく\n人\nじん\n向\nむ\nけのお知らせである。これを読んで、下の質\nしつ\n問\nもん\nに答\nこた\nえ\nなさい。答えは、1・2・3・4 から最\nもっと\nもよいものを一つえらびなさい。\n37  次の 4 人は、2 月 1 日から 3 月 31 日までの間に「買い物券チャレンジ」の参加店\nで買い物をした。 「買い物券チャレンジ」に応募できるのは誰か。\n名前 利用した店の数 レシートの数 レシートの合計\n森田さん ２店 ８枚 7,520 円\nヨウさん ４店 ４枚 9,080 円\n東さん ４店 ６枚 6,100 円\nクレアさん ５店 ７枚 4,340 円\n1 森田さん\n2 ヨウさん\n3 東さん\n4 クレアさん\n38  中村さんは、「買い物券チャレンジ」に応募しようと思い、応募用紙の準備を\nした。今日は４月１１日（日）である。応募用紙はどのように出さなければ\nならないか。\n1 今日中に郵送するか、明日の 10 時から 17 時までに商業課に持参する。\n2 今日の 10 時から 16 時まで、または明日の 10 時から 17 時までに商業課に\n持参する。\n3 明日の 10 時から 16 時までに商業課に持参する。\n4 明日の 10 時から 17 時までに商業課に持参する。\n「買い物券チャレンジ」\nみずき市の店で買い物したレシートを集めて応募すると、\n100 名の方に、市内の店で使える 5,000 円分の買い物券が当たります。\n参加·応募方法\n①レシートを集める\nみずき市の生活用品店、食料品店 など、ホームページに書かれている参加店を利用して、\nレシートをもらってください。\n【期間】2 月 1 日(月)〜3 月 31 日(水)\n・応募には、合計 5,000 円分以上のレシートが必要です。\n・レシートの枚数は、5 枚以上必要です。\n・同じ店のレシートが 2 枚以上あってもいいですが、必ず 3 つ以上の店を利用して\nレシートを集めてください。\n②応募する\n応募用紙に氏名・住所・電話番号 を書き、集めたレシートをはってください。 応募用紙は、\nホームページに書かれている店でもらえます。\n<応募方法>\nみずき市商業課に郵送、または持参してください。\n１.郵送の場合\n【期間】2 月 1 日(月)〜4 月 9 日（金）\n・郵送する場合は、応募用紙を封筒に入れ、切手をはって送ってください。\n２.持参の場合\n【期間】2 月 1 日(月)〜4 月 12 日(月)\n・商業課の窓口の開いている時間(平日の 10 時〜16 時、最終日4 月 12 日は 10 時〜17 時)に\n来てください。土日は休みです。\n■買い物券について\n・当たった方には、4 月 20 日ごろに買い物券をお送りします。\n・買い物券の使用期限は 10 月 31 日です。使える店は、ホームページを確認してください。\nみずき市商業課 〒126-0204 みずき市中町 2040-１みずき市役所 3 階\n電話番号 031-924-1976\nホームページ https://www.mizuki-city.jp/shoppingticket",
+          "choices": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ],
+          "correctAnswer": 4,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2024-07-grammar-m3-q20",
+          "section": "grammar",
+          "mondai": 3,
+          "questionNumber": 20,
+          "questionType": "GRAMMAR_PASSAGE",
+          "questionText": "",
+          "passage": "問題 3 つぎの文章を読んで、文章全体の内容を考えて、 19 から 22 の中に入る最も\nよいものを、1・2・3・4 から一つえらびなさい。\n私の友達\nミラー・ジョナサン\n私は近所の小さい喫茶店によく行きます。店長は林さんという 70 歳の男性です。\n林さんは私より 50 歳も年上ですが、私たちは友達です 。\nそのお 店には 半年 ぐらい 前から 行くようになりました。 私が行くと、 林さんは\nいつも １９  。それで、私たちはだんだん仲がよくなりました。\nほかのお客さんがいないとき、私たちはよくおしゃべりをしてます。林さんはコーヒーの\n種類について詳しくて、私はコーヒーのことがよくわかるようになりました。ときどき、\n林さんに日本の生活で困っていることを相談することもあります 。林さんはいつもいい\nアドバイス をくれます。  ２０  私たちは 二人とも映画が好きなので、 映画の話も\nよくします 。この間は、一緒に映画を見に行きました。\n日本で林さん ２１ 友達ができることは 予想していませんでした。こんなに 年上\nの友達ができたのは 初めてでしたが、 年齢の差は重要ではないことがわかりました。\n日本で林さんに ２２ よかったです 。\n1 話しかけていました     2 話しかけてあげました\n3 話しかけてくれました    4 話しかけてもらいました\n1 確かに       2 ところが\n3 例えば       4 それから\n1  にも  2 のような   3 にだけ   4  のほかに\n1 会えて   2  会うから  3 会えるのが  4 会っても\n読解\n問題 4 つぎの(1)から(4)の文章\nぶんしょう\nを読んで、質問に答えなさい。答えは、1・2・3・4\nから最もよいものを一つえらびなさい。\n（１）\nこれは、野村さんが部長会議の出席予定者に書いたメールである。\n部長会議にご出席予定の皆様へ\nあさって 12 日(金)の部長会議について、ご連絡します 。\n天気予報では、明日の夜、台風が東京の近くを通ることが予想されています 。そのため、\nあさってまで交通機関に影響が残る可能性があります 。明日の予報で台風が東京を通る\nことが確実になった場合は、会議を来週に延期することにします 。最終的なご連絡は、\n明日 11 日(木)の 15 時にメールでいたします 。\n以上、よろしくお願いします 。\n第一営業部\n野村マリア\n23  野村さんがこのメールで知らせたいことは何か。\n1 部長会議は、来週に延期する。\n2 部長会議は、明日の 15 時から行う。\n3 部長会議は天気に関係なく、あさって行う。\n4 部長会議を延期するかどうか、明日の 15 時に連絡する。\n（２）\n高校生の孫が「来週、E スポーツ大会に出るんだ」と言った。コンピューターゲームの\n大会だと説明され、私は不思議な気がした。なぜ、それがスポーツの大会なのだろうか。\n聞いてみると、 英語の「スポーツ」には、ルールを守りながら勝ったり負けたりす\nることを楽しむものという意味があるそうだ。それで、最近ではコンピューターゲーム\nもスポーツと言うらしい。\n体を動かすことをスポーツだと思っていた私は驚いた。\n24  不思議な気がしたとあるが、どうしてか。\n1 高校生なのに、孫が有名な E スポーツの大会に出ると言っているから。\n2 コンピューターゲームにも大会があると聞いたから。\n3 体を動かさないのに、コンピューターゲームをスポーツと言っているから。\n4 子供のころからずっとなりたいと思い続けていた先生になれたから。\n（３）\n(大学で)\nこのお知らせが掲示板にはってある。\n留学生日本語カラオケ大会\n参加者募集\n5 月 29 日(土)の 13 時から、大教室(A103)で「留学生日本語カラオケ大会」を行います。\n参加したい人は、歌いたい日本語の歌を決めて、5 月 7 日(金)までに留学生課で申し\n込んでください。\nなお、当日の集合時間は 12 時ですが、希望者は午前中に会場の A103 で練習するこ\nとができます 。その場合の集合時間は 10 時になります 。希望者は、参加の申し込み\nのときに、練習も申し込んでください。\n参加をお待ちしています 。\n留学生課\n25  カラオケ大会に参加したい人で、当日、会場で練習したい人はとうしなければ\nならないか。\n1 5 月 7 日までに留学生課で参加と練習の申し込みをして、29 日の10 時に会場へ行く。\n2 5 月 7 日までに留学生課で参加と練習の申し込みをして、29 日の12 時に会場へ行く。\n3 5 月 7 日までに留学生課で参加の申し込みだけして、29 日の10 時に会場へ行く。\n4 5 月 29日の10時までに留学生課で参加と練習の申し込みをして、12時に会場へ行く。\n（４）\nコーヒーを飲むと眠れなくなるから、 寝る前には飲まないという 人が多いだろう。\nしかし最近、昼寝の前にはコーヒーを飲むといいと言われるようになってきた。\n昼寝をすると起きたあとの集中力が上がるが、長く寝るのはよくない。そこで、 飲\nむと目が覚めるというコーヒーの効果を利用するのだ。この効果は、飲んでから約 30\n分後に出るので、昼寝の前に飲むと、30 分ぐらいで自然に目が覚める。\nぜひやってみてほしい。\n26  この文章を書いた人が言いたいことは何か。\n1 コーヒーを飲むと眠れなくなるから、昼寝の前には飲まないほうがいい。\n2 集中力が高くなるから、昼寝のあとで 30 分以内にコーヒーを飲むといい。\n3 昼寝で寝すぎないためには、昼寝をする 30 分前にコーヒーを飲むといい。\n4 昼寝で、30 分ぐらいで自然に起きるためには、昼寝の直前にコーヒーを\n飲むといい。\n問題 5  つぎの(1)と(2)の文章\nぶんしょう\nを読んで、質問に答えなさい。答えは、1・2・3・4\nから最もよいものを一つえらびなさい。\n（１）\n私は、前から自分で野菜を育てたいと思っていました。私のうちには庭もベランダ\nもないので、①諦めていたのですが、先月、友達から部屋の中でホウレンソウを育てて\nいるという 話を聞きました。 室内でできるなら 私もやってみたいと 思い、準備をしま\nした。\n外に似た環境がいいだろうと考え、窓の近くで育て始めたら、4 日で芽が出始めまし\nた。少しずつ大きくなるのがうれしかったです 。ところが、だんだん葉が黄色くなって、\n全部枯れてしまったのです 。太陽の光が足りなかったのかもしれないと思いました。\n②がっかりして、友達に電話をして聞いてみると、 ホウレンソウ は夜になったら、\n光が当たってはいけないということがわかりました。 私の場合は、部屋の電気の光が\nよくなかったようです 。友達は、段ボール箱でホウレンソウ にカバーをしているのだ\nそうです 。\n私も同じようにやってみたら、③ 今度は元気に育ちました。サラダにして食べたら、\nとてもおいしかったです 。\n27  ①諦めていたとあるが、何を諦めていたのか。\n1 自分で野菜を育てること\n2 庭やベランダがある家に住むこと\n3 友達に野菜の育て方を教えてもらうこと\n4 部屋の中でホウレンソウを育てること\n28  ②がっかりしてとあるが、どうしてがっかりしたのか。\n1 ホウレンソウの芽が出なかったから。\n2 ホウレンソウが全部枯れてしまったから。\n3 ホウレンソウについての友達の知識が間違っていたから。\n4 うまく育ったホウレンソウが少なかったから。\n29      ③今度は元気に育ちましたとあるが、どうして元気に育ったのか。\n1 昼、ホウレンソウにもっと光が当たるようにしたから。\n2    昼、ホウレンソウにあまり光が当たらないようにしたから。\n3 夜、ホウレンンソウに光が当たるようにしたから。\n4 夜、ホウレンソウに光が当たらないようにしたから。\n（２）\n日本に留学したばかりのころ、 文房具店 に入って驚いてしまった 。私の国では、\nシャープぺンシルはあまり売られていないが、その店には 100 円の安い物から 5000 円\n以上する高い物まで、すごい 数のシャーペン が並んでいたのだ。 芯も太さが 0.3mm\nから 1.5mm まであって、濃さもいろいろな物が売られていた。\nイギリスで生まれたシャーペンだが、初めは 1.5mm や 1.0mm の芯しかなかった。\nだが、 約 60 年前、 ある日本の会社が、複雑な漢字でも美しく書けるよう、 世界で\n初めて 0.5mm の折れにくい 芯を作ることに チャレンジ して、成功したのだそうだ。\nそれからシャーペンが日本中で使われるようになったらしい。\n私は、来日してからずっとシャーペンを愛用している。鉛筆のように先が丸くならず 、\n小さい字がきれいに書けるからだ。今、使っているのは安い物だが、来年、就職したら、\n少しいい物を買おうと思っている。\n30  驚いてしまったとあるが、文房具店のどんなことに驚いたのか。\n１ シャーペンがあまり売られていなかったこと\n２ たくさんの種類のシャーペンや芯が売られていたこと\n３ 値段の高いシャーペンばかりが売られていたこと\n４ シャーペンの芯だけを売る専門の店だったこと\n31  シャーペンが日本中で使われるようになったのは、いつからか。\n1 日本の会社が、太くて折れにくい芯を作ってから。\n2  日本の会社が、細くて折れにくい芯を作ってから。\n3 日本の会社が、日本でイギリスのシャーペンを売るようになってから。\n4  日本の会社が、世界で初めてシャーペンを作ってから。\n32  「私」が今、シャーペンを使っているのはなぜか。\n1 日本中で使われているから。\n2 小さい字が書きやすいから。\n3 鉛筆より安く買えるから。\n4 高くていい物を買ったから。\n問題 6  つぎの文章\nぶんしょう\nを読んで、質問に答えなさい。答えは、1・2・3・4 から最もよい\nものを一つえらびなさい。\n野球やサッカーなどのプロスポーツ の経営では、試合会場に来てくれる客を増やす\nことが重要だ。また見たいと思うようないい試合が続けば、客は自然に増えるだろう。\nしかし、どんなに選手が努力しても、そのような試合をずっと続けるのは難しい。そこ\nで、①経営者のさまざまな工夫が必要になる。\nその一つに、②試合会場の工夫がある。例えば、ある会場では、試合がある日に、\nいろいろな 飲食店 の食べ物や飲み物を 1000 種類も選べるようにしている。また、\n(注)バーベキユーをしながら試合が見られる観客席を作っているところもある。会場を\n楽しく過ごせる場所にして、また来たいと思ってもらおうという考え方だ。経営という\n点では、試合を見ること以外にも会場に来る目的を作ることが重要なのだ。\nもちろん、試合を楽しむために来る客を増やす工夫もしている。例えば、新しい客\nに来てもらうために、無料のチケットを配るという方法がある。一度会場に来て試合を\n楽しんでくれたら、次はチケットを買って来てくれる可能性が広がるという考えからだ。\nただ、③この考え方には反対意見もある。無料のチケットで来た客は、普段のチケ\nットを高く感じてしまう。すると、結局チケットを買わなくなるので、収入は増えない\nと考える経営者もいる。\nプロスポーツ の経営者 は、客に来てもらうために、いろいろな 工夫をしている。\n手段はさまざまだが、客に満足してもらい、何度も来てもらいたいという気持ちは共通\nしているのだ。\n(注) バーベキュー：肉や野菜を焼いて食べること\n33  ①経営者のさまざまな工夫が必要になるとあるが、なぜか。\n1 選手が、客を増やすことに関心を持っていないから。\n2 選手がどんなにいい試合を続けても、客の数には影響しないから。\n3 選手がいい試合をし続けて客を増やすことは、難しいから。\n4 選手が努力することがなく、客が減っているから。\n34   ②試合会場の工夫とあるが、どのような工夫を例として書いているか。\n1  会場内の飲食店の案内をわかりやすくする工夫\n2  会場で食べ物や飲み物を注文しやすくする工夫\n3  会場で集中して試合を見てもらうための観客席の工夫\n4  会場で試合以外に飲食も楽しんでもらうための工夫\n35  ③この考え方とあるが、どのような考え方か。\n1 無料のチケットを配って客が増えれば、選手たちのやる気が出るだろう。\n2 無料のチケットを配っても、見に来る客はほとんどいないだろう。\n3 無料のチケットで試合を楽しんだ客は、次はチケットを買って来るだろう。\n4 無料のチケットで試合を楽しんだ客は、次もチケットを買わないだろう。\n36  この文章全体のテーマは何か。\n1 プロスポーツの経営者が、試合会場に来る客を増やすためにしていること\n2 プロスポーツの経営者が、選手を強くするためにしていること\n3 プロスポーツの経営者が、試合会場を客が楽しめる場所にするためにしていること\n4 プロスポーツの経営者が、客に安く試合を見てもらうためにしていること\n問題 7  右のページは、外\nがい\n国\nこく\n人\nじん\n向\nむ\nけのお知らせである。これを読んで、下の質\nしつ\n問\nもん\nに答\nこた\nえ\nなさい。答えは、1・2・3・4 から最\nもっと\nもよいものを一つえらびなさい。\n37  次の 4 人は、2 月 1 日から 3 月 31 日までの間に「買い物券チャレンジ」の参加店\nで買い物をした。 「買い物券チャレンジ」に応募できるのは誰か。\n名前 利用した店の数 レシートの数 レシートの合計\n森田さん ２店 ８枚 7,520 円\nヨウさん ４店 ４枚 9,080 円\n東さん ４店 ６枚 6,100 円\nクレアさん ５店 ７枚 4,340 円\n1 森田さん\n2 ヨウさん\n3 東さん\n4 クレアさん\n38  中村さんは、「買い物券チャレンジ」に応募しようと思い、応募用紙の準備を\nした。今日は４月１１日（日）である。応募用紙はどのように出さなければ\nならないか。\n1 今日中に郵送するか、明日の 10 時から 17 時までに商業課に持参する。\n2 今日の 10 時から 16 時まで、または明日の 10 時から 17 時までに商業課に\n持参する。\n3 明日の 10 時から 16 時までに商業課に持参する。\n4 明日の 10 時から 17 時までに商業課に持参する。\n「買い物券チャレンジ」\nみずき市の店で買い物したレシートを集めて応募すると、\n100 名の方に、市内の店で使える 5,000 円分の買い物券が当たります。\n参加·応募方法\n①レシートを集める\nみずき市の生活用品店、食料品店 など、ホームページに書かれている参加店を利用して、\nレシートをもらってください。\n【期間】2 月 1 日(月)〜3 月 31 日(水)\n・応募には、合計 5,000 円分以上のレシートが必要です。\n・レシートの枚数は、5 枚以上必要です。\n・同じ店のレシートが 2 枚以上あってもいいですが、必ず 3 つ以上の店を利用して\nレシートを集めてください。\n②応募する\n応募用紙に氏名・住所・電話番号 を書き、集めたレシートをはってください。 応募用紙は、\nホームページに書かれている店でもらえます。\n<応募方法>\nみずき市商業課に郵送、または持参してください。\n１.郵送の場合\n【期間】2 月 1 日(月)〜4 月 9 日（金）\n・郵送する場合は、応募用紙を封筒に入れ、切手をはって送ってください。\n２.持参の場合\n【期間】2 月 1 日(月)〜4 月 12 日(月)\n・商業課の窓口の開いている時間(平日の 10 時〜16 時、最終日4 月 12 日は 10 時〜17 時)に\n来てください。土日は休みです。\n■買い物券について\n・当たった方には、4 月 20 日ごろに買い物券をお送りします。\n・買い物券の使用期限は 10 月 31 日です。使える店は、ホームページを確認してください。\nみずき市商業課 〒126-0204 みずき市中町 2040-１みずき市役所 3 階\n電話番号 031-924-1976\nホームページ https://www.mizuki-city.jp/shoppingticket",
+          "choices": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ],
+          "correctAnswer": 2,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2024-07-grammar-m3-q21",
+          "section": "grammar",
+          "mondai": 3,
+          "questionNumber": 21,
+          "questionType": "GRAMMAR_PASSAGE",
+          "questionText": "",
+          "passage": "問題 3 つぎの文章を読んで、文章全体の内容を考えて、 19 から 22 の中に入る最も\nよいものを、1・2・3・4 から一つえらびなさい。\n私の友達\nミラー・ジョナサン\n私は近所の小さい喫茶店によく行きます。店長は林さんという 70 歳の男性です。\n林さんは私より 50 歳も年上ですが、私たちは友達です 。\nそのお 店には 半年 ぐらい 前から 行くようになりました。 私が行くと、 林さんは\nいつも １９  。それで、私たちはだんだん仲がよくなりました。\nほかのお客さんがいないとき、私たちはよくおしゃべりをしてます。林さんはコーヒーの\n種類について詳しくて、私はコーヒーのことがよくわかるようになりました。ときどき、\n林さんに日本の生活で困っていることを相談することもあります 。林さんはいつもいい\nアドバイス をくれます。  ２０  私たちは 二人とも映画が好きなので、 映画の話も\nよくします 。この間は、一緒に映画を見に行きました。\n日本で林さん ２１ 友達ができることは 予想していませんでした。こんなに 年上\nの友達ができたのは 初めてでしたが、 年齢の差は重要ではないことがわかりました。\n日本で林さんに ２２ よかったです 。\n1 話しかけていました     2 話しかけてあげました\n3 話しかけてくれました    4 話しかけてもらいました\n1 確かに       2 ところが\n3 例えば       4 それから\n1  にも  2 のような   3 にだけ   4  のほかに\n1 会えて   2  会うから  3 会えるのが  4 会っても\n読解\n問題 4 つぎの(1)から(4)の文章\nぶんしょう\nを読んで、質問に答えなさい。答えは、1・2・3・4\nから最もよいものを一つえらびなさい。\n（１）\nこれは、野村さんが部長会議の出席予定者に書いたメールである。\n部長会議にご出席予定の皆様へ\nあさって 12 日(金)の部長会議について、ご連絡します 。\n天気予報では、明日の夜、台風が東京の近くを通ることが予想されています 。そのため、\nあさってまで交通機関に影響が残る可能性があります 。明日の予報で台風が東京を通る\nことが確実になった場合は、会議を来週に延期することにします 。最終的なご連絡は、\n明日 11 日(木)の 15 時にメールでいたします 。\n以上、よろしくお願いします 。\n第一営業部\n野村マリア\n23  野村さんがこのメールで知らせたいことは何か。\n1 部長会議は、来週に延期する。\n2 部長会議は、明日の 15 時から行う。\n3 部長会議は天気に関係なく、あさって行う。\n4 部長会議を延期するかどうか、明日の 15 時に連絡する。\n（２）\n高校生の孫が「来週、E スポーツ大会に出るんだ」と言った。コンピューターゲームの\n大会だと説明され、私は不思議な気がした。なぜ、それがスポーツの大会なのだろうか。\n聞いてみると、 英語の「スポーツ」には、ルールを守りながら勝ったり負けたりす\nることを楽しむものという意味があるそうだ。それで、最近ではコンピューターゲーム\nもスポーツと言うらしい。\n体を動かすことをスポーツだと思っていた私は驚いた。\n24  不思議な気がしたとあるが、どうしてか。\n1 高校生なのに、孫が有名な E スポーツの大会に出ると言っているから。\n2 コンピューターゲームにも大会があると聞いたから。\n3 体を動かさないのに、コンピューターゲームをスポーツと言っているから。\n4 子供のころからずっとなりたいと思い続けていた先生になれたから。\n（３）\n(大学で)\nこのお知らせが掲示板にはってある。\n留学生日本語カラオケ大会\n参加者募集\n5 月 29 日(土)の 13 時から、大教室(A103)で「留学生日本語カラオケ大会」を行います。\n参加したい人は、歌いたい日本語の歌を決めて、5 月 7 日(金)までに留学生課で申し\n込んでください。\nなお、当日の集合時間は 12 時ですが、希望者は午前中に会場の A103 で練習するこ\nとができます 。その場合の集合時間は 10 時になります 。希望者は、参加の申し込み\nのときに、練習も申し込んでください。\n参加をお待ちしています 。\n留学生課\n25  カラオケ大会に参加したい人で、当日、会場で練習したい人はとうしなければ\nならないか。\n1 5 月 7 日までに留学生課で参加と練習の申し込みをして、29 日の10 時に会場へ行く。\n2 5 月 7 日までに留学生課で参加と練習の申し込みをして、29 日の12 時に会場へ行く。\n3 5 月 7 日までに留学生課で参加の申し込みだけして、29 日の10 時に会場へ行く。\n4 5 月 29日の10時までに留学生課で参加と練習の申し込みをして、12時に会場へ行く。\n（４）\nコーヒーを飲むと眠れなくなるから、 寝る前には飲まないという 人が多いだろう。\nしかし最近、昼寝の前にはコーヒーを飲むといいと言われるようになってきた。\n昼寝をすると起きたあとの集中力が上がるが、長く寝るのはよくない。そこで、 飲\nむと目が覚めるというコーヒーの効果を利用するのだ。この効果は、飲んでから約 30\n分後に出るので、昼寝の前に飲むと、30 分ぐらいで自然に目が覚める。\nぜひやってみてほしい。\n26  この文章を書いた人が言いたいことは何か。\n1 コーヒーを飲むと眠れなくなるから、昼寝の前には飲まないほうがいい。\n2 集中力が高くなるから、昼寝のあとで 30 分以内にコーヒーを飲むといい。\n3 昼寝で寝すぎないためには、昼寝をする 30 分前にコーヒーを飲むといい。\n4 昼寝で、30 分ぐらいで自然に起きるためには、昼寝の直前にコーヒーを\n飲むといい。\n問題 5  つぎの(1)と(2)の文章\nぶんしょう\nを読んで、質問に答えなさい。答えは、1・2・3・4\nから最もよいものを一つえらびなさい。\n（１）\n私は、前から自分で野菜を育てたいと思っていました。私のうちには庭もベランダ\nもないので、①諦めていたのですが、先月、友達から部屋の中でホウレンソウを育てて\nいるという 話を聞きました。 室内でできるなら 私もやってみたいと 思い、準備をしま\nした。\n外に似た環境がいいだろうと考え、窓の近くで育て始めたら、4 日で芽が出始めまし\nた。少しずつ大きくなるのがうれしかったです 。ところが、だんだん葉が黄色くなって、\n全部枯れてしまったのです 。太陽の光が足りなかったのかもしれないと思いました。\n②がっかりして、友達に電話をして聞いてみると、 ホウレンソウ は夜になったら、\n光が当たってはいけないということがわかりました。 私の場合は、部屋の電気の光が\nよくなかったようです 。友達は、段ボール箱でホウレンソウ にカバーをしているのだ\nそうです 。\n私も同じようにやってみたら、③ 今度は元気に育ちました。サラダにして食べたら、\nとてもおいしかったです 。\n27  ①諦めていたとあるが、何を諦めていたのか。\n1 自分で野菜を育てること\n2 庭やベランダがある家に住むこと\n3 友達に野菜の育て方を教えてもらうこと\n4 部屋の中でホウレンソウを育てること\n28  ②がっかりしてとあるが、どうしてがっかりしたのか。\n1 ホウレンソウの芽が出なかったから。\n2 ホウレンソウが全部枯れてしまったから。\n3 ホウレンソウについての友達の知識が間違っていたから。\n4 うまく育ったホウレンソウが少なかったから。\n29      ③今度は元気に育ちましたとあるが、どうして元気に育ったのか。\n1 昼、ホウレンソウにもっと光が当たるようにしたから。\n2    昼、ホウレンソウにあまり光が当たらないようにしたから。\n3 夜、ホウレンンソウに光が当たるようにしたから。\n4 夜、ホウレンソウに光が当たらないようにしたから。\n（２）\n日本に留学したばかりのころ、 文房具店 に入って驚いてしまった 。私の国では、\nシャープぺンシルはあまり売られていないが、その店には 100 円の安い物から 5000 円\n以上する高い物まで、すごい 数のシャーペン が並んでいたのだ。 芯も太さが 0.3mm\nから 1.5mm まであって、濃さもいろいろな物が売られていた。\nイギリスで生まれたシャーペンだが、初めは 1.5mm や 1.0mm の芯しかなかった。\nだが、 約 60 年前、 ある日本の会社が、複雑な漢字でも美しく書けるよう、 世界で\n初めて 0.5mm の折れにくい 芯を作ることに チャレンジ して、成功したのだそうだ。\nそれからシャーペンが日本中で使われるようになったらしい。\n私は、来日してからずっとシャーペンを愛用している。鉛筆のように先が丸くならず 、\n小さい字がきれいに書けるからだ。今、使っているのは安い物だが、来年、就職したら、\n少しいい物を買おうと思っている。\n30  驚いてしまったとあるが、文房具店のどんなことに驚いたのか。\n１ シャーペンがあまり売られていなかったこと\n２ たくさんの種類のシャーペンや芯が売られていたこと\n３ 値段の高いシャーペンばかりが売られていたこと\n４ シャーペンの芯だけを売る専門の店だったこと\n31  シャーペンが日本中で使われるようになったのは、いつからか。\n1 日本の会社が、太くて折れにくい芯を作ってから。\n2  日本の会社が、細くて折れにくい芯を作ってから。\n3 日本の会社が、日本でイギリスのシャーペンを売るようになってから。\n4  日本の会社が、世界で初めてシャーペンを作ってから。\n32  「私」が今、シャーペンを使っているのはなぜか。\n1 日本中で使われているから。\n2 小さい字が書きやすいから。\n3 鉛筆より安く買えるから。\n4 高くていい物を買ったから。\n問題 6  つぎの文章\nぶんしょう\nを読んで、質問に答えなさい。答えは、1・2・3・4 から最もよい\nものを一つえらびなさい。\n野球やサッカーなどのプロスポーツ の経営では、試合会場に来てくれる客を増やす\nことが重要だ。また見たいと思うようないい試合が続けば、客は自然に増えるだろう。\nしかし、どんなに選手が努力しても、そのような試合をずっと続けるのは難しい。そこ\nで、①経営者のさまざまな工夫が必要になる。\nその一つに、②試合会場の工夫がある。例えば、ある会場では、試合がある日に、\nいろいろな 飲食店 の食べ物や飲み物を 1000 種類も選べるようにしている。また、\n(注)バーベキユーをしながら試合が見られる観客席を作っているところもある。会場を\n楽しく過ごせる場所にして、また来たいと思ってもらおうという考え方だ。経営という\n点では、試合を見ること以外にも会場に来る目的を作ることが重要なのだ。\nもちろん、試合を楽しむために来る客を増やす工夫もしている。例えば、新しい客\nに来てもらうために、無料のチケットを配るという方法がある。一度会場に来て試合を\n楽しんでくれたら、次はチケットを買って来てくれる可能性が広がるという考えからだ。\nただ、③この考え方には反対意見もある。無料のチケットで来た客は、普段のチケ\nットを高く感じてしまう。すると、結局チケットを買わなくなるので、収入は増えない\nと考える経営者もいる。\nプロスポーツ の経営者 は、客に来てもらうために、いろいろな 工夫をしている。\n手段はさまざまだが、客に満足してもらい、何度も来てもらいたいという気持ちは共通\nしているのだ。\n(注) バーベキュー：肉や野菜を焼いて食べること\n33  ①経営者のさまざまな工夫が必要になるとあるが、なぜか。\n1 選手が、客を増やすことに関心を持っていないから。\n2 選手がどんなにいい試合を続けても、客の数には影響しないから。\n3 選手がいい試合をし続けて客を増やすことは、難しいから。\n4 選手が努力することがなく、客が減っているから。\n34   ②試合会場の工夫とあるが、どのような工夫を例として書いているか。\n1  会場内の飲食店の案内をわかりやすくする工夫\n2  会場で食べ物や飲み物を注文しやすくする工夫\n3  会場で集中して試合を見てもらうための観客席の工夫\n4  会場で試合以外に飲食も楽しんでもらうための工夫\n35  ③この考え方とあるが、どのような考え方か。\n1 無料のチケットを配って客が増えれば、選手たちのやる気が出るだろう。\n2 無料のチケットを配っても、見に来る客はほとんどいないだろう。\n3 無料のチケットで試合を楽しんだ客は、次はチケットを買って来るだろう。\n4 無料のチケットで試合を楽しんだ客は、次もチケットを買わないだろう。\n36  この文章全体のテーマは何か。\n1 プロスポーツの経営者が、試合会場に来る客を増やすためにしていること\n2 プロスポーツの経営者が、選手を強くするためにしていること\n3 プロスポーツの経営者が、試合会場を客が楽しめる場所にするためにしていること\n4 プロスポーツの経営者が、客に安く試合を見てもらうためにしていること\n問題 7  右のページは、外\nがい\n国\nこく\n人\nじん\n向\nむ\nけのお知らせである。これを読んで、下の質\nしつ\n問\nもん\nに答\nこた\nえ\nなさい。答えは、1・2・3・4 から最\nもっと\nもよいものを一つえらびなさい。\n37  次の 4 人は、2 月 1 日から 3 月 31 日までの間に「買い物券チャレンジ」の参加店\nで買い物をした。 「買い物券チャレンジ」に応募できるのは誰か。\n名前 利用した店の数 レシートの数 レシートの合計\n森田さん ２店 ８枚 7,520 円\nヨウさん ４店 ４枚 9,080 円\n東さん ４店 ６枚 6,100 円\nクレアさん ５店 ７枚 4,340 円\n1 森田さん\n2 ヨウさん\n3 東さん\n4 クレアさん\n38  中村さんは、「買い物券チャレンジ」に応募しようと思い、応募用紙の準備を\nした。今日は４月１１日（日）である。応募用紙はどのように出さなければ\nならないか。\n1 今日中に郵送するか、明日の 10 時から 17 時までに商業課に持参する。\n2 今日の 10 時から 16 時まで、または明日の 10 時から 17 時までに商業課に\n持参する。\n3 明日の 10 時から 16 時までに商業課に持参する。\n4 明日の 10 時から 17 時までに商業課に持参する。\n「買い物券チャレンジ」\nみずき市の店で買い物したレシートを集めて応募すると、\n100 名の方に、市内の店で使える 5,000 円分の買い物券が当たります。\n参加·応募方法\n①レシートを集める\nみずき市の生活用品店、食料品店 など、ホームページに書かれている参加店を利用して、\nレシートをもらってください。\n【期間】2 月 1 日(月)〜3 月 31 日(水)\n・応募には、合計 5,000 円分以上のレシートが必要です。\n・レシートの枚数は、5 枚以上必要です。\n・同じ店のレシートが 2 枚以上あってもいいですが、必ず 3 つ以上の店を利用して\nレシートを集めてください。\n②応募する\n応募用紙に氏名・住所・電話番号 を書き、集めたレシートをはってください。 応募用紙は、\nホームページに書かれている店でもらえます。\n<応募方法>\nみずき市商業課に郵送、または持参してください。\n１.郵送の場合\n【期間】2 月 1 日(月)〜4 月 9 日（金）\n・郵送する場合は、応募用紙を封筒に入れ、切手をはって送ってください。\n２.持参の場合\n【期間】2 月 1 日(月)〜4 月 12 日(月)\n・商業課の窓口の開いている時間(平日の 10 時〜16 時、最終日4 月 12 日は 10 時〜17 時)に\n来てください。土日は休みです。\n■買い物券について\n・当たった方には、4 月 20 日ごろに買い物券をお送りします。\n・買い物券の使用期限は 10 月 31 日です。使える店は、ホームページを確認してください。\nみずき市商業課 〒126-0204 みずき市中町 2040-１みずき市役所 3 階\n電話番号 031-924-1976\nホームページ https://www.mizuki-city.jp/shoppingticket",
+          "choices": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ],
+          "correctAnswer": 3,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2024-07-grammar-m3-q22",
+          "section": "grammar",
+          "mondai": 3,
+          "questionNumber": 22,
+          "questionType": "GRAMMAR_PASSAGE",
+          "questionText": "",
+          "passage": "問題 3 つぎの文章を読んで、文章全体の内容を考えて、 19 から 22 の中に入る最も\nよいものを、1・2・3・4 から一つえらびなさい。\n私の友達\nミラー・ジョナサン\n私は近所の小さい喫茶店によく行きます。店長は林さんという 70 歳の男性です。\n林さんは私より 50 歳も年上ですが、私たちは友達です 。\nそのお 店には 半年 ぐらい 前から 行くようになりました。 私が行くと、 林さんは\nいつも １９  。それで、私たちはだんだん仲がよくなりました。\nほかのお客さんがいないとき、私たちはよくおしゃべりをしてます。林さんはコーヒーの\n種類について詳しくて、私はコーヒーのことがよくわかるようになりました。ときどき、\n林さんに日本の生活で困っていることを相談することもあります 。林さんはいつもいい\nアドバイス をくれます。  ２０  私たちは 二人とも映画が好きなので、 映画の話も\nよくします 。この間は、一緒に映画を見に行きました。\n日本で林さん ２１ 友達ができることは 予想していませんでした。こんなに 年上\nの友達ができたのは 初めてでしたが、 年齢の差は重要ではないことがわかりました。\n日本で林さんに ２２ よかったです 。\n1 話しかけていました     2 話しかけてあげました\n3 話しかけてくれました    4 話しかけてもらいました\n1 確かに       2 ところが\n3 例えば       4 それから\n1  にも  2 のような   3 にだけ   4  のほかに\n1 会えて   2  会うから  3 会えるのが  4 会っても\n読解\n問題 4 つぎの(1)から(4)の文章\nぶんしょう\nを読んで、質問に答えなさい。答えは、1・2・3・4\nから最もよいものを一つえらびなさい。\n（１）\nこれは、野村さんが部長会議の出席予定者に書いたメールである。\n部長会議にご出席予定の皆様へ\nあさって 12 日(金)の部長会議について、ご連絡します 。\n天気予報では、明日の夜、台風が東京の近くを通ることが予想されています 。そのため、\nあさってまで交通機関に影響が残る可能性があります 。明日の予報で台風が東京を通る\nことが確実になった場合は、会議を来週に延期することにします 。最終的なご連絡は、\n明日 11 日(木)の 15 時にメールでいたします 。\n以上、よろしくお願いします 。\n第一営業部\n野村マリア\n23  野村さんがこのメールで知らせたいことは何か。\n1 部長会議は、来週に延期する。\n2 部長会議は、明日の 15 時から行う。\n3 部長会議は天気に関係なく、あさって行う。\n4 部長会議を延期するかどうか、明日の 15 時に連絡する。\n（２）\n高校生の孫が「来週、E スポーツ大会に出るんだ」と言った。コンピューターゲームの\n大会だと説明され、私は不思議な気がした。なぜ、それがスポーツの大会なのだろうか。\n聞いてみると、 英語の「スポーツ」には、ルールを守りながら勝ったり負けたりす\nることを楽しむものという意味があるそうだ。それで、最近ではコンピューターゲーム\nもスポーツと言うらしい。\n体を動かすことをスポーツだと思っていた私は驚いた。\n24  不思議な気がしたとあるが、どうしてか。\n1 高校生なのに、孫が有名な E スポーツの大会に出ると言っているから。\n2 コンピューターゲームにも大会があると聞いたから。\n3 体を動かさないのに、コンピューターゲームをスポーツと言っているから。\n4 子供のころからずっとなりたいと思い続けていた先生になれたから。\n（３）\n(大学で)\nこのお知らせが掲示板にはってある。\n留学生日本語カラオケ大会\n参加者募集\n5 月 29 日(土)の 13 時から、大教室(A103)で「留学生日本語カラオケ大会」を行います。\n参加したい人は、歌いたい日本語の歌を決めて、5 月 7 日(金)までに留学生課で申し\n込んでください。\nなお、当日の集合時間は 12 時ですが、希望者は午前中に会場の A103 で練習するこ\nとができます 。その場合の集合時間は 10 時になります 。希望者は、参加の申し込み\nのときに、練習も申し込んでください。\n参加をお待ちしています 。\n留学生課\n25  カラオケ大会に参加したい人で、当日、会場で練習したい人はとうしなければ\nならないか。\n1 5 月 7 日までに留学生課で参加と練習の申し込みをして、29 日の10 時に会場へ行く。\n2 5 月 7 日までに留学生課で参加と練習の申し込みをして、29 日の12 時に会場へ行く。\n3 5 月 7 日までに留学生課で参加の申し込みだけして、29 日の10 時に会場へ行く。\n4 5 月 29日の10時までに留学生課で参加と練習の申し込みをして、12時に会場へ行く。\n（４）\nコーヒーを飲むと眠れなくなるから、 寝る前には飲まないという 人が多いだろう。\nしかし最近、昼寝の前にはコーヒーを飲むといいと言われるようになってきた。\n昼寝をすると起きたあとの集中力が上がるが、長く寝るのはよくない。そこで、 飲\nむと目が覚めるというコーヒーの効果を利用するのだ。この効果は、飲んでから約 30\n分後に出るので、昼寝の前に飲むと、30 分ぐらいで自然に目が覚める。\nぜひやってみてほしい。\n26  この文章を書いた人が言いたいことは何か。\n1 コーヒーを飲むと眠れなくなるから、昼寝の前には飲まないほうがいい。\n2 集中力が高くなるから、昼寝のあとで 30 分以内にコーヒーを飲むといい。\n3 昼寝で寝すぎないためには、昼寝をする 30 分前にコーヒーを飲むといい。\n4 昼寝で、30 分ぐらいで自然に起きるためには、昼寝の直前にコーヒーを\n飲むといい。\n問題 5  つぎの(1)と(2)の文章\nぶんしょう\nを読んで、質問に答えなさい。答えは、1・2・3・4\nから最もよいものを一つえらびなさい。\n（１）\n私は、前から自分で野菜を育てたいと思っていました。私のうちには庭もベランダ\nもないので、①諦めていたのですが、先月、友達から部屋の中でホウレンソウを育てて\nいるという 話を聞きました。 室内でできるなら 私もやってみたいと 思い、準備をしま\nした。\n外に似た環境がいいだろうと考え、窓の近くで育て始めたら、4 日で芽が出始めまし\nた。少しずつ大きくなるのがうれしかったです 。ところが、だんだん葉が黄色くなって、\n全部枯れてしまったのです 。太陽の光が足りなかったのかもしれないと思いました。\n②がっかりして、友達に電話をして聞いてみると、 ホウレンソウ は夜になったら、\n光が当たってはいけないということがわかりました。 私の場合は、部屋の電気の光が\nよくなかったようです 。友達は、段ボール箱でホウレンソウ にカバーをしているのだ\nそうです 。\n私も同じようにやってみたら、③ 今度は元気に育ちました。サラダにして食べたら、\nとてもおいしかったです 。\n27  ①諦めていたとあるが、何を諦めていたのか。\n1 自分で野菜を育てること\n2 庭やベランダがある家に住むこと\n3 友達に野菜の育て方を教えてもらうこと\n4 部屋の中でホウレンソウを育てること\n28  ②がっかりしてとあるが、どうしてがっかりしたのか。\n1 ホウレンソウの芽が出なかったから。\n2 ホウレンソウが全部枯れてしまったから。\n3 ホウレンソウについての友達の知識が間違っていたから。\n4 うまく育ったホウレンソウが少なかったから。\n29      ③今度は元気に育ちましたとあるが、どうして元気に育ったのか。\n1 昼、ホウレンソウにもっと光が当たるようにしたから。\n2    昼、ホウレンソウにあまり光が当たらないようにしたから。\n3 夜、ホウレンンソウに光が当たるようにしたから。\n4 夜、ホウレンソウに光が当たらないようにしたから。\n（２）\n日本に留学したばかりのころ、 文房具店 に入って驚いてしまった 。私の国では、\nシャープぺンシルはあまり売られていないが、その店には 100 円の安い物から 5000 円\n以上する高い物まで、すごい 数のシャーペン が並んでいたのだ。 芯も太さが 0.3mm\nから 1.5mm まであって、濃さもいろいろな物が売られていた。\nイギリスで生まれたシャーペンだが、初めは 1.5mm や 1.0mm の芯しかなかった。\nだが、 約 60 年前、 ある日本の会社が、複雑な漢字でも美しく書けるよう、 世界で\n初めて 0.5mm の折れにくい 芯を作ることに チャレンジ して、成功したのだそうだ。\nそれからシャーペンが日本中で使われるようになったらしい。\n私は、来日してからずっとシャーペンを愛用している。鉛筆のように先が丸くならず 、\n小さい字がきれいに書けるからだ。今、使っているのは安い物だが、来年、就職したら、\n少しいい物を買おうと思っている。\n30  驚いてしまったとあるが、文房具店のどんなことに驚いたのか。\n１ シャーペンがあまり売られていなかったこと\n２ たくさんの種類のシャーペンや芯が売られていたこと\n３ 値段の高いシャーペンばかりが売られていたこと\n４ シャーペンの芯だけを売る専門の店だったこと\n31  シャーペンが日本中で使われるようになったのは、いつからか。\n1 日本の会社が、太くて折れにくい芯を作ってから。\n2  日本の会社が、細くて折れにくい芯を作ってから。\n3 日本の会社が、日本でイギリスのシャーペンを売るようになってから。\n4  日本の会社が、世界で初めてシャーペンを作ってから。\n32  「私」が今、シャーペンを使っているのはなぜか。\n1 日本中で使われているから。\n2 小さい字が書きやすいから。\n3 鉛筆より安く買えるから。\n4 高くていい物を買ったから。\n問題 6  つぎの文章\nぶんしょう\nを読んで、質問に答えなさい。答えは、1・2・3・4 から最もよい\nものを一つえらびなさい。\n野球やサッカーなどのプロスポーツ の経営では、試合会場に来てくれる客を増やす\nことが重要だ。また見たいと思うようないい試合が続けば、客は自然に増えるだろう。\nしかし、どんなに選手が努力しても、そのような試合をずっと続けるのは難しい。そこ\nで、①経営者のさまざまな工夫が必要になる。\nその一つに、②試合会場の工夫がある。例えば、ある会場では、試合がある日に、\nいろいろな 飲食店 の食べ物や飲み物を 1000 種類も選べるようにしている。また、\n(注)バーベキユーをしながら試合が見られる観客席を作っているところもある。会場を\n楽しく過ごせる場所にして、また来たいと思ってもらおうという考え方だ。経営という\n点では、試合を見ること以外にも会場に来る目的を作ることが重要なのだ。\nもちろん、試合を楽しむために来る客を増やす工夫もしている。例えば、新しい客\nに来てもらうために、無料のチケットを配るという方法がある。一度会場に来て試合を\n楽しんでくれたら、次はチケットを買って来てくれる可能性が広がるという考えからだ。\nただ、③この考え方には反対意見もある。無料のチケットで来た客は、普段のチケ\nットを高く感じてしまう。すると、結局チケットを買わなくなるので、収入は増えない\nと考える経営者もいる。\nプロスポーツ の経営者 は、客に来てもらうために、いろいろな 工夫をしている。\n手段はさまざまだが、客に満足してもらい、何度も来てもらいたいという気持ちは共通\nしているのだ。\n(注) バーベキュー：肉や野菜を焼いて食べること\n33  ①経営者のさまざまな工夫が必要になるとあるが、なぜか。\n1 選手が、客を増やすことに関心を持っていないから。\n2 選手がどんなにいい試合を続けても、客の数には影響しないから。\n3 選手がいい試合をし続けて客を増やすことは、難しいから。\n4 選手が努力することがなく、客が減っているから。\n34   ②試合会場の工夫とあるが、どのような工夫を例として書いているか。\n1  会場内の飲食店の案内をわかりやすくする工夫\n2  会場で食べ物や飲み物を注文しやすくする工夫\n3  会場で集中して試合を見てもらうための観客席の工夫\n4  会場で試合以外に飲食も楽しんでもらうための工夫\n35  ③この考え方とあるが、どのような考え方か。\n1 無料のチケットを配って客が増えれば、選手たちのやる気が出るだろう。\n2 無料のチケットを配っても、見に来る客はほとんどいないだろう。\n3 無料のチケットで試合を楽しんだ客は、次はチケットを買って来るだろう。\n4 無料のチケットで試合を楽しんだ客は、次もチケットを買わないだろう。\n36  この文章全体のテーマは何か。\n1 プロスポーツの経営者が、試合会場に来る客を増やすためにしていること\n2 プロスポーツの経営者が、選手を強くするためにしていること\n3 プロスポーツの経営者が、試合会場を客が楽しめる場所にするためにしていること\n4 プロスポーツの経営者が、客に安く試合を見てもらうためにしていること\n問題 7  右のページは、外\nがい\n国\nこく\n人\nじん\n向\nむ\nけのお知らせである。これを読んで、下の質\nしつ\n問\nもん\nに答\nこた\nえ\nなさい。答えは、1・2・3・4 から最\nもっと\nもよいものを一つえらびなさい。\n37  次の 4 人は、2 月 1 日から 3 月 31 日までの間に「買い物券チャレンジ」の参加店\nで買い物をした。 「買い物券チャレンジ」に応募できるのは誰か。\n名前 利用した店の数 レシートの数 レシートの合計\n森田さん ２店 ８枚 7,520 円\nヨウさん ４店 ４枚 9,080 円\n東さん ４店 ６枚 6,100 円\nクレアさん ５店 ７枚 4,340 円\n1 森田さん\n2 ヨウさん\n3 東さん\n4 クレアさん\n38  中村さんは、「買い物券チャレンジ」に応募しようと思い、応募用紙の準備を\nした。今日は４月１１日（日）である。応募用紙はどのように出さなければ\nならないか。\n1 今日中に郵送するか、明日の 10 時から 17 時までに商業課に持参する。\n2 今日の 10 時から 16 時まで、または明日の 10 時から 17 時までに商業課に\n持参する。\n3 明日の 10 時から 16 時までに商業課に持参する。\n4 明日の 10 時から 17 時までに商業課に持参する。\n「買い物券チャレンジ」\nみずき市の店で買い物したレシートを集めて応募すると、\n100 名の方に、市内の店で使える 5,000 円分の買い物券が当たります。\n参加·応募方法\n①レシートを集める\nみずき市の生活用品店、食料品店 など、ホームページに書かれている参加店を利用して、\nレシートをもらってください。\n【期間】2 月 1 日(月)〜3 月 31 日(水)\n・応募には、合計 5,000 円分以上のレシートが必要です。\n・レシートの枚数は、5 枚以上必要です。\n・同じ店のレシートが 2 枚以上あってもいいですが、必ず 3 つ以上の店を利用して\nレシートを集めてください。\n②応募する\n応募用紙に氏名・住所・電話番号 を書き、集めたレシートをはってください。 応募用紙は、\nホームページに書かれている店でもらえます。\n<応募方法>\nみずき市商業課に郵送、または持参してください。\n１.郵送の場合\n【期間】2 月 1 日(月)〜4 月 9 日（金）\n・郵送する場合は、応募用紙を封筒に入れ、切手をはって送ってください。\n２.持参の場合\n【期間】2 月 1 日(月)〜4 月 12 日(月)\n・商業課の窓口の開いている時間(平日の 10 時〜16 時、最終日4 月 12 日は 10 時〜17 時)に\n来てください。土日は休みです。\n■買い物券について\n・当たった方には、4 月 20 日ごろに買い物券をお送りします。\n・買い物券の使用期限は 10 月 31 日です。使える店は、ホームページを確認してください。\nみずき市商業課 〒126-0204 みずき市中町 2040-１みずき市役所 3 階\n電話番号 031-924-1976\nホームページ https://www.mizuki-city.jp/shoppingticket",
+          "choices": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ],
+          "correctAnswer": 4,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2024-07-grammar-m4-q23",
+          "section": "grammar",
+          "mondai": 4,
+          "questionNumber": 23,
+          "questionType": "READING_SHORT",
+          "questionText": "",
+          "passage": "問題 3 つぎの文章を読んで、文章全体の内容を考えて、 19 から 22 の中に入る最も\nよいものを、1・2・3・4 から一つえらびなさい。\n私の友達\nミラー・ジョナサン\n私は近所の小さい喫茶店によく行きます。店長は林さんという 70 歳の男性です。\n林さんは私より 50 歳も年上ですが、私たちは友達です 。\nそのお 店には 半年 ぐらい 前から 行くようになりました。 私が行くと、 林さんは\nいつも １９  。それで、私たちはだんだん仲がよくなりました。\nほかのお客さんがいないとき、私たちはよくおしゃべりをしてます。林さんはコーヒーの\n種類について詳しくて、私はコーヒーのことがよくわかるようになりました。ときどき、\n林さんに日本の生活で困っていることを相談することもあります 。林さんはいつもいい\nアドバイス をくれます。  ２０  私たちは 二人とも映画が好きなので、 映画の話も\nよくします 。この間は、一緒に映画を見に行きました。\n日本で林さん ２１ 友達ができることは 予想していませんでした。こんなに 年上\nの友達ができたのは 初めてでしたが、 年齢の差は重要ではないことがわかりました。\n日本で林さんに ２２ よかったです 。\n1 話しかけていました     2 話しかけてあげました\n3 話しかけてくれました    4 話しかけてもらいました\n1 確かに       2 ところが\n3 例えば       4 それから\n1  にも  2 のような   3 にだけ   4  のほかに\n1 会えて   2  会うから  3 会えるのが  4 会っても\n読解\n問題 4 つぎの(1)から(4)の文章\nぶんしょう\nを読んで、質問に答えなさい。答えは、1・2・3・4\nから最もよいものを一つえらびなさい。\n（１）\nこれは、野村さんが部長会議の出席予定者に書いたメールである。\n部長会議にご出席予定の皆様へ\nあさって 12 日(金)の部長会議について、ご連絡します 。\n天気予報では、明日の夜、台風が東京の近くを通ることが予想されています 。そのため、\nあさってまで交通機関に影響が残る可能性があります 。明日の予報で台風が東京を通る\nことが確実になった場合は、会議を来週に延期することにします 。最終的なご連絡は、\n明日 11 日(木)の 15 時にメールでいたします 。\n以上、よろしくお願いします 。\n第一営業部\n野村マリア\n23  野村さんがこのメールで知らせたいことは何か。\n1 部長会議は、来週に延期する。\n2 部長会議は、明日の 15 時から行う。\n3 部長会議は天気に関係なく、あさって行う。\n4 部長会議を延期するかどうか、明日の 15 時に連絡する。\n（２）\n高校生の孫が「来週、E スポーツ大会に出るんだ」と言った。コンピューターゲームの\n大会だと説明され、私は不思議な気がした。なぜ、それがスポーツの大会なのだろうか。\n聞いてみると、 英語の「スポーツ」には、ルールを守りながら勝ったり負けたりす\nることを楽しむものという意味があるそうだ。それで、最近ではコンピューターゲーム\nもスポーツと言うらしい。\n体を動かすことをスポーツだと思っていた私は驚いた。\n24  不思議な気がしたとあるが、どうしてか。\n1 高校生なのに、孫が有名な E スポーツの大会に出ると言っているから。\n2 コンピューターゲームにも大会があると聞いたから。\n3 体を動かさないのに、コンピューターゲームをスポーツと言っているから。\n4 子供のころからずっとなりたいと思い続けていた先生になれたから。\n（３）\n(大学で)\nこのお知らせが掲示板にはってある。\n留学生日本語カラオケ大会\n参加者募集\n5 月 29 日(土)の 13 時から、大教室(A103)で「留学生日本語カラオケ大会」を行います。\n参加したい人は、歌いたい日本語の歌を決めて、5 月 7 日(金)までに留学生課で申し\n込んでください。\nなお、当日の集合時間は 12 時ですが、希望者は午前中に会場の A103 で練習するこ\nとができます 。その場合の集合時間は 10 時になります 。希望者は、参加の申し込み\nのときに、練習も申し込んでください。\n参加をお待ちしています 。\n留学生課\n25  カラオケ大会に参加したい人で、当日、会場で練習したい人はとうしなければ\nならないか。\n1 5 月 7 日までに留学生課で参加と練習の申し込みをして、29 日の10 時に会場へ行く。\n2 5 月 7 日までに留学生課で参加と練習の申し込みをして、29 日の12 時に会場へ行く。\n3 5 月 7 日までに留学生課で参加の申し込みだけして、29 日の10 時に会場へ行く。\n4 5 月 29日の10時までに留学生課で参加と練習の申し込みをして、12時に会場へ行く。\n（４）\nコーヒーを飲むと眠れなくなるから、 寝る前には飲まないという 人が多いだろう。\nしかし最近、昼寝の前にはコーヒーを飲むといいと言われるようになってきた。\n昼寝をすると起きたあとの集中力が上がるが、長く寝るのはよくない。そこで、 飲\nむと目が覚めるというコーヒーの効果を利用するのだ。この効果は、飲んでから約 30\n分後に出るので、昼寝の前に飲むと、30 分ぐらいで自然に目が覚める。\nぜひやってみてほしい。\n26  この文章を書いた人が言いたいことは何か。\n1 コーヒーを飲むと眠れなくなるから、昼寝の前には飲まないほうがいい。\n2 集中力が高くなるから、昼寝のあとで 30 分以内にコーヒーを飲むといい。\n3 昼寝で寝すぎないためには、昼寝をする 30 分前にコーヒーを飲むといい。\n4 昼寝で、30 分ぐらいで自然に起きるためには、昼寝の直前にコーヒーを\n飲むといい。\n問題 5  つぎの(1)と(2)の文章\nぶんしょう\nを読んで、質問に答えなさい。答えは、1・2・3・4\nから最もよいものを一つえらびなさい。\n（１）\n私は、前から自分で野菜を育てたいと思っていました。私のうちには庭もベランダ\nもないので、①諦めていたのですが、先月、友達から部屋の中でホウレンソウを育てて\nいるという 話を聞きました。 室内でできるなら 私もやってみたいと 思い、準備をしま\nした。\n外に似た環境がいいだろうと考え、窓の近くで育て始めたら、4 日で芽が出始めまし\nた。少しずつ大きくなるのがうれしかったです 。ところが、だんだん葉が黄色くなって、\n全部枯れてしまったのです 。太陽の光が足りなかったのかもしれないと思いました。\n②がっかりして、友達に電話をして聞いてみると、 ホウレンソウ は夜になったら、\n光が当たってはいけないということがわかりました。 私の場合は、部屋の電気の光が\nよくなかったようです 。友達は、段ボール箱でホウレンソウ にカバーをしているのだ\nそうです 。\n私も同じようにやってみたら、③ 今度は元気に育ちました。サラダにして食べたら、\nとてもおいしかったです 。\n27  ①諦めていたとあるが、何を諦めていたのか。\n1 自分で野菜を育てること\n2 庭やベランダがある家に住むこと\n3 友達に野菜の育て方を教えてもらうこと\n4 部屋の中でホウレンソウを育てること\n28  ②がっかりしてとあるが、どうしてがっかりしたのか。\n1 ホウレンソウの芽が出なかったから。\n2 ホウレンソウが全部枯れてしまったから。\n3 ホウレンソウについての友達の知識が間違っていたから。\n4 うまく育ったホウレンソウが少なかったから。\n29      ③今度は元気に育ちましたとあるが、どうして元気に育ったのか。\n1 昼、ホウレンソウにもっと光が当たるようにしたから。\n2    昼、ホウレンソウにあまり光が当たらないようにしたから。\n3 夜、ホウレンンソウに光が当たるようにしたから。\n4 夜、ホウレンソウに光が当たらないようにしたから。\n（２）\n日本に留学したばかりのころ、 文房具店 に入って驚いてしまった 。私の国では、\nシャープぺンシルはあまり売られていないが、その店には 100 円の安い物から 5000 円\n以上する高い物まで、すごい 数のシャーペン が並んでいたのだ。 芯も太さが 0.3mm\nから 1.5mm まであって、濃さもいろいろな物が売られていた。\nイギリスで生まれたシャーペンだが、初めは 1.5mm や 1.0mm の芯しかなかった。\nだが、 約 60 年前、 ある日本の会社が、複雑な漢字でも美しく書けるよう、 世界で\n初めて 0.5mm の折れにくい 芯を作ることに チャレンジ して、成功したのだそうだ。\nそれからシャーペンが日本中で使われるようになったらしい。\n私は、来日してからずっとシャーペンを愛用している。鉛筆のように先が丸くならず 、\n小さい字がきれいに書けるからだ。今、使っているのは安い物だが、来年、就職したら、\n少しいい物を買おうと思っている。\n30  驚いてしまったとあるが、文房具店のどんなことに驚いたのか。\n１ シャーペンがあまり売られていなかったこと\n２ たくさんの種類のシャーペンや芯が売られていたこと\n３ 値段の高いシャーペンばかりが売られていたこと\n４ シャーペンの芯だけを売る専門の店だったこと\n31  シャーペンが日本中で使われるようになったのは、いつからか。\n1 日本の会社が、太くて折れにくい芯を作ってから。\n2  日本の会社が、細くて折れにくい芯を作ってから。\n3 日本の会社が、日本でイギリスのシャーペンを売るようになってから。\n4  日本の会社が、世界で初めてシャーペンを作ってから。\n32  「私」が今、シャーペンを使っているのはなぜか。\n1 日本中で使われているから。\n2 小さい字が書きやすいから。\n3 鉛筆より安く買えるから。\n4 高くていい物を買ったから。\n問題 6  つぎの文章\nぶんしょう\nを読んで、質問に答えなさい。答えは、1・2・3・4 から最もよい\nものを一つえらびなさい。\n野球やサッカーなどのプロスポーツ の経営では、試合会場に来てくれる客を増やす\nことが重要だ。また見たいと思うようないい試合が続けば、客は自然に増えるだろう。\nしかし、どんなに選手が努力しても、そのような試合をずっと続けるのは難しい。そこ\nで、①経営者のさまざまな工夫が必要になる。\nその一つに、②試合会場の工夫がある。例えば、ある会場では、試合がある日に、\nいろいろな 飲食店 の食べ物や飲み物を 1000 種類も選べるようにしている。また、\n(注)バーベキユーをしながら試合が見られる観客席を作っているところもある。会場を\n楽しく過ごせる場所にして、また来たいと思ってもらおうという考え方だ。経営という\n点では、試合を見ること以外にも会場に来る目的を作ることが重要なのだ。\nもちろん、試合を楽しむために来る客を増やす工夫もしている。例えば、新しい客\nに来てもらうために、無料のチケットを配るという方法がある。一度会場に来て試合を\n楽しんでくれたら、次はチケットを買って来てくれる可能性が広がるという考えからだ。\nただ、③この考え方には反対意見もある。無料のチケットで来た客は、普段のチケ\nットを高く感じてしまう。すると、結局チケットを買わなくなるので、収入は増えない\nと考える経営者もいる。\nプロスポーツ の経営者 は、客に来てもらうために、いろいろな 工夫をしている。\n手段はさまざまだが、客に満足してもらい、何度も来てもらいたいという気持ちは共通\nしているのだ。\n(注) バーベキュー：肉や野菜を焼いて食べること\n33  ①経営者のさまざまな工夫が必要になるとあるが、なぜか。\n1 選手が、客を増やすことに関心を持っていないから。\n2 選手がどんなにいい試合を続けても、客の数には影響しないから。\n3 選手がいい試合をし続けて客を増やすことは、難しいから。\n4 選手が努力することがなく、客が減っているから。\n34   ②試合会場の工夫とあるが、どのような工夫を例として書いているか。\n1  会場内の飲食店の案内をわかりやすくする工夫\n2  会場で食べ物や飲み物を注文しやすくする工夫\n3  会場で集中して試合を見てもらうための観客席の工夫\n4  会場で試合以外に飲食も楽しんでもらうための工夫\n35  ③この考え方とあるが、どのような考え方か。\n1 無料のチケットを配って客が増えれば、選手たちのやる気が出るだろう。\n2 無料のチケットを配っても、見に来る客はほとんどいないだろう。\n3 無料のチケットで試合を楽しんだ客は、次はチケットを買って来るだろう。\n4 無料のチケットで試合を楽しんだ客は、次もチケットを買わないだろう。\n36  この文章全体のテーマは何か。\n1 プロスポーツの経営者が、試合会場に来る客を増やすためにしていること\n2 プロスポーツの経営者が、選手を強くするためにしていること\n3 プロスポーツの経営者が、試合会場を客が楽しめる場所にするためにしていること\n4 プロスポーツの経営者が、客に安く試合を見てもらうためにしていること\n問題 7  右のページは、外\nがい\n国\nこく\n人\nじん\n向\nむ\nけのお知らせである。これを読んで、下の質\nしつ\n問\nもん\nに答\nこた\nえ\nなさい。答えは、1・2・3・4 から最\nもっと\nもよいものを一つえらびなさい。\n37  次の 4 人は、2 月 1 日から 3 月 31 日までの間に「買い物券チャレンジ」の参加店\nで買い物をした。 「買い物券チャレンジ」に応募できるのは誰か。\n名前 利用した店の数 レシートの数 レシートの合計\n森田さん ２店 ８枚 7,520 円\nヨウさん ４店 ４枚 9,080 円\n東さん ４店 ６枚 6,100 円\nクレアさん ５店 ７枚 4,340 円\n1 森田さん\n2 ヨウさん\n3 東さん\n4 クレアさん\n38  中村さんは、「買い物券チャレンジ」に応募しようと思い、応募用紙の準備を\nした。今日は４月１１日（日）である。応募用紙はどのように出さなければ\nならないか。\n1 今日中に郵送するか、明日の 10 時から 17 時までに商業課に持参する。\n2 今日の 10 時から 16 時まで、または明日の 10 時から 17 時までに商業課に\n持参する。\n3 明日の 10 時から 16 時までに商業課に持参する。\n4 明日の 10 時から 17 時までに商業課に持参する。\n「買い物券チャレンジ」\nみずき市の店で買い物したレシートを集めて応募すると、\n100 名の方に、市内の店で使える 5,000 円分の買い物券が当たります。\n参加·応募方法\n①レシートを集める\nみずき市の生活用品店、食料品店 など、ホームページに書かれている参加店を利用して、\nレシートをもらってください。\n【期間】2 月 1 日(月)〜3 月 31 日(水)\n・応募には、合計 5,000 円分以上のレシートが必要です。\n・レシートの枚数は、5 枚以上必要です。\n・同じ店のレシートが 2 枚以上あってもいいですが、必ず 3 つ以上の店を利用して\nレシートを集めてください。\n②応募する\n応募用紙に氏名・住所・電話番号 を書き、集めたレシートをはってください。 応募用紙は、\nホームページに書かれている店でもらえます。\n<応募方法>\nみずき市商業課に郵送、または持参してください。\n１.郵送の場合\n【期間】2 月 1 日(月)〜4 月 9 日（金）\n・郵送する場合は、応募用紙を封筒に入れ、切手をはって送ってください。\n２.持参の場合\n【期間】2 月 1 日(月)〜4 月 12 日(月)\n・商業課の窓口の開いている時間(平日の 10 時〜16 時、最終日4 月 12 日は 10 時〜17 時)に\n来てください。土日は休みです。\n■買い物券について\n・当たった方には、4 月 20 日ごろに買い物券をお送りします。\n・買い物券の使用期限は 10 月 31 日です。使える店は、ホームページを確認してください。\nみずき市商業課 〒126-0204 みずき市中町 2040-１みずき市役所 3 階\n電話番号 031-924-1976\nホームページ https://www.mizuki-city.jp/shoppingticket",
+          "choices": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ],
+          "correctAnswer": 4,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2024-07-grammar-m4-q24",
+          "section": "grammar",
+          "mondai": 4,
+          "questionNumber": 24,
+          "questionType": "READING_SHORT",
+          "questionText": "",
+          "passage": "問題 3 つぎの文章を読んで、文章全体の内容を考えて、 19 から 22 の中に入る最も\nよいものを、1・2・3・4 から一つえらびなさい。\n私の友達\nミラー・ジョナサン\n私は近所の小さい喫茶店によく行きます。店長は林さんという 70 歳の男性です。\n林さんは私より 50 歳も年上ですが、私たちは友達です 。\nそのお 店には 半年 ぐらい 前から 行くようになりました。 私が行くと、 林さんは\nいつも １９  。それで、私たちはだんだん仲がよくなりました。\nほかのお客さんがいないとき、私たちはよくおしゃべりをしてます。林さんはコーヒーの\n種類について詳しくて、私はコーヒーのことがよくわかるようになりました。ときどき、\n林さんに日本の生活で困っていることを相談することもあります 。林さんはいつもいい\nアドバイス をくれます。  ２０  私たちは 二人とも映画が好きなので、 映画の話も\nよくします 。この間は、一緒に映画を見に行きました。\n日本で林さん ２１ 友達ができることは 予想していませんでした。こんなに 年上\nの友達ができたのは 初めてでしたが、 年齢の差は重要ではないことがわかりました。\n日本で林さんに ２２ よかったです 。\n1 話しかけていました     2 話しかけてあげました\n3 話しかけてくれました    4 話しかけてもらいました\n1 確かに       2 ところが\n3 例えば       4 それから\n1  にも  2 のような   3 にだけ   4  のほかに\n1 会えて   2  会うから  3 会えるのが  4 会っても\n読解\n問題 4 つぎの(1)から(4)の文章\nぶんしょう\nを読んで、質問に答えなさい。答えは、1・2・3・4\nから最もよいものを一つえらびなさい。\n（１）\nこれは、野村さんが部長会議の出席予定者に書いたメールである。\n部長会議にご出席予定の皆様へ\nあさって 12 日(金)の部長会議について、ご連絡します 。\n天気予報では、明日の夜、台風が東京の近くを通ることが予想されています 。そのため、\nあさってまで交通機関に影響が残る可能性があります 。明日の予報で台風が東京を通る\nことが確実になった場合は、会議を来週に延期することにします 。最終的なご連絡は、\n明日 11 日(木)の 15 時にメールでいたします 。\n以上、よろしくお願いします 。\n第一営業部\n野村マリア\n23  野村さんがこのメールで知らせたいことは何か。\n1 部長会議は、来週に延期する。\n2 部長会議は、明日の 15 時から行う。\n3 部長会議は天気に関係なく、あさって行う。\n4 部長会議を延期するかどうか、明日の 15 時に連絡する。\n（２）\n高校生の孫が「来週、E スポーツ大会に出るんだ」と言った。コンピューターゲームの\n大会だと説明され、私は不思議な気がした。なぜ、それがスポーツの大会なのだろうか。\n聞いてみると、 英語の「スポーツ」には、ルールを守りながら勝ったり負けたりす\nることを楽しむものという意味があるそうだ。それで、最近ではコンピューターゲーム\nもスポーツと言うらしい。\n体を動かすことをスポーツだと思っていた私は驚いた。\n24  不思議な気がしたとあるが、どうしてか。\n1 高校生なのに、孫が有名な E スポーツの大会に出ると言っているから。\n2 コンピューターゲームにも大会があると聞いたから。\n3 体を動かさないのに、コンピューターゲームをスポーツと言っているから。\n4 子供のころからずっとなりたいと思い続けていた先生になれたから。\n（３）\n(大学で)\nこのお知らせが掲示板にはってある。\n留学生日本語カラオケ大会\n参加者募集\n5 月 29 日(土)の 13 時から、大教室(A103)で「留学生日本語カラオケ大会」を行います。\n参加したい人は、歌いたい日本語の歌を決めて、5 月 7 日(金)までに留学生課で申し\n込んでください。\nなお、当日の集合時間は 12 時ですが、希望者は午前中に会場の A103 で練習するこ\nとができます 。その場合の集合時間は 10 時になります 。希望者は、参加の申し込み\nのときに、練習も申し込んでください。\n参加をお待ちしています 。\n留学生課\n25  カラオケ大会に参加したい人で、当日、会場で練習したい人はとうしなければ\nならないか。\n1 5 月 7 日までに留学生課で参加と練習の申し込みをして、29 日の10 時に会場へ行く。\n2 5 月 7 日までに留学生課で参加と練習の申し込みをして、29 日の12 時に会場へ行く。\n3 5 月 7 日までに留学生課で参加の申し込みだけして、29 日の10 時に会場へ行く。\n4 5 月 29日の10時までに留学生課で参加と練習の申し込みをして、12時に会場へ行く。\n（４）\nコーヒーを飲むと眠れなくなるから、 寝る前には飲まないという 人が多いだろう。\nしかし最近、昼寝の前にはコーヒーを飲むといいと言われるようになってきた。\n昼寝をすると起きたあとの集中力が上がるが、長く寝るのはよくない。そこで、 飲\nむと目が覚めるというコーヒーの効果を利用するのだ。この効果は、飲んでから約 30\n分後に出るので、昼寝の前に飲むと、30 分ぐらいで自然に目が覚める。\nぜひやってみてほしい。\n26  この文章を書いた人が言いたいことは何か。\n1 コーヒーを飲むと眠れなくなるから、昼寝の前には飲まないほうがいい。\n2 集中力が高くなるから、昼寝のあとで 30 分以内にコーヒーを飲むといい。\n3 昼寝で寝すぎないためには、昼寝をする 30 分前にコーヒーを飲むといい。\n4 昼寝で、30 分ぐらいで自然に起きるためには、昼寝の直前にコーヒーを\n飲むといい。\n問題 5  つぎの(1)と(2)の文章\nぶんしょう\nを読んで、質問に答えなさい。答えは、1・2・3・4\nから最もよいものを一つえらびなさい。\n（１）\n私は、前から自分で野菜を育てたいと思っていました。私のうちには庭もベランダ\nもないので、①諦めていたのですが、先月、友達から部屋の中でホウレンソウを育てて\nいるという 話を聞きました。 室内でできるなら 私もやってみたいと 思い、準備をしま\nした。\n外に似た環境がいいだろうと考え、窓の近くで育て始めたら、4 日で芽が出始めまし\nた。少しずつ大きくなるのがうれしかったです 。ところが、だんだん葉が黄色くなって、\n全部枯れてしまったのです 。太陽の光が足りなかったのかもしれないと思いました。\n②がっかりして、友達に電話をして聞いてみると、 ホウレンソウ は夜になったら、\n光が当たってはいけないということがわかりました。 私の場合は、部屋の電気の光が\nよくなかったようです 。友達は、段ボール箱でホウレンソウ にカバーをしているのだ\nそうです 。\n私も同じようにやってみたら、③ 今度は元気に育ちました。サラダにして食べたら、\nとてもおいしかったです 。\n27  ①諦めていたとあるが、何を諦めていたのか。\n1 自分で野菜を育てること\n2 庭やベランダがある家に住むこと\n3 友達に野菜の育て方を教えてもらうこと\n4 部屋の中でホウレンソウを育てること\n28  ②がっかりしてとあるが、どうしてがっかりしたのか。\n1 ホウレンソウの芽が出なかったから。\n2 ホウレンソウが全部枯れてしまったから。\n3 ホウレンソウについての友達の知識が間違っていたから。\n4 うまく育ったホウレンソウが少なかったから。\n29      ③今度は元気に育ちましたとあるが、どうして元気に育ったのか。\n1 昼、ホウレンソウにもっと光が当たるようにしたから。\n2    昼、ホウレンソウにあまり光が当たらないようにしたから。\n3 夜、ホウレンンソウに光が当たるようにしたから。\n4 夜、ホウレンソウに光が当たらないようにしたから。\n（２）\n日本に留学したばかりのころ、 文房具店 に入って驚いてしまった 。私の国では、\nシャープぺンシルはあまり売られていないが、その店には 100 円の安い物から 5000 円\n以上する高い物まで、すごい 数のシャーペン が並んでいたのだ。 芯も太さが 0.3mm\nから 1.5mm まであって、濃さもいろいろな物が売られていた。\nイギリスで生まれたシャーペンだが、初めは 1.5mm や 1.0mm の芯しかなかった。\nだが、 約 60 年前、 ある日本の会社が、複雑な漢字でも美しく書けるよう、 世界で\n初めて 0.5mm の折れにくい 芯を作ることに チャレンジ して、成功したのだそうだ。\nそれからシャーペンが日本中で使われるようになったらしい。\n私は、来日してからずっとシャーペンを愛用している。鉛筆のように先が丸くならず 、\n小さい字がきれいに書けるからだ。今、使っているのは安い物だが、来年、就職したら、\n少しいい物を買おうと思っている。\n30  驚いてしまったとあるが、文房具店のどんなことに驚いたのか。\n１ シャーペンがあまり売られていなかったこと\n２ たくさんの種類のシャーペンや芯が売られていたこと\n３ 値段の高いシャーペンばかりが売られていたこと\n４ シャーペンの芯だけを売る専門の店だったこと\n31  シャーペンが日本中で使われるようになったのは、いつからか。\n1 日本の会社が、太くて折れにくい芯を作ってから。\n2  日本の会社が、細くて折れにくい芯を作ってから。\n3 日本の会社が、日本でイギリスのシャーペンを売るようになってから。\n4  日本の会社が、世界で初めてシャーペンを作ってから。\n32  「私」が今、シャーペンを使っているのはなぜか。\n1 日本中で使われているから。\n2 小さい字が書きやすいから。\n3 鉛筆より安く買えるから。\n4 高くていい物を買ったから。\n問題 6  つぎの文章\nぶんしょう\nを読んで、質問に答えなさい。答えは、1・2・3・4 から最もよい\nものを一つえらびなさい。\n野球やサッカーなどのプロスポーツ の経営では、試合会場に来てくれる客を増やす\nことが重要だ。また見たいと思うようないい試合が続けば、客は自然に増えるだろう。\nしかし、どんなに選手が努力しても、そのような試合をずっと続けるのは難しい。そこ\nで、①経営者のさまざまな工夫が必要になる。\nその一つに、②試合会場の工夫がある。例えば、ある会場では、試合がある日に、\nいろいろな 飲食店 の食べ物や飲み物を 1000 種類も選べるようにしている。また、\n(注)バーベキユーをしながら試合が見られる観客席を作っているところもある。会場を\n楽しく過ごせる場所にして、また来たいと思ってもらおうという考え方だ。経営という\n点では、試合を見ること以外にも会場に来る目的を作ることが重要なのだ。\nもちろん、試合を楽しむために来る客を増やす工夫もしている。例えば、新しい客\nに来てもらうために、無料のチケットを配るという方法がある。一度会場に来て試合を\n楽しんでくれたら、次はチケットを買って来てくれる可能性が広がるという考えからだ。\nただ、③この考え方には反対意見もある。無料のチケットで来た客は、普段のチケ\nットを高く感じてしまう。すると、結局チケットを買わなくなるので、収入は増えない\nと考える経営者もいる。\nプロスポーツ の経営者 は、客に来てもらうために、いろいろな 工夫をしている。\n手段はさまざまだが、客に満足してもらい、何度も来てもらいたいという気持ちは共通\nしているのだ。\n(注) バーベキュー：肉や野菜を焼いて食べること\n33  ①経営者のさまざまな工夫が必要になるとあるが、なぜか。\n1 選手が、客を増やすことに関心を持っていないから。\n2 選手がどんなにいい試合を続けても、客の数には影響しないから。\n3 選手がいい試合をし続けて客を増やすことは、難しいから。\n4 選手が努力することがなく、客が減っているから。\n34   ②試合会場の工夫とあるが、どのような工夫を例として書いているか。\n1  会場内の飲食店の案内をわかりやすくする工夫\n2  会場で食べ物や飲み物を注文しやすくする工夫\n3  会場で集中して試合を見てもらうための観客席の工夫\n4  会場で試合以外に飲食も楽しんでもらうための工夫\n35  ③この考え方とあるが、どのような考え方か。\n1 無料のチケットを配って客が増えれば、選手たちのやる気が出るだろう。\n2 無料のチケットを配っても、見に来る客はほとんどいないだろう。\n3 無料のチケットで試合を楽しんだ客は、次はチケットを買って来るだろう。\n4 無料のチケットで試合を楽しんだ客は、次もチケットを買わないだろう。\n36  この文章全体のテーマは何か。\n1 プロスポーツの経営者が、試合会場に来る客を増やすためにしていること\n2 プロスポーツの経営者が、選手を強くするためにしていること\n3 プロスポーツの経営者が、試合会場を客が楽しめる場所にするためにしていること\n4 プロスポーツの経営者が、客に安く試合を見てもらうためにしていること\n問題 7  右のページは、外\nがい\n国\nこく\n人\nじん\n向\nむ\nけのお知らせである。これを読んで、下の質\nしつ\n問\nもん\nに答\nこた\nえ\nなさい。答えは、1・2・3・4 から最\nもっと\nもよいものを一つえらびなさい。\n37  次の 4 人は、2 月 1 日から 3 月 31 日までの間に「買い物券チャレンジ」の参加店\nで買い物をした。 「買い物券チャレンジ」に応募できるのは誰か。\n名前 利用した店の数 レシートの数 レシートの合計\n森田さん ２店 ８枚 7,520 円\nヨウさん ４店 ４枚 9,080 円\n東さん ４店 ６枚 6,100 円\nクレアさん ５店 ７枚 4,340 円\n1 森田さん\n2 ヨウさん\n3 東さん\n4 クレアさん\n38  中村さんは、「買い物券チャレンジ」に応募しようと思い、応募用紙の準備を\nした。今日は４月１１日（日）である。応募用紙はどのように出さなければ\nならないか。\n1 今日中に郵送するか、明日の 10 時から 17 時までに商業課に持参する。\n2 今日の 10 時から 16 時まで、または明日の 10 時から 17 時までに商業課に\n持参する。\n3 明日の 10 時から 16 時までに商業課に持参する。\n4 明日の 10 時から 17 時までに商業課に持参する。\n「買い物券チャレンジ」\nみずき市の店で買い物したレシートを集めて応募すると、\n100 名の方に、市内の店で使える 5,000 円分の買い物券が当たります。\n参加·応募方法\n①レシートを集める\nみずき市の生活用品店、食料品店 など、ホームページに書かれている参加店を利用して、\nレシートをもらってください。\n【期間】2 月 1 日(月)〜3 月 31 日(水)\n・応募には、合計 5,000 円分以上のレシートが必要です。\n・レシートの枚数は、5 枚以上必要です。\n・同じ店のレシートが 2 枚以上あってもいいですが、必ず 3 つ以上の店を利用して\nレシートを集めてください。\n②応募する\n応募用紙に氏名・住所・電話番号 を書き、集めたレシートをはってください。 応募用紙は、\nホームページに書かれている店でもらえます。\n<応募方法>\nみずき市商業課に郵送、または持参してください。\n１.郵送の場合\n【期間】2 月 1 日(月)〜4 月 9 日（金）\n・郵送する場合は、応募用紙を封筒に入れ、切手をはって送ってください。\n２.持参の場合\n【期間】2 月 1 日(月)〜4 月 12 日(月)\n・商業課の窓口の開いている時間(平日の 10 時〜16 時、最終日4 月 12 日は 10 時〜17 時)に\n来てください。土日は休みです。\n■買い物券について\n・当たった方には、4 月 20 日ごろに買い物券をお送りします。\n・買い物券の使用期限は 10 月 31 日です。使える店は、ホームページを確認してください。\nみずき市商業課 〒126-0204 みずき市中町 2040-１みずき市役所 3 階\n電話番号 031-924-1976\nホームページ https://www.mizuki-city.jp/shoppingticket",
+          "choices": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ],
+          "correctAnswer": 3,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2024-07-grammar-m4-q25",
+          "section": "grammar",
+          "mondai": 4,
+          "questionNumber": 25,
+          "questionType": "READING_SHORT",
+          "questionText": "",
+          "passage": "問題 3 つぎの文章を読んで、文章全体の内容を考えて、 19 から 22 の中に入る最も\nよいものを、1・2・3・4 から一つえらびなさい。\n私の友達\nミラー・ジョナサン\n私は近所の小さい喫茶店によく行きます。店長は林さんという 70 歳の男性です。\n林さんは私より 50 歳も年上ですが、私たちは友達です 。\nそのお 店には 半年 ぐらい 前から 行くようになりました。 私が行くと、 林さんは\nいつも １９  。それで、私たちはだんだん仲がよくなりました。\nほかのお客さんがいないとき、私たちはよくおしゃべりをしてます。林さんはコーヒーの\n種類について詳しくて、私はコーヒーのことがよくわかるようになりました。ときどき、\n林さんに日本の生活で困っていることを相談することもあります 。林さんはいつもいい\nアドバイス をくれます。  ２０  私たちは 二人とも映画が好きなので、 映画の話も\nよくします 。この間は、一緒に映画を見に行きました。\n日本で林さん ２１ 友達ができることは 予想していませんでした。こんなに 年上\nの友達ができたのは 初めてでしたが、 年齢の差は重要ではないことがわかりました。\n日本で林さんに ２２ よかったです 。\n1 話しかけていました     2 話しかけてあげました\n3 話しかけてくれました    4 話しかけてもらいました\n1 確かに       2 ところが\n3 例えば       4 それから\n1  にも  2 のような   3 にだけ   4  のほかに\n1 会えて   2  会うから  3 会えるのが  4 会っても\n読解\n問題 4 つぎの(1)から(4)の文章\nぶんしょう\nを読んで、質問に答えなさい。答えは、1・2・3・4\nから最もよいものを一つえらびなさい。\n（１）\nこれは、野村さんが部長会議の出席予定者に書いたメールである。\n部長会議にご出席予定の皆様へ\nあさって 12 日(金)の部長会議について、ご連絡します 。\n天気予報では、明日の夜、台風が東京の近くを通ることが予想されています 。そのため、\nあさってまで交通機関に影響が残る可能性があります 。明日の予報で台風が東京を通る\nことが確実になった場合は、会議を来週に延期することにします 。最終的なご連絡は、\n明日 11 日(木)の 15 時にメールでいたします 。\n以上、よろしくお願いします 。\n第一営業部\n野村マリア\n23  野村さんがこのメールで知らせたいことは何か。\n1 部長会議は、来週に延期する。\n2 部長会議は、明日の 15 時から行う。\n3 部長会議は天気に関係なく、あさって行う。\n4 部長会議を延期するかどうか、明日の 15 時に連絡する。\n（２）\n高校生の孫が「来週、E スポーツ大会に出るんだ」と言った。コンピューターゲームの\n大会だと説明され、私は不思議な気がした。なぜ、それがスポーツの大会なのだろうか。\n聞いてみると、 英語の「スポーツ」には、ルールを守りながら勝ったり負けたりす\nることを楽しむものという意味があるそうだ。それで、最近ではコンピューターゲーム\nもスポーツと言うらしい。\n体を動かすことをスポーツだと思っていた私は驚いた。\n24  不思議な気がしたとあるが、どうしてか。\n1 高校生なのに、孫が有名な E スポーツの大会に出ると言っているから。\n2 コンピューターゲームにも大会があると聞いたから。\n3 体を動かさないのに、コンピューターゲームをスポーツと言っているから。\n4 子供のころからずっとなりたいと思い続けていた先生になれたから。\n（３）\n(大学で)\nこのお知らせが掲示板にはってある。\n留学生日本語カラオケ大会\n参加者募集\n5 月 29 日(土)の 13 時から、大教室(A103)で「留学生日本語カラオケ大会」を行います。\n参加したい人は、歌いたい日本語の歌を決めて、5 月 7 日(金)までに留学生課で申し\n込んでください。\nなお、当日の集合時間は 12 時ですが、希望者は午前中に会場の A103 で練習するこ\nとができます 。その場合の集合時間は 10 時になります 。希望者は、参加の申し込み\nのときに、練習も申し込んでください。\n参加をお待ちしています 。\n留学生課\n25  カラオケ大会に参加したい人で、当日、会場で練習したい人はとうしなければ\nならないか。\n1 5 月 7 日までに留学生課で参加と練習の申し込みをして、29 日の10 時に会場へ行く。\n2 5 月 7 日までに留学生課で参加と練習の申し込みをして、29 日の12 時に会場へ行く。\n3 5 月 7 日までに留学生課で参加の申し込みだけして、29 日の10 時に会場へ行く。\n4 5 月 29日の10時までに留学生課で参加と練習の申し込みをして、12時に会場へ行く。\n（４）\nコーヒーを飲むと眠れなくなるから、 寝る前には飲まないという 人が多いだろう。\nしかし最近、昼寝の前にはコーヒーを飲むといいと言われるようになってきた。\n昼寝をすると起きたあとの集中力が上がるが、長く寝るのはよくない。そこで、 飲\nむと目が覚めるというコーヒーの効果を利用するのだ。この効果は、飲んでから約 30\n分後に出るので、昼寝の前に飲むと、30 分ぐらいで自然に目が覚める。\nぜひやってみてほしい。\n26  この文章を書いた人が言いたいことは何か。\n1 コーヒーを飲むと眠れなくなるから、昼寝の前には飲まないほうがいい。\n2 集中力が高くなるから、昼寝のあとで 30 分以内にコーヒーを飲むといい。\n3 昼寝で寝すぎないためには、昼寝をする 30 分前にコーヒーを飲むといい。\n4 昼寝で、30 分ぐらいで自然に起きるためには、昼寝の直前にコーヒーを\n飲むといい。\n問題 5  つぎの(1)と(2)の文章\nぶんしょう\nを読んで、質問に答えなさい。答えは、1・2・3・4\nから最もよいものを一つえらびなさい。\n（１）\n私は、前から自分で野菜を育てたいと思っていました。私のうちには庭もベランダ\nもないので、①諦めていたのですが、先月、友達から部屋の中でホウレンソウを育てて\nいるという 話を聞きました。 室内でできるなら 私もやってみたいと 思い、準備をしま\nした。\n外に似た環境がいいだろうと考え、窓の近くで育て始めたら、4 日で芽が出始めまし\nた。少しずつ大きくなるのがうれしかったです 。ところが、だんだん葉が黄色くなって、\n全部枯れてしまったのです 。太陽の光が足りなかったのかもしれないと思いました。\n②がっかりして、友達に電話をして聞いてみると、 ホウレンソウ は夜になったら、\n光が当たってはいけないということがわかりました。 私の場合は、部屋の電気の光が\nよくなかったようです 。友達は、段ボール箱でホウレンソウ にカバーをしているのだ\nそうです 。\n私も同じようにやってみたら、③ 今度は元気に育ちました。サラダにして食べたら、\nとてもおいしかったです 。\n27  ①諦めていたとあるが、何を諦めていたのか。\n1 自分で野菜を育てること\n2 庭やベランダがある家に住むこと\n3 友達に野菜の育て方を教えてもらうこと\n4 部屋の中でホウレンソウを育てること\n28  ②がっかりしてとあるが、どうしてがっかりしたのか。\n1 ホウレンソウの芽が出なかったから。\n2 ホウレンソウが全部枯れてしまったから。\n3 ホウレンソウについての友達の知識が間違っていたから。\n4 うまく育ったホウレンソウが少なかったから。\n29      ③今度は元気に育ちましたとあるが、どうして元気に育ったのか。\n1 昼、ホウレンソウにもっと光が当たるようにしたから。\n2    昼、ホウレンソウにあまり光が当たらないようにしたから。\n3 夜、ホウレンンソウに光が当たるようにしたから。\n4 夜、ホウレンソウに光が当たらないようにしたから。\n（２）\n日本に留学したばかりのころ、 文房具店 に入って驚いてしまった 。私の国では、\nシャープぺンシルはあまり売られていないが、その店には 100 円の安い物から 5000 円\n以上する高い物まで、すごい 数のシャーペン が並んでいたのだ。 芯も太さが 0.3mm\nから 1.5mm まであって、濃さもいろいろな物が売られていた。\nイギリスで生まれたシャーペンだが、初めは 1.5mm や 1.0mm の芯しかなかった。\nだが、 約 60 年前、 ある日本の会社が、複雑な漢字でも美しく書けるよう、 世界で\n初めて 0.5mm の折れにくい 芯を作ることに チャレンジ して、成功したのだそうだ。\nそれからシャーペンが日本中で使われるようになったらしい。\n私は、来日してからずっとシャーペンを愛用している。鉛筆のように先が丸くならず 、\n小さい字がきれいに書けるからだ。今、使っているのは安い物だが、来年、就職したら、\n少しいい物を買おうと思っている。\n30  驚いてしまったとあるが、文房具店のどんなことに驚いたのか。\n１ シャーペンがあまり売られていなかったこと\n２ たくさんの種類のシャーペンや芯が売られていたこと\n３ 値段の高いシャーペンばかりが売られていたこと\n４ シャーペンの芯だけを売る専門の店だったこと\n31  シャーペンが日本中で使われるようになったのは、いつからか。\n1 日本の会社が、太くて折れにくい芯を作ってから。\n2  日本の会社が、細くて折れにくい芯を作ってから。\n3 日本の会社が、日本でイギリスのシャーペンを売るようになってから。\n4  日本の会社が、世界で初めてシャーペンを作ってから。\n32  「私」が今、シャーペンを使っているのはなぜか。\n1 日本中で使われているから。\n2 小さい字が書きやすいから。\n3 鉛筆より安く買えるから。\n4 高くていい物を買ったから。\n問題 6  つぎの文章\nぶんしょう\nを読んで、質問に答えなさい。答えは、1・2・3・4 から最もよい\nものを一つえらびなさい。\n野球やサッカーなどのプロスポーツ の経営では、試合会場に来てくれる客を増やす\nことが重要だ。また見たいと思うようないい試合が続けば、客は自然に増えるだろう。\nしかし、どんなに選手が努力しても、そのような試合をずっと続けるのは難しい。そこ\nで、①経営者のさまざまな工夫が必要になる。\nその一つに、②試合会場の工夫がある。例えば、ある会場では、試合がある日に、\nいろいろな 飲食店 の食べ物や飲み物を 1000 種類も選べるようにしている。また、\n(注)バーベキユーをしながら試合が見られる観客席を作っているところもある。会場を\n楽しく過ごせる場所にして、また来たいと思ってもらおうという考え方だ。経営という\n点では、試合を見ること以外にも会場に来る目的を作ることが重要なのだ。\nもちろん、試合を楽しむために来る客を増やす工夫もしている。例えば、新しい客\nに来てもらうために、無料のチケットを配るという方法がある。一度会場に来て試合を\n楽しんでくれたら、次はチケットを買って来てくれる可能性が広がるという考えからだ。\nただ、③この考え方には反対意見もある。無料のチケットで来た客は、普段のチケ\nットを高く感じてしまう。すると、結局チケットを買わなくなるので、収入は増えない\nと考える経営者もいる。\nプロスポーツ の経営者 は、客に来てもらうために、いろいろな 工夫をしている。\n手段はさまざまだが、客に満足してもらい、何度も来てもらいたいという気持ちは共通\nしているのだ。\n(注) バーベキュー：肉や野菜を焼いて食べること\n33  ①経営者のさまざまな工夫が必要になるとあるが、なぜか。\n1 選手が、客を増やすことに関心を持っていないから。\n2 選手がどんなにいい試合を続けても、客の数には影響しないから。\n3 選手がいい試合をし続けて客を増やすことは、難しいから。\n4 選手が努力することがなく、客が減っているから。\n34   ②試合会場の工夫とあるが、どのような工夫を例として書いているか。\n1  会場内の飲食店の案内をわかりやすくする工夫\n2  会場で食べ物や飲み物を注文しやすくする工夫\n3  会場で集中して試合を見てもらうための観客席の工夫\n4  会場で試合以外に飲食も楽しんでもらうための工夫\n35  ③この考え方とあるが、どのような考え方か。\n1 無料のチケットを配って客が増えれば、選手たちのやる気が出るだろう。\n2 無料のチケットを配っても、見に来る客はほとんどいないだろう。\n3 無料のチケットで試合を楽しんだ客は、次はチケットを買って来るだろう。\n4 無料のチケットで試合を楽しんだ客は、次もチケットを買わないだろう。\n36  この文章全体のテーマは何か。\n1 プロスポーツの経営者が、試合会場に来る客を増やすためにしていること\n2 プロスポーツの経営者が、選手を強くするためにしていること\n3 プロスポーツの経営者が、試合会場を客が楽しめる場所にするためにしていること\n4 プロスポーツの経営者が、客に安く試合を見てもらうためにしていること\n問題 7  右のページは、外\nがい\n国\nこく\n人\nじん\n向\nむ\nけのお知らせである。これを読んで、下の質\nしつ\n問\nもん\nに答\nこた\nえ\nなさい。答えは、1・2・3・4 から最\nもっと\nもよいものを一つえらびなさい。\n37  次の 4 人は、2 月 1 日から 3 月 31 日までの間に「買い物券チャレンジ」の参加店\nで買い物をした。 「買い物券チャレンジ」に応募できるのは誰か。\n名前 利用した店の数 レシートの数 レシートの合計\n森田さん ２店 ８枚 7,520 円\nヨウさん ４店 ４枚 9,080 円\n東さん ４店 ６枚 6,100 円\nクレアさん ５店 ７枚 4,340 円\n1 森田さん\n2 ヨウさん\n3 東さん\n4 クレアさん\n38  中村さんは、「買い物券チャレンジ」に応募しようと思い、応募用紙の準備を\nした。今日は４月１１日（日）である。応募用紙はどのように出さなければ\nならないか。\n1 今日中に郵送するか、明日の 10 時から 17 時までに商業課に持参する。\n2 今日の 10 時から 16 時まで、または明日の 10 時から 17 時までに商業課に\n持参する。\n3 明日の 10 時から 16 時までに商業課に持参する。\n4 明日の 10 時から 17 時までに商業課に持参する。\n「買い物券チャレンジ」\nみずき市の店で買い物したレシートを集めて応募すると、\n100 名の方に、市内の店で使える 5,000 円分の買い物券が当たります。\n参加·応募方法\n①レシートを集める\nみずき市の生活用品店、食料品店 など、ホームページに書かれている参加店を利用して、\nレシートをもらってください。\n【期間】2 月 1 日(月)〜3 月 31 日(水)\n・応募には、合計 5,000 円分以上のレシートが必要です。\n・レシートの枚数は、5 枚以上必要です。\n・同じ店のレシートが 2 枚以上あってもいいですが、必ず 3 つ以上の店を利用して\nレシートを集めてください。\n②応募する\n応募用紙に氏名・住所・電話番号 を書き、集めたレシートをはってください。 応募用紙は、\nホームページに書かれている店でもらえます。\n<応募方法>\nみずき市商業課に郵送、または持参してください。\n１.郵送の場合\n【期間】2 月 1 日(月)〜4 月 9 日（金）\n・郵送する場合は、応募用紙を封筒に入れ、切手をはって送ってください。\n２.持参の場合\n【期間】2 月 1 日(月)〜4 月 12 日(月)\n・商業課の窓口の開いている時間(平日の 10 時〜16 時、最終日4 月 12 日は 10 時〜17 時)に\n来てください。土日は休みです。\n■買い物券について\n・当たった方には、4 月 20 日ごろに買い物券をお送りします。\n・買い物券の使用期限は 10 月 31 日です。使える店は、ホームページを確認してください。\nみずき市商業課 〒126-0204 みずき市中町 2040-１みずき市役所 3 階\n電話番号 031-924-1976\nホームページ https://www.mizuki-city.jp/shoppingticket",
+          "choices": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ],
+          "correctAnswer": 3,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2024-07-grammar-m4-q26",
+          "section": "grammar",
+          "mondai": 4,
+          "questionNumber": 26,
+          "questionType": "READING_SHORT",
+          "questionText": "",
+          "passage": "問題 3 つぎの文章を読んで、文章全体の内容を考えて、 19 から 22 の中に入る最も\nよいものを、1・2・3・4 から一つえらびなさい。\n私の友達\nミラー・ジョナサン\n私は近所の小さい喫茶店によく行きます。店長は林さんという 70 歳の男性です。\n林さんは私より 50 歳も年上ですが、私たちは友達です 。\nそのお 店には 半年 ぐらい 前から 行くようになりました。 私が行くと、 林さんは\nいつも １９  。それで、私たちはだんだん仲がよくなりました。\nほかのお客さんがいないとき、私たちはよくおしゃべりをしてます。林さんはコーヒーの\n種類について詳しくて、私はコーヒーのことがよくわかるようになりました。ときどき、\n林さんに日本の生活で困っていることを相談することもあります 。林さんはいつもいい\nアドバイス をくれます。  ２０  私たちは 二人とも映画が好きなので、 映画の話も\nよくします 。この間は、一緒に映画を見に行きました。\n日本で林さん ２１ 友達ができることは 予想していませんでした。こんなに 年上\nの友達ができたのは 初めてでしたが、 年齢の差は重要ではないことがわかりました。\n日本で林さんに ２２ よかったです 。\n1 話しかけていました     2 話しかけてあげました\n3 話しかけてくれました    4 話しかけてもらいました\n1 確かに       2 ところが\n3 例えば       4 それから\n1  にも  2 のような   3 にだけ   4  のほかに\n1 会えて   2  会うから  3 会えるのが  4 会っても\n読解\n問題 4 つぎの(1)から(4)の文章\nぶんしょう\nを読んで、質問に答えなさい。答えは、1・2・3・4\nから最もよいものを一つえらびなさい。\n（１）\nこれは、野村さんが部長会議の出席予定者に書いたメールである。\n部長会議にご出席予定の皆様へ\nあさって 12 日(金)の部長会議について、ご連絡します 。\n天気予報では、明日の夜、台風が東京の近くを通ることが予想されています 。そのため、\nあさってまで交通機関に影響が残る可能性があります 。明日の予報で台風が東京を通る\nことが確実になった場合は、会議を来週に延期することにします 。最終的なご連絡は、\n明日 11 日(木)の 15 時にメールでいたします 。\n以上、よろしくお願いします 。\n第一営業部\n野村マリア\n23  野村さんがこのメールで知らせたいことは何か。\n1 部長会議は、来週に延期する。\n2 部長会議は、明日の 15 時から行う。\n3 部長会議は天気に関係なく、あさって行う。\n4 部長会議を延期するかどうか、明日の 15 時に連絡する。\n（２）\n高校生の孫が「来週、E スポーツ大会に出るんだ」と言った。コンピューターゲームの\n大会だと説明され、私は不思議な気がした。なぜ、それがスポーツの大会なのだろうか。\n聞いてみると、 英語の「スポーツ」には、ルールを守りながら勝ったり負けたりす\nることを楽しむものという意味があるそうだ。それで、最近ではコンピューターゲーム\nもスポーツと言うらしい。\n体を動かすことをスポーツだと思っていた私は驚いた。\n24  不思議な気がしたとあるが、どうしてか。\n1 高校生なのに、孫が有名な E スポーツの大会に出ると言っているから。\n2 コンピューターゲームにも大会があると聞いたから。\n3 体を動かさないのに、コンピューターゲームをスポーツと言っているから。\n4 子供のころからずっとなりたいと思い続けていた先生になれたから。\n（３）\n(大学で)\nこのお知らせが掲示板にはってある。\n留学生日本語カラオケ大会\n参加者募集\n5 月 29 日(土)の 13 時から、大教室(A103)で「留学生日本語カラオケ大会」を行います。\n参加したい人は、歌いたい日本語の歌を決めて、5 月 7 日(金)までに留学生課で申し\n込んでください。\nなお、当日の集合時間は 12 時ですが、希望者は午前中に会場の A103 で練習するこ\nとができます 。その場合の集合時間は 10 時になります 。希望者は、参加の申し込み\nのときに、練習も申し込んでください。\n参加をお待ちしています 。\n留学生課\n25  カラオケ大会に参加したい人で、当日、会場で練習したい人はとうしなければ\nならないか。\n1 5 月 7 日までに留学生課で参加と練習の申し込みをして、29 日の10 時に会場へ行く。\n2 5 月 7 日までに留学生課で参加と練習の申し込みをして、29 日の12 時に会場へ行く。\n3 5 月 7 日までに留学生課で参加の申し込みだけして、29 日の10 時に会場へ行く。\n4 5 月 29日の10時までに留学生課で参加と練習の申し込みをして、12時に会場へ行く。\n（４）\nコーヒーを飲むと眠れなくなるから、 寝る前には飲まないという 人が多いだろう。\nしかし最近、昼寝の前にはコーヒーを飲むといいと言われるようになってきた。\n昼寝をすると起きたあとの集中力が上がるが、長く寝るのはよくない。そこで、 飲\nむと目が覚めるというコーヒーの効果を利用するのだ。この効果は、飲んでから約 30\n分後に出るので、昼寝の前に飲むと、30 分ぐらいで自然に目が覚める。\nぜひやってみてほしい。\n26  この文章を書いた人が言いたいことは何か。\n1 コーヒーを飲むと眠れなくなるから、昼寝の前には飲まないほうがいい。\n2 集中力が高くなるから、昼寝のあとで 30 分以内にコーヒーを飲むといい。\n3 昼寝で寝すぎないためには、昼寝をする 30 分前にコーヒーを飲むといい。\n4 昼寝で、30 分ぐらいで自然に起きるためには、昼寝の直前にコーヒーを\n飲むといい。\n問題 5  つぎの(1)と(2)の文章\nぶんしょう\nを読んで、質問に答えなさい。答えは、1・2・3・4\nから最もよいものを一つえらびなさい。\n（１）\n私は、前から自分で野菜を育てたいと思っていました。私のうちには庭もベランダ\nもないので、①諦めていたのですが、先月、友達から部屋の中でホウレンソウを育てて\nいるという 話を聞きました。 室内でできるなら 私もやってみたいと 思い、準備をしま\nした。\n外に似た環境がいいだろうと考え、窓の近くで育て始めたら、4 日で芽が出始めまし\nた。少しずつ大きくなるのがうれしかったです 。ところが、だんだん葉が黄色くなって、\n全部枯れてしまったのです 。太陽の光が足りなかったのかもしれないと思いました。\n②がっかりして、友達に電話をして聞いてみると、 ホウレンソウ は夜になったら、\n光が当たってはいけないということがわかりました。 私の場合は、部屋の電気の光が\nよくなかったようです 。友達は、段ボール箱でホウレンソウ にカバーをしているのだ\nそうです 。\n私も同じようにやってみたら、③ 今度は元気に育ちました。サラダにして食べたら、\nとてもおいしかったです 。\n27  ①諦めていたとあるが、何を諦めていたのか。\n1 自分で野菜を育てること\n2 庭やベランダがある家に住むこと\n3 友達に野菜の育て方を教えてもらうこと\n4 部屋の中でホウレンソウを育てること\n28  ②がっかりしてとあるが、どうしてがっかりしたのか。\n1 ホウレンソウの芽が出なかったから。\n2 ホウレンソウが全部枯れてしまったから。\n3 ホウレンソウについての友達の知識が間違っていたから。\n4 うまく育ったホウレンソウが少なかったから。\n29      ③今度は元気に育ちましたとあるが、どうして元気に育ったのか。\n1 昼、ホウレンソウにもっと光が当たるようにしたから。\n2    昼、ホウレンソウにあまり光が当たらないようにしたから。\n3 夜、ホウレンンソウに光が当たるようにしたから。\n4 夜、ホウレンソウに光が当たらないようにしたから。\n（２）\n日本に留学したばかりのころ、 文房具店 に入って驚いてしまった 。私の国では、\nシャープぺンシルはあまり売られていないが、その店には 100 円の安い物から 5000 円\n以上する高い物まで、すごい 数のシャーペン が並んでいたのだ。 芯も太さが 0.3mm\nから 1.5mm まであって、濃さもいろいろな物が売られていた。\nイギリスで生まれたシャーペンだが、初めは 1.5mm や 1.0mm の芯しかなかった。\nだが、 約 60 年前、 ある日本の会社が、複雑な漢字でも美しく書けるよう、 世界で\n初めて 0.5mm の折れにくい 芯を作ることに チャレンジ して、成功したのだそうだ。\nそれからシャーペンが日本中で使われるようになったらしい。\n私は、来日してからずっとシャーペンを愛用している。鉛筆のように先が丸くならず 、\n小さい字がきれいに書けるからだ。今、使っているのは安い物だが、来年、就職したら、\n少しいい物を買おうと思っている。\n30  驚いてしまったとあるが、文房具店のどんなことに驚いたのか。\n１ シャーペンがあまり売られていなかったこと\n２ たくさんの種類のシャーペンや芯が売られていたこと\n３ 値段の高いシャーペンばかりが売られていたこと\n４ シャーペンの芯だけを売る専門の店だったこと\n31  シャーペンが日本中で使われるようになったのは、いつからか。\n1 日本の会社が、太くて折れにくい芯を作ってから。\n2  日本の会社が、細くて折れにくい芯を作ってから。\n3 日本の会社が、日本でイギリスのシャーペンを売るようになってから。\n4  日本の会社が、世界で初めてシャーペンを作ってから。\n32  「私」が今、シャーペンを使っているのはなぜか。\n1 日本中で使われているから。\n2 小さい字が書きやすいから。\n3 鉛筆より安く買えるから。\n4 高くていい物を買ったから。\n問題 6  つぎの文章\nぶんしょう\nを読んで、質問に答えなさい。答えは、1・2・3・4 から最もよい\nものを一つえらびなさい。\n野球やサッカーなどのプロスポーツ の経営では、試合会場に来てくれる客を増やす\nことが重要だ。また見たいと思うようないい試合が続けば、客は自然に増えるだろう。\nしかし、どんなに選手が努力しても、そのような試合をずっと続けるのは難しい。そこ\nで、①経営者のさまざまな工夫が必要になる。\nその一つに、②試合会場の工夫がある。例えば、ある会場では、試合がある日に、\nいろいろな 飲食店 の食べ物や飲み物を 1000 種類も選べるようにしている。また、\n(注)バーベキユーをしながら試合が見られる観客席を作っているところもある。会場を\n楽しく過ごせる場所にして、また来たいと思ってもらおうという考え方だ。経営という\n点では、試合を見ること以外にも会場に来る目的を作ることが重要なのだ。\nもちろん、試合を楽しむために来る客を増やす工夫もしている。例えば、新しい客\nに来てもらうために、無料のチケットを配るという方法がある。一度会場に来て試合を\n楽しんでくれたら、次はチケットを買って来てくれる可能性が広がるという考えからだ。\nただ、③この考え方には反対意見もある。無料のチケットで来た客は、普段のチケ\nットを高く感じてしまう。すると、結局チケットを買わなくなるので、収入は増えない\nと考える経営者もいる。\nプロスポーツ の経営者 は、客に来てもらうために、いろいろな 工夫をしている。\n手段はさまざまだが、客に満足してもらい、何度も来てもらいたいという気持ちは共通\nしているのだ。\n(注) バーベキュー：肉や野菜を焼いて食べること\n33  ①経営者のさまざまな工夫が必要になるとあるが、なぜか。\n1 選手が、客を増やすことに関心を持っていないから。\n2 選手がどんなにいい試合を続けても、客の数には影響しないから。\n3 選手がいい試合をし続けて客を増やすことは、難しいから。\n4 選手が努力することがなく、客が減っているから。\n34   ②試合会場の工夫とあるが、どのような工夫を例として書いているか。\n1  会場内の飲食店の案内をわかりやすくする工夫\n2  会場で食べ物や飲み物を注文しやすくする工夫\n3  会場で集中して試合を見てもらうための観客席の工夫\n4  会場で試合以外に飲食も楽しんでもらうための工夫\n35  ③この考え方とあるが、どのような考え方か。\n1 無料のチケットを配って客が増えれば、選手たちのやる気が出るだろう。\n2 無料のチケットを配っても、見に来る客はほとんどいないだろう。\n3 無料のチケットで試合を楽しんだ客は、次はチケットを買って来るだろう。\n4 無料のチケットで試合を楽しんだ客は、次もチケットを買わないだろう。\n36  この文章全体のテーマは何か。\n1 プロスポーツの経営者が、試合会場に来る客を増やすためにしていること\n2 プロスポーツの経営者が、選手を強くするためにしていること\n3 プロスポーツの経営者が、試合会場を客が楽しめる場所にするためにしていること\n4 プロスポーツの経営者が、客に安く試合を見てもらうためにしていること\n問題 7  右のページは、外\nがい\n国\nこく\n人\nじん\n向\nむ\nけのお知らせである。これを読んで、下の質\nしつ\n問\nもん\nに答\nこた\nえ\nなさい。答えは、1・2・3・4 から最\nもっと\nもよいものを一つえらびなさい。\n37  次の 4 人は、2 月 1 日から 3 月 31 日までの間に「買い物券チャレンジ」の参加店\nで買い物をした。 「買い物券チャレンジ」に応募できるのは誰か。\n名前 利用した店の数 レシートの数 レシートの合計\n森田さん ２店 ８枚 7,520 円\nヨウさん ４店 ４枚 9,080 円\n東さん ４店 ６枚 6,100 円\nクレアさん ５店 ７枚 4,340 円\n1 森田さん\n2 ヨウさん\n3 東さん\n4 クレアさん\n38  中村さんは、「買い物券チャレンジ」に応募しようと思い、応募用紙の準備を\nした。今日は４月１１日（日）である。応募用紙はどのように出さなければ\nならないか。\n1 今日中に郵送するか、明日の 10 時から 17 時までに商業課に持参する。\n2 今日の 10 時から 16 時まで、または明日の 10 時から 17 時までに商業課に\n持参する。\n3 明日の 10 時から 16 時までに商業課に持参する。\n4 明日の 10 時から 17 時までに商業課に持参する。\n「買い物券チャレンジ」\nみずき市の店で買い物したレシートを集めて応募すると、\n100 名の方に、市内の店で使える 5,000 円分の買い物券が当たります。\n参加·応募方法\n①レシートを集める\nみずき市の生活用品店、食料品店 など、ホームページに書かれている参加店を利用して、\nレシートをもらってください。\n【期間】2 月 1 日(月)〜3 月 31 日(水)\n・応募には、合計 5,000 円分以上のレシートが必要です。\n・レシートの枚数は、5 枚以上必要です。\n・同じ店のレシートが 2 枚以上あってもいいですが、必ず 3 つ以上の店を利用して\nレシートを集めてください。\n②応募する\n応募用紙に氏名・住所・電話番号 を書き、集めたレシートをはってください。 応募用紙は、\nホームページに書かれている店でもらえます。\n<応募方法>\nみずき市商業課に郵送、または持参してください。\n１.郵送の場合\n【期間】2 月 1 日(月)〜4 月 9 日（金）\n・郵送する場合は、応募用紙を封筒に入れ、切手をはって送ってください。\n２.持参の場合\n【期間】2 月 1 日(月)〜4 月 12 日(月)\n・商業課の窓口の開いている時間(平日の 10 時〜16 時、最終日4 月 12 日は 10 時〜17 時)に\n来てください。土日は休みです。\n■買い物券について\n・当たった方には、4 月 20 日ごろに買い物券をお送りします。\n・買い物券の使用期限は 10 月 31 日です。使える店は、ホームページを確認してください。\nみずき市商業課 〒126-0204 みずき市中町 2040-１みずき市役所 3 階\n電話番号 031-924-1976\nホームページ https://www.mizuki-city.jp/shoppingticket",
+          "choices": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ],
+          "correctAnswer": 4,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2024-07-grammar-m5-q27",
+          "section": "grammar",
+          "mondai": 5,
+          "questionNumber": 27,
+          "questionType": "READING_MEDIUM",
+          "questionText": "",
+          "passage": "問題 3 つぎの文章を読んで、文章全体の内容を考えて、 19 から 22 の中に入る最も\nよいものを、1・2・3・4 から一つえらびなさい。\n私の友達\nミラー・ジョナサン\n私は近所の小さい喫茶店によく行きます。店長は林さんという 70 歳の男性です。\n林さんは私より 50 歳も年上ですが、私たちは友達です 。\nそのお 店には 半年 ぐらい 前から 行くようになりました。 私が行くと、 林さんは\nいつも １９  。それで、私たちはだんだん仲がよくなりました。\nほかのお客さんがいないとき、私たちはよくおしゃべりをしてます。林さんはコーヒーの\n種類について詳しくて、私はコーヒーのことがよくわかるようになりました。ときどき、\n林さんに日本の生活で困っていることを相談することもあります 。林さんはいつもいい\nアドバイス をくれます。  ２０  私たちは 二人とも映画が好きなので、 映画の話も\nよくします 。この間は、一緒に映画を見に行きました。\n日本で林さん ２１ 友達ができることは 予想していませんでした。こんなに 年上\nの友達ができたのは 初めてでしたが、 年齢の差は重要ではないことがわかりました。\n日本で林さんに ２２ よかったです 。\n1 話しかけていました     2 話しかけてあげました\n3 話しかけてくれました    4 話しかけてもらいました\n1 確かに       2 ところが\n3 例えば       4 それから\n1  にも  2 のような   3 にだけ   4  のほかに\n1 会えて   2  会うから  3 会えるのが  4 会っても\n読解\n問題 4 つぎの(1)から(4)の文章\nぶんしょう\nを読んで、質問に答えなさい。答えは、1・2・3・4\nから最もよいものを一つえらびなさい。\n（１）\nこれは、野村さんが部長会議の出席予定者に書いたメールである。\n部長会議にご出席予定の皆様へ\nあさって 12 日(金)の部長会議について、ご連絡します 。\n天気予報では、明日の夜、台風が東京の近くを通ることが予想されています 。そのため、\nあさってまで交通機関に影響が残る可能性があります 。明日の予報で台風が東京を通る\nことが確実になった場合は、会議を来週に延期することにします 。最終的なご連絡は、\n明日 11 日(木)の 15 時にメールでいたします 。\n以上、よろしくお願いします 。\n第一営業部\n野村マリア\n23  野村さんがこのメールで知らせたいことは何か。\n1 部長会議は、来週に延期する。\n2 部長会議は、明日の 15 時から行う。\n3 部長会議は天気に関係なく、あさって行う。\n4 部長会議を延期するかどうか、明日の 15 時に連絡する。\n（２）\n高校生の孫が「来週、E スポーツ大会に出るんだ」と言った。コンピューターゲームの\n大会だと説明され、私は不思議な気がした。なぜ、それがスポーツの大会なのだろうか。\n聞いてみると、 英語の「スポーツ」には、ルールを守りながら勝ったり負けたりす\nることを楽しむものという意味があるそうだ。それで、最近ではコンピューターゲーム\nもスポーツと言うらしい。\n体を動かすことをスポーツだと思っていた私は驚いた。\n24  不思議な気がしたとあるが、どうしてか。\n1 高校生なのに、孫が有名な E スポーツの大会に出ると言っているから。\n2 コンピューターゲームにも大会があると聞いたから。\n3 体を動かさないのに、コンピューターゲームをスポーツと言っているから。\n4 子供のころからずっとなりたいと思い続けていた先生になれたから。\n（３）\n(大学で)\nこのお知らせが掲示板にはってある。\n留学生日本語カラオケ大会\n参加者募集\n5 月 29 日(土)の 13 時から、大教室(A103)で「留学生日本語カラオケ大会」を行います。\n参加したい人は、歌いたい日本語の歌を決めて、5 月 7 日(金)までに留学生課で申し\n込んでください。\nなお、当日の集合時間は 12 時ですが、希望者は午前中に会場の A103 で練習するこ\nとができます 。その場合の集合時間は 10 時になります 。希望者は、参加の申し込み\nのときに、練習も申し込んでください。\n参加をお待ちしています 。\n留学生課\n25  カラオケ大会に参加したい人で、当日、会場で練習したい人はとうしなければ\nならないか。\n1 5 月 7 日までに留学生課で参加と練習の申し込みをして、29 日の10 時に会場へ行く。\n2 5 月 7 日までに留学生課で参加と練習の申し込みをして、29 日の12 時に会場へ行く。\n3 5 月 7 日までに留学生課で参加の申し込みだけして、29 日の10 時に会場へ行く。\n4 5 月 29日の10時までに留学生課で参加と練習の申し込みをして、12時に会場へ行く。\n（４）\nコーヒーを飲むと眠れなくなるから、 寝る前には飲まないという 人が多いだろう。\nしかし最近、昼寝の前にはコーヒーを飲むといいと言われるようになってきた。\n昼寝をすると起きたあとの集中力が上がるが、長く寝るのはよくない。そこで、 飲\nむと目が覚めるというコーヒーの効果を利用するのだ。この効果は、飲んでから約 30\n分後に出るので、昼寝の前に飲むと、30 分ぐらいで自然に目が覚める。\nぜひやってみてほしい。\n26  この文章を書いた人が言いたいことは何か。\n1 コーヒーを飲むと眠れなくなるから、昼寝の前には飲まないほうがいい。\n2 集中力が高くなるから、昼寝のあとで 30 分以内にコーヒーを飲むといい。\n3 昼寝で寝すぎないためには、昼寝をする 30 分前にコーヒーを飲むといい。\n4 昼寝で、30 分ぐらいで自然に起きるためには、昼寝の直前にコーヒーを\n飲むといい。\n問題 5  つぎの(1)と(2)の文章\nぶんしょう\nを読んで、質問に答えなさい。答えは、1・2・3・4\nから最もよいものを一つえらびなさい。\n（１）\n私は、前から自分で野菜を育てたいと思っていました。私のうちには庭もベランダ\nもないので、①諦めていたのですが、先月、友達から部屋の中でホウレンソウを育てて\nいるという 話を聞きました。 室内でできるなら 私もやってみたいと 思い、準備をしま\nした。\n外に似た環境がいいだろうと考え、窓の近くで育て始めたら、4 日で芽が出始めまし\nた。少しずつ大きくなるのがうれしかったです 。ところが、だんだん葉が黄色くなって、\n全部枯れてしまったのです 。太陽の光が足りなかったのかもしれないと思いました。\n②がっかりして、友達に電話をして聞いてみると、 ホウレンソウ は夜になったら、\n光が当たってはいけないということがわかりました。 私の場合は、部屋の電気の光が\nよくなかったようです 。友達は、段ボール箱でホウレンソウ にカバーをしているのだ\nそうです 。\n私も同じようにやってみたら、③ 今度は元気に育ちました。サラダにして食べたら、\nとてもおいしかったです 。\n27  ①諦めていたとあるが、何を諦めていたのか。\n1 自分で野菜を育てること\n2 庭やベランダがある家に住むこと\n3 友達に野菜の育て方を教えてもらうこと\n4 部屋の中でホウレンソウを育てること\n28  ②がっかりしてとあるが、どうしてがっかりしたのか。\n1 ホウレンソウの芽が出なかったから。\n2 ホウレンソウが全部枯れてしまったから。\n3 ホウレンソウについての友達の知識が間違っていたから。\n4 うまく育ったホウレンソウが少なかったから。\n29      ③今度は元気に育ちましたとあるが、どうして元気に育ったのか。\n1 昼、ホウレンソウにもっと光が当たるようにしたから。\n2    昼、ホウレンソウにあまり光が当たらないようにしたから。\n3 夜、ホウレンンソウに光が当たるようにしたから。\n4 夜、ホウレンソウに光が当たらないようにしたから。\n（２）\n日本に留学したばかりのころ、 文房具店 に入って驚いてしまった 。私の国では、\nシャープぺンシルはあまり売られていないが、その店には 100 円の安い物から 5000 円\n以上する高い物まで、すごい 数のシャーペン が並んでいたのだ。 芯も太さが 0.3mm\nから 1.5mm まであって、濃さもいろいろな物が売られていた。\nイギリスで生まれたシャーペンだが、初めは 1.5mm や 1.0mm の芯しかなかった。\nだが、 約 60 年前、 ある日本の会社が、複雑な漢字でも美しく書けるよう、 世界で\n初めて 0.5mm の折れにくい 芯を作ることに チャレンジ して、成功したのだそうだ。\nそれからシャーペンが日本中で使われるようになったらしい。\n私は、来日してからずっとシャーペンを愛用している。鉛筆のように先が丸くならず 、\n小さい字がきれいに書けるからだ。今、使っているのは安い物だが、来年、就職したら、\n少しいい物を買おうと思っている。\n30  驚いてしまったとあるが、文房具店のどんなことに驚いたのか。\n１ シャーペンがあまり売られていなかったこと\n２ たくさんの種類のシャーペンや芯が売られていたこと\n３ 値段の高いシャーペンばかりが売られていたこと\n４ シャーペンの芯だけを売る専門の店だったこと\n31  シャーペンが日本中で使われるようになったのは、いつからか。\n1 日本の会社が、太くて折れにくい芯を作ってから。\n2  日本の会社が、細くて折れにくい芯を作ってから。\n3 日本の会社が、日本でイギリスのシャーペンを売るようになってから。\n4  日本の会社が、世界で初めてシャーペンを作ってから。\n32  「私」が今、シャーペンを使っているのはなぜか。\n1 日本中で使われているから。\n2 小さい字が書きやすいから。\n3 鉛筆より安く買えるから。\n4 高くていい物を買ったから。\n問題 6  つぎの文章\nぶんしょう\nを読んで、質問に答えなさい。答えは、1・2・3・4 から最もよい\nものを一つえらびなさい。\n野球やサッカーなどのプロスポーツ の経営では、試合会場に来てくれる客を増やす\nことが重要だ。また見たいと思うようないい試合が続けば、客は自然に増えるだろう。\nしかし、どんなに選手が努力しても、そのような試合をずっと続けるのは難しい。そこ\nで、①経営者のさまざまな工夫が必要になる。\nその一つに、②試合会場の工夫がある。例えば、ある会場では、試合がある日に、\nいろいろな 飲食店 の食べ物や飲み物を 1000 種類も選べるようにしている。また、\n(注)バーベキユーをしながら試合が見られる観客席を作っているところもある。会場を\n楽しく過ごせる場所にして、また来たいと思ってもらおうという考え方だ。経営という\n点では、試合を見ること以外にも会場に来る目的を作ることが重要なのだ。\nもちろん、試合を楽しむために来る客を増やす工夫もしている。例えば、新しい客\nに来てもらうために、無料のチケットを配るという方法がある。一度会場に来て試合を\n楽しんでくれたら、次はチケットを買って来てくれる可能性が広がるという考えからだ。\nただ、③この考え方には反対意見もある。無料のチケットで来た客は、普段のチケ\nットを高く感じてしまう。すると、結局チケットを買わなくなるので、収入は増えない\nと考える経営者もいる。\nプロスポーツ の経営者 は、客に来てもらうために、いろいろな 工夫をしている。\n手段はさまざまだが、客に満足してもらい、何度も来てもらいたいという気持ちは共通\nしているのだ。\n(注) バーベキュー：肉や野菜を焼いて食べること\n33  ①経営者のさまざまな工夫が必要になるとあるが、なぜか。\n1 選手が、客を増やすことに関心を持っていないから。\n2 選手がどんなにいい試合を続けても、客の数には影響しないから。\n3 選手がいい試合をし続けて客を増やすことは、難しいから。\n4 選手が努力することがなく、客が減っているから。\n34   ②試合会場の工夫とあるが、どのような工夫を例として書いているか。\n1  会場内の飲食店の案内をわかりやすくする工夫\n2  会場で食べ物や飲み物を注文しやすくする工夫\n3  会場で集中して試合を見てもらうための観客席の工夫\n4  会場で試合以外に飲食も楽しんでもらうための工夫\n35  ③この考え方とあるが、どのような考え方か。\n1 無料のチケットを配って客が増えれば、選手たちのやる気が出るだろう。\n2 無料のチケットを配っても、見に来る客はほとんどいないだろう。\n3 無料のチケットで試合を楽しんだ客は、次はチケットを買って来るだろう。\n4 無料のチケットで試合を楽しんだ客は、次もチケットを買わないだろう。\n36  この文章全体のテーマは何か。\n1 プロスポーツの経営者が、試合会場に来る客を増やすためにしていること\n2 プロスポーツの経営者が、選手を強くするためにしていること\n3 プロスポーツの経営者が、試合会場を客が楽しめる場所にするためにしていること\n4 プロスポーツの経営者が、客に安く試合を見てもらうためにしていること\n問題 7  右のページは、外\nがい\n国\nこく\n人\nじん\n向\nむ\nけのお知らせである。これを読んで、下の質\nしつ\n問\nもん\nに答\nこた\nえ\nなさい。答えは、1・2・3・4 から最\nもっと\nもよいものを一つえらびなさい。\n37  次の 4 人は、2 月 1 日から 3 月 31 日までの間に「買い物券チャレンジ」の参加店\nで買い物をした。 「買い物券チャレンジ」に応募できるのは誰か。\n名前 利用した店の数 レシートの数 レシートの合計\n森田さん ２店 ８枚 7,520 円\nヨウさん ４店 ４枚 9,080 円\n東さん ４店 ６枚 6,100 円\nクレアさん ５店 ７枚 4,340 円\n1 森田さん\n2 ヨウさん\n3 東さん\n4 クレアさん\n38  中村さんは、「買い物券チャレンジ」に応募しようと思い、応募用紙の準備を\nした。今日は４月１１日（日）である。応募用紙はどのように出さなければ\nならないか。\n1 今日中に郵送するか、明日の 10 時から 17 時までに商業課に持参する。\n2 今日の 10 時から 16 時まで、または明日の 10 時から 17 時までに商業課に\n持参する。\n3 明日の 10 時から 16 時までに商業課に持参する。\n4 明日の 10 時から 17 時までに商業課に持参する。\n「買い物券チャレンジ」\nみずき市の店で買い物したレシートを集めて応募すると、\n100 名の方に、市内の店で使える 5,000 円分の買い物券が当たります。\n参加·応募方法\n①レシートを集める\nみずき市の生活用品店、食料品店 など、ホームページに書かれている参加店を利用して、\nレシートをもらってください。\n【期間】2 月 1 日(月)〜3 月 31 日(水)\n・応募には、合計 5,000 円分以上のレシートが必要です。\n・レシートの枚数は、5 枚以上必要です。\n・同じ店のレシートが 2 枚以上あってもいいですが、必ず 3 つ以上の店を利用して\nレシートを集めてください。\n②応募する\n応募用紙に氏名・住所・電話番号 を書き、集めたレシートをはってください。 応募用紙は、\nホームページに書かれている店でもらえます。\n<応募方法>\nみずき市商業課に郵送、または持参してください。\n１.郵送の場合\n【期間】2 月 1 日(月)〜4 月 9 日（金）\n・郵送する場合は、応募用紙を封筒に入れ、切手をはって送ってください。\n２.持参の場合\n【期間】2 月 1 日(月)〜4 月 12 日(月)\n・商業課の窓口の開いている時間(平日の 10 時〜16 時、最終日4 月 12 日は 10 時〜17 時)に\n来てください。土日は休みです。\n■買い物券について\n・当たった方には、4 月 20 日ごろに買い物券をお送りします。\n・買い物券の使用期限は 10 月 31 日です。使える店は、ホームページを確認してください。\nみずき市商業課 〒126-0204 みずき市中町 2040-１みずき市役所 3 階\n電話番号 031-924-1976\nホームページ https://www.mizuki-city.jp/shoppingticket",
+          "choices": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ],
+          "correctAnswer": 1,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2024-07-grammar-m5-q28",
+          "section": "grammar",
+          "mondai": 5,
+          "questionNumber": 28,
+          "questionType": "READING_MEDIUM",
+          "questionText": "",
+          "passage": "問題 3 つぎの文章を読んで、文章全体の内容を考えて、 19 から 22 の中に入る最も\nよいものを、1・2・3・4 から一つえらびなさい。\n私の友達\nミラー・ジョナサン\n私は近所の小さい喫茶店によく行きます。店長は林さんという 70 歳の男性です。\n林さんは私より 50 歳も年上ですが、私たちは友達です 。\nそのお 店には 半年 ぐらい 前から 行くようになりました。 私が行くと、 林さんは\nいつも １９  。それで、私たちはだんだん仲がよくなりました。\nほかのお客さんがいないとき、私たちはよくおしゃべりをしてます。林さんはコーヒーの\n種類について詳しくて、私はコーヒーのことがよくわかるようになりました。ときどき、\n林さんに日本の生活で困っていることを相談することもあります 。林さんはいつもいい\nアドバイス をくれます。  ２０  私たちは 二人とも映画が好きなので、 映画の話も\nよくします 。この間は、一緒に映画を見に行きました。\n日本で林さん ２１ 友達ができることは 予想していませんでした。こんなに 年上\nの友達ができたのは 初めてでしたが、 年齢の差は重要ではないことがわかりました。\n日本で林さんに ２２ よかったです 。\n1 話しかけていました     2 話しかけてあげました\n3 話しかけてくれました    4 話しかけてもらいました\n1 確かに       2 ところが\n3 例えば       4 それから\n1  にも  2 のような   3 にだけ   4  のほかに\n1 会えて   2  会うから  3 会えるのが  4 会っても\n読解\n問題 4 つぎの(1)から(4)の文章\nぶんしょう\nを読んで、質問に答えなさい。答えは、1・2・3・4\nから最もよいものを一つえらびなさい。\n（１）\nこれは、野村さんが部長会議の出席予定者に書いたメールである。\n部長会議にご出席予定の皆様へ\nあさって 12 日(金)の部長会議について、ご連絡します 。\n天気予報では、明日の夜、台風が東京の近くを通ることが予想されています 。そのため、\nあさってまで交通機関に影響が残る可能性があります 。明日の予報で台風が東京を通る\nことが確実になった場合は、会議を来週に延期することにします 。最終的なご連絡は、\n明日 11 日(木)の 15 時にメールでいたします 。\n以上、よろしくお願いします 。\n第一営業部\n野村マリア\n23  野村さんがこのメールで知らせたいことは何か。\n1 部長会議は、来週に延期する。\n2 部長会議は、明日の 15 時から行う。\n3 部長会議は天気に関係なく、あさって行う。\n4 部長会議を延期するかどうか、明日の 15 時に連絡する。\n（２）\n高校生の孫が「来週、E スポーツ大会に出るんだ」と言った。コンピューターゲームの\n大会だと説明され、私は不思議な気がした。なぜ、それがスポーツの大会なのだろうか。\n聞いてみると、 英語の「スポーツ」には、ルールを守りながら勝ったり負けたりす\nることを楽しむものという意味があるそうだ。それで、最近ではコンピューターゲーム\nもスポーツと言うらしい。\n体を動かすことをスポーツだと思っていた私は驚いた。\n24  不思議な気がしたとあるが、どうしてか。\n1 高校生なのに、孫が有名な E スポーツの大会に出ると言っているから。\n2 コンピューターゲームにも大会があると聞いたから。\n3 体を動かさないのに、コンピューターゲームをスポーツと言っているから。\n4 子供のころからずっとなりたいと思い続けていた先生になれたから。\n（３）\n(大学で)\nこのお知らせが掲示板にはってある。\n留学生日本語カラオケ大会\n参加者募集\n5 月 29 日(土)の 13 時から、大教室(A103)で「留学生日本語カラオケ大会」を行います。\n参加したい人は、歌いたい日本語の歌を決めて、5 月 7 日(金)までに留学生課で申し\n込んでください。\nなお、当日の集合時間は 12 時ですが、希望者は午前中に会場の A103 で練習するこ\nとができます 。その場合の集合時間は 10 時になります 。希望者は、参加の申し込み\nのときに、練習も申し込んでください。\n参加をお待ちしています 。\n留学生課\n25  カラオケ大会に参加したい人で、当日、会場で練習したい人はとうしなければ\nならないか。\n1 5 月 7 日までに留学生課で参加と練習の申し込みをして、29 日の10 時に会場へ行く。\n2 5 月 7 日までに留学生課で参加と練習の申し込みをして、29 日の12 時に会場へ行く。\n3 5 月 7 日までに留学生課で参加の申し込みだけして、29 日の10 時に会場へ行く。\n4 5 月 29日の10時までに留学生課で参加と練習の申し込みをして、12時に会場へ行く。\n（４）\nコーヒーを飲むと眠れなくなるから、 寝る前には飲まないという 人が多いだろう。\nしかし最近、昼寝の前にはコーヒーを飲むといいと言われるようになってきた。\n昼寝をすると起きたあとの集中力が上がるが、長く寝るのはよくない。そこで、 飲\nむと目が覚めるというコーヒーの効果を利用するのだ。この効果は、飲んでから約 30\n分後に出るので、昼寝の前に飲むと、30 分ぐらいで自然に目が覚める。\nぜひやってみてほしい。\n26  この文章を書いた人が言いたいことは何か。\n1 コーヒーを飲むと眠れなくなるから、昼寝の前には飲まないほうがいい。\n2 集中力が高くなるから、昼寝のあとで 30 分以内にコーヒーを飲むといい。\n3 昼寝で寝すぎないためには、昼寝をする 30 分前にコーヒーを飲むといい。\n4 昼寝で、30 分ぐらいで自然に起きるためには、昼寝の直前にコーヒーを\n飲むといい。\n問題 5  つぎの(1)と(2)の文章\nぶんしょう\nを読んで、質問に答えなさい。答えは、1・2・3・4\nから最もよいものを一つえらびなさい。\n（１）\n私は、前から自分で野菜を育てたいと思っていました。私のうちには庭もベランダ\nもないので、①諦めていたのですが、先月、友達から部屋の中でホウレンソウを育てて\nいるという 話を聞きました。 室内でできるなら 私もやってみたいと 思い、準備をしま\nした。\n外に似た環境がいいだろうと考え、窓の近くで育て始めたら、4 日で芽が出始めまし\nた。少しずつ大きくなるのがうれしかったです 。ところが、だんだん葉が黄色くなって、\n全部枯れてしまったのです 。太陽の光が足りなかったのかもしれないと思いました。\n②がっかりして、友達に電話をして聞いてみると、 ホウレンソウ は夜になったら、\n光が当たってはいけないということがわかりました。 私の場合は、部屋の電気の光が\nよくなかったようです 。友達は、段ボール箱でホウレンソウ にカバーをしているのだ\nそうです 。\n私も同じようにやってみたら、③ 今度は元気に育ちました。サラダにして食べたら、\nとてもおいしかったです 。\n27  ①諦めていたとあるが、何を諦めていたのか。\n1 自分で野菜を育てること\n2 庭やベランダがある家に住むこと\n3 友達に野菜の育て方を教えてもらうこと\n4 部屋の中でホウレンソウを育てること\n28  ②がっかりしてとあるが、どうしてがっかりしたのか。\n1 ホウレンソウの芽が出なかったから。\n2 ホウレンソウが全部枯れてしまったから。\n3 ホウレンソウについての友達の知識が間違っていたから。\n4 うまく育ったホウレンソウが少なかったから。\n29      ③今度は元気に育ちましたとあるが、どうして元気に育ったのか。\n1 昼、ホウレンソウにもっと光が当たるようにしたから。\n2    昼、ホウレンソウにあまり光が当たらないようにしたから。\n3 夜、ホウレンンソウに光が当たるようにしたから。\n4 夜、ホウレンソウに光が当たらないようにしたから。\n（２）\n日本に留学したばかりのころ、 文房具店 に入って驚いてしまった 。私の国では、\nシャープぺンシルはあまり売られていないが、その店には 100 円の安い物から 5000 円\n以上する高い物まで、すごい 数のシャーペン が並んでいたのだ。 芯も太さが 0.3mm\nから 1.5mm まであって、濃さもいろいろな物が売られていた。\nイギリスで生まれたシャーペンだが、初めは 1.5mm や 1.0mm の芯しかなかった。\nだが、 約 60 年前、 ある日本の会社が、複雑な漢字でも美しく書けるよう、 世界で\n初めて 0.5mm の折れにくい 芯を作ることに チャレンジ して、成功したのだそうだ。\nそれからシャーペンが日本中で使われるようになったらしい。\n私は、来日してからずっとシャーペンを愛用している。鉛筆のように先が丸くならず 、\n小さい字がきれいに書けるからだ。今、使っているのは安い物だが、来年、就職したら、\n少しいい物を買おうと思っている。\n30  驚いてしまったとあるが、文房具店のどんなことに驚いたのか。\n１ シャーペンがあまり売られていなかったこと\n２ たくさんの種類のシャーペンや芯が売られていたこと\n３ 値段の高いシャーペンばかりが売られていたこと\n４ シャーペンの芯だけを売る専門の店だったこと\n31  シャーペンが日本中で使われるようになったのは、いつからか。\n1 日本の会社が、太くて折れにくい芯を作ってから。\n2  日本の会社が、細くて折れにくい芯を作ってから。\n3 日本の会社が、日本でイギリスのシャーペンを売るようになってから。\n4  日本の会社が、世界で初めてシャーペンを作ってから。\n32  「私」が今、シャーペンを使っているのはなぜか。\n1 日本中で使われているから。\n2 小さい字が書きやすいから。\n3 鉛筆より安く買えるから。\n4 高くていい物を買ったから。\n問題 6  つぎの文章\nぶんしょう\nを読んで、質問に答えなさい。答えは、1・2・3・4 から最もよい\nものを一つえらびなさい。\n野球やサッカーなどのプロスポーツ の経営では、試合会場に来てくれる客を増やす\nことが重要だ。また見たいと思うようないい試合が続けば、客は自然に増えるだろう。\nしかし、どんなに選手が努力しても、そのような試合をずっと続けるのは難しい。そこ\nで、①経営者のさまざまな工夫が必要になる。\nその一つに、②試合会場の工夫がある。例えば、ある会場では、試合がある日に、\nいろいろな 飲食店 の食べ物や飲み物を 1000 種類も選べるようにしている。また、\n(注)バーベキユーをしながら試合が見られる観客席を作っているところもある。会場を\n楽しく過ごせる場所にして、また来たいと思ってもらおうという考え方だ。経営という\n点では、試合を見ること以外にも会場に来る目的を作ることが重要なのだ。\nもちろん、試合を楽しむために来る客を増やす工夫もしている。例えば、新しい客\nに来てもらうために、無料のチケットを配るという方法がある。一度会場に来て試合を\n楽しんでくれたら、次はチケットを買って来てくれる可能性が広がるという考えからだ。\nただ、③この考え方には反対意見もある。無料のチケットで来た客は、普段のチケ\nットを高く感じてしまう。すると、結局チケットを買わなくなるので、収入は増えない\nと考える経営者もいる。\nプロスポーツ の経営者 は、客に来てもらうために、いろいろな 工夫をしている。\n手段はさまざまだが、客に満足してもらい、何度も来てもらいたいという気持ちは共通\nしているのだ。\n(注) バーベキュー：肉や野菜を焼いて食べること\n33  ①経営者のさまざまな工夫が必要になるとあるが、なぜか。\n1 選手が、客を増やすことに関心を持っていないから。\n2 選手がどんなにいい試合を続けても、客の数には影響しないから。\n3 選手がいい試合をし続けて客を増やすことは、難しいから。\n4 選手が努力することがなく、客が減っているから。\n34   ②試合会場の工夫とあるが、どのような工夫を例として書いているか。\n1  会場内の飲食店の案内をわかりやすくする工夫\n2  会場で食べ物や飲み物を注文しやすくする工夫\n3  会場で集中して試合を見てもらうための観客席の工夫\n4  会場で試合以外に飲食も楽しんでもらうための工夫\n35  ③この考え方とあるが、どのような考え方か。\n1 無料のチケットを配って客が増えれば、選手たちのやる気が出るだろう。\n2 無料のチケットを配っても、見に来る客はほとんどいないだろう。\n3 無料のチケットで試合を楽しんだ客は、次はチケットを買って来るだろう。\n4 無料のチケットで試合を楽しんだ客は、次もチケットを買わないだろう。\n36  この文章全体のテーマは何か。\n1 プロスポーツの経営者が、試合会場に来る客を増やすためにしていること\n2 プロスポーツの経営者が、選手を強くするためにしていること\n3 プロスポーツの経営者が、試合会場を客が楽しめる場所にするためにしていること\n4 プロスポーツの経営者が、客に安く試合を見てもらうためにしていること\n問題 7  右のページは、外\nがい\n国\nこく\n人\nじん\n向\nむ\nけのお知らせである。これを読んで、下の質\nしつ\n問\nもん\nに答\nこた\nえ\nなさい。答えは、1・2・3・4 から最\nもっと\nもよいものを一つえらびなさい。\n37  次の 4 人は、2 月 1 日から 3 月 31 日までの間に「買い物券チャレンジ」の参加店\nで買い物をした。 「買い物券チャレンジ」に応募できるのは誰か。\n名前 利用した店の数 レシートの数 レシートの合計\n森田さん ２店 ８枚 7,520 円\nヨウさん ４店 ４枚 9,080 円\n東さん ４店 ６枚 6,100 円\nクレアさん ５店 ７枚 4,340 円\n1 森田さん\n2 ヨウさん\n3 東さん\n4 クレアさん\n38  中村さんは、「買い物券チャレンジ」に応募しようと思い、応募用紙の準備を\nした。今日は４月１１日（日）である。応募用紙はどのように出さなければ\nならないか。\n1 今日中に郵送するか、明日の 10 時から 17 時までに商業課に持参する。\n2 今日の 10 時から 16 時まで、または明日の 10 時から 17 時までに商業課に\n持参する。\n3 明日の 10 時から 16 時までに商業課に持参する。\n4 明日の 10 時から 17 時までに商業課に持参する。\n「買い物券チャレンジ」\nみずき市の店で買い物したレシートを集めて応募すると、\n100 名の方に、市内の店で使える 5,000 円分の買い物券が当たります。\n参加·応募方法\n①レシートを集める\nみずき市の生活用品店、食料品店 など、ホームページに書かれている参加店を利用して、\nレシートをもらってください。\n【期間】2 月 1 日(月)〜3 月 31 日(水)\n・応募には、合計 5,000 円分以上のレシートが必要です。\n・レシートの枚数は、5 枚以上必要です。\n・同じ店のレシートが 2 枚以上あってもいいですが、必ず 3 つ以上の店を利用して\nレシートを集めてください。\n②応募する\n応募用紙に氏名・住所・電話番号 を書き、集めたレシートをはってください。 応募用紙は、\nホームページに書かれている店でもらえます。\n<応募方法>\nみずき市商業課に郵送、または持参してください。\n１.郵送の場合\n【期間】2 月 1 日(月)〜4 月 9 日（金）\n・郵送する場合は、応募用紙を封筒に入れ、切手をはって送ってください。\n２.持参の場合\n【期間】2 月 1 日(月)〜4 月 12 日(月)\n・商業課の窓口の開いている時間(平日の 10 時〜16 時、最終日4 月 12 日は 10 時〜17 時)に\n来てください。土日は休みです。\n■買い物券について\n・当たった方には、4 月 20 日ごろに買い物券をお送りします。\n・買い物券の使用期限は 10 月 31 日です。使える店は、ホームページを確認してください。\nみずき市商業課 〒126-0204 みずき市中町 2040-１みずき市役所 3 階\n電話番号 031-924-1976\nホームページ https://www.mizuki-city.jp/shoppingticket",
+          "choices": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ],
+          "correctAnswer": 2,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2024-07-grammar-m5-q29",
+          "section": "grammar",
+          "mondai": 5,
+          "questionNumber": 29,
+          "questionType": "READING_MEDIUM",
+          "questionText": "",
+          "passage": "問題 3 つぎの文章を読んで、文章全体の内容を考えて、 19 から 22 の中に入る最も\nよいものを、1・2・3・4 から一つえらびなさい。\n私の友達\nミラー・ジョナサン\n私は近所の小さい喫茶店によく行きます。店長は林さんという 70 歳の男性です。\n林さんは私より 50 歳も年上ですが、私たちは友達です 。\nそのお 店には 半年 ぐらい 前から 行くようになりました。 私が行くと、 林さんは\nいつも １９  。それで、私たちはだんだん仲がよくなりました。\nほかのお客さんがいないとき、私たちはよくおしゃべりをしてます。林さんはコーヒーの\n種類について詳しくて、私はコーヒーのことがよくわかるようになりました。ときどき、\n林さんに日本の生活で困っていることを相談することもあります 。林さんはいつもいい\nアドバイス をくれます。  ２０  私たちは 二人とも映画が好きなので、 映画の話も\nよくします 。この間は、一緒に映画を見に行きました。\n日本で林さん ２１ 友達ができることは 予想していませんでした。こんなに 年上\nの友達ができたのは 初めてでしたが、 年齢の差は重要ではないことがわかりました。\n日本で林さんに ２２ よかったです 。\n1 話しかけていました     2 話しかけてあげました\n3 話しかけてくれました    4 話しかけてもらいました\n1 確かに       2 ところが\n3 例えば       4 それから\n1  にも  2 のような   3 にだけ   4  のほかに\n1 会えて   2  会うから  3 会えるのが  4 会っても\n読解\n問題 4 つぎの(1)から(4)の文章\nぶんしょう\nを読んで、質問に答えなさい。答えは、1・2・3・4\nから最もよいものを一つえらびなさい。\n（１）\nこれは、野村さんが部長会議の出席予定者に書いたメールである。\n部長会議にご出席予定の皆様へ\nあさって 12 日(金)の部長会議について、ご連絡します 。\n天気予報では、明日の夜、台風が東京の近くを通ることが予想されています 。そのため、\nあさってまで交通機関に影響が残る可能性があります 。明日の予報で台風が東京を通る\nことが確実になった場合は、会議を来週に延期することにします 。最終的なご連絡は、\n明日 11 日(木)の 15 時にメールでいたします 。\n以上、よろしくお願いします 。\n第一営業部\n野村マリア\n23  野村さんがこのメールで知らせたいことは何か。\n1 部長会議は、来週に延期する。\n2 部長会議は、明日の 15 時から行う。\n3 部長会議は天気に関係なく、あさって行う。\n4 部長会議を延期するかどうか、明日の 15 時に連絡する。\n（２）\n高校生の孫が「来週、E スポーツ大会に出るんだ」と言った。コンピューターゲームの\n大会だと説明され、私は不思議な気がした。なぜ、それがスポーツの大会なのだろうか。\n聞いてみると、 英語の「スポーツ」には、ルールを守りながら勝ったり負けたりす\nることを楽しむものという意味があるそうだ。それで、最近ではコンピューターゲーム\nもスポーツと言うらしい。\n体を動かすことをスポーツだと思っていた私は驚いた。\n24  不思議な気がしたとあるが、どうしてか。\n1 高校生なのに、孫が有名な E スポーツの大会に出ると言っているから。\n2 コンピューターゲームにも大会があると聞いたから。\n3 体を動かさないのに、コンピューターゲームをスポーツと言っているから。\n4 子供のころからずっとなりたいと思い続けていた先生になれたから。\n（３）\n(大学で)\nこのお知らせが掲示板にはってある。\n留学生日本語カラオケ大会\n参加者募集\n5 月 29 日(土)の 13 時から、大教室(A103)で「留学生日本語カラオケ大会」を行います。\n参加したい人は、歌いたい日本語の歌を決めて、5 月 7 日(金)までに留学生課で申し\n込んでください。\nなお、当日の集合時間は 12 時ですが、希望者は午前中に会場の A103 で練習するこ\nとができます 。その場合の集合時間は 10 時になります 。希望者は、参加の申し込み\nのときに、練習も申し込んでください。\n参加をお待ちしています 。\n留学生課\n25  カラオケ大会に参加したい人で、当日、会場で練習したい人はとうしなければ\nならないか。\n1 5 月 7 日までに留学生課で参加と練習の申し込みをして、29 日の10 時に会場へ行く。\n2 5 月 7 日までに留学生課で参加と練習の申し込みをして、29 日の12 時に会場へ行く。\n3 5 月 7 日までに留学生課で参加の申し込みだけして、29 日の10 時に会場へ行く。\n4 5 月 29日の10時までに留学生課で参加と練習の申し込みをして、12時に会場へ行く。\n（４）\nコーヒーを飲むと眠れなくなるから、 寝る前には飲まないという 人が多いだろう。\nしかし最近、昼寝の前にはコーヒーを飲むといいと言われるようになってきた。\n昼寝をすると起きたあとの集中力が上がるが、長く寝るのはよくない。そこで、 飲\nむと目が覚めるというコーヒーの効果を利用するのだ。この効果は、飲んでから約 30\n分後に出るので、昼寝の前に飲むと、30 分ぐらいで自然に目が覚める。\nぜひやってみてほしい。\n26  この文章を書いた人が言いたいことは何か。\n1 コーヒーを飲むと眠れなくなるから、昼寝の前には飲まないほうがいい。\n2 集中力が高くなるから、昼寝のあとで 30 分以内にコーヒーを飲むといい。\n3 昼寝で寝すぎないためには、昼寝をする 30 分前にコーヒーを飲むといい。\n4 昼寝で、30 分ぐらいで自然に起きるためには、昼寝の直前にコーヒーを\n飲むといい。\n問題 5  つぎの(1)と(2)の文章\nぶんしょう\nを読んで、質問に答えなさい。答えは、1・2・3・4\nから最もよいものを一つえらびなさい。\n（１）\n私は、前から自分で野菜を育てたいと思っていました。私のうちには庭もベランダ\nもないので、①諦めていたのですが、先月、友達から部屋の中でホウレンソウを育てて\nいるという 話を聞きました。 室内でできるなら 私もやってみたいと 思い、準備をしま\nした。\n外に似た環境がいいだろうと考え、窓の近くで育て始めたら、4 日で芽が出始めまし\nた。少しずつ大きくなるのがうれしかったです 。ところが、だんだん葉が黄色くなって、\n全部枯れてしまったのです 。太陽の光が足りなかったのかもしれないと思いました。\n②がっかりして、友達に電話をして聞いてみると、 ホウレンソウ は夜になったら、\n光が当たってはいけないということがわかりました。 私の場合は、部屋の電気の光が\nよくなかったようです 。友達は、段ボール箱でホウレンソウ にカバーをしているのだ\nそうです 。\n私も同じようにやってみたら、③ 今度は元気に育ちました。サラダにして食べたら、\nとてもおいしかったです 。\n27  ①諦めていたとあるが、何を諦めていたのか。\n1 自分で野菜を育てること\n2 庭やベランダがある家に住むこと\n3 友達に野菜の育て方を教えてもらうこと\n4 部屋の中でホウレンソウを育てること\n28  ②がっかりしてとあるが、どうしてがっかりしたのか。\n1 ホウレンソウの芽が出なかったから。\n2 ホウレンソウが全部枯れてしまったから。\n3 ホウレンソウについての友達の知識が間違っていたから。\n4 うまく育ったホウレンソウが少なかったから。\n29      ③今度は元気に育ちましたとあるが、どうして元気に育ったのか。\n1 昼、ホウレンソウにもっと光が当たるようにしたから。\n2    昼、ホウレンソウにあまり光が当たらないようにしたから。\n3 夜、ホウレンンソウに光が当たるようにしたから。\n4 夜、ホウレンソウに光が当たらないようにしたから。\n（２）\n日本に留学したばかりのころ、 文房具店 に入って驚いてしまった 。私の国では、\nシャープぺンシルはあまり売られていないが、その店には 100 円の安い物から 5000 円\n以上する高い物まで、すごい 数のシャーペン が並んでいたのだ。 芯も太さが 0.3mm\nから 1.5mm まであって、濃さもいろいろな物が売られていた。\nイギリスで生まれたシャーペンだが、初めは 1.5mm や 1.0mm の芯しかなかった。\nだが、 約 60 年前、 ある日本の会社が、複雑な漢字でも美しく書けるよう、 世界で\n初めて 0.5mm の折れにくい 芯を作ることに チャレンジ して、成功したのだそうだ。\nそれからシャーペンが日本中で使われるようになったらしい。\n私は、来日してからずっとシャーペンを愛用している。鉛筆のように先が丸くならず 、\n小さい字がきれいに書けるからだ。今、使っているのは安い物だが、来年、就職したら、\n少しいい物を買おうと思っている。\n30  驚いてしまったとあるが、文房具店のどんなことに驚いたのか。\n１ シャーペンがあまり売られていなかったこと\n２ たくさんの種類のシャーペンや芯が売られていたこと\n３ 値段の高いシャーペンばかりが売られていたこと\n４ シャーペンの芯だけを売る専門の店だったこと\n31  シャーペンが日本中で使われるようになったのは、いつからか。\n1 日本の会社が、太くて折れにくい芯を作ってから。\n2  日本の会社が、細くて折れにくい芯を作ってから。\n3 日本の会社が、日本でイギリスのシャーペンを売るようになってから。\n4  日本の会社が、世界で初めてシャーペンを作ってから。\n32  「私」が今、シャーペンを使っているのはなぜか。\n1 日本中で使われているから。\n2 小さい字が書きやすいから。\n3 鉛筆より安く買えるから。\n4 高くていい物を買ったから。\n問題 6  つぎの文章\nぶんしょう\nを読んで、質問に答えなさい。答えは、1・2・3・4 から最もよい\nものを一つえらびなさい。\n野球やサッカーなどのプロスポーツ の経営では、試合会場に来てくれる客を増やす\nことが重要だ。また見たいと思うようないい試合が続けば、客は自然に増えるだろう。\nしかし、どんなに選手が努力しても、そのような試合をずっと続けるのは難しい。そこ\nで、①経営者のさまざまな工夫が必要になる。\nその一つに、②試合会場の工夫がある。例えば、ある会場では、試合がある日に、\nいろいろな 飲食店 の食べ物や飲み物を 1000 種類も選べるようにしている。また、\n(注)バーベキユーをしながら試合が見られる観客席を作っているところもある。会場を\n楽しく過ごせる場所にして、また来たいと思ってもらおうという考え方だ。経営という\n点では、試合を見ること以外にも会場に来る目的を作ることが重要なのだ。\nもちろん、試合を楽しむために来る客を増やす工夫もしている。例えば、新しい客\nに来てもらうために、無料のチケットを配るという方法がある。一度会場に来て試合を\n楽しんでくれたら、次はチケットを買って来てくれる可能性が広がるという考えからだ。\nただ、③この考え方には反対意見もある。無料のチケットで来た客は、普段のチケ\nットを高く感じてしまう。すると、結局チケットを買わなくなるので、収入は増えない\nと考える経営者もいる。\nプロスポーツ の経営者 は、客に来てもらうために、いろいろな 工夫をしている。\n手段はさまざまだが、客に満足してもらい、何度も来てもらいたいという気持ちは共通\nしているのだ。\n(注) バーベキュー：肉や野菜を焼いて食べること\n33  ①経営者のさまざまな工夫が必要になるとあるが、なぜか。\n1 選手が、客を増やすことに関心を持っていないから。\n2 選手がどんなにいい試合を続けても、客の数には影響しないから。\n3 選手がいい試合をし続けて客を増やすことは、難しいから。\n4 選手が努力することがなく、客が減っているから。\n34   ②試合会場の工夫とあるが、どのような工夫を例として書いているか。\n1  会場内の飲食店の案内をわかりやすくする工夫\n2  会場で食べ物や飲み物を注文しやすくする工夫\n3  会場で集中して試合を見てもらうための観客席の工夫\n4  会場で試合以外に飲食も楽しんでもらうための工夫\n35  ③この考え方とあるが、どのような考え方か。\n1 無料のチケットを配って客が増えれば、選手たちのやる気が出るだろう。\n2 無料のチケットを配っても、見に来る客はほとんどいないだろう。\n3 無料のチケットで試合を楽しんだ客は、次はチケットを買って来るだろう。\n4 無料のチケットで試合を楽しんだ客は、次もチケットを買わないだろう。\n36  この文章全体のテーマは何か。\n1 プロスポーツの経営者が、試合会場に来る客を増やすためにしていること\n2 プロスポーツの経営者が、選手を強くするためにしていること\n3 プロスポーツの経営者が、試合会場を客が楽しめる場所にするためにしていること\n4 プロスポーツの経営者が、客に安く試合を見てもらうためにしていること\n問題 7  右のページは、外\nがい\n国\nこく\n人\nじん\n向\nむ\nけのお知らせである。これを読んで、下の質\nしつ\n問\nもん\nに答\nこた\nえ\nなさい。答えは、1・2・3・4 から最\nもっと\nもよいものを一つえらびなさい。\n37  次の 4 人は、2 月 1 日から 3 月 31 日までの間に「買い物券チャレンジ」の参加店\nで買い物をした。 「買い物券チャレンジ」に応募できるのは誰か。\n名前 利用した店の数 レシートの数 レシートの合計\n森田さん ２店 ８枚 7,520 円\nヨウさん ４店 ４枚 9,080 円\n東さん ４店 ６枚 6,100 円\nクレアさん ５店 ７枚 4,340 円\n1 森田さん\n2 ヨウさん\n3 東さん\n4 クレアさん\n38  中村さんは、「買い物券チャレンジ」に応募しようと思い、応募用紙の準備を\nした。今日は４月１１日（日）である。応募用紙はどのように出さなければ\nならないか。\n1 今日中に郵送するか、明日の 10 時から 17 時までに商業課に持参する。\n2 今日の 10 時から 16 時まで、または明日の 10 時から 17 時までに商業課に\n持参する。\n3 明日の 10 時から 16 時までに商業課に持参する。\n4 明日の 10 時から 17 時までに商業課に持参する。\n「買い物券チャレンジ」\nみずき市の店で買い物したレシートを集めて応募すると、\n100 名の方に、市内の店で使える 5,000 円分の買い物券が当たります。\n参加·応募方法\n①レシートを集める\nみずき市の生活用品店、食料品店 など、ホームページに書かれている参加店を利用して、\nレシートをもらってください。\n【期間】2 月 1 日(月)〜3 月 31 日(水)\n・応募には、合計 5,000 円分以上のレシートが必要です。\n・レシートの枚数は、5 枚以上必要です。\n・同じ店のレシートが 2 枚以上あってもいいですが、必ず 3 つ以上の店を利用して\nレシートを集めてください。\n②応募する\n応募用紙に氏名・住所・電話番号 を書き、集めたレシートをはってください。 応募用紙は、\nホームページに書かれている店でもらえます。\n<応募方法>\nみずき市商業課に郵送、または持参してください。\n１.郵送の場合\n【期間】2 月 1 日(月)〜4 月 9 日（金）\n・郵送する場合は、応募用紙を封筒に入れ、切手をはって送ってください。\n２.持参の場合\n【期間】2 月 1 日(月)〜4 月 12 日(月)\n・商業課の窓口の開いている時間(平日の 10 時〜16 時、最終日4 月 12 日は 10 時〜17 時)に\n来てください。土日は休みです。\n■買い物券について\n・当たった方には、4 月 20 日ごろに買い物券をお送りします。\n・買い物券の使用期限は 10 月 31 日です。使える店は、ホームページを確認してください。\nみずき市商業課 〒126-0204 みずき市中町 2040-１みずき市役所 3 階\n電話番号 031-924-1976\nホームページ https://www.mizuki-city.jp/shoppingticket",
+          "choices": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ],
+          "correctAnswer": 4,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2024-07-grammar-m5-q30",
+          "section": "grammar",
+          "mondai": 5,
+          "questionNumber": 30,
+          "questionType": "READING_MEDIUM",
+          "questionText": "",
+          "passage": "問題 3 つぎの文章を読んで、文章全体の内容を考えて、 19 から 22 の中に入る最も\nよいものを、1・2・3・4 から一つえらびなさい。\n私の友達\nミラー・ジョナサン\n私は近所の小さい喫茶店によく行きます。店長は林さんという 70 歳の男性です。\n林さんは私より 50 歳も年上ですが、私たちは友達です 。\nそのお 店には 半年 ぐらい 前から 行くようになりました。 私が行くと、 林さんは\nいつも １９  。それで、私たちはだんだん仲がよくなりました。\nほかのお客さんがいないとき、私たちはよくおしゃべりをしてます。林さんはコーヒーの\n種類について詳しくて、私はコーヒーのことがよくわかるようになりました。ときどき、\n林さんに日本の生活で困っていることを相談することもあります 。林さんはいつもいい\nアドバイス をくれます。  ２０  私たちは 二人とも映画が好きなので、 映画の話も\nよくします 。この間は、一緒に映画を見に行きました。\n日本で林さん ２１ 友達ができることは 予想していませんでした。こんなに 年上\nの友達ができたのは 初めてでしたが、 年齢の差は重要ではないことがわかりました。\n日本で林さんに ２２ よかったです 。\n1 話しかけていました     2 話しかけてあげました\n3 話しかけてくれました    4 話しかけてもらいました\n1 確かに       2 ところが\n3 例えば       4 それから\n1  にも  2 のような   3 にだけ   4  のほかに\n1 会えて   2  会うから  3 会えるのが  4 会っても\n読解\n問題 4 つぎの(1)から(4)の文章\nぶんしょう\nを読んで、質問に答えなさい。答えは、1・2・3・4\nから最もよいものを一つえらびなさい。\n（１）\nこれは、野村さんが部長会議の出席予定者に書いたメールである。\n部長会議にご出席予定の皆様へ\nあさって 12 日(金)の部長会議について、ご連絡します 。\n天気予報では、明日の夜、台風が東京の近くを通ることが予想されています 。そのため、\nあさってまで交通機関に影響が残る可能性があります 。明日の予報で台風が東京を通る\nことが確実になった場合は、会議を来週に延期することにします 。最終的なご連絡は、\n明日 11 日(木)の 15 時にメールでいたします 。\n以上、よろしくお願いします 。\n第一営業部\n野村マリア\n23  野村さんがこのメールで知らせたいことは何か。\n1 部長会議は、来週に延期する。\n2 部長会議は、明日の 15 時から行う。\n3 部長会議は天気に関係なく、あさって行う。\n4 部長会議を延期するかどうか、明日の 15 時に連絡する。\n（２）\n高校生の孫が「来週、E スポーツ大会に出るんだ」と言った。コンピューターゲームの\n大会だと説明され、私は不思議な気がした。なぜ、それがスポーツの大会なのだろうか。\n聞いてみると、 英語の「スポーツ」には、ルールを守りながら勝ったり負けたりす\nることを楽しむものという意味があるそうだ。それで、最近ではコンピューターゲーム\nもスポーツと言うらしい。\n体を動かすことをスポーツだと思っていた私は驚いた。\n24  不思議な気がしたとあるが、どうしてか。\n1 高校生なのに、孫が有名な E スポーツの大会に出ると言っているから。\n2 コンピューターゲームにも大会があると聞いたから。\n3 体を動かさないのに、コンピューターゲームをスポーツと言っているから。\n4 子供のころからずっとなりたいと思い続けていた先生になれたから。\n（３）\n(大学で)\nこのお知らせが掲示板にはってある。\n留学生日本語カラオケ大会\n参加者募集\n5 月 29 日(土)の 13 時から、大教室(A103)で「留学生日本語カラオケ大会」を行います。\n参加したい人は、歌いたい日本語の歌を決めて、5 月 7 日(金)までに留学生課で申し\n込んでください。\nなお、当日の集合時間は 12 時ですが、希望者は午前中に会場の A103 で練習するこ\nとができます 。その場合の集合時間は 10 時になります 。希望者は、参加の申し込み\nのときに、練習も申し込んでください。\n参加をお待ちしています 。\n留学生課\n25  カラオケ大会に参加したい人で、当日、会場で練習したい人はとうしなければ\nならないか。\n1 5 月 7 日までに留学生課で参加と練習の申し込みをして、29 日の10 時に会場へ行く。\n2 5 月 7 日までに留学生課で参加と練習の申し込みをして、29 日の12 時に会場へ行く。\n3 5 月 7 日までに留学生課で参加の申し込みだけして、29 日の10 時に会場へ行く。\n4 5 月 29日の10時までに留学生課で参加と練習の申し込みをして、12時に会場へ行く。\n（４）\nコーヒーを飲むと眠れなくなるから、 寝る前には飲まないという 人が多いだろう。\nしかし最近、昼寝の前にはコーヒーを飲むといいと言われるようになってきた。\n昼寝をすると起きたあとの集中力が上がるが、長く寝るのはよくない。そこで、 飲\nむと目が覚めるというコーヒーの効果を利用するのだ。この効果は、飲んでから約 30\n分後に出るので、昼寝の前に飲むと、30 分ぐらいで自然に目が覚める。\nぜひやってみてほしい。\n26  この文章を書いた人が言いたいことは何か。\n1 コーヒーを飲むと眠れなくなるから、昼寝の前には飲まないほうがいい。\n2 集中力が高くなるから、昼寝のあとで 30 分以内にコーヒーを飲むといい。\n3 昼寝で寝すぎないためには、昼寝をする 30 分前にコーヒーを飲むといい。\n4 昼寝で、30 分ぐらいで自然に起きるためには、昼寝の直前にコーヒーを\n飲むといい。\n問題 5  つぎの(1)と(2)の文章\nぶんしょう\nを読んで、質問に答えなさい。答えは、1・2・3・4\nから最もよいものを一つえらびなさい。\n（１）\n私は、前から自分で野菜を育てたいと思っていました。私のうちには庭もベランダ\nもないので、①諦めていたのですが、先月、友達から部屋の中でホウレンソウを育てて\nいるという 話を聞きました。 室内でできるなら 私もやってみたいと 思い、準備をしま\nした。\n外に似た環境がいいだろうと考え、窓の近くで育て始めたら、4 日で芽が出始めまし\nた。少しずつ大きくなるのがうれしかったです 。ところが、だんだん葉が黄色くなって、\n全部枯れてしまったのです 。太陽の光が足りなかったのかもしれないと思いました。\n②がっかりして、友達に電話をして聞いてみると、 ホウレンソウ は夜になったら、\n光が当たってはいけないということがわかりました。 私の場合は、部屋の電気の光が\nよくなかったようです 。友達は、段ボール箱でホウレンソウ にカバーをしているのだ\nそうです 。\n私も同じようにやってみたら、③ 今度は元気に育ちました。サラダにして食べたら、\nとてもおいしかったです 。\n27  ①諦めていたとあるが、何を諦めていたのか。\n1 自分で野菜を育てること\n2 庭やベランダがある家に住むこと\n3 友達に野菜の育て方を教えてもらうこと\n4 部屋の中でホウレンソウを育てること\n28  ②がっかりしてとあるが、どうしてがっかりしたのか。\n1 ホウレンソウの芽が出なかったから。\n2 ホウレンソウが全部枯れてしまったから。\n3 ホウレンソウについての友達の知識が間違っていたから。\n4 うまく育ったホウレンソウが少なかったから。\n29      ③今度は元気に育ちましたとあるが、どうして元気に育ったのか。\n1 昼、ホウレンソウにもっと光が当たるようにしたから。\n2    昼、ホウレンソウにあまり光が当たらないようにしたから。\n3 夜、ホウレンンソウに光が当たるようにしたから。\n4 夜、ホウレンソウに光が当たらないようにしたから。\n（２）\n日本に留学したばかりのころ、 文房具店 に入って驚いてしまった 。私の国では、\nシャープぺンシルはあまり売られていないが、その店には 100 円の安い物から 5000 円\n以上する高い物まで、すごい 数のシャーペン が並んでいたのだ。 芯も太さが 0.3mm\nから 1.5mm まであって、濃さもいろいろな物が売られていた。\nイギリスで生まれたシャーペンだが、初めは 1.5mm や 1.0mm の芯しかなかった。\nだが、 約 60 年前、 ある日本の会社が、複雑な漢字でも美しく書けるよう、 世界で\n初めて 0.5mm の折れにくい 芯を作ることに チャレンジ して、成功したのだそうだ。\nそれからシャーペンが日本中で使われるようになったらしい。\n私は、来日してからずっとシャーペンを愛用している。鉛筆のように先が丸くならず 、\n小さい字がきれいに書けるからだ。今、使っているのは安い物だが、来年、就職したら、\n少しいい物を買おうと思っている。\n30  驚いてしまったとあるが、文房具店のどんなことに驚いたのか。\n１ シャーペンがあまり売られていなかったこと\n２ たくさんの種類のシャーペンや芯が売られていたこと\n３ 値段の高いシャーペンばかりが売られていたこと\n４ シャーペンの芯だけを売る専門の店だったこと\n31  シャーペンが日本中で使われるようになったのは、いつからか。\n1 日本の会社が、太くて折れにくい芯を作ってから。\n2  日本の会社が、細くて折れにくい芯を作ってから。\n3 日本の会社が、日本でイギリスのシャーペンを売るようになってから。\n4  日本の会社が、世界で初めてシャーペンを作ってから。\n32  「私」が今、シャーペンを使っているのはなぜか。\n1 日本中で使われているから。\n2 小さい字が書きやすいから。\n3 鉛筆より安く買えるから。\n4 高くていい物を買ったから。\n問題 6  つぎの文章\nぶんしょう\nを読んで、質問に答えなさい。答えは、1・2・3・4 から最もよい\nものを一つえらびなさい。\n野球やサッカーなどのプロスポーツ の経営では、試合会場に来てくれる客を増やす\nことが重要だ。また見たいと思うようないい試合が続けば、客は自然に増えるだろう。\nしかし、どんなに選手が努力しても、そのような試合をずっと続けるのは難しい。そこ\nで、①経営者のさまざまな工夫が必要になる。\nその一つに、②試合会場の工夫がある。例えば、ある会場では、試合がある日に、\nいろいろな 飲食店 の食べ物や飲み物を 1000 種類も選べるようにしている。また、\n(注)バーベキユーをしながら試合が見られる観客席を作っているところもある。会場を\n楽しく過ごせる場所にして、また来たいと思ってもらおうという考え方だ。経営という\n点では、試合を見ること以外にも会場に来る目的を作ることが重要なのだ。\nもちろん、試合を楽しむために来る客を増やす工夫もしている。例えば、新しい客\nに来てもらうために、無料のチケットを配るという方法がある。一度会場に来て試合を\n楽しんでくれたら、次はチケットを買って来てくれる可能性が広がるという考えからだ。\nただ、③この考え方には反対意見もある。無料のチケットで来た客は、普段のチケ\nットを高く感じてしまう。すると、結局チケットを買わなくなるので、収入は増えない\nと考える経営者もいる。\nプロスポーツ の経営者 は、客に来てもらうために、いろいろな 工夫をしている。\n手段はさまざまだが、客に満足してもらい、何度も来てもらいたいという気持ちは共通\nしているのだ。\n(注) バーベキュー：肉や野菜を焼いて食べること\n33  ①経営者のさまざまな工夫が必要になるとあるが、なぜか。\n1 選手が、客を増やすことに関心を持っていないから。\n2 選手がどんなにいい試合を続けても、客の数には影響しないから。\n3 選手がいい試合をし続けて客を増やすことは、難しいから。\n4 選手が努力することがなく、客が減っているから。\n34   ②試合会場の工夫とあるが、どのような工夫を例として書いているか。\n1  会場内の飲食店の案内をわかりやすくする工夫\n2  会場で食べ物や飲み物を注文しやすくする工夫\n3  会場で集中して試合を見てもらうための観客席の工夫\n4  会場で試合以外に飲食も楽しんでもらうための工夫\n35  ③この考え方とあるが、どのような考え方か。\n1 無料のチケットを配って客が増えれば、選手たちのやる気が出るだろう。\n2 無料のチケットを配っても、見に来る客はほとんどいないだろう。\n3 無料のチケットで試合を楽しんだ客は、次はチケットを買って来るだろう。\n4 無料のチケットで試合を楽しんだ客は、次もチケットを買わないだろう。\n36  この文章全体のテーマは何か。\n1 プロスポーツの経営者が、試合会場に来る客を増やすためにしていること\n2 プロスポーツの経営者が、選手を強くするためにしていること\n3 プロスポーツの経営者が、試合会場を客が楽しめる場所にするためにしていること\n4 プロスポーツの経営者が、客に安く試合を見てもらうためにしていること\n問題 7  右のページは、外\nがい\n国\nこく\n人\nじん\n向\nむ\nけのお知らせである。これを読んで、下の質\nしつ\n問\nもん\nに答\nこた\nえ\nなさい。答えは、1・2・3・4 から最\nもっと\nもよいものを一つえらびなさい。\n37  次の 4 人は、2 月 1 日から 3 月 31 日までの間に「買い物券チャレンジ」の参加店\nで買い物をした。 「買い物券チャレンジ」に応募できるのは誰か。\n名前 利用した店の数 レシートの数 レシートの合計\n森田さん ２店 ８枚 7,520 円\nヨウさん ４店 ４枚 9,080 円\n東さん ４店 ６枚 6,100 円\nクレアさん ５店 ７枚 4,340 円\n1 森田さん\n2 ヨウさん\n3 東さん\n4 クレアさん\n38  中村さんは、「買い物券チャレンジ」に応募しようと思い、応募用紙の準備を\nした。今日は４月１１日（日）である。応募用紙はどのように出さなければ\nならないか。\n1 今日中に郵送するか、明日の 10 時から 17 時までに商業課に持参する。\n2 今日の 10 時から 16 時まで、または明日の 10 時から 17 時までに商業課に\n持参する。\n3 明日の 10 時から 16 時までに商業課に持参する。\n4 明日の 10 時から 17 時までに商業課に持参する。\n「買い物券チャレンジ」\nみずき市の店で買い物したレシートを集めて応募すると、\n100 名の方に、市内の店で使える 5,000 円分の買い物券が当たります。\n参加·応募方法\n①レシートを集める\nみずき市の生活用品店、食料品店 など、ホームページに書かれている参加店を利用して、\nレシートをもらってください。\n【期間】2 月 1 日(月)〜3 月 31 日(水)\n・応募には、合計 5,000 円分以上のレシートが必要です。\n・レシートの枚数は、5 枚以上必要です。\n・同じ店のレシートが 2 枚以上あってもいいですが、必ず 3 つ以上の店を利用して\nレシートを集めてください。\n②応募する\n応募用紙に氏名・住所・電話番号 を書き、集めたレシートをはってください。 応募用紙は、\nホームページに書かれている店でもらえます。\n<応募方法>\nみずき市商業課に郵送、または持参してください。\n１.郵送の場合\n【期間】2 月 1 日(月)〜4 月 9 日（金）\n・郵送する場合は、応募用紙を封筒に入れ、切手をはって送ってください。\n２.持参の場合\n【期間】2 月 1 日(月)〜4 月 12 日(月)\n・商業課の窓口の開いている時間(平日の 10 時〜16 時、最終日4 月 12 日は 10 時〜17 時)に\n来てください。土日は休みです。\n■買い物券について\n・当たった方には、4 月 20 日ごろに買い物券をお送りします。\n・買い物券の使用期限は 10 月 31 日です。使える店は、ホームページを確認してください。\nみずき市商業課 〒126-0204 みずき市中町 2040-１みずき市役所 3 階\n電話番号 031-924-1976\nホームページ https://www.mizuki-city.jp/shoppingticket",
+          "choices": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ],
+          "correctAnswer": 2,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2024-07-grammar-m5-q31",
+          "section": "grammar",
+          "mondai": 5,
+          "questionNumber": 31,
+          "questionType": "READING_MEDIUM",
+          "questionText": "",
+          "passage": "問題 3 つぎの文章を読んで、文章全体の内容を考えて、 19 から 22 の中に入る最も\nよいものを、1・2・3・4 から一つえらびなさい。\n私の友達\nミラー・ジョナサン\n私は近所の小さい喫茶店によく行きます。店長は林さんという 70 歳の男性です。\n林さんは私より 50 歳も年上ですが、私たちは友達です 。\nそのお 店には 半年 ぐらい 前から 行くようになりました。 私が行くと、 林さんは\nいつも １９  。それで、私たちはだんだん仲がよくなりました。\nほかのお客さんがいないとき、私たちはよくおしゃべりをしてます。林さんはコーヒーの\n種類について詳しくて、私はコーヒーのことがよくわかるようになりました。ときどき、\n林さんに日本の生活で困っていることを相談することもあります 。林さんはいつもいい\nアドバイス をくれます。  ２０  私たちは 二人とも映画が好きなので、 映画の話も\nよくします 。この間は、一緒に映画を見に行きました。\n日本で林さん ２１ 友達ができることは 予想していませんでした。こんなに 年上\nの友達ができたのは 初めてでしたが、 年齢の差は重要ではないことがわかりました。\n日本で林さんに ２２ よかったです 。\n1 話しかけていました     2 話しかけてあげました\n3 話しかけてくれました    4 話しかけてもらいました\n1 確かに       2 ところが\n3 例えば       4 それから\n1  にも  2 のような   3 にだけ   4  のほかに\n1 会えて   2  会うから  3 会えるのが  4 会っても\n読解\n問題 4 つぎの(1)から(4)の文章\nぶんしょう\nを読んで、質問に答えなさい。答えは、1・2・3・4\nから最もよいものを一つえらびなさい。\n（１）\nこれは、野村さんが部長会議の出席予定者に書いたメールである。\n部長会議にご出席予定の皆様へ\nあさって 12 日(金)の部長会議について、ご連絡します 。\n天気予報では、明日の夜、台風が東京の近くを通ることが予想されています 。そのため、\nあさってまで交通機関に影響が残る可能性があります 。明日の予報で台風が東京を通る\nことが確実になった場合は、会議を来週に延期することにします 。最終的なご連絡は、\n明日 11 日(木)の 15 時にメールでいたします 。\n以上、よろしくお願いします 。\n第一営業部\n野村マリア\n23  野村さんがこのメールで知らせたいことは何か。\n1 部長会議は、来週に延期する。\n2 部長会議は、明日の 15 時から行う。\n3 部長会議は天気に関係なく、あさって行う。\n4 部長会議を延期するかどうか、明日の 15 時に連絡する。\n（２）\n高校生の孫が「来週、E スポーツ大会に出るんだ」と言った。コンピューターゲームの\n大会だと説明され、私は不思議な気がした。なぜ、それがスポーツの大会なのだろうか。\n聞いてみると、 英語の「スポーツ」には、ルールを守りながら勝ったり負けたりす\nることを楽しむものという意味があるそうだ。それで、最近ではコンピューターゲーム\nもスポーツと言うらしい。\n体を動かすことをスポーツだと思っていた私は驚いた。\n24  不思議な気がしたとあるが、どうしてか。\n1 高校生なのに、孫が有名な E スポーツの大会に出ると言っているから。\n2 コンピューターゲームにも大会があると聞いたから。\n3 体を動かさないのに、コンピューターゲームをスポーツと言っているから。\n4 子供のころからずっとなりたいと思い続けていた先生になれたから。\n（３）\n(大学で)\nこのお知らせが掲示板にはってある。\n留学生日本語カラオケ大会\n参加者募集\n5 月 29 日(土)の 13 時から、大教室(A103)で「留学生日本語カラオケ大会」を行います。\n参加したい人は、歌いたい日本語の歌を決めて、5 月 7 日(金)までに留学生課で申し\n込んでください。\nなお、当日の集合時間は 12 時ですが、希望者は午前中に会場の A103 で練習するこ\nとができます 。その場合の集合時間は 10 時になります 。希望者は、参加の申し込み\nのときに、練習も申し込んでください。\n参加をお待ちしています 。\n留学生課\n25  カラオケ大会に参加したい人で、当日、会場で練習したい人はとうしなければ\nならないか。\n1 5 月 7 日までに留学生課で参加と練習の申し込みをして、29 日の10 時に会場へ行く。\n2 5 月 7 日までに留学生課で参加と練習の申し込みをして、29 日の12 時に会場へ行く。\n3 5 月 7 日までに留学生課で参加の申し込みだけして、29 日の10 時に会場へ行く。\n4 5 月 29日の10時までに留学生課で参加と練習の申し込みをして、12時に会場へ行く。\n（４）\nコーヒーを飲むと眠れなくなるから、 寝る前には飲まないという 人が多いだろう。\nしかし最近、昼寝の前にはコーヒーを飲むといいと言われるようになってきた。\n昼寝をすると起きたあとの集中力が上がるが、長く寝るのはよくない。そこで、 飲\nむと目が覚めるというコーヒーの効果を利用するのだ。この効果は、飲んでから約 30\n分後に出るので、昼寝の前に飲むと、30 分ぐらいで自然に目が覚める。\nぜひやってみてほしい。\n26  この文章を書いた人が言いたいことは何か。\n1 コーヒーを飲むと眠れなくなるから、昼寝の前には飲まないほうがいい。\n2 集中力が高くなるから、昼寝のあとで 30 分以内にコーヒーを飲むといい。\n3 昼寝で寝すぎないためには、昼寝をする 30 分前にコーヒーを飲むといい。\n4 昼寝で、30 分ぐらいで自然に起きるためには、昼寝の直前にコーヒーを\n飲むといい。\n問題 5  つぎの(1)と(2)の文章\nぶんしょう\nを読んで、質問に答えなさい。答えは、1・2・3・4\nから最もよいものを一つえらびなさい。\n（１）\n私は、前から自分で野菜を育てたいと思っていました。私のうちには庭もベランダ\nもないので、①諦めていたのですが、先月、友達から部屋の中でホウレンソウを育てて\nいるという 話を聞きました。 室内でできるなら 私もやってみたいと 思い、準備をしま\nした。\n外に似た環境がいいだろうと考え、窓の近くで育て始めたら、4 日で芽が出始めまし\nた。少しずつ大きくなるのがうれしかったです 。ところが、だんだん葉が黄色くなって、\n全部枯れてしまったのです 。太陽の光が足りなかったのかもしれないと思いました。\n②がっかりして、友達に電話をして聞いてみると、 ホウレンソウ は夜になったら、\n光が当たってはいけないということがわかりました。 私の場合は、部屋の電気の光が\nよくなかったようです 。友達は、段ボール箱でホウレンソウ にカバーをしているのだ\nそうです 。\n私も同じようにやってみたら、③ 今度は元気に育ちました。サラダにして食べたら、\nとてもおいしかったです 。\n27  ①諦めていたとあるが、何を諦めていたのか。\n1 自分で野菜を育てること\n2 庭やベランダがある家に住むこと\n3 友達に野菜の育て方を教えてもらうこと\n4 部屋の中でホウレンソウを育てること\n28  ②がっかりしてとあるが、どうしてがっかりしたのか。\n1 ホウレンソウの芽が出なかったから。\n2 ホウレンソウが全部枯れてしまったから。\n3 ホウレンソウについての友達の知識が間違っていたから。\n4 うまく育ったホウレンソウが少なかったから。\n29      ③今度は元気に育ちましたとあるが、どうして元気に育ったのか。\n1 昼、ホウレンソウにもっと光が当たるようにしたから。\n2    昼、ホウレンソウにあまり光が当たらないようにしたから。\n3 夜、ホウレンンソウに光が当たるようにしたから。\n4 夜、ホウレンソウに光が当たらないようにしたから。\n（２）\n日本に留学したばかりのころ、 文房具店 に入って驚いてしまった 。私の国では、\nシャープぺンシルはあまり売られていないが、その店には 100 円の安い物から 5000 円\n以上する高い物まで、すごい 数のシャーペン が並んでいたのだ。 芯も太さが 0.3mm\nから 1.5mm まであって、濃さもいろいろな物が売られていた。\nイギリスで生まれたシャーペンだが、初めは 1.5mm や 1.0mm の芯しかなかった。\nだが、 約 60 年前、 ある日本の会社が、複雑な漢字でも美しく書けるよう、 世界で\n初めて 0.5mm の折れにくい 芯を作ることに チャレンジ して、成功したのだそうだ。\nそれからシャーペンが日本中で使われるようになったらしい。\n私は、来日してからずっとシャーペンを愛用している。鉛筆のように先が丸くならず 、\n小さい字がきれいに書けるからだ。今、使っているのは安い物だが、来年、就職したら、\n少しいい物を買おうと思っている。\n30  驚いてしまったとあるが、文房具店のどんなことに驚いたのか。\n１ シャーペンがあまり売られていなかったこと\n２ たくさんの種類のシャーペンや芯が売られていたこと\n３ 値段の高いシャーペンばかりが売られていたこと\n４ シャーペンの芯だけを売る専門の店だったこと\n31  シャーペンが日本中で使われるようになったのは、いつからか。\n1 日本の会社が、太くて折れにくい芯を作ってから。\n2  日本の会社が、細くて折れにくい芯を作ってから。\n3 日本の会社が、日本でイギリスのシャーペンを売るようになってから。\n4  日本の会社が、世界で初めてシャーペンを作ってから。\n32  「私」が今、シャーペンを使っているのはなぜか。\n1 日本中で使われているから。\n2 小さい字が書きやすいから。\n3 鉛筆より安く買えるから。\n4 高くていい物を買ったから。\n問題 6  つぎの文章\nぶんしょう\nを読んで、質問に答えなさい。答えは、1・2・3・4 から最もよい\nものを一つえらびなさい。\n野球やサッカーなどのプロスポーツ の経営では、試合会場に来てくれる客を増やす\nことが重要だ。また見たいと思うようないい試合が続けば、客は自然に増えるだろう。\nしかし、どんなに選手が努力しても、そのような試合をずっと続けるのは難しい。そこ\nで、①経営者のさまざまな工夫が必要になる。\nその一つに、②試合会場の工夫がある。例えば、ある会場では、試合がある日に、\nいろいろな 飲食店 の食べ物や飲み物を 1000 種類も選べるようにしている。また、\n(注)バーベキユーをしながら試合が見られる観客席を作っているところもある。会場を\n楽しく過ごせる場所にして、また来たいと思ってもらおうという考え方だ。経営という\n点では、試合を見ること以外にも会場に来る目的を作ることが重要なのだ。\nもちろん、試合を楽しむために来る客を増やす工夫もしている。例えば、新しい客\nに来てもらうために、無料のチケットを配るという方法がある。一度会場に来て試合を\n楽しんでくれたら、次はチケットを買って来てくれる可能性が広がるという考えからだ。\nただ、③この考え方には反対意見もある。無料のチケットで来た客は、普段のチケ\nットを高く感じてしまう。すると、結局チケットを買わなくなるので、収入は増えない\nと考える経営者もいる。\nプロスポーツ の経営者 は、客に来てもらうために、いろいろな 工夫をしている。\n手段はさまざまだが、客に満足してもらい、何度も来てもらいたいという気持ちは共通\nしているのだ。\n(注) バーベキュー：肉や野菜を焼いて食べること\n33  ①経営者のさまざまな工夫が必要になるとあるが、なぜか。\n1 選手が、客を増やすことに関心を持っていないから。\n2 選手がどんなにいい試合を続けても、客の数には影響しないから。\n3 選手がいい試合をし続けて客を増やすことは、難しいから。\n4 選手が努力することがなく、客が減っているから。\n34   ②試合会場の工夫とあるが、どのような工夫を例として書いているか。\n1  会場内の飲食店の案内をわかりやすくする工夫\n2  会場で食べ物や飲み物を注文しやすくする工夫\n3  会場で集中して試合を見てもらうための観客席の工夫\n4  会場で試合以外に飲食も楽しんでもらうための工夫\n35  ③この考え方とあるが、どのような考え方か。\n1 無料のチケットを配って客が増えれば、選手たちのやる気が出るだろう。\n2 無料のチケットを配っても、見に来る客はほとんどいないだろう。\n3 無料のチケットで試合を楽しんだ客は、次はチケットを買って来るだろう。\n4 無料のチケットで試合を楽しんだ客は、次もチケットを買わないだろう。\n36  この文章全体のテーマは何か。\n1 プロスポーツの経営者が、試合会場に来る客を増やすためにしていること\n2 プロスポーツの経営者が、選手を強くするためにしていること\n3 プロスポーツの経営者が、試合会場を客が楽しめる場所にするためにしていること\n4 プロスポーツの経営者が、客に安く試合を見てもらうためにしていること\n問題 7  右のページは、外\nがい\n国\nこく\n人\nじん\n向\nむ\nけのお知らせである。これを読んで、下の質\nしつ\n問\nもん\nに答\nこた\nえ\nなさい。答えは、1・2・3・4 から最\nもっと\nもよいものを一つえらびなさい。\n37  次の 4 人は、2 月 1 日から 3 月 31 日までの間に「買い物券チャレンジ」の参加店\nで買い物をした。 「買い物券チャレンジ」に応募できるのは誰か。\n名前 利用した店の数 レシートの数 レシートの合計\n森田さん ２店 ８枚 7,520 円\nヨウさん ４店 ４枚 9,080 円\n東さん ４店 ６枚 6,100 円\nクレアさん ５店 ７枚 4,340 円\n1 森田さん\n2 ヨウさん\n3 東さん\n4 クレアさん\n38  中村さんは、「買い物券チャレンジ」に応募しようと思い、応募用紙の準備を\nした。今日は４月１１日（日）である。応募用紙はどのように出さなければ\nならないか。\n1 今日中に郵送するか、明日の 10 時から 17 時までに商業課に持参する。\n2 今日の 10 時から 16 時まで、または明日の 10 時から 17 時までに商業課に\n持参する。\n3 明日の 10 時から 16 時までに商業課に持参する。\n4 明日の 10 時から 17 時までに商業課に持参する。\n「買い物券チャレンジ」\nみずき市の店で買い物したレシートを集めて応募すると、\n100 名の方に、市内の店で使える 5,000 円分の買い物券が当たります。\n参加·応募方法\n①レシートを集める\nみずき市の生活用品店、食料品店 など、ホームページに書かれている参加店を利用して、\nレシートをもらってください。\n【期間】2 月 1 日(月)〜3 月 31 日(水)\n・応募には、合計 5,000 円分以上のレシートが必要です。\n・レシートの枚数は、5 枚以上必要です。\n・同じ店のレシートが 2 枚以上あってもいいですが、必ず 3 つ以上の店を利用して\nレシートを集めてください。\n②応募する\n応募用紙に氏名・住所・電話番号 を書き、集めたレシートをはってください。 応募用紙は、\nホームページに書かれている店でもらえます。\n<応募方法>\nみずき市商業課に郵送、または持参してください。\n１.郵送の場合\n【期間】2 月 1 日(月)〜4 月 9 日（金）\n・郵送する場合は、応募用紙を封筒に入れ、切手をはって送ってください。\n２.持参の場合\n【期間】2 月 1 日(月)〜4 月 12 日(月)\n・商業課の窓口の開いている時間(平日の 10 時〜16 時、最終日4 月 12 日は 10 時〜17 時)に\n来てください。土日は休みです。\n■買い物券について\n・当たった方には、4 月 20 日ごろに買い物券をお送りします。\n・買い物券の使用期限は 10 月 31 日です。使える店は、ホームページを確認してください。\nみずき市商業課 〒126-0204 みずき市中町 2040-１みずき市役所 3 階\n電話番号 031-924-1976\nホームページ https://www.mizuki-city.jp/shoppingticket",
+          "choices": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ],
+          "correctAnswer": 2,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2024-07-grammar-m5-q32",
+          "section": "grammar",
+          "mondai": 5,
+          "questionNumber": 32,
+          "questionType": "READING_MEDIUM",
+          "questionText": "",
+          "passage": "問題 3 つぎの文章を読んで、文章全体の内容を考えて、 19 から 22 の中に入る最も\nよいものを、1・2・3・4 から一つえらびなさい。\n私の友達\nミラー・ジョナサン\n私は近所の小さい喫茶店によく行きます。店長は林さんという 70 歳の男性です。\n林さんは私より 50 歳も年上ですが、私たちは友達です 。\nそのお 店には 半年 ぐらい 前から 行くようになりました。 私が行くと、 林さんは\nいつも １９  。それで、私たちはだんだん仲がよくなりました。\nほかのお客さんがいないとき、私たちはよくおしゃべりをしてます。林さんはコーヒーの\n種類について詳しくて、私はコーヒーのことがよくわかるようになりました。ときどき、\n林さんに日本の生活で困っていることを相談することもあります 。林さんはいつもいい\nアドバイス をくれます。  ２０  私たちは 二人とも映画が好きなので、 映画の話も\nよくします 。この間は、一緒に映画を見に行きました。\n日本で林さん ２１ 友達ができることは 予想していませんでした。こんなに 年上\nの友達ができたのは 初めてでしたが、 年齢の差は重要ではないことがわかりました。\n日本で林さんに ２２ よかったです 。\n1 話しかけていました     2 話しかけてあげました\n3 話しかけてくれました    4 話しかけてもらいました\n1 確かに       2 ところが\n3 例えば       4 それから\n1  にも  2 のような   3 にだけ   4  のほかに\n1 会えて   2  会うから  3 会えるのが  4 会っても\n読解\n問題 4 つぎの(1)から(4)の文章\nぶんしょう\nを読んで、質問に答えなさい。答えは、1・2・3・4\nから最もよいものを一つえらびなさい。\n（１）\nこれは、野村さんが部長会議の出席予定者に書いたメールである。\n部長会議にご出席予定の皆様へ\nあさって 12 日(金)の部長会議について、ご連絡します 。\n天気予報では、明日の夜、台風が東京の近くを通ることが予想されています 。そのため、\nあさってまで交通機関に影響が残る可能性があります 。明日の予報で台風が東京を通る\nことが確実になった場合は、会議を来週に延期することにします 。最終的なご連絡は、\n明日 11 日(木)の 15 時にメールでいたします 。\n以上、よろしくお願いします 。\n第一営業部\n野村マリア\n23  野村さんがこのメールで知らせたいことは何か。\n1 部長会議は、来週に延期する。\n2 部長会議は、明日の 15 時から行う。\n3 部長会議は天気に関係なく、あさって行う。\n4 部長会議を延期するかどうか、明日の 15 時に連絡する。\n（２）\n高校生の孫が「来週、E スポーツ大会に出るんだ」と言った。コンピューターゲームの\n大会だと説明され、私は不思議な気がした。なぜ、それがスポーツの大会なのだろうか。\n聞いてみると、 英語の「スポーツ」には、ルールを守りながら勝ったり負けたりす\nることを楽しむものという意味があるそうだ。それで、最近ではコンピューターゲーム\nもスポーツと言うらしい。\n体を動かすことをスポーツだと思っていた私は驚いた。\n24  不思議な気がしたとあるが、どうしてか。\n1 高校生なのに、孫が有名な E スポーツの大会に出ると言っているから。\n2 コンピューターゲームにも大会があると聞いたから。\n3 体を動かさないのに、コンピューターゲームをスポーツと言っているから。\n4 子供のころからずっとなりたいと思い続けていた先生になれたから。\n（３）\n(大学で)\nこのお知らせが掲示板にはってある。\n留学生日本語カラオケ大会\n参加者募集\n5 月 29 日(土)の 13 時から、大教室(A103)で「留学生日本語カラオケ大会」を行います。\n参加したい人は、歌いたい日本語の歌を決めて、5 月 7 日(金)までに留学生課で申し\n込んでください。\nなお、当日の集合時間は 12 時ですが、希望者は午前中に会場の A103 で練習するこ\nとができます 。その場合の集合時間は 10 時になります 。希望者は、参加の申し込み\nのときに、練習も申し込んでください。\n参加をお待ちしています 。\n留学生課\n25  カラオケ大会に参加したい人で、当日、会場で練習したい人はとうしなければ\nならないか。\n1 5 月 7 日までに留学生課で参加と練習の申し込みをして、29 日の10 時に会場へ行く。\n2 5 月 7 日までに留学生課で参加と練習の申し込みをして、29 日の12 時に会場へ行く。\n3 5 月 7 日までに留学生課で参加の申し込みだけして、29 日の10 時に会場へ行く。\n4 5 月 29日の10時までに留学生課で参加と練習の申し込みをして、12時に会場へ行く。\n（４）\nコーヒーを飲むと眠れなくなるから、 寝る前には飲まないという 人が多いだろう。\nしかし最近、昼寝の前にはコーヒーを飲むといいと言われるようになってきた。\n昼寝をすると起きたあとの集中力が上がるが、長く寝るのはよくない。そこで、 飲\nむと目が覚めるというコーヒーの効果を利用するのだ。この効果は、飲んでから約 30\n分後に出るので、昼寝の前に飲むと、30 分ぐらいで自然に目が覚める。\nぜひやってみてほしい。\n26  この文章を書いた人が言いたいことは何か。\n1 コーヒーを飲むと眠れなくなるから、昼寝の前には飲まないほうがいい。\n2 集中力が高くなるから、昼寝のあとで 30 分以内にコーヒーを飲むといい。\n3 昼寝で寝すぎないためには、昼寝をする 30 分前にコーヒーを飲むといい。\n4 昼寝で、30 分ぐらいで自然に起きるためには、昼寝の直前にコーヒーを\n飲むといい。\n問題 5  つぎの(1)と(2)の文章\nぶんしょう\nを読んで、質問に答えなさい。答えは、1・2・3・4\nから最もよいものを一つえらびなさい。\n（１）\n私は、前から自分で野菜を育てたいと思っていました。私のうちには庭もベランダ\nもないので、①諦めていたのですが、先月、友達から部屋の中でホウレンソウを育てて\nいるという 話を聞きました。 室内でできるなら 私もやってみたいと 思い、準備をしま\nした。\n外に似た環境がいいだろうと考え、窓の近くで育て始めたら、4 日で芽が出始めまし\nた。少しずつ大きくなるのがうれしかったです 。ところが、だんだん葉が黄色くなって、\n全部枯れてしまったのです 。太陽の光が足りなかったのかもしれないと思いました。\n②がっかりして、友達に電話をして聞いてみると、 ホウレンソウ は夜になったら、\n光が当たってはいけないということがわかりました。 私の場合は、部屋の電気の光が\nよくなかったようです 。友達は、段ボール箱でホウレンソウ にカバーをしているのだ\nそうです 。\n私も同じようにやってみたら、③ 今度は元気に育ちました。サラダにして食べたら、\nとてもおいしかったです 。\n27  ①諦めていたとあるが、何を諦めていたのか。\n1 自分で野菜を育てること\n2 庭やベランダがある家に住むこと\n3 友達に野菜の育て方を教えてもらうこと\n4 部屋の中でホウレンソウを育てること\n28  ②がっかりしてとあるが、どうしてがっかりしたのか。\n1 ホウレンソウの芽が出なかったから。\n2 ホウレンソウが全部枯れてしまったから。\n3 ホウレンソウについての友達の知識が間違っていたから。\n4 うまく育ったホウレンソウが少なかったから。\n29      ③今度は元気に育ちましたとあるが、どうして元気に育ったのか。\n1 昼、ホウレンソウにもっと光が当たるようにしたから。\n2    昼、ホウレンソウにあまり光が当たらないようにしたから。\n3 夜、ホウレンンソウに光が当たるようにしたから。\n4 夜、ホウレンソウに光が当たらないようにしたから。\n（２）\n日本に留学したばかりのころ、 文房具店 に入って驚いてしまった 。私の国では、\nシャープぺンシルはあまり売られていないが、その店には 100 円の安い物から 5000 円\n以上する高い物まで、すごい 数のシャーペン が並んでいたのだ。 芯も太さが 0.3mm\nから 1.5mm まであって、濃さもいろいろな物が売られていた。\nイギリスで生まれたシャーペンだが、初めは 1.5mm や 1.0mm の芯しかなかった。\nだが、 約 60 年前、 ある日本の会社が、複雑な漢字でも美しく書けるよう、 世界で\n初めて 0.5mm の折れにくい 芯を作ることに チャレンジ して、成功したのだそうだ。\nそれからシャーペンが日本中で使われるようになったらしい。\n私は、来日してからずっとシャーペンを愛用している。鉛筆のように先が丸くならず 、\n小さい字がきれいに書けるからだ。今、使っているのは安い物だが、来年、就職したら、\n少しいい物を買おうと思っている。\n30  驚いてしまったとあるが、文房具店のどんなことに驚いたのか。\n１ シャーペンがあまり売られていなかったこと\n２ たくさんの種類のシャーペンや芯が売られていたこと\n３ 値段の高いシャーペンばかりが売られていたこと\n４ シャーペンの芯だけを売る専門の店だったこと\n31  シャーペンが日本中で使われるようになったのは、いつからか。\n1 日本の会社が、太くて折れにくい芯を作ってから。\n2  日本の会社が、細くて折れにくい芯を作ってから。\n3 日本の会社が、日本でイギリスのシャーペンを売るようになってから。\n4  日本の会社が、世界で初めてシャーペンを作ってから。\n32  「私」が今、シャーペンを使っているのはなぜか。\n1 日本中で使われているから。\n2 小さい字が書きやすいから。\n3 鉛筆より安く買えるから。\n4 高くていい物を買ったから。\n問題 6  つぎの文章\nぶんしょう\nを読んで、質問に答えなさい。答えは、1・2・3・4 から最もよい\nものを一つえらびなさい。\n野球やサッカーなどのプロスポーツ の経営では、試合会場に来てくれる客を増やす\nことが重要だ。また見たいと思うようないい試合が続けば、客は自然に増えるだろう。\nしかし、どんなに選手が努力しても、そのような試合をずっと続けるのは難しい。そこ\nで、①経営者のさまざまな工夫が必要になる。\nその一つに、②試合会場の工夫がある。例えば、ある会場では、試合がある日に、\nいろいろな 飲食店 の食べ物や飲み物を 1000 種類も選べるようにしている。また、\n(注)バーベキユーをしながら試合が見られる観客席を作っているところもある。会場を\n楽しく過ごせる場所にして、また来たいと思ってもらおうという考え方だ。経営という\n点では、試合を見ること以外にも会場に来る目的を作ることが重要なのだ。\nもちろん、試合を楽しむために来る客を増やす工夫もしている。例えば、新しい客\nに来てもらうために、無料のチケットを配るという方法がある。一度会場に来て試合を\n楽しんでくれたら、次はチケットを買って来てくれる可能性が広がるという考えからだ。\nただ、③この考え方には反対意見もある。無料のチケットで来た客は、普段のチケ\nットを高く感じてしまう。すると、結局チケットを買わなくなるので、収入は増えない\nと考える経営者もいる。\nプロスポーツ の経営者 は、客に来てもらうために、いろいろな 工夫をしている。\n手段はさまざまだが、客に満足してもらい、何度も来てもらいたいという気持ちは共通\nしているのだ。\n(注) バーベキュー：肉や野菜を焼いて食べること\n33  ①経営者のさまざまな工夫が必要になるとあるが、なぜか。\n1 選手が、客を増やすことに関心を持っていないから。\n2 選手がどんなにいい試合を続けても、客の数には影響しないから。\n3 選手がいい試合をし続けて客を増やすことは、難しいから。\n4 選手が努力することがなく、客が減っているから。\n34   ②試合会場の工夫とあるが、どのような工夫を例として書いているか。\n1  会場内の飲食店の案内をわかりやすくする工夫\n2  会場で食べ物や飲み物を注文しやすくする工夫\n3  会場で集中して試合を見てもらうための観客席の工夫\n4  会場で試合以外に飲食も楽しんでもらうための工夫\n35  ③この考え方とあるが、どのような考え方か。\n1 無料のチケットを配って客が増えれば、選手たちのやる気が出るだろう。\n2 無料のチケットを配っても、見に来る客はほとんどいないだろう。\n3 無料のチケットで試合を楽しんだ客は、次はチケットを買って来るだろう。\n4 無料のチケットで試合を楽しんだ客は、次もチケットを買わないだろう。\n36  この文章全体のテーマは何か。\n1 プロスポーツの経営者が、試合会場に来る客を増やすためにしていること\n2 プロスポーツの経営者が、選手を強くするためにしていること\n3 プロスポーツの経営者が、試合会場を客が楽しめる場所にするためにしていること\n4 プロスポーツの経営者が、客に安く試合を見てもらうためにしていること\n問題 7  右のページは、外\nがい\n国\nこく\n人\nじん\n向\nむ\nけのお知らせである。これを読んで、下の質\nしつ\n問\nもん\nに答\nこた\nえ\nなさい。答えは、1・2・3・4 から最\nもっと\nもよいものを一つえらびなさい。\n37  次の 4 人は、2 月 1 日から 3 月 31 日までの間に「買い物券チャレンジ」の参加店\nで買い物をした。 「買い物券チャレンジ」に応募できるのは誰か。\n名前 利用した店の数 レシートの数 レシートの合計\n森田さん ２店 ８枚 7,520 円\nヨウさん ４店 ４枚 9,080 円\n東さん ４店 ６枚 6,100 円\nクレアさん ５店 ７枚 4,340 円\n1 森田さん\n2 ヨウさん\n3 東さん\n4 クレアさん\n38  中村さんは、「買い物券チャレンジ」に応募しようと思い、応募用紙の準備を\nした。今日は４月１１日（日）である。応募用紙はどのように出さなければ\nならないか。\n1 今日中に郵送するか、明日の 10 時から 17 時までに商業課に持参する。\n2 今日の 10 時から 16 時まで、または明日の 10 時から 17 時までに商業課に\n持参する。\n3 明日の 10 時から 16 時までに商業課に持参する。\n4 明日の 10 時から 17 時までに商業課に持参する。\n「買い物券チャレンジ」\nみずき市の店で買い物したレシートを集めて応募すると、\n100 名の方に、市内の店で使える 5,000 円分の買い物券が当たります。\n参加·応募方法\n①レシートを集める\nみずき市の生活用品店、食料品店 など、ホームページに書かれている参加店を利用して、\nレシートをもらってください。\n【期間】2 月 1 日(月)〜3 月 31 日(水)\n・応募には、合計 5,000 円分以上のレシートが必要です。\n・レシートの枚数は、5 枚以上必要です。\n・同じ店のレシートが 2 枚以上あってもいいですが、必ず 3 つ以上の店を利用して\nレシートを集めてください。\n②応募する\n応募用紙に氏名・住所・電話番号 を書き、集めたレシートをはってください。 応募用紙は、\nホームページに書かれている店でもらえます。\n<応募方法>\nみずき市商業課に郵送、または持参してください。\n１.郵送の場合\n【期間】2 月 1 日(月)〜4 月 9 日（金）\n・郵送する場合は、応募用紙を封筒に入れ、切手をはって送ってください。\n２.持参の場合\n【期間】2 月 1 日(月)〜4 月 12 日(月)\n・商業課の窓口の開いている時間(平日の 10 時〜16 時、最終日4 月 12 日は 10 時〜17 時)に\n来てください。土日は休みです。\n■買い物券について\n・当たった方には、4 月 20 日ごろに買い物券をお送りします。\n・買い物券の使用期限は 10 月 31 日です。使える店は、ホームページを確認してください。\nみずき市商業課 〒126-0204 みずき市中町 2040-１みずき市役所 3 階\n電話番号 031-924-1976\nホームページ https://www.mizuki-city.jp/shoppingticket",
+          "choices": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ],
+          "correctAnswer": 2,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2024-07-grammar-m6-q33",
+          "section": "grammar",
+          "mondai": 6,
+          "questionNumber": 33,
+          "questionType": "READING_LONG",
+          "questionText": "",
+          "passage": "問題 3 つぎの文章を読んで、文章全体の内容を考えて、 19 から 22 の中に入る最も\nよいものを、1・2・3・4 から一つえらびなさい。\n私の友達\nミラー・ジョナサン\n私は近所の小さい喫茶店によく行きます。店長は林さんという 70 歳の男性です。\n林さんは私より 50 歳も年上ですが、私たちは友達です 。\nそのお 店には 半年 ぐらい 前から 行くようになりました。 私が行くと、 林さんは\nいつも １９  。それで、私たちはだんだん仲がよくなりました。\nほかのお客さんがいないとき、私たちはよくおしゃべりをしてます。林さんはコーヒーの\n種類について詳しくて、私はコーヒーのことがよくわかるようになりました。ときどき、\n林さんに日本の生活で困っていることを相談することもあります 。林さんはいつもいい\nアドバイス をくれます。  ２０  私たちは 二人とも映画が好きなので、 映画の話も\nよくします 。この間は、一緒に映画を見に行きました。\n日本で林さん ２１ 友達ができることは 予想していませんでした。こんなに 年上\nの友達ができたのは 初めてでしたが、 年齢の差は重要ではないことがわかりました。\n日本で林さんに ２２ よかったです 。\n1 話しかけていました     2 話しかけてあげました\n3 話しかけてくれました    4 話しかけてもらいました\n1 確かに       2 ところが\n3 例えば       4 それから\n1  にも  2 のような   3 にだけ   4  のほかに\n1 会えて   2  会うから  3 会えるのが  4 会っても\n読解\n問題 4 つぎの(1)から(4)の文章\nぶんしょう\nを読んで、質問に答えなさい。答えは、1・2・3・4\nから最もよいものを一つえらびなさい。\n（１）\nこれは、野村さんが部長会議の出席予定者に書いたメールである。\n部長会議にご出席予定の皆様へ\nあさって 12 日(金)の部長会議について、ご連絡します 。\n天気予報では、明日の夜、台風が東京の近くを通ることが予想されています 。そのため、\nあさってまで交通機関に影響が残る可能性があります 。明日の予報で台風が東京を通る\nことが確実になった場合は、会議を来週に延期することにします 。最終的なご連絡は、\n明日 11 日(木)の 15 時にメールでいたします 。\n以上、よろしくお願いします 。\n第一営業部\n野村マリア\n23  野村さんがこのメールで知らせたいことは何か。\n1 部長会議は、来週に延期する。\n2 部長会議は、明日の 15 時から行う。\n3 部長会議は天気に関係なく、あさって行う。\n4 部長会議を延期するかどうか、明日の 15 時に連絡する。\n（２）\n高校生の孫が「来週、E スポーツ大会に出るんだ」と言った。コンピューターゲームの\n大会だと説明され、私は不思議な気がした。なぜ、それがスポーツの大会なのだろうか。\n聞いてみると、 英語の「スポーツ」には、ルールを守りながら勝ったり負けたりす\nることを楽しむものという意味があるそうだ。それで、最近ではコンピューターゲーム\nもスポーツと言うらしい。\n体を動かすことをスポーツだと思っていた私は驚いた。\n24  不思議な気がしたとあるが、どうしてか。\n1 高校生なのに、孫が有名な E スポーツの大会に出ると言っているから。\n2 コンピューターゲームにも大会があると聞いたから。\n3 体を動かさないのに、コンピューターゲームをスポーツと言っているから。\n4 子供のころからずっとなりたいと思い続けていた先生になれたから。\n（３）\n(大学で)\nこのお知らせが掲示板にはってある。\n留学生日本語カラオケ大会\n参加者募集\n5 月 29 日(土)の 13 時から、大教室(A103)で「留学生日本語カラオケ大会」を行います。\n参加したい人は、歌いたい日本語の歌を決めて、5 月 7 日(金)までに留学生課で申し\n込んでください。\nなお、当日の集合時間は 12 時ですが、希望者は午前中に会場の A103 で練習するこ\nとができます 。その場合の集合時間は 10 時になります 。希望者は、参加の申し込み\nのときに、練習も申し込んでください。\n参加をお待ちしています 。\n留学生課\n25  カラオケ大会に参加したい人で、当日、会場で練習したい人はとうしなければ\nならないか。\n1 5 月 7 日までに留学生課で参加と練習の申し込みをして、29 日の10 時に会場へ行く。\n2 5 月 7 日までに留学生課で参加と練習の申し込みをして、29 日の12 時に会場へ行く。\n3 5 月 7 日までに留学生課で参加の申し込みだけして、29 日の10 時に会場へ行く。\n4 5 月 29日の10時までに留学生課で参加と練習の申し込みをして、12時に会場へ行く。\n（４）\nコーヒーを飲むと眠れなくなるから、 寝る前には飲まないという 人が多いだろう。\nしかし最近、昼寝の前にはコーヒーを飲むといいと言われるようになってきた。\n昼寝をすると起きたあとの集中力が上がるが、長く寝るのはよくない。そこで、 飲\nむと目が覚めるというコーヒーの効果を利用するのだ。この効果は、飲んでから約 30\n分後に出るので、昼寝の前に飲むと、30 分ぐらいで自然に目が覚める。\nぜひやってみてほしい。\n26  この文章を書いた人が言いたいことは何か。\n1 コーヒーを飲むと眠れなくなるから、昼寝の前には飲まないほうがいい。\n2 集中力が高くなるから、昼寝のあとで 30 分以内にコーヒーを飲むといい。\n3 昼寝で寝すぎないためには、昼寝をする 30 分前にコーヒーを飲むといい。\n4 昼寝で、30 分ぐらいで自然に起きるためには、昼寝の直前にコーヒーを\n飲むといい。\n問題 5  つぎの(1)と(2)の文章\nぶんしょう\nを読んで、質問に答えなさい。答えは、1・2・3・4\nから最もよいものを一つえらびなさい。\n（１）\n私は、前から自分で野菜を育てたいと思っていました。私のうちには庭もベランダ\nもないので、①諦めていたのですが、先月、友達から部屋の中でホウレンソウを育てて\nいるという 話を聞きました。 室内でできるなら 私もやってみたいと 思い、準備をしま\nした。\n外に似た環境がいいだろうと考え、窓の近くで育て始めたら、4 日で芽が出始めまし\nた。少しずつ大きくなるのがうれしかったです 。ところが、だんだん葉が黄色くなって、\n全部枯れてしまったのです 。太陽の光が足りなかったのかもしれないと思いました。\n②がっかりして、友達に電話をして聞いてみると、 ホウレンソウ は夜になったら、\n光が当たってはいけないということがわかりました。 私の場合は、部屋の電気の光が\nよくなかったようです 。友達は、段ボール箱でホウレンソウ にカバーをしているのだ\nそうです 。\n私も同じようにやってみたら、③ 今度は元気に育ちました。サラダにして食べたら、\nとてもおいしかったです 。\n27  ①諦めていたとあるが、何を諦めていたのか。\n1 自分で野菜を育てること\n2 庭やベランダがある家に住むこと\n3 友達に野菜の育て方を教えてもらうこと\n4 部屋の中でホウレンソウを育てること\n28  ②がっかりしてとあるが、どうしてがっかりしたのか。\n1 ホウレンソウの芽が出なかったから。\n2 ホウレンソウが全部枯れてしまったから。\n3 ホウレンソウについての友達の知識が間違っていたから。\n4 うまく育ったホウレンソウが少なかったから。\n29      ③今度は元気に育ちましたとあるが、どうして元気に育ったのか。\n1 昼、ホウレンソウにもっと光が当たるようにしたから。\n2    昼、ホウレンソウにあまり光が当たらないようにしたから。\n3 夜、ホウレンンソウに光が当たるようにしたから。\n4 夜、ホウレンソウに光が当たらないようにしたから。\n（２）\n日本に留学したばかりのころ、 文房具店 に入って驚いてしまった 。私の国では、\nシャープぺンシルはあまり売られていないが、その店には 100 円の安い物から 5000 円\n以上する高い物まで、すごい 数のシャーペン が並んでいたのだ。 芯も太さが 0.3mm\nから 1.5mm まであって、濃さもいろいろな物が売られていた。\nイギリスで生まれたシャーペンだが、初めは 1.5mm や 1.0mm の芯しかなかった。\nだが、 約 60 年前、 ある日本の会社が、複雑な漢字でも美しく書けるよう、 世界で\n初めて 0.5mm の折れにくい 芯を作ることに チャレンジ して、成功したのだそうだ。\nそれからシャーペンが日本中で使われるようになったらしい。\n私は、来日してからずっとシャーペンを愛用している。鉛筆のように先が丸くならず 、\n小さい字がきれいに書けるからだ。今、使っているのは安い物だが、来年、就職したら、\n少しいい物を買おうと思っている。\n30  驚いてしまったとあるが、文房具店のどんなことに驚いたのか。\n１ シャーペンがあまり売られていなかったこと\n２ たくさんの種類のシャーペンや芯が売られていたこと\n３ 値段の高いシャーペンばかりが売られていたこと\n４ シャーペンの芯だけを売る専門の店だったこと\n31  シャーペンが日本中で使われるようになったのは、いつからか。\n1 日本の会社が、太くて折れにくい芯を作ってから。\n2  日本の会社が、細くて折れにくい芯を作ってから。\n3 日本の会社が、日本でイギリスのシャーペンを売るようになってから。\n4  日本の会社が、世界で初めてシャーペンを作ってから。\n32  「私」が今、シャーペンを使っているのはなぜか。\n1 日本中で使われているから。\n2 小さい字が書きやすいから。\n3 鉛筆より安く買えるから。\n4 高くていい物を買ったから。\n問題 6  つぎの文章\nぶんしょう\nを読んで、質問に答えなさい。答えは、1・2・3・4 から最もよい\nものを一つえらびなさい。\n野球やサッカーなどのプロスポーツ の経営では、試合会場に来てくれる客を増やす\nことが重要だ。また見たいと思うようないい試合が続けば、客は自然に増えるだろう。\nしかし、どんなに選手が努力しても、そのような試合をずっと続けるのは難しい。そこ\nで、①経営者のさまざまな工夫が必要になる。\nその一つに、②試合会場の工夫がある。例えば、ある会場では、試合がある日に、\nいろいろな 飲食店 の食べ物や飲み物を 1000 種類も選べるようにしている。また、\n(注)バーベキユーをしながら試合が見られる観客席を作っているところもある。会場を\n楽しく過ごせる場所にして、また来たいと思ってもらおうという考え方だ。経営という\n点では、試合を見ること以外にも会場に来る目的を作ることが重要なのだ。\nもちろん、試合を楽しむために来る客を増やす工夫もしている。例えば、新しい客\nに来てもらうために、無料のチケットを配るという方法がある。一度会場に来て試合を\n楽しんでくれたら、次はチケットを買って来てくれる可能性が広がるという考えからだ。\nただ、③この考え方には反対意見もある。無料のチケットで来た客は、普段のチケ\nットを高く感じてしまう。すると、結局チケットを買わなくなるので、収入は増えない\nと考える経営者もいる。\nプロスポーツ の経営者 は、客に来てもらうために、いろいろな 工夫をしている。\n手段はさまざまだが、客に満足してもらい、何度も来てもらいたいという気持ちは共通\nしているのだ。\n(注) バーベキュー：肉や野菜を焼いて食べること\n33  ①経営者のさまざまな工夫が必要になるとあるが、なぜか。\n1 選手が、客を増やすことに関心を持っていないから。\n2 選手がどんなにいい試合を続けても、客の数には影響しないから。\n3 選手がいい試合をし続けて客を増やすことは、難しいから。\n4 選手が努力することがなく、客が減っているから。\n34   ②試合会場の工夫とあるが、どのような工夫を例として書いているか。\n1  会場内の飲食店の案内をわかりやすくする工夫\n2  会場で食べ物や飲み物を注文しやすくする工夫\n3  会場で集中して試合を見てもらうための観客席の工夫\n4  会場で試合以外に飲食も楽しんでもらうための工夫\n35  ③この考え方とあるが、どのような考え方か。\n1 無料のチケットを配って客が増えれば、選手たちのやる気が出るだろう。\n2 無料のチケットを配っても、見に来る客はほとんどいないだろう。\n3 無料のチケットで試合を楽しんだ客は、次はチケットを買って来るだろう。\n4 無料のチケットで試合を楽しんだ客は、次もチケットを買わないだろう。\n36  この文章全体のテーマは何か。\n1 プロスポーツの経営者が、試合会場に来る客を増やすためにしていること\n2 プロスポーツの経営者が、選手を強くするためにしていること\n3 プロスポーツの経営者が、試合会場を客が楽しめる場所にするためにしていること\n4 プロスポーツの経営者が、客に安く試合を見てもらうためにしていること\n問題 7  右のページは、外\nがい\n国\nこく\n人\nじん\n向\nむ\nけのお知らせである。これを読んで、下の質\nしつ\n問\nもん\nに答\nこた\nえ\nなさい。答えは、1・2・3・4 から最\nもっと\nもよいものを一つえらびなさい。\n37  次の 4 人は、2 月 1 日から 3 月 31 日までの間に「買い物券チャレンジ」の参加店\nで買い物をした。 「買い物券チャレンジ」に応募できるのは誰か。\n名前 利用した店の数 レシートの数 レシートの合計\n森田さん ２店 ８枚 7,520 円\nヨウさん ４店 ４枚 9,080 円\n東さん ４店 ６枚 6,100 円\nクレアさん ５店 ７枚 4,340 円\n1 森田さん\n2 ヨウさん\n3 東さん\n4 クレアさん\n38  中村さんは、「買い物券チャレンジ」に応募しようと思い、応募用紙の準備を\nした。今日は４月１１日（日）である。応募用紙はどのように出さなければ\nならないか。\n1 今日中に郵送するか、明日の 10 時から 17 時までに商業課に持参する。\n2 今日の 10 時から 16 時まで、または明日の 10 時から 17 時までに商業課に\n持参する。\n3 明日の 10 時から 16 時までに商業課に持参する。\n4 明日の 10 時から 17 時までに商業課に持参する。\n「買い物券チャレンジ」\nみずき市の店で買い物したレシートを集めて応募すると、\n100 名の方に、市内の店で使える 5,000 円分の買い物券が当たります。\n参加·応募方法\n①レシートを集める\nみずき市の生活用品店、食料品店 など、ホームページに書かれている参加店を利用して、\nレシートをもらってください。\n【期間】2 月 1 日(月)〜3 月 31 日(水)\n・応募には、合計 5,000 円分以上のレシートが必要です。\n・レシートの枚数は、5 枚以上必要です。\n・同じ店のレシートが 2 枚以上あってもいいですが、必ず 3 つ以上の店を利用して\nレシートを集めてください。\n②応募する\n応募用紙に氏名・住所・電話番号 を書き、集めたレシートをはってください。 応募用紙は、\nホームページに書かれている店でもらえます。\n<応募方法>\nみずき市商業課に郵送、または持参してください。\n１.郵送の場合\n【期間】2 月 1 日(月)〜4 月 9 日（金）\n・郵送する場合は、応募用紙を封筒に入れ、切手をはって送ってください。\n２.持参の場合\n【期間】2 月 1 日(月)〜4 月 12 日(月)\n・商業課の窓口の開いている時間(平日の 10 時〜16 時、最終日4 月 12 日は 10 時〜17 時)に\n来てください。土日は休みです。\n■買い物券について\n・当たった方には、4 月 20 日ごろに買い物券をお送りします。\n・買い物券の使用期限は 10 月 31 日です。使える店は、ホームページを確認してください。\nみずき市商業課 〒126-0204 みずき市中町 2040-１みずき市役所 3 階\n電話番号 031-924-1976\nホームページ https://www.mizuki-city.jp/shoppingticket",
+          "choices": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ],
+          "correctAnswer": 3,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2024-07-grammar-m6-q34",
+          "section": "grammar",
+          "mondai": 6,
+          "questionNumber": 34,
+          "questionType": "READING_LONG",
+          "questionText": "",
+          "passage": "問題 3 つぎの文章を読んで、文章全体の内容を考えて、 19 から 22 の中に入る最も\nよいものを、1・2・3・4 から一つえらびなさい。\n私の友達\nミラー・ジョナサン\n私は近所の小さい喫茶店によく行きます。店長は林さんという 70 歳の男性です。\n林さんは私より 50 歳も年上ですが、私たちは友達です 。\nそのお 店には 半年 ぐらい 前から 行くようになりました。 私が行くと、 林さんは\nいつも １９  。それで、私たちはだんだん仲がよくなりました。\nほかのお客さんがいないとき、私たちはよくおしゃべりをしてます。林さんはコーヒーの\n種類について詳しくて、私はコーヒーのことがよくわかるようになりました。ときどき、\n林さんに日本の生活で困っていることを相談することもあります 。林さんはいつもいい\nアドバイス をくれます。  ２０  私たちは 二人とも映画が好きなので、 映画の話も\nよくします 。この間は、一緒に映画を見に行きました。\n日本で林さん ２１ 友達ができることは 予想していませんでした。こんなに 年上\nの友達ができたのは 初めてでしたが、 年齢の差は重要ではないことがわかりました。\n日本で林さんに ２２ よかったです 。\n1 話しかけていました     2 話しかけてあげました\n3 話しかけてくれました    4 話しかけてもらいました\n1 確かに       2 ところが\n3 例えば       4 それから\n1  にも  2 のような   3 にだけ   4  のほかに\n1 会えて   2  会うから  3 会えるのが  4 会っても\n読解\n問題 4 つぎの(1)から(4)の文章\nぶんしょう\nを読んで、質問に答えなさい。答えは、1・2・3・4\nから最もよいものを一つえらびなさい。\n（１）\nこれは、野村さんが部長会議の出席予定者に書いたメールである。\n部長会議にご出席予定の皆様へ\nあさって 12 日(金)の部長会議について、ご連絡します 。\n天気予報では、明日の夜、台風が東京の近くを通ることが予想されています 。そのため、\nあさってまで交通機関に影響が残る可能性があります 。明日の予報で台風が東京を通る\nことが確実になった場合は、会議を来週に延期することにします 。最終的なご連絡は、\n明日 11 日(木)の 15 時にメールでいたします 。\n以上、よろしくお願いします 。\n第一営業部\n野村マリア\n23  野村さんがこのメールで知らせたいことは何か。\n1 部長会議は、来週に延期する。\n2 部長会議は、明日の 15 時から行う。\n3 部長会議は天気に関係なく、あさって行う。\n4 部長会議を延期するかどうか、明日の 15 時に連絡する。\n（２）\n高校生の孫が「来週、E スポーツ大会に出るんだ」と言った。コンピューターゲームの\n大会だと説明され、私は不思議な気がした。なぜ、それがスポーツの大会なのだろうか。\n聞いてみると、 英語の「スポーツ」には、ルールを守りながら勝ったり負けたりす\nることを楽しむものという意味があるそうだ。それで、最近ではコンピューターゲーム\nもスポーツと言うらしい。\n体を動かすことをスポーツだと思っていた私は驚いた。\n24  不思議な気がしたとあるが、どうしてか。\n1 高校生なのに、孫が有名な E スポーツの大会に出ると言っているから。\n2 コンピューターゲームにも大会があると聞いたから。\n3 体を動かさないのに、コンピューターゲームをスポーツと言っているから。\n4 子供のころからずっとなりたいと思い続けていた先生になれたから。\n（３）\n(大学で)\nこのお知らせが掲示板にはってある。\n留学生日本語カラオケ大会\n参加者募集\n5 月 29 日(土)の 13 時から、大教室(A103)で「留学生日本語カラオケ大会」を行います。\n参加したい人は、歌いたい日本語の歌を決めて、5 月 7 日(金)までに留学生課で申し\n込んでください。\nなお、当日の集合時間は 12 時ですが、希望者は午前中に会場の A103 で練習するこ\nとができます 。その場合の集合時間は 10 時になります 。希望者は、参加の申し込み\nのときに、練習も申し込んでください。\n参加をお待ちしています 。\n留学生課\n25  カラオケ大会に参加したい人で、当日、会場で練習したい人はとうしなければ\nならないか。\n1 5 月 7 日までに留学生課で参加と練習の申し込みをして、29 日の10 時に会場へ行く。\n2 5 月 7 日までに留学生課で参加と練習の申し込みをして、29 日の12 時に会場へ行く。\n3 5 月 7 日までに留学生課で参加の申し込みだけして、29 日の10 時に会場へ行く。\n4 5 月 29日の10時までに留学生課で参加と練習の申し込みをして、12時に会場へ行く。\n（４）\nコーヒーを飲むと眠れなくなるから、 寝る前には飲まないという 人が多いだろう。\nしかし最近、昼寝の前にはコーヒーを飲むといいと言われるようになってきた。\n昼寝をすると起きたあとの集中力が上がるが、長く寝るのはよくない。そこで、 飲\nむと目が覚めるというコーヒーの効果を利用するのだ。この効果は、飲んでから約 30\n分後に出るので、昼寝の前に飲むと、30 分ぐらいで自然に目が覚める。\nぜひやってみてほしい。\n26  この文章を書いた人が言いたいことは何か。\n1 コーヒーを飲むと眠れなくなるから、昼寝の前には飲まないほうがいい。\n2 集中力が高くなるから、昼寝のあとで 30 分以内にコーヒーを飲むといい。\n3 昼寝で寝すぎないためには、昼寝をする 30 分前にコーヒーを飲むといい。\n4 昼寝で、30 分ぐらいで自然に起きるためには、昼寝の直前にコーヒーを\n飲むといい。\n問題 5  つぎの(1)と(2)の文章\nぶんしょう\nを読んで、質問に答えなさい。答えは、1・2・3・4\nから最もよいものを一つえらびなさい。\n（１）\n私は、前から自分で野菜を育てたいと思っていました。私のうちには庭もベランダ\nもないので、①諦めていたのですが、先月、友達から部屋の中でホウレンソウを育てて\nいるという 話を聞きました。 室内でできるなら 私もやってみたいと 思い、準備をしま\nした。\n外に似た環境がいいだろうと考え、窓の近くで育て始めたら、4 日で芽が出始めまし\nた。少しずつ大きくなるのがうれしかったです 。ところが、だんだん葉が黄色くなって、\n全部枯れてしまったのです 。太陽の光が足りなかったのかもしれないと思いました。\n②がっかりして、友達に電話をして聞いてみると、 ホウレンソウ は夜になったら、\n光が当たってはいけないということがわかりました。 私の場合は、部屋の電気の光が\nよくなかったようです 。友達は、段ボール箱でホウレンソウ にカバーをしているのだ\nそうです 。\n私も同じようにやってみたら、③ 今度は元気に育ちました。サラダにして食べたら、\nとてもおいしかったです 。\n27  ①諦めていたとあるが、何を諦めていたのか。\n1 自分で野菜を育てること\n2 庭やベランダがある家に住むこと\n3 友達に野菜の育て方を教えてもらうこと\n4 部屋の中でホウレンソウを育てること\n28  ②がっかりしてとあるが、どうしてがっかりしたのか。\n1 ホウレンソウの芽が出なかったから。\n2 ホウレンソウが全部枯れてしまったから。\n3 ホウレンソウについての友達の知識が間違っていたから。\n4 うまく育ったホウレンソウが少なかったから。\n29      ③今度は元気に育ちましたとあるが、どうして元気に育ったのか。\n1 昼、ホウレンソウにもっと光が当たるようにしたから。\n2    昼、ホウレンソウにあまり光が当たらないようにしたから。\n3 夜、ホウレンンソウに光が当たるようにしたから。\n4 夜、ホウレンソウに光が当たらないようにしたから。\n（２）\n日本に留学したばかりのころ、 文房具店 に入って驚いてしまった 。私の国では、\nシャープぺンシルはあまり売られていないが、その店には 100 円の安い物から 5000 円\n以上する高い物まで、すごい 数のシャーペン が並んでいたのだ。 芯も太さが 0.3mm\nから 1.5mm まであって、濃さもいろいろな物が売られていた。\nイギリスで生まれたシャーペンだが、初めは 1.5mm や 1.0mm の芯しかなかった。\nだが、 約 60 年前、 ある日本の会社が、複雑な漢字でも美しく書けるよう、 世界で\n初めて 0.5mm の折れにくい 芯を作ることに チャレンジ して、成功したのだそうだ。\nそれからシャーペンが日本中で使われるようになったらしい。\n私は、来日してからずっとシャーペンを愛用している。鉛筆のように先が丸くならず 、\n小さい字がきれいに書けるからだ。今、使っているのは安い物だが、来年、就職したら、\n少しいい物を買おうと思っている。\n30  驚いてしまったとあるが、文房具店のどんなことに驚いたのか。\n１ シャーペンがあまり売られていなかったこと\n２ たくさんの種類のシャーペンや芯が売られていたこと\n３ 値段の高いシャーペンばかりが売られていたこと\n４ シャーペンの芯だけを売る専門の店だったこと\n31  シャーペンが日本中で使われるようになったのは、いつからか。\n1 日本の会社が、太くて折れにくい芯を作ってから。\n2  日本の会社が、細くて折れにくい芯を作ってから。\n3 日本の会社が、日本でイギリスのシャーペンを売るようになってから。\n4  日本の会社が、世界で初めてシャーペンを作ってから。\n32  「私」が今、シャーペンを使っているのはなぜか。\n1 日本中で使われているから。\n2 小さい字が書きやすいから。\n3 鉛筆より安く買えるから。\n4 高くていい物を買ったから。\n問題 6  つぎの文章\nぶんしょう\nを読んで、質問に答えなさい。答えは、1・2・3・4 から最もよい\nものを一つえらびなさい。\n野球やサッカーなどのプロスポーツ の経営では、試合会場に来てくれる客を増やす\nことが重要だ。また見たいと思うようないい試合が続けば、客は自然に増えるだろう。\nしかし、どんなに選手が努力しても、そのような試合をずっと続けるのは難しい。そこ\nで、①経営者のさまざまな工夫が必要になる。\nその一つに、②試合会場の工夫がある。例えば、ある会場では、試合がある日に、\nいろいろな 飲食店 の食べ物や飲み物を 1000 種類も選べるようにしている。また、\n(注)バーベキユーをしながら試合が見られる観客席を作っているところもある。会場を\n楽しく過ごせる場所にして、また来たいと思ってもらおうという考え方だ。経営という\n点では、試合を見ること以外にも会場に来る目的を作ることが重要なのだ。\nもちろん、試合を楽しむために来る客を増やす工夫もしている。例えば、新しい客\nに来てもらうために、無料のチケットを配るという方法がある。一度会場に来て試合を\n楽しんでくれたら、次はチケットを買って来てくれる可能性が広がるという考えからだ。\nただ、③この考え方には反対意見もある。無料のチケットで来た客は、普段のチケ\nットを高く感じてしまう。すると、結局チケットを買わなくなるので、収入は増えない\nと考える経営者もいる。\nプロスポーツ の経営者 は、客に来てもらうために、いろいろな 工夫をしている。\n手段はさまざまだが、客に満足してもらい、何度も来てもらいたいという気持ちは共通\nしているのだ。\n(注) バーベキュー：肉や野菜を焼いて食べること\n33  ①経営者のさまざまな工夫が必要になるとあるが、なぜか。\n1 選手が、客を増やすことに関心を持っていないから。\n2 選手がどんなにいい試合を続けても、客の数には影響しないから。\n3 選手がいい試合をし続けて客を増やすことは、難しいから。\n4 選手が努力することがなく、客が減っているから。\n34   ②試合会場の工夫とあるが、どのような工夫を例として書いているか。\n1  会場内の飲食店の案内をわかりやすくする工夫\n2  会場で食べ物や飲み物を注文しやすくする工夫\n3  会場で集中して試合を見てもらうための観客席の工夫\n4  会場で試合以外に飲食も楽しんでもらうための工夫\n35  ③この考え方とあるが、どのような考え方か。\n1 無料のチケットを配って客が増えれば、選手たちのやる気が出るだろう。\n2 無料のチケットを配っても、見に来る客はほとんどいないだろう。\n3 無料のチケットで試合を楽しんだ客は、次はチケットを買って来るだろう。\n4 無料のチケットで試合を楽しんだ客は、次もチケットを買わないだろう。\n36  この文章全体のテーマは何か。\n1 プロスポーツの経営者が、試合会場に来る客を増やすためにしていること\n2 プロスポーツの経営者が、選手を強くするためにしていること\n3 プロスポーツの経営者が、試合会場を客が楽しめる場所にするためにしていること\n4 プロスポーツの経営者が、客に安く試合を見てもらうためにしていること\n問題 7  右のページは、外\nがい\n国\nこく\n人\nじん\n向\nむ\nけのお知らせである。これを読んで、下の質\nしつ\n問\nもん\nに答\nこた\nえ\nなさい。答えは、1・2・3・4 から最\nもっと\nもよいものを一つえらびなさい。\n37  次の 4 人は、2 月 1 日から 3 月 31 日までの間に「買い物券チャレンジ」の参加店\nで買い物をした。 「買い物券チャレンジ」に応募できるのは誰か。\n名前 利用した店の数 レシートの数 レシートの合計\n森田さん ２店 ８枚 7,520 円\nヨウさん ４店 ４枚 9,080 円\n東さん ４店 ６枚 6,100 円\nクレアさん ５店 ７枚 4,340 円\n1 森田さん\n2 ヨウさん\n3 東さん\n4 クレアさん\n38  中村さんは、「買い物券チャレンジ」に応募しようと思い、応募用紙の準備を\nした。今日は４月１１日（日）である。応募用紙はどのように出さなければ\nならないか。\n1 今日中に郵送するか、明日の 10 時から 17 時までに商業課に持参する。\n2 今日の 10 時から 16 時まで、または明日の 10 時から 17 時までに商業課に\n持参する。\n3 明日の 10 時から 16 時までに商業課に持参する。\n4 明日の 10 時から 17 時までに商業課に持参する。\n「買い物券チャレンジ」\nみずき市の店で買い物したレシートを集めて応募すると、\n100 名の方に、市内の店で使える 5,000 円分の買い物券が当たります。\n参加·応募方法\n①レシートを集める\nみずき市の生活用品店、食料品店 など、ホームページに書かれている参加店を利用して、\nレシートをもらってください。\n【期間】2 月 1 日(月)〜3 月 31 日(水)\n・応募には、合計 5,000 円分以上のレシートが必要です。\n・レシートの枚数は、5 枚以上必要です。\n・同じ店のレシートが 2 枚以上あってもいいですが、必ず 3 つ以上の店を利用して\nレシートを集めてください。\n②応募する\n応募用紙に氏名・住所・電話番号 を書き、集めたレシートをはってください。 応募用紙は、\nホームページに書かれている店でもらえます。\n<応募方法>\nみずき市商業課に郵送、または持参してください。\n１.郵送の場合\n【期間】2 月 1 日(月)〜4 月 9 日（金）\n・郵送する場合は、応募用紙を封筒に入れ、切手をはって送ってください。\n２.持参の場合\n【期間】2 月 1 日(月)〜4 月 12 日(月)\n・商業課の窓口の開いている時間(平日の 10 時〜16 時、最終日4 月 12 日は 10 時〜17 時)に\n来てください。土日は休みです。\n■買い物券について\n・当たった方には、4 月 20 日ごろに買い物券をお送りします。\n・買い物券の使用期限は 10 月 31 日です。使える店は、ホームページを確認してください。\nみずき市商業課 〒126-0204 みずき市中町 2040-１みずき市役所 3 階\n電話番号 031-924-1976\nホームページ https://www.mizuki-city.jp/shoppingticket",
+          "choices": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ],
+          "correctAnswer": 4,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2024-07-grammar-m6-q35",
+          "section": "grammar",
+          "mondai": 6,
+          "questionNumber": 35,
+          "questionType": "READING_LONG",
+          "questionText": "",
+          "passage": "問題 3 つぎの文章を読んで、文章全体の内容を考えて、 19 から 22 の中に入る最も\nよいものを、1・2・3・4 から一つえらびなさい。\n私の友達\nミラー・ジョナサン\n私は近所の小さい喫茶店によく行きます。店長は林さんという 70 歳の男性です。\n林さんは私より 50 歳も年上ですが、私たちは友達です 。\nそのお 店には 半年 ぐらい 前から 行くようになりました。 私が行くと、 林さんは\nいつも １９  。それで、私たちはだんだん仲がよくなりました。\nほかのお客さんがいないとき、私たちはよくおしゃべりをしてます。林さんはコーヒーの\n種類について詳しくて、私はコーヒーのことがよくわかるようになりました。ときどき、\n林さんに日本の生活で困っていることを相談することもあります 。林さんはいつもいい\nアドバイス をくれます。  ２０  私たちは 二人とも映画が好きなので、 映画の話も\nよくします 。この間は、一緒に映画を見に行きました。\n日本で林さん ２１ 友達ができることは 予想していませんでした。こんなに 年上\nの友達ができたのは 初めてでしたが、 年齢の差は重要ではないことがわかりました。\n日本で林さんに ２２ よかったです 。\n1 話しかけていました     2 話しかけてあげました\n3 話しかけてくれました    4 話しかけてもらいました\n1 確かに       2 ところが\n3 例えば       4 それから\n1  にも  2 のような   3 にだけ   4  のほかに\n1 会えて   2  会うから  3 会えるのが  4 会っても\n読解\n問題 4 つぎの(1)から(4)の文章\nぶんしょう\nを読んで、質問に答えなさい。答えは、1・2・3・4\nから最もよいものを一つえらびなさい。\n（１）\nこれは、野村さんが部長会議の出席予定者に書いたメールである。\n部長会議にご出席予定の皆様へ\nあさって 12 日(金)の部長会議について、ご連絡します 。\n天気予報では、明日の夜、台風が東京の近くを通ることが予想されています 。そのため、\nあさってまで交通機関に影響が残る可能性があります 。明日の予報で台風が東京を通る\nことが確実になった場合は、会議を来週に延期することにします 。最終的なご連絡は、\n明日 11 日(木)の 15 時にメールでいたします 。\n以上、よろしくお願いします 。\n第一営業部\n野村マリア\n23  野村さんがこのメールで知らせたいことは何か。\n1 部長会議は、来週に延期する。\n2 部長会議は、明日の 15 時から行う。\n3 部長会議は天気に関係なく、あさって行う。\n4 部長会議を延期するかどうか、明日の 15 時に連絡する。\n（２）\n高校生の孫が「来週、E スポーツ大会に出るんだ」と言った。コンピューターゲームの\n大会だと説明され、私は不思議な気がした。なぜ、それがスポーツの大会なのだろうか。\n聞いてみると、 英語の「スポーツ」には、ルールを守りながら勝ったり負けたりす\nることを楽しむものという意味があるそうだ。それで、最近ではコンピューターゲーム\nもスポーツと言うらしい。\n体を動かすことをスポーツだと思っていた私は驚いた。\n24  不思議な気がしたとあるが、どうしてか。\n1 高校生なのに、孫が有名な E スポーツの大会に出ると言っているから。\n2 コンピューターゲームにも大会があると聞いたから。\n3 体を動かさないのに、コンピューターゲームをスポーツと言っているから。\n4 子供のころからずっとなりたいと思い続けていた先生になれたから。\n（３）\n(大学で)\nこのお知らせが掲示板にはってある。\n留学生日本語カラオケ大会\n参加者募集\n5 月 29 日(土)の 13 時から、大教室(A103)で「留学生日本語カラオケ大会」を行います。\n参加したい人は、歌いたい日本語の歌を決めて、5 月 7 日(金)までに留学生課で申し\n込んでください。\nなお、当日の集合時間は 12 時ですが、希望者は午前中に会場の A103 で練習するこ\nとができます 。その場合の集合時間は 10 時になります 。希望者は、参加の申し込み\nのときに、練習も申し込んでください。\n参加をお待ちしています 。\n留学生課\n25  カラオケ大会に参加したい人で、当日、会場で練習したい人はとうしなければ\nならないか。\n1 5 月 7 日までに留学生課で参加と練習の申し込みをして、29 日の10 時に会場へ行く。\n2 5 月 7 日までに留学生課で参加と練習の申し込みをして、29 日の12 時に会場へ行く。\n3 5 月 7 日までに留学生課で参加の申し込みだけして、29 日の10 時に会場へ行く。\n4 5 月 29日の10時までに留学生課で参加と練習の申し込みをして、12時に会場へ行く。\n（４）\nコーヒーを飲むと眠れなくなるから、 寝る前には飲まないという 人が多いだろう。\nしかし最近、昼寝の前にはコーヒーを飲むといいと言われるようになってきた。\n昼寝をすると起きたあとの集中力が上がるが、長く寝るのはよくない。そこで、 飲\nむと目が覚めるというコーヒーの効果を利用するのだ。この効果は、飲んでから約 30\n分後に出るので、昼寝の前に飲むと、30 分ぐらいで自然に目が覚める。\nぜひやってみてほしい。\n26  この文章を書いた人が言いたいことは何か。\n1 コーヒーを飲むと眠れなくなるから、昼寝の前には飲まないほうがいい。\n2 集中力が高くなるから、昼寝のあとで 30 分以内にコーヒーを飲むといい。\n3 昼寝で寝すぎないためには、昼寝をする 30 分前にコーヒーを飲むといい。\n4 昼寝で、30 分ぐらいで自然に起きるためには、昼寝の直前にコーヒーを\n飲むといい。\n問題 5  つぎの(1)と(2)の文章\nぶんしょう\nを読んで、質問に答えなさい。答えは、1・2・3・4\nから最もよいものを一つえらびなさい。\n（１）\n私は、前から自分で野菜を育てたいと思っていました。私のうちには庭もベランダ\nもないので、①諦めていたのですが、先月、友達から部屋の中でホウレンソウを育てて\nいるという 話を聞きました。 室内でできるなら 私もやってみたいと 思い、準備をしま\nした。\n外に似た環境がいいだろうと考え、窓の近くで育て始めたら、4 日で芽が出始めまし\nた。少しずつ大きくなるのがうれしかったです 。ところが、だんだん葉が黄色くなって、\n全部枯れてしまったのです 。太陽の光が足りなかったのかもしれないと思いました。\n②がっかりして、友達に電話をして聞いてみると、 ホウレンソウ は夜になったら、\n光が当たってはいけないということがわかりました。 私の場合は、部屋の電気の光が\nよくなかったようです 。友達は、段ボール箱でホウレンソウ にカバーをしているのだ\nそうです 。\n私も同じようにやってみたら、③ 今度は元気に育ちました。サラダにして食べたら、\nとてもおいしかったです 。\n27  ①諦めていたとあるが、何を諦めていたのか。\n1 自分で野菜を育てること\n2 庭やベランダがある家に住むこと\n3 友達に野菜の育て方を教えてもらうこと\n4 部屋の中でホウレンソウを育てること\n28  ②がっかりしてとあるが、どうしてがっかりしたのか。\n1 ホウレンソウの芽が出なかったから。\n2 ホウレンソウが全部枯れてしまったから。\n3 ホウレンソウについての友達の知識が間違っていたから。\n4 うまく育ったホウレンソウが少なかったから。\n29      ③今度は元気に育ちましたとあるが、どうして元気に育ったのか。\n1 昼、ホウレンソウにもっと光が当たるようにしたから。\n2    昼、ホウレンソウにあまり光が当たらないようにしたから。\n3 夜、ホウレンンソウに光が当たるようにしたから。\n4 夜、ホウレンソウに光が当たらないようにしたから。\n（２）\n日本に留学したばかりのころ、 文房具店 に入って驚いてしまった 。私の国では、\nシャープぺンシルはあまり売られていないが、その店には 100 円の安い物から 5000 円\n以上する高い物まで、すごい 数のシャーペン が並んでいたのだ。 芯も太さが 0.3mm\nから 1.5mm まであって、濃さもいろいろな物が売られていた。\nイギリスで生まれたシャーペンだが、初めは 1.5mm や 1.0mm の芯しかなかった。\nだが、 約 60 年前、 ある日本の会社が、複雑な漢字でも美しく書けるよう、 世界で\n初めて 0.5mm の折れにくい 芯を作ることに チャレンジ して、成功したのだそうだ。\nそれからシャーペンが日本中で使われるようになったらしい。\n私は、来日してからずっとシャーペンを愛用している。鉛筆のように先が丸くならず 、\n小さい字がきれいに書けるからだ。今、使っているのは安い物だが、来年、就職したら、\n少しいい物を買おうと思っている。\n30  驚いてしまったとあるが、文房具店のどんなことに驚いたのか。\n１ シャーペンがあまり売られていなかったこと\n２ たくさんの種類のシャーペンや芯が売られていたこと\n３ 値段の高いシャーペンばかりが売られていたこと\n４ シャーペンの芯だけを売る専門の店だったこと\n31  シャーペンが日本中で使われるようになったのは、いつからか。\n1 日本の会社が、太くて折れにくい芯を作ってから。\n2  日本の会社が、細くて折れにくい芯を作ってから。\n3 日本の会社が、日本でイギリスのシャーペンを売るようになってから。\n4  日本の会社が、世界で初めてシャーペンを作ってから。\n32  「私」が今、シャーペンを使っているのはなぜか。\n1 日本中で使われているから。\n2 小さい字が書きやすいから。\n3 鉛筆より安く買えるから。\n4 高くていい物を買ったから。\n問題 6  つぎの文章\nぶんしょう\nを読んで、質問に答えなさい。答えは、1・2・3・4 から最もよい\nものを一つえらびなさい。\n野球やサッカーなどのプロスポーツ の経営では、試合会場に来てくれる客を増やす\nことが重要だ。また見たいと思うようないい試合が続けば、客は自然に増えるだろう。\nしかし、どんなに選手が努力しても、そのような試合をずっと続けるのは難しい。そこ\nで、①経営者のさまざまな工夫が必要になる。\nその一つに、②試合会場の工夫がある。例えば、ある会場では、試合がある日に、\nいろいろな 飲食店 の食べ物や飲み物を 1000 種類も選べるようにしている。また、\n(注)バーベキユーをしながら試合が見られる観客席を作っているところもある。会場を\n楽しく過ごせる場所にして、また来たいと思ってもらおうという考え方だ。経営という\n点では、試合を見ること以外にも会場に来る目的を作ることが重要なのだ。\nもちろん、試合を楽しむために来る客を増やす工夫もしている。例えば、新しい客\nに来てもらうために、無料のチケットを配るという方法がある。一度会場に来て試合を\n楽しんでくれたら、次はチケットを買って来てくれる可能性が広がるという考えからだ。\nただ、③この考え方には反対意見もある。無料のチケットで来た客は、普段のチケ\nットを高く感じてしまう。すると、結局チケットを買わなくなるので、収入は増えない\nと考える経営者もいる。\nプロスポーツ の経営者 は、客に来てもらうために、いろいろな 工夫をしている。\n手段はさまざまだが、客に満足してもらい、何度も来てもらいたいという気持ちは共通\nしているのだ。\n(注) バーベキュー：肉や野菜を焼いて食べること\n33  ①経営者のさまざまな工夫が必要になるとあるが、なぜか。\n1 選手が、客を増やすことに関心を持っていないから。\n2 選手がどんなにいい試合を続けても、客の数には影響しないから。\n3 選手がいい試合をし続けて客を増やすことは、難しいから。\n4 選手が努力することがなく、客が減っているから。\n34   ②試合会場の工夫とあるが、どのような工夫を例として書いているか。\n1  会場内の飲食店の案内をわかりやすくする工夫\n2  会場で食べ物や飲み物を注文しやすくする工夫\n3  会場で集中して試合を見てもらうための観客席の工夫\n4  会場で試合以外に飲食も楽しんでもらうための工夫\n35  ③この考え方とあるが、どのような考え方か。\n1 無料のチケットを配って客が増えれば、選手たちのやる気が出るだろう。\n2 無料のチケットを配っても、見に来る客はほとんどいないだろう。\n3 無料のチケットで試合を楽しんだ客は、次はチケットを買って来るだろう。\n4 無料のチケットで試合を楽しんだ客は、次もチケットを買わないだろう。\n36  この文章全体のテーマは何か。\n1 プロスポーツの経営者が、試合会場に来る客を増やすためにしていること\n2 プロスポーツの経営者が、選手を強くするためにしていること\n3 プロスポーツの経営者が、試合会場を客が楽しめる場所にするためにしていること\n4 プロスポーツの経営者が、客に安く試合を見てもらうためにしていること\n問題 7  右のページは、外\nがい\n国\nこく\n人\nじん\n向\nむ\nけのお知らせである。これを読んで、下の質\nしつ\n問\nもん\nに答\nこた\nえ\nなさい。答えは、1・2・3・4 から最\nもっと\nもよいものを一つえらびなさい。\n37  次の 4 人は、2 月 1 日から 3 月 31 日までの間に「買い物券チャレンジ」の参加店\nで買い物をした。 「買い物券チャレンジ」に応募できるのは誰か。\n名前 利用した店の数 レシートの数 レシートの合計\n森田さん ２店 ８枚 7,520 円\nヨウさん ４店 ４枚 9,080 円\n東さん ４店 ６枚 6,100 円\nクレアさん ５店 ７枚 4,340 円\n1 森田さん\n2 ヨウさん\n3 東さん\n4 クレアさん\n38  中村さんは、「買い物券チャレンジ」に応募しようと思い、応募用紙の準備を\nした。今日は４月１１日（日）である。応募用紙はどのように出さなければ\nならないか。\n1 今日中に郵送するか、明日の 10 時から 17 時までに商業課に持参する。\n2 今日の 10 時から 16 時まで、または明日の 10 時から 17 時までに商業課に\n持参する。\n3 明日の 10 時から 16 時までに商業課に持参する。\n4 明日の 10 時から 17 時までに商業課に持参する。\n「買い物券チャレンジ」\nみずき市の店で買い物したレシートを集めて応募すると、\n100 名の方に、市内の店で使える 5,000 円分の買い物券が当たります。\n参加·応募方法\n①レシートを集める\nみずき市の生活用品店、食料品店 など、ホームページに書かれている参加店を利用して、\nレシートをもらってください。\n【期間】2 月 1 日(月)〜3 月 31 日(水)\n・応募には、合計 5,000 円分以上のレシートが必要です。\n・レシートの枚数は、5 枚以上必要です。\n・同じ店のレシートが 2 枚以上あってもいいですが、必ず 3 つ以上の店を利用して\nレシートを集めてください。\n②応募する\n応募用紙に氏名・住所・電話番号 を書き、集めたレシートをはってください。 応募用紙は、\nホームページに書かれている店でもらえます。\n<応募方法>\nみずき市商業課に郵送、または持参してください。\n１.郵送の場合\n【期間】2 月 1 日(月)〜4 月 9 日（金）\n・郵送する場合は、応募用紙を封筒に入れ、切手をはって送ってください。\n２.持参の場合\n【期間】2 月 1 日(月)〜4 月 12 日(月)\n・商業課の窓口の開いている時間(平日の 10 時〜16 時、最終日4 月 12 日は 10 時〜17 時)に\n来てください。土日は休みです。\n■買い物券について\n・当たった方には、4 月 20 日ごろに買い物券をお送りします。\n・買い物券の使用期限は 10 月 31 日です。使える店は、ホームページを確認してください。\nみずき市商業課 〒126-0204 みずき市中町 2040-１みずき市役所 3 階\n電話番号 031-924-1976\nホームページ https://www.mizuki-city.jp/shoppingticket",
+          "choices": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ],
+          "correctAnswer": 2,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2024-07-grammar-m6-q36",
+          "section": "grammar",
+          "mondai": 6,
+          "questionNumber": 36,
+          "questionType": "READING_LONG",
+          "questionText": "",
+          "passage": "問題 3 つぎの文章を読んで、文章全体の内容を考えて、 19 から 22 の中に入る最も\nよいものを、1・2・3・4 から一つえらびなさい。\n私の友達\nミラー・ジョナサン\n私は近所の小さい喫茶店によく行きます。店長は林さんという 70 歳の男性です。\n林さんは私より 50 歳も年上ですが、私たちは友達です 。\nそのお 店には 半年 ぐらい 前から 行くようになりました。 私が行くと、 林さんは\nいつも １９  。それで、私たちはだんだん仲がよくなりました。\nほかのお客さんがいないとき、私たちはよくおしゃべりをしてます。林さんはコーヒーの\n種類について詳しくて、私はコーヒーのことがよくわかるようになりました。ときどき、\n林さんに日本の生活で困っていることを相談することもあります 。林さんはいつもいい\nアドバイス をくれます。  ２０  私たちは 二人とも映画が好きなので、 映画の話も\nよくします 。この間は、一緒に映画を見に行きました。\n日本で林さん ２１ 友達ができることは 予想していませんでした。こんなに 年上\nの友達ができたのは 初めてでしたが、 年齢の差は重要ではないことがわかりました。\n日本で林さんに ２２ よかったです 。\n1 話しかけていました     2 話しかけてあげました\n3 話しかけてくれました    4 話しかけてもらいました\n1 確かに       2 ところが\n3 例えば       4 それから\n1  にも  2 のような   3 にだけ   4  のほかに\n1 会えて   2  会うから  3 会えるのが  4 会っても\n読解\n問題 4 つぎの(1)から(4)の文章\nぶんしょう\nを読んで、質問に答えなさい。答えは、1・2・3・4\nから最もよいものを一つえらびなさい。\n（１）\nこれは、野村さんが部長会議の出席予定者に書いたメールである。\n部長会議にご出席予定の皆様へ\nあさって 12 日(金)の部長会議について、ご連絡します 。\n天気予報では、明日の夜、台風が東京の近くを通ることが予想されています 。そのため、\nあさってまで交通機関に影響が残る可能性があります 。明日の予報で台風が東京を通る\nことが確実になった場合は、会議を来週に延期することにします 。最終的なご連絡は、\n明日 11 日(木)の 15 時にメールでいたします 。\n以上、よろしくお願いします 。\n第一営業部\n野村マリア\n23  野村さんがこのメールで知らせたいことは何か。\n1 部長会議は、来週に延期する。\n2 部長会議は、明日の 15 時から行う。\n3 部長会議は天気に関係なく、あさって行う。\n4 部長会議を延期するかどうか、明日の 15 時に連絡する。\n（２）\n高校生の孫が「来週、E スポーツ大会に出るんだ」と言った。コンピューターゲームの\n大会だと説明され、私は不思議な気がした。なぜ、それがスポーツの大会なのだろうか。\n聞いてみると、 英語の「スポーツ」には、ルールを守りながら勝ったり負けたりす\nることを楽しむものという意味があるそうだ。それで、最近ではコンピューターゲーム\nもスポーツと言うらしい。\n体を動かすことをスポーツだと思っていた私は驚いた。\n24  不思議な気がしたとあるが、どうしてか。\n1 高校生なのに、孫が有名な E スポーツの大会に出ると言っているから。\n2 コンピューターゲームにも大会があると聞いたから。\n3 体を動かさないのに、コンピューターゲームをスポーツと言っているから。\n4 子供のころからずっとなりたいと思い続けていた先生になれたから。\n（３）\n(大学で)\nこのお知らせが掲示板にはってある。\n留学生日本語カラオケ大会\n参加者募集\n5 月 29 日(土)の 13 時から、大教室(A103)で「留学生日本語カラオケ大会」を行います。\n参加したい人は、歌いたい日本語の歌を決めて、5 月 7 日(金)までに留学生課で申し\n込んでください。\nなお、当日の集合時間は 12 時ですが、希望者は午前中に会場の A103 で練習するこ\nとができます 。その場合の集合時間は 10 時になります 。希望者は、参加の申し込み\nのときに、練習も申し込んでください。\n参加をお待ちしています 。\n留学生課\n25  カラオケ大会に参加したい人で、当日、会場で練習したい人はとうしなければ\nならないか。\n1 5 月 7 日までに留学生課で参加と練習の申し込みをして、29 日の10 時に会場へ行く。\n2 5 月 7 日までに留学生課で参加と練習の申し込みをして、29 日の12 時に会場へ行く。\n3 5 月 7 日までに留学生課で参加の申し込みだけして、29 日の10 時に会場へ行く。\n4 5 月 29日の10時までに留学生課で参加と練習の申し込みをして、12時に会場へ行く。\n（４）\nコーヒーを飲むと眠れなくなるから、 寝る前には飲まないという 人が多いだろう。\nしかし最近、昼寝の前にはコーヒーを飲むといいと言われるようになってきた。\n昼寝をすると起きたあとの集中力が上がるが、長く寝るのはよくない。そこで、 飲\nむと目が覚めるというコーヒーの効果を利用するのだ。この効果は、飲んでから約 30\n分後に出るので、昼寝の前に飲むと、30 分ぐらいで自然に目が覚める。\nぜひやってみてほしい。\n26  この文章を書いた人が言いたいことは何か。\n1 コーヒーを飲むと眠れなくなるから、昼寝の前には飲まないほうがいい。\n2 集中力が高くなるから、昼寝のあとで 30 分以内にコーヒーを飲むといい。\n3 昼寝で寝すぎないためには、昼寝をする 30 分前にコーヒーを飲むといい。\n4 昼寝で、30 分ぐらいで自然に起きるためには、昼寝の直前にコーヒーを\n飲むといい。\n問題 5  つぎの(1)と(2)の文章\nぶんしょう\nを読んで、質問に答えなさい。答えは、1・2・3・4\nから最もよいものを一つえらびなさい。\n（１）\n私は、前から自分で野菜を育てたいと思っていました。私のうちには庭もベランダ\nもないので、①諦めていたのですが、先月、友達から部屋の中でホウレンソウを育てて\nいるという 話を聞きました。 室内でできるなら 私もやってみたいと 思い、準備をしま\nした。\n外に似た環境がいいだろうと考え、窓の近くで育て始めたら、4 日で芽が出始めまし\nた。少しずつ大きくなるのがうれしかったです 。ところが、だんだん葉が黄色くなって、\n全部枯れてしまったのです 。太陽の光が足りなかったのかもしれないと思いました。\n②がっかりして、友達に電話をして聞いてみると、 ホウレンソウ は夜になったら、\n光が当たってはいけないということがわかりました。 私の場合は、部屋の電気の光が\nよくなかったようです 。友達は、段ボール箱でホウレンソウ にカバーをしているのだ\nそうです 。\n私も同じようにやってみたら、③ 今度は元気に育ちました。サラダにして食べたら、\nとてもおいしかったです 。\n27  ①諦めていたとあるが、何を諦めていたのか。\n1 自分で野菜を育てること\n2 庭やベランダがある家に住むこと\n3 友達に野菜の育て方を教えてもらうこと\n4 部屋の中でホウレンソウを育てること\n28  ②がっかりしてとあるが、どうしてがっかりしたのか。\n1 ホウレンソウの芽が出なかったから。\n2 ホウレンソウが全部枯れてしまったから。\n3 ホウレンソウについての友達の知識が間違っていたから。\n4 うまく育ったホウレンソウが少なかったから。\n29      ③今度は元気に育ちましたとあるが、どうして元気に育ったのか。\n1 昼、ホウレンソウにもっと光が当たるようにしたから。\n2    昼、ホウレンソウにあまり光が当たらないようにしたから。\n3 夜、ホウレンンソウに光が当たるようにしたから。\n4 夜、ホウレンソウに光が当たらないようにしたから。\n（２）\n日本に留学したばかりのころ、 文房具店 に入って驚いてしまった 。私の国では、\nシャープぺンシルはあまり売られていないが、その店には 100 円の安い物から 5000 円\n以上する高い物まで、すごい 数のシャーペン が並んでいたのだ。 芯も太さが 0.3mm\nから 1.5mm まであって、濃さもいろいろな物が売られていた。\nイギリスで生まれたシャーペンだが、初めは 1.5mm や 1.0mm の芯しかなかった。\nだが、 約 60 年前、 ある日本の会社が、複雑な漢字でも美しく書けるよう、 世界で\n初めて 0.5mm の折れにくい 芯を作ることに チャレンジ して、成功したのだそうだ。\nそれからシャーペンが日本中で使われるようになったらしい。\n私は、来日してからずっとシャーペンを愛用している。鉛筆のように先が丸くならず 、\n小さい字がきれいに書けるからだ。今、使っているのは安い物だが、来年、就職したら、\n少しいい物を買おうと思っている。\n30  驚いてしまったとあるが、文房具店のどんなことに驚いたのか。\n１ シャーペンがあまり売られていなかったこと\n２ たくさんの種類のシャーペンや芯が売られていたこと\n３ 値段の高いシャーペンばかりが売られていたこと\n４ シャーペンの芯だけを売る専門の店だったこと\n31  シャーペンが日本中で使われるようになったのは、いつからか。\n1 日本の会社が、太くて折れにくい芯を作ってから。\n2  日本の会社が、細くて折れにくい芯を作ってから。\n3 日本の会社が、日本でイギリスのシャーペンを売るようになってから。\n4  日本の会社が、世界で初めてシャーペンを作ってから。\n32  「私」が今、シャーペンを使っているのはなぜか。\n1 日本中で使われているから。\n2 小さい字が書きやすいから。\n3 鉛筆より安く買えるから。\n4 高くていい物を買ったから。\n問題 6  つぎの文章\nぶんしょう\nを読んで、質問に答えなさい。答えは、1・2・3・4 から最もよい\nものを一つえらびなさい。\n野球やサッカーなどのプロスポーツ の経営では、試合会場に来てくれる客を増やす\nことが重要だ。また見たいと思うようないい試合が続けば、客は自然に増えるだろう。\nしかし、どんなに選手が努力しても、そのような試合をずっと続けるのは難しい。そこ\nで、①経営者のさまざまな工夫が必要になる。\nその一つに、②試合会場の工夫がある。例えば、ある会場では、試合がある日に、\nいろいろな 飲食店 の食べ物や飲み物を 1000 種類も選べるようにしている。また、\n(注)バーベキユーをしながら試合が見られる観客席を作っているところもある。会場を\n楽しく過ごせる場所にして、また来たいと思ってもらおうという考え方だ。経営という\n点では、試合を見ること以外にも会場に来る目的を作ることが重要なのだ。\nもちろん、試合を楽しむために来る客を増やす工夫もしている。例えば、新しい客\nに来てもらうために、無料のチケットを配るという方法がある。一度会場に来て試合を\n楽しんでくれたら、次はチケットを買って来てくれる可能性が広がるという考えからだ。\nただ、③この考え方には反対意見もある。無料のチケットで来た客は、普段のチケ\nットを高く感じてしまう。すると、結局チケットを買わなくなるので、収入は増えない\nと考える経営者もいる。\nプロスポーツ の経営者 は、客に来てもらうために、いろいろな 工夫をしている。\n手段はさまざまだが、客に満足してもらい、何度も来てもらいたいという気持ちは共通\nしているのだ。\n(注) バーベキュー：肉や野菜を焼いて食べること\n33  ①経営者のさまざまな工夫が必要になるとあるが、なぜか。\n1 選手が、客を増やすことに関心を持っていないから。\n2 選手がどんなにいい試合を続けても、客の数には影響しないから。\n3 選手がいい試合をし続けて客を増やすことは、難しいから。\n4 選手が努力することがなく、客が減っているから。\n34   ②試合会場の工夫とあるが、どのような工夫を例として書いているか。\n1  会場内の飲食店の案内をわかりやすくする工夫\n2  会場で食べ物や飲み物を注文しやすくする工夫\n3  会場で集中して試合を見てもらうための観客席の工夫\n4  会場で試合以外に飲食も楽しんでもらうための工夫\n35  ③この考え方とあるが、どのような考え方か。\n1 無料のチケットを配って客が増えれば、選手たちのやる気が出るだろう。\n2 無料のチケットを配っても、見に来る客はほとんどいないだろう。\n3 無料のチケットで試合を楽しんだ客は、次はチケットを買って来るだろう。\n4 無料のチケットで試合を楽しんだ客は、次もチケットを買わないだろう。\n36  この文章全体のテーマは何か。\n1 プロスポーツの経営者が、試合会場に来る客を増やすためにしていること\n2 プロスポーツの経営者が、選手を強くするためにしていること\n3 プロスポーツの経営者が、試合会場を客が楽しめる場所にするためにしていること\n4 プロスポーツの経営者が、客に安く試合を見てもらうためにしていること\n問題 7  右のページは、外\nがい\n国\nこく\n人\nじん\n向\nむ\nけのお知らせである。これを読んで、下の質\nしつ\n問\nもん\nに答\nこた\nえ\nなさい。答えは、1・2・3・4 から最\nもっと\nもよいものを一つえらびなさい。\n37  次の 4 人は、2 月 1 日から 3 月 31 日までの間に「買い物券チャレンジ」の参加店\nで買い物をした。 「買い物券チャレンジ」に応募できるのは誰か。\n名前 利用した店の数 レシートの数 レシートの合計\n森田さん ２店 ８枚 7,520 円\nヨウさん ４店 ４枚 9,080 円\n東さん ４店 ６枚 6,100 円\nクレアさん ５店 ７枚 4,340 円\n1 森田さん\n2 ヨウさん\n3 東さん\n4 クレアさん\n38  中村さんは、「買い物券チャレンジ」に応募しようと思い、応募用紙の準備を\nした。今日は４月１１日（日）である。応募用紙はどのように出さなければ\nならないか。\n1 今日中に郵送するか、明日の 10 時から 17 時までに商業課に持参する。\n2 今日の 10 時から 16 時まで、または明日の 10 時から 17 時までに商業課に\n持参する。\n3 明日の 10 時から 16 時までに商業課に持参する。\n4 明日の 10 時から 17 時までに商業課に持参する。\n「買い物券チャレンジ」\nみずき市の店で買い物したレシートを集めて応募すると、\n100 名の方に、市内の店で使える 5,000 円分の買い物券が当たります。\n参加·応募方法\n①レシートを集める\nみずき市の生活用品店、食料品店 など、ホームページに書かれている参加店を利用して、\nレシートをもらってください。\n【期間】2 月 1 日(月)〜3 月 31 日(水)\n・応募には、合計 5,000 円分以上のレシートが必要です。\n・レシートの枚数は、5 枚以上必要です。\n・同じ店のレシートが 2 枚以上あってもいいですが、必ず 3 つ以上の店を利用して\nレシートを集めてください。\n②応募する\n応募用紙に氏名・住所・電話番号 を書き、集めたレシートをはってください。 応募用紙は、\nホームページに書かれている店でもらえます。\n<応募方法>\nみずき市商業課に郵送、または持参してください。\n１.郵送の場合\n【期間】2 月 1 日(月)〜4 月 9 日（金）\n・郵送する場合は、応募用紙を封筒に入れ、切手をはって送ってください。\n２.持参の場合\n【期間】2 月 1 日(月)〜4 月 12 日(月)\n・商業課の窓口の開いている時間(平日の 10 時〜16 時、最終日4 月 12 日は 10 時〜17 時)に\n来てください。土日は休みです。\n■買い物券について\n・当たった方には、4 月 20 日ごろに買い物券をお送りします。\n・買い物券の使用期限は 10 月 31 日です。使える店は、ホームページを確認してください。\nみずき市商業課 〒126-0204 みずき市中町 2040-１みずき市役所 3 階\n電話番号 031-924-1976\nホームページ https://www.mizuki-city.jp/shoppingticket",
+          "choices": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ],
+          "correctAnswer": 1,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2024-07-grammar-m7-q37",
+          "section": "grammar",
+          "mondai": 7,
+          "questionNumber": 37,
+          "questionType": "READING_INFO",
+          "questionText": "",
+          "passage": "問題 3 つぎの文章を読んで、文章全体の内容を考えて、 19 から 22 の中に入る最も\nよいものを、1・2・3・4 から一つえらびなさい。\n私の友達\nミラー・ジョナサン\n私は近所の小さい喫茶店によく行きます。店長は林さんという 70 歳の男性です。\n林さんは私より 50 歳も年上ですが、私たちは友達です 。\nそのお 店には 半年 ぐらい 前から 行くようになりました。 私が行くと、 林さんは\nいつも １９  。それで、私たちはだんだん仲がよくなりました。\nほかのお客さんがいないとき、私たちはよくおしゃべりをしてます。林さんはコーヒーの\n種類について詳しくて、私はコーヒーのことがよくわかるようになりました。ときどき、\n林さんに日本の生活で困っていることを相談することもあります 。林さんはいつもいい\nアドバイス をくれます。  ２０  私たちは 二人とも映画が好きなので、 映画の話も\nよくします 。この間は、一緒に映画を見に行きました。\n日本で林さん ２１ 友達ができることは 予想していませんでした。こんなに 年上\nの友達ができたのは 初めてでしたが、 年齢の差は重要ではないことがわかりました。\n日本で林さんに ２２ よかったです 。\n1 話しかけていました     2 話しかけてあげました\n3 話しかけてくれました    4 話しかけてもらいました\n1 確かに       2 ところが\n3 例えば       4 それから\n1  にも  2 のような   3 にだけ   4  のほかに\n1 会えて   2  会うから  3 会えるのが  4 会っても\n読解\n問題 4 つぎの(1)から(4)の文章\nぶんしょう\nを読んで、質問に答えなさい。答えは、1・2・3・4\nから最もよいものを一つえらびなさい。\n（１）\nこれは、野村さんが部長会議の出席予定者に書いたメールである。\n部長会議にご出席予定の皆様へ\nあさって 12 日(金)の部長会議について、ご連絡します 。\n天気予報では、明日の夜、台風が東京の近くを通ることが予想されています 。そのため、\nあさってまで交通機関に影響が残る可能性があります 。明日の予報で台風が東京を通る\nことが確実になった場合は、会議を来週に延期することにします 。最終的なご連絡は、\n明日 11 日(木)の 15 時にメールでいたします 。\n以上、よろしくお願いします 。\n第一営業部\n野村マリア\n23  野村さんがこのメールで知らせたいことは何か。\n1 部長会議は、来週に延期する。\n2 部長会議は、明日の 15 時から行う。\n3 部長会議は天気に関係なく、あさって行う。\n4 部長会議を延期するかどうか、明日の 15 時に連絡する。\n（２）\n高校生の孫が「来週、E スポーツ大会に出るんだ」と言った。コンピューターゲームの\n大会だと説明され、私は不思議な気がした。なぜ、それがスポーツの大会なのだろうか。\n聞いてみると、 英語の「スポーツ」には、ルールを守りながら勝ったり負けたりす\nることを楽しむものという意味があるそうだ。それで、最近ではコンピューターゲーム\nもスポーツと言うらしい。\n体を動かすことをスポーツだと思っていた私は驚いた。\n24  不思議な気がしたとあるが、どうしてか。\n1 高校生なのに、孫が有名な E スポーツの大会に出ると言っているから。\n2 コンピューターゲームにも大会があると聞いたから。\n3 体を動かさないのに、コンピューターゲームをスポーツと言っているから。\n4 子供のころからずっとなりたいと思い続けていた先生になれたから。\n（３）\n(大学で)\nこのお知らせが掲示板にはってある。\n留学生日本語カラオケ大会\n参加者募集\n5 月 29 日(土)の 13 時から、大教室(A103)で「留学生日本語カラオケ大会」を行います。\n参加したい人は、歌いたい日本語の歌を決めて、5 月 7 日(金)までに留学生課で申し\n込んでください。\nなお、当日の集合時間は 12 時ですが、希望者は午前中に会場の A103 で練習するこ\nとができます 。その場合の集合時間は 10 時になります 。希望者は、参加の申し込み\nのときに、練習も申し込んでください。\n参加をお待ちしています 。\n留学生課\n25  カラオケ大会に参加したい人で、当日、会場で練習したい人はとうしなければ\nならないか。\n1 5 月 7 日までに留学生課で参加と練習の申し込みをして、29 日の10 時に会場へ行く。\n2 5 月 7 日までに留学生課で参加と練習の申し込みをして、29 日の12 時に会場へ行く。\n3 5 月 7 日までに留学生課で参加の申し込みだけして、29 日の10 時に会場へ行く。\n4 5 月 29日の10時までに留学生課で参加と練習の申し込みをして、12時に会場へ行く。\n（４）\nコーヒーを飲むと眠れなくなるから、 寝る前には飲まないという 人が多いだろう。\nしかし最近、昼寝の前にはコーヒーを飲むといいと言われるようになってきた。\n昼寝をすると起きたあとの集中力が上がるが、長く寝るのはよくない。そこで、 飲\nむと目が覚めるというコーヒーの効果を利用するのだ。この効果は、飲んでから約 30\n分後に出るので、昼寝の前に飲むと、30 分ぐらいで自然に目が覚める。\nぜひやってみてほしい。\n26  この文章を書いた人が言いたいことは何か。\n1 コーヒーを飲むと眠れなくなるから、昼寝の前には飲まないほうがいい。\n2 集中力が高くなるから、昼寝のあとで 30 分以内にコーヒーを飲むといい。\n3 昼寝で寝すぎないためには、昼寝をする 30 分前にコーヒーを飲むといい。\n4 昼寝で、30 分ぐらいで自然に起きるためには、昼寝の直前にコーヒーを\n飲むといい。\n問題 5  つぎの(1)と(2)の文章\nぶんしょう\nを読んで、質問に答えなさい。答えは、1・2・3・4\nから最もよいものを一つえらびなさい。\n（１）\n私は、前から自分で野菜を育てたいと思っていました。私のうちには庭もベランダ\nもないので、①諦めていたのですが、先月、友達から部屋の中でホウレンソウを育てて\nいるという 話を聞きました。 室内でできるなら 私もやってみたいと 思い、準備をしま\nした。\n外に似た環境がいいだろうと考え、窓の近くで育て始めたら、4 日で芽が出始めまし\nた。少しずつ大きくなるのがうれしかったです 。ところが、だんだん葉が黄色くなって、\n全部枯れてしまったのです 。太陽の光が足りなかったのかもしれないと思いました。\n②がっかりして、友達に電話をして聞いてみると、 ホウレンソウ は夜になったら、\n光が当たってはいけないということがわかりました。 私の場合は、部屋の電気の光が\nよくなかったようです 。友達は、段ボール箱でホウレンソウ にカバーをしているのだ\nそうです 。\n私も同じようにやってみたら、③ 今度は元気に育ちました。サラダにして食べたら、\nとてもおいしかったです 。\n27  ①諦めていたとあるが、何を諦めていたのか。\n1 自分で野菜を育てること\n2 庭やベランダがある家に住むこと\n3 友達に野菜の育て方を教えてもらうこと\n4 部屋の中でホウレンソウを育てること\n28  ②がっかりしてとあるが、どうしてがっかりしたのか。\n1 ホウレンソウの芽が出なかったから。\n2 ホウレンソウが全部枯れてしまったから。\n3 ホウレンソウについての友達の知識が間違っていたから。\n4 うまく育ったホウレンソウが少なかったから。\n29      ③今度は元気に育ちましたとあるが、どうして元気に育ったのか。\n1 昼、ホウレンソウにもっと光が当たるようにしたから。\n2    昼、ホウレンソウにあまり光が当たらないようにしたから。\n3 夜、ホウレンンソウに光が当たるようにしたから。\n4 夜、ホウレンソウに光が当たらないようにしたから。\n（２）\n日本に留学したばかりのころ、 文房具店 に入って驚いてしまった 。私の国では、\nシャープぺンシルはあまり売られていないが、その店には 100 円の安い物から 5000 円\n以上する高い物まで、すごい 数のシャーペン が並んでいたのだ。 芯も太さが 0.3mm\nから 1.5mm まであって、濃さもいろいろな物が売られていた。\nイギリスで生まれたシャーペンだが、初めは 1.5mm や 1.0mm の芯しかなかった。\nだが、 約 60 年前、 ある日本の会社が、複雑な漢字でも美しく書けるよう、 世界で\n初めて 0.5mm の折れにくい 芯を作ることに チャレンジ して、成功したのだそうだ。\nそれからシャーペンが日本中で使われるようになったらしい。\n私は、来日してからずっとシャーペンを愛用している。鉛筆のように先が丸くならず 、\n小さい字がきれいに書けるからだ。今、使っているのは安い物だが、来年、就職したら、\n少しいい物を買おうと思っている。\n30  驚いてしまったとあるが、文房具店のどんなことに驚いたのか。\n１ シャーペンがあまり売られていなかったこと\n２ たくさんの種類のシャーペンや芯が売られていたこと\n３ 値段の高いシャーペンばかりが売られていたこと\n４ シャーペンの芯だけを売る専門の店だったこと\n31  シャーペンが日本中で使われるようになったのは、いつからか。\n1 日本の会社が、太くて折れにくい芯を作ってから。\n2  日本の会社が、細くて折れにくい芯を作ってから。\n3 日本の会社が、日本でイギリスのシャーペンを売るようになってから。\n4  日本の会社が、世界で初めてシャーペンを作ってから。\n32  「私」が今、シャーペンを使っているのはなぜか。\n1 日本中で使われているから。\n2 小さい字が書きやすいから。\n3 鉛筆より安く買えるから。\n4 高くていい物を買ったから。\n問題 6  つぎの文章\nぶんしょう\nを読んで、質問に答えなさい。答えは、1・2・3・4 から最もよい\nものを一つえらびなさい。\n野球やサッカーなどのプロスポーツ の経営では、試合会場に来てくれる客を増やす\nことが重要だ。また見たいと思うようないい試合が続けば、客は自然に増えるだろう。\nしかし、どんなに選手が努力しても、そのような試合をずっと続けるのは難しい。そこ\nで、①経営者のさまざまな工夫が必要になる。\nその一つに、②試合会場の工夫がある。例えば、ある会場では、試合がある日に、\nいろいろな 飲食店 の食べ物や飲み物を 1000 種類も選べるようにしている。また、\n(注)バーベキユーをしながら試合が見られる観客席を作っているところもある。会場を\n楽しく過ごせる場所にして、また来たいと思ってもらおうという考え方だ。経営という\n点では、試合を見ること以外にも会場に来る目的を作ることが重要なのだ。\nもちろん、試合を楽しむために来る客を増やす工夫もしている。例えば、新しい客\nに来てもらうために、無料のチケットを配るという方法がある。一度会場に来て試合を\n楽しんでくれたら、次はチケットを買って来てくれる可能性が広がるという考えからだ。\nただ、③この考え方には反対意見もある。無料のチケットで来た客は、普段のチケ\nットを高く感じてしまう。すると、結局チケットを買わなくなるので、収入は増えない\nと考える経営者もいる。\nプロスポーツ の経営者 は、客に来てもらうために、いろいろな 工夫をしている。\n手段はさまざまだが、客に満足してもらい、何度も来てもらいたいという気持ちは共通\nしているのだ。\n(注) バーベキュー：肉や野菜を焼いて食べること\n33  ①経営者のさまざまな工夫が必要になるとあるが、なぜか。\n1 選手が、客を増やすことに関心を持っていないから。\n2 選手がどんなにいい試合を続けても、客の数には影響しないから。\n3 選手がいい試合をし続けて客を増やすことは、難しいから。\n4 選手が努力することがなく、客が減っているから。\n34   ②試合会場の工夫とあるが、どのような工夫を例として書いているか。\n1  会場内の飲食店の案内をわかりやすくする工夫\n2  会場で食べ物や飲み物を注文しやすくする工夫\n3  会場で集中して試合を見てもらうための観客席の工夫\n4  会場で試合以外に飲食も楽しんでもらうための工夫\n35  ③この考え方とあるが、どのような考え方か。\n1 無料のチケットを配って客が増えれば、選手たちのやる気が出るだろう。\n2 無料のチケットを配っても、見に来る客はほとんどいないだろう。\n3 無料のチケットで試合を楽しんだ客は、次はチケットを買って来るだろう。\n4 無料のチケットで試合を楽しんだ客は、次もチケットを買わないだろう。\n36  この文章全体のテーマは何か。\n1 プロスポーツの経営者が、試合会場に来る客を増やすためにしていること\n2 プロスポーツの経営者が、選手を強くするためにしていること\n3 プロスポーツの経営者が、試合会場を客が楽しめる場所にするためにしていること\n4 プロスポーツの経営者が、客に安く試合を見てもらうためにしていること\n問題 7  右のページは、外\nがい\n国\nこく\n人\nじん\n向\nむ\nけのお知らせである。これを読んで、下の質\nしつ\n問\nもん\nに答\nこた\nえ\nなさい。答えは、1・2・3・4 から最\nもっと\nもよいものを一つえらびなさい。\n37  次の 4 人は、2 月 1 日から 3 月 31 日までの間に「買い物券チャレンジ」の参加店\nで買い物をした。 「買い物券チャレンジ」に応募できるのは誰か。\n名前 利用した店の数 レシートの数 レシートの合計\n森田さん ２店 ８枚 7,520 円\nヨウさん ４店 ４枚 9,080 円\n東さん ４店 ６枚 6,100 円\nクレアさん ５店 ７枚 4,340 円\n1 森田さん\n2 ヨウさん\n3 東さん\n4 クレアさん\n38  中村さんは、「買い物券チャレンジ」に応募しようと思い、応募用紙の準備を\nした。今日は４月１１日（日）である。応募用紙はどのように出さなければ\nならないか。\n1 今日中に郵送するか、明日の 10 時から 17 時までに商業課に持参する。\n2 今日の 10 時から 16 時まで、または明日の 10 時から 17 時までに商業課に\n持参する。\n3 明日の 10 時から 16 時までに商業課に持参する。\n4 明日の 10 時から 17 時までに商業課に持参する。\n「買い物券チャレンジ」\nみずき市の店で買い物したレシートを集めて応募すると、\n100 名の方に、市内の店で使える 5,000 円分の買い物券が当たります。\n参加·応募方法\n①レシートを集める\nみずき市の生活用品店、食料品店 など、ホームページに書かれている参加店を利用して、\nレシートをもらってください。\n【期間】2 月 1 日(月)〜3 月 31 日(水)\n・応募には、合計 5,000 円分以上のレシートが必要です。\n・レシートの枚数は、5 枚以上必要です。\n・同じ店のレシートが 2 枚以上あってもいいですが、必ず 3 つ以上の店を利用して\nレシートを集めてください。\n②応募する\n応募用紙に氏名・住所・電話番号 を書き、集めたレシートをはってください。 応募用紙は、\nホームページに書かれている店でもらえます。\n<応募方法>\nみずき市商業課に郵送、または持参してください。\n１.郵送の場合\n【期間】2 月 1 日(月)〜4 月 9 日（金）\n・郵送する場合は、応募用紙を封筒に入れ、切手をはって送ってください。\n２.持参の場合\n【期間】2 月 1 日(月)〜4 月 12 日(月)\n・商業課の窓口の開いている時間(平日の 10 時〜16 時、最終日4 月 12 日は 10 時〜17 時)に\n来てください。土日は休みです。\n■買い物券について\n・当たった方には、4 月 20 日ごろに買い物券をお送りします。\n・買い物券の使用期限は 10 月 31 日です。使える店は、ホームページを確認してください。\nみずき市商業課 〒126-0204 みずき市中町 2040-１みずき市役所 3 階\n電話番号 031-924-1976\nホームページ https://www.mizuki-city.jp/shoppingticket",
+          "choices": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ],
+          "correctAnswer": 3,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2024-07-grammar-m7-q38",
+          "section": "grammar",
+          "mondai": 7,
+          "questionNumber": 38,
+          "questionType": "READING_INFO",
+          "questionText": "",
+          "passage": "問題 3 つぎの文章を読んで、文章全体の内容を考えて、 19 から 22 の中に入る最も\nよいものを、1・2・3・4 から一つえらびなさい。\n私の友達\nミラー・ジョナサン\n私は近所の小さい喫茶店によく行きます。店長は林さんという 70 歳の男性です。\n林さんは私より 50 歳も年上ですが、私たちは友達です 。\nそのお 店には 半年 ぐらい 前から 行くようになりました。 私が行くと、 林さんは\nいつも １９  。それで、私たちはだんだん仲がよくなりました。\nほかのお客さんがいないとき、私たちはよくおしゃべりをしてます。林さんはコーヒーの\n種類について詳しくて、私はコーヒーのことがよくわかるようになりました。ときどき、\n林さんに日本の生活で困っていることを相談することもあります 。林さんはいつもいい\nアドバイス をくれます。  ２０  私たちは 二人とも映画が好きなので、 映画の話も\nよくします 。この間は、一緒に映画を見に行きました。\n日本で林さん ２１ 友達ができることは 予想していませんでした。こんなに 年上\nの友達ができたのは 初めてでしたが、 年齢の差は重要ではないことがわかりました。\n日本で林さんに ２２ よかったです 。\n1 話しかけていました     2 話しかけてあげました\n3 話しかけてくれました    4 話しかけてもらいました\n1 確かに       2 ところが\n3 例えば       4 それから\n1  にも  2 のような   3 にだけ   4  のほかに\n1 会えて   2  会うから  3 会えるのが  4 会っても\n読解\n問題 4 つぎの(1)から(4)の文章\nぶんしょう\nを読んで、質問に答えなさい。答えは、1・2・3・4\nから最もよいものを一つえらびなさい。\n（１）\nこれは、野村さんが部長会議の出席予定者に書いたメールである。\n部長会議にご出席予定の皆様へ\nあさって 12 日(金)の部長会議について、ご連絡します 。\n天気予報では、明日の夜、台風が東京の近くを通ることが予想されています 。そのため、\nあさってまで交通機関に影響が残る可能性があります 。明日の予報で台風が東京を通る\nことが確実になった場合は、会議を来週に延期することにします 。最終的なご連絡は、\n明日 11 日(木)の 15 時にメールでいたします 。\n以上、よろしくお願いします 。\n第一営業部\n野村マリア\n23  野村さんがこのメールで知らせたいことは何か。\n1 部長会議は、来週に延期する。\n2 部長会議は、明日の 15 時から行う。\n3 部長会議は天気に関係なく、あさって行う。\n4 部長会議を延期するかどうか、明日の 15 時に連絡する。\n（２）\n高校生の孫が「来週、E スポーツ大会に出るんだ」と言った。コンピューターゲームの\n大会だと説明され、私は不思議な気がした。なぜ、それがスポーツの大会なのだろうか。\n聞いてみると、 英語の「スポーツ」には、ルールを守りながら勝ったり負けたりす\nることを楽しむものという意味があるそうだ。それで、最近ではコンピューターゲーム\nもスポーツと言うらしい。\n体を動かすことをスポーツだと思っていた私は驚いた。\n24  不思議な気がしたとあるが、どうしてか。\n1 高校生なのに、孫が有名な E スポーツの大会に出ると言っているから。\n2 コンピューターゲームにも大会があると聞いたから。\n3 体を動かさないのに、コンピューターゲームをスポーツと言っているから。\n4 子供のころからずっとなりたいと思い続けていた先生になれたから。\n（３）\n(大学で)\nこのお知らせが掲示板にはってある。\n留学生日本語カラオケ大会\n参加者募集\n5 月 29 日(土)の 13 時から、大教室(A103)で「留学生日本語カラオケ大会」を行います。\n参加したい人は、歌いたい日本語の歌を決めて、5 月 7 日(金)までに留学生課で申し\n込んでください。\nなお、当日の集合時間は 12 時ですが、希望者は午前中に会場の A103 で練習するこ\nとができます 。その場合の集合時間は 10 時になります 。希望者は、参加の申し込み\nのときに、練習も申し込んでください。\n参加をお待ちしています 。\n留学生課\n25  カラオケ大会に参加したい人で、当日、会場で練習したい人はとうしなければ\nならないか。\n1 5 月 7 日までに留学生課で参加と練習の申し込みをして、29 日の10 時に会場へ行く。\n2 5 月 7 日までに留学生課で参加と練習の申し込みをして、29 日の12 時に会場へ行く。\n3 5 月 7 日までに留学生課で参加の申し込みだけして、29 日の10 時に会場へ行く。\n4 5 月 29日の10時までに留学生課で参加と練習の申し込みをして、12時に会場へ行く。\n（４）\nコーヒーを飲むと眠れなくなるから、 寝る前には飲まないという 人が多いだろう。\nしかし最近、昼寝の前にはコーヒーを飲むといいと言われるようになってきた。\n昼寝をすると起きたあとの集中力が上がるが、長く寝るのはよくない。そこで、 飲\nむと目が覚めるというコーヒーの効果を利用するのだ。この効果は、飲んでから約 30\n分後に出るので、昼寝の前に飲むと、30 分ぐらいで自然に目が覚める。\nぜひやってみてほしい。\n26  この文章を書いた人が言いたいことは何か。\n1 コーヒーを飲むと眠れなくなるから、昼寝の前には飲まないほうがいい。\n2 集中力が高くなるから、昼寝のあとで 30 分以内にコーヒーを飲むといい。\n3 昼寝で寝すぎないためには、昼寝をする 30 分前にコーヒーを飲むといい。\n4 昼寝で、30 分ぐらいで自然に起きるためには、昼寝の直前にコーヒーを\n飲むといい。\n問題 5  つぎの(1)と(2)の文章\nぶんしょう\nを読んで、質問に答えなさい。答えは、1・2・3・4\nから最もよいものを一つえらびなさい。\n（１）\n私は、前から自分で野菜を育てたいと思っていました。私のうちには庭もベランダ\nもないので、①諦めていたのですが、先月、友達から部屋の中でホウレンソウを育てて\nいるという 話を聞きました。 室内でできるなら 私もやってみたいと 思い、準備をしま\nした。\n外に似た環境がいいだろうと考え、窓の近くで育て始めたら、4 日で芽が出始めまし\nた。少しずつ大きくなるのがうれしかったです 。ところが、だんだん葉が黄色くなって、\n全部枯れてしまったのです 。太陽の光が足りなかったのかもしれないと思いました。\n②がっかりして、友達に電話をして聞いてみると、 ホウレンソウ は夜になったら、\n光が当たってはいけないということがわかりました。 私の場合は、部屋の電気の光が\nよくなかったようです 。友達は、段ボール箱でホウレンソウ にカバーをしているのだ\nそうです 。\n私も同じようにやってみたら、③ 今度は元気に育ちました。サラダにして食べたら、\nとてもおいしかったです 。\n27  ①諦めていたとあるが、何を諦めていたのか。\n1 自分で野菜を育てること\n2 庭やベランダがある家に住むこと\n3 友達に野菜の育て方を教えてもらうこと\n4 部屋の中でホウレンソウを育てること\n28  ②がっかりしてとあるが、どうしてがっかりしたのか。\n1 ホウレンソウの芽が出なかったから。\n2 ホウレンソウが全部枯れてしまったから。\n3 ホウレンソウについての友達の知識が間違っていたから。\n4 うまく育ったホウレンソウが少なかったから。\n29      ③今度は元気に育ちましたとあるが、どうして元気に育ったのか。\n1 昼、ホウレンソウにもっと光が当たるようにしたから。\n2    昼、ホウレンソウにあまり光が当たらないようにしたから。\n3 夜、ホウレンンソウに光が当たるようにしたから。\n4 夜、ホウレンソウに光が当たらないようにしたから。\n（２）\n日本に留学したばかりのころ、 文房具店 に入って驚いてしまった 。私の国では、\nシャープぺンシルはあまり売られていないが、その店には 100 円の安い物から 5000 円\n以上する高い物まで、すごい 数のシャーペン が並んでいたのだ。 芯も太さが 0.3mm\nから 1.5mm まであって、濃さもいろいろな物が売られていた。\nイギリスで生まれたシャーペンだが、初めは 1.5mm や 1.0mm の芯しかなかった。\nだが、 約 60 年前、 ある日本の会社が、複雑な漢字でも美しく書けるよう、 世界で\n初めて 0.5mm の折れにくい 芯を作ることに チャレンジ して、成功したのだそうだ。\nそれからシャーペンが日本中で使われるようになったらしい。\n私は、来日してからずっとシャーペンを愛用している。鉛筆のように先が丸くならず 、\n小さい字がきれいに書けるからだ。今、使っているのは安い物だが、来年、就職したら、\n少しいい物を買おうと思っている。\n30  驚いてしまったとあるが、文房具店のどんなことに驚いたのか。\n１ シャーペンがあまり売られていなかったこと\n２ たくさんの種類のシャーペンや芯が売られていたこと\n３ 値段の高いシャーペンばかりが売られていたこと\n４ シャーペンの芯だけを売る専門の店だったこと\n31  シャーペンが日本中で使われるようになったのは、いつからか。\n1 日本の会社が、太くて折れにくい芯を作ってから。\n2  日本の会社が、細くて折れにくい芯を作ってから。\n3 日本の会社が、日本でイギリスのシャーペンを売るようになってから。\n4  日本の会社が、世界で初めてシャーペンを作ってから。\n32  「私」が今、シャーペンを使っているのはなぜか。\n1 日本中で使われているから。\n2 小さい字が書きやすいから。\n3 鉛筆より安く買えるから。\n4 高くていい物を買ったから。\n問題 6  つぎの文章\nぶんしょう\nを読んで、質問に答えなさい。答えは、1・2・3・4 から最もよい\nものを一つえらびなさい。\n野球やサッカーなどのプロスポーツ の経営では、試合会場に来てくれる客を増やす\nことが重要だ。また見たいと思うようないい試合が続けば、客は自然に増えるだろう。\nしかし、どんなに選手が努力しても、そのような試合をずっと続けるのは難しい。そこ\nで、①経営者のさまざまな工夫が必要になる。\nその一つに、②試合会場の工夫がある。例えば、ある会場では、試合がある日に、\nいろいろな 飲食店 の食べ物や飲み物を 1000 種類も選べるようにしている。また、\n(注)バーベキユーをしながら試合が見られる観客席を作っているところもある。会場を\n楽しく過ごせる場所にして、また来たいと思ってもらおうという考え方だ。経営という\n点では、試合を見ること以外にも会場に来る目的を作ることが重要なのだ。\nもちろん、試合を楽しむために来る客を増やす工夫もしている。例えば、新しい客\nに来てもらうために、無料のチケットを配るという方法がある。一度会場に来て試合を\n楽しんでくれたら、次はチケットを買って来てくれる可能性が広がるという考えからだ。\nただ、③この考え方には反対意見もある。無料のチケットで来た客は、普段のチケ\nットを高く感じてしまう。すると、結局チケットを買わなくなるので、収入は増えない\nと考える経営者もいる。\nプロスポーツ の経営者 は、客に来てもらうために、いろいろな 工夫をしている。\n手段はさまざまだが、客に満足してもらい、何度も来てもらいたいという気持ちは共通\nしているのだ。\n(注) バーベキュー：肉や野菜を焼いて食べること\n33  ①経営者のさまざまな工夫が必要になるとあるが、なぜか。\n1 選手が、客を増やすことに関心を持っていないから。\n2 選手がどんなにいい試合を続けても、客の数には影響しないから。\n3 選手がいい試合をし続けて客を増やすことは、難しいから。\n4 選手が努力することがなく、客が減っているから。\n34   ②試合会場の工夫とあるが、どのような工夫を例として書いているか。\n1  会場内の飲食店の案内をわかりやすくする工夫\n2  会場で食べ物や飲み物を注文しやすくする工夫\n3  会場で集中して試合を見てもらうための観客席の工夫\n4  会場で試合以外に飲食も楽しんでもらうための工夫\n35  ③この考え方とあるが、どのような考え方か。\n1 無料のチケットを配って客が増えれば、選手たちのやる気が出るだろう。\n2 無料のチケットを配っても、見に来る客はほとんどいないだろう。\n3 無料のチケットで試合を楽しんだ客は、次はチケットを買って来るだろう。\n4 無料のチケットで試合を楽しんだ客は、次もチケットを買わないだろう。\n36  この文章全体のテーマは何か。\n1 プロスポーツの経営者が、試合会場に来る客を増やすためにしていること\n2 プロスポーツの経営者が、選手を強くするためにしていること\n3 プロスポーツの経営者が、試合会場を客が楽しめる場所にするためにしていること\n4 プロスポーツの経営者が、客に安く試合を見てもらうためにしていること\n問題 7  右のページは、外\nがい\n国\nこく\n人\nじん\n向\nむ\nけのお知らせである。これを読んで、下の質\nしつ\n問\nもん\nに答\nこた\nえ\nなさい。答えは、1・2・3・4 から最\nもっと\nもよいものを一つえらびなさい。\n37  次の 4 人は、2 月 1 日から 3 月 31 日までの間に「買い物券チャレンジ」の参加店\nで買い物をした。 「買い物券チャレンジ」に応募できるのは誰か。\n名前 利用した店の数 レシートの数 レシートの合計\n森田さん ２店 ８枚 7,520 円\nヨウさん ４店 ４枚 9,080 円\n東さん ４店 ６枚 6,100 円\nクレアさん ５店 ７枚 4,340 円\n1 森田さん\n2 ヨウさん\n3 東さん\n4 クレアさん\n38  中村さんは、「買い物券チャレンジ」に応募しようと思い、応募用紙の準備を\nした。今日は４月１１日（日）である。応募用紙はどのように出さなければ\nならないか。\n1 今日中に郵送するか、明日の 10 時から 17 時までに商業課に持参する。\n2 今日の 10 時から 16 時まで、または明日の 10 時から 17 時までに商業課に\n持参する。\n3 明日の 10 時から 16 時までに商業課に持参する。\n4 明日の 10 時から 17 時までに商業課に持参する。\n「買い物券チャレンジ」\nみずき市の店で買い物したレシートを集めて応募すると、\n100 名の方に、市内の店で使える 5,000 円分の買い物券が当たります。\n参加·応募方法\n①レシートを集める\nみずき市の生活用品店、食料品店 など、ホームページに書かれている参加店を利用して、\nレシートをもらってください。\n【期間】2 月 1 日(月)〜3 月 31 日(水)\n・応募には、合計 5,000 円分以上のレシートが必要です。\n・レシートの枚数は、5 枚以上必要です。\n・同じ店のレシートが 2 枚以上あってもいいですが、必ず 3 つ以上の店を利用して\nレシートを集めてください。\n②応募する\n応募用紙に氏名・住所・電話番号 を書き、集めたレシートをはってください。 応募用紙は、\nホームページに書かれている店でもらえます。\n<応募方法>\nみずき市商業課に郵送、または持参してください。\n１.郵送の場合\n【期間】2 月 1 日(月)〜4 月 9 日（金）\n・郵送する場合は、応募用紙を封筒に入れ、切手をはって送ってください。\n２.持参の場合\n【期間】2 月 1 日(月)〜4 月 12 日(月)\n・商業課の窓口の開いている時間(平日の 10 時〜16 時、最終日4 月 12 日は 10 時〜17 時)に\n来てください。土日は休みです。\n■買い物券について\n・当たった方には、4 月 20 日ごろに買い物券をお送りします。\n・買い物券の使用期限は 10 月 31 日です。使える店は、ホームページを確認してください。\nみずき市商業課 〒126-0204 みずき市中町 2040-１みずき市役所 3 階\n電話番号 031-924-1976\nホームページ https://www.mizuki-city.jp/shoppingticket",
+          "choices": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ],
+          "correctAnswer": 4,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        }
+      ]
+    },
+    {
+      "sectionId": "listening",
+      "title": "聴解",
+      "titleVi": "Nghe hiểu",
+      "timeLimitSec": 2400,
+      "totalQuestions": 28,
+      "questions": [
+        {
+          "id": "n3-2024-07-listening-m1-q1",
+          "section": "listening",
+          "mondai": 1,
+          "questionNumber": 1,
+          "questionType": "LISTEN_TASK",
+          "questionText": "問題 1 - 第 1 番",
+          "passage": null,
+          "choices": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ],
+          "correctAnswer": 1,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2024-07-listening-m1-q2",
+          "section": "listening",
+          "mondai": 1,
+          "questionNumber": 2,
+          "questionType": "LISTEN_TASK",
+          "questionText": "問題 1 - 第 2 番",
+          "passage": null,
+          "choices": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ],
+          "correctAnswer": 2,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2024-07-listening-m1-q3",
+          "section": "listening",
+          "mondai": 1,
+          "questionNumber": 3,
+          "questionType": "LISTEN_TASK",
+          "questionText": "問題 1 - 第 3 番",
+          "passage": null,
+          "choices": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ],
+          "correctAnswer": 3,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2024-07-listening-m1-q4",
+          "section": "listening",
+          "mondai": 1,
+          "questionNumber": 4,
+          "questionType": "LISTEN_TASK",
+          "questionText": "問題 1 - 第 4 番",
+          "passage": null,
+          "choices": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ],
+          "correctAnswer": 4,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2024-07-listening-m1-q5",
+          "section": "listening",
+          "mondai": 1,
+          "questionNumber": 5,
+          "questionType": "LISTEN_TASK",
+          "questionText": "問題 1 - 第 5 番",
+          "passage": null,
+          "choices": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ],
+          "correctAnswer": 1,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2024-07-listening-m1-q6",
+          "section": "listening",
+          "mondai": 1,
+          "questionNumber": 6,
+          "questionType": "LISTEN_TASK",
+          "questionText": "問題 1 - 第 6 番",
+          "passage": null,
+          "choices": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ],
+          "correctAnswer": 2,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2024-07-listening-m2-q7",
+          "section": "listening",
+          "mondai": 2,
+          "questionNumber": 7,
+          "questionType": "LISTEN_POINT",
+          "questionText": "問題 2 - 第 1 番",
+          "passage": null,
+          "choices": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ],
+          "correctAnswer": 1,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2024-07-listening-m2-q8",
+          "section": "listening",
+          "mondai": 2,
+          "questionNumber": 8,
+          "questionType": "LISTEN_POINT",
+          "questionText": "問題 2 - 第 2 番",
+          "passage": null,
+          "choices": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ],
+          "correctAnswer": 2,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2024-07-listening-m2-q9",
+          "section": "listening",
+          "mondai": 2,
+          "questionNumber": 9,
+          "questionType": "LISTEN_POINT",
+          "questionText": "問題 2 - 第 3 番",
+          "passage": null,
+          "choices": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ],
+          "correctAnswer": 3,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2024-07-listening-m2-q10",
+          "section": "listening",
+          "mondai": 2,
+          "questionNumber": 10,
+          "questionType": "LISTEN_POINT",
+          "questionText": "問題 2 - 第 4 番",
+          "passage": null,
+          "choices": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ],
+          "correctAnswer": 4,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2024-07-listening-m2-q11",
+          "section": "listening",
+          "mondai": 2,
+          "questionNumber": 11,
+          "questionType": "LISTEN_POINT",
+          "questionText": "問題 2 - 第 5 番",
+          "passage": null,
+          "choices": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ],
+          "correctAnswer": 1,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2024-07-listening-m2-q12",
+          "section": "listening",
+          "mondai": 2,
+          "questionNumber": 12,
+          "questionType": "LISTEN_POINT",
+          "questionText": "問題 2 - 第 6 番",
+          "passage": null,
+          "choices": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ],
+          "correctAnswer": 2,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2024-07-listening-m3-q13",
+          "section": "listening",
+          "mondai": 3,
+          "questionNumber": 13,
+          "questionType": "LISTEN_OVERVIEW",
+          "questionText": "問題 3 - 第 1 番",
+          "passage": null,
+          "choices": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ],
+          "correctAnswer": 1,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2024-07-listening-m3-q14",
+          "section": "listening",
+          "mondai": 3,
+          "questionNumber": 14,
+          "questionType": "LISTEN_OVERVIEW",
+          "questionText": "問題 3 - 第 2 番",
+          "passage": null,
+          "choices": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ],
+          "correctAnswer": 2,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2024-07-listening-m3-q15",
+          "section": "listening",
+          "mondai": 3,
+          "questionNumber": 15,
+          "questionType": "LISTEN_OVERVIEW",
+          "questionText": "問題 3 - 第 3 番",
+          "passage": null,
+          "choices": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ],
+          "correctAnswer": 3,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2024-07-listening-m4-q16",
+          "section": "listening",
+          "mondai": 4,
+          "questionNumber": 16,
+          "questionType": "LISTEN_PICTURE",
+          "questionText": "問題 4 - 第 1 番",
+          "passage": null,
+          "choices": [
+            "1",
+            "2",
+            "3"
+          ],
+          "correctAnswer": 1,
+          "imageRef": "/exams/images/n3-2024-07/Image122.jpg.jpg",
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2024-07-listening-m4-q17",
+          "section": "listening",
+          "mondai": 4,
+          "questionNumber": 17,
+          "questionType": "LISTEN_PICTURE",
+          "questionText": "問題 4 - 第 2 番",
+          "passage": null,
+          "choices": [
+            "1",
+            "2",
+            "3"
+          ],
+          "correctAnswer": 2,
+          "imageRef": "/exams/images/n3-2024-07/Image138.jpg.jpg",
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2024-07-listening-m4-q18",
+          "section": "listening",
+          "mondai": 4,
+          "questionNumber": 18,
+          "questionType": "LISTEN_PICTURE",
+          "questionText": "問題 4 - 第 3 番",
+          "passage": null,
+          "choices": [
+            "1",
+            "2",
+            "3"
+          ],
+          "correctAnswer": 3,
+          "imageRef": "/exams/images/n3-2024-07/Image139.jpg.jpg",
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2024-07-listening-m4-q19",
+          "section": "listening",
+          "mondai": 4,
+          "questionNumber": 19,
+          "questionType": "LISTEN_PICTURE",
+          "questionText": "問題 4 - 第 4 番",
+          "passage": null,
+          "choices": [
+            "1",
+            "2",
+            "3"
+          ],
+          "correctAnswer": 1,
+          "imageRef": "/exams/images/n3-2024-07/Image140.jpg.jpg",
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2024-07-listening-m5-q20",
+          "section": "listening",
+          "mondai": 5,
+          "questionNumber": 20,
+          "questionType": "LISTEN_IMMEDIATE",
+          "questionText": "問題 5 - 第 1 番",
+          "passage": null,
+          "choices": [
+            "1",
+            "2",
+            "3"
+          ],
+          "correctAnswer": 1,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2024-07-listening-m5-q21",
+          "section": "listening",
+          "mondai": 5,
+          "questionNumber": 21,
+          "questionType": "LISTEN_IMMEDIATE",
+          "questionText": "問題 5 - 第 2 番",
+          "passage": null,
+          "choices": [
+            "1",
+            "2",
+            "3"
+          ],
+          "correctAnswer": 2,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2024-07-listening-m5-q22",
+          "section": "listening",
+          "mondai": 5,
+          "questionNumber": 22,
+          "questionType": "LISTEN_IMMEDIATE",
+          "questionText": "問題 5 - 第 3 番",
+          "passage": null,
+          "choices": [
+            "1",
+            "2",
+            "3"
+          ],
+          "correctAnswer": 3,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2024-07-listening-m5-q23",
+          "section": "listening",
+          "mondai": 5,
+          "questionNumber": 23,
+          "questionType": "LISTEN_IMMEDIATE",
+          "questionText": "問題 5 - 第 4 番",
+          "passage": null,
+          "choices": [
+            "1",
+            "2",
+            "3"
+          ],
+          "correctAnswer": 1,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2024-07-listening-m5-q24",
+          "section": "listening",
+          "mondai": 5,
+          "questionNumber": 24,
+          "questionType": "LISTEN_IMMEDIATE",
+          "questionText": "問題 5 - 第 5 番",
+          "passage": null,
+          "choices": [
+            "1",
+            "2",
+            "3"
+          ],
+          "correctAnswer": 2,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2024-07-listening-m5-q25",
+          "section": "listening",
+          "mondai": 5,
+          "questionNumber": 25,
+          "questionType": "LISTEN_IMMEDIATE",
+          "questionText": "問題 5 - 第 6 番",
+          "passage": null,
+          "choices": [
+            "1",
+            "2",
+            "3"
+          ],
+          "correctAnswer": 3,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2024-07-listening-m5-q26",
+          "section": "listening",
+          "mondai": 5,
+          "questionNumber": 26,
+          "questionType": "LISTEN_IMMEDIATE",
+          "questionText": "問題 5 - 第 7 番",
+          "passage": null,
+          "choices": [
+            "1",
+            "2",
+            "3"
+          ],
+          "correctAnswer": 1,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2024-07-listening-m5-q27",
+          "section": "listening",
+          "mondai": 5,
+          "questionNumber": 27,
+          "questionType": "LISTEN_IMMEDIATE",
+          "questionText": "問題 5 - 第 8 番",
+          "passage": null,
+          "choices": [
+            "1",
+            "2",
+            "3"
+          ],
+          "correctAnswer": 2,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2024-07-listening-m5-q28",
+          "section": "listening",
+          "mondai": 5,
+          "questionNumber": 28,
+          "questionType": "LISTEN_IMMEDIATE",
+          "questionText": "問題 5 - 第 9 番",
+          "passage": null,
+          "choices": [
+            "1",
+            "2",
+            "3"
+          ],
+          "correctAnswer": 3,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        }
+      ]
+    }
+  ]
+}

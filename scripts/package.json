@@ -1,6 +1,13 @@
 {
+  "name": "japaneseproject-seed-scripts",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Standalone data-seed helpers (NOT part of the Spring Boot backend). Reads Mongo credentials from environment only.",
+  "scripts": {
+    "seed:grammar-review": "node seed-grammar-review.mjs"
+  },
   "dependencies": {
-    "ioredis": "^6.0.0",
-    "mongodb": "^7.7.0"
+    "mongodb": "^6.21.0"
   }
 }

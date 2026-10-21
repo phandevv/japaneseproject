@@ -1,0 +1,1944 @@
+{
+  "examId": "n3-2023-12",
+  "level": "N3",
+  "year": 2023,
+  "month": 12,
+  "title": "JLPT N3 — Tháng 12/2023",
+  "totalQuestions": 101,
+  "audioFile": "n3-2023-12.mp3",
+  "sections": [
+    {
+      "sectionId": "vocab",
+      "title": "言語知識（文字・語彙）",
+      "titleVi": "Văn tự - Từ vựng",
+      "timeLimitSec": 1800,
+      "totalQuestions": 35,
+      "questions": [
+        {
+          "id": "n3-2023-12-vocab-m1-q1",
+          "section": "vocab",
+          "mondai": 1,
+          "questionNumber": 1,
+          "questionType": "KANJI_READING",
+          "questionText": "すみません、汚してしまいました。",
+          "passage": null,
+          "choices": [
+            "こわして",
+            "おこして",
+            "よごして",
+            "のこして"
+          ],
+          "correctAnswer": 3,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2023-12-vocab-m1-q2",
+          "section": "vocab",
+          "mondai": 1,
+          "questionNumber": 2,
+          "questionType": "KANJI_READING",
+          "questionText": "体育館 たいいくかん に選手が入ってきました。",
+          "passage": null,
+          "choices": [
+            "ぜんしゅ",
+            "せんしゅう",
+            "せんしゅ",
+            "ぜんしゅう"
+          ],
+          "correctAnswer": 3,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2023-12-vocab-m1-q3",
+          "section": "vocab",
+          "mondai": 1,
+          "questionNumber": 3,
+          "questionType": "KANJI_READING",
+          "questionText": "次 つぎ は月末に来てください。",
+          "passage": null,
+          "choices": [
+            "げつもつ",
+            "げつまつ",
+            "がつまつ",
+            "がつもつ"
+          ],
+          "correctAnswer": 2,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2023-12-vocab-m1-q4",
+          "section": "vocab",
+          "mondai": 1,
+          "questionNumber": 4,
+          "questionType": "KANJI_READING",
+          "questionText": "箱 はこ の裏をよく見てください。",
+          "passage": null,
+          "choices": [
+            "うら",
+            "おく",
+            "ふた",
+            "よこ"
+          ],
+          "correctAnswer": 1,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2023-12-vocab-m1-q5",
+          "section": "vocab",
+          "mondai": 1,
+          "questionNumber": 5,
+          "questionType": "KANJI_READING",
+          "questionText": "この町の産業について話を聞いた。",
+          "passage": null,
+          "choices": [
+            "じょうぎょう",
+            "ざんぎょう",
+            "しょうぎょう",
+            "さんぎょう"
+          ],
+          "correctAnswer": 4,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2023-12-vocab-m1-q6",
+          "section": "vocab",
+          "mondai": 1,
+          "questionNumber": 6,
+          "questionType": "KANJI_READING",
+          "questionText": "あしたの朝刊は休みです 。",
+          "passage": null,
+          "choices": [
+            "ちょうがん",
+            "ちょうかん",
+            "ちゅうかん",
+            "ちゅうがん"
+          ],
+          "correctAnswer": 2,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2023-12-vocab-m1-q7",
+          "section": "vocab",
+          "mondai": 1,
+          "questionNumber": 7,
+          "questionType": "KANJI_READING",
+          "questionText": "その話を聞いて、中村 なかむら さんは断ったそうです 。",
+          "passage": null,
+          "choices": [
+            "こわがった",
+            "あやまった",
+            "うたがった",
+            "ことわった"
+          ],
+          "correctAnswer": 4,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2023-12-vocab-m1-q8",
+          "section": "vocab",
+          "mondai": 1,
+          "questionNumber": 8,
+          "questionType": "KANJI_READING",
+          "questionText": "あしたは、2 時に広場に集まってください。",
+          "passage": null,
+          "choices": [
+            "ひろば",
+            "ひろじょう",
+            "こうば",
+            "こうじょう 選びなさい。"
+          ],
+          "correctAnswer": 1,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2023-12-vocab-m2-q9",
+          "section": "vocab",
+          "mondai": 2,
+          "questionNumber": 9,
+          "questionType": "KANJI_WRITING",
+          "questionText": "次 つぎ の駅でおりましょう。",
+          "passage": null,
+          "choices": [
+            "停りましょう",
+            "乗りましょう",
+            "降りましょう",
+            "移りましょう"
+          ],
+          "correctAnswer": 3,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2023-12-vocab-m2-q10",
+          "section": "vocab",
+          "mondai": 2,
+          "questionNumber": 10,
+          "questionType": "KANJI_WRITING",
+          "questionText": "いつも 7 時にはきたくしている。",
+          "passage": null,
+          "choices": [
+            "着宅",
+            "帰室",
+            "帰宅",
+            "着室"
+          ],
+          "correctAnswer": 3,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2023-12-vocab-m2-q11",
+          "section": "vocab",
+          "mondai": 2,
+          "questionNumber": 11,
+          "questionType": "KANJI_WRITING",
+          "questionText": "野菜をこまかく切ってください。",
+          "passage": null,
+          "choices": [
+            "角かく",
+            "平かく",
+            "丸かく",
+            "細かく"
+          ],
+          "correctAnswer": 4,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2023-12-vocab-m2-q12",
+          "section": "vocab",
+          "mondai": 2,
+          "questionNumber": 12,
+          "questionType": "KANJI_WRITING",
+          "questionText": "ほうりつを守 まも ってください。",
+          "passage": null,
+          "choices": [
+            "法律",
+            "法則",
+            "規則",
+            "規律"
+          ],
+          "correctAnswer": 1,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2023-12-vocab-m2-q13",
+          "section": "vocab",
+          "mondai": 2,
+          "questionNumber": 13,
+          "questionType": "KANJI_WRITING",
+          "questionText": "袋 ふくろ の中はからでした。",
+          "passage": null,
+          "choices": [
+            "無",
+            "空",
+            "欠",
+            "穴"
+          ],
+          "correctAnswer": 2,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2023-12-vocab-m2-q14",
+          "section": "vocab",
+          "mondai": 2,
+          "questionNumber": 14,
+          "questionType": "KANJI_WRITING",
+          "questionText": "今日のかいひは 3,000 円です 。",
+          "passage": null,
+          "choices": [
+            "会賃",
+            "会費",
+            "回費",
+            "回賃"
+          ],
+          "correctAnswer": 2,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2023-12-vocab-m3-q15",
+          "section": "vocab",
+          "mondai": 3,
+          "questionNumber": 15,
+          "questionType": "VOCAB_CONTEXT",
+          "questionText": "クイズの答えが分からないので、何か (   )が欲 ほ しい。",
+          "passage": null,
+          "choices": [
+            "ヒント",
+            "マナー",
+            "アドレス",
+            "チェック"
+          ],
+          "correctAnswer": 1,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2023-12-vocab-m3-q16",
+          "section": "vocab",
+          "mondai": 3,
+          "questionNumber": 16,
+          "questionType": "VOCAB_CONTEXT",
+          "questionText": "100 年後の世界がどうなっているか、(   )してみてください。",
+          "passage": null,
+          "choices": [
+            "承 しょう 知 ち",
+            "納得 なっとく",
+            "希 き 望 ぼう",
+            "想像 そうぞう"
+          ],
+          "correctAnswer": 4,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2023-12-vocab-m3-q17",
+          "section": "vocab",
+          "mondai": 3,
+          "questionNumber": 17,
+          "questionType": "VOCAB_CONTEXT",
+          "questionText": "今朝学校に行くとき、母がベランダから手を(   )見送ってくれた。",
+          "passage": null,
+          "choices": [
+            "指 さ して",
+            "扱 あつか って",
+            "振 ふ って",
+            "押 お して"
+          ],
+          "correctAnswer": 3,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2023-12-vocab-m3-q18",
+          "section": "vocab",
+          "mondai": 3,
+          "questionNumber": 18,
+          "questionType": "VOCAB_CONTEXT",
+          "questionText": "田中 たなか さんの部屋 へや は、本や服 ふく が(   )整 せい 理 り されていて、きれいですね。",
+          "passage": null,
+          "choices": [
+            "はっきり",
+            "なるべく",
+            "そっと",
+            "きちんと"
+          ],
+          "correctAnswer": 4,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2023-12-vocab-m3-q19",
+          "section": "vocab",
+          "mondai": 3,
+          "questionNumber": 19,
+          "questionType": "VOCAB_CONTEXT",
+          "questionText": "寒さで、手の指の(   )がなくなってしまった。",
+          "passage": null,
+          "choices": [
+            "感動 かんどう",
+            "感覚 かんかく",
+            "感激 かんげき",
+            "感心 かんしん"
+          ],
+          "correctAnswer": 2,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2023-12-vocab-m3-q20",
+          "section": "vocab",
+          "mondai": 3,
+          "questionNumber": 20,
+          "questionType": "VOCAB_CONTEXT",
+          "questionText": "虫歯 むしば を防 ふせ ぐためには、食後に歯 は を磨 みが くことが最も(   )だと思う。",
+          "passage": null,
+          "choices": [
+            "自 じ 動 どう 的 てき",
+            "効 こう 果 か 的 てき",
+            "人工的 じんこうてき",
+            "消 しょう 極 きょく 的 てき"
+          ],
+          "correctAnswer": 2,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2023-12-vocab-m3-q21",
+          "section": "vocab",
+          "mondai": 3,
+          "questionNumber": 21,
+          "questionType": "VOCAB_CONTEXT",
+          "questionText": "林 はやし さんと森 もり さんは、(   )顔は知っているが、話したことはないそうだ。",
+          "passage": null,
+          "choices": [
+            "たまに",
+            "ついでに",
+            "おたがいに",
+            "おもに"
+          ],
+          "correctAnswer": 3,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2023-12-vocab-m3-q22",
+          "section": "vocab",
+          "mondai": 3,
+          "questionNumber": 22,
+          "questionType": "VOCAB_CONTEXT",
+          "questionText": "前の人の発 はっ 表 ぴょう が終わったので、次は私が発 はっ 表 ぴょう する(   )だ。",
+          "passage": null,
+          "choices": [
+            "線 せん",
+            "運 うん",
+            "段 だん",
+            "番 ばん"
+          ],
+          "correctAnswer": 4,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2023-12-vocab-m3-q23",
+          "section": "vocab",
+          "mondai": 3,
+          "questionNumber": 23,
+          "questionType": "VOCAB_CONTEXT",
+          "questionText": "この飛行機 ひこうき に乗 の せることができる荷物 にもつ は、一人20 キロ以内に(   )されている。",
+          "passage": null,
+          "choices": [
+            "制限 せいげん",
+            "禁止 きんし",
+            "検査 けんさ",
+            "解決 かいけつ"
+          ],
+          "correctAnswer": 1,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2023-12-vocab-m3-q24",
+          "section": "vocab",
+          "mondai": 3,
+          "questionNumber": 24,
+          "questionType": "VOCAB_CONTEXT",
+          "questionText": "砂糖 さとう か塩 しお か分からなかったので、舌 した で(   )みた。",
+          "passage": null,
+          "choices": [
+            "かじって",
+            "なめて",
+            "かんで",
+            "まぜて"
+          ],
+          "correctAnswer": 2,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2023-12-vocab-m3-q25",
+          "section": "vocab",
+          "mondai": 3,
+          "questionNumber": 25,
+          "questionType": "VOCAB_CONTEXT",
+          "questionText": "少し熱 ねつ があって、体も(   )ので、今日は仕事を休もうと思う。",
+          "passage": null,
+          "choices": [
+            "だるい",
+            "まぶしい",
+            "ぬるい",
+            "にがい"
+          ],
+          "correctAnswer": 1,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2023-12-vocab-m4-q26",
+          "section": "vocab",
+          "mondai": 4,
+          "questionNumber": 26,
+          "questionType": "VOCAB_SYNONYM",
+          "questionText": "皆 みな さん、避 ひ 難 なん してください。",
+          "passage": null,
+          "choices": [
+            "ならんで",
+            "入って",
+            "にげて",
+            "急いで"
+          ],
+          "correctAnswer": 3,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2023-12-vocab-m4-q27",
+          "section": "vocab",
+          "mondai": 4,
+          "questionNumber": 27,
+          "questionType": "VOCAB_SYNONYM",
+          "questionText": "何かいい案 あん はありませんか。",
+          "passage": null,
+          "choices": [
+            "ルール",
+            "アイデア",
+            "メニュー",
+            "サービス"
+          ],
+          "correctAnswer": 2,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2023-12-vocab-m4-q28",
+          "section": "vocab",
+          "mondai": 4,
+          "questionNumber": 28,
+          "questionType": "VOCAB_SYNONYM",
+          "questionText": "私が何を言っても、彼 かれ はずっとだまっていた。",
+          "passage": null,
+          "choices": [
+            "話 はな さなかった",
+            "笑 わら わなかった",
+            "動 うご かなかった",
+            "怒 おこ らなかった"
+          ],
+          "correctAnswer": 1,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2023-12-vocab-m4-q29",
+          "section": "vocab",
+          "mondai": 4,
+          "questionNumber": 29,
+          "questionType": "VOCAB_SYNONYM",
+          "questionText": "このやり方がベストだ。",
+          "passage": null,
+          "choices": [
+            "最もよい",
+            "最もよくない",
+            "最も 難 むずか しい",
+            "最も 難 むずか しくない"
+          ],
+          "correctAnswer": 1,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2023-12-vocab-m4-q30",
+          "section": "vocab",
+          "mondai": 4,
+          "questionNumber": 30,
+          "questionType": "VOCAB_SYNONYM",
+          "questionText": "お店の人が配達 はいたつ してくれた。",
+          "passage": null,
+          "choices": [
+            "組 く み立 た てて",
+            "手 て 伝 つだ って",
+            "貸 か して",
+            "届 とど けて"
+          ],
+          "correctAnswer": 4,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2023-12-vocab-m5-q31",
+          "section": "vocab",
+          "mondai": 5,
+          "questionNumber": 31,
+          "questionType": "VOCAB_USAGE",
+          "questionText": "診察 しんさつ",
+          "passage": null,
+          "choices": [
+            "警 けい 察 さつ は事 じ 件 けん があった場所を 注 ちゅう 意 い 深 ぶか く診 しん 察 さつ した。",
+            "中 ちゅう 学 がく 時 じ 代 だい に星 ほし の動きを診 しん 察 さつ して記 き 録 ろく をつけていた。",
+            "担任 たんにん の先生は生 せい 徒 と から相 そう 談 だん を受 う け、丁 てい 寧 ねい に診 しん 察 さつ した。",
+            "母は医者で、毎日たくさんの患者 かんじゃ を診 しん 察 さつ している。"
+          ],
+          "correctAnswer": 3,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2023-12-vocab-m5-q32",
+          "section": "vocab",
+          "mondai": 5,
+          "questionNumber": 32,
+          "questionType": "VOCAB_USAGE",
+          "questionText": "行き先",
+          "passage": null,
+          "choices": [
+            "教 きょう 師 し になるという行き先のために、毎日頑 がん 張 ば っている。",
+            "実 じっ 験 けん の行き先が、思っていたことと違 ちが ってびっくりした。",
+            "次 つぎ の旅行の行き先を、今夜家 か 族 ぞく で話し合うつもりだ。",
+            "この映画は見たことがあるので、内容 ないよう の行き先は知っている。"
+          ],
+          "correctAnswer": 2,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2023-12-vocab-m5-q33",
+          "section": "vocab",
+          "mondai": 5,
+          "questionNumber": 33,
+          "questionType": "VOCAB_USAGE",
+          "questionText": "取 と り消 け す",
+          "passage": null,
+          "choices": [
+            "床 ゆか に落 お ちている大きなごみを取 と り消 け してから、掃 そう 除 じ 機 き を使った。",
+            "サッカーの後、シャワーを浴 あ びて汗 あせ を取 と り消 け した。",
+            "このパンはかびが生えているので、もう取 と り消 け したほうかいい。",
+            "都合が悪 わる くなったので、レストランの予 よ 約 やく を取 と り消 け した。"
+          ],
+          "correctAnswer": 1,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2023-12-vocab-m5-q34",
+          "section": "vocab",
+          "mondai": 5,
+          "questionNumber": 34,
+          "questionType": "VOCAB_USAGE",
+          "questionText": "共 きょう 通 つう",
+          "passage": null,
+          "choices": [
+            "父は休みの日も、いつもと 共 きょう 通 つう の時間に寝ることが多い。",
+            "娘 むすめ と息 むす 子 こ は、 共 きょう 通 つう の趣 しゅ 味 み を持っていて、とても仲 なか がいい。",
+            "私と姉は、周 まわ りの人から 共 きょう 通 つう の顔だとよく言われる。",
+            "あしたも今日と 共 きょう 通 つう の気 き 温 おん で、 温 あたた かいそうだ。"
+          ],
+          "correctAnswer": 1,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2023-12-vocab-m5-q35",
+          "section": "vocab",
+          "mondai": 5,
+          "questionNumber": 35,
+          "questionType": "VOCAB_USAGE",
+          "questionText": "詰 つ める",
+          "passage": null,
+          "choices": [
+            "旅行に持っていく物をスーツケースに詰 つ めておきます 。",
+            "味 あじ が薄 うす かったので、スープに塩 しお とこしょうを詰 つ めました。",
+            "お 客 きゃく さんのコップに水を詰 つ めてください。",
+            "時々窓 まど を開けて、部屋 へや の中に新鮮 しんせん な空気を詰 つ めた。"
+          ],
+          "correctAnswer": 4,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        }
+      ]
+    },
+    {
+      "sectionId": "grammar",
+      "title": "言語知識（文法）・読解",
+      "titleVi": "Ngữ pháp - Đọc hiểu",
+      "timeLimitSec": 4200,
+      "totalQuestions": 38,
+      "questions": [
+        {
+          "id": "n3-2023-12-grammar-m1-q1",
+          "section": "grammar",
+          "mondai": 1,
+          "questionNumber": 1,
+          "questionType": "GRAMMAR_CHOICE",
+          "questionText": "この辺 あた りは古いお寺や神社 じんじゃ が多く、外国(   )観 かん 光 こう 客 きゃく に人気がある。",
+          "passage": null,
+          "choices": [
+            "で",
+            "での",
+            "から",
+            "からの"
+          ],
+          "correctAnswer": 4,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2023-12-grammar-m1-q2",
+          "section": "grammar",
+          "mondai": 1,
+          "questionNumber": 2,
+          "questionType": "GRAMMAR_CHOICE",
+          "questionText": "10 年前に友人と 2 人で会社を作った。10 年間で会社は少しずつ大きくなり、 社員の数は 100 人(   )増えた。",
+          "passage": null,
+          "choices": [
+            "までが",
+            "までで",
+            "にまで",
+            "のまで"
+          ],
+          "correctAnswer": 3,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2023-12-grammar-m1-q3",
+          "section": "grammar",
+          "mondai": 1,
+          "questionNumber": 3,
+          "questionType": "GRAMMAR_CHOICE",
+          "questionText": "弁当 べんとう 屋で 働 はたら いている友人が、よく売れる弁当 べんとう は天気(   )違 ちが うと言っていた。",
+          "passage": null,
+          "choices": [
+            "について",
+            "によって",
+            "において",
+            "に比 くら べて"
+          ],
+          "correctAnswer": 2,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2023-12-grammar-m1-q4",
+          "section": "grammar",
+          "mondai": 1,
+          "questionNumber": 4,
+          "questionType": "GRAMMAR_CHOICE",
+          "questionText": "中学生のころから留 りゅう 学 がく したいと思っていた日本に、(   ) 留 りゅう 学 がく できることになった。",
+          "passage": null,
+          "choices": [
+            "どうか",
+            "決して",
+            "ついに",
+            "今にも"
+          ],
+          "correctAnswer": 3,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2023-12-grammar-m1-q5",
+          "section": "grammar",
+          "mondai": 1,
+          "questionNumber": 5,
+          "questionType": "GRAMMAR_CHOICE",
+          "questionText": "虫 むし 歯 ば は、ひどくなってからだと治 なお すのに時間がかかる。ひどくならない(   ) 歯 は 医 い 者 しゃ に診 み てもらうことが 重 じゅう 要 よう だ。",
+          "passage": null,
+          "choices": [
+            "うちに",
+            "ときに",
+            "までに",
+            "たびに"
+          ],
+          "correctAnswer": 1,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2023-12-grammar-m1-q6",
+          "section": "grammar",
+          "mondai": 1,
+          "questionNumber": 6,
+          "questionType": "GRAMMAR_CHOICE",
+          "questionText": "来月から大学の近くで一人 ひとり 暮 ぐ らしを始める。通学のしやすさを(   )、大学 まで歩いて通える所にした。",
+          "passage": null,
+          "choices": [
+            "考えるように",
+            "考えて",
+            "考えたのに",
+            "考えるのか"
+          ],
+          "correctAnswer": 2,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2023-12-grammar-m1-q7",
+          "section": "grammar",
+          "mondai": 1,
+          "questionNumber": 7,
+          "questionType": "GRAMMAR_CHOICE",
+          "questionText": "実家 じっか からみかんがたくさん送られてきた。一人では全 ぜん 部 ぶ (   )と思ったので、 友達 ともだち に半分あげた。 1   食べられそうにない 3   食べられるだろう 2   食べられなくなる 4   食べられたほうがいい",
+          "passage": null,
+          "choices": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ],
+          "correctAnswer": 1,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2023-12-grammar-m1-q8",
+          "section": "grammar",
+          "mondai": 1,
+          "questionNumber": 8,
+          "questionType": "GRAMMAR_CHOICE",
+          "questionText": "動物 どうぶつ が好きな 2歳 さい の 娘 むすめ を(   )、先週初 はじ めて動物園 どうぶつえん に通 つ れていった。",
+          "passage": null,
+          "choices": [
+            "喜 よろこ んだら",
+            "喜 よろこ びたくて",
+            "喜 よろこ ばせたら",
+            "喜 よろこ ばせたくて"
+          ],
+          "correctAnswer": 4,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2023-12-grammar-m1-q9",
+          "section": "grammar",
+          "mondai": 1,
+          "questionNumber": 9,
+          "questionType": "GRAMMAR_CHOICE",
+          "questionText": "最近、バレエを習い始めた。上手に(   )何年かかるかわからないが、頑 がん 張 ば り たい。 1   踊 おど れるようにすると 3   踊 おど れるようにして 2   踊 おど れるようになっても 4   踊 おど れるようになるのに",
+          "passage": null,
+          "choices": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ],
+          "correctAnswer": 4,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2023-12-grammar-m1-q10",
+          "section": "grammar",
+          "mondai": 1,
+          "questionNumber": 10,
+          "questionType": "GRAMMAR_CHOICE",
+          "questionText": "うちの犬は散 さん 歩 ぽ が大好きだが、雨の日はぬれるのが嫌 いや なようで、散 さん 歩 ぽ に(   )。 1   行かなくてはいけない 3   行ってもかまわない 2   行きたがらない 4   行くに違 ちが いない",
+          "passage": null,
+          "choices": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ],
+          "correctAnswer": 2,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2023-12-grammar-m1-q11",
+          "section": "grammar",
+          "mondai": 1,
+          "questionNumber": 11,
+          "questionType": "GRAMMAR_CHOICE",
+          "questionText": "(デパートで) 客 きゃく 「すみません、子 こ 供 ども 服 ふく の売り場は何階 なんかい ですか。 」 店員「5階 かい (   )。」 1   がございます 3   でございます 2   がいらっしゃいます 4   でいらっしゃいます",
+          "passage": null,
+          "choices": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ],
+          "correctAnswer": 3,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2023-12-grammar-m1-q12",
+          "section": "grammar",
+          "mondai": 1,
+          "questionNumber": 12,
+          "questionType": "GRAMMAR_CHOICE",
+          "questionText": "(家で) A「夕飯に使う 卵 たまご が足りないから、ちょっとスーパーまで(   )ね。」 B「うん、わかった。 」 1   買ってきておく 3   買いにいってくる 2   買いにきている 4   買っていってしまう",
+          "passage": null,
+          "choices": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ],
+          "correctAnswer": 3,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2023-12-grammar-m1-q13",
+          "section": "grammar",
+          "mondai": 1,
+          "questionNumber": 13,
+          "questionType": "GRAMMAR_CHOICE",
+          "questionText": "(電話で) 田 た 中 なか 「もしもし、田 た 中 なか です 。山 やま 下 した さん、今ちょっといいですか。 」 山 やま 下 した 「あ、田 た 中 なか さん。私も今ちょうど田 た 中 なか さんに電話をしようと(   )。」 1   思っていたところでした 3   思っていたからでした 2   思っているところです 4   思っているからです 問題 2  つぎの ★    に入る最もよいものを、1・2・3・4 から一つえらびなさい。",
+          "passage": null,
+          "choices": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ],
+          "correctAnswer": 1,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2023-12-grammar-m2-q14",
+          "section": "grammar",
+          "mondai": 2,
+          "questionNumber": 14,
+          "questionType": "GRAMMAR_REORDER",
+          "questionText": "私は歌手の石川 いしかわ あかりが大好きだ。 彼女 ★                              、 いないと思う。",
+          "passage": null,
+          "choices": [
+            "声がきれいな",
+            "は",
+            "歌手",
+            "ほど"
+          ],
+          "correctAnswer": 4,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2023-12-grammar-m2-q15",
+          "section": "grammar",
+          "mondai": 2,
+          "questionNumber": 15,
+          "questionType": "GRAMMAR_REORDER",
+          "questionText": "最近は野菜や魚などの食料品も          ★                     ニュース で知った。",
+          "passage": null,
+          "choices": [
+            "人が",
+            "増 ふ えてきている",
+            "インターネットで買う",
+            "ということを"
+          ],
+          "correctAnswer": 2,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2023-12-grammar-m2-q16",
+          "section": "grammar",
+          "mondai": 2,
+          "questionNumber": 16,
+          "questionType": "GRAMMAR_REORDER",
+          "questionText": "(大学で) 中山 なかやま 「 林 はやし 先 せん 輩 ぱい 、ゼミの発表 はっぴょう で使う資 し 料 りょう を作ったんですが、    、 ★                でしょうか。 」 林 はやし 「いいですよ。 」 1 もらえない 3 一度チェックして 2 ところがあるので 4 自 じ 信 しん がない",
+          "passage": null,
+          "choices": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ],
+          "correctAnswer": 3,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2023-12-grammar-m2-q17",
+          "section": "grammar",
+          "mondai": 2,
+          "questionNumber": 17,
+          "questionType": "GRAMMAR_REORDER",
+          "questionText": "今朝は急いでいたから、          ★                     しまった。 1 玄関 げんかん の電気を消 け すのを 3 家を出て 2 きて 4 忘 わす れて",
+          "passage": null,
+          "choices": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ],
+          "correctAnswer": 3,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2023-12-grammar-m2-q18",
+          "section": "grammar",
+          "mondai": 2,
+          "questionNumber": 18,
+          "questionType": "GRAMMAR_REORDER",
+          "questionText": "読書が趣 しゅ 味 み の友人は、いつどんな本を読んだかを、          ★    、 そうだ。",
+          "passage": null,
+          "choices": [
+            "必 かなら ずノートに記 き 録 ろく する 3 ように",
+            "忘 わす れない 4 ことにしている 問題",
+            "つぎの文章を読んで、文 ぶん 章 しょう 全 ぜん 体 たい の内容を考えて、 19 から 22 の中に入る最も よいものを、1・2・3・4 から一つえらびなさい。 以下は、 留 りゅう 学 がく 生 せい の作文である。 ガソリンスタンドのサービス アレン マット 先週、友達 ともだち の車でドライブに行ったとき、私は初 はじ めて日本のガソリンスタンドに 行きました。 ガソリンスタンド で友達 ともだち が車を止めると、 店員が車の窓 まど のそばまで来ました。 友達 ともだち は窓 まど を開けて、入れたいガソリンの種類 しゅるい と量 りょう を店員に伝 つた えました。私は自分で ガソリンを入れる店  19  知りませんでした。だから、その様 よう 子 す を見て、どうして友達 ともだち は車から出ないんだろうと思いました。友達 ともだち が窓 まど を閉めると、すぐに店員がガソリン を入れ始めたので、驚 おどろ きました。  20  、別の店員が来て、車の窓 まど も丁寧 ていねい に拭 ふ いてくれた のです 。そのガソリンスタンドで友達 ともだち は、一度も車から出ませんでした。 友達 ともだち によると、日本のガソリンスタンドには、客 きゃく が自分でガソリンを入れるところと 店員 が入れるところがあり、 料金 はそんなに 変 か わらないそうです。 私たちが   21 ガリンスタンドでは、ガソリンを入れた車が道 どう 路 ろ に出るとき、店員が左右を見て車が 来ないか確認 かくにん して、見送りもしていました。 ガソリン を入れたり、 窓 まど を拭 ふ いたり、見送りをしたりしてもらって、 私はその ガソリンスタンドが 客 きゃく や車を大切にしていると感 かん じました。とても  22  。 1 は     2 も      3 だけ",
+            "しか 1 ただ   2 例 たと えば    3 そのうえ  4 ところが 1  行った     2 行ける   3 行くような 4  行きたかった 1 いいサービスだろうと思うからです 2  いいサービスだと思いました 3 いいサービスにするつもりです 4 いいサービスにしようとしました 読解"
+          ],
+          "correctAnswer": 1,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2023-12-grammar-m3-q19",
+          "section": "grammar",
+          "mondai": 3,
+          "questionNumber": 19,
+          "questionType": "GRAMMAR_PASSAGE",
+          "questionText": "",
+          "passage": "問題 4 つぎの(1)から(4)の文章\nぶんしょう\nを読んで、質問に答えなさい。答えは、1・2・3・4\nから最もよいものを一つえらびなさい。\n（１）\nこれは、ある映画館のインターネットチケット予約サービスから、村田さんに届\nとど\nいた\nメールである。\n村田新一様\nチケット代金を支払っていただき、ありがとうございました。\n<予約番号> 0832            <電話番号> 090-0911-4215\n<日時>    4 月 11 日(土) 14 時〜\n<合計代金> 大人 2 枚  3,600 円\n<映画名>  「海」           <席番号>  K13  K14\n・ご予約はキャンセルできませんので、ご注意ください。\n・当日は、映画館でチケットを発券していただく必要がございます 。\n券売機に<予約番号>と<電話番号>をご入力ください。\n・映画開始から 15 分を過ぎますと、券売機での発券はできなくなります 。それ以降\nは、チケットオフィスで発券いたします 。\n東王映画館インターネットチケット予約サービス\nお問い合わせ 061-987-6543\n23  当日、予約したチケットを券売機で発券したい場合、どうしなければならないか。\n1 映画開始時間の 15 分前までに、券売機に必要な情報を入力する。\n2 映画開始時間の 15 分前までに、券売機でお金を払う。\n3 映画開始時間の 15 分後までに、券売機に必要な情報を入力する。\n4 映画開始時間 の 15 分後までに、券売機でお金を払う。\n（２）\nアリサさんが家に帰ると、テーブルの上に、一緒\nいっしょ\nに住んでいる春美さんが書いたメモ\nが置いてあった。\nアリサさん\n大学の事\nじ\n務\nむ\n所\nしょ\nに今日中に出さなければならない書類があるのを忘れていたので、\nちょっと行ってきます 。\nカレーとスープはできたんだけど、サラダがまだできていないので、お願いでき\nますか。冷\nれい\n蔵\nぞう\n庫\nこ\nにトマトやレタスがあるから、適当に使ってください。\n今日は私が晩ご飯を作ると言ったのに、ごめんなさい。帰りに何か甘\nあま\nいものを買って\nきますね。\n春美\n24  アリサさんがこのメモで頼\nたの\nまれていることは何か。\n1 大学の事\nじ\n務\nむ\n所\nしょ\nに行って、書類を出すこと\n2 カレーとスープを作ること\n3 サラダを作ること\n4 甘\nあま\nいものを買うこと\n（３）\n雑誌で「友達や家族と待ち合わせるとき、その 場所に行く時間」についての 調査の\n記事を読んだ。早めに行く人は、全体の 59%で最も多く、次に多かったのが、時間に\n間に合うように行く人で 36%だった。一方で、多少遅れても気にしないという人は、\n3%しかいなかった。\n私はいつも早めに行くが、友人たちはたいてい遅れて来る。私が 珍\nめずら\nしいタイプなのか\nと思っていたが、この結果から、そうではないとわかって、意外だった。\n25  意外だったとあるが、調査結果のどのような点からそう思ったか。\n1 「私」と同じタイプの人が、最も多い点\n2 「私」と同じタイプの人が、二番目に多い点\n3 「私」と同じタイプの人が、最も少ない点\n4 「私」と反対のタイプの人が、最も多い点\n（４）\n納豆\nなっとう\nは、体にいいし、おいしいので、私は毎日食べている。そのまま食べる人も多い\nが、私は 卵\nたまご\nに混\nま\nぜて焼いたり、みそ汁\nしる\nに入れたり、いろいろな料理に使っている。\nしかし、今朝テレビを見て 驚\nおどろ\nいた。納豆\nなっとう\nには、ほかの食べ物にはない種類の酵\nこう\n素\nそ\n注)\nが入っている。これには血液の流れをよくする効\nこう\n果\nか\nがあるが、50 度以上の熱で減って\nしまうそうなのだ。そうだとすると、私は今まで、とてももったいない食べ方をしていた\nことになる。\n注) 酵\nこう\n素\nそ\n：ここでは、食べ物に入っている栄養\nえいよう\nのような物\n27  もったいない食べ方をしていたとあるが、なぜもったいないと思ったのか。\n1 体へのよい効\nこう\n果\nか\nが弱くなってしまう料理のしかたで、納豆\nなっとう\nを食べていたから\n2 体へのよい効\nこう\n果\nか\nが消えるような、たくさんの量の納豆\nなっとう\nを食べていたから\n3 おいしさがわからなくなるような料理のしかたで、納豆\nなっとう\nを食べていたから\n4 おいしくなる料理方法があるのに、それを知らないで納豆\nなっとう\nを食べていたから\n問題 5  つぎの(1)と(2)の文章\nぶんしょう\nを読んで、質問に答えなさい。答えは、1・2・3・4\nから最もよいものを一つえらびなさい。\n（１）\n私の留学している日本の大学には、漫\nまん\n画\nが\nを読んで社会について考える授\nじゅ\n業\nぎょう\nがあります。\n私は子\nこ\n供\nども\nのころから日本の漫\nまん\n画\nが\nが大好きだったので、この 授\nじゅ\n業\nぎょう\nを取りました。しかし、\nこれは失敗\nしっぱい\nでした。\nこの授\nじゅ\n業\nぎょう\nでは、学生は毎週の授\nじゅ\n業\nぎょう\nの前に、先生が指定した漫\nまん\n画\nが\nを読んでいくことに\nなっていました。ところが、 扱\nあつか\nう漫\nまん\n画\nが\nはどれも私が知らないものばかりだったので、\n読むのに時間がかかって、毎回とても大変でした。\nいちばん 困ったのは 学期末の試験です。試験の前に、ある 漫\nまん\n画\nが\nを読んでおくように\n先生に言われました。その漫\nまん\n画\nが\nは全部で 3巻\nかん\nもあり、しっかり読むのにはとても時間が\nかかりました。そのために、ほかの試験の勉強ができなくなり、寝る時間も削\nけず\nらなければ\nならなくなりました。いつもなら、 試験期間中 は漫\nまん\n画\nが\nを読むのを我\nが\n慢\nまん\nするのですが、\nこのときの私は逆だったのです 。\n試験はうまくいきましたが、今はしばらく漫\nまん\n画\nが\nはお休みにしたい気分です 。\n27  毎回の授\nじゅ\n業\nぎょう\nの前に、学生がしなければならなかったことは何か。\n1 授\nじゅ\n業\nぎょう\nで先生に 扱\nあつか\nってもらいたい漫\nまん\n画\nが\nを見つけてくること\n2 社会問題がテーマになっている漫\nまん\n画\nが\nを見つけてくること\n3 先生に読んでくるように言われた漫\nまん\n画\nが\nを読んでおくこと\n4 自分が読んだことがない漫\nまん\n画\nが\nを探\nさが\nして、読んでおくこと\n28  このときの私は、どのような 状\nじょう\n態\nたい\nだったか。\n1 ほかの試験の勉強がしたいのに、漫\nまん\n画\nが\nを読まなければならなかった。\n2 漫\nまん\n画\nが\nが読みたいのに、試験の勉強をしなければならなかった。\n3 好きな漫\nまん\n画\nが\nが読みたいのに、好きではない漫画を読まなければならなかった。\n4 試験の勉強をしなければならないのに、漫\nまん\n画\nが\nを読むのを我\nが\n慢\nまん\nできなかった。\n29 「私」は今、どんな気持ちになっているか。\n1 しばらくは、休みの日だけに漫\nまん\n画\nが\nを読もう。\n2 しばらくは、好きな漫\nまん\n画\nが\nしか読みたくない。\n3 しばらくは、我\nが\n慢\nまん\nして漫\nまん\n画\nが\nを読もう。\n4   しばらくは、漫\nまん\n画\nが\nは読みたくない。\n（２）\nA 町は景\nけ\n色\nしき\nの美しい海沿\nぞ\nいの町で、毎週日曜の朝に港で開かれる「朝市\nあさいち\n」も人気がある。\n朝市\nあさいち\nは、A 町にある店が、魚や肉、野菜、パン、ケーキなどを売る市\nいち\n場\nば\nで、近くの市や\n町からも客が大勢\nおおぜい\nやってくる。\n朝市\nあさいち\nを始めたのは、A 町に昔からある店の主人たちである。約30 年前、大きなスーパー\nマーケットができた。多くの人がスーパーを利用するようになってしまったため、店の\n主人たちは、自分たちの店の商品の良さをもっと知ってもらおうと、朝市\nあさいち\nを始めたのだ。\n朝市\nあさいち\nでは、人気がある 商品はすぐ 売り切れてしまう。そんなに 人気があるなら、\nたくさん 売ればいいのだが、 それはしないそうだ。この 朝市\nあさいち\nの目的は、朝市\nあさいち\nでお金を\n稼\nかせ\nぐことではなく、まず朝市\nあさいち\nで自分たちの店について知ってもらって、ふだんA 町の店\nで買い物をする客を増やすことだからだ。そのため、 朝市\nあさいち\nに商品が出せる人は(  )\nだけ、ということになっている。\n30  A 町にある店の主人たちは、何のために朝市\nあさいち\nを始めたのか。\n1 町の中に、安く買い物ができるところを増やすため\n2 町の中に、近くの市や町から来る客が楽しめる場所を作るため\n3 自分たちの町の景\nけ\n色\nしき\nの美しさをもっと宣伝\nせんでん\nするため\n4 自分たちの店の商品の良さをもっと知ってもらうため\n31  それとあるが、何か。\n1 朝市\nあさいち\nで人気がある商品を、店で売るより高く売ること\n2 朝市\nあさいち\nで人気がある商品を、朝市\nあさいち\nでもっと売ること\n3 朝市\nあさいち\nでしか買えない商品の種類を増やすこと\n4 朝市\nあさいち\nでしか買えない商品を平日に店でも売ること\n32  (  ) に入れるのに最もよいものはどれか。\n1 A 町に店がある人\n2 A 町以外の市や町に店がある人\n3 A 町で店を開きたいと思っている人\n4 A 町の店でふだんから買い物をしている人\n問題 6  つぎの文章\nぶんしょう\nを読んで、質問に答えなさい。答えは、1・2・3・4 から最もよい\nものを一つえらびなさい。\n先月、新しいオートバイ を買った。オートバイ には①長い間乗っていなかった が、\n久\nひさ\nしぶりにまた乗りたくなったのだ。前に乗っていたのは大学生のころで、もう20 年も前\nだ。卒業後はずっと仕事や子\nこ\n供\nども\nの世話で 忙\nいそが\nしかったが、最近、少し自由に使える時間\nが増えた。妻に相談したら、 「いいんじゃない?」と賛成\nさんせい\nしてくれた。\nオートバイを買った店は、 「ガロン」という店だ。私には、どうしてもこの店で買い\nたい理由があったのだ。\n20 年前の春、私は、父にもらったオートバイで東京から京都まで旅行をしていた。\n安い旅館に泊まりながら、何日もかけて進む旅だった。\n3 日目の朝、道を走っているとき、 オートバイ の前の方で何かが折れる音がした。\n見ると、②オートバイの部品が壊\nこわ\nれていた。ハンドルが少しぐらぐらしたが、オートバイ\nは一応動いた。\nしばらく進むと、オートバイの店があったので、 修\nしゅう\n理\nり\nを頼\nたの\nんでみた。しかし、難しい\n修理\nしゅうり\nだからできない、と 断られてしまった。次の店でも同じだった。そして、3軒\nけん\n目\nめ\nの\n店が「ガロン」 だった。 「ガロン」 の店員も「これは 難しいね。 」と言った。でも、\n「困っているんでしょう?やってみるよ。 」と言って、 修\nしゅう\n理\nり\nを始めてくれた。そして、\n2 時間かけて 直してくれたのだ。 店員は「いつかこの 店でオートバイ を買ってね。 」\nと言って笑った。本当に困っていた私は、③何度もお礼\nれい\nを言いながら、必ずそうしよう\nと決めた。\n今の「ガロン」には、もうあの店員はいなかった。会えなかったのは残念だったが、\nそれでも私は④満足している。\n33  「私」がオートバイに①長い間乗っていなかったのは、どうしてか。\n1 買いたいと思うオートバイがなかったから\n2 仕事や子\nこ\n供\nども\nの世話で 忙\nいそが\nしかったから\n3 「私」のオートバイを妻が使っていたから\n4 家にあるオートバイが壊\nこわ\nれていたから\n34   ②オートバイの部品が壊\nこわ\nれていたとあるが、壊\nこわ\nれたのはいつか。\n1 先月、新しいオートバイを買ってから 3 日目の朝\n2 先月、オートバイ旅行を始めてから 3 日目の朝\n3  20 年前、新しいオートバイを買ってから 3 日目の朝\n4  20 年前、オートバイ旅行を始めてから 3 日目の朝\n35  ③何度もお礼\nれい\nを言いながらとあるが、 「私」はどうして何度もお礼\nれい\nを言ったのか。\n1 店にあった新しいオートバイを安く売ってくれたから\n2 オートバイを修理\nしゅうり\nしてくれそうな店を教えてくれたから\n3  壊\nこわ\nれて動かなくなりそうなオートバイを買ってくれたから\n4 ほかの店で修理\nしゅうり\nを断られたオートバイを直してくれたから\n36  ④満足しているとあるが、なぜか。\n1 もう一度、オートバイに乗ることができたから\n2 「ガロン」でオートバイを買うことができたから\n3 壊\nこわ\nれてしまったオートバイを修理\nしゅうり\nしてもらうことができたから\n4 オートバイの修理\nしゅうり\nをしてくれた店員に、お礼\nれい\nを伝えることができたから\n問題 7  右のページは、あるスキー場のホームページに載\nの\nっているスキー教室の案内で\nある。これを読んで、下の質問に答えなさい。答えは、1・2・3・4 から最も\nよいものを一つえらびなさい。\n37  スミスさんは、2 月 2 日の午後に普通コースを受けたいと思っている。スミスさん\nは、どのように申し込みをしなければならないか。\n1 2 月 2 日の午前 9 時までに、電話か窓口で申し込む。\n2 2 月 2 日の午前 9 時 30 分までに、窓口で申し込む。\n3 2 月 2 日の午後 1 時 30 分までに、窓口で申し込む。\n4 2 月 2 日の午後 1 時 30 分までに、電話か窓口で申し込む。\n38  グエンさんは、友達 4 人と特別コースを受けたいと思っている。グエンさんたち\nは、朝山ホテルに泊まっている。午後2 時から 4 時まで特別コースを受ける場合、\nグエンさんたちはいくら支払わなければならないか。\n1 22,000 円を支払う。\n2 22,000 円から 2,000 円を引いたものを支払う。\n3 39,000 円を支払う。\n4 39,000 円から 2,000 円を引いたものを支払う。\n朝山スキー場\n初級スキー教室のご案内\n期間：12 月 24 日～3 月 31 日\n【コースと料金】\n<普通コース(2 時間)>\n・大人クラス(最大 10 名)と子どもクラス(最大 8 名)があります 。\n・午前(10 時〜12 時)と、午後(2 時〜4 時)のどちらかを選んでください。\n大人一人 4,000 円\n子ども(小学生)一人 4,500 円\n※朝山ホテルにお泊まりの方は、500 円割引します 。\n<特別コース(2 時間または 4 時間)>\n・お友達やご家族だけで習いたい方のためのコースです。小学生から参加できます。\n・4〜6 名のグループで申し込んでください。\n・午前 9 時から午後 7 時までの間で、2 時間か 4 時間を選べます 。\n2 時間 4 時間\n1 グループ 22,000 円 39,000 円\n※グループの中に、朝山ホテルにお泊まりの方がいれば、グループの料金から\n2,000 円割引します 。\n【申し込みと料金の支払い】\n・普通コースは、午前に受ける場合は当日の午前 9 時 30 分まで、午後に受ける場合は\n当日の午後1 時 30 分までに、スキー教室の窓口(朝山ホテル1 階)で申し込んでください。\n料金は申し込みのときに支払ってください。\n・特別コースは、午前に開始したい場合は前日の午後 4 時まで、午後の場合は当日の\n午前 9 時までに、電話か窓口で申し込んでください。料金はコース開始前に窓口で\n支払ってください。\n【教室当日の集合】\n・どちらのコースも、開始時間の 10 分前にスキー場の入り口に集合してください。\n予約・お問い合わせ 013-227-1665\n39,000 円\n39,000 円",
+          "choices": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ],
+          "correctAnswer": 4,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2023-12-grammar-m3-q20",
+          "section": "grammar",
+          "mondai": 3,
+          "questionNumber": 20,
+          "questionType": "GRAMMAR_PASSAGE",
+          "questionText": "",
+          "passage": "問題 4 つぎの(1)から(4)の文章\nぶんしょう\nを読んで、質問に答えなさい。答えは、1・2・3・4\nから最もよいものを一つえらびなさい。\n（１）\nこれは、ある映画館のインターネットチケット予約サービスから、村田さんに届\nとど\nいた\nメールである。\n村田新一様\nチケット代金を支払っていただき、ありがとうございました。\n<予約番号> 0832            <電話番号> 090-0911-4215\n<日時>    4 月 11 日(土) 14 時〜\n<合計代金> 大人 2 枚  3,600 円\n<映画名>  「海」           <席番号>  K13  K14\n・ご予約はキャンセルできませんので、ご注意ください。\n・当日は、映画館でチケットを発券していただく必要がございます 。\n券売機に<予約番号>と<電話番号>をご入力ください。\n・映画開始から 15 分を過ぎますと、券売機での発券はできなくなります 。それ以降\nは、チケットオフィスで発券いたします 。\n東王映画館インターネットチケット予約サービス\nお問い合わせ 061-987-6543\n23  当日、予約したチケットを券売機で発券したい場合、どうしなければならないか。\n1 映画開始時間の 15 分前までに、券売機に必要な情報を入力する。\n2 映画開始時間の 15 分前までに、券売機でお金を払う。\n3 映画開始時間の 15 分後までに、券売機に必要な情報を入力する。\n4 映画開始時間 の 15 分後までに、券売機でお金を払う。\n（２）\nアリサさんが家に帰ると、テーブルの上に、一緒\nいっしょ\nに住んでいる春美さんが書いたメモ\nが置いてあった。\nアリサさん\n大学の事\nじ\n務\nむ\n所\nしょ\nに今日中に出さなければならない書類があるのを忘れていたので、\nちょっと行ってきます 。\nカレーとスープはできたんだけど、サラダがまだできていないので、お願いでき\nますか。冷\nれい\n蔵\nぞう\n庫\nこ\nにトマトやレタスがあるから、適当に使ってください。\n今日は私が晩ご飯を作ると言ったのに、ごめんなさい。帰りに何か甘\nあま\nいものを買って\nきますね。\n春美\n24  アリサさんがこのメモで頼\nたの\nまれていることは何か。\n1 大学の事\nじ\n務\nむ\n所\nしょ\nに行って、書類を出すこと\n2 カレーとスープを作ること\n3 サラダを作ること\n4 甘\nあま\nいものを買うこと\n（３）\n雑誌で「友達や家族と待ち合わせるとき、その 場所に行く時間」についての 調査の\n記事を読んだ。早めに行く人は、全体の 59%で最も多く、次に多かったのが、時間に\n間に合うように行く人で 36%だった。一方で、多少遅れても気にしないという人は、\n3%しかいなかった。\n私はいつも早めに行くが、友人たちはたいてい遅れて来る。私が 珍\nめずら\nしいタイプなのか\nと思っていたが、この結果から、そうではないとわかって、意外だった。\n25  意外だったとあるが、調査結果のどのような点からそう思ったか。\n1 「私」と同じタイプの人が、最も多い点\n2 「私」と同じタイプの人が、二番目に多い点\n3 「私」と同じタイプの人が、最も少ない点\n4 「私」と反対のタイプの人が、最も多い点\n（４）\n納豆\nなっとう\nは、体にいいし、おいしいので、私は毎日食べている。そのまま食べる人も多い\nが、私は 卵\nたまご\nに混\nま\nぜて焼いたり、みそ汁\nしる\nに入れたり、いろいろな料理に使っている。\nしかし、今朝テレビを見て 驚\nおどろ\nいた。納豆\nなっとう\nには、ほかの食べ物にはない種類の酵\nこう\n素\nそ\n注)\nが入っている。これには血液の流れをよくする効\nこう\n果\nか\nがあるが、50 度以上の熱で減って\nしまうそうなのだ。そうだとすると、私は今まで、とてももったいない食べ方をしていた\nことになる。\n注) 酵\nこう\n素\nそ\n：ここでは、食べ物に入っている栄養\nえいよう\nのような物\n27  もったいない食べ方をしていたとあるが、なぜもったいないと思ったのか。\n1 体へのよい効\nこう\n果\nか\nが弱くなってしまう料理のしかたで、納豆\nなっとう\nを食べていたから\n2 体へのよい効\nこう\n果\nか\nが消えるような、たくさんの量の納豆\nなっとう\nを食べていたから\n3 おいしさがわからなくなるような料理のしかたで、納豆\nなっとう\nを食べていたから\n4 おいしくなる料理方法があるのに、それを知らないで納豆\nなっとう\nを食べていたから\n問題 5  つぎの(1)と(2)の文章\nぶんしょう\nを読んで、質問に答えなさい。答えは、1・2・3・4\nから最もよいものを一つえらびなさい。\n（１）\n私の留学している日本の大学には、漫\nまん\n画\nが\nを読んで社会について考える授\nじゅ\n業\nぎょう\nがあります。\n私は子\nこ\n供\nども\nのころから日本の漫\nまん\n画\nが\nが大好きだったので、この 授\nじゅ\n業\nぎょう\nを取りました。しかし、\nこれは失敗\nしっぱい\nでした。\nこの授\nじゅ\n業\nぎょう\nでは、学生は毎週の授\nじゅ\n業\nぎょう\nの前に、先生が指定した漫\nまん\n画\nが\nを読んでいくことに\nなっていました。ところが、 扱\nあつか\nう漫\nまん\n画\nが\nはどれも私が知らないものばかりだったので、\n読むのに時間がかかって、毎回とても大変でした。\nいちばん 困ったのは 学期末の試験です。試験の前に、ある 漫\nまん\n画\nが\nを読んでおくように\n先生に言われました。その漫\nまん\n画\nが\nは全部で 3巻\nかん\nもあり、しっかり読むのにはとても時間が\nかかりました。そのために、ほかの試験の勉強ができなくなり、寝る時間も削\nけず\nらなければ\nならなくなりました。いつもなら、 試験期間中 は漫\nまん\n画\nが\nを読むのを我\nが\n慢\nまん\nするのですが、\nこのときの私は逆だったのです 。\n試験はうまくいきましたが、今はしばらく漫\nまん\n画\nが\nはお休みにしたい気分です 。\n27  毎回の授\nじゅ\n業\nぎょう\nの前に、学生がしなければならなかったことは何か。\n1 授\nじゅ\n業\nぎょう\nで先生に 扱\nあつか\nってもらいたい漫\nまん\n画\nが\nを見つけてくること\n2 社会問題がテーマになっている漫\nまん\n画\nが\nを見つけてくること\n3 先生に読んでくるように言われた漫\nまん\n画\nが\nを読んでおくこと\n4 自分が読んだことがない漫\nまん\n画\nが\nを探\nさが\nして、読んでおくこと\n28  このときの私は、どのような 状\nじょう\n態\nたい\nだったか。\n1 ほかの試験の勉強がしたいのに、漫\nまん\n画\nが\nを読まなければならなかった。\n2 漫\nまん\n画\nが\nが読みたいのに、試験の勉強をしなければならなかった。\n3 好きな漫\nまん\n画\nが\nが読みたいのに、好きではない漫画を読まなければならなかった。\n4 試験の勉強をしなければならないのに、漫\nまん\n画\nが\nを読むのを我\nが\n慢\nまん\nできなかった。\n29 「私」は今、どんな気持ちになっているか。\n1 しばらくは、休みの日だけに漫\nまん\n画\nが\nを読もう。\n2 しばらくは、好きな漫\nまん\n画\nが\nしか読みたくない。\n3 しばらくは、我\nが\n慢\nまん\nして漫\nまん\n画\nが\nを読もう。\n4   しばらくは、漫\nまん\n画\nが\nは読みたくない。\n（２）\nA 町は景\nけ\n色\nしき\nの美しい海沿\nぞ\nいの町で、毎週日曜の朝に港で開かれる「朝市\nあさいち\n」も人気がある。\n朝市\nあさいち\nは、A 町にある店が、魚や肉、野菜、パン、ケーキなどを売る市\nいち\n場\nば\nで、近くの市や\n町からも客が大勢\nおおぜい\nやってくる。\n朝市\nあさいち\nを始めたのは、A 町に昔からある店の主人たちである。約30 年前、大きなスーパー\nマーケットができた。多くの人がスーパーを利用するようになってしまったため、店の\n主人たちは、自分たちの店の商品の良さをもっと知ってもらおうと、朝市\nあさいち\nを始めたのだ。\n朝市\nあさいち\nでは、人気がある 商品はすぐ 売り切れてしまう。そんなに 人気があるなら、\nたくさん 売ればいいのだが、 それはしないそうだ。この 朝市\nあさいち\nの目的は、朝市\nあさいち\nでお金を\n稼\nかせ\nぐことではなく、まず朝市\nあさいち\nで自分たちの店について知ってもらって、ふだんA 町の店\nで買い物をする客を増やすことだからだ。そのため、 朝市\nあさいち\nに商品が出せる人は(  )\nだけ、ということになっている。\n30  A 町にある店の主人たちは、何のために朝市\nあさいち\nを始めたのか。\n1 町の中に、安く買い物ができるところを増やすため\n2 町の中に、近くの市や町から来る客が楽しめる場所を作るため\n3 自分たちの町の景\nけ\n色\nしき\nの美しさをもっと宣伝\nせんでん\nするため\n4 自分たちの店の商品の良さをもっと知ってもらうため\n31  それとあるが、何か。\n1 朝市\nあさいち\nで人気がある商品を、店で売るより高く売ること\n2 朝市\nあさいち\nで人気がある商品を、朝市\nあさいち\nでもっと売ること\n3 朝市\nあさいち\nでしか買えない商品の種類を増やすこと\n4 朝市\nあさいち\nでしか買えない商品を平日に店でも売ること\n32  (  ) に入れるのに最もよいものはどれか。\n1 A 町に店がある人\n2 A 町以外の市や町に店がある人\n3 A 町で店を開きたいと思っている人\n4 A 町の店でふだんから買い物をしている人\n問題 6  つぎの文章\nぶんしょう\nを読んで、質問に答えなさい。答えは、1・2・3・4 から最もよい\nものを一つえらびなさい。\n先月、新しいオートバイ を買った。オートバイ には①長い間乗っていなかった が、\n久\nひさ\nしぶりにまた乗りたくなったのだ。前に乗っていたのは大学生のころで、もう20 年も前\nだ。卒業後はずっと仕事や子\nこ\n供\nども\nの世話で 忙\nいそが\nしかったが、最近、少し自由に使える時間\nが増えた。妻に相談したら、 「いいんじゃない?」と賛成\nさんせい\nしてくれた。\nオートバイを買った店は、 「ガロン」という店だ。私には、どうしてもこの店で買い\nたい理由があったのだ。\n20 年前の春、私は、父にもらったオートバイで東京から京都まで旅行をしていた。\n安い旅館に泊まりながら、何日もかけて進む旅だった。\n3 日目の朝、道を走っているとき、 オートバイ の前の方で何かが折れる音がした。\n見ると、②オートバイの部品が壊\nこわ\nれていた。ハンドルが少しぐらぐらしたが、オートバイ\nは一応動いた。\nしばらく進むと、オートバイの店があったので、 修\nしゅう\n理\nり\nを頼\nたの\nんでみた。しかし、難しい\n修理\nしゅうり\nだからできない、と 断られてしまった。次の店でも同じだった。そして、3軒\nけん\n目\nめ\nの\n店が「ガロン」 だった。 「ガロン」 の店員も「これは 難しいね。 」と言った。でも、\n「困っているんでしょう?やってみるよ。 」と言って、 修\nしゅう\n理\nり\nを始めてくれた。そして、\n2 時間かけて 直してくれたのだ。 店員は「いつかこの 店でオートバイ を買ってね。 」\nと言って笑った。本当に困っていた私は、③何度もお礼\nれい\nを言いながら、必ずそうしよう\nと決めた。\n今の「ガロン」には、もうあの店員はいなかった。会えなかったのは残念だったが、\nそれでも私は④満足している。\n33  「私」がオートバイに①長い間乗っていなかったのは、どうしてか。\n1 買いたいと思うオートバイがなかったから\n2 仕事や子\nこ\n供\nども\nの世話で 忙\nいそが\nしかったから\n3 「私」のオートバイを妻が使っていたから\n4 家にあるオートバイが壊\nこわ\nれていたから\n34   ②オートバイの部品が壊\nこわ\nれていたとあるが、壊\nこわ\nれたのはいつか。\n1 先月、新しいオートバイを買ってから 3 日目の朝\n2 先月、オートバイ旅行を始めてから 3 日目の朝\n3  20 年前、新しいオートバイを買ってから 3 日目の朝\n4  20 年前、オートバイ旅行を始めてから 3 日目の朝\n35  ③何度もお礼\nれい\nを言いながらとあるが、 「私」はどうして何度もお礼\nれい\nを言ったのか。\n1 店にあった新しいオートバイを安く売ってくれたから\n2 オートバイを修理\nしゅうり\nしてくれそうな店を教えてくれたから\n3  壊\nこわ\nれて動かなくなりそうなオートバイを買ってくれたから\n4 ほかの店で修理\nしゅうり\nを断られたオートバイを直してくれたから\n36  ④満足しているとあるが、なぜか。\n1 もう一度、オートバイに乗ることができたから\n2 「ガロン」でオートバイを買うことができたから\n3 壊\nこわ\nれてしまったオートバイを修理\nしゅうり\nしてもらうことができたから\n4 オートバイの修理\nしゅうり\nをしてくれた店員に、お礼\nれい\nを伝えることができたから\n問題 7  右のページは、あるスキー場のホームページに載\nの\nっているスキー教室の案内で\nある。これを読んで、下の質問に答えなさい。答えは、1・2・3・4 から最も\nよいものを一つえらびなさい。\n37  スミスさんは、2 月 2 日の午後に普通コースを受けたいと思っている。スミスさん\nは、どのように申し込みをしなければならないか。\n1 2 月 2 日の午前 9 時までに、電話か窓口で申し込む。\n2 2 月 2 日の午前 9 時 30 分までに、窓口で申し込む。\n3 2 月 2 日の午後 1 時 30 分までに、窓口で申し込む。\n4 2 月 2 日の午後 1 時 30 分までに、電話か窓口で申し込む。\n38  グエンさんは、友達 4 人と特別コースを受けたいと思っている。グエンさんたち\nは、朝山ホテルに泊まっている。午後2 時から 4 時まで特別コースを受ける場合、\nグエンさんたちはいくら支払わなければならないか。\n1 22,000 円を支払う。\n2 22,000 円から 2,000 円を引いたものを支払う。\n3 39,000 円を支払う。\n4 39,000 円から 2,000 円を引いたものを支払う。\n朝山スキー場\n初級スキー教室のご案内\n期間：12 月 24 日～3 月 31 日\n【コースと料金】\n<普通コース(2 時間)>\n・大人クラス(最大 10 名)と子どもクラス(最大 8 名)があります 。\n・午前(10 時〜12 時)と、午後(2 時〜4 時)のどちらかを選んでください。\n大人一人 4,000 円\n子ども(小学生)一人 4,500 円\n※朝山ホテルにお泊まりの方は、500 円割引します 。\n<特別コース(2 時間または 4 時間)>\n・お友達やご家族だけで習いたい方のためのコースです。小学生から参加できます。\n・4〜6 名のグループで申し込んでください。\n・午前 9 時から午後 7 時までの間で、2 時間か 4 時間を選べます 。\n2 時間 4 時間\n1 グループ 22,000 円 39,000 円\n※グループの中に、朝山ホテルにお泊まりの方がいれば、グループの料金から\n2,000 円割引します 。\n【申し込みと料金の支払い】\n・普通コースは、午前に受ける場合は当日の午前 9 時 30 分まで、午後に受ける場合は\n当日の午後1 時 30 分までに、スキー教室の窓口(朝山ホテル1 階)で申し込んでください。\n料金は申し込みのときに支払ってください。\n・特別コースは、午前に開始したい場合は前日の午後 4 時まで、午後の場合は当日の\n午前 9 時までに、電話か窓口で申し込んでください。料金はコース開始前に窓口で\n支払ってください。\n【教室当日の集合】\n・どちらのコースも、開始時間の 10 分前にスキー場の入り口に集合してください。\n予約・お問い合わせ 013-227-1665\n39,000 円\n39,000 円",
+          "choices": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ],
+          "correctAnswer": 2,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2023-12-grammar-m3-q21",
+          "section": "grammar",
+          "mondai": 3,
+          "questionNumber": 21,
+          "questionType": "GRAMMAR_PASSAGE",
+          "questionText": "",
+          "passage": "問題 4 つぎの(1)から(4)の文章\nぶんしょう\nを読んで、質問に答えなさい。答えは、1・2・3・4\nから最もよいものを一つえらびなさい。\n（１）\nこれは、ある映画館のインターネットチケット予約サービスから、村田さんに届\nとど\nいた\nメールである。\n村田新一様\nチケット代金を支払っていただき、ありがとうございました。\n<予約番号> 0832            <電話番号> 090-0911-4215\n<日時>    4 月 11 日(土) 14 時〜\n<合計代金> 大人 2 枚  3,600 円\n<映画名>  「海」           <席番号>  K13  K14\n・ご予約はキャンセルできませんので、ご注意ください。\n・当日は、映画館でチケットを発券していただく必要がございます 。\n券売機に<予約番号>と<電話番号>をご入力ください。\n・映画開始から 15 分を過ぎますと、券売機での発券はできなくなります 。それ以降\nは、チケットオフィスで発券いたします 。\n東王映画館インターネットチケット予約サービス\nお問い合わせ 061-987-6543\n23  当日、予約したチケットを券売機で発券したい場合、どうしなければならないか。\n1 映画開始時間の 15 分前までに、券売機に必要な情報を入力する。\n2 映画開始時間の 15 分前までに、券売機でお金を払う。\n3 映画開始時間の 15 分後までに、券売機に必要な情報を入力する。\n4 映画開始時間 の 15 分後までに、券売機でお金を払う。\n（２）\nアリサさんが家に帰ると、テーブルの上に、一緒\nいっしょ\nに住んでいる春美さんが書いたメモ\nが置いてあった。\nアリサさん\n大学の事\nじ\n務\nむ\n所\nしょ\nに今日中に出さなければならない書類があるのを忘れていたので、\nちょっと行ってきます 。\nカレーとスープはできたんだけど、サラダがまだできていないので、お願いでき\nますか。冷\nれい\n蔵\nぞう\n庫\nこ\nにトマトやレタスがあるから、適当に使ってください。\n今日は私が晩ご飯を作ると言ったのに、ごめんなさい。帰りに何か甘\nあま\nいものを買って\nきますね。\n春美\n24  アリサさんがこのメモで頼\nたの\nまれていることは何か。\n1 大学の事\nじ\n務\nむ\n所\nしょ\nに行って、書類を出すこと\n2 カレーとスープを作ること\n3 サラダを作ること\n4 甘\nあま\nいものを買うこと\n（３）\n雑誌で「友達や家族と待ち合わせるとき、その 場所に行く時間」についての 調査の\n記事を読んだ。早めに行く人は、全体の 59%で最も多く、次に多かったのが、時間に\n間に合うように行く人で 36%だった。一方で、多少遅れても気にしないという人は、\n3%しかいなかった。\n私はいつも早めに行くが、友人たちはたいてい遅れて来る。私が 珍\nめずら\nしいタイプなのか\nと思っていたが、この結果から、そうではないとわかって、意外だった。\n25  意外だったとあるが、調査結果のどのような点からそう思ったか。\n1 「私」と同じタイプの人が、最も多い点\n2 「私」と同じタイプの人が、二番目に多い点\n3 「私」と同じタイプの人が、最も少ない点\n4 「私」と反対のタイプの人が、最も多い点\n（４）\n納豆\nなっとう\nは、体にいいし、おいしいので、私は毎日食べている。そのまま食べる人も多い\nが、私は 卵\nたまご\nに混\nま\nぜて焼いたり、みそ汁\nしる\nに入れたり、いろいろな料理に使っている。\nしかし、今朝テレビを見て 驚\nおどろ\nいた。納豆\nなっとう\nには、ほかの食べ物にはない種類の酵\nこう\n素\nそ\n注)\nが入っている。これには血液の流れをよくする効\nこう\n果\nか\nがあるが、50 度以上の熱で減って\nしまうそうなのだ。そうだとすると、私は今まで、とてももったいない食べ方をしていた\nことになる。\n注) 酵\nこう\n素\nそ\n：ここでは、食べ物に入っている栄養\nえいよう\nのような物\n27  もったいない食べ方をしていたとあるが、なぜもったいないと思ったのか。\n1 体へのよい効\nこう\n果\nか\nが弱くなってしまう料理のしかたで、納豆\nなっとう\nを食べていたから\n2 体へのよい効\nこう\n果\nか\nが消えるような、たくさんの量の納豆\nなっとう\nを食べていたから\n3 おいしさがわからなくなるような料理のしかたで、納豆\nなっとう\nを食べていたから\n4 おいしくなる料理方法があるのに、それを知らないで納豆\nなっとう\nを食べていたから\n問題 5  つぎの(1)と(2)の文章\nぶんしょう\nを読んで、質問に答えなさい。答えは、1・2・3・4\nから最もよいものを一つえらびなさい。\n（１）\n私の留学している日本の大学には、漫\nまん\n画\nが\nを読んで社会について考える授\nじゅ\n業\nぎょう\nがあります。\n私は子\nこ\n供\nども\nのころから日本の漫\nまん\n画\nが\nが大好きだったので、この 授\nじゅ\n業\nぎょう\nを取りました。しかし、\nこれは失敗\nしっぱい\nでした。\nこの授\nじゅ\n業\nぎょう\nでは、学生は毎週の授\nじゅ\n業\nぎょう\nの前に、先生が指定した漫\nまん\n画\nが\nを読んでいくことに\nなっていました。ところが、 扱\nあつか\nう漫\nまん\n画\nが\nはどれも私が知らないものばかりだったので、\n読むのに時間がかかって、毎回とても大変でした。\nいちばん 困ったのは 学期末の試験です。試験の前に、ある 漫\nまん\n画\nが\nを読んでおくように\n先生に言われました。その漫\nまん\n画\nが\nは全部で 3巻\nかん\nもあり、しっかり読むのにはとても時間が\nかかりました。そのために、ほかの試験の勉強ができなくなり、寝る時間も削\nけず\nらなければ\nならなくなりました。いつもなら、 試験期間中 は漫\nまん\n画\nが\nを読むのを我\nが\n慢\nまん\nするのですが、\nこのときの私は逆だったのです 。\n試験はうまくいきましたが、今はしばらく漫\nまん\n画\nが\nはお休みにしたい気分です 。\n27  毎回の授\nじゅ\n業\nぎょう\nの前に、学生がしなければならなかったことは何か。\n1 授\nじゅ\n業\nぎょう\nで先生に 扱\nあつか\nってもらいたい漫\nまん\n画\nが\nを見つけてくること\n2 社会問題がテーマになっている漫\nまん\n画\nが\nを見つけてくること\n3 先生に読んでくるように言われた漫\nまん\n画\nが\nを読んでおくこと\n4 自分が読んだことがない漫\nまん\n画\nが\nを探\nさが\nして、読んでおくこと\n28  このときの私は、どのような 状\nじょう\n態\nたい\nだったか。\n1 ほかの試験の勉強がしたいのに、漫\nまん\n画\nが\nを読まなければならなかった。\n2 漫\nまん\n画\nが\nが読みたいのに、試験の勉強をしなければならなかった。\n3 好きな漫\nまん\n画\nが\nが読みたいのに、好きではない漫画を読まなければならなかった。\n4 試験の勉強をしなければならないのに、漫\nまん\n画\nが\nを読むのを我\nが\n慢\nまん\nできなかった。\n29 「私」は今、どんな気持ちになっているか。\n1 しばらくは、休みの日だけに漫\nまん\n画\nが\nを読もう。\n2 しばらくは、好きな漫\nまん\n画\nが\nしか読みたくない。\n3 しばらくは、我\nが\n慢\nまん\nして漫\nまん\n画\nが\nを読もう。\n4   しばらくは、漫\nまん\n画\nが\nは読みたくない。\n（２）\nA 町は景\nけ\n色\nしき\nの美しい海沿\nぞ\nいの町で、毎週日曜の朝に港で開かれる「朝市\nあさいち\n」も人気がある。\n朝市\nあさいち\nは、A 町にある店が、魚や肉、野菜、パン、ケーキなどを売る市\nいち\n場\nば\nで、近くの市や\n町からも客が大勢\nおおぜい\nやってくる。\n朝市\nあさいち\nを始めたのは、A 町に昔からある店の主人たちである。約30 年前、大きなスーパー\nマーケットができた。多くの人がスーパーを利用するようになってしまったため、店の\n主人たちは、自分たちの店の商品の良さをもっと知ってもらおうと、朝市\nあさいち\nを始めたのだ。\n朝市\nあさいち\nでは、人気がある 商品はすぐ 売り切れてしまう。そんなに 人気があるなら、\nたくさん 売ればいいのだが、 それはしないそうだ。この 朝市\nあさいち\nの目的は、朝市\nあさいち\nでお金を\n稼\nかせ\nぐことではなく、まず朝市\nあさいち\nで自分たちの店について知ってもらって、ふだんA 町の店\nで買い物をする客を増やすことだからだ。そのため、 朝市\nあさいち\nに商品が出せる人は(  )\nだけ、ということになっている。\n30  A 町にある店の主人たちは、何のために朝市\nあさいち\nを始めたのか。\n1 町の中に、安く買い物ができるところを増やすため\n2 町の中に、近くの市や町から来る客が楽しめる場所を作るため\n3 自分たちの町の景\nけ\n色\nしき\nの美しさをもっと宣伝\nせんでん\nするため\n4 自分たちの店の商品の良さをもっと知ってもらうため\n31  それとあるが、何か。\n1 朝市\nあさいち\nで人気がある商品を、店で売るより高く売ること\n2 朝市\nあさいち\nで人気がある商品を、朝市\nあさいち\nでもっと売ること\n3 朝市\nあさいち\nでしか買えない商品の種類を増やすこと\n4 朝市\nあさいち\nでしか買えない商品を平日に店でも売ること\n32  (  ) に入れるのに最もよいものはどれか。\n1 A 町に店がある人\n2 A 町以外の市や町に店がある人\n3 A 町で店を開きたいと思っている人\n4 A 町の店でふだんから買い物をしている人\n問題 6  つぎの文章\nぶんしょう\nを読んで、質問に答えなさい。答えは、1・2・3・4 から最もよい\nものを一つえらびなさい。\n先月、新しいオートバイ を買った。オートバイ には①長い間乗っていなかった が、\n久\nひさ\nしぶりにまた乗りたくなったのだ。前に乗っていたのは大学生のころで、もう20 年も前\nだ。卒業後はずっと仕事や子\nこ\n供\nども\nの世話で 忙\nいそが\nしかったが、最近、少し自由に使える時間\nが増えた。妻に相談したら、 「いいんじゃない?」と賛成\nさんせい\nしてくれた。\nオートバイを買った店は、 「ガロン」という店だ。私には、どうしてもこの店で買い\nたい理由があったのだ。\n20 年前の春、私は、父にもらったオートバイで東京から京都まで旅行をしていた。\n安い旅館に泊まりながら、何日もかけて進む旅だった。\n3 日目の朝、道を走っているとき、 オートバイ の前の方で何かが折れる音がした。\n見ると、②オートバイの部品が壊\nこわ\nれていた。ハンドルが少しぐらぐらしたが、オートバイ\nは一応動いた。\nしばらく進むと、オートバイの店があったので、 修\nしゅう\n理\nり\nを頼\nたの\nんでみた。しかし、難しい\n修理\nしゅうり\nだからできない、と 断られてしまった。次の店でも同じだった。そして、3軒\nけん\n目\nめ\nの\n店が「ガロン」 だった。 「ガロン」 の店員も「これは 難しいね。 」と言った。でも、\n「困っているんでしょう?やってみるよ。 」と言って、 修\nしゅう\n理\nり\nを始めてくれた。そして、\n2 時間かけて 直してくれたのだ。 店員は「いつかこの 店でオートバイ を買ってね。 」\nと言って笑った。本当に困っていた私は、③何度もお礼\nれい\nを言いながら、必ずそうしよう\nと決めた。\n今の「ガロン」には、もうあの店員はいなかった。会えなかったのは残念だったが、\nそれでも私は④満足している。\n33  「私」がオートバイに①長い間乗っていなかったのは、どうしてか。\n1 買いたいと思うオートバイがなかったから\n2 仕事や子\nこ\n供\nども\nの世話で 忙\nいそが\nしかったから\n3 「私」のオートバイを妻が使っていたから\n4 家にあるオートバイが壊\nこわ\nれていたから\n34   ②オートバイの部品が壊\nこわ\nれていたとあるが、壊\nこわ\nれたのはいつか。\n1 先月、新しいオートバイを買ってから 3 日目の朝\n2 先月、オートバイ旅行を始めてから 3 日目の朝\n3  20 年前、新しいオートバイを買ってから 3 日目の朝\n4  20 年前、オートバイ旅行を始めてから 3 日目の朝\n35  ③何度もお礼\nれい\nを言いながらとあるが、 「私」はどうして何度もお礼\nれい\nを言ったのか。\n1 店にあった新しいオートバイを安く売ってくれたから\n2 オートバイを修理\nしゅうり\nしてくれそうな店を教えてくれたから\n3  壊\nこわ\nれて動かなくなりそうなオートバイを買ってくれたから\n4 ほかの店で修理\nしゅうり\nを断られたオートバイを直してくれたから\n36  ④満足しているとあるが、なぜか。\n1 もう一度、オートバイに乗ることができたから\n2 「ガロン」でオートバイを買うことができたから\n3 壊\nこわ\nれてしまったオートバイを修理\nしゅうり\nしてもらうことができたから\n4 オートバイの修理\nしゅうり\nをしてくれた店員に、お礼\nれい\nを伝えることができたから\n問題 7  右のページは、あるスキー場のホームページに載\nの\nっているスキー教室の案内で\nある。これを読んで、下の質問に答えなさい。答えは、1・2・3・4 から最も\nよいものを一つえらびなさい。\n37  スミスさんは、2 月 2 日の午後に普通コースを受けたいと思っている。スミスさん\nは、どのように申し込みをしなければならないか。\n1 2 月 2 日の午前 9 時までに、電話か窓口で申し込む。\n2 2 月 2 日の午前 9 時 30 分までに、窓口で申し込む。\n3 2 月 2 日の午後 1 時 30 分までに、窓口で申し込む。\n4 2 月 2 日の午後 1 時 30 分までに、電話か窓口で申し込む。\n38  グエンさんは、友達 4 人と特別コースを受けたいと思っている。グエンさんたち\nは、朝山ホテルに泊まっている。午後2 時から 4 時まで特別コースを受ける場合、\nグエンさんたちはいくら支払わなければならないか。\n1 22,000 円を支払う。\n2 22,000 円から 2,000 円を引いたものを支払う。\n3 39,000 円を支払う。\n4 39,000 円から 2,000 円を引いたものを支払う。\n朝山スキー場\n初級スキー教室のご案内\n期間：12 月 24 日～3 月 31 日\n【コースと料金】\n<普通コース(2 時間)>\n・大人クラス(最大 10 名)と子どもクラス(最大 8 名)があります 。\n・午前(10 時〜12 時)と、午後(2 時〜4 時)のどちらかを選んでください。\n大人一人 4,000 円\n子ども(小学生)一人 4,500 円\n※朝山ホテルにお泊まりの方は、500 円割引します 。\n<特別コース(2 時間または 4 時間)>\n・お友達やご家族だけで習いたい方のためのコースです。小学生から参加できます。\n・4〜6 名のグループで申し込んでください。\n・午前 9 時から午後 7 時までの間で、2 時間か 4 時間を選べます 。\n2 時間 4 時間\n1 グループ 22,000 円 39,000 円\n※グループの中に、朝山ホテルにお泊まりの方がいれば、グループの料金から\n2,000 円割引します 。\n【申し込みと料金の支払い】\n・普通コースは、午前に受ける場合は当日の午前 9 時 30 分まで、午後に受ける場合は\n当日の午後1 時 30 分までに、スキー教室の窓口(朝山ホテル1 階)で申し込んでください。\n料金は申し込みのときに支払ってください。\n・特別コースは、午前に開始したい場合は前日の午後 4 時まで、午後の場合は当日の\n午前 9 時までに、電話か窓口で申し込んでください。料金はコース開始前に窓口で\n支払ってください。\n【教室当日の集合】\n・どちらのコースも、開始時間の 10 分前にスキー場の入り口に集合してください。\n予約・お問い合わせ 013-227-1665\n39,000 円\n39,000 円",
+          "choices": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ],
+          "correctAnswer": 3,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2023-12-grammar-m3-q22",
+          "section": "grammar",
+          "mondai": 3,
+          "questionNumber": 22,
+          "questionType": "GRAMMAR_PASSAGE",
+          "questionText": "",
+          "passage": "問題 4 つぎの(1)から(4)の文章\nぶんしょう\nを読んで、質問に答えなさい。答えは、1・2・3・4\nから最もよいものを一つえらびなさい。\n（１）\nこれは、ある映画館のインターネットチケット予約サービスから、村田さんに届\nとど\nいた\nメールである。\n村田新一様\nチケット代金を支払っていただき、ありがとうございました。\n<予約番号> 0832            <電話番号> 090-0911-4215\n<日時>    4 月 11 日(土) 14 時〜\n<合計代金> 大人 2 枚  3,600 円\n<映画名>  「海」           <席番号>  K13  K14\n・ご予約はキャンセルできませんので、ご注意ください。\n・当日は、映画館でチケットを発券していただく必要がございます 。\n券売機に<予約番号>と<電話番号>をご入力ください。\n・映画開始から 15 分を過ぎますと、券売機での発券はできなくなります 。それ以降\nは、チケットオフィスで発券いたします 。\n東王映画館インターネットチケット予約サービス\nお問い合わせ 061-987-6543\n23  当日、予約したチケットを券売機で発券したい場合、どうしなければならないか。\n1 映画開始時間の 15 分前までに、券売機に必要な情報を入力する。\n2 映画開始時間の 15 分前までに、券売機でお金を払う。\n3 映画開始時間の 15 分後までに、券売機に必要な情報を入力する。\n4 映画開始時間 の 15 分後までに、券売機でお金を払う。\n（２）\nアリサさんが家に帰ると、テーブルの上に、一緒\nいっしょ\nに住んでいる春美さんが書いたメモ\nが置いてあった。\nアリサさん\n大学の事\nじ\n務\nむ\n所\nしょ\nに今日中に出さなければならない書類があるのを忘れていたので、\nちょっと行ってきます 。\nカレーとスープはできたんだけど、サラダがまだできていないので、お願いでき\nますか。冷\nれい\n蔵\nぞう\n庫\nこ\nにトマトやレタスがあるから、適当に使ってください。\n今日は私が晩ご飯を作ると言ったのに、ごめんなさい。帰りに何か甘\nあま\nいものを買って\nきますね。\n春美\n24  アリサさんがこのメモで頼\nたの\nまれていることは何か。\n1 大学の事\nじ\n務\nむ\n所\nしょ\nに行って、書類を出すこと\n2 カレーとスープを作ること\n3 サラダを作ること\n4 甘\nあま\nいものを買うこと\n（３）\n雑誌で「友達や家族と待ち合わせるとき、その 場所に行く時間」についての 調査の\n記事を読んだ。早めに行く人は、全体の 59%で最も多く、次に多かったのが、時間に\n間に合うように行く人で 36%だった。一方で、多少遅れても気にしないという人は、\n3%しかいなかった。\n私はいつも早めに行くが、友人たちはたいてい遅れて来る。私が 珍\nめずら\nしいタイプなのか\nと思っていたが、この結果から、そうではないとわかって、意外だった。\n25  意外だったとあるが、調査結果のどのような点からそう思ったか。\n1 「私」と同じタイプの人が、最も多い点\n2 「私」と同じタイプの人が、二番目に多い点\n3 「私」と同じタイプの人が、最も少ない点\n4 「私」と反対のタイプの人が、最も多い点\n（４）\n納豆\nなっとう\nは、体にいいし、おいしいので、私は毎日食べている。そのまま食べる人も多い\nが、私は 卵\nたまご\nに混\nま\nぜて焼いたり、みそ汁\nしる\nに入れたり、いろいろな料理に使っている。\nしかし、今朝テレビを見て 驚\nおどろ\nいた。納豆\nなっとう\nには、ほかの食べ物にはない種類の酵\nこう\n素\nそ\n注)\nが入っている。これには血液の流れをよくする効\nこう\n果\nか\nがあるが、50 度以上の熱で減って\nしまうそうなのだ。そうだとすると、私は今まで、とてももったいない食べ方をしていた\nことになる。\n注) 酵\nこう\n素\nそ\n：ここでは、食べ物に入っている栄養\nえいよう\nのような物\n27  もったいない食べ方をしていたとあるが、なぜもったいないと思ったのか。\n1 体へのよい効\nこう\n果\nか\nが弱くなってしまう料理のしかたで、納豆\nなっとう\nを食べていたから\n2 体へのよい効\nこう\n果\nか\nが消えるような、たくさんの量の納豆\nなっとう\nを食べていたから\n3 おいしさがわからなくなるような料理のしかたで、納豆\nなっとう\nを食べていたから\n4 おいしくなる料理方法があるのに、それを知らないで納豆\nなっとう\nを食べていたから\n問題 5  つぎの(1)と(2)の文章\nぶんしょう\nを読んで、質問に答えなさい。答えは、1・2・3・4\nから最もよいものを一つえらびなさい。\n（１）\n私の留学している日本の大学には、漫\nまん\n画\nが\nを読んで社会について考える授\nじゅ\n業\nぎょう\nがあります。\n私は子\nこ\n供\nども\nのころから日本の漫\nまん\n画\nが\nが大好きだったので、この 授\nじゅ\n業\nぎょう\nを取りました。しかし、\nこれは失敗\nしっぱい\nでした。\nこの授\nじゅ\n業\nぎょう\nでは、学生は毎週の授\nじゅ\n業\nぎょう\nの前に、先生が指定した漫\nまん\n画\nが\nを読んでいくことに\nなっていました。ところが、 扱\nあつか\nう漫\nまん\n画\nが\nはどれも私が知らないものばかりだったので、\n読むのに時間がかかって、毎回とても大変でした。\nいちばん 困ったのは 学期末の試験です。試験の前に、ある 漫\nまん\n画\nが\nを読んでおくように\n先生に言われました。その漫\nまん\n画\nが\nは全部で 3巻\nかん\nもあり、しっかり読むのにはとても時間が\nかかりました。そのために、ほかの試験の勉強ができなくなり、寝る時間も削\nけず\nらなければ\nならなくなりました。いつもなら、 試験期間中 は漫\nまん\n画\nが\nを読むのを我\nが\n慢\nまん\nするのですが、\nこのときの私は逆だったのです 。\n試験はうまくいきましたが、今はしばらく漫\nまん\n画\nが\nはお休みにしたい気分です 。\n27  毎回の授\nじゅ\n業\nぎょう\nの前に、学生がしなければならなかったことは何か。\n1 授\nじゅ\n業\nぎょう\nで先生に 扱\nあつか\nってもらいたい漫\nまん\n画\nが\nを見つけてくること\n2 社会問題がテーマになっている漫\nまん\n画\nが\nを見つけてくること\n3 先生に読んでくるように言われた漫\nまん\n画\nが\nを読んでおくこと\n4 自分が読んだことがない漫\nまん\n画\nが\nを探\nさが\nして、読んでおくこと\n28  このときの私は、どのような 状\nじょう\n態\nたい\nだったか。\n1 ほかの試験の勉強がしたいのに、漫\nまん\n画\nが\nを読まなければならなかった。\n2 漫\nまん\n画\nが\nが読みたいのに、試験の勉強をしなければならなかった。\n3 好きな漫\nまん\n画\nが\nが読みたいのに、好きではない漫画を読まなければならなかった。\n4 試験の勉強をしなければならないのに、漫\nまん\n画\nが\nを読むのを我\nが\n慢\nまん\nできなかった。\n29 「私」は今、どんな気持ちになっているか。\n1 しばらくは、休みの日だけに漫\nまん\n画\nが\nを読もう。\n2 しばらくは、好きな漫\nまん\n画\nが\nしか読みたくない。\n3 しばらくは、我\nが\n慢\nまん\nして漫\nまん\n画\nが\nを読もう。\n4   しばらくは、漫\nまん\n画\nが\nは読みたくない。\n（２）\nA 町は景\nけ\n色\nしき\nの美しい海沿\nぞ\nいの町で、毎週日曜の朝に港で開かれる「朝市\nあさいち\n」も人気がある。\n朝市\nあさいち\nは、A 町にある店が、魚や肉、野菜、パン、ケーキなどを売る市\nいち\n場\nば\nで、近くの市や\n町からも客が大勢\nおおぜい\nやってくる。\n朝市\nあさいち\nを始めたのは、A 町に昔からある店の主人たちである。約30 年前、大きなスーパー\nマーケットができた。多くの人がスーパーを利用するようになってしまったため、店の\n主人たちは、自分たちの店の商品の良さをもっと知ってもらおうと、朝市\nあさいち\nを始めたのだ。\n朝市\nあさいち\nでは、人気がある 商品はすぐ 売り切れてしまう。そんなに 人気があるなら、\nたくさん 売ればいいのだが、 それはしないそうだ。この 朝市\nあさいち\nの目的は、朝市\nあさいち\nでお金を\n稼\nかせ\nぐことではなく、まず朝市\nあさいち\nで自分たちの店について知ってもらって、ふだんA 町の店\nで買い物をする客を増やすことだからだ。そのため、 朝市\nあさいち\nに商品が出せる人は(  )\nだけ、ということになっている。\n30  A 町にある店の主人たちは、何のために朝市\nあさいち\nを始めたのか。\n1 町の中に、安く買い物ができるところを増やすため\n2 町の中に、近くの市や町から来る客が楽しめる場所を作るため\n3 自分たちの町の景\nけ\n色\nしき\nの美しさをもっと宣伝\nせんでん\nするため\n4 自分たちの店の商品の良さをもっと知ってもらうため\n31  それとあるが、何か。\n1 朝市\nあさいち\nで人気がある商品を、店で売るより高く売ること\n2 朝市\nあさいち\nで人気がある商品を、朝市\nあさいち\nでもっと売ること\n3 朝市\nあさいち\nでしか買えない商品の種類を増やすこと\n4 朝市\nあさいち\nでしか買えない商品を平日に店でも売ること\n32  (  ) に入れるのに最もよいものはどれか。\n1 A 町に店がある人\n2 A 町以外の市や町に店がある人\n3 A 町で店を開きたいと思っている人\n4 A 町の店でふだんから買い物をしている人\n問題 6  つぎの文章\nぶんしょう\nを読んで、質問に答えなさい。答えは、1・2・3・4 から最もよい\nものを一つえらびなさい。\n先月、新しいオートバイ を買った。オートバイ には①長い間乗っていなかった が、\n久\nひさ\nしぶりにまた乗りたくなったのだ。前に乗っていたのは大学生のころで、もう20 年も前\nだ。卒業後はずっと仕事や子\nこ\n供\nども\nの世話で 忙\nいそが\nしかったが、最近、少し自由に使える時間\nが増えた。妻に相談したら、 「いいんじゃない?」と賛成\nさんせい\nしてくれた。\nオートバイを買った店は、 「ガロン」という店だ。私には、どうしてもこの店で買い\nたい理由があったのだ。\n20 年前の春、私は、父にもらったオートバイで東京から京都まで旅行をしていた。\n安い旅館に泊まりながら、何日もかけて進む旅だった。\n3 日目の朝、道を走っているとき、 オートバイ の前の方で何かが折れる音がした。\n見ると、②オートバイの部品が壊\nこわ\nれていた。ハンドルが少しぐらぐらしたが、オートバイ\nは一応動いた。\nしばらく進むと、オートバイの店があったので、 修\nしゅう\n理\nり\nを頼\nたの\nんでみた。しかし、難しい\n修理\nしゅうり\nだからできない、と 断られてしまった。次の店でも同じだった。そして、3軒\nけん\n目\nめ\nの\n店が「ガロン」 だった。 「ガロン」 の店員も「これは 難しいね。 」と言った。でも、\n「困っているんでしょう?やってみるよ。 」と言って、 修\nしゅう\n理\nり\nを始めてくれた。そして、\n2 時間かけて 直してくれたのだ。 店員は「いつかこの 店でオートバイ を買ってね。 」\nと言って笑った。本当に困っていた私は、③何度もお礼\nれい\nを言いながら、必ずそうしよう\nと決めた。\n今の「ガロン」には、もうあの店員はいなかった。会えなかったのは残念だったが、\nそれでも私は④満足している。\n33  「私」がオートバイに①長い間乗っていなかったのは、どうしてか。\n1 買いたいと思うオートバイがなかったから\n2 仕事や子\nこ\n供\nども\nの世話で 忙\nいそが\nしかったから\n3 「私」のオートバイを妻が使っていたから\n4 家にあるオートバイが壊\nこわ\nれていたから\n34   ②オートバイの部品が壊\nこわ\nれていたとあるが、壊\nこわ\nれたのはいつか。\n1 先月、新しいオートバイを買ってから 3 日目の朝\n2 先月、オートバイ旅行を始めてから 3 日目の朝\n3  20 年前、新しいオートバイを買ってから 3 日目の朝\n4  20 年前、オートバイ旅行を始めてから 3 日目の朝\n35  ③何度もお礼\nれい\nを言いながらとあるが、 「私」はどうして何度もお礼\nれい\nを言ったのか。\n1 店にあった新しいオートバイを安く売ってくれたから\n2 オートバイを修理\nしゅうり\nしてくれそうな店を教えてくれたから\n3  壊\nこわ\nれて動かなくなりそうなオートバイを買ってくれたから\n4 ほかの店で修理\nしゅうり\nを断られたオートバイを直してくれたから\n36  ④満足しているとあるが、なぜか。\n1 もう一度、オートバイに乗ることができたから\n2 「ガロン」でオートバイを買うことができたから\n3 壊\nこわ\nれてしまったオートバイを修理\nしゅうり\nしてもらうことができたから\n4 オートバイの修理\nしゅうり\nをしてくれた店員に、お礼\nれい\nを伝えることができたから\n問題 7  右のページは、あるスキー場のホームページに載\nの\nっているスキー教室の案内で\nある。これを読んで、下の質問に答えなさい。答えは、1・2・3・4 から最も\nよいものを一つえらびなさい。\n37  スミスさんは、2 月 2 日の午後に普通コースを受けたいと思っている。スミスさん\nは、どのように申し込みをしなければならないか。\n1 2 月 2 日の午前 9 時までに、電話か窓口で申し込む。\n2 2 月 2 日の午前 9 時 30 分までに、窓口で申し込む。\n3 2 月 2 日の午後 1 時 30 分までに、窓口で申し込む。\n4 2 月 2 日の午後 1 時 30 分までに、電話か窓口で申し込む。\n38  グエンさんは、友達 4 人と特別コースを受けたいと思っている。グエンさんたち\nは、朝山ホテルに泊まっている。午後2 時から 4 時まで特別コースを受ける場合、\nグエンさんたちはいくら支払わなければならないか。\n1 22,000 円を支払う。\n2 22,000 円から 2,000 円を引いたものを支払う。\n3 39,000 円を支払う。\n4 39,000 円から 2,000 円を引いたものを支払う。\n朝山スキー場\n初級スキー教室のご案内\n期間：12 月 24 日～3 月 31 日\n【コースと料金】\n<普通コース(2 時間)>\n・大人クラス(最大 10 名)と子どもクラス(最大 8 名)があります 。\n・午前(10 時〜12 時)と、午後(2 時〜4 時)のどちらかを選んでください。\n大人一人 4,000 円\n子ども(小学生)一人 4,500 円\n※朝山ホテルにお泊まりの方は、500 円割引します 。\n<特別コース(2 時間または 4 時間)>\n・お友達やご家族だけで習いたい方のためのコースです。小学生から参加できます。\n・4〜6 名のグループで申し込んでください。\n・午前 9 時から午後 7 時までの間で、2 時間か 4 時間を選べます 。\n2 時間 4 時間\n1 グループ 22,000 円 39,000 円\n※グループの中に、朝山ホテルにお泊まりの方がいれば、グループの料金から\n2,000 円割引します 。\n【申し込みと料金の支払い】\n・普通コースは、午前に受ける場合は当日の午前 9 時 30 分まで、午後に受ける場合は\n当日の午後1 時 30 分までに、スキー教室の窓口(朝山ホテル1 階)で申し込んでください。\n料金は申し込みのときに支払ってください。\n・特別コースは、午前に開始したい場合は前日の午後 4 時まで、午後の場合は当日の\n午前 9 時までに、電話か窓口で申し込んでください。料金はコース開始前に窓口で\n支払ってください。\n【教室当日の集合】\n・どちらのコースも、開始時間の 10 分前にスキー場の入り口に集合してください。\n予約・お問い合わせ 013-227-1665\n39,000 円\n39,000 円",
+          "choices": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ],
+          "correctAnswer": 3,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2023-12-grammar-m4-q23",
+          "section": "grammar",
+          "mondai": 4,
+          "questionNumber": 23,
+          "questionType": "READING_SHORT",
+          "questionText": "",
+          "passage": "問題 4 つぎの(1)から(4)の文章\nぶんしょう\nを読んで、質問に答えなさい。答えは、1・2・3・4\nから最もよいものを一つえらびなさい。\n（１）\nこれは、ある映画館のインターネットチケット予約サービスから、村田さんに届\nとど\nいた\nメールである。\n村田新一様\nチケット代金を支払っていただき、ありがとうございました。\n<予約番号> 0832            <電話番号> 090-0911-4215\n<日時>    4 月 11 日(土) 14 時〜\n<合計代金> 大人 2 枚  3,600 円\n<映画名>  「海」           <席番号>  K13  K14\n・ご予約はキャンセルできませんので、ご注意ください。\n・当日は、映画館でチケットを発券していただく必要がございます 。\n券売機に<予約番号>と<電話番号>をご入力ください。\n・映画開始から 15 分を過ぎますと、券売機での発券はできなくなります 。それ以降\nは、チケットオフィスで発券いたします 。\n東王映画館インターネットチケット予約サービス\nお問い合わせ 061-987-6543\n23  当日、予約したチケットを券売機で発券したい場合、どうしなければならないか。\n1 映画開始時間の 15 分前までに、券売機に必要な情報を入力する。\n2 映画開始時間の 15 分前までに、券売機でお金を払う。\n3 映画開始時間の 15 分後までに、券売機に必要な情報を入力する。\n4 映画開始時間 の 15 分後までに、券売機でお金を払う。\n（２）\nアリサさんが家に帰ると、テーブルの上に、一緒\nいっしょ\nに住んでいる春美さんが書いたメモ\nが置いてあった。\nアリサさん\n大学の事\nじ\n務\nむ\n所\nしょ\nに今日中に出さなければならない書類があるのを忘れていたので、\nちょっと行ってきます 。\nカレーとスープはできたんだけど、サラダがまだできていないので、お願いでき\nますか。冷\nれい\n蔵\nぞう\n庫\nこ\nにトマトやレタスがあるから、適当に使ってください。\n今日は私が晩ご飯を作ると言ったのに、ごめんなさい。帰りに何か甘\nあま\nいものを買って\nきますね。\n春美\n24  アリサさんがこのメモで頼\nたの\nまれていることは何か。\n1 大学の事\nじ\n務\nむ\n所\nしょ\nに行って、書類を出すこと\n2 カレーとスープを作ること\n3 サラダを作ること\n4 甘\nあま\nいものを買うこと\n（３）\n雑誌で「友達や家族と待ち合わせるとき、その 場所に行く時間」についての 調査の\n記事を読んだ。早めに行く人は、全体の 59%で最も多く、次に多かったのが、時間に\n間に合うように行く人で 36%だった。一方で、多少遅れても気にしないという人は、\n3%しかいなかった。\n私はいつも早めに行くが、友人たちはたいてい遅れて来る。私が 珍\nめずら\nしいタイプなのか\nと思っていたが、この結果から、そうではないとわかって、意外だった。\n25  意外だったとあるが、調査結果のどのような点からそう思ったか。\n1 「私」と同じタイプの人が、最も多い点\n2 「私」と同じタイプの人が、二番目に多い点\n3 「私」と同じタイプの人が、最も少ない点\n4 「私」と反対のタイプの人が、最も多い点\n（４）\n納豆\nなっとう\nは、体にいいし、おいしいので、私は毎日食べている。そのまま食べる人も多い\nが、私は 卵\nたまご\nに混\nま\nぜて焼いたり、みそ汁\nしる\nに入れたり、いろいろな料理に使っている。\nしかし、今朝テレビを見て 驚\nおどろ\nいた。納豆\nなっとう\nには、ほかの食べ物にはない種類の酵\nこう\n素\nそ\n注)\nが入っている。これには血液の流れをよくする効\nこう\n果\nか\nがあるが、50 度以上の熱で減って\nしまうそうなのだ。そうだとすると、私は今まで、とてももったいない食べ方をしていた\nことになる。\n注) 酵\nこう\n素\nそ\n：ここでは、食べ物に入っている栄養\nえいよう\nのような物\n27  もったいない食べ方をしていたとあるが、なぜもったいないと思ったのか。\n1 体へのよい効\nこう\n果\nか\nが弱くなってしまう料理のしかたで、納豆\nなっとう\nを食べていたから\n2 体へのよい効\nこう\n果\nか\nが消えるような、たくさんの量の納豆\nなっとう\nを食べていたから\n3 おいしさがわからなくなるような料理のしかたで、納豆\nなっとう\nを食べていたから\n4 おいしくなる料理方法があるのに、それを知らないで納豆\nなっとう\nを食べていたから\n問題 5  つぎの(1)と(2)の文章\nぶんしょう\nを読んで、質問に答えなさい。答えは、1・2・3・4\nから最もよいものを一つえらびなさい。\n（１）\n私の留学している日本の大学には、漫\nまん\n画\nが\nを読んで社会について考える授\nじゅ\n業\nぎょう\nがあります。\n私は子\nこ\n供\nども\nのころから日本の漫\nまん\n画\nが\nが大好きだったので、この 授\nじゅ\n業\nぎょう\nを取りました。しかし、\nこれは失敗\nしっぱい\nでした。\nこの授\nじゅ\n業\nぎょう\nでは、学生は毎週の授\nじゅ\n業\nぎょう\nの前に、先生が指定した漫\nまん\n画\nが\nを読んでいくことに\nなっていました。ところが、 扱\nあつか\nう漫\nまん\n画\nが\nはどれも私が知らないものばかりだったので、\n読むのに時間がかかって、毎回とても大変でした。\nいちばん 困ったのは 学期末の試験です。試験の前に、ある 漫\nまん\n画\nが\nを読んでおくように\n先生に言われました。その漫\nまん\n画\nが\nは全部で 3巻\nかん\nもあり、しっかり読むのにはとても時間が\nかかりました。そのために、ほかの試験の勉強ができなくなり、寝る時間も削\nけず\nらなければ\nならなくなりました。いつもなら、 試験期間中 は漫\nまん\n画\nが\nを読むのを我\nが\n慢\nまん\nするのですが、\nこのときの私は逆だったのです 。\n試験はうまくいきましたが、今はしばらく漫\nまん\n画\nが\nはお休みにしたい気分です 。\n27  毎回の授\nじゅ\n業\nぎょう\nの前に、学生がしなければならなかったことは何か。\n1 授\nじゅ\n業\nぎょう\nで先生に 扱\nあつか\nってもらいたい漫\nまん\n画\nが\nを見つけてくること\n2 社会問題がテーマになっている漫\nまん\n画\nが\nを見つけてくること\n3 先生に読んでくるように言われた漫\nまん\n画\nが\nを読んでおくこと\n4 自分が読んだことがない漫\nまん\n画\nが\nを探\nさが\nして、読んでおくこと\n28  このときの私は、どのような 状\nじょう\n態\nたい\nだったか。\n1 ほかの試験の勉強がしたいのに、漫\nまん\n画\nが\nを読まなければならなかった。\n2 漫\nまん\n画\nが\nが読みたいのに、試験の勉強をしなければならなかった。\n3 好きな漫\nまん\n画\nが\nが読みたいのに、好きではない漫画を読まなければならなかった。\n4 試験の勉強をしなければならないのに、漫\nまん\n画\nが\nを読むのを我\nが\n慢\nまん\nできなかった。\n29 「私」は今、どんな気持ちになっているか。\n1 しばらくは、休みの日だけに漫\nまん\n画\nが\nを読もう。\n2 しばらくは、好きな漫\nまん\n画\nが\nしか読みたくない。\n3 しばらくは、我\nが\n慢\nまん\nして漫\nまん\n画\nが\nを読もう。\n4   しばらくは、漫\nまん\n画\nが\nは読みたくない。\n（２）\nA 町は景\nけ\n色\nしき\nの美しい海沿\nぞ\nいの町で、毎週日曜の朝に港で開かれる「朝市\nあさいち\n」も人気がある。\n朝市\nあさいち\nは、A 町にある店が、魚や肉、野菜、パン、ケーキなどを売る市\nいち\n場\nば\nで、近くの市や\n町からも客が大勢\nおおぜい\nやってくる。\n朝市\nあさいち\nを始めたのは、A 町に昔からある店の主人たちである。約30 年前、大きなスーパー\nマーケットができた。多くの人がスーパーを利用するようになってしまったため、店の\n主人たちは、自分たちの店の商品の良さをもっと知ってもらおうと、朝市\nあさいち\nを始めたのだ。\n朝市\nあさいち\nでは、人気がある 商品はすぐ 売り切れてしまう。そんなに 人気があるなら、\nたくさん 売ればいいのだが、 それはしないそうだ。この 朝市\nあさいち\nの目的は、朝市\nあさいち\nでお金を\n稼\nかせ\nぐことではなく、まず朝市\nあさいち\nで自分たちの店について知ってもらって、ふだんA 町の店\nで買い物をする客を増やすことだからだ。そのため、 朝市\nあさいち\nに商品が出せる人は(  )\nだけ、ということになっている。\n30  A 町にある店の主人たちは、何のために朝市\nあさいち\nを始めたのか。\n1 町の中に、安く買い物ができるところを増やすため\n2 町の中に、近くの市や町から来る客が楽しめる場所を作るため\n3 自分たちの町の景\nけ\n色\nしき\nの美しさをもっと宣伝\nせんでん\nするため\n4 自分たちの店の商品の良さをもっと知ってもらうため\n31  それとあるが、何か。\n1 朝市\nあさいち\nで人気がある商品を、店で売るより高く売ること\n2 朝市\nあさいち\nで人気がある商品を、朝市\nあさいち\nでもっと売ること\n3 朝市\nあさいち\nでしか買えない商品の種類を増やすこと\n4 朝市\nあさいち\nでしか買えない商品を平日に店でも売ること\n32  (  ) に入れるのに最もよいものはどれか。\n1 A 町に店がある人\n2 A 町以外の市や町に店がある人\n3 A 町で店を開きたいと思っている人\n4 A 町の店でふだんから買い物をしている人\n問題 6  つぎの文章\nぶんしょう\nを読んで、質問に答えなさい。答えは、1・2・3・4 から最もよい\nものを一つえらびなさい。\n先月、新しいオートバイ を買った。オートバイ には①長い間乗っていなかった が、\n久\nひさ\nしぶりにまた乗りたくなったのだ。前に乗っていたのは大学生のころで、もう20 年も前\nだ。卒業後はずっと仕事や子\nこ\n供\nども\nの世話で 忙\nいそが\nしかったが、最近、少し自由に使える時間\nが増えた。妻に相談したら、 「いいんじゃない?」と賛成\nさんせい\nしてくれた。\nオートバイを買った店は、 「ガロン」という店だ。私には、どうしてもこの店で買い\nたい理由があったのだ。\n20 年前の春、私は、父にもらったオートバイで東京から京都まで旅行をしていた。\n安い旅館に泊まりながら、何日もかけて進む旅だった。\n3 日目の朝、道を走っているとき、 オートバイ の前の方で何かが折れる音がした。\n見ると、②オートバイの部品が壊\nこわ\nれていた。ハンドルが少しぐらぐらしたが、オートバイ\nは一応動いた。\nしばらく進むと、オートバイの店があったので、 修\nしゅう\n理\nり\nを頼\nたの\nんでみた。しかし、難しい\n修理\nしゅうり\nだからできない、と 断られてしまった。次の店でも同じだった。そして、3軒\nけん\n目\nめ\nの\n店が「ガロン」 だった。 「ガロン」 の店員も「これは 難しいね。 」と言った。でも、\n「困っているんでしょう?やってみるよ。 」と言って、 修\nしゅう\n理\nり\nを始めてくれた。そして、\n2 時間かけて 直してくれたのだ。 店員は「いつかこの 店でオートバイ を買ってね。 」\nと言って笑った。本当に困っていた私は、③何度もお礼\nれい\nを言いながら、必ずそうしよう\nと決めた。\n今の「ガロン」には、もうあの店員はいなかった。会えなかったのは残念だったが、\nそれでも私は④満足している。\n33  「私」がオートバイに①長い間乗っていなかったのは、どうしてか。\n1 買いたいと思うオートバイがなかったから\n2 仕事や子\nこ\n供\nども\nの世話で 忙\nいそが\nしかったから\n3 「私」のオートバイを妻が使っていたから\n4 家にあるオートバイが壊\nこわ\nれていたから\n34   ②オートバイの部品が壊\nこわ\nれていたとあるが、壊\nこわ\nれたのはいつか。\n1 先月、新しいオートバイを買ってから 3 日目の朝\n2 先月、オートバイ旅行を始めてから 3 日目の朝\n3  20 年前、新しいオートバイを買ってから 3 日目の朝\n4  20 年前、オートバイ旅行を始めてから 3 日目の朝\n35  ③何度もお礼\nれい\nを言いながらとあるが、 「私」はどうして何度もお礼\nれい\nを言ったのか。\n1 店にあった新しいオートバイを安く売ってくれたから\n2 オートバイを修理\nしゅうり\nしてくれそうな店を教えてくれたから\n3  壊\nこわ\nれて動かなくなりそうなオートバイを買ってくれたから\n4 ほかの店で修理\nしゅうり\nを断られたオートバイを直してくれたから\n36  ④満足しているとあるが、なぜか。\n1 もう一度、オートバイに乗ることができたから\n2 「ガロン」でオートバイを買うことができたから\n3 壊\nこわ\nれてしまったオートバイを修理\nしゅうり\nしてもらうことができたから\n4 オートバイの修理\nしゅうり\nをしてくれた店員に、お礼\nれい\nを伝えることができたから\n問題 7  右のページは、あるスキー場のホームページに載\nの\nっているスキー教室の案内で\nある。これを読んで、下の質問に答えなさい。答えは、1・2・3・4 から最も\nよいものを一つえらびなさい。\n37  スミスさんは、2 月 2 日の午後に普通コースを受けたいと思っている。スミスさん\nは、どのように申し込みをしなければならないか。\n1 2 月 2 日の午前 9 時までに、電話か窓口で申し込む。\n2 2 月 2 日の午前 9 時 30 分までに、窓口で申し込む。\n3 2 月 2 日の午後 1 時 30 分までに、窓口で申し込む。\n4 2 月 2 日の午後 1 時 30 分までに、電話か窓口で申し込む。\n38  グエンさんは、友達 4 人と特別コースを受けたいと思っている。グエンさんたち\nは、朝山ホテルに泊まっている。午後2 時から 4 時まで特別コースを受ける場合、\nグエンさんたちはいくら支払わなければならないか。\n1 22,000 円を支払う。\n2 22,000 円から 2,000 円を引いたものを支払う。\n3 39,000 円を支払う。\n4 39,000 円から 2,000 円を引いたものを支払う。\n朝山スキー場\n初級スキー教室のご案内\n期間：12 月 24 日～3 月 31 日\n【コースと料金】\n<普通コース(2 時間)>\n・大人クラス(最大 10 名)と子どもクラス(最大 8 名)があります 。\n・午前(10 時〜12 時)と、午後(2 時〜4 時)のどちらかを選んでください。\n大人一人 4,000 円\n子ども(小学生)一人 4,500 円\n※朝山ホテルにお泊まりの方は、500 円割引します 。\n<特別コース(2 時間または 4 時間)>\n・お友達やご家族だけで習いたい方のためのコースです。小学生から参加できます。\n・4〜6 名のグループで申し込んでください。\n・午前 9 時から午後 7 時までの間で、2 時間か 4 時間を選べます 。\n2 時間 4 時間\n1 グループ 22,000 円 39,000 円\n※グループの中に、朝山ホテルにお泊まりの方がいれば、グループの料金から\n2,000 円割引します 。\n【申し込みと料金の支払い】\n・普通コースは、午前に受ける場合は当日の午前 9 時 30 分まで、午後に受ける場合は\n当日の午後1 時 30 分までに、スキー教室の窓口(朝山ホテル1 階)で申し込んでください。\n料金は申し込みのときに支払ってください。\n・特別コースは、午前に開始したい場合は前日の午後 4 時まで、午後の場合は当日の\n午前 9 時までに、電話か窓口で申し込んでください。料金はコース開始前に窓口で\n支払ってください。\n【教室当日の集合】\n・どちらのコースも、開始時間の 10 分前にスキー場の入り口に集合してください。\n予約・お問い合わせ 013-227-1665\n39,000 円\n39,000 円",
+          "choices": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ],
+          "correctAnswer": 3,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2023-12-grammar-m4-q24",
+          "section": "grammar",
+          "mondai": 4,
+          "questionNumber": 24,
+          "questionType": "READING_SHORT",
+          "questionText": "",
+          "passage": "問題 4 つぎの(1)から(4)の文章\nぶんしょう\nを読んで、質問に答えなさい。答えは、1・2・3・4\nから最もよいものを一つえらびなさい。\n（１）\nこれは、ある映画館のインターネットチケット予約サービスから、村田さんに届\nとど\nいた\nメールである。\n村田新一様\nチケット代金を支払っていただき、ありがとうございました。\n<予約番号> 0832            <電話番号> 090-0911-4215\n<日時>    4 月 11 日(土) 14 時〜\n<合計代金> 大人 2 枚  3,600 円\n<映画名>  「海」           <席番号>  K13  K14\n・ご予約はキャンセルできませんので、ご注意ください。\n・当日は、映画館でチケットを発券していただく必要がございます 。\n券売機に<予約番号>と<電話番号>をご入力ください。\n・映画開始から 15 分を過ぎますと、券売機での発券はできなくなります 。それ以降\nは、チケットオフィスで発券いたします 。\n東王映画館インターネットチケット予約サービス\nお問い合わせ 061-987-6543\n23  当日、予約したチケットを券売機で発券したい場合、どうしなければならないか。\n1 映画開始時間の 15 分前までに、券売機に必要な情報を入力する。\n2 映画開始時間の 15 分前までに、券売機でお金を払う。\n3 映画開始時間の 15 分後までに、券売機に必要な情報を入力する。\n4 映画開始時間 の 15 分後までに、券売機でお金を払う。\n（２）\nアリサさんが家に帰ると、テーブルの上に、一緒\nいっしょ\nに住んでいる春美さんが書いたメモ\nが置いてあった。\nアリサさん\n大学の事\nじ\n務\nむ\n所\nしょ\nに今日中に出さなければならない書類があるのを忘れていたので、\nちょっと行ってきます 。\nカレーとスープはできたんだけど、サラダがまだできていないので、お願いでき\nますか。冷\nれい\n蔵\nぞう\n庫\nこ\nにトマトやレタスがあるから、適当に使ってください。\n今日は私が晩ご飯を作ると言ったのに、ごめんなさい。帰りに何か甘\nあま\nいものを買って\nきますね。\n春美\n24  アリサさんがこのメモで頼\nたの\nまれていることは何か。\n1 大学の事\nじ\n務\nむ\n所\nしょ\nに行って、書類を出すこと\n2 カレーとスープを作ること\n3 サラダを作ること\n4 甘\nあま\nいものを買うこと\n（３）\n雑誌で「友達や家族と待ち合わせるとき、その 場所に行く時間」についての 調査の\n記事を読んだ。早めに行く人は、全体の 59%で最も多く、次に多かったのが、時間に\n間に合うように行く人で 36%だった。一方で、多少遅れても気にしないという人は、\n3%しかいなかった。\n私はいつも早めに行くが、友人たちはたいてい遅れて来る。私が 珍\nめずら\nしいタイプなのか\nと思っていたが、この結果から、そうではないとわかって、意外だった。\n25  意外だったとあるが、調査結果のどのような点からそう思ったか。\n1 「私」と同じタイプの人が、最も多い点\n2 「私」と同じタイプの人が、二番目に多い点\n3 「私」と同じタイプの人が、最も少ない点\n4 「私」と反対のタイプの人が、最も多い点\n（４）\n納豆\nなっとう\nは、体にいいし、おいしいので、私は毎日食べている。そのまま食べる人も多い\nが、私は 卵\nたまご\nに混\nま\nぜて焼いたり、みそ汁\nしる\nに入れたり、いろいろな料理に使っている。\nしかし、今朝テレビを見て 驚\nおどろ\nいた。納豆\nなっとう\nには、ほかの食べ物にはない種類の酵\nこう\n素\nそ\n注)\nが入っている。これには血液の流れをよくする効\nこう\n果\nか\nがあるが、50 度以上の熱で減って\nしまうそうなのだ。そうだとすると、私は今まで、とてももったいない食べ方をしていた\nことになる。\n注) 酵\nこう\n素\nそ\n：ここでは、食べ物に入っている栄養\nえいよう\nのような物\n27  もったいない食べ方をしていたとあるが、なぜもったいないと思ったのか。\n1 体へのよい効\nこう\n果\nか\nが弱くなってしまう料理のしかたで、納豆\nなっとう\nを食べていたから\n2 体へのよい効\nこう\n果\nか\nが消えるような、たくさんの量の納豆\nなっとう\nを食べていたから\n3 おいしさがわからなくなるような料理のしかたで、納豆\nなっとう\nを食べていたから\n4 おいしくなる料理方法があるのに、それを知らないで納豆\nなっとう\nを食べていたから\n問題 5  つぎの(1)と(2)の文章\nぶんしょう\nを読んで、質問に答えなさい。答えは、1・2・3・4\nから最もよいものを一つえらびなさい。\n（１）\n私の留学している日本の大学には、漫\nまん\n画\nが\nを読んで社会について考える授\nじゅ\n業\nぎょう\nがあります。\n私は子\nこ\n供\nども\nのころから日本の漫\nまん\n画\nが\nが大好きだったので、この 授\nじゅ\n業\nぎょう\nを取りました。しかし、\nこれは失敗\nしっぱい\nでした。\nこの授\nじゅ\n業\nぎょう\nでは、学生は毎週の授\nじゅ\n業\nぎょう\nの前に、先生が指定した漫\nまん\n画\nが\nを読んでいくことに\nなっていました。ところが、 扱\nあつか\nう漫\nまん\n画\nが\nはどれも私が知らないものばかりだったので、\n読むのに時間がかかって、毎回とても大変でした。\nいちばん 困ったのは 学期末の試験です。試験の前に、ある 漫\nまん\n画\nが\nを読んでおくように\n先生に言われました。その漫\nまん\n画\nが\nは全部で 3巻\nかん\nもあり、しっかり読むのにはとても時間が\nかかりました。そのために、ほかの試験の勉強ができなくなり、寝る時間も削\nけず\nらなければ\nならなくなりました。いつもなら、 試験期間中 は漫\nまん\n画\nが\nを読むのを我\nが\n慢\nまん\nするのですが、\nこのときの私は逆だったのです 。\n試験はうまくいきましたが、今はしばらく漫\nまん\n画\nが\nはお休みにしたい気分です 。\n27  毎回の授\nじゅ\n業\nぎょう\nの前に、学生がしなければならなかったことは何か。\n1 授\nじゅ\n業\nぎょう\nで先生に 扱\nあつか\nってもらいたい漫\nまん\n画\nが\nを見つけてくること\n2 社会問題がテーマになっている漫\nまん\n画\nが\nを見つけてくること\n3 先生に読んでくるように言われた漫\nまん\n画\nが\nを読んでおくこと\n4 自分が読んだことがない漫\nまん\n画\nが\nを探\nさが\nして、読んでおくこと\n28  このときの私は、どのような 状\nじょう\n態\nたい\nだったか。\n1 ほかの試験の勉強がしたいのに、漫\nまん\n画\nが\nを読まなければならなかった。\n2 漫\nまん\n画\nが\nが読みたいのに、試験の勉強をしなければならなかった。\n3 好きな漫\nまん\n画\nが\nが読みたいのに、好きではない漫画を読まなければならなかった。\n4 試験の勉強をしなければならないのに、漫\nまん\n画\nが\nを読むのを我\nが\n慢\nまん\nできなかった。\n29 「私」は今、どんな気持ちになっているか。\n1 しばらくは、休みの日だけに漫\nまん\n画\nが\nを読もう。\n2 しばらくは、好きな漫\nまん\n画\nが\nしか読みたくない。\n3 しばらくは、我\nが\n慢\nまん\nして漫\nまん\n画\nが\nを読もう。\n4   しばらくは、漫\nまん\n画\nが\nは読みたくない。\n（２）\nA 町は景\nけ\n色\nしき\nの美しい海沿\nぞ\nいの町で、毎週日曜の朝に港で開かれる「朝市\nあさいち\n」も人気がある。\n朝市\nあさいち\nは、A 町にある店が、魚や肉、野菜、パン、ケーキなどを売る市\nいち\n場\nば\nで、近くの市や\n町からも客が大勢\nおおぜい\nやってくる。\n朝市\nあさいち\nを始めたのは、A 町に昔からある店の主人たちである。約30 年前、大きなスーパー\nマーケットができた。多くの人がスーパーを利用するようになってしまったため、店の\n主人たちは、自分たちの店の商品の良さをもっと知ってもらおうと、朝市\nあさいち\nを始めたのだ。\n朝市\nあさいち\nでは、人気がある 商品はすぐ 売り切れてしまう。そんなに 人気があるなら、\nたくさん 売ればいいのだが、 それはしないそうだ。この 朝市\nあさいち\nの目的は、朝市\nあさいち\nでお金を\n稼\nかせ\nぐことではなく、まず朝市\nあさいち\nで自分たちの店について知ってもらって、ふだんA 町の店\nで買い物をする客を増やすことだからだ。そのため、 朝市\nあさいち\nに商品が出せる人は(  )\nだけ、ということになっている。\n30  A 町にある店の主人たちは、何のために朝市\nあさいち\nを始めたのか。\n1 町の中に、安く買い物ができるところを増やすため\n2 町の中に、近くの市や町から来る客が楽しめる場所を作るため\n3 自分たちの町の景\nけ\n色\nしき\nの美しさをもっと宣伝\nせんでん\nするため\n4 自分たちの店の商品の良さをもっと知ってもらうため\n31  それとあるが、何か。\n1 朝市\nあさいち\nで人気がある商品を、店で売るより高く売ること\n2 朝市\nあさいち\nで人気がある商品を、朝市\nあさいち\nでもっと売ること\n3 朝市\nあさいち\nでしか買えない商品の種類を増やすこと\n4 朝市\nあさいち\nでしか買えない商品を平日に店でも売ること\n32  (  ) に入れるのに最もよいものはどれか。\n1 A 町に店がある人\n2 A 町以外の市や町に店がある人\n3 A 町で店を開きたいと思っている人\n4 A 町の店でふだんから買い物をしている人\n問題 6  つぎの文章\nぶんしょう\nを読んで、質問に答えなさい。答えは、1・2・3・4 から最もよい\nものを一つえらびなさい。\n先月、新しいオートバイ を買った。オートバイ には①長い間乗っていなかった が、\n久\nひさ\nしぶりにまた乗りたくなったのだ。前に乗っていたのは大学生のころで、もう20 年も前\nだ。卒業後はずっと仕事や子\nこ\n供\nども\nの世話で 忙\nいそが\nしかったが、最近、少し自由に使える時間\nが増えた。妻に相談したら、 「いいんじゃない?」と賛成\nさんせい\nしてくれた。\nオートバイを買った店は、 「ガロン」という店だ。私には、どうしてもこの店で買い\nたい理由があったのだ。\n20 年前の春、私は、父にもらったオートバイで東京から京都まで旅行をしていた。\n安い旅館に泊まりながら、何日もかけて進む旅だった。\n3 日目の朝、道を走っているとき、 オートバイ の前の方で何かが折れる音がした。\n見ると、②オートバイの部品が壊\nこわ\nれていた。ハンドルが少しぐらぐらしたが、オートバイ\nは一応動いた。\nしばらく進むと、オートバイの店があったので、 修\nしゅう\n理\nり\nを頼\nたの\nんでみた。しかし、難しい\n修理\nしゅうり\nだからできない、と 断られてしまった。次の店でも同じだった。そして、3軒\nけん\n目\nめ\nの\n店が「ガロン」 だった。 「ガロン」 の店員も「これは 難しいね。 」と言った。でも、\n「困っているんでしょう?やってみるよ。 」と言って、 修\nしゅう\n理\nり\nを始めてくれた。そして、\n2 時間かけて 直してくれたのだ。 店員は「いつかこの 店でオートバイ を買ってね。 」\nと言って笑った。本当に困っていた私は、③何度もお礼\nれい\nを言いながら、必ずそうしよう\nと決めた。\n今の「ガロン」には、もうあの店員はいなかった。会えなかったのは残念だったが、\nそれでも私は④満足している。\n33  「私」がオートバイに①長い間乗っていなかったのは、どうしてか。\n1 買いたいと思うオートバイがなかったから\n2 仕事や子\nこ\n供\nども\nの世話で 忙\nいそが\nしかったから\n3 「私」のオートバイを妻が使っていたから\n4 家にあるオートバイが壊\nこわ\nれていたから\n34   ②オートバイの部品が壊\nこわ\nれていたとあるが、壊\nこわ\nれたのはいつか。\n1 先月、新しいオートバイを買ってから 3 日目の朝\n2 先月、オートバイ旅行を始めてから 3 日目の朝\n3  20 年前、新しいオートバイを買ってから 3 日目の朝\n4  20 年前、オートバイ旅行を始めてから 3 日目の朝\n35  ③何度もお礼\nれい\nを言いながらとあるが、 「私」はどうして何度もお礼\nれい\nを言ったのか。\n1 店にあった新しいオートバイを安く売ってくれたから\n2 オートバイを修理\nしゅうり\nしてくれそうな店を教えてくれたから\n3  壊\nこわ\nれて動かなくなりそうなオートバイを買ってくれたから\n4 ほかの店で修理\nしゅうり\nを断られたオートバイを直してくれたから\n36  ④満足しているとあるが、なぜか。\n1 もう一度、オートバイに乗ることができたから\n2 「ガロン」でオートバイを買うことができたから\n3 壊\nこわ\nれてしまったオートバイを修理\nしゅうり\nしてもらうことができたから\n4 オートバイの修理\nしゅうり\nをしてくれた店員に、お礼\nれい\nを伝えることができたから\n問題 7  右のページは、あるスキー場のホームページに載\nの\nっているスキー教室の案内で\nある。これを読んで、下の質問に答えなさい。答えは、1・2・3・4 から最も\nよいものを一つえらびなさい。\n37  スミスさんは、2 月 2 日の午後に普通コースを受けたいと思っている。スミスさん\nは、どのように申し込みをしなければならないか。\n1 2 月 2 日の午前 9 時までに、電話か窓口で申し込む。\n2 2 月 2 日の午前 9 時 30 分までに、窓口で申し込む。\n3 2 月 2 日の午後 1 時 30 分までに、窓口で申し込む。\n4 2 月 2 日の午後 1 時 30 分までに、電話か窓口で申し込む。\n38  グエンさんは、友達 4 人と特別コースを受けたいと思っている。グエンさんたち\nは、朝山ホテルに泊まっている。午後2 時から 4 時まで特別コースを受ける場合、\nグエンさんたちはいくら支払わなければならないか。\n1 22,000 円を支払う。\n2 22,000 円から 2,000 円を引いたものを支払う。\n3 39,000 円を支払う。\n4 39,000 円から 2,000 円を引いたものを支払う。\n朝山スキー場\n初級スキー教室のご案内\n期間：12 月 24 日～3 月 31 日\n【コースと料金】\n<普通コース(2 時間)>\n・大人クラス(最大 10 名)と子どもクラス(最大 8 名)があります 。\n・午前(10 時〜12 時)と、午後(2 時〜4 時)のどちらかを選んでください。\n大人一人 4,000 円\n子ども(小学生)一人 4,500 円\n※朝山ホテルにお泊まりの方は、500 円割引します 。\n<特別コース(2 時間または 4 時間)>\n・お友達やご家族だけで習いたい方のためのコースです。小学生から参加できます。\n・4〜6 名のグループで申し込んでください。\n・午前 9 時から午後 7 時までの間で、2 時間か 4 時間を選べます 。\n2 時間 4 時間\n1 グループ 22,000 円 39,000 円\n※グループの中に、朝山ホテルにお泊まりの方がいれば、グループの料金から\n2,000 円割引します 。\n【申し込みと料金の支払い】\n・普通コースは、午前に受ける場合は当日の午前 9 時 30 分まで、午後に受ける場合は\n当日の午後1 時 30 分までに、スキー教室の窓口(朝山ホテル1 階)で申し込んでください。\n料金は申し込みのときに支払ってください。\n・特別コースは、午前に開始したい場合は前日の午後 4 時まで、午後の場合は当日の\n午前 9 時までに、電話か窓口で申し込んでください。料金はコース開始前に窓口で\n支払ってください。\n【教室当日の集合】\n・どちらのコースも、開始時間の 10 分前にスキー場の入り口に集合してください。\n予約・お問い合わせ 013-227-1665\n39,000 円\n39,000 円",
+          "choices": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ],
+          "correctAnswer": 3,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2023-12-grammar-m4-q25",
+          "section": "grammar",
+          "mondai": 4,
+          "questionNumber": 25,
+          "questionType": "READING_SHORT",
+          "questionText": "",
+          "passage": "問題 4 つぎの(1)から(4)の文章\nぶんしょう\nを読んで、質問に答えなさい。答えは、1・2・3・4\nから最もよいものを一つえらびなさい。\n（１）\nこれは、ある映画館のインターネットチケット予約サービスから、村田さんに届\nとど\nいた\nメールである。\n村田新一様\nチケット代金を支払っていただき、ありがとうございました。\n<予約番号> 0832            <電話番号> 090-0911-4215\n<日時>    4 月 11 日(土) 14 時〜\n<合計代金> 大人 2 枚  3,600 円\n<映画名>  「海」           <席番号>  K13  K14\n・ご予約はキャンセルできませんので、ご注意ください。\n・当日は、映画館でチケットを発券していただく必要がございます 。\n券売機に<予約番号>と<電話番号>をご入力ください。\n・映画開始から 15 分を過ぎますと、券売機での発券はできなくなります 。それ以降\nは、チケットオフィスで発券いたします 。\n東王映画館インターネットチケット予約サービス\nお問い合わせ 061-987-6543\n23  当日、予約したチケットを券売機で発券したい場合、どうしなければならないか。\n1 映画開始時間の 15 分前までに、券売機に必要な情報を入力する。\n2 映画開始時間の 15 分前までに、券売機でお金を払う。\n3 映画開始時間の 15 分後までに、券売機に必要な情報を入力する。\n4 映画開始時間 の 15 分後までに、券売機でお金を払う。\n（２）\nアリサさんが家に帰ると、テーブルの上に、一緒\nいっしょ\nに住んでいる春美さんが書いたメモ\nが置いてあった。\nアリサさん\n大学の事\nじ\n務\nむ\n所\nしょ\nに今日中に出さなければならない書類があるのを忘れていたので、\nちょっと行ってきます 。\nカレーとスープはできたんだけど、サラダがまだできていないので、お願いでき\nますか。冷\nれい\n蔵\nぞう\n庫\nこ\nにトマトやレタスがあるから、適当に使ってください。\n今日は私が晩ご飯を作ると言ったのに、ごめんなさい。帰りに何か甘\nあま\nいものを買って\nきますね。\n春美\n24  アリサさんがこのメモで頼\nたの\nまれていることは何か。\n1 大学の事\nじ\n務\nむ\n所\nしょ\nに行って、書類を出すこと\n2 カレーとスープを作ること\n3 サラダを作ること\n4 甘\nあま\nいものを買うこと\n（３）\n雑誌で「友達や家族と待ち合わせるとき、その 場所に行く時間」についての 調査の\n記事を読んだ。早めに行く人は、全体の 59%で最も多く、次に多かったのが、時間に\n間に合うように行く人で 36%だった。一方で、多少遅れても気にしないという人は、\n3%しかいなかった。\n私はいつも早めに行くが、友人たちはたいてい遅れて来る。私が 珍\nめずら\nしいタイプなのか\nと思っていたが、この結果から、そうではないとわかって、意外だった。\n25  意外だったとあるが、調査結果のどのような点からそう思ったか。\n1 「私」と同じタイプの人が、最も多い点\n2 「私」と同じタイプの人が、二番目に多い点\n3 「私」と同じタイプの人が、最も少ない点\n4 「私」と反対のタイプの人が、最も多い点\n（４）\n納豆\nなっとう\nは、体にいいし、おいしいので、私は毎日食べている。そのまま食べる人も多い\nが、私は 卵\nたまご\nに混\nま\nぜて焼いたり、みそ汁\nしる\nに入れたり、いろいろな料理に使っている。\nしかし、今朝テレビを見て 驚\nおどろ\nいた。納豆\nなっとう\nには、ほかの食べ物にはない種類の酵\nこう\n素\nそ\n注)\nが入っている。これには血液の流れをよくする効\nこう\n果\nか\nがあるが、50 度以上の熱で減って\nしまうそうなのだ。そうだとすると、私は今まで、とてももったいない食べ方をしていた\nことになる。\n注) 酵\nこう\n素\nそ\n：ここでは、食べ物に入っている栄養\nえいよう\nのような物\n27  もったいない食べ方をしていたとあるが、なぜもったいないと思ったのか。\n1 体へのよい効\nこう\n果\nか\nが弱くなってしまう料理のしかたで、納豆\nなっとう\nを食べていたから\n2 体へのよい効\nこう\n果\nか\nが消えるような、たくさんの量の納豆\nなっとう\nを食べていたから\n3 おいしさがわからなくなるような料理のしかたで、納豆\nなっとう\nを食べていたから\n4 おいしくなる料理方法があるのに、それを知らないで納豆\nなっとう\nを食べていたから\n問題 5  つぎの(1)と(2)の文章\nぶんしょう\nを読んで、質問に答えなさい。答えは、1・2・3・4\nから最もよいものを一つえらびなさい。\n（１）\n私の留学している日本の大学には、漫\nまん\n画\nが\nを読んで社会について考える授\nじゅ\n業\nぎょう\nがあります。\n私は子\nこ\n供\nども\nのころから日本の漫\nまん\n画\nが\nが大好きだったので、この 授\nじゅ\n業\nぎょう\nを取りました。しかし、\nこれは失敗\nしっぱい\nでした。\nこの授\nじゅ\n業\nぎょう\nでは、学生は毎週の授\nじゅ\n業\nぎょう\nの前に、先生が指定した漫\nまん\n画\nが\nを読んでいくことに\nなっていました。ところが、 扱\nあつか\nう漫\nまん\n画\nが\nはどれも私が知らないものばかりだったので、\n読むのに時間がかかって、毎回とても大変でした。\nいちばん 困ったのは 学期末の試験です。試験の前に、ある 漫\nまん\n画\nが\nを読んでおくように\n先生に言われました。その漫\nまん\n画\nが\nは全部で 3巻\nかん\nもあり、しっかり読むのにはとても時間が\nかかりました。そのために、ほかの試験の勉強ができなくなり、寝る時間も削\nけず\nらなければ\nならなくなりました。いつもなら、 試験期間中 は漫\nまん\n画\nが\nを読むのを我\nが\n慢\nまん\nするのですが、\nこのときの私は逆だったのです 。\n試験はうまくいきましたが、今はしばらく漫\nまん\n画\nが\nはお休みにしたい気分です 。\n27  毎回の授\nじゅ\n業\nぎょう\nの前に、学生がしなければならなかったことは何か。\n1 授\nじゅ\n業\nぎょう\nで先生に 扱\nあつか\nってもらいたい漫\nまん\n画\nが\nを見つけてくること\n2 社会問題がテーマになっている漫\nまん\n画\nが\nを見つけてくること\n3 先生に読んでくるように言われた漫\nまん\n画\nが\nを読んでおくこと\n4 自分が読んだことがない漫\nまん\n画\nが\nを探\nさが\nして、読んでおくこと\n28  このときの私は、どのような 状\nじょう\n態\nたい\nだったか。\n1 ほかの試験の勉強がしたいのに、漫\nまん\n画\nが\nを読まなければならなかった。\n2 漫\nまん\n画\nが\nが読みたいのに、試験の勉強をしなければならなかった。\n3 好きな漫\nまん\n画\nが\nが読みたいのに、好きではない漫画を読まなければならなかった。\n4 試験の勉強をしなければならないのに、漫\nまん\n画\nが\nを読むのを我\nが\n慢\nまん\nできなかった。\n29 「私」は今、どんな気持ちになっているか。\n1 しばらくは、休みの日だけに漫\nまん\n画\nが\nを読もう。\n2 しばらくは、好きな漫\nまん\n画\nが\nしか読みたくない。\n3 しばらくは、我\nが\n慢\nまん\nして漫\nまん\n画\nが\nを読もう。\n4   しばらくは、漫\nまん\n画\nが\nは読みたくない。\n（２）\nA 町は景\nけ\n色\nしき\nの美しい海沿\nぞ\nいの町で、毎週日曜の朝に港で開かれる「朝市\nあさいち\n」も人気がある。\n朝市\nあさいち\nは、A 町にある店が、魚や肉、野菜、パン、ケーキなどを売る市\nいち\n場\nば\nで、近くの市や\n町からも客が大勢\nおおぜい\nやってくる。\n朝市\nあさいち\nを始めたのは、A 町に昔からある店の主人たちである。約30 年前、大きなスーパー\nマーケットができた。多くの人がスーパーを利用するようになってしまったため、店の\n主人たちは、自分たちの店の商品の良さをもっと知ってもらおうと、朝市\nあさいち\nを始めたのだ。\n朝市\nあさいち\nでは、人気がある 商品はすぐ 売り切れてしまう。そんなに 人気があるなら、\nたくさん 売ればいいのだが、 それはしないそうだ。この 朝市\nあさいち\nの目的は、朝市\nあさいち\nでお金を\n稼\nかせ\nぐことではなく、まず朝市\nあさいち\nで自分たちの店について知ってもらって、ふだんA 町の店\nで買い物をする客を増やすことだからだ。そのため、 朝市\nあさいち\nに商品が出せる人は(  )\nだけ、ということになっている。\n30  A 町にある店の主人たちは、何のために朝市\nあさいち\nを始めたのか。\n1 町の中に、安く買い物ができるところを増やすため\n2 町の中に、近くの市や町から来る客が楽しめる場所を作るため\n3 自分たちの町の景\nけ\n色\nしき\nの美しさをもっと宣伝\nせんでん\nするため\n4 自分たちの店の商品の良さをもっと知ってもらうため\n31  それとあるが、何か。\n1 朝市\nあさいち\nで人気がある商品を、店で売るより高く売ること\n2 朝市\nあさいち\nで人気がある商品を、朝市\nあさいち\nでもっと売ること\n3 朝市\nあさいち\nでしか買えない商品の種類を増やすこと\n4 朝市\nあさいち\nでしか買えない商品を平日に店でも売ること\n32  (  ) に入れるのに最もよいものはどれか。\n1 A 町に店がある人\n2 A 町以外の市や町に店がある人\n3 A 町で店を開きたいと思っている人\n4 A 町の店でふだんから買い物をしている人\n問題 6  つぎの文章\nぶんしょう\nを読んで、質問に答えなさい。答えは、1・2・3・4 から最もよい\nものを一つえらびなさい。\n先月、新しいオートバイ を買った。オートバイ には①長い間乗っていなかった が、\n久\nひさ\nしぶりにまた乗りたくなったのだ。前に乗っていたのは大学生のころで、もう20 年も前\nだ。卒業後はずっと仕事や子\nこ\n供\nども\nの世話で 忙\nいそが\nしかったが、最近、少し自由に使える時間\nが増えた。妻に相談したら、 「いいんじゃない?」と賛成\nさんせい\nしてくれた。\nオートバイを買った店は、 「ガロン」という店だ。私には、どうしてもこの店で買い\nたい理由があったのだ。\n20 年前の春、私は、父にもらったオートバイで東京から京都まで旅行をしていた。\n安い旅館に泊まりながら、何日もかけて進む旅だった。\n3 日目の朝、道を走っているとき、 オートバイ の前の方で何かが折れる音がした。\n見ると、②オートバイの部品が壊\nこわ\nれていた。ハンドルが少しぐらぐらしたが、オートバイ\nは一応動いた。\nしばらく進むと、オートバイの店があったので、 修\nしゅう\n理\nり\nを頼\nたの\nんでみた。しかし、難しい\n修理\nしゅうり\nだからできない、と 断られてしまった。次の店でも同じだった。そして、3軒\nけん\n目\nめ\nの\n店が「ガロン」 だった。 「ガロン」 の店員も「これは 難しいね。 」と言った。でも、\n「困っているんでしょう?やってみるよ。 」と言って、 修\nしゅう\n理\nり\nを始めてくれた。そして、\n2 時間かけて 直してくれたのだ。 店員は「いつかこの 店でオートバイ を買ってね。 」\nと言って笑った。本当に困っていた私は、③何度もお礼\nれい\nを言いながら、必ずそうしよう\nと決めた。\n今の「ガロン」には、もうあの店員はいなかった。会えなかったのは残念だったが、\nそれでも私は④満足している。\n33  「私」がオートバイに①長い間乗っていなかったのは、どうしてか。\n1 買いたいと思うオートバイがなかったから\n2 仕事や子\nこ\n供\nども\nの世話で 忙\nいそが\nしかったから\n3 「私」のオートバイを妻が使っていたから\n4 家にあるオートバイが壊\nこわ\nれていたから\n34   ②オートバイの部品が壊\nこわ\nれていたとあるが、壊\nこわ\nれたのはいつか。\n1 先月、新しいオートバイを買ってから 3 日目の朝\n2 先月、オートバイ旅行を始めてから 3 日目の朝\n3  20 年前、新しいオートバイを買ってから 3 日目の朝\n4  20 年前、オートバイ旅行を始めてから 3 日目の朝\n35  ③何度もお礼\nれい\nを言いながらとあるが、 「私」はどうして何度もお礼\nれい\nを言ったのか。\n1 店にあった新しいオートバイを安く売ってくれたから\n2 オートバイを修理\nしゅうり\nしてくれそうな店を教えてくれたから\n3  壊\nこわ\nれて動かなくなりそうなオートバイを買ってくれたから\n4 ほかの店で修理\nしゅうり\nを断られたオートバイを直してくれたから\n36  ④満足しているとあるが、なぜか。\n1 もう一度、オートバイに乗ることができたから\n2 「ガロン」でオートバイを買うことができたから\n3 壊\nこわ\nれてしまったオートバイを修理\nしゅうり\nしてもらうことができたから\n4 オートバイの修理\nしゅうり\nをしてくれた店員に、お礼\nれい\nを伝えることができたから\n問題 7  右のページは、あるスキー場のホームページに載\nの\nっているスキー教室の案内で\nある。これを読んで、下の質問に答えなさい。答えは、1・2・3・4 から最も\nよいものを一つえらびなさい。\n37  スミスさんは、2 月 2 日の午後に普通コースを受けたいと思っている。スミスさん\nは、どのように申し込みをしなければならないか。\n1 2 月 2 日の午前 9 時までに、電話か窓口で申し込む。\n2 2 月 2 日の午前 9 時 30 分までに、窓口で申し込む。\n3 2 月 2 日の午後 1 時 30 分までに、窓口で申し込む。\n4 2 月 2 日の午後 1 時 30 分までに、電話か窓口で申し込む。\n38  グエンさんは、友達 4 人と特別コースを受けたいと思っている。グエンさんたち\nは、朝山ホテルに泊まっている。午後2 時から 4 時まで特別コースを受ける場合、\nグエンさんたちはいくら支払わなければならないか。\n1 22,000 円を支払う。\n2 22,000 円から 2,000 円を引いたものを支払う。\n3 39,000 円を支払う。\n4 39,000 円から 2,000 円を引いたものを支払う。\n朝山スキー場\n初級スキー教室のご案内\n期間：12 月 24 日～3 月 31 日\n【コースと料金】\n<普通コース(2 時間)>\n・大人クラス(最大 10 名)と子どもクラス(最大 8 名)があります 。\n・午前(10 時〜12 時)と、午後(2 時〜4 時)のどちらかを選んでください。\n大人一人 4,000 円\n子ども(小学生)一人 4,500 円\n※朝山ホテルにお泊まりの方は、500 円割引します 。\n<特別コース(2 時間または 4 時間)>\n・お友達やご家族だけで習いたい方のためのコースです。小学生から参加できます。\n・4〜6 名のグループで申し込んでください。\n・午前 9 時から午後 7 時までの間で、2 時間か 4 時間を選べます 。\n2 時間 4 時間\n1 グループ 22,000 円 39,000 円\n※グループの中に、朝山ホテルにお泊まりの方がいれば、グループの料金から\n2,000 円割引します 。\n【申し込みと料金の支払い】\n・普通コースは、午前に受ける場合は当日の午前 9 時 30 分まで、午後に受ける場合は\n当日の午後1 時 30 分までに、スキー教室の窓口(朝山ホテル1 階)で申し込んでください。\n料金は申し込みのときに支払ってください。\n・特別コースは、午前に開始したい場合は前日の午後 4 時まで、午後の場合は当日の\n午前 9 時までに、電話か窓口で申し込んでください。料金はコース開始前に窓口で\n支払ってください。\n【教室当日の集合】\n・どちらのコースも、開始時間の 10 分前にスキー場の入り口に集合してください。\n予約・お問い合わせ 013-227-1665\n39,000 円\n39,000 円",
+          "choices": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ],
+          "correctAnswer": 1,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2023-12-grammar-m4-q26",
+          "section": "grammar",
+          "mondai": 4,
+          "questionNumber": 26,
+          "questionType": "READING_SHORT",
+          "questionText": "",
+          "passage": "問題 4 つぎの(1)から(4)の文章\nぶんしょう\nを読んで、質問に答えなさい。答えは、1・2・3・4\nから最もよいものを一つえらびなさい。\n（１）\nこれは、ある映画館のインターネットチケット予約サービスから、村田さんに届\nとど\nいた\nメールである。\n村田新一様\nチケット代金を支払っていただき、ありがとうございました。\n<予約番号> 0832            <電話番号> 090-0911-4215\n<日時>    4 月 11 日(土) 14 時〜\n<合計代金> 大人 2 枚  3,600 円\n<映画名>  「海」           <席番号>  K13  K14\n・ご予約はキャンセルできませんので、ご注意ください。\n・当日は、映画館でチケットを発券していただく必要がございます 。\n券売機に<予約番号>と<電話番号>をご入力ください。\n・映画開始から 15 分を過ぎますと、券売機での発券はできなくなります 。それ以降\nは、チケットオフィスで発券いたします 。\n東王映画館インターネットチケット予約サービス\nお問い合わせ 061-987-6543\n23  当日、予約したチケットを券売機で発券したい場合、どうしなければならないか。\n1 映画開始時間の 15 分前までに、券売機に必要な情報を入力する。\n2 映画開始時間の 15 分前までに、券売機でお金を払う。\n3 映画開始時間の 15 分後までに、券売機に必要な情報を入力する。\n4 映画開始時間 の 15 分後までに、券売機でお金を払う。\n（２）\nアリサさんが家に帰ると、テーブルの上に、一緒\nいっしょ\nに住んでいる春美さんが書いたメモ\nが置いてあった。\nアリサさん\n大学の事\nじ\n務\nむ\n所\nしょ\nに今日中に出さなければならない書類があるのを忘れていたので、\nちょっと行ってきます 。\nカレーとスープはできたんだけど、サラダがまだできていないので、お願いでき\nますか。冷\nれい\n蔵\nぞう\n庫\nこ\nにトマトやレタスがあるから、適当に使ってください。\n今日は私が晩ご飯を作ると言ったのに、ごめんなさい。帰りに何か甘\nあま\nいものを買って\nきますね。\n春美\n24  アリサさんがこのメモで頼\nたの\nまれていることは何か。\n1 大学の事\nじ\n務\nむ\n所\nしょ\nに行って、書類を出すこと\n2 カレーとスープを作ること\n3 サラダを作ること\n4 甘\nあま\nいものを買うこと\n（３）\n雑誌で「友達や家族と待ち合わせるとき、その 場所に行く時間」についての 調査の\n記事を読んだ。早めに行く人は、全体の 59%で最も多く、次に多かったのが、時間に\n間に合うように行く人で 36%だった。一方で、多少遅れても気にしないという人は、\n3%しかいなかった。\n私はいつも早めに行くが、友人たちはたいてい遅れて来る。私が 珍\nめずら\nしいタイプなのか\nと思っていたが、この結果から、そうではないとわかって、意外だった。\n25  意外だったとあるが、調査結果のどのような点からそう思ったか。\n1 「私」と同じタイプの人が、最も多い点\n2 「私」と同じタイプの人が、二番目に多い点\n3 「私」と同じタイプの人が、最も少ない点\n4 「私」と反対のタイプの人が、最も多い点\n（４）\n納豆\nなっとう\nは、体にいいし、おいしいので、私は毎日食べている。そのまま食べる人も多い\nが、私は 卵\nたまご\nに混\nま\nぜて焼いたり、みそ汁\nしる\nに入れたり、いろいろな料理に使っている。\nしかし、今朝テレビを見て 驚\nおどろ\nいた。納豆\nなっとう\nには、ほかの食べ物にはない種類の酵\nこう\n素\nそ\n注)\nが入っている。これには血液の流れをよくする効\nこう\n果\nか\nがあるが、50 度以上の熱で減って\nしまうそうなのだ。そうだとすると、私は今まで、とてももったいない食べ方をしていた\nことになる。\n注) 酵\nこう\n素\nそ\n：ここでは、食べ物に入っている栄養\nえいよう\nのような物\n27  もったいない食べ方をしていたとあるが、なぜもったいないと思ったのか。\n1 体へのよい効\nこう\n果\nか\nが弱くなってしまう料理のしかたで、納豆\nなっとう\nを食べていたから\n2 体へのよい効\nこう\n果\nか\nが消えるような、たくさんの量の納豆\nなっとう\nを食べていたから\n3 おいしさがわからなくなるような料理のしかたで、納豆\nなっとう\nを食べていたから\n4 おいしくなる料理方法があるのに、それを知らないで納豆\nなっとう\nを食べていたから\n問題 5  つぎの(1)と(2)の文章\nぶんしょう\nを読んで、質問に答えなさい。答えは、1・2・3・4\nから最もよいものを一つえらびなさい。\n（１）\n私の留学している日本の大学には、漫\nまん\n画\nが\nを読んで社会について考える授\nじゅ\n業\nぎょう\nがあります。\n私は子\nこ\n供\nども\nのころから日本の漫\nまん\n画\nが\nが大好きだったので、この 授\nじゅ\n業\nぎょう\nを取りました。しかし、\nこれは失敗\nしっぱい\nでした。\nこの授\nじゅ\n業\nぎょう\nでは、学生は毎週の授\nじゅ\n業\nぎょう\nの前に、先生が指定した漫\nまん\n画\nが\nを読んでいくことに\nなっていました。ところが、 扱\nあつか\nう漫\nまん\n画\nが\nはどれも私が知らないものばかりだったので、\n読むのに時間がかかって、毎回とても大変でした。\nいちばん 困ったのは 学期末の試験です。試験の前に、ある 漫\nまん\n画\nが\nを読んでおくように\n先生に言われました。その漫\nまん\n画\nが\nは全部で 3巻\nかん\nもあり、しっかり読むのにはとても時間が\nかかりました。そのために、ほかの試験の勉強ができなくなり、寝る時間も削\nけず\nらなければ\nならなくなりました。いつもなら、 試験期間中 は漫\nまん\n画\nが\nを読むのを我\nが\n慢\nまん\nするのですが、\nこのときの私は逆だったのです 。\n試験はうまくいきましたが、今はしばらく漫\nまん\n画\nが\nはお休みにしたい気分です 。\n27  毎回の授\nじゅ\n業\nぎょう\nの前に、学生がしなければならなかったことは何か。\n1 授\nじゅ\n業\nぎょう\nで先生に 扱\nあつか\nってもらいたい漫\nまん\n画\nが\nを見つけてくること\n2 社会問題がテーマになっている漫\nまん\n画\nが\nを見つけてくること\n3 先生に読んでくるように言われた漫\nまん\n画\nが\nを読んでおくこと\n4 自分が読んだことがない漫\nまん\n画\nが\nを探\nさが\nして、読んでおくこと\n28  このときの私は、どのような 状\nじょう\n態\nたい\nだったか。\n1 ほかの試験の勉強がしたいのに、漫\nまん\n画\nが\nを読まなければならなかった。\n2 漫\nまん\n画\nが\nが読みたいのに、試験の勉強をしなければならなかった。\n3 好きな漫\nまん\n画\nが\nが読みたいのに、好きではない漫画を読まなければならなかった。\n4 試験の勉強をしなければならないのに、漫\nまん\n画\nが\nを読むのを我\nが\n慢\nまん\nできなかった。\n29 「私」は今、どんな気持ちになっているか。\n1 しばらくは、休みの日だけに漫\nまん\n画\nが\nを読もう。\n2 しばらくは、好きな漫\nまん\n画\nが\nしか読みたくない。\n3 しばらくは、我\nが\n慢\nまん\nして漫\nまん\n画\nが\nを読もう。\n4   しばらくは、漫\nまん\n画\nが\nは読みたくない。\n（２）\nA 町は景\nけ\n色\nしき\nの美しい海沿\nぞ\nいの町で、毎週日曜の朝に港で開かれる「朝市\nあさいち\n」も人気がある。\n朝市\nあさいち\nは、A 町にある店が、魚や肉、野菜、パン、ケーキなどを売る市\nいち\n場\nば\nで、近くの市や\n町からも客が大勢\nおおぜい\nやってくる。\n朝市\nあさいち\nを始めたのは、A 町に昔からある店の主人たちである。約30 年前、大きなスーパー\nマーケットができた。多くの人がスーパーを利用するようになってしまったため、店の\n主人たちは、自分たちの店の商品の良さをもっと知ってもらおうと、朝市\nあさいち\nを始めたのだ。\n朝市\nあさいち\nでは、人気がある 商品はすぐ 売り切れてしまう。そんなに 人気があるなら、\nたくさん 売ればいいのだが、 それはしないそうだ。この 朝市\nあさいち\nの目的は、朝市\nあさいち\nでお金を\n稼\nかせ\nぐことではなく、まず朝市\nあさいち\nで自分たちの店について知ってもらって、ふだんA 町の店\nで買い物をする客を増やすことだからだ。そのため、 朝市\nあさいち\nに商品が出せる人は(  )\nだけ、ということになっている。\n30  A 町にある店の主人たちは、何のために朝市\nあさいち\nを始めたのか。\n1 町の中に、安く買い物ができるところを増やすため\n2 町の中に、近くの市や町から来る客が楽しめる場所を作るため\n3 自分たちの町の景\nけ\n色\nしき\nの美しさをもっと宣伝\nせんでん\nするため\n4 自分たちの店の商品の良さをもっと知ってもらうため\n31  それとあるが、何か。\n1 朝市\nあさいち\nで人気がある商品を、店で売るより高く売ること\n2 朝市\nあさいち\nで人気がある商品を、朝市\nあさいち\nでもっと売ること\n3 朝市\nあさいち\nでしか買えない商品の種類を増やすこと\n4 朝市\nあさいち\nでしか買えない商品を平日に店でも売ること\n32  (  ) に入れるのに最もよいものはどれか。\n1 A 町に店がある人\n2 A 町以外の市や町に店がある人\n3 A 町で店を開きたいと思っている人\n4 A 町の店でふだんから買い物をしている人\n問題 6  つぎの文章\nぶんしょう\nを読んで、質問に答えなさい。答えは、1・2・3・4 から最もよい\nものを一つえらびなさい。\n先月、新しいオートバイ を買った。オートバイ には①長い間乗っていなかった が、\n久\nひさ\nしぶりにまた乗りたくなったのだ。前に乗っていたのは大学生のころで、もう20 年も前\nだ。卒業後はずっと仕事や子\nこ\n供\nども\nの世話で 忙\nいそが\nしかったが、最近、少し自由に使える時間\nが増えた。妻に相談したら、 「いいんじゃない?」と賛成\nさんせい\nしてくれた。\nオートバイを買った店は、 「ガロン」という店だ。私には、どうしてもこの店で買い\nたい理由があったのだ。\n20 年前の春、私は、父にもらったオートバイで東京から京都まで旅行をしていた。\n安い旅館に泊まりながら、何日もかけて進む旅だった。\n3 日目の朝、道を走っているとき、 オートバイ の前の方で何かが折れる音がした。\n見ると、②オートバイの部品が壊\nこわ\nれていた。ハンドルが少しぐらぐらしたが、オートバイ\nは一応動いた。\nしばらく進むと、オートバイの店があったので、 修\nしゅう\n理\nり\nを頼\nたの\nんでみた。しかし、難しい\n修理\nしゅうり\nだからできない、と 断られてしまった。次の店でも同じだった。そして、3軒\nけん\n目\nめ\nの\n店が「ガロン」 だった。 「ガロン」 の店員も「これは 難しいね。 」と言った。でも、\n「困っているんでしょう?やってみるよ。 」と言って、 修\nしゅう\n理\nり\nを始めてくれた。そして、\n2 時間かけて 直してくれたのだ。 店員は「いつかこの 店でオートバイ を買ってね。 」\nと言って笑った。本当に困っていた私は、③何度もお礼\nれい\nを言いながら、必ずそうしよう\nと決めた。\n今の「ガロン」には、もうあの店員はいなかった。会えなかったのは残念だったが、\nそれでも私は④満足している。\n33  「私」がオートバイに①長い間乗っていなかったのは、どうしてか。\n1 買いたいと思うオートバイがなかったから\n2 仕事や子\nこ\n供\nども\nの世話で 忙\nいそが\nしかったから\n3 「私」のオートバイを妻が使っていたから\n4 家にあるオートバイが壊\nこわ\nれていたから\n34   ②オートバイの部品が壊\nこわ\nれていたとあるが、壊\nこわ\nれたのはいつか。\n1 先月、新しいオートバイを買ってから 3 日目の朝\n2 先月、オートバイ旅行を始めてから 3 日目の朝\n3  20 年前、新しいオートバイを買ってから 3 日目の朝\n4  20 年前、オートバイ旅行を始めてから 3 日目の朝\n35  ③何度もお礼\nれい\nを言いながらとあるが、 「私」はどうして何度もお礼\nれい\nを言ったのか。\n1 店にあった新しいオートバイを安く売ってくれたから\n2 オートバイを修理\nしゅうり\nしてくれそうな店を教えてくれたから\n3  壊\nこわ\nれて動かなくなりそうなオートバイを買ってくれたから\n4 ほかの店で修理\nしゅうり\nを断られたオートバイを直してくれたから\n36  ④満足しているとあるが、なぜか。\n1 もう一度、オートバイに乗ることができたから\n2 「ガロン」でオートバイを買うことができたから\n3 壊\nこわ\nれてしまったオートバイを修理\nしゅうり\nしてもらうことができたから\n4 オートバイの修理\nしゅうり\nをしてくれた店員に、お礼\nれい\nを伝えることができたから\n問題 7  右のページは、あるスキー場のホームページに載\nの\nっているスキー教室の案内で\nある。これを読んで、下の質問に答えなさい。答えは、1・2・3・4 から最も\nよいものを一つえらびなさい。\n37  スミスさんは、2 月 2 日の午後に普通コースを受けたいと思っている。スミスさん\nは、どのように申し込みをしなければならないか。\n1 2 月 2 日の午前 9 時までに、電話か窓口で申し込む。\n2 2 月 2 日の午前 9 時 30 分までに、窓口で申し込む。\n3 2 月 2 日の午後 1 時 30 分までに、窓口で申し込む。\n4 2 月 2 日の午後 1 時 30 分までに、電話か窓口で申し込む。\n38  グエンさんは、友達 4 人と特別コースを受けたいと思っている。グエンさんたち\nは、朝山ホテルに泊まっている。午後2 時から 4 時まで特別コースを受ける場合、\nグエンさんたちはいくら支払わなければならないか。\n1 22,000 円を支払う。\n2 22,000 円から 2,000 円を引いたものを支払う。\n3 39,000 円を支払う。\n4 39,000 円から 2,000 円を引いたものを支払う。\n朝山スキー場\n初級スキー教室のご案内\n期間：12 月 24 日～3 月 31 日\n【コースと料金】\n<普通コース(2 時間)>\n・大人クラス(最大 10 名)と子どもクラス(最大 8 名)があります 。\n・午前(10 時〜12 時)と、午後(2 時〜4 時)のどちらかを選んでください。\n大人一人 4,000 円\n子ども(小学生)一人 4,500 円\n※朝山ホテルにお泊まりの方は、500 円割引します 。\n<特別コース(2 時間または 4 時間)>\n・お友達やご家族だけで習いたい方のためのコースです。小学生から参加できます。\n・4〜6 名のグループで申し込んでください。\n・午前 9 時から午後 7 時までの間で、2 時間か 4 時間を選べます 。\n2 時間 4 時間\n1 グループ 22,000 円 39,000 円\n※グループの中に、朝山ホテルにお泊まりの方がいれば、グループの料金から\n2,000 円割引します 。\n【申し込みと料金の支払い】\n・普通コースは、午前に受ける場合は当日の午前 9 時 30 分まで、午後に受ける場合は\n当日の午後1 時 30 分までに、スキー教室の窓口(朝山ホテル1 階)で申し込んでください。\n料金は申し込みのときに支払ってください。\n・特別コースは、午前に開始したい場合は前日の午後 4 時まで、午後の場合は当日の\n午前 9 時までに、電話か窓口で申し込んでください。料金はコース開始前に窓口で\n支払ってください。\n【教室当日の集合】\n・どちらのコースも、開始時間の 10 分前にスキー場の入り口に集合してください。\n予約・お問い合わせ 013-227-1665\n39,000 円\n39,000 円",
+          "choices": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ],
+          "correctAnswer": 1,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2023-12-grammar-m5-q27",
+          "section": "grammar",
+          "mondai": 5,
+          "questionNumber": 27,
+          "questionType": "READING_MEDIUM",
+          "questionText": "",
+          "passage": "問題 4 つぎの(1)から(4)の文章\nぶんしょう\nを読んで、質問に答えなさい。答えは、1・2・3・4\nから最もよいものを一つえらびなさい。\n（１）\nこれは、ある映画館のインターネットチケット予約サービスから、村田さんに届\nとど\nいた\nメールである。\n村田新一様\nチケット代金を支払っていただき、ありがとうございました。\n<予約番号> 0832            <電話番号> 090-0911-4215\n<日時>    4 月 11 日(土) 14 時〜\n<合計代金> 大人 2 枚  3,600 円\n<映画名>  「海」           <席番号>  K13  K14\n・ご予約はキャンセルできませんので、ご注意ください。\n・当日は、映画館でチケットを発券していただく必要がございます 。\n券売機に<予約番号>と<電話番号>をご入力ください。\n・映画開始から 15 分を過ぎますと、券売機での発券はできなくなります 。それ以降\nは、チケットオフィスで発券いたします 。\n東王映画館インターネットチケット予約サービス\nお問い合わせ 061-987-6543\n23  当日、予約したチケットを券売機で発券したい場合、どうしなければならないか。\n1 映画開始時間の 15 分前までに、券売機に必要な情報を入力する。\n2 映画開始時間の 15 分前までに、券売機でお金を払う。\n3 映画開始時間の 15 分後までに、券売機に必要な情報を入力する。\n4 映画開始時間 の 15 分後までに、券売機でお金を払う。\n（２）\nアリサさんが家に帰ると、テーブルの上に、一緒\nいっしょ\nに住んでいる春美さんが書いたメモ\nが置いてあった。\nアリサさん\n大学の事\nじ\n務\nむ\n所\nしょ\nに今日中に出さなければならない書類があるのを忘れていたので、\nちょっと行ってきます 。\nカレーとスープはできたんだけど、サラダがまだできていないので、お願いでき\nますか。冷\nれい\n蔵\nぞう\n庫\nこ\nにトマトやレタスがあるから、適当に使ってください。\n今日は私が晩ご飯を作ると言ったのに、ごめんなさい。帰りに何か甘\nあま\nいものを買って\nきますね。\n春美\n24  アリサさんがこのメモで頼\nたの\nまれていることは何か。\n1 大学の事\nじ\n務\nむ\n所\nしょ\nに行って、書類を出すこと\n2 カレーとスープを作ること\n3 サラダを作ること\n4 甘\nあま\nいものを買うこと\n（３）\n雑誌で「友達や家族と待ち合わせるとき、その 場所に行く時間」についての 調査の\n記事を読んだ。早めに行く人は、全体の 59%で最も多く、次に多かったのが、時間に\n間に合うように行く人で 36%だった。一方で、多少遅れても気にしないという人は、\n3%しかいなかった。\n私はいつも早めに行くが、友人たちはたいてい遅れて来る。私が 珍\nめずら\nしいタイプなのか\nと思っていたが、この結果から、そうではないとわかって、意外だった。\n25  意外だったとあるが、調査結果のどのような点からそう思ったか。\n1 「私」と同じタイプの人が、最も多い点\n2 「私」と同じタイプの人が、二番目に多い点\n3 「私」と同じタイプの人が、最も少ない点\n4 「私」と反対のタイプの人が、最も多い点\n（４）\n納豆\nなっとう\nは、体にいいし、おいしいので、私は毎日食べている。そのまま食べる人も多い\nが、私は 卵\nたまご\nに混\nま\nぜて焼いたり、みそ汁\nしる\nに入れたり、いろいろな料理に使っている。\nしかし、今朝テレビを見て 驚\nおどろ\nいた。納豆\nなっとう\nには、ほかの食べ物にはない種類の酵\nこう\n素\nそ\n注)\nが入っている。これには血液の流れをよくする効\nこう\n果\nか\nがあるが、50 度以上の熱で減って\nしまうそうなのだ。そうだとすると、私は今まで、とてももったいない食べ方をしていた\nことになる。\n注) 酵\nこう\n素\nそ\n：ここでは、食べ物に入っている栄養\nえいよう\nのような物\n27  もったいない食べ方をしていたとあるが、なぜもったいないと思ったのか。\n1 体へのよい効\nこう\n果\nか\nが弱くなってしまう料理のしかたで、納豆\nなっとう\nを食べていたから\n2 体へのよい効\nこう\n果\nか\nが消えるような、たくさんの量の納豆\nなっとう\nを食べていたから\n3 おいしさがわからなくなるような料理のしかたで、納豆\nなっとう\nを食べていたから\n4 おいしくなる料理方法があるのに、それを知らないで納豆\nなっとう\nを食べていたから\n問題 5  つぎの(1)と(2)の文章\nぶんしょう\nを読んで、質問に答えなさい。答えは、1・2・3・4\nから最もよいものを一つえらびなさい。\n（１）\n私の留学している日本の大学には、漫\nまん\n画\nが\nを読んで社会について考える授\nじゅ\n業\nぎょう\nがあります。\n私は子\nこ\n供\nども\nのころから日本の漫\nまん\n画\nが\nが大好きだったので、この 授\nじゅ\n業\nぎょう\nを取りました。しかし、\nこれは失敗\nしっぱい\nでした。\nこの授\nじゅ\n業\nぎょう\nでは、学生は毎週の授\nじゅ\n業\nぎょう\nの前に、先生が指定した漫\nまん\n画\nが\nを読んでいくことに\nなっていました。ところが、 扱\nあつか\nう漫\nまん\n画\nが\nはどれも私が知らないものばかりだったので、\n読むのに時間がかかって、毎回とても大変でした。\nいちばん 困ったのは 学期末の試験です。試験の前に、ある 漫\nまん\n画\nが\nを読んでおくように\n先生に言われました。その漫\nまん\n画\nが\nは全部で 3巻\nかん\nもあり、しっかり読むのにはとても時間が\nかかりました。そのために、ほかの試験の勉強ができなくなり、寝る時間も削\nけず\nらなければ\nならなくなりました。いつもなら、 試験期間中 は漫\nまん\n画\nが\nを読むのを我\nが\n慢\nまん\nするのですが、\nこのときの私は逆だったのです 。\n試験はうまくいきましたが、今はしばらく漫\nまん\n画\nが\nはお休みにしたい気分です 。\n27  毎回の授\nじゅ\n業\nぎょう\nの前に、学生がしなければならなかったことは何か。\n1 授\nじゅ\n業\nぎょう\nで先生に 扱\nあつか\nってもらいたい漫\nまん\n画\nが\nを見つけてくること\n2 社会問題がテーマになっている漫\nまん\n画\nが\nを見つけてくること\n3 先生に読んでくるように言われた漫\nまん\n画\nが\nを読んでおくこと\n4 自分が読んだことがない漫\nまん\n画\nが\nを探\nさが\nして、読んでおくこと\n28  このときの私は、どのような 状\nじょう\n態\nたい\nだったか。\n1 ほかの試験の勉強がしたいのに、漫\nまん\n画\nが\nを読まなければならなかった。\n2 漫\nまん\n画\nが\nが読みたいのに、試験の勉強をしなければならなかった。\n3 好きな漫\nまん\n画\nが\nが読みたいのに、好きではない漫画を読まなければならなかった。\n4 試験の勉強をしなければならないのに、漫\nまん\n画\nが\nを読むのを我\nが\n慢\nまん\nできなかった。\n29 「私」は今、どんな気持ちになっているか。\n1 しばらくは、休みの日だけに漫\nまん\n画\nが\nを読もう。\n2 しばらくは、好きな漫\nまん\n画\nが\nしか読みたくない。\n3 しばらくは、我\nが\n慢\nまん\nして漫\nまん\n画\nが\nを読もう。\n4   しばらくは、漫\nまん\n画\nが\nは読みたくない。\n（２）\nA 町は景\nけ\n色\nしき\nの美しい海沿\nぞ\nいの町で、毎週日曜の朝に港で開かれる「朝市\nあさいち\n」も人気がある。\n朝市\nあさいち\nは、A 町にある店が、魚や肉、野菜、パン、ケーキなどを売る市\nいち\n場\nば\nで、近くの市や\n町からも客が大勢\nおおぜい\nやってくる。\n朝市\nあさいち\nを始めたのは、A 町に昔からある店の主人たちである。約30 年前、大きなスーパー\nマーケットができた。多くの人がスーパーを利用するようになってしまったため、店の\n主人たちは、自分たちの店の商品の良さをもっと知ってもらおうと、朝市\nあさいち\nを始めたのだ。\n朝市\nあさいち\nでは、人気がある 商品はすぐ 売り切れてしまう。そんなに 人気があるなら、\nたくさん 売ればいいのだが、 それはしないそうだ。この 朝市\nあさいち\nの目的は、朝市\nあさいち\nでお金を\n稼\nかせ\nぐことではなく、まず朝市\nあさいち\nで自分たちの店について知ってもらって、ふだんA 町の店\nで買い物をする客を増やすことだからだ。そのため、 朝市\nあさいち\nに商品が出せる人は(  )\nだけ、ということになっている。\n30  A 町にある店の主人たちは、何のために朝市\nあさいち\nを始めたのか。\n1 町の中に、安く買い物ができるところを増やすため\n2 町の中に、近くの市や町から来る客が楽しめる場所を作るため\n3 自分たちの町の景\nけ\n色\nしき\nの美しさをもっと宣伝\nせんでん\nするため\n4 自分たちの店の商品の良さをもっと知ってもらうため\n31  それとあるが、何か。\n1 朝市\nあさいち\nで人気がある商品を、店で売るより高く売ること\n2 朝市\nあさいち\nで人気がある商品を、朝市\nあさいち\nでもっと売ること\n3 朝市\nあさいち\nでしか買えない商品の種類を増やすこと\n4 朝市\nあさいち\nでしか買えない商品を平日に店でも売ること\n32  (  ) に入れるのに最もよいものはどれか。\n1 A 町に店がある人\n2 A 町以外の市や町に店がある人\n3 A 町で店を開きたいと思っている人\n4 A 町の店でふだんから買い物をしている人\n問題 6  つぎの文章\nぶんしょう\nを読んで、質問に答えなさい。答えは、1・2・3・4 から最もよい\nものを一つえらびなさい。\n先月、新しいオートバイ を買った。オートバイ には①長い間乗っていなかった が、\n久\nひさ\nしぶりにまた乗りたくなったのだ。前に乗っていたのは大学生のころで、もう20 年も前\nだ。卒業後はずっと仕事や子\nこ\n供\nども\nの世話で 忙\nいそが\nしかったが、最近、少し自由に使える時間\nが増えた。妻に相談したら、 「いいんじゃない?」と賛成\nさんせい\nしてくれた。\nオートバイを買った店は、 「ガロン」という店だ。私には、どうしてもこの店で買い\nたい理由があったのだ。\n20 年前の春、私は、父にもらったオートバイで東京から京都まで旅行をしていた。\n安い旅館に泊まりながら、何日もかけて進む旅だった。\n3 日目の朝、道を走っているとき、 オートバイ の前の方で何かが折れる音がした。\n見ると、②オートバイの部品が壊\nこわ\nれていた。ハンドルが少しぐらぐらしたが、オートバイ\nは一応動いた。\nしばらく進むと、オートバイの店があったので、 修\nしゅう\n理\nり\nを頼\nたの\nんでみた。しかし、難しい\n修理\nしゅうり\nだからできない、と 断られてしまった。次の店でも同じだった。そして、3軒\nけん\n目\nめ\nの\n店が「ガロン」 だった。 「ガロン」 の店員も「これは 難しいね。 」と言った。でも、\n「困っているんでしょう?やってみるよ。 」と言って、 修\nしゅう\n理\nり\nを始めてくれた。そして、\n2 時間かけて 直してくれたのだ。 店員は「いつかこの 店でオートバイ を買ってね。 」\nと言って笑った。本当に困っていた私は、③何度もお礼\nれい\nを言いながら、必ずそうしよう\nと決めた。\n今の「ガロン」には、もうあの店員はいなかった。会えなかったのは残念だったが、\nそれでも私は④満足している。\n33  「私」がオートバイに①長い間乗っていなかったのは、どうしてか。\n1 買いたいと思うオートバイがなかったから\n2 仕事や子\nこ\n供\nども\nの世話で 忙\nいそが\nしかったから\n3 「私」のオートバイを妻が使っていたから\n4 家にあるオートバイが壊\nこわ\nれていたから\n34   ②オートバイの部品が壊\nこわ\nれていたとあるが、壊\nこわ\nれたのはいつか。\n1 先月、新しいオートバイを買ってから 3 日目の朝\n2 先月、オートバイ旅行を始めてから 3 日目の朝\n3  20 年前、新しいオートバイを買ってから 3 日目の朝\n4  20 年前、オートバイ旅行を始めてから 3 日目の朝\n35  ③何度もお礼\nれい\nを言いながらとあるが、 「私」はどうして何度もお礼\nれい\nを言ったのか。\n1 店にあった新しいオートバイを安く売ってくれたから\n2 オートバイを修理\nしゅうり\nしてくれそうな店を教えてくれたから\n3  壊\nこわ\nれて動かなくなりそうなオートバイを買ってくれたから\n4 ほかの店で修理\nしゅうり\nを断られたオートバイを直してくれたから\n36  ④満足しているとあるが、なぜか。\n1 もう一度、オートバイに乗ることができたから\n2 「ガロン」でオートバイを買うことができたから\n3 壊\nこわ\nれてしまったオートバイを修理\nしゅうり\nしてもらうことができたから\n4 オートバイの修理\nしゅうり\nをしてくれた店員に、お礼\nれい\nを伝えることができたから\n問題 7  右のページは、あるスキー場のホームページに載\nの\nっているスキー教室の案内で\nある。これを読んで、下の質問に答えなさい。答えは、1・2・3・4 から最も\nよいものを一つえらびなさい。\n37  スミスさんは、2 月 2 日の午後に普通コースを受けたいと思っている。スミスさん\nは、どのように申し込みをしなければならないか。\n1 2 月 2 日の午前 9 時までに、電話か窓口で申し込む。\n2 2 月 2 日の午前 9 時 30 分までに、窓口で申し込む。\n3 2 月 2 日の午後 1 時 30 分までに、窓口で申し込む。\n4 2 月 2 日の午後 1 時 30 分までに、電話か窓口で申し込む。\n38  グエンさんは、友達 4 人と特別コースを受けたいと思っている。グエンさんたち\nは、朝山ホテルに泊まっている。午後2 時から 4 時まで特別コースを受ける場合、\nグエンさんたちはいくら支払わなければならないか。\n1 22,000 円を支払う。\n2 22,000 円から 2,000 円を引いたものを支払う。\n3 39,000 円を支払う。\n4 39,000 円から 2,000 円を引いたものを支払う。\n朝山スキー場\n初級スキー教室のご案内\n期間：12 月 24 日～3 月 31 日\n【コースと料金】\n<普通コース(2 時間)>\n・大人クラス(最大 10 名)と子どもクラス(最大 8 名)があります 。\n・午前(10 時〜12 時)と、午後(2 時〜4 時)のどちらかを選んでください。\n大人一人 4,000 円\n子ども(小学生)一人 4,500 円\n※朝山ホテルにお泊まりの方は、500 円割引します 。\n<特別コース(2 時間または 4 時間)>\n・お友達やご家族だけで習いたい方のためのコースです。小学生から参加できます。\n・4〜6 名のグループで申し込んでください。\n・午前 9 時から午後 7 時までの間で、2 時間か 4 時間を選べます 。\n2 時間 4 時間\n1 グループ 22,000 円 39,000 円\n※グループの中に、朝山ホテルにお泊まりの方がいれば、グループの料金から\n2,000 円割引します 。\n【申し込みと料金の支払い】\n・普通コースは、午前に受ける場合は当日の午前 9 時 30 分まで、午後に受ける場合は\n当日の午後1 時 30 分までに、スキー教室の窓口(朝山ホテル1 階)で申し込んでください。\n料金は申し込みのときに支払ってください。\n・特別コースは、午前に開始したい場合は前日の午後 4 時まで、午後の場合は当日の\n午前 9 時までに、電話か窓口で申し込んでください。料金はコース開始前に窓口で\n支払ってください。\n【教室当日の集合】\n・どちらのコースも、開始時間の 10 分前にスキー場の入り口に集合してください。\n予約・お問い合わせ 013-227-1665\n39,000 円\n39,000 円",
+          "choices": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ],
+          "correctAnswer": 3,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2023-12-grammar-m5-q28",
+          "section": "grammar",
+          "mondai": 5,
+          "questionNumber": 28,
+          "questionType": "READING_MEDIUM",
+          "questionText": "",
+          "passage": "問題 4 つぎの(1)から(4)の文章\nぶんしょう\nを読んで、質問に答えなさい。答えは、1・2・3・4\nから最もよいものを一つえらびなさい。\n（１）\nこれは、ある映画館のインターネットチケット予約サービスから、村田さんに届\nとど\nいた\nメールである。\n村田新一様\nチケット代金を支払っていただき、ありがとうございました。\n<予約番号> 0832            <電話番号> 090-0911-4215\n<日時>    4 月 11 日(土) 14 時〜\n<合計代金> 大人 2 枚  3,600 円\n<映画名>  「海」           <席番号>  K13  K14\n・ご予約はキャンセルできませんので、ご注意ください。\n・当日は、映画館でチケットを発券していただく必要がございます 。\n券売機に<予約番号>と<電話番号>をご入力ください。\n・映画開始から 15 分を過ぎますと、券売機での発券はできなくなります 。それ以降\nは、チケットオフィスで発券いたします 。\n東王映画館インターネットチケット予約サービス\nお問い合わせ 061-987-6543\n23  当日、予約したチケットを券売機で発券したい場合、どうしなければならないか。\n1 映画開始時間の 15 分前までに、券売機に必要な情報を入力する。\n2 映画開始時間の 15 分前までに、券売機でお金を払う。\n3 映画開始時間の 15 分後までに、券売機に必要な情報を入力する。\n4 映画開始時間 の 15 分後までに、券売機でお金を払う。\n（２）\nアリサさんが家に帰ると、テーブルの上に、一緒\nいっしょ\nに住んでいる春美さんが書いたメモ\nが置いてあった。\nアリサさん\n大学の事\nじ\n務\nむ\n所\nしょ\nに今日中に出さなければならない書類があるのを忘れていたので、\nちょっと行ってきます 。\nカレーとスープはできたんだけど、サラダがまだできていないので、お願いでき\nますか。冷\nれい\n蔵\nぞう\n庫\nこ\nにトマトやレタスがあるから、適当に使ってください。\n今日は私が晩ご飯を作ると言ったのに、ごめんなさい。帰りに何か甘\nあま\nいものを買って\nきますね。\n春美\n24  アリサさんがこのメモで頼\nたの\nまれていることは何か。\n1 大学の事\nじ\n務\nむ\n所\nしょ\nに行って、書類を出すこと\n2 カレーとスープを作ること\n3 サラダを作ること\n4 甘\nあま\nいものを買うこと\n（３）\n雑誌で「友達や家族と待ち合わせるとき、その 場所に行く時間」についての 調査の\n記事を読んだ。早めに行く人は、全体の 59%で最も多く、次に多かったのが、時間に\n間に合うように行く人で 36%だった。一方で、多少遅れても気にしないという人は、\n3%しかいなかった。\n私はいつも早めに行くが、友人たちはたいてい遅れて来る。私が 珍\nめずら\nしいタイプなのか\nと思っていたが、この結果から、そうではないとわかって、意外だった。\n25  意外だったとあるが、調査結果のどのような点からそう思ったか。\n1 「私」と同じタイプの人が、最も多い点\n2 「私」と同じタイプの人が、二番目に多い点\n3 「私」と同じタイプの人が、最も少ない点\n4 「私」と反対のタイプの人が、最も多い点\n（４）\n納豆\nなっとう\nは、体にいいし、おいしいので、私は毎日食べている。そのまま食べる人も多い\nが、私は 卵\nたまご\nに混\nま\nぜて焼いたり、みそ汁\nしる\nに入れたり、いろいろな料理に使っている。\nしかし、今朝テレビを見て 驚\nおどろ\nいた。納豆\nなっとう\nには、ほかの食べ物にはない種類の酵\nこう\n素\nそ\n注)\nが入っている。これには血液の流れをよくする効\nこう\n果\nか\nがあるが、50 度以上の熱で減って\nしまうそうなのだ。そうだとすると、私は今まで、とてももったいない食べ方をしていた\nことになる。\n注) 酵\nこう\n素\nそ\n：ここでは、食べ物に入っている栄養\nえいよう\nのような物\n27  もったいない食べ方をしていたとあるが、なぜもったいないと思ったのか。\n1 体へのよい効\nこう\n果\nか\nが弱くなってしまう料理のしかたで、納豆\nなっとう\nを食べていたから\n2 体へのよい効\nこう\n果\nか\nが消えるような、たくさんの量の納豆\nなっとう\nを食べていたから\n3 おいしさがわからなくなるような料理のしかたで、納豆\nなっとう\nを食べていたから\n4 おいしくなる料理方法があるのに、それを知らないで納豆\nなっとう\nを食べていたから\n問題 5  つぎの(1)と(2)の文章\nぶんしょう\nを読んで、質問に答えなさい。答えは、1・2・3・4\nから最もよいものを一つえらびなさい。\n（１）\n私の留学している日本の大学には、漫\nまん\n画\nが\nを読んで社会について考える授\nじゅ\n業\nぎょう\nがあります。\n私は子\nこ\n供\nども\nのころから日本の漫\nまん\n画\nが\nが大好きだったので、この 授\nじゅ\n業\nぎょう\nを取りました。しかし、\nこれは失敗\nしっぱい\nでした。\nこの授\nじゅ\n業\nぎょう\nでは、学生は毎週の授\nじゅ\n業\nぎょう\nの前に、先生が指定した漫\nまん\n画\nが\nを読んでいくことに\nなっていました。ところが、 扱\nあつか\nう漫\nまん\n画\nが\nはどれも私が知らないものばかりだったので、\n読むのに時間がかかって、毎回とても大変でした。\nいちばん 困ったのは 学期末の試験です。試験の前に、ある 漫\nまん\n画\nが\nを読んでおくように\n先生に言われました。その漫\nまん\n画\nが\nは全部で 3巻\nかん\nもあり、しっかり読むのにはとても時間が\nかかりました。そのために、ほかの試験の勉強ができなくなり、寝る時間も削\nけず\nらなければ\nならなくなりました。いつもなら、 試験期間中 は漫\nまん\n画\nが\nを読むのを我\nが\n慢\nまん\nするのですが、\nこのときの私は逆だったのです 。\n試験はうまくいきましたが、今はしばらく漫\nまん\n画\nが\nはお休みにしたい気分です 。\n27  毎回の授\nじゅ\n業\nぎょう\nの前に、学生がしなければならなかったことは何か。\n1 授\nじゅ\n業\nぎょう\nで先生に 扱\nあつか\nってもらいたい漫\nまん\n画\nが\nを見つけてくること\n2 社会問題がテーマになっている漫\nまん\n画\nが\nを見つけてくること\n3 先生に読んでくるように言われた漫\nまん\n画\nが\nを読んでおくこと\n4 自分が読んだことがない漫\nまん\n画\nが\nを探\nさが\nして、読んでおくこと\n28  このときの私は、どのような 状\nじょう\n態\nたい\nだったか。\n1 ほかの試験の勉強がしたいのに、漫\nまん\n画\nが\nを読まなければならなかった。\n2 漫\nまん\n画\nが\nが読みたいのに、試験の勉強をしなければならなかった。\n3 好きな漫\nまん\n画\nが\nが読みたいのに、好きではない漫画を読まなければならなかった。\n4 試験の勉強をしなければならないのに、漫\nまん\n画\nが\nを読むのを我\nが\n慢\nまん\nできなかった。\n29 「私」は今、どんな気持ちになっているか。\n1 しばらくは、休みの日だけに漫\nまん\n画\nが\nを読もう。\n2 しばらくは、好きな漫\nまん\n画\nが\nしか読みたくない。\n3 しばらくは、我\nが\n慢\nまん\nして漫\nまん\n画\nが\nを読もう。\n4   しばらくは、漫\nまん\n画\nが\nは読みたくない。\n（２）\nA 町は景\nけ\n色\nしき\nの美しい海沿\nぞ\nいの町で、毎週日曜の朝に港で開かれる「朝市\nあさいち\n」も人気がある。\n朝市\nあさいち\nは、A 町にある店が、魚や肉、野菜、パン、ケーキなどを売る市\nいち\n場\nば\nで、近くの市や\n町からも客が大勢\nおおぜい\nやってくる。\n朝市\nあさいち\nを始めたのは、A 町に昔からある店の主人たちである。約30 年前、大きなスーパー\nマーケットができた。多くの人がスーパーを利用するようになってしまったため、店の\n主人たちは、自分たちの店の商品の良さをもっと知ってもらおうと、朝市\nあさいち\nを始めたのだ。\n朝市\nあさいち\nでは、人気がある 商品はすぐ 売り切れてしまう。そんなに 人気があるなら、\nたくさん 売ればいいのだが、 それはしないそうだ。この 朝市\nあさいち\nの目的は、朝市\nあさいち\nでお金を\n稼\nかせ\nぐことではなく、まず朝市\nあさいち\nで自分たちの店について知ってもらって、ふだんA 町の店\nで買い物をする客を増やすことだからだ。そのため、 朝市\nあさいち\nに商品が出せる人は(  )\nだけ、ということになっている。\n30  A 町にある店の主人たちは、何のために朝市\nあさいち\nを始めたのか。\n1 町の中に、安く買い物ができるところを増やすため\n2 町の中に、近くの市や町から来る客が楽しめる場所を作るため\n3 自分たちの町の景\nけ\n色\nしき\nの美しさをもっと宣伝\nせんでん\nするため\n4 自分たちの店の商品の良さをもっと知ってもらうため\n31  それとあるが、何か。\n1 朝市\nあさいち\nで人気がある商品を、店で売るより高く売ること\n2 朝市\nあさいち\nで人気がある商品を、朝市\nあさいち\nでもっと売ること\n3 朝市\nあさいち\nでしか買えない商品の種類を増やすこと\n4 朝市\nあさいち\nでしか買えない商品を平日に店でも売ること\n32  (  ) に入れるのに最もよいものはどれか。\n1 A 町に店がある人\n2 A 町以外の市や町に店がある人\n3 A 町で店を開きたいと思っている人\n4 A 町の店でふだんから買い物をしている人\n問題 6  つぎの文章\nぶんしょう\nを読んで、質問に答えなさい。答えは、1・2・3・4 から最もよい\nものを一つえらびなさい。\n先月、新しいオートバイ を買った。オートバイ には①長い間乗っていなかった が、\n久\nひさ\nしぶりにまた乗りたくなったのだ。前に乗っていたのは大学生のころで、もう20 年も前\nだ。卒業後はずっと仕事や子\nこ\n供\nども\nの世話で 忙\nいそが\nしかったが、最近、少し自由に使える時間\nが増えた。妻に相談したら、 「いいんじゃない?」と賛成\nさんせい\nしてくれた。\nオートバイを買った店は、 「ガロン」という店だ。私には、どうしてもこの店で買い\nたい理由があったのだ。\n20 年前の春、私は、父にもらったオートバイで東京から京都まで旅行をしていた。\n安い旅館に泊まりながら、何日もかけて進む旅だった。\n3 日目の朝、道を走っているとき、 オートバイ の前の方で何かが折れる音がした。\n見ると、②オートバイの部品が壊\nこわ\nれていた。ハンドルが少しぐらぐらしたが、オートバイ\nは一応動いた。\nしばらく進むと、オートバイの店があったので、 修\nしゅう\n理\nり\nを頼\nたの\nんでみた。しかし、難しい\n修理\nしゅうり\nだからできない、と 断られてしまった。次の店でも同じだった。そして、3軒\nけん\n目\nめ\nの\n店が「ガロン」 だった。 「ガロン」 の店員も「これは 難しいね。 」と言った。でも、\n「困っているんでしょう?やってみるよ。 」と言って、 修\nしゅう\n理\nり\nを始めてくれた。そして、\n2 時間かけて 直してくれたのだ。 店員は「いつかこの 店でオートバイ を買ってね。 」\nと言って笑った。本当に困っていた私は、③何度もお礼\nれい\nを言いながら、必ずそうしよう\nと決めた。\n今の「ガロン」には、もうあの店員はいなかった。会えなかったのは残念だったが、\nそれでも私は④満足している。\n33  「私」がオートバイに①長い間乗っていなかったのは、どうしてか。\n1 買いたいと思うオートバイがなかったから\n2 仕事や子\nこ\n供\nども\nの世話で 忙\nいそが\nしかったから\n3 「私」のオートバイを妻が使っていたから\n4 家にあるオートバイが壊\nこわ\nれていたから\n34   ②オートバイの部品が壊\nこわ\nれていたとあるが、壊\nこわ\nれたのはいつか。\n1 先月、新しいオートバイを買ってから 3 日目の朝\n2 先月、オートバイ旅行を始めてから 3 日目の朝\n3  20 年前、新しいオートバイを買ってから 3 日目の朝\n4  20 年前、オートバイ旅行を始めてから 3 日目の朝\n35  ③何度もお礼\nれい\nを言いながらとあるが、 「私」はどうして何度もお礼\nれい\nを言ったのか。\n1 店にあった新しいオートバイを安く売ってくれたから\n2 オートバイを修理\nしゅうり\nしてくれそうな店を教えてくれたから\n3  壊\nこわ\nれて動かなくなりそうなオートバイを買ってくれたから\n4 ほかの店で修理\nしゅうり\nを断られたオートバイを直してくれたから\n36  ④満足しているとあるが、なぜか。\n1 もう一度、オートバイに乗ることができたから\n2 「ガロン」でオートバイを買うことができたから\n3 壊\nこわ\nれてしまったオートバイを修理\nしゅうり\nしてもらうことができたから\n4 オートバイの修理\nしゅうり\nをしてくれた店員に、お礼\nれい\nを伝えることができたから\n問題 7  右のページは、あるスキー場のホームページに載\nの\nっているスキー教室の案内で\nある。これを読んで、下の質問に答えなさい。答えは、1・2・3・4 から最も\nよいものを一つえらびなさい。\n37  スミスさんは、2 月 2 日の午後に普通コースを受けたいと思っている。スミスさん\nは、どのように申し込みをしなければならないか。\n1 2 月 2 日の午前 9 時までに、電話か窓口で申し込む。\n2 2 月 2 日の午前 9 時 30 分までに、窓口で申し込む。\n3 2 月 2 日の午後 1 時 30 分までに、窓口で申し込む。\n4 2 月 2 日の午後 1 時 30 分までに、電話か窓口で申し込む。\n38  グエンさんは、友達 4 人と特別コースを受けたいと思っている。グエンさんたち\nは、朝山ホテルに泊まっている。午後2 時から 4 時まで特別コースを受ける場合、\nグエンさんたちはいくら支払わなければならないか。\n1 22,000 円を支払う。\n2 22,000 円から 2,000 円を引いたものを支払う。\n3 39,000 円を支払う。\n4 39,000 円から 2,000 円を引いたものを支払う。\n朝山スキー場\n初級スキー教室のご案内\n期間：12 月 24 日～3 月 31 日\n【コースと料金】\n<普通コース(2 時間)>\n・大人クラス(最大 10 名)と子どもクラス(最大 8 名)があります 。\n・午前(10 時〜12 時)と、午後(2 時〜4 時)のどちらかを選んでください。\n大人一人 4,000 円\n子ども(小学生)一人 4,500 円\n※朝山ホテルにお泊まりの方は、500 円割引します 。\n<特別コース(2 時間または 4 時間)>\n・お友達やご家族だけで習いたい方のためのコースです。小学生から参加できます。\n・4〜6 名のグループで申し込んでください。\n・午前 9 時から午後 7 時までの間で、2 時間か 4 時間を選べます 。\n2 時間 4 時間\n1 グループ 22,000 円 39,000 円\n※グループの中に、朝山ホテルにお泊まりの方がいれば、グループの料金から\n2,000 円割引します 。\n【申し込みと料金の支払い】\n・普通コースは、午前に受ける場合は当日の午前 9 時 30 分まで、午後に受ける場合は\n当日の午後1 時 30 分までに、スキー教室の窓口(朝山ホテル1 階)で申し込んでください。\n料金は申し込みのときに支払ってください。\n・特別コースは、午前に開始したい場合は前日の午後 4 時まで、午後の場合は当日の\n午前 9 時までに、電話か窓口で申し込んでください。料金はコース開始前に窓口で\n支払ってください。\n【教室当日の集合】\n・どちらのコースも、開始時間の 10 分前にスキー場の入り口に集合してください。\n予約・お問い合わせ 013-227-1665\n39,000 円\n39,000 円",
+          "choices": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ],
+          "correctAnswer": 1,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2023-12-grammar-m5-q29",
+          "section": "grammar",
+          "mondai": 5,
+          "questionNumber": 29,
+          "questionType": "READING_MEDIUM",
+          "questionText": "",
+          "passage": "問題 4 つぎの(1)から(4)の文章\nぶんしょう\nを読んで、質問に答えなさい。答えは、1・2・3・4\nから最もよいものを一つえらびなさい。\n（１）\nこれは、ある映画館のインターネットチケット予約サービスから、村田さんに届\nとど\nいた\nメールである。\n村田新一様\nチケット代金を支払っていただき、ありがとうございました。\n<予約番号> 0832            <電話番号> 090-0911-4215\n<日時>    4 月 11 日(土) 14 時〜\n<合計代金> 大人 2 枚  3,600 円\n<映画名>  「海」           <席番号>  K13  K14\n・ご予約はキャンセルできませんので、ご注意ください。\n・当日は、映画館でチケットを発券していただく必要がございます 。\n券売機に<予約番号>と<電話番号>をご入力ください。\n・映画開始から 15 分を過ぎますと、券売機での発券はできなくなります 。それ以降\nは、チケットオフィスで発券いたします 。\n東王映画館インターネットチケット予約サービス\nお問い合わせ 061-987-6543\n23  当日、予約したチケットを券売機で発券したい場合、どうしなければならないか。\n1 映画開始時間の 15 分前までに、券売機に必要な情報を入力する。\n2 映画開始時間の 15 分前までに、券売機でお金を払う。\n3 映画開始時間の 15 分後までに、券売機に必要な情報を入力する。\n4 映画開始時間 の 15 分後までに、券売機でお金を払う。\n（２）\nアリサさんが家に帰ると、テーブルの上に、一緒\nいっしょ\nに住んでいる春美さんが書いたメモ\nが置いてあった。\nアリサさん\n大学の事\nじ\n務\nむ\n所\nしょ\nに今日中に出さなければならない書類があるのを忘れていたので、\nちょっと行ってきます 。\nカレーとスープはできたんだけど、サラダがまだできていないので、お願いでき\nますか。冷\nれい\n蔵\nぞう\n庫\nこ\nにトマトやレタスがあるから、適当に使ってください。\n今日は私が晩ご飯を作ると言ったのに、ごめんなさい。帰りに何か甘\nあま\nいものを買って\nきますね。\n春美\n24  アリサさんがこのメモで頼\nたの\nまれていることは何か。\n1 大学の事\nじ\n務\nむ\n所\nしょ\nに行って、書類を出すこと\n2 カレーとスープを作ること\n3 サラダを作ること\n4 甘\nあま\nいものを買うこと\n（３）\n雑誌で「友達や家族と待ち合わせるとき、その 場所に行く時間」についての 調査の\n記事を読んだ。早めに行く人は、全体の 59%で最も多く、次に多かったのが、時間に\n間に合うように行く人で 36%だった。一方で、多少遅れても気にしないという人は、\n3%しかいなかった。\n私はいつも早めに行くが、友人たちはたいてい遅れて来る。私が 珍\nめずら\nしいタイプなのか\nと思っていたが、この結果から、そうではないとわかって、意外だった。\n25  意外だったとあるが、調査結果のどのような点からそう思ったか。\n1 「私」と同じタイプの人が、最も多い点\n2 「私」と同じタイプの人が、二番目に多い点\n3 「私」と同じタイプの人が、最も少ない点\n4 「私」と反対のタイプの人が、最も多い点\n（４）\n納豆\nなっとう\nは、体にいいし、おいしいので、私は毎日食べている。そのまま食べる人も多い\nが、私は 卵\nたまご\nに混\nま\nぜて焼いたり、みそ汁\nしる\nに入れたり、いろいろな料理に使っている。\nしかし、今朝テレビを見て 驚\nおどろ\nいた。納豆\nなっとう\nには、ほかの食べ物にはない種類の酵\nこう\n素\nそ\n注)\nが入っている。これには血液の流れをよくする効\nこう\n果\nか\nがあるが、50 度以上の熱で減って\nしまうそうなのだ。そうだとすると、私は今まで、とてももったいない食べ方をしていた\nことになる。\n注) 酵\nこう\n素\nそ\n：ここでは、食べ物に入っている栄養\nえいよう\nのような物\n27  もったいない食べ方をしていたとあるが、なぜもったいないと思ったのか。\n1 体へのよい効\nこう\n果\nか\nが弱くなってしまう料理のしかたで、納豆\nなっとう\nを食べていたから\n2 体へのよい効\nこう\n果\nか\nが消えるような、たくさんの量の納豆\nなっとう\nを食べていたから\n3 おいしさがわからなくなるような料理のしかたで、納豆\nなっとう\nを食べていたから\n4 おいしくなる料理方法があるのに、それを知らないで納豆\nなっとう\nを食べていたから\n問題 5  つぎの(1)と(2)の文章\nぶんしょう\nを読んで、質問に答えなさい。答えは、1・2・3・4\nから最もよいものを一つえらびなさい。\n（１）\n私の留学している日本の大学には、漫\nまん\n画\nが\nを読んで社会について考える授\nじゅ\n業\nぎょう\nがあります。\n私は子\nこ\n供\nども\nのころから日本の漫\nまん\n画\nが\nが大好きだったので、この 授\nじゅ\n業\nぎょう\nを取りました。しかし、\nこれは失敗\nしっぱい\nでした。\nこの授\nじゅ\n業\nぎょう\nでは、学生は毎週の授\nじゅ\n業\nぎょう\nの前に、先生が指定した漫\nまん\n画\nが\nを読んでいくことに\nなっていました。ところが、 扱\nあつか\nう漫\nまん\n画\nが\nはどれも私が知らないものばかりだったので、\n読むのに時間がかかって、毎回とても大変でした。\nいちばん 困ったのは 学期末の試験です。試験の前に、ある 漫\nまん\n画\nが\nを読んでおくように\n先生に言われました。その漫\nまん\n画\nが\nは全部で 3巻\nかん\nもあり、しっかり読むのにはとても時間が\nかかりました。そのために、ほかの試験の勉強ができなくなり、寝る時間も削\nけず\nらなければ\nならなくなりました。いつもなら、 試験期間中 は漫\nまん\n画\nが\nを読むのを我\nが\n慢\nまん\nするのですが、\nこのときの私は逆だったのです 。\n試験はうまくいきましたが、今はしばらく漫\nまん\n画\nが\nはお休みにしたい気分です 。\n27  毎回の授\nじゅ\n業\nぎょう\nの前に、学生がしなければならなかったことは何か。\n1 授\nじゅ\n業\nぎょう\nで先生に 扱\nあつか\nってもらいたい漫\nまん\n画\nが\nを見つけてくること\n2 社会問題がテーマになっている漫\nまん\n画\nが\nを見つけてくること\n3 先生に読んでくるように言われた漫\nまん\n画\nが\nを読んでおくこと\n4 自分が読んだことがない漫\nまん\n画\nが\nを探\nさが\nして、読んでおくこと\n28  このときの私は、どのような 状\nじょう\n態\nたい\nだったか。\n1 ほかの試験の勉強がしたいのに、漫\nまん\n画\nが\nを読まなければならなかった。\n2 漫\nまん\n画\nが\nが読みたいのに、試験の勉強をしなければならなかった。\n3 好きな漫\nまん\n画\nが\nが読みたいのに、好きではない漫画を読まなければならなかった。\n4 試験の勉強をしなければならないのに、漫\nまん\n画\nが\nを読むのを我\nが\n慢\nまん\nできなかった。\n29 「私」は今、どんな気持ちになっているか。\n1 しばらくは、休みの日だけに漫\nまん\n画\nが\nを読もう。\n2 しばらくは、好きな漫\nまん\n画\nが\nしか読みたくない。\n3 しばらくは、我\nが\n慢\nまん\nして漫\nまん\n画\nが\nを読もう。\n4   しばらくは、漫\nまん\n画\nが\nは読みたくない。\n（２）\nA 町は景\nけ\n色\nしき\nの美しい海沿\nぞ\nいの町で、毎週日曜の朝に港で開かれる「朝市\nあさいち\n」も人気がある。\n朝市\nあさいち\nは、A 町にある店が、魚や肉、野菜、パン、ケーキなどを売る市\nいち\n場\nば\nで、近くの市や\n町からも客が大勢\nおおぜい\nやってくる。\n朝市\nあさいち\nを始めたのは、A 町に昔からある店の主人たちである。約30 年前、大きなスーパー\nマーケットができた。多くの人がスーパーを利用するようになってしまったため、店の\n主人たちは、自分たちの店の商品の良さをもっと知ってもらおうと、朝市\nあさいち\nを始めたのだ。\n朝市\nあさいち\nでは、人気がある 商品はすぐ 売り切れてしまう。そんなに 人気があるなら、\nたくさん 売ればいいのだが、 それはしないそうだ。この 朝市\nあさいち\nの目的は、朝市\nあさいち\nでお金を\n稼\nかせ\nぐことではなく、まず朝市\nあさいち\nで自分たちの店について知ってもらって、ふだんA 町の店\nで買い物をする客を増やすことだからだ。そのため、 朝市\nあさいち\nに商品が出せる人は(  )\nだけ、ということになっている。\n30  A 町にある店の主人たちは、何のために朝市\nあさいち\nを始めたのか。\n1 町の中に、安く買い物ができるところを増やすため\n2 町の中に、近くの市や町から来る客が楽しめる場所を作るため\n3 自分たちの町の景\nけ\n色\nしき\nの美しさをもっと宣伝\nせんでん\nするため\n4 自分たちの店の商品の良さをもっと知ってもらうため\n31  それとあるが、何か。\n1 朝市\nあさいち\nで人気がある商品を、店で売るより高く売ること\n2 朝市\nあさいち\nで人気がある商品を、朝市\nあさいち\nでもっと売ること\n3 朝市\nあさいち\nでしか買えない商品の種類を増やすこと\n4 朝市\nあさいち\nでしか買えない商品を平日に店でも売ること\n32  (  ) に入れるのに最もよいものはどれか。\n1 A 町に店がある人\n2 A 町以外の市や町に店がある人\n3 A 町で店を開きたいと思っている人\n4 A 町の店でふだんから買い物をしている人\n問題 6  つぎの文章\nぶんしょう\nを読んで、質問に答えなさい。答えは、1・2・3・4 から最もよい\nものを一つえらびなさい。\n先月、新しいオートバイ を買った。オートバイ には①長い間乗っていなかった が、\n久\nひさ\nしぶりにまた乗りたくなったのだ。前に乗っていたのは大学生のころで、もう20 年も前\nだ。卒業後はずっと仕事や子\nこ\n供\nども\nの世話で 忙\nいそが\nしかったが、最近、少し自由に使える時間\nが増えた。妻に相談したら、 「いいんじゃない?」と賛成\nさんせい\nしてくれた。\nオートバイを買った店は、 「ガロン」という店だ。私には、どうしてもこの店で買い\nたい理由があったのだ。\n20 年前の春、私は、父にもらったオートバイで東京から京都まで旅行をしていた。\n安い旅館に泊まりながら、何日もかけて進む旅だった。\n3 日目の朝、道を走っているとき、 オートバイ の前の方で何かが折れる音がした。\n見ると、②オートバイの部品が壊\nこわ\nれていた。ハンドルが少しぐらぐらしたが、オートバイ\nは一応動いた。\nしばらく進むと、オートバイの店があったので、 修\nしゅう\n理\nり\nを頼\nたの\nんでみた。しかし、難しい\n修理\nしゅうり\nだからできない、と 断られてしまった。次の店でも同じだった。そして、3軒\nけん\n目\nめ\nの\n店が「ガロン」 だった。 「ガロン」 の店員も「これは 難しいね。 」と言った。でも、\n「困っているんでしょう?やってみるよ。 」と言って、 修\nしゅう\n理\nり\nを始めてくれた。そして、\n2 時間かけて 直してくれたのだ。 店員は「いつかこの 店でオートバイ を買ってね。 」\nと言って笑った。本当に困っていた私は、③何度もお礼\nれい\nを言いながら、必ずそうしよう\nと決めた。\n今の「ガロン」には、もうあの店員はいなかった。会えなかったのは残念だったが、\nそれでも私は④満足している。\n33  「私」がオートバイに①長い間乗っていなかったのは、どうしてか。\n1 買いたいと思うオートバイがなかったから\n2 仕事や子\nこ\n供\nども\nの世話で 忙\nいそが\nしかったから\n3 「私」のオートバイを妻が使っていたから\n4 家にあるオートバイが壊\nこわ\nれていたから\n34   ②オートバイの部品が壊\nこわ\nれていたとあるが、壊\nこわ\nれたのはいつか。\n1 先月、新しいオートバイを買ってから 3 日目の朝\n2 先月、オートバイ旅行を始めてから 3 日目の朝\n3  20 年前、新しいオートバイを買ってから 3 日目の朝\n4  20 年前、オートバイ旅行を始めてから 3 日目の朝\n35  ③何度もお礼\nれい\nを言いながらとあるが、 「私」はどうして何度もお礼\nれい\nを言ったのか。\n1 店にあった新しいオートバイを安く売ってくれたから\n2 オートバイを修理\nしゅうり\nしてくれそうな店を教えてくれたから\n3  壊\nこわ\nれて動かなくなりそうなオートバイを買ってくれたから\n4 ほかの店で修理\nしゅうり\nを断られたオートバイを直してくれたから\n36  ④満足しているとあるが、なぜか。\n1 もう一度、オートバイに乗ることができたから\n2 「ガロン」でオートバイを買うことができたから\n3 壊\nこわ\nれてしまったオートバイを修理\nしゅうり\nしてもらうことができたから\n4 オートバイの修理\nしゅうり\nをしてくれた店員に、お礼\nれい\nを伝えることができたから\n問題 7  右のページは、あるスキー場のホームページに載\nの\nっているスキー教室の案内で\nある。これを読んで、下の質問に答えなさい。答えは、1・2・3・4 から最も\nよいものを一つえらびなさい。\n37  スミスさんは、2 月 2 日の午後に普通コースを受けたいと思っている。スミスさん\nは、どのように申し込みをしなければならないか。\n1 2 月 2 日の午前 9 時までに、電話か窓口で申し込む。\n2 2 月 2 日の午前 9 時 30 分までに、窓口で申し込む。\n3 2 月 2 日の午後 1 時 30 分までに、窓口で申し込む。\n4 2 月 2 日の午後 1 時 30 分までに、電話か窓口で申し込む。\n38  グエンさんは、友達 4 人と特別コースを受けたいと思っている。グエンさんたち\nは、朝山ホテルに泊まっている。午後2 時から 4 時まで特別コースを受ける場合、\nグエンさんたちはいくら支払わなければならないか。\n1 22,000 円を支払う。\n2 22,000 円から 2,000 円を引いたものを支払う。\n3 39,000 円を支払う。\n4 39,000 円から 2,000 円を引いたものを支払う。\n朝山スキー場\n初級スキー教室のご案内\n期間：12 月 24 日～3 月 31 日\n【コースと料金】\n<普通コース(2 時間)>\n・大人クラス(最大 10 名)と子どもクラス(最大 8 名)があります 。\n・午前(10 時〜12 時)と、午後(2 時〜4 時)のどちらかを選んでください。\n大人一人 4,000 円\n子ども(小学生)一人 4,500 円\n※朝山ホテルにお泊まりの方は、500 円割引します 。\n<特別コース(2 時間または 4 時間)>\n・お友達やご家族だけで習いたい方のためのコースです。小学生から参加できます。\n・4〜6 名のグループで申し込んでください。\n・午前 9 時から午後 7 時までの間で、2 時間か 4 時間を選べます 。\n2 時間 4 時間\n1 グループ 22,000 円 39,000 円\n※グループの中に、朝山ホテルにお泊まりの方がいれば、グループの料金から\n2,000 円割引します 。\n【申し込みと料金の支払い】\n・普通コースは、午前に受ける場合は当日の午前 9 時 30 分まで、午後に受ける場合は\n当日の午後1 時 30 分までに、スキー教室の窓口(朝山ホテル1 階)で申し込んでください。\n料金は申し込みのときに支払ってください。\n・特別コースは、午前に開始したい場合は前日の午後 4 時まで、午後の場合は当日の\n午前 9 時までに、電話か窓口で申し込んでください。料金はコース開始前に窓口で\n支払ってください。\n【教室当日の集合】\n・どちらのコースも、開始時間の 10 分前にスキー場の入り口に集合してください。\n予約・お問い合わせ 013-227-1665\n39,000 円\n39,000 円",
+          "choices": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ],
+          "correctAnswer": 4,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2023-12-grammar-m5-q30",
+          "section": "grammar",
+          "mondai": 5,
+          "questionNumber": 30,
+          "questionType": "READING_MEDIUM",
+          "questionText": "",
+          "passage": "問題 4 つぎの(1)から(4)の文章\nぶんしょう\nを読んで、質問に答えなさい。答えは、1・2・3・4\nから最もよいものを一つえらびなさい。\n（１）\nこれは、ある映画館のインターネットチケット予約サービスから、村田さんに届\nとど\nいた\nメールである。\n村田新一様\nチケット代金を支払っていただき、ありがとうございました。\n<予約番号> 0832            <電話番号> 090-0911-4215\n<日時>    4 月 11 日(土) 14 時〜\n<合計代金> 大人 2 枚  3,600 円\n<映画名>  「海」           <席番号>  K13  K14\n・ご予約はキャンセルできませんので、ご注意ください。\n・当日は、映画館でチケットを発券していただく必要がございます 。\n券売機に<予約番号>と<電話番号>をご入力ください。\n・映画開始から 15 分を過ぎますと、券売機での発券はできなくなります 。それ以降\nは、チケットオフィスで発券いたします 。\n東王映画館インターネットチケット予約サービス\nお問い合わせ 061-987-6543\n23  当日、予約したチケットを券売機で発券したい場合、どうしなければならないか。\n1 映画開始時間の 15 分前までに、券売機に必要な情報を入力する。\n2 映画開始時間の 15 分前までに、券売機でお金を払う。\n3 映画開始時間の 15 分後までに、券売機に必要な情報を入力する。\n4 映画開始時間 の 15 分後までに、券売機でお金を払う。\n（２）\nアリサさんが家に帰ると、テーブルの上に、一緒\nいっしょ\nに住んでいる春美さんが書いたメモ\nが置いてあった。\nアリサさん\n大学の事\nじ\n務\nむ\n所\nしょ\nに今日中に出さなければならない書類があるのを忘れていたので、\nちょっと行ってきます 。\nカレーとスープはできたんだけど、サラダがまだできていないので、お願いでき\nますか。冷\nれい\n蔵\nぞう\n庫\nこ\nにトマトやレタスがあるから、適当に使ってください。\n今日は私が晩ご飯を作ると言ったのに、ごめんなさい。帰りに何か甘\nあま\nいものを買って\nきますね。\n春美\n24  アリサさんがこのメモで頼\nたの\nまれていることは何か。\n1 大学の事\nじ\n務\nむ\n所\nしょ\nに行って、書類を出すこと\n2 カレーとスープを作ること\n3 サラダを作ること\n4 甘\nあま\nいものを買うこと\n（３）\n雑誌で「友達や家族と待ち合わせるとき、その 場所に行く時間」についての 調査の\n記事を読んだ。早めに行く人は、全体の 59%で最も多く、次に多かったのが、時間に\n間に合うように行く人で 36%だった。一方で、多少遅れても気にしないという人は、\n3%しかいなかった。\n私はいつも早めに行くが、友人たちはたいてい遅れて来る。私が 珍\nめずら\nしいタイプなのか\nと思っていたが、この結果から、そうではないとわかって、意外だった。\n25  意外だったとあるが、調査結果のどのような点からそう思ったか。\n1 「私」と同じタイプの人が、最も多い点\n2 「私」と同じタイプの人が、二番目に多い点\n3 「私」と同じタイプの人が、最も少ない点\n4 「私」と反対のタイプの人が、最も多い点\n（４）\n納豆\nなっとう\nは、体にいいし、おいしいので、私は毎日食べている。そのまま食べる人も多い\nが、私は 卵\nたまご\nに混\nま\nぜて焼いたり、みそ汁\nしる\nに入れたり、いろいろな料理に使っている。\nしかし、今朝テレビを見て 驚\nおどろ\nいた。納豆\nなっとう\nには、ほかの食べ物にはない種類の酵\nこう\n素\nそ\n注)\nが入っている。これには血液の流れをよくする効\nこう\n果\nか\nがあるが、50 度以上の熱で減って\nしまうそうなのだ。そうだとすると、私は今まで、とてももったいない食べ方をしていた\nことになる。\n注) 酵\nこう\n素\nそ\n：ここでは、食べ物に入っている栄養\nえいよう\nのような物\n27  もったいない食べ方をしていたとあるが、なぜもったいないと思ったのか。\n1 体へのよい効\nこう\n果\nか\nが弱くなってしまう料理のしかたで、納豆\nなっとう\nを食べていたから\n2 体へのよい効\nこう\n果\nか\nが消えるような、たくさんの量の納豆\nなっとう\nを食べていたから\n3 おいしさがわからなくなるような料理のしかたで、納豆\nなっとう\nを食べていたから\n4 おいしくなる料理方法があるのに、それを知らないで納豆\nなっとう\nを食べていたから\n問題 5  つぎの(1)と(2)の文章\nぶんしょう\nを読んで、質問に答えなさい。答えは、1・2・3・4\nから最もよいものを一つえらびなさい。\n（１）\n私の留学している日本の大学には、漫\nまん\n画\nが\nを読んで社会について考える授\nじゅ\n業\nぎょう\nがあります。\n私は子\nこ\n供\nども\nのころから日本の漫\nまん\n画\nが\nが大好きだったので、この 授\nじゅ\n業\nぎょう\nを取りました。しかし、\nこれは失敗\nしっぱい\nでした。\nこの授\nじゅ\n業\nぎょう\nでは、学生は毎週の授\nじゅ\n業\nぎょう\nの前に、先生が指定した漫\nまん\n画\nが\nを読んでいくことに\nなっていました。ところが、 扱\nあつか\nう漫\nまん\n画\nが\nはどれも私が知らないものばかりだったので、\n読むのに時間がかかって、毎回とても大変でした。\nいちばん 困ったのは 学期末の試験です。試験の前に、ある 漫\nまん\n画\nが\nを読んでおくように\n先生に言われました。その漫\nまん\n画\nが\nは全部で 3巻\nかん\nもあり、しっかり読むのにはとても時間が\nかかりました。そのために、ほかの試験の勉強ができなくなり、寝る時間も削\nけず\nらなければ\nならなくなりました。いつもなら、 試験期間中 は漫\nまん\n画\nが\nを読むのを我\nが\n慢\nまん\nするのですが、\nこのときの私は逆だったのです 。\n試験はうまくいきましたが、今はしばらく漫\nまん\n画\nが\nはお休みにしたい気分です 。\n27  毎回の授\nじゅ\n業\nぎょう\nの前に、学生がしなければならなかったことは何か。\n1 授\nじゅ\n業\nぎょう\nで先生に 扱\nあつか\nってもらいたい漫\nまん\n画\nが\nを見つけてくること\n2 社会問題がテーマになっている漫\nまん\n画\nが\nを見つけてくること\n3 先生に読んでくるように言われた漫\nまん\n画\nが\nを読んでおくこと\n4 自分が読んだことがない漫\nまん\n画\nが\nを探\nさが\nして、読んでおくこと\n28  このときの私は、どのような 状\nじょう\n態\nたい\nだったか。\n1 ほかの試験の勉強がしたいのに、漫\nまん\n画\nが\nを読まなければならなかった。\n2 漫\nまん\n画\nが\nが読みたいのに、試験の勉強をしなければならなかった。\n3 好きな漫\nまん\n画\nが\nが読みたいのに、好きではない漫画を読まなければならなかった。\n4 試験の勉強をしなければならないのに、漫\nまん\n画\nが\nを読むのを我\nが\n慢\nまん\nできなかった。\n29 「私」は今、どんな気持ちになっているか。\n1 しばらくは、休みの日だけに漫\nまん\n画\nが\nを読もう。\n2 しばらくは、好きな漫\nまん\n画\nが\nしか読みたくない。\n3 しばらくは、我\nが\n慢\nまん\nして漫\nまん\n画\nが\nを読もう。\n4   しばらくは、漫\nまん\n画\nが\nは読みたくない。\n（２）\nA 町は景\nけ\n色\nしき\nの美しい海沿\nぞ\nいの町で、毎週日曜の朝に港で開かれる「朝市\nあさいち\n」も人気がある。\n朝市\nあさいち\nは、A 町にある店が、魚や肉、野菜、パン、ケーキなどを売る市\nいち\n場\nば\nで、近くの市や\n町からも客が大勢\nおおぜい\nやってくる。\n朝市\nあさいち\nを始めたのは、A 町に昔からある店の主人たちである。約30 年前、大きなスーパー\nマーケットができた。多くの人がスーパーを利用するようになってしまったため、店の\n主人たちは、自分たちの店の商品の良さをもっと知ってもらおうと、朝市\nあさいち\nを始めたのだ。\n朝市\nあさいち\nでは、人気がある 商品はすぐ 売り切れてしまう。そんなに 人気があるなら、\nたくさん 売ればいいのだが、 それはしないそうだ。この 朝市\nあさいち\nの目的は、朝市\nあさいち\nでお金を\n稼\nかせ\nぐことではなく、まず朝市\nあさいち\nで自分たちの店について知ってもらって、ふだんA 町の店\nで買い物をする客を増やすことだからだ。そのため、 朝市\nあさいち\nに商品が出せる人は(  )\nだけ、ということになっている。\n30  A 町にある店の主人たちは、何のために朝市\nあさいち\nを始めたのか。\n1 町の中に、安く買い物ができるところを増やすため\n2 町の中に、近くの市や町から来る客が楽しめる場所を作るため\n3 自分たちの町の景\nけ\n色\nしき\nの美しさをもっと宣伝\nせんでん\nするため\n4 自分たちの店の商品の良さをもっと知ってもらうため\n31  それとあるが、何か。\n1 朝市\nあさいち\nで人気がある商品を、店で売るより高く売ること\n2 朝市\nあさいち\nで人気がある商品を、朝市\nあさいち\nでもっと売ること\n3 朝市\nあさいち\nでしか買えない商品の種類を増やすこと\n4 朝市\nあさいち\nでしか買えない商品を平日に店でも売ること\n32  (  ) に入れるのに最もよいものはどれか。\n1 A 町に店がある人\n2 A 町以外の市や町に店がある人\n3 A 町で店を開きたいと思っている人\n4 A 町の店でふだんから買い物をしている人\n問題 6  つぎの文章\nぶんしょう\nを読んで、質問に答えなさい。答えは、1・2・3・4 から最もよい\nものを一つえらびなさい。\n先月、新しいオートバイ を買った。オートバイ には①長い間乗っていなかった が、\n久\nひさ\nしぶりにまた乗りたくなったのだ。前に乗っていたのは大学生のころで、もう20 年も前\nだ。卒業後はずっと仕事や子\nこ\n供\nども\nの世話で 忙\nいそが\nしかったが、最近、少し自由に使える時間\nが増えた。妻に相談したら、 「いいんじゃない?」と賛成\nさんせい\nしてくれた。\nオートバイを買った店は、 「ガロン」という店だ。私には、どうしてもこの店で買い\nたい理由があったのだ。\n20 年前の春、私は、父にもらったオートバイで東京から京都まで旅行をしていた。\n安い旅館に泊まりながら、何日もかけて進む旅だった。\n3 日目の朝、道を走っているとき、 オートバイ の前の方で何かが折れる音がした。\n見ると、②オートバイの部品が壊\nこわ\nれていた。ハンドルが少しぐらぐらしたが、オートバイ\nは一応動いた。\nしばらく進むと、オートバイの店があったので、 修\nしゅう\n理\nり\nを頼\nたの\nんでみた。しかし、難しい\n修理\nしゅうり\nだからできない、と 断られてしまった。次の店でも同じだった。そして、3軒\nけん\n目\nめ\nの\n店が「ガロン」 だった。 「ガロン」 の店員も「これは 難しいね。 」と言った。でも、\n「困っているんでしょう?やってみるよ。 」と言って、 修\nしゅう\n理\nり\nを始めてくれた。そして、\n2 時間かけて 直してくれたのだ。 店員は「いつかこの 店でオートバイ を買ってね。 」\nと言って笑った。本当に困っていた私は、③何度もお礼\nれい\nを言いながら、必ずそうしよう\nと決めた。\n今の「ガロン」には、もうあの店員はいなかった。会えなかったのは残念だったが、\nそれでも私は④満足している。\n33  「私」がオートバイに①長い間乗っていなかったのは、どうしてか。\n1 買いたいと思うオートバイがなかったから\n2 仕事や子\nこ\n供\nども\nの世話で 忙\nいそが\nしかったから\n3 「私」のオートバイを妻が使っていたから\n4 家にあるオートバイが壊\nこわ\nれていたから\n34   ②オートバイの部品が壊\nこわ\nれていたとあるが、壊\nこわ\nれたのはいつか。\n1 先月、新しいオートバイを買ってから 3 日目の朝\n2 先月、オートバイ旅行を始めてから 3 日目の朝\n3  20 年前、新しいオートバイを買ってから 3 日目の朝\n4  20 年前、オートバイ旅行を始めてから 3 日目の朝\n35  ③何度もお礼\nれい\nを言いながらとあるが、 「私」はどうして何度もお礼\nれい\nを言ったのか。\n1 店にあった新しいオートバイを安く売ってくれたから\n2 オートバイを修理\nしゅうり\nしてくれそうな店を教えてくれたから\n3  壊\nこわ\nれて動かなくなりそうなオートバイを買ってくれたから\n4 ほかの店で修理\nしゅうり\nを断られたオートバイを直してくれたから\n36  ④満足しているとあるが、なぜか。\n1 もう一度、オートバイに乗ることができたから\n2 「ガロン」でオートバイを買うことができたから\n3 壊\nこわ\nれてしまったオートバイを修理\nしゅうり\nしてもらうことができたから\n4 オートバイの修理\nしゅうり\nをしてくれた店員に、お礼\nれい\nを伝えることができたから\n問題 7  右のページは、あるスキー場のホームページに載\nの\nっているスキー教室の案内で\nある。これを読んで、下の質問に答えなさい。答えは、1・2・3・4 から最も\nよいものを一つえらびなさい。\n37  スミスさんは、2 月 2 日の午後に普通コースを受けたいと思っている。スミスさん\nは、どのように申し込みをしなければならないか。\n1 2 月 2 日の午前 9 時までに、電話か窓口で申し込む。\n2 2 月 2 日の午前 9 時 30 分までに、窓口で申し込む。\n3 2 月 2 日の午後 1 時 30 分までに、窓口で申し込む。\n4 2 月 2 日の午後 1 時 30 分までに、電話か窓口で申し込む。\n38  グエンさんは、友達 4 人と特別コースを受けたいと思っている。グエンさんたち\nは、朝山ホテルに泊まっている。午後2 時から 4 時まで特別コースを受ける場合、\nグエンさんたちはいくら支払わなければならないか。\n1 22,000 円を支払う。\n2 22,000 円から 2,000 円を引いたものを支払う。\n3 39,000 円を支払う。\n4 39,000 円から 2,000 円を引いたものを支払う。\n朝山スキー場\n初級スキー教室のご案内\n期間：12 月 24 日～3 月 31 日\n【コースと料金】\n<普通コース(2 時間)>\n・大人クラス(最大 10 名)と子どもクラス(最大 8 名)があります 。\n・午前(10 時〜12 時)と、午後(2 時〜4 時)のどちらかを選んでください。\n大人一人 4,000 円\n子ども(小学生)一人 4,500 円\n※朝山ホテルにお泊まりの方は、500 円割引します 。\n<特別コース(2 時間または 4 時間)>\n・お友達やご家族だけで習いたい方のためのコースです。小学生から参加できます。\n・4〜6 名のグループで申し込んでください。\n・午前 9 時から午後 7 時までの間で、2 時間か 4 時間を選べます 。\n2 時間 4 時間\n1 グループ 22,000 円 39,000 円\n※グループの中に、朝山ホテルにお泊まりの方がいれば、グループの料金から\n2,000 円割引します 。\n【申し込みと料金の支払い】\n・普通コースは、午前に受ける場合は当日の午前 9 時 30 分まで、午後に受ける場合は\n当日の午後1 時 30 分までに、スキー教室の窓口(朝山ホテル1 階)で申し込んでください。\n料金は申し込みのときに支払ってください。\n・特別コースは、午前に開始したい場合は前日の午後 4 時まで、午後の場合は当日の\n午前 9 時までに、電話か窓口で申し込んでください。料金はコース開始前に窓口で\n支払ってください。\n【教室当日の集合】\n・どちらのコースも、開始時間の 10 分前にスキー場の入り口に集合してください。\n予約・お問い合わせ 013-227-1665\n39,000 円\n39,000 円",
+          "choices": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ],
+          "correctAnswer": 4,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2023-12-grammar-m5-q31",
+          "section": "grammar",
+          "mondai": 5,
+          "questionNumber": 31,
+          "questionType": "READING_MEDIUM",
+          "questionText": "",
+          "passage": "問題 4 つぎの(1)から(4)の文章\nぶんしょう\nを読んで、質問に答えなさい。答えは、1・2・3・4\nから最もよいものを一つえらびなさい。\n（１）\nこれは、ある映画館のインターネットチケット予約サービスから、村田さんに届\nとど\nいた\nメールである。\n村田新一様\nチケット代金を支払っていただき、ありがとうございました。\n<予約番号> 0832            <電話番号> 090-0911-4215\n<日時>    4 月 11 日(土) 14 時〜\n<合計代金> 大人 2 枚  3,600 円\n<映画名>  「海」           <席番号>  K13  K14\n・ご予約はキャンセルできませんので、ご注意ください。\n・当日は、映画館でチケットを発券していただく必要がございます 。\n券売機に<予約番号>と<電話番号>をご入力ください。\n・映画開始から 15 分を過ぎますと、券売機での発券はできなくなります 。それ以降\nは、チケットオフィスで発券いたします 。\n東王映画館インターネットチケット予約サービス\nお問い合わせ 061-987-6543\n23  当日、予約したチケットを券売機で発券したい場合、どうしなければならないか。\n1 映画開始時間の 15 分前までに、券売機に必要な情報を入力する。\n2 映画開始時間の 15 分前までに、券売機でお金を払う。\n3 映画開始時間の 15 分後までに、券売機に必要な情報を入力する。\n4 映画開始時間 の 15 分後までに、券売機でお金を払う。\n（２）\nアリサさんが家に帰ると、テーブルの上に、一緒\nいっしょ\nに住んでいる春美さんが書いたメモ\nが置いてあった。\nアリサさん\n大学の事\nじ\n務\nむ\n所\nしょ\nに今日中に出さなければならない書類があるのを忘れていたので、\nちょっと行ってきます 。\nカレーとスープはできたんだけど、サラダがまだできていないので、お願いでき\nますか。冷\nれい\n蔵\nぞう\n庫\nこ\nにトマトやレタスがあるから、適当に使ってください。\n今日は私が晩ご飯を作ると言ったのに、ごめんなさい。帰りに何か甘\nあま\nいものを買って\nきますね。\n春美\n24  アリサさんがこのメモで頼\nたの\nまれていることは何か。\n1 大学の事\nじ\n務\nむ\n所\nしょ\nに行って、書類を出すこと\n2 カレーとスープを作ること\n3 サラダを作ること\n4 甘\nあま\nいものを買うこと\n（３）\n雑誌で「友達や家族と待ち合わせるとき、その 場所に行く時間」についての 調査の\n記事を読んだ。早めに行く人は、全体の 59%で最も多く、次に多かったのが、時間に\n間に合うように行く人で 36%だった。一方で、多少遅れても気にしないという人は、\n3%しかいなかった。\n私はいつも早めに行くが、友人たちはたいてい遅れて来る。私が 珍\nめずら\nしいタイプなのか\nと思っていたが、この結果から、そうではないとわかって、意外だった。\n25  意外だったとあるが、調査結果のどのような点からそう思ったか。\n1 「私」と同じタイプの人が、最も多い点\n2 「私」と同じタイプの人が、二番目に多い点\n3 「私」と同じタイプの人が、最も少ない点\n4 「私」と反対のタイプの人が、最も多い点\n（４）\n納豆\nなっとう\nは、体にいいし、おいしいので、私は毎日食べている。そのまま食べる人も多い\nが、私は 卵\nたまご\nに混\nま\nぜて焼いたり、みそ汁\nしる\nに入れたり、いろいろな料理に使っている。\nしかし、今朝テレビを見て 驚\nおどろ\nいた。納豆\nなっとう\nには、ほかの食べ物にはない種類の酵\nこう\n素\nそ\n注)\nが入っている。これには血液の流れをよくする効\nこう\n果\nか\nがあるが、50 度以上の熱で減って\nしまうそうなのだ。そうだとすると、私は今まで、とてももったいない食べ方をしていた\nことになる。\n注) 酵\nこう\n素\nそ\n：ここでは、食べ物に入っている栄養\nえいよう\nのような物\n27  もったいない食べ方をしていたとあるが、なぜもったいないと思ったのか。\n1 体へのよい効\nこう\n果\nか\nが弱くなってしまう料理のしかたで、納豆\nなっとう\nを食べていたから\n2 体へのよい効\nこう\n果\nか\nが消えるような、たくさんの量の納豆\nなっとう\nを食べていたから\n3 おいしさがわからなくなるような料理のしかたで、納豆\nなっとう\nを食べていたから\n4 おいしくなる料理方法があるのに、それを知らないで納豆\nなっとう\nを食べていたから\n問題 5  つぎの(1)と(2)の文章\nぶんしょう\nを読んで、質問に答えなさい。答えは、1・2・3・4\nから最もよいものを一つえらびなさい。\n（１）\n私の留学している日本の大学には、漫\nまん\n画\nが\nを読んで社会について考える授\nじゅ\n業\nぎょう\nがあります。\n私は子\nこ\n供\nども\nのころから日本の漫\nまん\n画\nが\nが大好きだったので、この 授\nじゅ\n業\nぎょう\nを取りました。しかし、\nこれは失敗\nしっぱい\nでした。\nこの授\nじゅ\n業\nぎょう\nでは、学生は毎週の授\nじゅ\n業\nぎょう\nの前に、先生が指定した漫\nまん\n画\nが\nを読んでいくことに\nなっていました。ところが、 扱\nあつか\nう漫\nまん\n画\nが\nはどれも私が知らないものばかりだったので、\n読むのに時間がかかって、毎回とても大変でした。\nいちばん 困ったのは 学期末の試験です。試験の前に、ある 漫\nまん\n画\nが\nを読んでおくように\n先生に言われました。その漫\nまん\n画\nが\nは全部で 3巻\nかん\nもあり、しっかり読むのにはとても時間が\nかかりました。そのために、ほかの試験の勉強ができなくなり、寝る時間も削\nけず\nらなければ\nならなくなりました。いつもなら、 試験期間中 は漫\nまん\n画\nが\nを読むのを我\nが\n慢\nまん\nするのですが、\nこのときの私は逆だったのです 。\n試験はうまくいきましたが、今はしばらく漫\nまん\n画\nが\nはお休みにしたい気分です 。\n27  毎回の授\nじゅ\n業\nぎょう\nの前に、学生がしなければならなかったことは何か。\n1 授\nじゅ\n業\nぎょう\nで先生に 扱\nあつか\nってもらいたい漫\nまん\n画\nが\nを見つけてくること\n2 社会問題がテーマになっている漫\nまん\n画\nが\nを見つけてくること\n3 先生に読んでくるように言われた漫\nまん\n画\nが\nを読んでおくこと\n4 自分が読んだことがない漫\nまん\n画\nが\nを探\nさが\nして、読んでおくこと\n28  このときの私は、どのような 状\nじょう\n態\nたい\nだったか。\n1 ほかの試験の勉強がしたいのに、漫\nまん\n画\nが\nを読まなければならなかった。\n2 漫\nまん\n画\nが\nが読みたいのに、試験の勉強をしなければならなかった。\n3 好きな漫\nまん\n画\nが\nが読みたいのに、好きではない漫画を読まなければならなかった。\n4 試験の勉強をしなければならないのに、漫\nまん\n画\nが\nを読むのを我\nが\n慢\nまん\nできなかった。\n29 「私」は今、どんな気持ちになっているか。\n1 しばらくは、休みの日だけに漫\nまん\n画\nが\nを読もう。\n2 しばらくは、好きな漫\nまん\n画\nが\nしか読みたくない。\n3 しばらくは、我\nが\n慢\nまん\nして漫\nまん\n画\nが\nを読もう。\n4   しばらくは、漫\nまん\n画\nが\nは読みたくない。\n（２）\nA 町は景\nけ\n色\nしき\nの美しい海沿\nぞ\nいの町で、毎週日曜の朝に港で開かれる「朝市\nあさいち\n」も人気がある。\n朝市\nあさいち\nは、A 町にある店が、魚や肉、野菜、パン、ケーキなどを売る市\nいち\n場\nば\nで、近くの市や\n町からも客が大勢\nおおぜい\nやってくる。\n朝市\nあさいち\nを始めたのは、A 町に昔からある店の主人たちである。約30 年前、大きなスーパー\nマーケットができた。多くの人がスーパーを利用するようになってしまったため、店の\n主人たちは、自分たちの店の商品の良さをもっと知ってもらおうと、朝市\nあさいち\nを始めたのだ。\n朝市\nあさいち\nでは、人気がある 商品はすぐ 売り切れてしまう。そんなに 人気があるなら、\nたくさん 売ればいいのだが、 それはしないそうだ。この 朝市\nあさいち\nの目的は、朝市\nあさいち\nでお金を\n稼\nかせ\nぐことではなく、まず朝市\nあさいち\nで自分たちの店について知ってもらって、ふだんA 町の店\nで買い物をする客を増やすことだからだ。そのため、 朝市\nあさいち\nに商品が出せる人は(  )\nだけ、ということになっている。\n30  A 町にある店の主人たちは、何のために朝市\nあさいち\nを始めたのか。\n1 町の中に、安く買い物ができるところを増やすため\n2 町の中に、近くの市や町から来る客が楽しめる場所を作るため\n3 自分たちの町の景\nけ\n色\nしき\nの美しさをもっと宣伝\nせんでん\nするため\n4 自分たちの店の商品の良さをもっと知ってもらうため\n31  それとあるが、何か。\n1 朝市\nあさいち\nで人気がある商品を、店で売るより高く売ること\n2 朝市\nあさいち\nで人気がある商品を、朝市\nあさいち\nでもっと売ること\n3 朝市\nあさいち\nでしか買えない商品の種類を増やすこと\n4 朝市\nあさいち\nでしか買えない商品を平日に店でも売ること\n32  (  ) に入れるのに最もよいものはどれか。\n1 A 町に店がある人\n2 A 町以外の市や町に店がある人\n3 A 町で店を開きたいと思っている人\n4 A 町の店でふだんから買い物をしている人\n問題 6  つぎの文章\nぶんしょう\nを読んで、質問に答えなさい。答えは、1・2・3・4 から最もよい\nものを一つえらびなさい。\n先月、新しいオートバイ を買った。オートバイ には①長い間乗っていなかった が、\n久\nひさ\nしぶりにまた乗りたくなったのだ。前に乗っていたのは大学生のころで、もう20 年も前\nだ。卒業後はずっと仕事や子\nこ\n供\nども\nの世話で 忙\nいそが\nしかったが、最近、少し自由に使える時間\nが増えた。妻に相談したら、 「いいんじゃない?」と賛成\nさんせい\nしてくれた。\nオートバイを買った店は、 「ガロン」という店だ。私には、どうしてもこの店で買い\nたい理由があったのだ。\n20 年前の春、私は、父にもらったオートバイで東京から京都まで旅行をしていた。\n安い旅館に泊まりながら、何日もかけて進む旅だった。\n3 日目の朝、道を走っているとき、 オートバイ の前の方で何かが折れる音がした。\n見ると、②オートバイの部品が壊\nこわ\nれていた。ハンドルが少しぐらぐらしたが、オートバイ\nは一応動いた。\nしばらく進むと、オートバイの店があったので、 修\nしゅう\n理\nり\nを頼\nたの\nんでみた。しかし、難しい\n修理\nしゅうり\nだからできない、と 断られてしまった。次の店でも同じだった。そして、3軒\nけん\n目\nめ\nの\n店が「ガロン」 だった。 「ガロン」 の店員も「これは 難しいね。 」と言った。でも、\n「困っているんでしょう?やってみるよ。 」と言って、 修\nしゅう\n理\nり\nを始めてくれた。そして、\n2 時間かけて 直してくれたのだ。 店員は「いつかこの 店でオートバイ を買ってね。 」\nと言って笑った。本当に困っていた私は、③何度もお礼\nれい\nを言いながら、必ずそうしよう\nと決めた。\n今の「ガロン」には、もうあの店員はいなかった。会えなかったのは残念だったが、\nそれでも私は④満足している。\n33  「私」がオートバイに①長い間乗っていなかったのは、どうしてか。\n1 買いたいと思うオートバイがなかったから\n2 仕事や子\nこ\n供\nども\nの世話で 忙\nいそが\nしかったから\n3 「私」のオートバイを妻が使っていたから\n4 家にあるオートバイが壊\nこわ\nれていたから\n34   ②オートバイの部品が壊\nこわ\nれていたとあるが、壊\nこわ\nれたのはいつか。\n1 先月、新しいオートバイを買ってから 3 日目の朝\n2 先月、オートバイ旅行を始めてから 3 日目の朝\n3  20 年前、新しいオートバイを買ってから 3 日目の朝\n4  20 年前、オートバイ旅行を始めてから 3 日目の朝\n35  ③何度もお礼\nれい\nを言いながらとあるが、 「私」はどうして何度もお礼\nれい\nを言ったのか。\n1 店にあった新しいオートバイを安く売ってくれたから\n2 オートバイを修理\nしゅうり\nしてくれそうな店を教えてくれたから\n3  壊\nこわ\nれて動かなくなりそうなオートバイを買ってくれたから\n4 ほかの店で修理\nしゅうり\nを断られたオートバイを直してくれたから\n36  ④満足しているとあるが、なぜか。\n1 もう一度、オートバイに乗ることができたから\n2 「ガロン」でオートバイを買うことができたから\n3 壊\nこわ\nれてしまったオートバイを修理\nしゅうり\nしてもらうことができたから\n4 オートバイの修理\nしゅうり\nをしてくれた店員に、お礼\nれい\nを伝えることができたから\n問題 7  右のページは、あるスキー場のホームページに載\nの\nっているスキー教室の案内で\nある。これを読んで、下の質問に答えなさい。答えは、1・2・3・4 から最も\nよいものを一つえらびなさい。\n37  スミスさんは、2 月 2 日の午後に普通コースを受けたいと思っている。スミスさん\nは、どのように申し込みをしなければならないか。\n1 2 月 2 日の午前 9 時までに、電話か窓口で申し込む。\n2 2 月 2 日の午前 9 時 30 分までに、窓口で申し込む。\n3 2 月 2 日の午後 1 時 30 分までに、窓口で申し込む。\n4 2 月 2 日の午後 1 時 30 分までに、電話か窓口で申し込む。\n38  グエンさんは、友達 4 人と特別コースを受けたいと思っている。グエンさんたち\nは、朝山ホテルに泊まっている。午後2 時から 4 時まで特別コースを受ける場合、\nグエンさんたちはいくら支払わなければならないか。\n1 22,000 円を支払う。\n2 22,000 円から 2,000 円を引いたものを支払う。\n3 39,000 円を支払う。\n4 39,000 円から 2,000 円を引いたものを支払う。\n朝山スキー場\n初級スキー教室のご案内\n期間：12 月 24 日～3 月 31 日\n【コースと料金】\n<普通コース(2 時間)>\n・大人クラス(最大 10 名)と子どもクラス(最大 8 名)があります 。\n・午前(10 時〜12 時)と、午後(2 時〜4 時)のどちらかを選んでください。\n大人一人 4,000 円\n子ども(小学生)一人 4,500 円\n※朝山ホテルにお泊まりの方は、500 円割引します 。\n<特別コース(2 時間または 4 時間)>\n・お友達やご家族だけで習いたい方のためのコースです。小学生から参加できます。\n・4〜6 名のグループで申し込んでください。\n・午前 9 時から午後 7 時までの間で、2 時間か 4 時間を選べます 。\n2 時間 4 時間\n1 グループ 22,000 円 39,000 円\n※グループの中に、朝山ホテルにお泊まりの方がいれば、グループの料金から\n2,000 円割引します 。\n【申し込みと料金の支払い】\n・普通コースは、午前に受ける場合は当日の午前 9 時 30 分まで、午後に受ける場合は\n当日の午後1 時 30 分までに、スキー教室の窓口(朝山ホテル1 階)で申し込んでください。\n料金は申し込みのときに支払ってください。\n・特別コースは、午前に開始したい場合は前日の午後 4 時まで、午後の場合は当日の\n午前 9 時までに、電話か窓口で申し込んでください。料金はコース開始前に窓口で\n支払ってください。\n【教室当日の集合】\n・どちらのコースも、開始時間の 10 分前にスキー場の入り口に集合してください。\n予約・お問い合わせ 013-227-1665\n39,000 円\n39,000 円",
+          "choices": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ],
+          "correctAnswer": 2,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2023-12-grammar-m5-q32",
+          "section": "grammar",
+          "mondai": 5,
+          "questionNumber": 32,
+          "questionType": "READING_MEDIUM",
+          "questionText": "",
+          "passage": "問題 4 つぎの(1)から(4)の文章\nぶんしょう\nを読んで、質問に答えなさい。答えは、1・2・3・4\nから最もよいものを一つえらびなさい。\n（１）\nこれは、ある映画館のインターネットチケット予約サービスから、村田さんに届\nとど\nいた\nメールである。\n村田新一様\nチケット代金を支払っていただき、ありがとうございました。\n<予約番号> 0832            <電話番号> 090-0911-4215\n<日時>    4 月 11 日(土) 14 時〜\n<合計代金> 大人 2 枚  3,600 円\n<映画名>  「海」           <席番号>  K13  K14\n・ご予約はキャンセルできませんので、ご注意ください。\n・当日は、映画館でチケットを発券していただく必要がございます 。\n券売機に<予約番号>と<電話番号>をご入力ください。\n・映画開始から 15 分を過ぎますと、券売機での発券はできなくなります 。それ以降\nは、チケットオフィスで発券いたします 。\n東王映画館インターネットチケット予約サービス\nお問い合わせ 061-987-6543\n23  当日、予約したチケットを券売機で発券したい場合、どうしなければならないか。\n1 映画開始時間の 15 分前までに、券売機に必要な情報を入力する。\n2 映画開始時間の 15 分前までに、券売機でお金を払う。\n3 映画開始時間の 15 分後までに、券売機に必要な情報を入力する。\n4 映画開始時間 の 15 分後までに、券売機でお金を払う。\n（２）\nアリサさんが家に帰ると、テーブルの上に、一緒\nいっしょ\nに住んでいる春美さんが書いたメモ\nが置いてあった。\nアリサさん\n大学の事\nじ\n務\nむ\n所\nしょ\nに今日中に出さなければならない書類があるのを忘れていたので、\nちょっと行ってきます 。\nカレーとスープはできたんだけど、サラダがまだできていないので、お願いでき\nますか。冷\nれい\n蔵\nぞう\n庫\nこ\nにトマトやレタスがあるから、適当に使ってください。\n今日は私が晩ご飯を作ると言ったのに、ごめんなさい。帰りに何か甘\nあま\nいものを買って\nきますね。\n春美\n24  アリサさんがこのメモで頼\nたの\nまれていることは何か。\n1 大学の事\nじ\n務\nむ\n所\nしょ\nに行って、書類を出すこと\n2 カレーとスープを作ること\n3 サラダを作ること\n4 甘\nあま\nいものを買うこと\n（３）\n雑誌で「友達や家族と待ち合わせるとき、その 場所に行く時間」についての 調査の\n記事を読んだ。早めに行く人は、全体の 59%で最も多く、次に多かったのが、時間に\n間に合うように行く人で 36%だった。一方で、多少遅れても気にしないという人は、\n3%しかいなかった。\n私はいつも早めに行くが、友人たちはたいてい遅れて来る。私が 珍\nめずら\nしいタイプなのか\nと思っていたが、この結果から、そうではないとわかって、意外だった。\n25  意外だったとあるが、調査結果のどのような点からそう思ったか。\n1 「私」と同じタイプの人が、最も多い点\n2 「私」と同じタイプの人が、二番目に多い点\n3 「私」と同じタイプの人が、最も少ない点\n4 「私」と反対のタイプの人が、最も多い点\n（４）\n納豆\nなっとう\nは、体にいいし、おいしいので、私は毎日食べている。そのまま食べる人も多い\nが、私は 卵\nたまご\nに混\nま\nぜて焼いたり、みそ汁\nしる\nに入れたり、いろいろな料理に使っている。\nしかし、今朝テレビを見て 驚\nおどろ\nいた。納豆\nなっとう\nには、ほかの食べ物にはない種類の酵\nこう\n素\nそ\n注)\nが入っている。これには血液の流れをよくする効\nこう\n果\nか\nがあるが、50 度以上の熱で減って\nしまうそうなのだ。そうだとすると、私は今まで、とてももったいない食べ方をしていた\nことになる。\n注) 酵\nこう\n素\nそ\n：ここでは、食べ物に入っている栄養\nえいよう\nのような物\n27  もったいない食べ方をしていたとあるが、なぜもったいないと思ったのか。\n1 体へのよい効\nこう\n果\nか\nが弱くなってしまう料理のしかたで、納豆\nなっとう\nを食べていたから\n2 体へのよい効\nこう\n果\nか\nが消えるような、たくさんの量の納豆\nなっとう\nを食べていたから\n3 おいしさがわからなくなるような料理のしかたで、納豆\nなっとう\nを食べていたから\n4 おいしくなる料理方法があるのに、それを知らないで納豆\nなっとう\nを食べていたから\n問題 5  つぎの(1)と(2)の文章\nぶんしょう\nを読んで、質問に答えなさい。答えは、1・2・3・4\nから最もよいものを一つえらびなさい。\n（１）\n私の留学している日本の大学には、漫\nまん\n画\nが\nを読んで社会について考える授\nじゅ\n業\nぎょう\nがあります。\n私は子\nこ\n供\nども\nのころから日本の漫\nまん\n画\nが\nが大好きだったので、この 授\nじゅ\n業\nぎょう\nを取りました。しかし、\nこれは失敗\nしっぱい\nでした。\nこの授\nじゅ\n業\nぎょう\nでは、学生は毎週の授\nじゅ\n業\nぎょう\nの前に、先生が指定した漫\nまん\n画\nが\nを読んでいくことに\nなっていました。ところが、 扱\nあつか\nう漫\nまん\n画\nが\nはどれも私が知らないものばかりだったので、\n読むのに時間がかかって、毎回とても大変でした。\nいちばん 困ったのは 学期末の試験です。試験の前に、ある 漫\nまん\n画\nが\nを読んでおくように\n先生に言われました。その漫\nまん\n画\nが\nは全部で 3巻\nかん\nもあり、しっかり読むのにはとても時間が\nかかりました。そのために、ほかの試験の勉強ができなくなり、寝る時間も削\nけず\nらなければ\nならなくなりました。いつもなら、 試験期間中 は漫\nまん\n画\nが\nを読むのを我\nが\n慢\nまん\nするのですが、\nこのときの私は逆だったのです 。\n試験はうまくいきましたが、今はしばらく漫\nまん\n画\nが\nはお休みにしたい気分です 。\n27  毎回の授\nじゅ\n業\nぎょう\nの前に、学生がしなければならなかったことは何か。\n1 授\nじゅ\n業\nぎょう\nで先生に 扱\nあつか\nってもらいたい漫\nまん\n画\nが\nを見つけてくること\n2 社会問題がテーマになっている漫\nまん\n画\nが\nを見つけてくること\n3 先生に読んでくるように言われた漫\nまん\n画\nが\nを読んでおくこと\n4 自分が読んだことがない漫\nまん\n画\nが\nを探\nさが\nして、読んでおくこと\n28  このときの私は、どのような 状\nじょう\n態\nたい\nだったか。\n1 ほかの試験の勉強がしたいのに、漫\nまん\n画\nが\nを読まなければならなかった。\n2 漫\nまん\n画\nが\nが読みたいのに、試験の勉強をしなければならなかった。\n3 好きな漫\nまん\n画\nが\nが読みたいのに、好きではない漫画を読まなければならなかった。\n4 試験の勉強をしなければならないのに、漫\nまん\n画\nが\nを読むのを我\nが\n慢\nまん\nできなかった。\n29 「私」は今、どんな気持ちになっているか。\n1 しばらくは、休みの日だけに漫\nまん\n画\nが\nを読もう。\n2 しばらくは、好きな漫\nまん\n画\nが\nしか読みたくない。\n3 しばらくは、我\nが\n慢\nまん\nして漫\nまん\n画\nが\nを読もう。\n4   しばらくは、漫\nまん\n画\nが\nは読みたくない。\n（２）\nA 町は景\nけ\n色\nしき\nの美しい海沿\nぞ\nいの町で、毎週日曜の朝に港で開かれる「朝市\nあさいち\n」も人気がある。\n朝市\nあさいち\nは、A 町にある店が、魚や肉、野菜、パン、ケーキなどを売る市\nいち\n場\nば\nで、近くの市や\n町からも客が大勢\nおおぜい\nやってくる。\n朝市\nあさいち\nを始めたのは、A 町に昔からある店の主人たちである。約30 年前、大きなスーパー\nマーケットができた。多くの人がスーパーを利用するようになってしまったため、店の\n主人たちは、自分たちの店の商品の良さをもっと知ってもらおうと、朝市\nあさいち\nを始めたのだ。\n朝市\nあさいち\nでは、人気がある 商品はすぐ 売り切れてしまう。そんなに 人気があるなら、\nたくさん 売ればいいのだが、 それはしないそうだ。この 朝市\nあさいち\nの目的は、朝市\nあさいち\nでお金を\n稼\nかせ\nぐことではなく、まず朝市\nあさいち\nで自分たちの店について知ってもらって、ふだんA 町の店\nで買い物をする客を増やすことだからだ。そのため、 朝市\nあさいち\nに商品が出せる人は(  )\nだけ、ということになっている。\n30  A 町にある店の主人たちは、何のために朝市\nあさいち\nを始めたのか。\n1 町の中に、安く買い物ができるところを増やすため\n2 町の中に、近くの市や町から来る客が楽しめる場所を作るため\n3 自分たちの町の景\nけ\n色\nしき\nの美しさをもっと宣伝\nせんでん\nするため\n4 自分たちの店の商品の良さをもっと知ってもらうため\n31  それとあるが、何か。\n1 朝市\nあさいち\nで人気がある商品を、店で売るより高く売ること\n2 朝市\nあさいち\nで人気がある商品を、朝市\nあさいち\nでもっと売ること\n3 朝市\nあさいち\nでしか買えない商品の種類を増やすこと\n4 朝市\nあさいち\nでしか買えない商品を平日に店でも売ること\n32  (  ) に入れるのに最もよいものはどれか。\n1 A 町に店がある人\n2 A 町以外の市や町に店がある人\n3 A 町で店を開きたいと思っている人\n4 A 町の店でふだんから買い物をしている人\n問題 6  つぎの文章\nぶんしょう\nを読んで、質問に答えなさい。答えは、1・2・3・4 から最もよい\nものを一つえらびなさい。\n先月、新しいオートバイ を買った。オートバイ には①長い間乗っていなかった が、\n久\nひさ\nしぶりにまた乗りたくなったのだ。前に乗っていたのは大学生のころで、もう20 年も前\nだ。卒業後はずっと仕事や子\nこ\n供\nども\nの世話で 忙\nいそが\nしかったが、最近、少し自由に使える時間\nが増えた。妻に相談したら、 「いいんじゃない?」と賛成\nさんせい\nしてくれた。\nオートバイを買った店は、 「ガロン」という店だ。私には、どうしてもこの店で買い\nたい理由があったのだ。\n20 年前の春、私は、父にもらったオートバイで東京から京都まで旅行をしていた。\n安い旅館に泊まりながら、何日もかけて進む旅だった。\n3 日目の朝、道を走っているとき、 オートバイ の前の方で何かが折れる音がした。\n見ると、②オートバイの部品が壊\nこわ\nれていた。ハンドルが少しぐらぐらしたが、オートバイ\nは一応動いた。\nしばらく進むと、オートバイの店があったので、 修\nしゅう\n理\nり\nを頼\nたの\nんでみた。しかし、難しい\n修理\nしゅうり\nだからできない、と 断られてしまった。次の店でも同じだった。そして、3軒\nけん\n目\nめ\nの\n店が「ガロン」 だった。 「ガロン」 の店員も「これは 難しいね。 」と言った。でも、\n「困っているんでしょう?やってみるよ。 」と言って、 修\nしゅう\n理\nり\nを始めてくれた。そして、\n2 時間かけて 直してくれたのだ。 店員は「いつかこの 店でオートバイ を買ってね。 」\nと言って笑った。本当に困っていた私は、③何度もお礼\nれい\nを言いながら、必ずそうしよう\nと決めた。\n今の「ガロン」には、もうあの店員はいなかった。会えなかったのは残念だったが、\nそれでも私は④満足している。\n33  「私」がオートバイに①長い間乗っていなかったのは、どうしてか。\n1 買いたいと思うオートバイがなかったから\n2 仕事や子\nこ\n供\nども\nの世話で 忙\nいそが\nしかったから\n3 「私」のオートバイを妻が使っていたから\n4 家にあるオートバイが壊\nこわ\nれていたから\n34   ②オートバイの部品が壊\nこわ\nれていたとあるが、壊\nこわ\nれたのはいつか。\n1 先月、新しいオートバイを買ってから 3 日目の朝\n2 先月、オートバイ旅行を始めてから 3 日目の朝\n3  20 年前、新しいオートバイを買ってから 3 日目の朝\n4  20 年前、オートバイ旅行を始めてから 3 日目の朝\n35  ③何度もお礼\nれい\nを言いながらとあるが、 「私」はどうして何度もお礼\nれい\nを言ったのか。\n1 店にあった新しいオートバイを安く売ってくれたから\n2 オートバイを修理\nしゅうり\nしてくれそうな店を教えてくれたから\n3  壊\nこわ\nれて動かなくなりそうなオートバイを買ってくれたから\n4 ほかの店で修理\nしゅうり\nを断られたオートバイを直してくれたから\n36  ④満足しているとあるが、なぜか。\n1 もう一度、オートバイに乗ることができたから\n2 「ガロン」でオートバイを買うことができたから\n3 壊\nこわ\nれてしまったオートバイを修理\nしゅうり\nしてもらうことができたから\n4 オートバイの修理\nしゅうり\nをしてくれた店員に、お礼\nれい\nを伝えることができたから\n問題 7  右のページは、あるスキー場のホームページに載\nの\nっているスキー教室の案内で\nある。これを読んで、下の質問に答えなさい。答えは、1・2・3・4 から最も\nよいものを一つえらびなさい。\n37  スミスさんは、2 月 2 日の午後に普通コースを受けたいと思っている。スミスさん\nは、どのように申し込みをしなければならないか。\n1 2 月 2 日の午前 9 時までに、電話か窓口で申し込む。\n2 2 月 2 日の午前 9 時 30 分までに、窓口で申し込む。\n3 2 月 2 日の午後 1 時 30 分までに、窓口で申し込む。\n4 2 月 2 日の午後 1 時 30 分までに、電話か窓口で申し込む。\n38  グエンさんは、友達 4 人と特別コースを受けたいと思っている。グエンさんたち\nは、朝山ホテルに泊まっている。午後2 時から 4 時まで特別コースを受ける場合、\nグエンさんたちはいくら支払わなければならないか。\n1 22,000 円を支払う。\n2 22,000 円から 2,000 円を引いたものを支払う。\n3 39,000 円を支払う。\n4 39,000 円から 2,000 円を引いたものを支払う。\n朝山スキー場\n初級スキー教室のご案内\n期間：12 月 24 日～3 月 31 日\n【コースと料金】\n<普通コース(2 時間)>\n・大人クラス(最大 10 名)と子どもクラス(最大 8 名)があります 。\n・午前(10 時〜12 時)と、午後(2 時〜4 時)のどちらかを選んでください。\n大人一人 4,000 円\n子ども(小学生)一人 4,500 円\n※朝山ホテルにお泊まりの方は、500 円割引します 。\n<特別コース(2 時間または 4 時間)>\n・お友達やご家族だけで習いたい方のためのコースです。小学生から参加できます。\n・4〜6 名のグループで申し込んでください。\n・午前 9 時から午後 7 時までの間で、2 時間か 4 時間を選べます 。\n2 時間 4 時間\n1 グループ 22,000 円 39,000 円\n※グループの中に、朝山ホテルにお泊まりの方がいれば、グループの料金から\n2,000 円割引します 。\n【申し込みと料金の支払い】\n・普通コースは、午前に受ける場合は当日の午前 9 時 30 分まで、午後に受ける場合は\n当日の午後1 時 30 分までに、スキー教室の窓口(朝山ホテル1 階)で申し込んでください。\n料金は申し込みのときに支払ってください。\n・特別コースは、午前に開始したい場合は前日の午後 4 時まで、午後の場合は当日の\n午前 9 時までに、電話か窓口で申し込んでください。料金はコース開始前に窓口で\n支払ってください。\n【教室当日の集合】\n・どちらのコースも、開始時間の 10 分前にスキー場の入り口に集合してください。\n予約・お問い合わせ 013-227-1665\n39,000 円\n39,000 円",
+          "choices": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ],
+          "correctAnswer": 1,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2023-12-grammar-m6-q33",
+          "section": "grammar",
+          "mondai": 6,
+          "questionNumber": 33,
+          "questionType": "READING_LONG",
+          "questionText": "",
+          "passage": "問題 4 つぎの(1)から(4)の文章\nぶんしょう\nを読んで、質問に答えなさい。答えは、1・2・3・4\nから最もよいものを一つえらびなさい。\n（１）\nこれは、ある映画館のインターネットチケット予約サービスから、村田さんに届\nとど\nいた\nメールである。\n村田新一様\nチケット代金を支払っていただき、ありがとうございました。\n<予約番号> 0832            <電話番号> 090-0911-4215\n<日時>    4 月 11 日(土) 14 時〜\n<合計代金> 大人 2 枚  3,600 円\n<映画名>  「海」           <席番号>  K13  K14\n・ご予約はキャンセルできませんので、ご注意ください。\n・当日は、映画館でチケットを発券していただく必要がございます 。\n券売機に<予約番号>と<電話番号>をご入力ください。\n・映画開始から 15 分を過ぎますと、券売機での発券はできなくなります 。それ以降\nは、チケットオフィスで発券いたします 。\n東王映画館インターネットチケット予約サービス\nお問い合わせ 061-987-6543\n23  当日、予約したチケットを券売機で発券したい場合、どうしなければならないか。\n1 映画開始時間の 15 分前までに、券売機に必要な情報を入力する。\n2 映画開始時間の 15 分前までに、券売機でお金を払う。\n3 映画開始時間の 15 分後までに、券売機に必要な情報を入力する。\n4 映画開始時間 の 15 分後までに、券売機でお金を払う。\n（２）\nアリサさんが家に帰ると、テーブルの上に、一緒\nいっしょ\nに住んでいる春美さんが書いたメモ\nが置いてあった。\nアリサさん\n大学の事\nじ\n務\nむ\n所\nしょ\nに今日中に出さなければならない書類があるのを忘れていたので、\nちょっと行ってきます 。\nカレーとスープはできたんだけど、サラダがまだできていないので、お願いでき\nますか。冷\nれい\n蔵\nぞう\n庫\nこ\nにトマトやレタスがあるから、適当に使ってください。\n今日は私が晩ご飯を作ると言ったのに、ごめんなさい。帰りに何か甘\nあま\nいものを買って\nきますね。\n春美\n24  アリサさんがこのメモで頼\nたの\nまれていることは何か。\n1 大学の事\nじ\n務\nむ\n所\nしょ\nに行って、書類を出すこと\n2 カレーとスープを作ること\n3 サラダを作ること\n4 甘\nあま\nいものを買うこと\n（３）\n雑誌で「友達や家族と待ち合わせるとき、その 場所に行く時間」についての 調査の\n記事を読んだ。早めに行く人は、全体の 59%で最も多く、次に多かったのが、時間に\n間に合うように行く人で 36%だった。一方で、多少遅れても気にしないという人は、\n3%しかいなかった。\n私はいつも早めに行くが、友人たちはたいてい遅れて来る。私が 珍\nめずら\nしいタイプなのか\nと思っていたが、この結果から、そうではないとわかって、意外だった。\n25  意外だったとあるが、調査結果のどのような点からそう思ったか。\n1 「私」と同じタイプの人が、最も多い点\n2 「私」と同じタイプの人が、二番目に多い点\n3 「私」と同じタイプの人が、最も少ない点\n4 「私」と反対のタイプの人が、最も多い点\n（４）\n納豆\nなっとう\nは、体にいいし、おいしいので、私は毎日食べている。そのまま食べる人も多い\nが、私は 卵\nたまご\nに混\nま\nぜて焼いたり、みそ汁\nしる\nに入れたり、いろいろな料理に使っている。\nしかし、今朝テレビを見て 驚\nおどろ\nいた。納豆\nなっとう\nには、ほかの食べ物にはない種類の酵\nこう\n素\nそ\n注)\nが入っている。これには血液の流れをよくする効\nこう\n果\nか\nがあるが、50 度以上の熱で減って\nしまうそうなのだ。そうだとすると、私は今まで、とてももったいない食べ方をしていた\nことになる。\n注) 酵\nこう\n素\nそ\n：ここでは、食べ物に入っている栄養\nえいよう\nのような物\n27  もったいない食べ方をしていたとあるが、なぜもったいないと思ったのか。\n1 体へのよい効\nこう\n果\nか\nが弱くなってしまう料理のしかたで、納豆\nなっとう\nを食べていたから\n2 体へのよい効\nこう\n果\nか\nが消えるような、たくさんの量の納豆\nなっとう\nを食べていたから\n3 おいしさがわからなくなるような料理のしかたで、納豆\nなっとう\nを食べていたから\n4 おいしくなる料理方法があるのに、それを知らないで納豆\nなっとう\nを食べていたから\n問題 5  つぎの(1)と(2)の文章\nぶんしょう\nを読んで、質問に答えなさい。答えは、1・2・3・4\nから最もよいものを一つえらびなさい。\n（１）\n私の留学している日本の大学には、漫\nまん\n画\nが\nを読んで社会について考える授\nじゅ\n業\nぎょう\nがあります。\n私は子\nこ\n供\nども\nのころから日本の漫\nまん\n画\nが\nが大好きだったので、この 授\nじゅ\n業\nぎょう\nを取りました。しかし、\nこれは失敗\nしっぱい\nでした。\nこの授\nじゅ\n業\nぎょう\nでは、学生は毎週の授\nじゅ\n業\nぎょう\nの前に、先生が指定した漫\nまん\n画\nが\nを読んでいくことに\nなっていました。ところが、 扱\nあつか\nう漫\nまん\n画\nが\nはどれも私が知らないものばかりだったので、\n読むのに時間がかかって、毎回とても大変でした。\nいちばん 困ったのは 学期末の試験です。試験の前に、ある 漫\nまん\n画\nが\nを読んでおくように\n先生に言われました。その漫\nまん\n画\nが\nは全部で 3巻\nかん\nもあり、しっかり読むのにはとても時間が\nかかりました。そのために、ほかの試験の勉強ができなくなり、寝る時間も削\nけず\nらなければ\nならなくなりました。いつもなら、 試験期間中 は漫\nまん\n画\nが\nを読むのを我\nが\n慢\nまん\nするのですが、\nこのときの私は逆だったのです 。\n試験はうまくいきましたが、今はしばらく漫\nまん\n画\nが\nはお休みにしたい気分です 。\n27  毎回の授\nじゅ\n業\nぎょう\nの前に、学生がしなければならなかったことは何か。\n1 授\nじゅ\n業\nぎょう\nで先生に 扱\nあつか\nってもらいたい漫\nまん\n画\nが\nを見つけてくること\n2 社会問題がテーマになっている漫\nまん\n画\nが\nを見つけてくること\n3 先生に読んでくるように言われた漫\nまん\n画\nが\nを読んでおくこと\n4 自分が読んだことがない漫\nまん\n画\nが\nを探\nさが\nして、読んでおくこと\n28  このときの私は、どのような 状\nじょう\n態\nたい\nだったか。\n1 ほかの試験の勉強がしたいのに、漫\nまん\n画\nが\nを読まなければならなかった。\n2 漫\nまん\n画\nが\nが読みたいのに、試験の勉強をしなければならなかった。\n3 好きな漫\nまん\n画\nが\nが読みたいのに、好きではない漫画を読まなければならなかった。\n4 試験の勉強をしなければならないのに、漫\nまん\n画\nが\nを読むのを我\nが\n慢\nまん\nできなかった。\n29 「私」は今、どんな気持ちになっているか。\n1 しばらくは、休みの日だけに漫\nまん\n画\nが\nを読もう。\n2 しばらくは、好きな漫\nまん\n画\nが\nしか読みたくない。\n3 しばらくは、我\nが\n慢\nまん\nして漫\nまん\n画\nが\nを読もう。\n4   しばらくは、漫\nまん\n画\nが\nは読みたくない。\n（２）\nA 町は景\nけ\n色\nしき\nの美しい海沿\nぞ\nいの町で、毎週日曜の朝に港で開かれる「朝市\nあさいち\n」も人気がある。\n朝市\nあさいち\nは、A 町にある店が、魚や肉、野菜、パン、ケーキなどを売る市\nいち\n場\nば\nで、近くの市や\n町からも客が大勢\nおおぜい\nやってくる。\n朝市\nあさいち\nを始めたのは、A 町に昔からある店の主人たちである。約30 年前、大きなスーパー\nマーケットができた。多くの人がスーパーを利用するようになってしまったため、店の\n主人たちは、自分たちの店の商品の良さをもっと知ってもらおうと、朝市\nあさいち\nを始めたのだ。\n朝市\nあさいち\nでは、人気がある 商品はすぐ 売り切れてしまう。そんなに 人気があるなら、\nたくさん 売ればいいのだが、 それはしないそうだ。この 朝市\nあさいち\nの目的は、朝市\nあさいち\nでお金を\n稼\nかせ\nぐことではなく、まず朝市\nあさいち\nで自分たちの店について知ってもらって、ふだんA 町の店\nで買い物をする客を増やすことだからだ。そのため、 朝市\nあさいち\nに商品が出せる人は(  )\nだけ、ということになっている。\n30  A 町にある店の主人たちは、何のために朝市\nあさいち\nを始めたのか。\n1 町の中に、安く買い物ができるところを増やすため\n2 町の中に、近くの市や町から来る客が楽しめる場所を作るため\n3 自分たちの町の景\nけ\n色\nしき\nの美しさをもっと宣伝\nせんでん\nするため\n4 自分たちの店の商品の良さをもっと知ってもらうため\n31  それとあるが、何か。\n1 朝市\nあさいち\nで人気がある商品を、店で売るより高く売ること\n2 朝市\nあさいち\nで人気がある商品を、朝市\nあさいち\nでもっと売ること\n3 朝市\nあさいち\nでしか買えない商品の種類を増やすこと\n4 朝市\nあさいち\nでしか買えない商品を平日に店でも売ること\n32  (  ) に入れるのに最もよいものはどれか。\n1 A 町に店がある人\n2 A 町以外の市や町に店がある人\n3 A 町で店を開きたいと思っている人\n4 A 町の店でふだんから買い物をしている人\n問題 6  つぎの文章\nぶんしょう\nを読んで、質問に答えなさい。答えは、1・2・3・4 から最もよい\nものを一つえらびなさい。\n先月、新しいオートバイ を買った。オートバイ には①長い間乗っていなかった が、\n久\nひさ\nしぶりにまた乗りたくなったのだ。前に乗っていたのは大学生のころで、もう20 年も前\nだ。卒業後はずっと仕事や子\nこ\n供\nども\nの世話で 忙\nいそが\nしかったが、最近、少し自由に使える時間\nが増えた。妻に相談したら、 「いいんじゃない?」と賛成\nさんせい\nしてくれた。\nオートバイを買った店は、 「ガロン」という店だ。私には、どうしてもこの店で買い\nたい理由があったのだ。\n20 年前の春、私は、父にもらったオートバイで東京から京都まで旅行をしていた。\n安い旅館に泊まりながら、何日もかけて進む旅だった。\n3 日目の朝、道を走っているとき、 オートバイ の前の方で何かが折れる音がした。\n見ると、②オートバイの部品が壊\nこわ\nれていた。ハンドルが少しぐらぐらしたが、オートバイ\nは一応動いた。\nしばらく進むと、オートバイの店があったので、 修\nしゅう\n理\nり\nを頼\nたの\nんでみた。しかし、難しい\n修理\nしゅうり\nだからできない、と 断られてしまった。次の店でも同じだった。そして、3軒\nけん\n目\nめ\nの\n店が「ガロン」 だった。 「ガロン」 の店員も「これは 難しいね。 」と言った。でも、\n「困っているんでしょう?やってみるよ。 」と言って、 修\nしゅう\n理\nり\nを始めてくれた。そして、\n2 時間かけて 直してくれたのだ。 店員は「いつかこの 店でオートバイ を買ってね。 」\nと言って笑った。本当に困っていた私は、③何度もお礼\nれい\nを言いながら、必ずそうしよう\nと決めた。\n今の「ガロン」には、もうあの店員はいなかった。会えなかったのは残念だったが、\nそれでも私は④満足している。\n33  「私」がオートバイに①長い間乗っていなかったのは、どうしてか。\n1 買いたいと思うオートバイがなかったから\n2 仕事や子\nこ\n供\nども\nの世話で 忙\nいそが\nしかったから\n3 「私」のオートバイを妻が使っていたから\n4 家にあるオートバイが壊\nこわ\nれていたから\n34   ②オートバイの部品が壊\nこわ\nれていたとあるが、壊\nこわ\nれたのはいつか。\n1 先月、新しいオートバイを買ってから 3 日目の朝\n2 先月、オートバイ旅行を始めてから 3 日目の朝\n3  20 年前、新しいオートバイを買ってから 3 日目の朝\n4  20 年前、オートバイ旅行を始めてから 3 日目の朝\n35  ③何度もお礼\nれい\nを言いながらとあるが、 「私」はどうして何度もお礼\nれい\nを言ったのか。\n1 店にあった新しいオートバイを安く売ってくれたから\n2 オートバイを修理\nしゅうり\nしてくれそうな店を教えてくれたから\n3  壊\nこわ\nれて動かなくなりそうなオートバイを買ってくれたから\n4 ほかの店で修理\nしゅうり\nを断られたオートバイを直してくれたから\n36  ④満足しているとあるが、なぜか。\n1 もう一度、オートバイに乗ることができたから\n2 「ガロン」でオートバイを買うことができたから\n3 壊\nこわ\nれてしまったオートバイを修理\nしゅうり\nしてもらうことができたから\n4 オートバイの修理\nしゅうり\nをしてくれた店員に、お礼\nれい\nを伝えることができたから\n問題 7  右のページは、あるスキー場のホームページに載\nの\nっているスキー教室の案内で\nある。これを読んで、下の質問に答えなさい。答えは、1・2・3・4 から最も\nよいものを一つえらびなさい。\n37  スミスさんは、2 月 2 日の午後に普通コースを受けたいと思っている。スミスさん\nは、どのように申し込みをしなければならないか。\n1 2 月 2 日の午前 9 時までに、電話か窓口で申し込む。\n2 2 月 2 日の午前 9 時 30 分までに、窓口で申し込む。\n3 2 月 2 日の午後 1 時 30 分までに、窓口で申し込む。\n4 2 月 2 日の午後 1 時 30 分までに、電話か窓口で申し込む。\n38  グエンさんは、友達 4 人と特別コースを受けたいと思っている。グエンさんたち\nは、朝山ホテルに泊まっている。午後2 時から 4 時まで特別コースを受ける場合、\nグエンさんたちはいくら支払わなければならないか。\n1 22,000 円を支払う。\n2 22,000 円から 2,000 円を引いたものを支払う。\n3 39,000 円を支払う。\n4 39,000 円から 2,000 円を引いたものを支払う。\n朝山スキー場\n初級スキー教室のご案内\n期間：12 月 24 日～3 月 31 日\n【コースと料金】\n<普通コース(2 時間)>\n・大人クラス(最大 10 名)と子どもクラス(最大 8 名)があります 。\n・午前(10 時〜12 時)と、午後(2 時〜4 時)のどちらかを選んでください。\n大人一人 4,000 円\n子ども(小学生)一人 4,500 円\n※朝山ホテルにお泊まりの方は、500 円割引します 。\n<特別コース(2 時間または 4 時間)>\n・お友達やご家族だけで習いたい方のためのコースです。小学生から参加できます。\n・4〜6 名のグループで申し込んでください。\n・午前 9 時から午後 7 時までの間で、2 時間か 4 時間を選べます 。\n2 時間 4 時間\n1 グループ 22,000 円 39,000 円\n※グループの中に、朝山ホテルにお泊まりの方がいれば、グループの料金から\n2,000 円割引します 。\n【申し込みと料金の支払い】\n・普通コースは、午前に受ける場合は当日の午前 9 時 30 分まで、午後に受ける場合は\n当日の午後1 時 30 分までに、スキー教室の窓口(朝山ホテル1 階)で申し込んでください。\n料金は申し込みのときに支払ってください。\n・特別コースは、午前に開始したい場合は前日の午後 4 時まで、午後の場合は当日の\n午前 9 時までに、電話か窓口で申し込んでください。料金はコース開始前に窓口で\n支払ってください。\n【教室当日の集合】\n・どちらのコースも、開始時間の 10 分前にスキー場の入り口に集合してください。\n予約・お問い合わせ 013-227-1665\n39,000 円\n39,000 円",
+          "choices": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ],
+          "correctAnswer": 2,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2023-12-grammar-m6-q34",
+          "section": "grammar",
+          "mondai": 6,
+          "questionNumber": 34,
+          "questionType": "READING_LONG",
+          "questionText": "",
+          "passage": "問題 4 つぎの(1)から(4)の文章\nぶんしょう\nを読んで、質問に答えなさい。答えは、1・2・3・4\nから最もよいものを一つえらびなさい。\n（１）\nこれは、ある映画館のインターネットチケット予約サービスから、村田さんに届\nとど\nいた\nメールである。\n村田新一様\nチケット代金を支払っていただき、ありがとうございました。\n<予約番号> 0832            <電話番号> 090-0911-4215\n<日時>    4 月 11 日(土) 14 時〜\n<合計代金> 大人 2 枚  3,600 円\n<映画名>  「海」           <席番号>  K13  K14\n・ご予約はキャンセルできませんので、ご注意ください。\n・当日は、映画館でチケットを発券していただく必要がございます 。\n券売機に<予約番号>と<電話番号>をご入力ください。\n・映画開始から 15 分を過ぎますと、券売機での発券はできなくなります 。それ以降\nは、チケットオフィスで発券いたします 。\n東王映画館インターネットチケット予約サービス\nお問い合わせ 061-987-6543\n23  当日、予約したチケットを券売機で発券したい場合、どうしなければならないか。\n1 映画開始時間の 15 分前までに、券売機に必要な情報を入力する。\n2 映画開始時間の 15 分前までに、券売機でお金を払う。\n3 映画開始時間の 15 分後までに、券売機に必要な情報を入力する。\n4 映画開始時間 の 15 分後までに、券売機でお金を払う。\n（２）\nアリサさんが家に帰ると、テーブルの上に、一緒\nいっしょ\nに住んでいる春美さんが書いたメモ\nが置いてあった。\nアリサさん\n大学の事\nじ\n務\nむ\n所\nしょ\nに今日中に出さなければならない書類があるのを忘れていたので、\nちょっと行ってきます 。\nカレーとスープはできたんだけど、サラダがまだできていないので、お願いでき\nますか。冷\nれい\n蔵\nぞう\n庫\nこ\nにトマトやレタスがあるから、適当に使ってください。\n今日は私が晩ご飯を作ると言ったのに、ごめんなさい。帰りに何か甘\nあま\nいものを買って\nきますね。\n春美\n24  アリサさんがこのメモで頼\nたの\nまれていることは何か。\n1 大学の事\nじ\n務\nむ\n所\nしょ\nに行って、書類を出すこと\n2 カレーとスープを作ること\n3 サラダを作ること\n4 甘\nあま\nいものを買うこと\n（３）\n雑誌で「友達や家族と待ち合わせるとき、その 場所に行く時間」についての 調査の\n記事を読んだ。早めに行く人は、全体の 59%で最も多く、次に多かったのが、時間に\n間に合うように行く人で 36%だった。一方で、多少遅れても気にしないという人は、\n3%しかいなかった。\n私はいつも早めに行くが、友人たちはたいてい遅れて来る。私が 珍\nめずら\nしいタイプなのか\nと思っていたが、この結果から、そうではないとわかって、意外だった。\n25  意外だったとあるが、調査結果のどのような点からそう思ったか。\n1 「私」と同じタイプの人が、最も多い点\n2 「私」と同じタイプの人が、二番目に多い点\n3 「私」と同じタイプの人が、最も少ない点\n4 「私」と反対のタイプの人が、最も多い点\n（４）\n納豆\nなっとう\nは、体にいいし、おいしいので、私は毎日食べている。そのまま食べる人も多い\nが、私は 卵\nたまご\nに混\nま\nぜて焼いたり、みそ汁\nしる\nに入れたり、いろいろな料理に使っている。\nしかし、今朝テレビを見て 驚\nおどろ\nいた。納豆\nなっとう\nには、ほかの食べ物にはない種類の酵\nこう\n素\nそ\n注)\nが入っている。これには血液の流れをよくする効\nこう\n果\nか\nがあるが、50 度以上の熱で減って\nしまうそうなのだ。そうだとすると、私は今まで、とてももったいない食べ方をしていた\nことになる。\n注) 酵\nこう\n素\nそ\n：ここでは、食べ物に入っている栄養\nえいよう\nのような物\n27  もったいない食べ方をしていたとあるが、なぜもったいないと思ったのか。\n1 体へのよい効\nこう\n果\nか\nが弱くなってしまう料理のしかたで、納豆\nなっとう\nを食べていたから\n2 体へのよい効\nこう\n果\nか\nが消えるような、たくさんの量の納豆\nなっとう\nを食べていたから\n3 おいしさがわからなくなるような料理のしかたで、納豆\nなっとう\nを食べていたから\n4 おいしくなる料理方法があるのに、それを知らないで納豆\nなっとう\nを食べていたから\n問題 5  つぎの(1)と(2)の文章\nぶんしょう\nを読んで、質問に答えなさい。答えは、1・2・3・4\nから最もよいものを一つえらびなさい。\n（１）\n私の留学している日本の大学には、漫\nまん\n画\nが\nを読んで社会について考える授\nじゅ\n業\nぎょう\nがあります。\n私は子\nこ\n供\nども\nのころから日本の漫\nまん\n画\nが\nが大好きだったので、この 授\nじゅ\n業\nぎょう\nを取りました。しかし、\nこれは失敗\nしっぱい\nでした。\nこの授\nじゅ\n業\nぎょう\nでは、学生は毎週の授\nじゅ\n業\nぎょう\nの前に、先生が指定した漫\nまん\n画\nが\nを読んでいくことに\nなっていました。ところが、 扱\nあつか\nう漫\nまん\n画\nが\nはどれも私が知らないものばかりだったので、\n読むのに時間がかかって、毎回とても大変でした。\nいちばん 困ったのは 学期末の試験です。試験の前に、ある 漫\nまん\n画\nが\nを読んでおくように\n先生に言われました。その漫\nまん\n画\nが\nは全部で 3巻\nかん\nもあり、しっかり読むのにはとても時間が\nかかりました。そのために、ほかの試験の勉強ができなくなり、寝る時間も削\nけず\nらなければ\nならなくなりました。いつもなら、 試験期間中 は漫\nまん\n画\nが\nを読むのを我\nが\n慢\nまん\nするのですが、\nこのときの私は逆だったのです 。\n試験はうまくいきましたが、今はしばらく漫\nまん\n画\nが\nはお休みにしたい気分です 。\n27  毎回の授\nじゅ\n業\nぎょう\nの前に、学生がしなければならなかったことは何か。\n1 授\nじゅ\n業\nぎょう\nで先生に 扱\nあつか\nってもらいたい漫\nまん\n画\nが\nを見つけてくること\n2 社会問題がテーマになっている漫\nまん\n画\nが\nを見つけてくること\n3 先生に読んでくるように言われた漫\nまん\n画\nが\nを読んでおくこと\n4 自分が読んだことがない漫\nまん\n画\nが\nを探\nさが\nして、読んでおくこと\n28  このときの私は、どのような 状\nじょう\n態\nたい\nだったか。\n1 ほかの試験の勉強がしたいのに、漫\nまん\n画\nが\nを読まなければならなかった。\n2 漫\nまん\n画\nが\nが読みたいのに、試験の勉強をしなければならなかった。\n3 好きな漫\nまん\n画\nが\nが読みたいのに、好きではない漫画を読まなければならなかった。\n4 試験の勉強をしなければならないのに、漫\nまん\n画\nが\nを読むのを我\nが\n慢\nまん\nできなかった。\n29 「私」は今、どんな気持ちになっているか。\n1 しばらくは、休みの日だけに漫\nまん\n画\nが\nを読もう。\n2 しばらくは、好きな漫\nまん\n画\nが\nしか読みたくない。\n3 しばらくは、我\nが\n慢\nまん\nして漫\nまん\n画\nが\nを読もう。\n4   しばらくは、漫\nまん\n画\nが\nは読みたくない。\n（２）\nA 町は景\nけ\n色\nしき\nの美しい海沿\nぞ\nいの町で、毎週日曜の朝に港で開かれる「朝市\nあさいち\n」も人気がある。\n朝市\nあさいち\nは、A 町にある店が、魚や肉、野菜、パン、ケーキなどを売る市\nいち\n場\nば\nで、近くの市や\n町からも客が大勢\nおおぜい\nやってくる。\n朝市\nあさいち\nを始めたのは、A 町に昔からある店の主人たちである。約30 年前、大きなスーパー\nマーケットができた。多くの人がスーパーを利用するようになってしまったため、店の\n主人たちは、自分たちの店の商品の良さをもっと知ってもらおうと、朝市\nあさいち\nを始めたのだ。\n朝市\nあさいち\nでは、人気がある 商品はすぐ 売り切れてしまう。そんなに 人気があるなら、\nたくさん 売ればいいのだが、 それはしないそうだ。この 朝市\nあさいち\nの目的は、朝市\nあさいち\nでお金を\n稼\nかせ\nぐことではなく、まず朝市\nあさいち\nで自分たちの店について知ってもらって、ふだんA 町の店\nで買い物をする客を増やすことだからだ。そのため、 朝市\nあさいち\nに商品が出せる人は(  )\nだけ、ということになっている。\n30  A 町にある店の主人たちは、何のために朝市\nあさいち\nを始めたのか。\n1 町の中に、安く買い物ができるところを増やすため\n2 町の中に、近くの市や町から来る客が楽しめる場所を作るため\n3 自分たちの町の景\nけ\n色\nしき\nの美しさをもっと宣伝\nせんでん\nするため\n4 自分たちの店の商品の良さをもっと知ってもらうため\n31  それとあるが、何か。\n1 朝市\nあさいち\nで人気がある商品を、店で売るより高く売ること\n2 朝市\nあさいち\nで人気がある商品を、朝市\nあさいち\nでもっと売ること\n3 朝市\nあさいち\nでしか買えない商品の種類を増やすこと\n4 朝市\nあさいち\nでしか買えない商品を平日に店でも売ること\n32  (  ) に入れるのに最もよいものはどれか。\n1 A 町に店がある人\n2 A 町以外の市や町に店がある人\n3 A 町で店を開きたいと思っている人\n4 A 町の店でふだんから買い物をしている人\n問題 6  つぎの文章\nぶんしょう\nを読んで、質問に答えなさい。答えは、1・2・3・4 から最もよい\nものを一つえらびなさい。\n先月、新しいオートバイ を買った。オートバイ には①長い間乗っていなかった が、\n久\nひさ\nしぶりにまた乗りたくなったのだ。前に乗っていたのは大学生のころで、もう20 年も前\nだ。卒業後はずっと仕事や子\nこ\n供\nども\nの世話で 忙\nいそが\nしかったが、最近、少し自由に使える時間\nが増えた。妻に相談したら、 「いいんじゃない?」と賛成\nさんせい\nしてくれた。\nオートバイを買った店は、 「ガロン」という店だ。私には、どうしてもこの店で買い\nたい理由があったのだ。\n20 年前の春、私は、父にもらったオートバイで東京から京都まで旅行をしていた。\n安い旅館に泊まりながら、何日もかけて進む旅だった。\n3 日目の朝、道を走っているとき、 オートバイ の前の方で何かが折れる音がした。\n見ると、②オートバイの部品が壊\nこわ\nれていた。ハンドルが少しぐらぐらしたが、オートバイ\nは一応動いた。\nしばらく進むと、オートバイの店があったので、 修\nしゅう\n理\nり\nを頼\nたの\nんでみた。しかし、難しい\n修理\nしゅうり\nだからできない、と 断られてしまった。次の店でも同じだった。そして、3軒\nけん\n目\nめ\nの\n店が「ガロン」 だった。 「ガロン」 の店員も「これは 難しいね。 」と言った。でも、\n「困っているんでしょう?やってみるよ。 」と言って、 修\nしゅう\n理\nり\nを始めてくれた。そして、\n2 時間かけて 直してくれたのだ。 店員は「いつかこの 店でオートバイ を買ってね。 」\nと言って笑った。本当に困っていた私は、③何度もお礼\nれい\nを言いながら、必ずそうしよう\nと決めた。\n今の「ガロン」には、もうあの店員はいなかった。会えなかったのは残念だったが、\nそれでも私は④満足している。\n33  「私」がオートバイに①長い間乗っていなかったのは、どうしてか。\n1 買いたいと思うオートバイがなかったから\n2 仕事や子\nこ\n供\nども\nの世話で 忙\nいそが\nしかったから\n3 「私」のオートバイを妻が使っていたから\n4 家にあるオートバイが壊\nこわ\nれていたから\n34   ②オートバイの部品が壊\nこわ\nれていたとあるが、壊\nこわ\nれたのはいつか。\n1 先月、新しいオートバイを買ってから 3 日目の朝\n2 先月、オートバイ旅行を始めてから 3 日目の朝\n3  20 年前、新しいオートバイを買ってから 3 日目の朝\n4  20 年前、オートバイ旅行を始めてから 3 日目の朝\n35  ③何度もお礼\nれい\nを言いながらとあるが、 「私」はどうして何度もお礼\nれい\nを言ったのか。\n1 店にあった新しいオートバイを安く売ってくれたから\n2 オートバイを修理\nしゅうり\nしてくれそうな店を教えてくれたから\n3  壊\nこわ\nれて動かなくなりそうなオートバイを買ってくれたから\n4 ほかの店で修理\nしゅうり\nを断られたオートバイを直してくれたから\n36  ④満足しているとあるが、なぜか。\n1 もう一度、オートバイに乗ることができたから\n2 「ガロン」でオートバイを買うことができたから\n3 壊\nこわ\nれてしまったオートバイを修理\nしゅうり\nしてもらうことができたから\n4 オートバイの修理\nしゅうり\nをしてくれた店員に、お礼\nれい\nを伝えることができたから\n問題 7  右のページは、あるスキー場のホームページに載\nの\nっているスキー教室の案内で\nある。これを読んで、下の質問に答えなさい。答えは、1・2・3・4 から最も\nよいものを一つえらびなさい。\n37  スミスさんは、2 月 2 日の午後に普通コースを受けたいと思っている。スミスさん\nは、どのように申し込みをしなければならないか。\n1 2 月 2 日の午前 9 時までに、電話か窓口で申し込む。\n2 2 月 2 日の午前 9 時 30 分までに、窓口で申し込む。\n3 2 月 2 日の午後 1 時 30 分までに、窓口で申し込む。\n4 2 月 2 日の午後 1 時 30 分までに、電話か窓口で申し込む。\n38  グエンさんは、友達 4 人と特別コースを受けたいと思っている。グエンさんたち\nは、朝山ホテルに泊まっている。午後2 時から 4 時まで特別コースを受ける場合、\nグエンさんたちはいくら支払わなければならないか。\n1 22,000 円を支払う。\n2 22,000 円から 2,000 円を引いたものを支払う。\n3 39,000 円を支払う。\n4 39,000 円から 2,000 円を引いたものを支払う。\n朝山スキー場\n初級スキー教室のご案内\n期間：12 月 24 日～3 月 31 日\n【コースと料金】\n<普通コース(2 時間)>\n・大人クラス(最大 10 名)と子どもクラス(最大 8 名)があります 。\n・午前(10 時〜12 時)と、午後(2 時〜4 時)のどちらかを選んでください。\n大人一人 4,000 円\n子ども(小学生)一人 4,500 円\n※朝山ホテルにお泊まりの方は、500 円割引します 。\n<特別コース(2 時間または 4 時間)>\n・お友達やご家族だけで習いたい方のためのコースです。小学生から参加できます。\n・4〜6 名のグループで申し込んでください。\n・午前 9 時から午後 7 時までの間で、2 時間か 4 時間を選べます 。\n2 時間 4 時間\n1 グループ 22,000 円 39,000 円\n※グループの中に、朝山ホテルにお泊まりの方がいれば、グループの料金から\n2,000 円割引します 。\n【申し込みと料金の支払い】\n・普通コースは、午前に受ける場合は当日の午前 9 時 30 分まで、午後に受ける場合は\n当日の午後1 時 30 分までに、スキー教室の窓口(朝山ホテル1 階)で申し込んでください。\n料金は申し込みのときに支払ってください。\n・特別コースは、午前に開始したい場合は前日の午後 4 時まで、午後の場合は当日の\n午前 9 時までに、電話か窓口で申し込んでください。料金はコース開始前に窓口で\n支払ってください。\n【教室当日の集合】\n・どちらのコースも、開始時間の 10 分前にスキー場の入り口に集合してください。\n予約・お問い合わせ 013-227-1665\n39,000 円\n39,000 円",
+          "choices": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ],
+          "correctAnswer": 4,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2023-12-grammar-m6-q35",
+          "section": "grammar",
+          "mondai": 6,
+          "questionNumber": 35,
+          "questionType": "READING_LONG",
+          "questionText": "",
+          "passage": "問題 4 つぎの(1)から(4)の文章\nぶんしょう\nを読んで、質問に答えなさい。答えは、1・2・3・4\nから最もよいものを一つえらびなさい。\n（１）\nこれは、ある映画館のインターネットチケット予約サービスから、村田さんに届\nとど\nいた\nメールである。\n村田新一様\nチケット代金を支払っていただき、ありがとうございました。\n<予約番号> 0832            <電話番号> 090-0911-4215\n<日時>    4 月 11 日(土) 14 時〜\n<合計代金> 大人 2 枚  3,600 円\n<映画名>  「海」           <席番号>  K13  K14\n・ご予約はキャンセルできませんので、ご注意ください。\n・当日は、映画館でチケットを発券していただく必要がございます 。\n券売機に<予約番号>と<電話番号>をご入力ください。\n・映画開始から 15 分を過ぎますと、券売機での発券はできなくなります 。それ以降\nは、チケットオフィスで発券いたします 。\n東王映画館インターネットチケット予約サービス\nお問い合わせ 061-987-6543\n23  当日、予約したチケットを券売機で発券したい場合、どうしなければならないか。\n1 映画開始時間の 15 分前までに、券売機に必要な情報を入力する。\n2 映画開始時間の 15 分前までに、券売機でお金を払う。\n3 映画開始時間の 15 分後までに、券売機に必要な情報を入力する。\n4 映画開始時間 の 15 分後までに、券売機でお金を払う。\n（２）\nアリサさんが家に帰ると、テーブルの上に、一緒\nいっしょ\nに住んでいる春美さんが書いたメモ\nが置いてあった。\nアリサさん\n大学の事\nじ\n務\nむ\n所\nしょ\nに今日中に出さなければならない書類があるのを忘れていたので、\nちょっと行ってきます 。\nカレーとスープはできたんだけど、サラダがまだできていないので、お願いでき\nますか。冷\nれい\n蔵\nぞう\n庫\nこ\nにトマトやレタスがあるから、適当に使ってください。\n今日は私が晩ご飯を作ると言ったのに、ごめんなさい。帰りに何か甘\nあま\nいものを買って\nきますね。\n春美\n24  アリサさんがこのメモで頼\nたの\nまれていることは何か。\n1 大学の事\nじ\n務\nむ\n所\nしょ\nに行って、書類を出すこと\n2 カレーとスープを作ること\n3 サラダを作ること\n4 甘\nあま\nいものを買うこと\n（３）\n雑誌で「友達や家族と待ち合わせるとき、その 場所に行く時間」についての 調査の\n記事を読んだ。早めに行く人は、全体の 59%で最も多く、次に多かったのが、時間に\n間に合うように行く人で 36%だった。一方で、多少遅れても気にしないという人は、\n3%しかいなかった。\n私はいつも早めに行くが、友人たちはたいてい遅れて来る。私が 珍\nめずら\nしいタイプなのか\nと思っていたが、この結果から、そうではないとわかって、意外だった。\n25  意外だったとあるが、調査結果のどのような点からそう思ったか。\n1 「私」と同じタイプの人が、最も多い点\n2 「私」と同じタイプの人が、二番目に多い点\n3 「私」と同じタイプの人が、最も少ない点\n4 「私」と反対のタイプの人が、最も多い点\n（４）\n納豆\nなっとう\nは、体にいいし、おいしいので、私は毎日食べている。そのまま食べる人も多い\nが、私は 卵\nたまご\nに混\nま\nぜて焼いたり、みそ汁\nしる\nに入れたり、いろいろな料理に使っている。\nしかし、今朝テレビを見て 驚\nおどろ\nいた。納豆\nなっとう\nには、ほかの食べ物にはない種類の酵\nこう\n素\nそ\n注)\nが入っている。これには血液の流れをよくする効\nこう\n果\nか\nがあるが、50 度以上の熱で減って\nしまうそうなのだ。そうだとすると、私は今まで、とてももったいない食べ方をしていた\nことになる。\n注) 酵\nこう\n素\nそ\n：ここでは、食べ物に入っている栄養\nえいよう\nのような物\n27  もったいない食べ方をしていたとあるが、なぜもったいないと思ったのか。\n1 体へのよい効\nこう\n果\nか\nが弱くなってしまう料理のしかたで、納豆\nなっとう\nを食べていたから\n2 体へのよい効\nこう\n果\nか\nが消えるような、たくさんの量の納豆\nなっとう\nを食べていたから\n3 おいしさがわからなくなるような料理のしかたで、納豆\nなっとう\nを食べていたから\n4 おいしくなる料理方法があるのに、それを知らないで納豆\nなっとう\nを食べていたから\n問題 5  つぎの(1)と(2)の文章\nぶんしょう\nを読んで、質問に答えなさい。答えは、1・2・3・4\nから最もよいものを一つえらびなさい。\n（１）\n私の留学している日本の大学には、漫\nまん\n画\nが\nを読んで社会について考える授\nじゅ\n業\nぎょう\nがあります。\n私は子\nこ\n供\nども\nのころから日本の漫\nまん\n画\nが\nが大好きだったので、この 授\nじゅ\n業\nぎょう\nを取りました。しかし、\nこれは失敗\nしっぱい\nでした。\nこの授\nじゅ\n業\nぎょう\nでは、学生は毎週の授\nじゅ\n業\nぎょう\nの前に、先生が指定した漫\nまん\n画\nが\nを読んでいくことに\nなっていました。ところが、 扱\nあつか\nう漫\nまん\n画\nが\nはどれも私が知らないものばかりだったので、\n読むのに時間がかかって、毎回とても大変でした。\nいちばん 困ったのは 学期末の試験です。試験の前に、ある 漫\nまん\n画\nが\nを読んでおくように\n先生に言われました。その漫\nまん\n画\nが\nは全部で 3巻\nかん\nもあり、しっかり読むのにはとても時間が\nかかりました。そのために、ほかの試験の勉強ができなくなり、寝る時間も削\nけず\nらなければ\nならなくなりました。いつもなら、 試験期間中 は漫\nまん\n画\nが\nを読むのを我\nが\n慢\nまん\nするのですが、\nこのときの私は逆だったのです 。\n試験はうまくいきましたが、今はしばらく漫\nまん\n画\nが\nはお休みにしたい気分です 。\n27  毎回の授\nじゅ\n業\nぎょう\nの前に、学生がしなければならなかったことは何か。\n1 授\nじゅ\n業\nぎょう\nで先生に 扱\nあつか\nってもらいたい漫\nまん\n画\nが\nを見つけてくること\n2 社会問題がテーマになっている漫\nまん\n画\nが\nを見つけてくること\n3 先生に読んでくるように言われた漫\nまん\n画\nが\nを読んでおくこと\n4 自分が読んだことがない漫\nまん\n画\nが\nを探\nさが\nして、読んでおくこと\n28  このときの私は、どのような 状\nじょう\n態\nたい\nだったか。\n1 ほかの試験の勉強がしたいのに、漫\nまん\n画\nが\nを読まなければならなかった。\n2 漫\nまん\n画\nが\nが読みたいのに、試験の勉強をしなければならなかった。\n3 好きな漫\nまん\n画\nが\nが読みたいのに、好きではない漫画を読まなければならなかった。\n4 試験の勉強をしなければならないのに、漫\nまん\n画\nが\nを読むのを我\nが\n慢\nまん\nできなかった。\n29 「私」は今、どんな気持ちになっているか。\n1 しばらくは、休みの日だけに漫\nまん\n画\nが\nを読もう。\n2 しばらくは、好きな漫\nまん\n画\nが\nしか読みたくない。\n3 しばらくは、我\nが\n慢\nまん\nして漫\nまん\n画\nが\nを読もう。\n4   しばらくは、漫\nまん\n画\nが\nは読みたくない。\n（２）\nA 町は景\nけ\n色\nしき\nの美しい海沿\nぞ\nいの町で、毎週日曜の朝に港で開かれる「朝市\nあさいち\n」も人気がある。\n朝市\nあさいち\nは、A 町にある店が、魚や肉、野菜、パン、ケーキなどを売る市\nいち\n場\nば\nで、近くの市や\n町からも客が大勢\nおおぜい\nやってくる。\n朝市\nあさいち\nを始めたのは、A 町に昔からある店の主人たちである。約30 年前、大きなスーパー\nマーケットができた。多くの人がスーパーを利用するようになってしまったため、店の\n主人たちは、自分たちの店の商品の良さをもっと知ってもらおうと、朝市\nあさいち\nを始めたのだ。\n朝市\nあさいち\nでは、人気がある 商品はすぐ 売り切れてしまう。そんなに 人気があるなら、\nたくさん 売ればいいのだが、 それはしないそうだ。この 朝市\nあさいち\nの目的は、朝市\nあさいち\nでお金を\n稼\nかせ\nぐことではなく、まず朝市\nあさいち\nで自分たちの店について知ってもらって、ふだんA 町の店\nで買い物をする客を増やすことだからだ。そのため、 朝市\nあさいち\nに商品が出せる人は(  )\nだけ、ということになっている。\n30  A 町にある店の主人たちは、何のために朝市\nあさいち\nを始めたのか。\n1 町の中に、安く買い物ができるところを増やすため\n2 町の中に、近くの市や町から来る客が楽しめる場所を作るため\n3 自分たちの町の景\nけ\n色\nしき\nの美しさをもっと宣伝\nせんでん\nするため\n4 自分たちの店の商品の良さをもっと知ってもらうため\n31  それとあるが、何か。\n1 朝市\nあさいち\nで人気がある商品を、店で売るより高く売ること\n2 朝市\nあさいち\nで人気がある商品を、朝市\nあさいち\nでもっと売ること\n3 朝市\nあさいち\nでしか買えない商品の種類を増やすこと\n4 朝市\nあさいち\nでしか買えない商品を平日に店でも売ること\n32  (  ) に入れるのに最もよいものはどれか。\n1 A 町に店がある人\n2 A 町以外の市や町に店がある人\n3 A 町で店を開きたいと思っている人\n4 A 町の店でふだんから買い物をしている人\n問題 6  つぎの文章\nぶんしょう\nを読んで、質問に答えなさい。答えは、1・2・3・4 から最もよい\nものを一つえらびなさい。\n先月、新しいオートバイ を買った。オートバイ には①長い間乗っていなかった が、\n久\nひさ\nしぶりにまた乗りたくなったのだ。前に乗っていたのは大学生のころで、もう20 年も前\nだ。卒業後はずっと仕事や子\nこ\n供\nども\nの世話で 忙\nいそが\nしかったが、最近、少し自由に使える時間\nが増えた。妻に相談したら、 「いいんじゃない?」と賛成\nさんせい\nしてくれた。\nオートバイを買った店は、 「ガロン」という店だ。私には、どうしてもこの店で買い\nたい理由があったのだ。\n20 年前の春、私は、父にもらったオートバイで東京から京都まで旅行をしていた。\n安い旅館に泊まりながら、何日もかけて進む旅だった。\n3 日目の朝、道を走っているとき、 オートバイ の前の方で何かが折れる音がした。\n見ると、②オートバイの部品が壊\nこわ\nれていた。ハンドルが少しぐらぐらしたが、オートバイ\nは一応動いた。\nしばらく進むと、オートバイの店があったので、 修\nしゅう\n理\nり\nを頼\nたの\nんでみた。しかし、難しい\n修理\nしゅうり\nだからできない、と 断られてしまった。次の店でも同じだった。そして、3軒\nけん\n目\nめ\nの\n店が「ガロン」 だった。 「ガロン」 の店員も「これは 難しいね。 」と言った。でも、\n「困っているんでしょう?やってみるよ。 」と言って、 修\nしゅう\n理\nり\nを始めてくれた。そして、\n2 時間かけて 直してくれたのだ。 店員は「いつかこの 店でオートバイ を買ってね。 」\nと言って笑った。本当に困っていた私は、③何度もお礼\nれい\nを言いながら、必ずそうしよう\nと決めた。\n今の「ガロン」には、もうあの店員はいなかった。会えなかったのは残念だったが、\nそれでも私は④満足している。\n33  「私」がオートバイに①長い間乗っていなかったのは、どうしてか。\n1 買いたいと思うオートバイがなかったから\n2 仕事や子\nこ\n供\nども\nの世話で 忙\nいそが\nしかったから\n3 「私」のオートバイを妻が使っていたから\n4 家にあるオートバイが壊\nこわ\nれていたから\n34   ②オートバイの部品が壊\nこわ\nれていたとあるが、壊\nこわ\nれたのはいつか。\n1 先月、新しいオートバイを買ってから 3 日目の朝\n2 先月、オートバイ旅行を始めてから 3 日目の朝\n3  20 年前、新しいオートバイを買ってから 3 日目の朝\n4  20 年前、オートバイ旅行を始めてから 3 日目の朝\n35  ③何度もお礼\nれい\nを言いながらとあるが、 「私」はどうして何度もお礼\nれい\nを言ったのか。\n1 店にあった新しいオートバイを安く売ってくれたから\n2 オートバイを修理\nしゅうり\nしてくれそうな店を教えてくれたから\n3  壊\nこわ\nれて動かなくなりそうなオートバイを買ってくれたから\n4 ほかの店で修理\nしゅうり\nを断られたオートバイを直してくれたから\n36  ④満足しているとあるが、なぜか。\n1 もう一度、オートバイに乗ることができたから\n2 「ガロン」でオートバイを買うことができたから\n3 壊\nこわ\nれてしまったオートバイを修理\nしゅうり\nしてもらうことができたから\n4 オートバイの修理\nしゅうり\nをしてくれた店員に、お礼\nれい\nを伝えることができたから\n問題 7  右のページは、あるスキー場のホームページに載\nの\nっているスキー教室の案内で\nある。これを読んで、下の質問に答えなさい。答えは、1・2・3・4 から最も\nよいものを一つえらびなさい。\n37  スミスさんは、2 月 2 日の午後に普通コースを受けたいと思っている。スミスさん\nは、どのように申し込みをしなければならないか。\n1 2 月 2 日の午前 9 時までに、電話か窓口で申し込む。\n2 2 月 2 日の午前 9 時 30 分までに、窓口で申し込む。\n3 2 月 2 日の午後 1 時 30 分までに、窓口で申し込む。\n4 2 月 2 日の午後 1 時 30 分までに、電話か窓口で申し込む。\n38  グエンさんは、友達 4 人と特別コースを受けたいと思っている。グエンさんたち\nは、朝山ホテルに泊まっている。午後2 時から 4 時まで特別コースを受ける場合、\nグエンさんたちはいくら支払わなければならないか。\n1 22,000 円を支払う。\n2 22,000 円から 2,000 円を引いたものを支払う。\n3 39,000 円を支払う。\n4 39,000 円から 2,000 円を引いたものを支払う。\n朝山スキー場\n初級スキー教室のご案内\n期間：12 月 24 日～3 月 31 日\n【コースと料金】\n<普通コース(2 時間)>\n・大人クラス(最大 10 名)と子どもクラス(最大 8 名)があります 。\n・午前(10 時〜12 時)と、午後(2 時〜4 時)のどちらかを選んでください。\n大人一人 4,000 円\n子ども(小学生)一人 4,500 円\n※朝山ホテルにお泊まりの方は、500 円割引します 。\n<特別コース(2 時間または 4 時間)>\n・お友達やご家族だけで習いたい方のためのコースです。小学生から参加できます。\n・4〜6 名のグループで申し込んでください。\n・午前 9 時から午後 7 時までの間で、2 時間か 4 時間を選べます 。\n2 時間 4 時間\n1 グループ 22,000 円 39,000 円\n※グループの中に、朝山ホテルにお泊まりの方がいれば、グループの料金から\n2,000 円割引します 。\n【申し込みと料金の支払い】\n・普通コースは、午前に受ける場合は当日の午前 9 時 30 分まで、午後に受ける場合は\n当日の午後1 時 30 分までに、スキー教室の窓口(朝山ホテル1 階)で申し込んでください。\n料金は申し込みのときに支払ってください。\n・特別コースは、午前に開始したい場合は前日の午後 4 時まで、午後の場合は当日の\n午前 9 時までに、電話か窓口で申し込んでください。料金はコース開始前に窓口で\n支払ってください。\n【教室当日の集合】\n・どちらのコースも、開始時間の 10 分前にスキー場の入り口に集合してください。\n予約・お問い合わせ 013-227-1665\n39,000 円\n39,000 円",
+          "choices": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ],
+          "correctAnswer": 3,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2023-12-grammar-m6-q36",
+          "section": "grammar",
+          "mondai": 6,
+          "questionNumber": 36,
+          "questionType": "READING_LONG",
+          "questionText": "",
+          "passage": "問題 4 つぎの(1)から(4)の文章\nぶんしょう\nを読んで、質問に答えなさい。答えは、1・2・3・4\nから最もよいものを一つえらびなさい。\n（１）\nこれは、ある映画館のインターネットチケット予約サービスから、村田さんに届\nとど\nいた\nメールである。\n村田新一様\nチケット代金を支払っていただき、ありがとうございました。\n<予約番号> 0832            <電話番号> 090-0911-4215\n<日時>    4 月 11 日(土) 14 時〜\n<合計代金> 大人 2 枚  3,600 円\n<映画名>  「海」           <席番号>  K13  K14\n・ご予約はキャンセルできませんので、ご注意ください。\n・当日は、映画館でチケットを発券していただく必要がございます 。\n券売機に<予約番号>と<電話番号>をご入力ください。\n・映画開始から 15 分を過ぎますと、券売機での発券はできなくなります 。それ以降\nは、チケットオフィスで発券いたします 。\n東王映画館インターネットチケット予約サービス\nお問い合わせ 061-987-6543\n23  当日、予約したチケットを券売機で発券したい場合、どうしなければならないか。\n1 映画開始時間の 15 分前までに、券売機に必要な情報を入力する。\n2 映画開始時間の 15 分前までに、券売機でお金を払う。\n3 映画開始時間の 15 分後までに、券売機に必要な情報を入力する。\n4 映画開始時間 の 15 分後までに、券売機でお金を払う。\n（２）\nアリサさんが家に帰ると、テーブルの上に、一緒\nいっしょ\nに住んでいる春美さんが書いたメモ\nが置いてあった。\nアリサさん\n大学の事\nじ\n務\nむ\n所\nしょ\nに今日中に出さなければならない書類があるのを忘れていたので、\nちょっと行ってきます 。\nカレーとスープはできたんだけど、サラダがまだできていないので、お願いでき\nますか。冷\nれい\n蔵\nぞう\n庫\nこ\nにトマトやレタスがあるから、適当に使ってください。\n今日は私が晩ご飯を作ると言ったのに、ごめんなさい。帰りに何か甘\nあま\nいものを買って\nきますね。\n春美\n24  アリサさんがこのメモで頼\nたの\nまれていることは何か。\n1 大学の事\nじ\n務\nむ\n所\nしょ\nに行って、書類を出すこと\n2 カレーとスープを作ること\n3 サラダを作ること\n4 甘\nあま\nいものを買うこと\n（３）\n雑誌で「友達や家族と待ち合わせるとき、その 場所に行く時間」についての 調査の\n記事を読んだ。早めに行く人は、全体の 59%で最も多く、次に多かったのが、時間に\n間に合うように行く人で 36%だった。一方で、多少遅れても気にしないという人は、\n3%しかいなかった。\n私はいつも早めに行くが、友人たちはたいてい遅れて来る。私が 珍\nめずら\nしいタイプなのか\nと思っていたが、この結果から、そうではないとわかって、意外だった。\n25  意外だったとあるが、調査結果のどのような点からそう思ったか。\n1 「私」と同じタイプの人が、最も多い点\n2 「私」と同じタイプの人が、二番目に多い点\n3 「私」と同じタイプの人が、最も少ない点\n4 「私」と反対のタイプの人が、最も多い点\n（４）\n納豆\nなっとう\nは、体にいいし、おいしいので、私は毎日食べている。そのまま食べる人も多い\nが、私は 卵\nたまご\nに混\nま\nぜて焼いたり、みそ汁\nしる\nに入れたり、いろいろな料理に使っている。\nしかし、今朝テレビを見て 驚\nおどろ\nいた。納豆\nなっとう\nには、ほかの食べ物にはない種類の酵\nこう\n素\nそ\n注)\nが入っている。これには血液の流れをよくする効\nこう\n果\nか\nがあるが、50 度以上の熱で減って\nしまうそうなのだ。そうだとすると、私は今まで、とてももったいない食べ方をしていた\nことになる。\n注) 酵\nこう\n素\nそ\n：ここでは、食べ物に入っている栄養\nえいよう\nのような物\n27  もったいない食べ方をしていたとあるが、なぜもったいないと思ったのか。\n1 体へのよい効\nこう\n果\nか\nが弱くなってしまう料理のしかたで、納豆\nなっとう\nを食べていたから\n2 体へのよい効\nこう\n果\nか\nが消えるような、たくさんの量の納豆\nなっとう\nを食べていたから\n3 おいしさがわからなくなるような料理のしかたで、納豆\nなっとう\nを食べていたから\n4 おいしくなる料理方法があるのに、それを知らないで納豆\nなっとう\nを食べていたから\n問題 5  つぎの(1)と(2)の文章\nぶんしょう\nを読んで、質問に答えなさい。答えは、1・2・3・4\nから最もよいものを一つえらびなさい。\n（１）\n私の留学している日本の大学には、漫\nまん\n画\nが\nを読んで社会について考える授\nじゅ\n業\nぎょう\nがあります。\n私は子\nこ\n供\nども\nのころから日本の漫\nまん\n画\nが\nが大好きだったので、この 授\nじゅ\n業\nぎょう\nを取りました。しかし、\nこれは失敗\nしっぱい\nでした。\nこの授\nじゅ\n業\nぎょう\nでは、学生は毎週の授\nじゅ\n業\nぎょう\nの前に、先生が指定した漫\nまん\n画\nが\nを読んでいくことに\nなっていました。ところが、 扱\nあつか\nう漫\nまん\n画\nが\nはどれも私が知らないものばかりだったので、\n読むのに時間がかかって、毎回とても大変でした。\nいちばん 困ったのは 学期末の試験です。試験の前に、ある 漫\nまん\n画\nが\nを読んでおくように\n先生に言われました。その漫\nまん\n画\nが\nは全部で 3巻\nかん\nもあり、しっかり読むのにはとても時間が\nかかりました。そのために、ほかの試験の勉強ができなくなり、寝る時間も削\nけず\nらなければ\nならなくなりました。いつもなら、 試験期間中 は漫\nまん\n画\nが\nを読むのを我\nが\n慢\nまん\nするのですが、\nこのときの私は逆だったのです 。\n試験はうまくいきましたが、今はしばらく漫\nまん\n画\nが\nはお休みにしたい気分です 。\n27  毎回の授\nじゅ\n業\nぎょう\nの前に、学生がしなければならなかったことは何か。\n1 授\nじゅ\n業\nぎょう\nで先生に 扱\nあつか\nってもらいたい漫\nまん\n画\nが\nを見つけてくること\n2 社会問題がテーマになっている漫\nまん\n画\nが\nを見つけてくること\n3 先生に読んでくるように言われた漫\nまん\n画\nが\nを読んでおくこと\n4 自分が読んだことがない漫\nまん\n画\nが\nを探\nさが\nして、読んでおくこと\n28  このときの私は、どのような 状\nじょう\n態\nたい\nだったか。\n1 ほかの試験の勉強がしたいのに、漫\nまん\n画\nが\nを読まなければならなかった。\n2 漫\nまん\n画\nが\nが読みたいのに、試験の勉強をしなければならなかった。\n3 好きな漫\nまん\n画\nが\nが読みたいのに、好きではない漫画を読まなければならなかった。\n4 試験の勉強をしなければならないのに、漫\nまん\n画\nが\nを読むのを我\nが\n慢\nまん\nできなかった。\n29 「私」は今、どんな気持ちになっているか。\n1 しばらくは、休みの日だけに漫\nまん\n画\nが\nを読もう。\n2 しばらくは、好きな漫\nまん\n画\nが\nしか読みたくない。\n3 しばらくは、我\nが\n慢\nまん\nして漫\nまん\n画\nが\nを読もう。\n4   しばらくは、漫\nまん\n画\nが\nは読みたくない。\n（２）\nA 町は景\nけ\n色\nしき\nの美しい海沿\nぞ\nいの町で、毎週日曜の朝に港で開かれる「朝市\nあさいち\n」も人気がある。\n朝市\nあさいち\nは、A 町にある店が、魚や肉、野菜、パン、ケーキなどを売る市\nいち\n場\nば\nで、近くの市や\n町からも客が大勢\nおおぜい\nやってくる。\n朝市\nあさいち\nを始めたのは、A 町に昔からある店の主人たちである。約30 年前、大きなスーパー\nマーケットができた。多くの人がスーパーを利用するようになってしまったため、店の\n主人たちは、自分たちの店の商品の良さをもっと知ってもらおうと、朝市\nあさいち\nを始めたのだ。\n朝市\nあさいち\nでは、人気がある 商品はすぐ 売り切れてしまう。そんなに 人気があるなら、\nたくさん 売ればいいのだが、 それはしないそうだ。この 朝市\nあさいち\nの目的は、朝市\nあさいち\nでお金を\n稼\nかせ\nぐことではなく、まず朝市\nあさいち\nで自分たちの店について知ってもらって、ふだんA 町の店\nで買い物をする客を増やすことだからだ。そのため、 朝市\nあさいち\nに商品が出せる人は(  )\nだけ、ということになっている。\n30  A 町にある店の主人たちは、何のために朝市\nあさいち\nを始めたのか。\n1 町の中に、安く買い物ができるところを増やすため\n2 町の中に、近くの市や町から来る客が楽しめる場所を作るため\n3 自分たちの町の景\nけ\n色\nしき\nの美しさをもっと宣伝\nせんでん\nするため\n4 自分たちの店の商品の良さをもっと知ってもらうため\n31  それとあるが、何か。\n1 朝市\nあさいち\nで人気がある商品を、店で売るより高く売ること\n2 朝市\nあさいち\nで人気がある商品を、朝市\nあさいち\nでもっと売ること\n3 朝市\nあさいち\nでしか買えない商品の種類を増やすこと\n4 朝市\nあさいち\nでしか買えない商品を平日に店でも売ること\n32  (  ) に入れるのに最もよいものはどれか。\n1 A 町に店がある人\n2 A 町以外の市や町に店がある人\n3 A 町で店を開きたいと思っている人\n4 A 町の店でふだんから買い物をしている人\n問題 6  つぎの文章\nぶんしょう\nを読んで、質問に答えなさい。答えは、1・2・3・4 から最もよい\nものを一つえらびなさい。\n先月、新しいオートバイ を買った。オートバイ には①長い間乗っていなかった が、\n久\nひさ\nしぶりにまた乗りたくなったのだ。前に乗っていたのは大学生のころで、もう20 年も前\nだ。卒業後はずっと仕事や子\nこ\n供\nども\nの世話で 忙\nいそが\nしかったが、最近、少し自由に使える時間\nが増えた。妻に相談したら、 「いいんじゃない?」と賛成\nさんせい\nしてくれた。\nオートバイを買った店は、 「ガロン」という店だ。私には、どうしてもこの店で買い\nたい理由があったのだ。\n20 年前の春、私は、父にもらったオートバイで東京から京都まで旅行をしていた。\n安い旅館に泊まりながら、何日もかけて進む旅だった。\n3 日目の朝、道を走っているとき、 オートバイ の前の方で何かが折れる音がした。\n見ると、②オートバイの部品が壊\nこわ\nれていた。ハンドルが少しぐらぐらしたが、オートバイ\nは一応動いた。\nしばらく進むと、オートバイの店があったので、 修\nしゅう\n理\nり\nを頼\nたの\nんでみた。しかし、難しい\n修理\nしゅうり\nだからできない、と 断られてしまった。次の店でも同じだった。そして、3軒\nけん\n目\nめ\nの\n店が「ガロン」 だった。 「ガロン」 の店員も「これは 難しいね。 」と言った。でも、\n「困っているんでしょう?やってみるよ。 」と言って、 修\nしゅう\n理\nり\nを始めてくれた。そして、\n2 時間かけて 直してくれたのだ。 店員は「いつかこの 店でオートバイ を買ってね。 」\nと言って笑った。本当に困っていた私は、③何度もお礼\nれい\nを言いながら、必ずそうしよう\nと決めた。\n今の「ガロン」には、もうあの店員はいなかった。会えなかったのは残念だったが、\nそれでも私は④満足している。\n33  「私」がオートバイに①長い間乗っていなかったのは、どうしてか。\n1 買いたいと思うオートバイがなかったから\n2 仕事や子\nこ\n供\nども\nの世話で 忙\nいそが\nしかったから\n3 「私」のオートバイを妻が使っていたから\n4 家にあるオートバイが壊\nこわ\nれていたから\n34   ②オートバイの部品が壊\nこわ\nれていたとあるが、壊\nこわ\nれたのはいつか。\n1 先月、新しいオートバイを買ってから 3 日目の朝\n2 先月、オートバイ旅行を始めてから 3 日目の朝\n3  20 年前、新しいオートバイを買ってから 3 日目の朝\n4  20 年前、オートバイ旅行を始めてから 3 日目の朝\n35  ③何度もお礼\nれい\nを言いながらとあるが、 「私」はどうして何度もお礼\nれい\nを言ったのか。\n1 店にあった新しいオートバイを安く売ってくれたから\n2 オートバイを修理\nしゅうり\nしてくれそうな店を教えてくれたから\n3  壊\nこわ\nれて動かなくなりそうなオートバイを買ってくれたから\n4 ほかの店で修理\nしゅうり\nを断られたオートバイを直してくれたから\n36  ④満足しているとあるが、なぜか。\n1 もう一度、オートバイに乗ることができたから\n2 「ガロン」でオートバイを買うことができたから\n3 壊\nこわ\nれてしまったオートバイを修理\nしゅうり\nしてもらうことができたから\n4 オートバイの修理\nしゅうり\nをしてくれた店員に、お礼\nれい\nを伝えることができたから\n問題 7  右のページは、あるスキー場のホームページに載\nの\nっているスキー教室の案内で\nある。これを読んで、下の質問に答えなさい。答えは、1・2・3・4 から最も\nよいものを一つえらびなさい。\n37  スミスさんは、2 月 2 日の午後に普通コースを受けたいと思っている。スミスさん\nは、どのように申し込みをしなければならないか。\n1 2 月 2 日の午前 9 時までに、電話か窓口で申し込む。\n2 2 月 2 日の午前 9 時 30 分までに、窓口で申し込む。\n3 2 月 2 日の午後 1 時 30 分までに、窓口で申し込む。\n4 2 月 2 日の午後 1 時 30 分までに、電話か窓口で申し込む。\n38  グエンさんは、友達 4 人と特別コースを受けたいと思っている。グエンさんたち\nは、朝山ホテルに泊まっている。午後2 時から 4 時まで特別コースを受ける場合、\nグエンさんたちはいくら支払わなければならないか。\n1 22,000 円を支払う。\n2 22,000 円から 2,000 円を引いたものを支払う。\n3 39,000 円を支払う。\n4 39,000 円から 2,000 円を引いたものを支払う。\n朝山スキー場\n初級スキー教室のご案内\n期間：12 月 24 日～3 月 31 日\n【コースと料金】\n<普通コース(2 時間)>\n・大人クラス(最大 10 名)と子どもクラス(最大 8 名)があります 。\n・午前(10 時〜12 時)と、午後(2 時〜4 時)のどちらかを選んでください。\n大人一人 4,000 円\n子ども(小学生)一人 4,500 円\n※朝山ホテルにお泊まりの方は、500 円割引します 。\n<特別コース(2 時間または 4 時間)>\n・お友達やご家族だけで習いたい方のためのコースです。小学生から参加できます。\n・4〜6 名のグループで申し込んでください。\n・午前 9 時から午後 7 時までの間で、2 時間か 4 時間を選べます 。\n2 時間 4 時間\n1 グループ 22,000 円 39,000 円\n※グループの中に、朝山ホテルにお泊まりの方がいれば、グループの料金から\n2,000 円割引します 。\n【申し込みと料金の支払い】\n・普通コースは、午前に受ける場合は当日の午前 9 時 30 分まで、午後に受ける場合は\n当日の午後1 時 30 分までに、スキー教室の窓口(朝山ホテル1 階)で申し込んでください。\n料金は申し込みのときに支払ってください。\n・特別コースは、午前に開始したい場合は前日の午後 4 時まで、午後の場合は当日の\n午前 9 時までに、電話か窓口で申し込んでください。料金はコース開始前に窓口で\n支払ってください。\n【教室当日の集合】\n・どちらのコースも、開始時間の 10 分前にスキー場の入り口に集合してください。\n予約・お問い合わせ 013-227-1665\n39,000 円\n39,000 円",
+          "choices": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ],
+          "correctAnswer": 2,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2023-12-grammar-m7-q37",
+          "section": "grammar",
+          "mondai": 7,
+          "questionNumber": 37,
+          "questionType": "READING_INFO",
+          "questionText": "",
+          "passage": "問題 4 つぎの(1)から(4)の文章\nぶんしょう\nを読んで、質問に答えなさい。答えは、1・2・3・4\nから最もよいものを一つえらびなさい。\n（１）\nこれは、ある映画館のインターネットチケット予約サービスから、村田さんに届\nとど\nいた\nメールである。\n村田新一様\nチケット代金を支払っていただき、ありがとうございました。\n<予約番号> 0832            <電話番号> 090-0911-4215\n<日時>    4 月 11 日(土) 14 時〜\n<合計代金> 大人 2 枚  3,600 円\n<映画名>  「海」           <席番号>  K13  K14\n・ご予約はキャンセルできませんので、ご注意ください。\n・当日は、映画館でチケットを発券していただく必要がございます 。\n券売機に<予約番号>と<電話番号>をご入力ください。\n・映画開始から 15 分を過ぎますと、券売機での発券はできなくなります 。それ以降\nは、チケットオフィスで発券いたします 。\n東王映画館インターネットチケット予約サービス\nお問い合わせ 061-987-6543\n23  当日、予約したチケットを券売機で発券したい場合、どうしなければならないか。\n1 映画開始時間の 15 分前までに、券売機に必要な情報を入力する。\n2 映画開始時間の 15 分前までに、券売機でお金を払う。\n3 映画開始時間の 15 分後までに、券売機に必要な情報を入力する。\n4 映画開始時間 の 15 分後までに、券売機でお金を払う。\n（２）\nアリサさんが家に帰ると、テーブルの上に、一緒\nいっしょ\nに住んでいる春美さんが書いたメモ\nが置いてあった。\nアリサさん\n大学の事\nじ\n務\nむ\n所\nしょ\nに今日中に出さなければならない書類があるのを忘れていたので、\nちょっと行ってきます 。\nカレーとスープはできたんだけど、サラダがまだできていないので、お願いでき\nますか。冷\nれい\n蔵\nぞう\n庫\nこ\nにトマトやレタスがあるから、適当に使ってください。\n今日は私が晩ご飯を作ると言ったのに、ごめんなさい。帰りに何か甘\nあま\nいものを買って\nきますね。\n春美\n24  アリサさんがこのメモで頼\nたの\nまれていることは何か。\n1 大学の事\nじ\n務\nむ\n所\nしょ\nに行って、書類を出すこと\n2 カレーとスープを作ること\n3 サラダを作ること\n4 甘\nあま\nいものを買うこと\n（３）\n雑誌で「友達や家族と待ち合わせるとき、その 場所に行く時間」についての 調査の\n記事を読んだ。早めに行く人は、全体の 59%で最も多く、次に多かったのが、時間に\n間に合うように行く人で 36%だった。一方で、多少遅れても気にしないという人は、\n3%しかいなかった。\n私はいつも早めに行くが、友人たちはたいてい遅れて来る。私が 珍\nめずら\nしいタイプなのか\nと思っていたが、この結果から、そうではないとわかって、意外だった。\n25  意外だったとあるが、調査結果のどのような点からそう思ったか。\n1 「私」と同じタイプの人が、最も多い点\n2 「私」と同じタイプの人が、二番目に多い点\n3 「私」と同じタイプの人が、最も少ない点\n4 「私」と反対のタイプの人が、最も多い点\n（４）\n納豆\nなっとう\nは、体にいいし、おいしいので、私は毎日食べている。そのまま食べる人も多い\nが、私は 卵\nたまご\nに混\nま\nぜて焼いたり、みそ汁\nしる\nに入れたり、いろいろな料理に使っている。\nしかし、今朝テレビを見て 驚\nおどろ\nいた。納豆\nなっとう\nには、ほかの食べ物にはない種類の酵\nこう\n素\nそ\n注)\nが入っている。これには血液の流れをよくする効\nこう\n果\nか\nがあるが、50 度以上の熱で減って\nしまうそうなのだ。そうだとすると、私は今まで、とてももったいない食べ方をしていた\nことになる。\n注) 酵\nこう\n素\nそ\n：ここでは、食べ物に入っている栄養\nえいよう\nのような物\n27  もったいない食べ方をしていたとあるが、なぜもったいないと思ったのか。\n1 体へのよい効\nこう\n果\nか\nが弱くなってしまう料理のしかたで、納豆\nなっとう\nを食べていたから\n2 体へのよい効\nこう\n果\nか\nが消えるような、たくさんの量の納豆\nなっとう\nを食べていたから\n3 おいしさがわからなくなるような料理のしかたで、納豆\nなっとう\nを食べていたから\n4 おいしくなる料理方法があるのに、それを知らないで納豆\nなっとう\nを食べていたから\n問題 5  つぎの(1)と(2)の文章\nぶんしょう\nを読んで、質問に答えなさい。答えは、1・2・3・4\nから最もよいものを一つえらびなさい。\n（１）\n私の留学している日本の大学には、漫\nまん\n画\nが\nを読んで社会について考える授\nじゅ\n業\nぎょう\nがあります。\n私は子\nこ\n供\nども\nのころから日本の漫\nまん\n画\nが\nが大好きだったので、この 授\nじゅ\n業\nぎょう\nを取りました。しかし、\nこれは失敗\nしっぱい\nでした。\nこの授\nじゅ\n業\nぎょう\nでは、学生は毎週の授\nじゅ\n業\nぎょう\nの前に、先生が指定した漫\nまん\n画\nが\nを読んでいくことに\nなっていました。ところが、 扱\nあつか\nう漫\nまん\n画\nが\nはどれも私が知らないものばかりだったので、\n読むのに時間がかかって、毎回とても大変でした。\nいちばん 困ったのは 学期末の試験です。試験の前に、ある 漫\nまん\n画\nが\nを読んでおくように\n先生に言われました。その漫\nまん\n画\nが\nは全部で 3巻\nかん\nもあり、しっかり読むのにはとても時間が\nかかりました。そのために、ほかの試験の勉強ができなくなり、寝る時間も削\nけず\nらなければ\nならなくなりました。いつもなら、 試験期間中 は漫\nまん\n画\nが\nを読むのを我\nが\n慢\nまん\nするのですが、\nこのときの私は逆だったのです 。\n試験はうまくいきましたが、今はしばらく漫\nまん\n画\nが\nはお休みにしたい気分です 。\n27  毎回の授\nじゅ\n業\nぎょう\nの前に、学生がしなければならなかったことは何か。\n1 授\nじゅ\n業\nぎょう\nで先生に 扱\nあつか\nってもらいたい漫\nまん\n画\nが\nを見つけてくること\n2 社会問題がテーマになっている漫\nまん\n画\nが\nを見つけてくること\n3 先生に読んでくるように言われた漫\nまん\n画\nが\nを読んでおくこと\n4 自分が読んだことがない漫\nまん\n画\nが\nを探\nさが\nして、読んでおくこと\n28  このときの私は、どのような 状\nじょう\n態\nたい\nだったか。\n1 ほかの試験の勉強がしたいのに、漫\nまん\n画\nが\nを読まなければならなかった。\n2 漫\nまん\n画\nが\nが読みたいのに、試験の勉強をしなければならなかった。\n3 好きな漫\nまん\n画\nが\nが読みたいのに、好きではない漫画を読まなければならなかった。\n4 試験の勉強をしなければならないのに、漫\nまん\n画\nが\nを読むのを我\nが\n慢\nまん\nできなかった。\n29 「私」は今、どんな気持ちになっているか。\n1 しばらくは、休みの日だけに漫\nまん\n画\nが\nを読もう。\n2 しばらくは、好きな漫\nまん\n画\nが\nしか読みたくない。\n3 しばらくは、我\nが\n慢\nまん\nして漫\nまん\n画\nが\nを読もう。\n4   しばらくは、漫\nまん\n画\nが\nは読みたくない。\n（２）\nA 町は景\nけ\n色\nしき\nの美しい海沿\nぞ\nいの町で、毎週日曜の朝に港で開かれる「朝市\nあさいち\n」も人気がある。\n朝市\nあさいち\nは、A 町にある店が、魚や肉、野菜、パン、ケーキなどを売る市\nいち\n場\nば\nで、近くの市や\n町からも客が大勢\nおおぜい\nやってくる。\n朝市\nあさいち\nを始めたのは、A 町に昔からある店の主人たちである。約30 年前、大きなスーパー\nマーケットができた。多くの人がスーパーを利用するようになってしまったため、店の\n主人たちは、自分たちの店の商品の良さをもっと知ってもらおうと、朝市\nあさいち\nを始めたのだ。\n朝市\nあさいち\nでは、人気がある 商品はすぐ 売り切れてしまう。そんなに 人気があるなら、\nたくさん 売ればいいのだが、 それはしないそうだ。この 朝市\nあさいち\nの目的は、朝市\nあさいち\nでお金を\n稼\nかせ\nぐことではなく、まず朝市\nあさいち\nで自分たちの店について知ってもらって、ふだんA 町の店\nで買い物をする客を増やすことだからだ。そのため、 朝市\nあさいち\nに商品が出せる人は(  )\nだけ、ということになっている。\n30  A 町にある店の主人たちは、何のために朝市\nあさいち\nを始めたのか。\n1 町の中に、安く買い物ができるところを増やすため\n2 町の中に、近くの市や町から来る客が楽しめる場所を作るため\n3 自分たちの町の景\nけ\n色\nしき\nの美しさをもっと宣伝\nせんでん\nするため\n4 自分たちの店の商品の良さをもっと知ってもらうため\n31  それとあるが、何か。\n1 朝市\nあさいち\nで人気がある商品を、店で売るより高く売ること\n2 朝市\nあさいち\nで人気がある商品を、朝市\nあさいち\nでもっと売ること\n3 朝市\nあさいち\nでしか買えない商品の種類を増やすこと\n4 朝市\nあさいち\nでしか買えない商品を平日に店でも売ること\n32  (  ) に入れるのに最もよいものはどれか。\n1 A 町に店がある人\n2 A 町以外の市や町に店がある人\n3 A 町で店を開きたいと思っている人\n4 A 町の店でふだんから買い物をしている人\n問題 6  つぎの文章\nぶんしょう\nを読んで、質問に答えなさい。答えは、1・2・3・4 から最もよい\nものを一つえらびなさい。\n先月、新しいオートバイ を買った。オートバイ には①長い間乗っていなかった が、\n久\nひさ\nしぶりにまた乗りたくなったのだ。前に乗っていたのは大学生のころで、もう20 年も前\nだ。卒業後はずっと仕事や子\nこ\n供\nども\nの世話で 忙\nいそが\nしかったが、最近、少し自由に使える時間\nが増えた。妻に相談したら、 「いいんじゃない?」と賛成\nさんせい\nしてくれた。\nオートバイを買った店は、 「ガロン」という店だ。私には、どうしてもこの店で買い\nたい理由があったのだ。\n20 年前の春、私は、父にもらったオートバイで東京から京都まで旅行をしていた。\n安い旅館に泊まりながら、何日もかけて進む旅だった。\n3 日目の朝、道を走っているとき、 オートバイ の前の方で何かが折れる音がした。\n見ると、②オートバイの部品が壊\nこわ\nれていた。ハンドルが少しぐらぐらしたが、オートバイ\nは一応動いた。\nしばらく進むと、オートバイの店があったので、 修\nしゅう\n理\nり\nを頼\nたの\nんでみた。しかし、難しい\n修理\nしゅうり\nだからできない、と 断られてしまった。次の店でも同じだった。そして、3軒\nけん\n目\nめ\nの\n店が「ガロン」 だった。 「ガロン」 の店員も「これは 難しいね。 」と言った。でも、\n「困っているんでしょう?やってみるよ。 」と言って、 修\nしゅう\n理\nり\nを始めてくれた。そして、\n2 時間かけて 直してくれたのだ。 店員は「いつかこの 店でオートバイ を買ってね。 」\nと言って笑った。本当に困っていた私は、③何度もお礼\nれい\nを言いながら、必ずそうしよう\nと決めた。\n今の「ガロン」には、もうあの店員はいなかった。会えなかったのは残念だったが、\nそれでも私は④満足している。\n33  「私」がオートバイに①長い間乗っていなかったのは、どうしてか。\n1 買いたいと思うオートバイがなかったから\n2 仕事や子\nこ\n供\nども\nの世話で 忙\nいそが\nしかったから\n3 「私」のオートバイを妻が使っていたから\n4 家にあるオートバイが壊\nこわ\nれていたから\n34   ②オートバイの部品が壊\nこわ\nれていたとあるが、壊\nこわ\nれたのはいつか。\n1 先月、新しいオートバイを買ってから 3 日目の朝\n2 先月、オートバイ旅行を始めてから 3 日目の朝\n3  20 年前、新しいオートバイを買ってから 3 日目の朝\n4  20 年前、オートバイ旅行を始めてから 3 日目の朝\n35  ③何度もお礼\nれい\nを言いながらとあるが、 「私」はどうして何度もお礼\nれい\nを言ったのか。\n1 店にあった新しいオートバイを安く売ってくれたから\n2 オートバイを修理\nしゅうり\nしてくれそうな店を教えてくれたから\n3  壊\nこわ\nれて動かなくなりそうなオートバイを買ってくれたから\n4 ほかの店で修理\nしゅうり\nを断られたオートバイを直してくれたから\n36  ④満足しているとあるが、なぜか。\n1 もう一度、オートバイに乗ることができたから\n2 「ガロン」でオートバイを買うことができたから\n3 壊\nこわ\nれてしまったオートバイを修理\nしゅうり\nしてもらうことができたから\n4 オートバイの修理\nしゅうり\nをしてくれた店員に、お礼\nれい\nを伝えることができたから\n問題 7  右のページは、あるスキー場のホームページに載\nの\nっているスキー教室の案内で\nある。これを読んで、下の質問に答えなさい。答えは、1・2・3・4 から最も\nよいものを一つえらびなさい。\n37  スミスさんは、2 月 2 日の午後に普通コースを受けたいと思っている。スミスさん\nは、どのように申し込みをしなければならないか。\n1 2 月 2 日の午前 9 時までに、電話か窓口で申し込む。\n2 2 月 2 日の午前 9 時 30 分までに、窓口で申し込む。\n3 2 月 2 日の午後 1 時 30 分までに、窓口で申し込む。\n4 2 月 2 日の午後 1 時 30 分までに、電話か窓口で申し込む。\n38  グエンさんは、友達 4 人と特別コースを受けたいと思っている。グエンさんたち\nは、朝山ホテルに泊まっている。午後2 時から 4 時まで特別コースを受ける場合、\nグエンさんたちはいくら支払わなければならないか。\n1 22,000 円を支払う。\n2 22,000 円から 2,000 円を引いたものを支払う。\n3 39,000 円を支払う。\n4 39,000 円から 2,000 円を引いたものを支払う。\n朝山スキー場\n初級スキー教室のご案内\n期間：12 月 24 日～3 月 31 日\n【コースと料金】\n<普通コース(2 時間)>\n・大人クラス(最大 10 名)と子どもクラス(最大 8 名)があります 。\n・午前(10 時〜12 時)と、午後(2 時〜4 時)のどちらかを選んでください。\n大人一人 4,000 円\n子ども(小学生)一人 4,500 円\n※朝山ホテルにお泊まりの方は、500 円割引します 。\n<特別コース(2 時間または 4 時間)>\n・お友達やご家族だけで習いたい方のためのコースです。小学生から参加できます。\n・4〜6 名のグループで申し込んでください。\n・午前 9 時から午後 7 時までの間で、2 時間か 4 時間を選べます 。\n2 時間 4 時間\n1 グループ 22,000 円 39,000 円\n※グループの中に、朝山ホテルにお泊まりの方がいれば、グループの料金から\n2,000 円割引します 。\n【申し込みと料金の支払い】\n・普通コースは、午前に受ける場合は当日の午前 9 時 30 分まで、午後に受ける場合は\n当日の午後1 時 30 分までに、スキー教室の窓口(朝山ホテル1 階)で申し込んでください。\n料金は申し込みのときに支払ってください。\n・特別コースは、午前に開始したい場合は前日の午後 4 時まで、午後の場合は当日の\n午前 9 時までに、電話か窓口で申し込んでください。料金はコース開始前に窓口で\n支払ってください。\n【教室当日の集合】\n・どちらのコースも、開始時間の 10 分前にスキー場の入り口に集合してください。\n予約・お問い合わせ 013-227-1665\n39,000 円\n39,000 円",
+          "choices": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ],
+          "correctAnswer": 3,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2023-12-grammar-m7-q38",
+          "section": "grammar",
+          "mondai": 7,
+          "questionNumber": 38,
+          "questionType": "READING_INFO",
+          "questionText": "",
+          "passage": "問題 4 つぎの(1)から(4)の文章\nぶんしょう\nを読んで、質問に答えなさい。答えは、1・2・3・4\nから最もよいものを一つえらびなさい。\n（１）\nこれは、ある映画館のインターネットチケット予約サービスから、村田さんに届\nとど\nいた\nメールである。\n村田新一様\nチケット代金を支払っていただき、ありがとうございました。\n<予約番号> 0832            <電話番号> 090-0911-4215\n<日時>    4 月 11 日(土) 14 時〜\n<合計代金> 大人 2 枚  3,600 円\n<映画名>  「海」           <席番号>  K13  K14\n・ご予約はキャンセルできませんので、ご注意ください。\n・当日は、映画館でチケットを発券していただく必要がございます 。\n券売機に<予約番号>と<電話番号>をご入力ください。\n・映画開始から 15 分を過ぎますと、券売機での発券はできなくなります 。それ以降\nは、チケットオフィスで発券いたします 。\n東王映画館インターネットチケット予約サービス\nお問い合わせ 061-987-6543\n23  当日、予約したチケットを券売機で発券したい場合、どうしなければならないか。\n1 映画開始時間の 15 分前までに、券売機に必要な情報を入力する。\n2 映画開始時間の 15 分前までに、券売機でお金を払う。\n3 映画開始時間の 15 分後までに、券売機に必要な情報を入力する。\n4 映画開始時間 の 15 分後までに、券売機でお金を払う。\n（２）\nアリサさんが家に帰ると、テーブルの上に、一緒\nいっしょ\nに住んでいる春美さんが書いたメモ\nが置いてあった。\nアリサさん\n大学の事\nじ\n務\nむ\n所\nしょ\nに今日中に出さなければならない書類があるのを忘れていたので、\nちょっと行ってきます 。\nカレーとスープはできたんだけど、サラダがまだできていないので、お願いでき\nますか。冷\nれい\n蔵\nぞう\n庫\nこ\nにトマトやレタスがあるから、適当に使ってください。\n今日は私が晩ご飯を作ると言ったのに、ごめんなさい。帰りに何か甘\nあま\nいものを買って\nきますね。\n春美\n24  アリサさんがこのメモで頼\nたの\nまれていることは何か。\n1 大学の事\nじ\n務\nむ\n所\nしょ\nに行って、書類を出すこと\n2 カレーとスープを作ること\n3 サラダを作ること\n4 甘\nあま\nいものを買うこと\n（３）\n雑誌で「友達や家族と待ち合わせるとき、その 場所に行く時間」についての 調査の\n記事を読んだ。早めに行く人は、全体の 59%で最も多く、次に多かったのが、時間に\n間に合うように行く人で 36%だった。一方で、多少遅れても気にしないという人は、\n3%しかいなかった。\n私はいつも早めに行くが、友人たちはたいてい遅れて来る。私が 珍\nめずら\nしいタイプなのか\nと思っていたが、この結果から、そうではないとわかって、意外だった。\n25  意外だったとあるが、調査結果のどのような点からそう思ったか。\n1 「私」と同じタイプの人が、最も多い点\n2 「私」と同じタイプの人が、二番目に多い点\n3 「私」と同じタイプの人が、最も少ない点\n4 「私」と反対のタイプの人が、最も多い点\n（４）\n納豆\nなっとう\nは、体にいいし、おいしいので、私は毎日食べている。そのまま食べる人も多い\nが、私は 卵\nたまご\nに混\nま\nぜて焼いたり、みそ汁\nしる\nに入れたり、いろいろな料理に使っている。\nしかし、今朝テレビを見て 驚\nおどろ\nいた。納豆\nなっとう\nには、ほかの食べ物にはない種類の酵\nこう\n素\nそ\n注)\nが入っている。これには血液の流れをよくする効\nこう\n果\nか\nがあるが、50 度以上の熱で減って\nしまうそうなのだ。そうだとすると、私は今まで、とてももったいない食べ方をしていた\nことになる。\n注) 酵\nこう\n素\nそ\n：ここでは、食べ物に入っている栄養\nえいよう\nのような物\n27  もったいない食べ方をしていたとあるが、なぜもったいないと思ったのか。\n1 体へのよい効\nこう\n果\nか\nが弱くなってしまう料理のしかたで、納豆\nなっとう\nを食べていたから\n2 体へのよい効\nこう\n果\nか\nが消えるような、たくさんの量の納豆\nなっとう\nを食べていたから\n3 おいしさがわからなくなるような料理のしかたで、納豆\nなっとう\nを食べていたから\n4 おいしくなる料理方法があるのに、それを知らないで納豆\nなっとう\nを食べていたから\n問題 5  つぎの(1)と(2)の文章\nぶんしょう\nを読んで、質問に答えなさい。答えは、1・2・3・4\nから最もよいものを一つえらびなさい。\n（１）\n私の留学している日本の大学には、漫\nまん\n画\nが\nを読んで社会について考える授\nじゅ\n業\nぎょう\nがあります。\n私は子\nこ\n供\nども\nのころから日本の漫\nまん\n画\nが\nが大好きだったので、この 授\nじゅ\n業\nぎょう\nを取りました。しかし、\nこれは失敗\nしっぱい\nでした。\nこの授\nじゅ\n業\nぎょう\nでは、学生は毎週の授\nじゅ\n業\nぎょう\nの前に、先生が指定した漫\nまん\n画\nが\nを読んでいくことに\nなっていました。ところが、 扱\nあつか\nう漫\nまん\n画\nが\nはどれも私が知らないものばかりだったので、\n読むのに時間がかかって、毎回とても大変でした。\nいちばん 困ったのは 学期末の試験です。試験の前に、ある 漫\nまん\n画\nが\nを読んでおくように\n先生に言われました。その漫\nまん\n画\nが\nは全部で 3巻\nかん\nもあり、しっかり読むのにはとても時間が\nかかりました。そのために、ほかの試験の勉強ができなくなり、寝る時間も削\nけず\nらなければ\nならなくなりました。いつもなら、 試験期間中 は漫\nまん\n画\nが\nを読むのを我\nが\n慢\nまん\nするのですが、\nこのときの私は逆だったのです 。\n試験はうまくいきましたが、今はしばらく漫\nまん\n画\nが\nはお休みにしたい気分です 。\n27  毎回の授\nじゅ\n業\nぎょう\nの前に、学生がしなければならなかったことは何か。\n1 授\nじゅ\n業\nぎょう\nで先生に 扱\nあつか\nってもらいたい漫\nまん\n画\nが\nを見つけてくること\n2 社会問題がテーマになっている漫\nまん\n画\nが\nを見つけてくること\n3 先生に読んでくるように言われた漫\nまん\n画\nが\nを読んでおくこと\n4 自分が読んだことがない漫\nまん\n画\nが\nを探\nさが\nして、読んでおくこと\n28  このときの私は、どのような 状\nじょう\n態\nたい\nだったか。\n1 ほかの試験の勉強がしたいのに、漫\nまん\n画\nが\nを読まなければならなかった。\n2 漫\nまん\n画\nが\nが読みたいのに、試験の勉強をしなければならなかった。\n3 好きな漫\nまん\n画\nが\nが読みたいのに、好きではない漫画を読まなければならなかった。\n4 試験の勉強をしなければならないのに、漫\nまん\n画\nが\nを読むのを我\nが\n慢\nまん\nできなかった。\n29 「私」は今、どんな気持ちになっているか。\n1 しばらくは、休みの日だけに漫\nまん\n画\nが\nを読もう。\n2 しばらくは、好きな漫\nまん\n画\nが\nしか読みたくない。\n3 しばらくは、我\nが\n慢\nまん\nして漫\nまん\n画\nが\nを読もう。\n4   しばらくは、漫\nまん\n画\nが\nは読みたくない。\n（２）\nA 町は景\nけ\n色\nしき\nの美しい海沿\nぞ\nいの町で、毎週日曜の朝に港で開かれる「朝市\nあさいち\n」も人気がある。\n朝市\nあさいち\nは、A 町にある店が、魚や肉、野菜、パン、ケーキなどを売る市\nいち\n場\nば\nで、近くの市や\n町からも客が大勢\nおおぜい\nやってくる。\n朝市\nあさいち\nを始めたのは、A 町に昔からある店の主人たちである。約30 年前、大きなスーパー\nマーケットができた。多くの人がスーパーを利用するようになってしまったため、店の\n主人たちは、自分たちの店の商品の良さをもっと知ってもらおうと、朝市\nあさいち\nを始めたのだ。\n朝市\nあさいち\nでは、人気がある 商品はすぐ 売り切れてしまう。そんなに 人気があるなら、\nたくさん 売ればいいのだが、 それはしないそうだ。この 朝市\nあさいち\nの目的は、朝市\nあさいち\nでお金を\n稼\nかせ\nぐことではなく、まず朝市\nあさいち\nで自分たちの店について知ってもらって、ふだんA 町の店\nで買い物をする客を増やすことだからだ。そのため、 朝市\nあさいち\nに商品が出せる人は(  )\nだけ、ということになっている。\n30  A 町にある店の主人たちは、何のために朝市\nあさいち\nを始めたのか。\n1 町の中に、安く買い物ができるところを増やすため\n2 町の中に、近くの市や町から来る客が楽しめる場所を作るため\n3 自分たちの町の景\nけ\n色\nしき\nの美しさをもっと宣伝\nせんでん\nするため\n4 自分たちの店の商品の良さをもっと知ってもらうため\n31  それとあるが、何か。\n1 朝市\nあさいち\nで人気がある商品を、店で売るより高く売ること\n2 朝市\nあさいち\nで人気がある商品を、朝市\nあさいち\nでもっと売ること\n3 朝市\nあさいち\nでしか買えない商品の種類を増やすこと\n4 朝市\nあさいち\nでしか買えない商品を平日に店でも売ること\n32  (  ) に入れるのに最もよいものはどれか。\n1 A 町に店がある人\n2 A 町以外の市や町に店がある人\n3 A 町で店を開きたいと思っている人\n4 A 町の店でふだんから買い物をしている人\n問題 6  つぎの文章\nぶんしょう\nを読んで、質問に答えなさい。答えは、1・2・3・4 から最もよい\nものを一つえらびなさい。\n先月、新しいオートバイ を買った。オートバイ には①長い間乗っていなかった が、\n久\nひさ\nしぶりにまた乗りたくなったのだ。前に乗っていたのは大学生のころで、もう20 年も前\nだ。卒業後はずっと仕事や子\nこ\n供\nども\nの世話で 忙\nいそが\nしかったが、最近、少し自由に使える時間\nが増えた。妻に相談したら、 「いいんじゃない?」と賛成\nさんせい\nしてくれた。\nオートバイを買った店は、 「ガロン」という店だ。私には、どうしてもこの店で買い\nたい理由があったのだ。\n20 年前の春、私は、父にもらったオートバイで東京から京都まで旅行をしていた。\n安い旅館に泊まりながら、何日もかけて進む旅だった。\n3 日目の朝、道を走っているとき、 オートバイ の前の方で何かが折れる音がした。\n見ると、②オートバイの部品が壊\nこわ\nれていた。ハンドルが少しぐらぐらしたが、オートバイ\nは一応動いた。\nしばらく進むと、オートバイの店があったので、 修\nしゅう\n理\nり\nを頼\nたの\nんでみた。しかし、難しい\n修理\nしゅうり\nだからできない、と 断られてしまった。次の店でも同じだった。そして、3軒\nけん\n目\nめ\nの\n店が「ガロン」 だった。 「ガロン」 の店員も「これは 難しいね。 」と言った。でも、\n「困っているんでしょう?やってみるよ。 」と言って、 修\nしゅう\n理\nり\nを始めてくれた。そして、\n2 時間かけて 直してくれたのだ。 店員は「いつかこの 店でオートバイ を買ってね。 」\nと言って笑った。本当に困っていた私は、③何度もお礼\nれい\nを言いながら、必ずそうしよう\nと決めた。\n今の「ガロン」には、もうあの店員はいなかった。会えなかったのは残念だったが、\nそれでも私は④満足している。\n33  「私」がオートバイに①長い間乗っていなかったのは、どうしてか。\n1 買いたいと思うオートバイがなかったから\n2 仕事や子\nこ\n供\nども\nの世話で 忙\nいそが\nしかったから\n3 「私」のオートバイを妻が使っていたから\n4 家にあるオートバイが壊\nこわ\nれていたから\n34   ②オートバイの部品が壊\nこわ\nれていたとあるが、壊\nこわ\nれたのはいつか。\n1 先月、新しいオートバイを買ってから 3 日目の朝\n2 先月、オートバイ旅行を始めてから 3 日目の朝\n3  20 年前、新しいオートバイを買ってから 3 日目の朝\n4  20 年前、オートバイ旅行を始めてから 3 日目の朝\n35  ③何度もお礼\nれい\nを言いながらとあるが、 「私」はどうして何度もお礼\nれい\nを言ったのか。\n1 店にあった新しいオートバイを安く売ってくれたから\n2 オートバイを修理\nしゅうり\nしてくれそうな店を教えてくれたから\n3  壊\nこわ\nれて動かなくなりそうなオートバイを買ってくれたから\n4 ほかの店で修理\nしゅうり\nを断られたオートバイを直してくれたから\n36  ④満足しているとあるが、なぜか。\n1 もう一度、オートバイに乗ることができたから\n2 「ガロン」でオートバイを買うことができたから\n3 壊\nこわ\nれてしまったオートバイを修理\nしゅうり\nしてもらうことができたから\n4 オートバイの修理\nしゅうり\nをしてくれた店員に、お礼\nれい\nを伝えることができたから\n問題 7  右のページは、あるスキー場のホームページに載\nの\nっているスキー教室の案内で\nある。これを読んで、下の質問に答えなさい。答えは、1・2・3・4 から最も\nよいものを一つえらびなさい。\n37  スミスさんは、2 月 2 日の午後に普通コースを受けたいと思っている。スミスさん\nは、どのように申し込みをしなければならないか。\n1 2 月 2 日の午前 9 時までに、電話か窓口で申し込む。\n2 2 月 2 日の午前 9 時 30 分までに、窓口で申し込む。\n3 2 月 2 日の午後 1 時 30 分までに、窓口で申し込む。\n4 2 月 2 日の午後 1 時 30 分までに、電話か窓口で申し込む。\n38  グエンさんは、友達 4 人と特別コースを受けたいと思っている。グエンさんたち\nは、朝山ホテルに泊まっている。午後2 時から 4 時まで特別コースを受ける場合、\nグエンさんたちはいくら支払わなければならないか。\n1 22,000 円を支払う。\n2 22,000 円から 2,000 円を引いたものを支払う。\n3 39,000 円を支払う。\n4 39,000 円から 2,000 円を引いたものを支払う。\n朝山スキー場\n初級スキー教室のご案内\n期間：12 月 24 日～3 月 31 日\n【コースと料金】\n<普通コース(2 時間)>\n・大人クラス(最大 10 名)と子どもクラス(最大 8 名)があります 。\n・午前(10 時〜12 時)と、午後(2 時〜4 時)のどちらかを選んでください。\n大人一人 4,000 円\n子ども(小学生)一人 4,500 円\n※朝山ホテルにお泊まりの方は、500 円割引します 。\n<特別コース(2 時間または 4 時間)>\n・お友達やご家族だけで習いたい方のためのコースです。小学生から参加できます。\n・4〜6 名のグループで申し込んでください。\n・午前 9 時から午後 7 時までの間で、2 時間か 4 時間を選べます 。\n2 時間 4 時間\n1 グループ 22,000 円 39,000 円\n※グループの中に、朝山ホテルにお泊まりの方がいれば、グループの料金から\n2,000 円割引します 。\n【申し込みと料金の支払い】\n・普通コースは、午前に受ける場合は当日の午前 9 時 30 分まで、午後に受ける場合は\n当日の午後1 時 30 分までに、スキー教室の窓口(朝山ホテル1 階)で申し込んでください。\n料金は申し込みのときに支払ってください。\n・特別コースは、午前に開始したい場合は前日の午後 4 時まで、午後の場合は当日の\n午前 9 時までに、電話か窓口で申し込んでください。料金はコース開始前に窓口で\n支払ってください。\n【教室当日の集合】\n・どちらのコースも、開始時間の 10 分前にスキー場の入り口に集合してください。\n予約・お問い合わせ 013-227-1665\n39,000 円\n39,000 円",
+          "choices": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ],
+          "correctAnswer": 2,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        }
+      ]
+    },
+    {
+      "sectionId": "listening",
+      "title": "聴解",
+      "titleVi": "Nghe hiểu",
+      "timeLimitSec": 2400,
+      "totalQuestions": 28,
+      "questions": [
+        {
+          "id": "n3-2023-12-listening-m1-q1",
+          "section": "listening",
+          "mondai": 1,
+          "questionNumber": 1,
+          "questionType": "LISTEN_TASK",
+          "questionText": "問題 1 - 第 1 番",
+          "passage": null,
+          "choices": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ],
+          "correctAnswer": 1,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2023-12-listening-m1-q2",
+          "section": "listening",
+          "mondai": 1,
+          "questionNumber": 2,
+          "questionType": "LISTEN_TASK",
+          "questionText": "問題 1 - 第 2 番",
+          "passage": null,
+          "choices": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ],
+          "correctAnswer": 2,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2023-12-listening-m1-q3",
+          "section": "listening",
+          "mondai": 1,
+          "questionNumber": 3,
+          "questionType": "LISTEN_TASK",
+          "questionText": "問題 1 - 第 3 番",
+          "passage": null,
+          "choices": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ],
+          "correctAnswer": 3,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2023-12-listening-m1-q4",
+          "section": "listening",
+          "mondai": 1,
+          "questionNumber": 4,
+          "questionType": "LISTEN_TASK",
+          "questionText": "問題 1 - 第 4 番",
+          "passage": null,
+          "choices": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ],
+          "correctAnswer": 4,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2023-12-listening-m1-q5",
+          "section": "listening",
+          "mondai": 1,
+          "questionNumber": 5,
+          "questionType": "LISTEN_TASK",
+          "questionText": "問題 1 - 第 5 番",
+          "passage": null,
+          "choices": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ],
+          "correctAnswer": 1,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2023-12-listening-m1-q6",
+          "section": "listening",
+          "mondai": 1,
+          "questionNumber": 6,
+          "questionType": "LISTEN_TASK",
+          "questionText": "問題 1 - 第 6 番",
+          "passage": null,
+          "choices": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ],
+          "correctAnswer": 2,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2023-12-listening-m2-q7",
+          "section": "listening",
+          "mondai": 2,
+          "questionNumber": 7,
+          "questionType": "LISTEN_POINT",
+          "questionText": "問題 2 - 第 1 番",
+          "passage": null,
+          "choices": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ],
+          "correctAnswer": 1,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2023-12-listening-m2-q8",
+          "section": "listening",
+          "mondai": 2,
+          "questionNumber": 8,
+          "questionType": "LISTEN_POINT",
+          "questionText": "問題 2 - 第 2 番",
+          "passage": null,
+          "choices": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ],
+          "correctAnswer": 2,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2023-12-listening-m2-q9",
+          "section": "listening",
+          "mondai": 2,
+          "questionNumber": 9,
+          "questionType": "LISTEN_POINT",
+          "questionText": "問題 2 - 第 3 番",
+          "passage": null,
+          "choices": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ],
+          "correctAnswer": 3,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2023-12-listening-m2-q10",
+          "section": "listening",
+          "mondai": 2,
+          "questionNumber": 10,
+          "questionType": "LISTEN_POINT",
+          "questionText": "問題 2 - 第 4 番",
+          "passage": null,
+          "choices": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ],
+          "correctAnswer": 4,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2023-12-listening-m2-q11",
+          "section": "listening",
+          "mondai": 2,
+          "questionNumber": 11,
+          "questionType": "LISTEN_POINT",
+          "questionText": "問題 2 - 第 5 番",
+          "passage": null,
+          "choices": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ],
+          "correctAnswer": 1,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2023-12-listening-m2-q12",
+          "section": "listening",
+          "mondai": 2,
+          "questionNumber": 12,
+          "questionType": "LISTEN_POINT",
+          "questionText": "問題 2 - 第 6 番",
+          "passage": null,
+          "choices": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ],
+          "correctAnswer": 2,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2023-12-listening-m3-q13",
+          "section": "listening",
+          "mondai": 3,
+          "questionNumber": 13,
+          "questionType": "LISTEN_OVERVIEW",
+          "questionText": "問題 3 - 第 1 番",
+          "passage": null,
+          "choices": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ],
+          "correctAnswer": 1,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2023-12-listening-m3-q14",
+          "section": "listening",
+          "mondai": 3,
+          "questionNumber": 14,
+          "questionType": "LISTEN_OVERVIEW",
+          "questionText": "問題 3 - 第 2 番",
+          "passage": null,
+          "choices": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ],
+          "correctAnswer": 2,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2023-12-listening-m3-q15",
+          "section": "listening",
+          "mondai": 3,
+          "questionNumber": 15,
+          "questionType": "LISTEN_OVERVIEW",
+          "questionText": "問題 3 - 第 3 番",
+          "passage": null,
+          "choices": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ],
+          "correctAnswer": 3,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2023-12-listening-m4-q16",
+          "section": "listening",
+          "mondai": 4,
+          "questionNumber": 16,
+          "questionType": "LISTEN_PICTURE",
+          "questionText": "問題 4 - 第 1 番",
+          "passage": null,
+          "choices": [
+            "1",
+            "2",
+            "3"
+          ],
+          "correctAnswer": 1,
+          "imageRef": "/exams/images/n3-2023-12/Image101.png.jpg",
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2023-12-listening-m4-q17",
+          "section": "listening",
+          "mondai": 4,
+          "questionNumber": 17,
+          "questionType": "LISTEN_PICTURE",
+          "questionText": "問題 4 - 第 2 番",
+          "passage": null,
+          "choices": [
+            "1",
+            "2",
+            "3"
+          ],
+          "correctAnswer": 2,
+          "imageRef": "/exams/images/n3-2023-12/Image102.png.jpg",
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2023-12-listening-m4-q18",
+          "section": "listening",
+          "mondai": 4,
+          "questionNumber": 18,
+          "questionType": "LISTEN_PICTURE",
+          "questionText": "問題 4 - 第 3 番",
+          "passage": null,
+          "choices": [
+            "1",
+            "2",
+            "3"
+          ],
+          "correctAnswer": 3,
+          "imageRef": "/exams/images/n3-2023-12/Image105.png.jpg",
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2023-12-listening-m4-q19",
+          "section": "listening",
+          "mondai": 4,
+          "questionNumber": 19,
+          "questionType": "LISTEN_PICTURE",
+          "questionText": "問題 4 - 第 4 番",
+          "passage": null,
+          "choices": [
+            "1",
+            "2",
+            "3"
+          ],
+          "correctAnswer": 1,
+          "imageRef": "/exams/images/n3-2023-12/Image106.png.jpg",
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2023-12-listening-m5-q20",
+          "section": "listening",
+          "mondai": 5,
+          "questionNumber": 20,
+          "questionType": "LISTEN_IMMEDIATE",
+          "questionText": "問題 5 - 第 1 番",
+          "passage": null,
+          "choices": [
+            "1",
+            "2",
+            "3"
+          ],
+          "correctAnswer": 1,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2023-12-listening-m5-q21",
+          "section": "listening",
+          "mondai": 5,
+          "questionNumber": 21,
+          "questionType": "LISTEN_IMMEDIATE",
+          "questionText": "問題 5 - 第 2 番",
+          "passage": null,
+          "choices": [
+            "1",
+            "2",
+            "3"
+          ],
+          "correctAnswer": 2,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2023-12-listening-m5-q22",
+          "section": "listening",
+          "mondai": 5,
+          "questionNumber": 22,
+          "questionType": "LISTEN_IMMEDIATE",
+          "questionText": "問題 5 - 第 3 番",
+          "passage": null,
+          "choices": [
+            "1",
+            "2",
+            "3"
+          ],
+          "correctAnswer": 3,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2023-12-listening-m5-q23",
+          "section": "listening",
+          "mondai": 5,
+          "questionNumber": 23,
+          "questionType": "LISTEN_IMMEDIATE",
+          "questionText": "問題 5 - 第 4 番",
+          "passage": null,
+          "choices": [
+            "1",
+            "2",
+            "3"
+          ],
+          "correctAnswer": 1,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2023-12-listening-m5-q24",
+          "section": "listening",
+          "mondai": 5,
+          "questionNumber": 24,
+          "questionType": "LISTEN_IMMEDIATE",
+          "questionText": "問題 5 - 第 5 番",
+          "passage": null,
+          "choices": [
+            "1",
+            "2",
+            "3"
+          ],
+          "correctAnswer": 2,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2023-12-listening-m5-q25",
+          "section": "listening",
+          "mondai": 5,
+          "questionNumber": 25,
+          "questionType": "LISTEN_IMMEDIATE",
+          "questionText": "問題 5 - 第 6 番",
+          "passage": null,
+          "choices": [
+            "1",
+            "2",
+            "3"
+          ],
+          "correctAnswer": 3,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2023-12-listening-m5-q26",
+          "section": "listening",
+          "mondai": 5,
+          "questionNumber": 26,
+          "questionType": "LISTEN_IMMEDIATE",
+          "questionText": "問題 5 - 第 7 番",
+          "passage": null,
+          "choices": [
+            "1",
+            "2",
+            "3"
+          ],
+          "correctAnswer": 1,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2023-12-listening-m5-q27",
+          "section": "listening",
+          "mondai": 5,
+          "questionNumber": 27,
+          "questionType": "LISTEN_IMMEDIATE",
+          "questionText": "問題 5 - 第 8 番",
+          "passage": null,
+          "choices": [
+            "1",
+            "2",
+            "3"
+          ],
+          "correctAnswer": 2,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2023-12-listening-m5-q28",
+          "section": "listening",
+          "mondai": 5,
+          "questionNumber": 28,
+          "questionType": "LISTEN_IMMEDIATE",
+          "questionText": "問題 5 - 第 9 番",
+          "passage": null,
+          "choices": [
+            "1",
+            "2",
+            "3"
+          ],
+          "correctAnswer": 3,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        }
+      ]
+    }
+  ]
+}

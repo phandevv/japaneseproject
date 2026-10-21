@@ -852,4 +852,41 @@ export const jlptN3GrammarReviewApi = {
   }
 };
 
+export const mockExamApi = {
+  getExams: async () => {
+    const response = await axios.get(`${API_BASE_URL}/mock-exams`);
+    return response.data;
+  },
+  getExamDetail: async (examId) => {
+    const response = await axios.get(`${API_BASE_URL}/mock-exams/${examId}`);
+    return response.data;
+  },
+  startExam: async (examId) => {
+    const response = await axios.post(`${API_BASE_URL}/mock-exams/${examId}/start`);
+    return response.data;
+  },
+  saveProgress: async (attemptId, { currentSectionIndex, sectionTimeLeftSec, answers }) => {
+    const response = await axios.post(`${API_BASE_URL}/mock-exams/attempts/${attemptId}/save-progress`, {
+      currentSectionIndex,
+      sectionTimeLeftSec,
+      answers
+    });
+    return response.data;
+  },
+  submitExam: async (attemptId, answers) => {
+    const response = await axios.post(`${API_BASE_URL}/mock-exams/attempts/${attemptId}/submit`, {
+      answers
+    });
+    return response.data;
+  },
+  getResult: async (attemptId) => {
+    const response = await axios.get(`${API_BASE_URL}/mock-exams/attempts/${attemptId}/result`);
+    return response.data;
+  },
+  getHistory: async () => {
+    const response = await axios.get(`${API_BASE_URL}/mock-exams/history`);
+    return response.data;
+  }
+};
+
 export const api = axios;

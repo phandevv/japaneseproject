@@ -285,6 +285,14 @@ Dưới đây là một số API RESTful chính được công bố trên backen
   * `POST /api/jlpt-n3/grammar-review/submit`: Nộp bài quiz nhóm (pass nếu score >= 80%).
   * `PUT /api/jlpt-n3/chapter/{c}/lesson/{l}/reading`: (Admin) Chỉnh sửa thủ công nội dung bài đọc, bản dịch và câu hỏi.
   * `POST /api/jlpt-n3/chapter/{c}/lesson/{l}/reading/submit`: Nộp bài kiểm tra đọc hiểu 10 câu (Đạt khi đúng >= 8 câu).
+* **Thi thử JLPT N3 Đề Thật (`/api/mock-exams/*`)**:
+  * `GET /api/mock-exams`: Lấy danh sách 30 bộ đề thi thật từ năm 2010 - 2025 kèm trạng thái, số câu, thời gian và điểm cao nhất.
+  * `GET /api/mock-exams/{examId}`: Chi tiết cấu trúc bộ đề gồm 3 phần thi (Văn tự - Từ vựng, Ngữ pháp - Đọc hiểu, Nghe hiểu). Đáp án đúng được ẩn để bảo mật đề thi.
+  * `POST /api/mock-exams/{examId}/start`: Bắt đầu phiên làm bài mới hoặc khôi phục phiên đang làm dở (resume attempt).
+  * `POST /api/mock-exams/attempts/{attemptId}/save`: Auto-save tiến độ làm bài thi định kỳ 30s một lần và khi chuyển câu/phần thi.
+  * `POST /api/mock-exams/attempts/{attemptId}/submit`: Nộp bài thi, tính điểm chuẩn JLPT N3 (tổng >= 95/180, mỗi phần >= 19/60 để Đạt) và khóa bài thi.
+  * `GET /api/mock-exams/attempts/{attemptId}/result`: Trả về bảng kết quả chi tiết từng phần, kèm đối chiếu từng câu hỏi với đáp án đúng và giải thích.
+  * `GET /api/mock-exams/user/history`: Lấy toàn bộ lịch sử các lần thi thử của tài khoản hiện tại.
 
 ---
 

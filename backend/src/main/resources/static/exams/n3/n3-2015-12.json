@@ -1,0 +1,1963 @@
+{
+  "examId": "n3-2015-12",
+  "level": "N3",
+  "year": 2015,
+  "month": 12,
+  "title": "JLPT N3 — Tháng 12/2015",
+  "totalQuestions": 102,
+  "audioFile": "n3-2015-12.mp3",
+  "sections": [
+    {
+      "sectionId": "vocab",
+      "title": "言語知識（文字・語彙）",
+      "titleVi": "Văn tự - Từ vựng",
+      "timeLimitSec": 1800,
+      "totalQuestions": 35,
+      "questions": [
+        {
+          "id": "n3-2015-12-vocab-m1-q1",
+          "section": "vocab",
+          "mondai": 1,
+          "questionNumber": 1,
+          "questionType": "KANJI_READING",
+          "questionText": "病院で血液型を調べました。",
+          "passage": null,
+          "choices": [
+            "ちいきがた",
+            "けついきがた",
+            "ちえきがた",
+            "けつえきがた"
+          ],
+          "correctAnswer": 4,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2015-12-vocab-m1-q2",
+          "section": "vocab",
+          "mondai": 1,
+          "questionNumber": 2,
+          "questionType": "KANJI_READING",
+          "questionText": "湖の上を白い鳥が飛んでいる。",
+          "passage": null,
+          "choices": [
+            "みずうみ",
+            "みなと",
+            "いけ",
+            "なみ"
+          ],
+          "correctAnswer": 1,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2015-12-vocab-m1-q3",
+          "section": "vocab",
+          "mondai": 1,
+          "questionNumber": 3,
+          "questionType": "KANJI_READING",
+          "questionText": "この時代の生活にどんな変化があったのか、調べてみたい。",
+          "passage": null,
+          "choices": [
+            "ぶんか",
+            "へんか",
+            "ふんか",
+            "べんか"
+          ],
+          "correctAnswer": 2,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2015-12-vocab-m1-q4",
+          "section": "vocab",
+          "mondai": 1,
+          "questionNumber": 4,
+          "questionType": "KANJI_READING",
+          "questionText": "休んでいる学生が何人いるか、伝えました。",
+          "passage": null,
+          "choices": [
+            "こたえました",
+            "おしえました",
+            "かぞえました",
+            "つたえました"
+          ],
+          "correctAnswer": 4,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2015-12-vocab-m1-q5",
+          "section": "vocab",
+          "mondai": 1,
+          "questionNumber": 5,
+          "questionType": "KANJI_READING",
+          "questionText": "その荷物を運んでください。",
+          "passage": null,
+          "choices": [
+            "しなもつ",
+            "しなもの",
+            "にもつ",
+            "にもの"
+          ],
+          "correctAnswer": 3,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2015-12-vocab-m1-q6",
+          "section": "vocab",
+          "mondai": 1,
+          "questionNumber": 6,
+          "questionType": "KANJI_READING",
+          "questionText": "毎日、平均",
+          "passage": null,
+          "choices": [
+            "時間くらい勉強しています。 １ へんきん",
+            "へいきん",
+            "へんやく",
+            "へいやく"
+          ],
+          "correctAnswer": 2,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2015-12-vocab-m1-q7",
+          "section": "vocab",
+          "mondai": 1,
+          "questionNumber": 7,
+          "questionType": "KANJI_READING",
+          "questionText": "この学校では、留学生に奨学金が支給されます。",
+          "passage": null,
+          "choices": [
+            "しこう",
+            "じきゅう",
+            "じごう",
+            "しきゅう"
+          ],
+          "correctAnswer": 4,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2015-12-vocab-m1-q8",
+          "section": "vocab",
+          "mondai": 1,
+          "questionNumber": 8,
+          "questionType": "KANJI_READING",
+          "questionText": "このグラフは、毎月の雨の量を表したものです。",
+          "passage": null,
+          "choices": [
+            "あらわした",
+            "しめした",
+            "さした",
+            "うつした"
+          ],
+          "correctAnswer": 1,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2015-12-vocab-m2-q9",
+          "section": "vocab",
+          "mondai": 2,
+          "questionNumber": 9,
+          "questionType": "KANJI_WRITING",
+          "questionText": "この店は、いろいろながっきを売っている。",
+          "passage": null,
+          "choices": [
+            "薬具",
+            "楽器",
+            "楽具",
+            "薬器"
+          ],
+          "correctAnswer": 2,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2015-12-vocab-m2-q10",
+          "section": "vocab",
+          "mondai": 2,
+          "questionNumber": 10,
+          "questionType": "KANJI_WRITING",
+          "questionText": "携帯電話をかりました。",
+          "passage": null,
+          "choices": [
+            "代りました",
+            "換りました",
+            "貸りました",
+            "借りました"
+          ],
+          "correctAnswer": 4,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2015-12-vocab-m2-q11",
+          "section": "vocab",
+          "mondai": 2,
+          "questionNumber": 11,
+          "questionType": "KANJI_WRITING",
+          "questionText": "けってんのない人はいないだろう。",
+          "passage": null,
+          "choices": [
+            "欠点",
+            "決天",
+            "決点",
+            "欠天"
+          ],
+          "correctAnswer": 1,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2015-12-vocab-m2-q12",
+          "section": "vocab",
+          "mondai": 2,
+          "questionNumber": 12,
+          "questionType": "KANJI_WRITING",
+          "questionText": "この古い橋は、げんざいは使われていない。",
+          "passage": null,
+          "choices": [
+            "原存",
+            "原在",
+            "現在",
+            "現存"
+          ],
+          "correctAnswer": 3,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2015-12-vocab-m2-q13",
+          "section": "vocab",
+          "mondai": 2,
+          "questionNumber": 13,
+          "questionType": "KANJI_WRITING",
+          "questionText": "みどりのペンで、線を引きました。",
+          "passage": null,
+          "choices": [
+            "黄",
+            "緑",
+            "青",
+            "赤"
+          ],
+          "correctAnswer": 2,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2015-12-vocab-m2-q14",
+          "section": "vocab",
+          "mondai": 2,
+          "questionNumber": 14,
+          "questionType": "KANJI_WRITING",
+          "questionText": "家族の幸せをねがっている。",
+          "passage": null,
+          "choices": [
+            "顧って",
+            "願って",
+            "頼って",
+            "頻って"
+          ],
+          "correctAnswer": 2,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2015-12-vocab-m3-q15",
+          "section": "vocab",
+          "mondai": 3,
+          "questionNumber": 15,
+          "questionType": "VOCAB_CONTEXT",
+          "questionText": "重い本をたくさん入れたら、紙の袋が(   )、中身が落ちてしまった。",
+          "passage": null,
+          "choices": [
+            "折れて",
+            "ぬれて",
+            "汚れて",
+            "破れて"
+          ],
+          "correctAnswer": 4,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2015-12-vocab-m3-q16",
+          "section": "vocab",
+          "mondai": 3,
+          "questionNumber": 16,
+          "questionType": "VOCAB_CONTEXT",
+          "questionText": "この遊園地は、子どもは大人の半分の(   )で入ることができるそうだ。",
+          "passage": null,
+          "choices": [
+            "貯金",
+            "有料",
+            "料金",
+            "物価"
+          ],
+          "correctAnswer": 3,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2015-12-vocab-m3-q17",
+          "section": "vocab",
+          "mondai": 3,
+          "questionNumber": 17,
+          "questionType": "VOCAB_CONTEXT",
+          "questionText": "毎日少しずつセーターを(   ) 昨日やっと完成した。",
+          "passage": null,
+          "choices": [
+            "縛って",
+            "絞って",
+            "編んで",
+            "結んで"
+          ],
+          "correctAnswer": 3,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2015-12-vocab-m3-q18",
+          "section": "vocab",
+          "mondai": 3,
+          "questionNumber": 18,
+          "questionType": "VOCAB_CONTEXT",
+          "questionText": "次の試合で(   )相手は、去年の優勝者だ。",
+          "passage": null,
+          "choices": [
+            "戦う",
+            "踏む",
+            "挑む",
+            "曲げる"
+          ],
+          "correctAnswer": 1,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2015-12-vocab-m3-q19",
+          "section": "vocab",
+          "mondai": 3,
+          "questionNumber": 19,
+          "questionType": "VOCAB_CONTEXT",
+          "questionText": "わたしは建築を勉強しているので、日本の家の建て方に(   )があります。",
+          "passage": null,
+          "choices": [
+            "見物",
+            "好物",
+            "趣味",
+            "興味"
+          ],
+          "correctAnswer": 4,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2015-12-vocab-m3-q20",
+          "section": "vocab",
+          "mondai": 3,
+          "questionNumber": 20,
+          "questionType": "VOCAB_CONTEXT",
+          "questionText": "喫茶店のドアを開けたら、コーヒーのいい(   )がした。",
+          "passage": null,
+          "choices": [
+            "味",
+            "香り",
+            "色",
+            "気分"
+          ],
+          "correctAnswer": 2,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2015-12-vocab-m3-q21",
+          "section": "vocab",
+          "mondai": 3,
+          "questionNumber": 21,
+          "questionType": "VOCAB_CONTEXT",
+          "questionText": "今日のコンサートでピアノを(   )するのは、有名なピアニストだ。",
+          "passage": null,
+          "choices": [
+            "演奏",
+            "講演",
+            "活動",
+            "行動"
+          ],
+          "correctAnswer": 1,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2015-12-vocab-m3-q22",
+          "section": "vocab",
+          "mondai": 3,
+          "questionNumber": 22,
+          "questionType": "VOCAB_CONTEXT",
+          "questionText": "交通事故を(   )ために、横断歩道に信号が付けられました。",
+          "passage": null,
+          "choices": [
+            "下げる",
+            "守る",
+            "防ぐ",
+            "やめる"
+          ],
+          "correctAnswer": 3,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2015-12-vocab-m3-q23",
+          "section": "vocab",
+          "mondai": 3,
+          "questionNumber": 23,
+          "questionType": "VOCAB_CONTEXT",
+          "questionText": "この靴は、わたしの足に （   )合っているので、歩きやすいです。",
+          "passage": null,
+          "choices": [
+            "うっかり",
+            "ぴったり",
+            "ぺらぺら",
+            "ふらふら"
+          ],
+          "correctAnswer": 2,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2015-12-vocab-m3-q24",
+          "section": "vocab",
+          "mondai": 3,
+          "questionNumber": 24,
+          "questionType": "VOCAB_CONTEXT",
+          "questionText": "缶やペットボトルなども捨てないで(   )すれば、ごみを減らすことができる。",
+          "passage": null,
+          "choices": [
+            "チャレンジ",
+            "ストップ",
+            "キャンセル",
+            "リサイクル"
+          ],
+          "correctAnswer": 4,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2015-12-vocab-m3-q25",
+          "section": "vocab",
+          "mondai": 3,
+          "questionNumber": 25,
+          "questionType": "VOCAB_CONTEXT",
+          "questionText": "この国は米の生産が(   )で、海外にもたくさん米を輸出している。",
+          "passage": null,
+          "choices": [
+            "派手",
+            "立派",
+            "盛ん",
+            "にぎやか"
+          ],
+          "correctAnswer": 3,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2015-12-vocab-m4-q26",
+          "section": "vocab",
+          "mondai": 4,
+          "questionNumber": 26,
+          "questionType": "VOCAB_SYNONYM",
+          "questionText": "山本さんが得意な料理は何ですか。",
+          "passage": null,
+          "choices": [
+            "つくってみたい",
+            "食べたい",
+            "一番好きな",
+            "上手にできる"
+          ],
+          "correctAnswer": 4,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2015-12-vocab-m4-q27",
+          "section": "vocab",
+          "mondai": 4,
+          "questionNumber": 27,
+          "questionType": "VOCAB_SYNONYM",
+          "questionText": "わたしの弟は短気です。",
+          "passage": null,
+          "choices": [
+            "すぐ忘れます",
+            "すぐ怒ります",
+            "すぐ泣きます",
+            "すぐ心配します"
+          ],
+          "correctAnswer": 2,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2015-12-vocab-m4-q28",
+          "section": "vocab",
+          "mondai": 4,
+          "questionNumber": 28,
+          "questionType": "VOCAB_SYNONYM",
+          "questionText": "小林さんは、その話を疑っているようだ。",
+          "passage": null,
+          "choices": [
+            "本当ではないと思っている",
+            "本当だと思っている",
+            "よく知らない",
+            "よく知っている"
+          ],
+          "correctAnswer": 1,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2015-12-vocab-m4-q29",
+          "section": "vocab",
+          "mondai": 4,
+          "questionNumber": 29,
+          "questionType": "VOCAB_SYNONYM",
+          "questionText": "機会があれば、やってみたいです。",
+          "passage": null,
+          "choices": [
+            "サービス",
+            "アルバイト",
+            "チャンス",
+            "アイディア"
+          ],
+          "correctAnswer": 3,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2015-12-vocab-m4-q30",
+          "section": "vocab",
+          "mondai": 4,
+          "questionNumber": 30,
+          "questionType": "VOCAB_SYNONYM",
+          "questionText": "田中さんはあいかわらず忙しいらしいよ。",
+          "passage": null,
+          "choices": [
+            "前と同じで",
+            "前と違って",
+            "わたしと同じで",
+            "わたしと違って"
+          ],
+          "correctAnswer": 1,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2015-12-vocab-m5-q31",
+          "section": "vocab",
+          "mondai": 5,
+          "questionNumber": 31,
+          "questionType": "VOCAB_USAGE",
+          "questionText": "修理",
+          "passage": null,
+          "choices": [
+            "友達とけんかをしてしまったので、謝って関係を修理したい。",
+            "授業中、先生に日本語の発音を修理してもらった。",
+            "洗濯機が動かなくなってしまったので、修理してください。",
+            "手にけがをしたので、病院に行って医者に修理してもらった。"
+          ],
+          "correctAnswer": 4,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2015-12-vocab-m5-q32",
+          "section": "vocab",
+          "mondai": 5,
+          "questionNumber": 32,
+          "questionType": "VOCAB_USAGE",
+          "questionText": "親しい",
+          "passage": null,
+          "choices": [
+            "森さんとは去年まで話したことがなかったが、一緒に食事をしてから親しくなった。",
+            "会社に入って 1 か月たって、最近やっと新しい仕事に親しくなった。",
+            "友達からもらったこのコートは、暖かいしデザインもいいので、とても親しい。",
+            "わたしの子どもは毎日車の本を見ているので、車の種類にとても親しい。"
+          ],
+          "correctAnswer": 2,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2015-12-vocab-m5-q33",
+          "section": "vocab",
+          "mondai": 5,
+          "questionNumber": 33,
+          "questionType": "VOCAB_USAGE",
+          "questionText": "締め切り",
+          "passage": null,
+          "choices": [
+            "この電車は次の駅が締め切りなので、そこから先に行くにはバスしかありません。",
+            "このドラマが好きで毎週見ていたが、今日で締め切りなので寂しい。",
+            "マラソンの選手たちは、40 キロメートル先の締め切りに向かって走り出した。",
+            "スピーチ大会に申し込む人は、明日が締め切りなので忘れないようにしてください。"
+          ],
+          "correctAnswer": 1,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2015-12-vocab-m5-q34",
+          "section": "vocab",
+          "mondai": 5,
+          "questionNumber": 34,
+          "questionType": "VOCAB_USAGE",
+          "questionText": "ゆでる",
+          "passage": null,
+          "choices": [
+            "寝る前に熱いお風呂に入って、体をゆでた。",
+            "お湯の入った鍋に野菜を入れて、5 分ゆでた。",
+            "寒かったので、ストーブをつけて部屋をゆでた。",
+            "お茶が冷めてしまったので、電子レンジでゆでて飲んだ。"
+          ],
+          "correctAnswer": 3,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2015-12-vocab-m5-q35",
+          "section": "vocab",
+          "mondai": 5,
+          "questionNumber": 35,
+          "questionType": "VOCAB_USAGE",
+          "questionText": "渋滞",
+          "passage": null,
+          "choices": [
+            "バスの中はたくさんの人で渋滞していて、乗ることができなかった。",
+            "この道は、朝の通勤時間になると渋滞して、車が前に進まない。",
+            "今週は出張や会議が多くて、スケジュールが渋滞している。",
+            "一度にたくさんのことを説明されたので、頭の中が渋滞してしまった。"
+          ],
+          "correctAnswer": 1,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        }
+      ]
+    },
+    {
+      "sectionId": "grammar",
+      "title": "言語知識（文法）・読解",
+      "titleVi": "Ngữ pháp - Đọc hiểu",
+      "timeLimitSec": 4200,
+      "totalQuestions": 39,
+      "questions": [
+        {
+          "id": "n3-2015-12-grammar-m1-q1",
+          "section": "grammar",
+          "mondai": 1,
+          "questionNumber": 1,
+          "questionType": "GRAMMAR_CHOICE",
+          "questionText": "A 町の図書館には、本(         )、雑誌や CD なども置いてある。",
+          "passage": null,
+          "choices": [
+            "によって",
+            "に比べて",
+            "のことで",
+            "のほかに"
+          ],
+          "correctAnswer": 4,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2015-12-grammar-m1-q2",
+          "section": "grammar",
+          "mondai": 1,
+          "questionNumber": 2,
+          "questionType": "GRAMMAR_CHOICE",
+          "questionText": "A「もしもし。今、駅に着いたんだけど、どこにいる?」 B「ええと、(            )本屋、知ってる?」 A「うん。」 B「そこにいるよ。」 １ 『キムラ・ブック』と",
+          "passage": null,
+          "choices": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ],
+          "correctAnswer": 2,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2015-12-grammar-m1-q3",
+          "section": "grammar",
+          "mondai": 1,
+          "questionNumber": 3,
+          "questionType": "GRAMMAR_CHOICE",
+          "questionText": "『キムラ・ブック』だって ２ 『キムラ・ブック』って",
+          "passage": null,
+          "choices": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ],
+          "correctAnswer": 1,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2015-12-grammar-m1-q4",
+          "section": "grammar",
+          "mondai": 1,
+          "questionNumber": 4,
+          "questionType": "GRAMMAR_CHOICE",
+          "questionText": "『キムラ・ブック』なんか 3  初めてアルバイトをして、お金を稼ぐのがどれだけ(      )わかった。",
+          "passage": null,
+          "choices": [
+            "大変か",
+            "大変だと",
+            "大変かどうか",
+            "大変なのが 4    今朝は、目覚まし時計が鳴らなかった(    )、1 時間も寝坊してしまった。 １ はずで ２ 一方で ３ せいで ４ 場合"
+          ],
+          "correctAnswer": 3,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2015-12-grammar-m1-q5",
+          "section": "grammar",
+          "mondai": 1,
+          "questionNumber": 5,
+          "questionType": "GRAMMAR_CHOICE",
+          "questionText": "夫「ちょっとコンビニに行ってくるよ。」 妻「うん、いってらっしゃい。あ、コンビニに(   )、牛乳、買ってきて。」",
+          "passage": null,
+          "choices": [
+            "行けば",
+            "行っていたら",
+            "行くとすると",
+            "行くんだったら"
+          ],
+          "correctAnswer": 4,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2015-12-grammar-m1-q6",
+          "section": "grammar",
+          "mondai": 1,
+          "questionNumber": 6,
+          "questionType": "GRAMMAR_CHOICE",
+          "questionText": "うちの子供が昨日からピアノを(    )が、ピアノ教室が家から遠いので、一人で行 かせるのは心配だ。",
+          "passage": null,
+          "choices": [
+            "習いはじめた",
+            "習いつづけた",
+            "習わせたかった",
+            "習わせてほしかった"
+          ],
+          "correctAnswer": 1,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2015-12-grammar-m1-q7",
+          "section": "grammar",
+          "mondai": 1,
+          "questionNumber": 7,
+          "questionType": "GRAMMAR_CHOICE",
+          "questionText": "客「すみません。お手洗いはどこですか。」 店員「あちらのエレベーターの横に(   )。」",
+          "passage": null,
+          "choices": [
+            "おります",
+            "ございます",
+            "いたします",
+            "いっしゃいます"
+          ],
+          "correctAnswer": 2,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2015-12-grammar-m1-q8",
+          "section": "grammar",
+          "mondai": 1,
+          "questionNumber": 8,
+          "questionType": "GRAMMAR_CHOICE",
+          "questionText": "医者に「まだ少し熱があるから、無理を(   )。」と言われたので、昨日は学校を休 んだ。",
+          "passage": null,
+          "choices": [
+            "しませんでしたか",
+            "しないように",
+            "しなかったのに",
+            "していませんが"
+          ],
+          "correctAnswer": 2,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2015-12-grammar-m1-q9",
+          "section": "grammar",
+          "mondai": 1,
+          "questionNumber": 9,
+          "questionType": "GRAMMAR_CHOICE",
+          "questionText": "たくさん買い物したので、財布に 500 円(   )残っていない。",
+          "passage": null,
+          "choices": [
+            "では",
+            "でしか",
+            "ぐらいは",
+            "ぐらいしか"
+          ],
+          "correctAnswer": 4,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2015-12-grammar-m1-q10",
+          "section": "grammar",
+          "mondai": 1,
+          "questionNumber": 10,
+          "questionType": "GRAMMAR_CHOICE",
+          "questionText": "(テレビの料理番組で) 「次に、鍋に油を入れ、170 度（   )温めてください。」 １ になるまで ３ になっていって ２ にしたくなって ４ にするより",
+          "passage": null,
+          "choices": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ],
+          "correctAnswer": 1,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2015-12-grammar-m1-q11",
+          "section": "grammar",
+          "mondai": 1,
+          "questionNumber": 11,
+          "questionType": "GRAMMAR_CHOICE",
+          "questionText": "私の夢は、世界中の(   ) 愛される車を作ることだ。",
+          "passage": null,
+          "choices": [
+            "誰かも",
+            "誰でも",
+            "誰からも",
+            "誰かにでも"
+          ],
+          "correctAnswer": 3,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2015-12-grammar-m1-q12",
+          "section": "grammar",
+          "mondai": 1,
+          "questionNumber": 12,
+          "questionType": "GRAMMAR_CHOICE",
+          "questionText": "A「奥さんは、ペットを飼うことに反対なんですか。」 B「そうなんです。でも、妻も動物は好きなので、今日帰ったら、妻と(  )。」",
+          "passage": null,
+          "choices": [
+            "話し合いたがっています",
+            "話し合ってみるつもりです",
+            "話し合いたいに違いありません",
+            "話し合っておけばいいんです"
+          ],
+          "correctAnswer": 2,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2015-12-grammar-m1-q13",
+          "section": "grammar",
+          "mondai": 1,
+          "questionNumber": 13,
+          "questionType": "GRAMMAR_CHOICE",
+          "questionText": "彼の描く絵は、写真のように見える。写真だと言われて見せられたら(   )。",
+          "passage": null,
+          "choices": [
+            "信じられそうにない",
+            "信じられなかったらしい",
+            "信じてきてしまった",
+            "信じてしまいそうだ"
+          ],
+          "correctAnswer": 4,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2015-12-grammar-m2-q14",
+          "section": "grammar",
+          "mondai": 2,
+          "questionNumber": 14,
+          "questionType": "GRAMMAR_REORDER",
+          "questionText": "実家にある冷蔵庫は 30 年も     ★              、 親は「まだ買い替え ない」と言っている。",
+          "passage": null,
+          "choices": [
+            "いつ壊れてもおかしくない",
+            "古いもので",
+            "のに",
+            "使っている"
+          ],
+          "correctAnswer": 2,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2015-12-grammar-m2-q15",
+          "section": "grammar",
+          "mondai": 2,
+          "questionNumber": 15,
+          "questionType": "GRAMMAR_REORDER",
+          "questionText": "★          遅れているそうだ。",
+          "passage": null,
+          "choices": [
+            "駅ビルの建設工事が",
+            "予定だった",
+            "あと半年で",
+            "終わる"
+          ],
+          "correctAnswer": 2,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2015-12-grammar-m2-q16",
+          "section": "grammar",
+          "mondai": 2,
+          "questionNumber": 16,
+          "questionType": "GRAMMAR_REORDER",
+          "questionText": "プレゼントをするときは、贈る相手の         ★       時間も楽しい。",
+          "passage": null,
+          "choices": [
+            "選ぶ",
+            "ことを",
+            "どれにするか",
+            "考えながら"
+          ],
+          "correctAnswer": 3,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2015-12-grammar-m2-q17",
+          "section": "grammar",
+          "mondai": 2,
+          "questionNumber": 17,
+          "questionType": "GRAMMAR_REORDER",
+          "questionText": "このパソコン教室にはさまざまなコースがあります。基礎コースは、パソコンの ★          ぴったりです。",
+          "passage": null,
+          "choices": [
+            "コースなので",
+            "初めて習う方に",
+            "慣れるための",
+            "基本的な使い方に"
+          ],
+          "correctAnswer": 1,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2015-12-grammar-m2-q18",
+          "section": "grammar",
+          "mondai": 2,
+          "questionNumber": 18,
+          "questionType": "GRAMMAR_REORDER",
+          "questionText": "エアコンから         ★           かというと、冷たい空気は暖かい空 気より重いからだ。",
+          "passage": null,
+          "choices": [
+            "冷たい空気が",
+            "出た",
+            "どうして",
+            "部屋の下の方に行くのは"
+          ],
+          "correctAnswer": 4,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2015-12-grammar-m3-q19",
+          "section": "grammar",
+          "mondai": 3,
+          "questionNumber": 19,
+          "questionType": "GRAMMAR_PASSAGE",
+          "questionText": "１ 出してしまったのです ２ 出してしまったからです",
+          "passage": "問題３ 次の文章を読んで、文章全体の内容を考えて、（19）から（23）の中に入る最もよいも\nのを、１・２・３・４から一つえらびなさい。\n以下の文章は、留学生が書いた作文である。\nごみの捨て方\nリークリスティーナ\n日本ではごみは、「燃えるごみ」「燃えないごみ」「リサイクルできる物」 などに分け\nて出さなければいけません。でも、日本で初めてごみを出すとき、私はそのルールのこと\nがまだあまりよくわかっていませんでした。それで、ごみを分けずに(19)。\n朝、出かけるとき、アパートの前の決められた場所にごみを出しました。 (20)、夕方帰\n宅すると、私のごみは回収されずに残っていました。\nその日の夜、大家さんが来て、紙などの「燃えるごみ」、ガラスなどの「燃えないご\nみ」、ペットボトルなどの「リサイクルできる物」を分けなければいけない理由を説明 し\nてくれました。ごみの中には、もう一度資源として使える物 (21) たくさんありま す。そ\nれをきちんと分ければ、大切な地球の資源が守れるということがわかりました。\nそれ以降は、きちんとごみを (22)。最近は物を買うときに、これは燃えるか、リサイク\nルできるか、と考えたりもします。ごみを分けるのは少し大変です。でも、今まで深く考\nえたことのなかった環境問題が少し身近になったような(23)。",
+          "choices": [
+            "出してしまったのです",
+            "出してしまったからです",
+            "出してしまったかもしれません",
+            "出してしまったからかもしれません"
+          ],
+          "correctAnswer": 2,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2015-12-grammar-m3-q20",
+          "section": "grammar",
+          "mondai": 3,
+          "questionNumber": 20,
+          "questionType": "GRAMMAR_PASSAGE",
+          "questionText": "１ また     ２ たとえば ３ それに      ４ ところが",
+          "passage": "問題３ 次の文章を読んで、文章全体の内容を考えて、（19）から（23）の中に入る最もよいも\nのを、１・２・３・４から一つえらびなさい。\n以下の文章は、留学生が書いた作文である。\nごみの捨て方\nリークリスティーナ\n日本ではごみは、「燃えるごみ」「燃えないごみ」「リサイクルできる物」 などに分け\nて出さなければいけません。でも、日本で初めてごみを出すとき、私はそのルールのこと\nがまだあまりよくわかっていませんでした。それで、ごみを分けずに(19)。\n朝、出かけるとき、アパートの前の決められた場所にごみを出しました。 (20)、夕方帰\n宅すると、私のごみは回収されずに残っていました。\nその日の夜、大家さんが来て、紙などの「燃えるごみ」、ガラスなどの「燃えないご\nみ」、ペットボトルなどの「リサイクルできる物」を分けなければいけない理由を説明 し\nてくれました。ごみの中には、もう一度資源として使える物 (21) たくさんありま す。そ\nれをきちんと分ければ、大切な地球の資源が守れるということがわかりました。\nそれ以降は、きちんとごみを (22)。最近は物を買うときに、これは燃えるか、リサイク\nルできるか、と考えたりもします。ごみを分けるのは少し大変です。でも、今まで深く考\nえたことのなかった環境問題が少し身近になったような(23)。",
+          "choices": [
+            "また",
+            "たとえば",
+            "それに",
+            "ところが"
+          ],
+          "correctAnswer": 2,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2015-12-grammar-m3-q21",
+          "section": "grammar",
+          "mondai": 3,
+          "questionNumber": 21,
+          "questionType": "GRAMMAR_PASSAGE",
+          "questionText": "１ も ２ と  ３ だけ  ４ より",
+          "passage": "問題３ 次の文章を読んで、文章全体の内容を考えて、（19）から（23）の中に入る最もよいも\nのを、１・２・３・４から一つえらびなさい。\n以下の文章は、留学生が書いた作文である。\nごみの捨て方\nリークリスティーナ\n日本ではごみは、「燃えるごみ」「燃えないごみ」「リサイクルできる物」 などに分け\nて出さなければいけません。でも、日本で初めてごみを出すとき、私はそのルールのこと\nがまだあまりよくわかっていませんでした。それで、ごみを分けずに(19)。\n朝、出かけるとき、アパートの前の決められた場所にごみを出しました。 (20)、夕方帰\n宅すると、私のごみは回収されずに残っていました。\nその日の夜、大家さんが来て、紙などの「燃えるごみ」、ガラスなどの「燃えないご\nみ」、ペットボトルなどの「リサイクルできる物」を分けなければいけない理由を説明 し\nてくれました。ごみの中には、もう一度資源として使える物 (21) たくさんありま す。そ\nれをきちんと分ければ、大切な地球の資源が守れるということがわかりました。\nそれ以降は、きちんとごみを (22)。最近は物を買うときに、これは燃えるか、リサイク\nルできるか、と考えたりもします。ごみを分けるのは少し大変です。でも、今まで深く考\nえたことのなかった環境問題が少し身近になったような(23)。",
+          "choices": [
+            "も",
+            "と",
+            "だけ",
+            "より"
+          ],
+          "correctAnswer": 3,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2015-12-grammar-m3-q22",
+          "section": "grammar",
+          "mondai": 3,
+          "questionNumber": 22,
+          "questionType": "GRAMMAR_PASSAGE",
+          "questionText": "１ 分けられることになります ２ 分けるようにしています",
+          "passage": "問題３ 次の文章を読んで、文章全体の内容を考えて、（19）から（23）の中に入る最もよいも\nのを、１・２・３・４から一つえらびなさい。\n以下の文章は、留学生が書いた作文である。\nごみの捨て方\nリークリスティーナ\n日本ではごみは、「燃えるごみ」「燃えないごみ」「リサイクルできる物」 などに分け\nて出さなければいけません。でも、日本で初めてごみを出すとき、私はそのルールのこと\nがまだあまりよくわかっていませんでした。それで、ごみを分けずに(19)。\n朝、出かけるとき、アパートの前の決められた場所にごみを出しました。 (20)、夕方帰\n宅すると、私のごみは回収されずに残っていました。\nその日の夜、大家さんが来て、紙などの「燃えるごみ」、ガラスなどの「燃えないご\nみ」、ペットボトルなどの「リサイクルできる物」を分けなければいけない理由を説明 し\nてくれました。ごみの中には、もう一度資源として使える物 (21) たくさんありま す。そ\nれをきちんと分ければ、大切な地球の資源が守れるということがわかりました。\nそれ以降は、きちんとごみを (22)。最近は物を買うときに、これは燃えるか、リサイク\nルできるか、と考えたりもします。ごみを分けるのは少し大変です。でも、今まで深く考\nえたことのなかった環境問題が少し身近になったような(23)。",
+          "choices": [
+            "分けられることになります",
+            "分けるようにしています",
+            "分けようと思っていました",
+            "分けられるだろうと思います"
+          ],
+          "correctAnswer": 1,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2015-12-grammar-m4-q23",
+          "section": "grammar",
+          "mondai": 4,
+          "questionNumber": 23,
+          "questionType": "READING_SHORT",
+          "questionText": "１ 気がするそうです ２ 気がしたのでしょうか",
+          "passage": "問題３ 次の文章を読んで、文章全体の内容を考えて、（19）から（23）の中に入る最もよいも\nのを、１・２・３・４から一つえらびなさい。\n以下の文章は、留学生が書いた作文である。\nごみの捨て方\nリークリスティーナ\n日本ではごみは、「燃えるごみ」「燃えないごみ」「リサイクルできる物」 などに分け\nて出さなければいけません。でも、日本で初めてごみを出すとき、私はそのルールのこと\nがまだあまりよくわかっていませんでした。それで、ごみを分けずに(19)。\n朝、出かけるとき、アパートの前の決められた場所にごみを出しました。 (20)、夕方帰\n宅すると、私のごみは回収されずに残っていました。\nその日の夜、大家さんが来て、紙などの「燃えるごみ」、ガラスなどの「燃えないご\nみ」、ペットボトルなどの「リサイクルできる物」を分けなければいけない理由を説明 し\nてくれました。ごみの中には、もう一度資源として使える物 (21) たくさんありま す。そ\nれをきちんと分ければ、大切な地球の資源が守れるということがわかりました。\nそれ以降は、きちんとごみを (22)。最近は物を買うときに、これは燃えるか、リサイク\nルできるか、と考えたりもします。ごみを分けるのは少し大変です。でも、今まで深く考\nえたことのなかった環境問題が少し身近になったような(23)。",
+          "choices": [
+            "気がするそうです",
+            "気がしたのでしょうか",
+            "気がします",
+            "気がしたようです 読解"
+          ],
+          "correctAnswer": 4,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2015-12-grammar-m4-q24",
+          "section": "grammar",
+          "mondai": 4,
+          "questionNumber": 24,
+          "questionType": "READING_SHORT",
+          "questionText": "田村さんはこのメールで、テニスクラブのメンバーにどんなことを呼びかけているか。",
+          "passage": "問題４ つぎの（１）から（４）の文章を読んで、質問に答えなさい。答えは、１・２・３・４\nから最もよいものを一つえらびなさい。\n（１）\nこれはテニスクラブのメンバーに届いたメールである。\nメンバーの中山夏子さんが、市の大会で優勝して県大会に出ることになりました。三位以内\nに入ったら、次は全国大会です。全国大会に出られるように、みんなで応援に行きましょう。\n県大会は 19 日(日)、午前 10 時から県の運動公園で行われます。\n当日は午後 5 時から、食事会をしたいと考えています。参加を希望する方は、17 日までに\nメールをください。\n試合について詳しいことがわかったら、またお知らせします。\nテニスクラブ「A」代表\n田村広",
+          "choices": [
+            "市の大会に中山さんの応援に行き、その後で食事会をしましょう。",
+            "県大会に中山さんの応援に行き、その後で食事会をしましょう。",
+            "県大会の前に食事会をし、中山さんが全国大会に出られるように応援しましょう。",
+            "全国大会の前に食事会をし、中山さんが全国大会で優勝できるように応援しましょう。"
+          ],
+          "correctAnswer": 2,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2015-12-grammar-m4-q25",
+          "section": "grammar",
+          "mondai": 4,
+          "questionNumber": 25,
+          "questionType": "READING_SHORT",
+          "questionText": "ほかにもあるとあるが、それはどんなことか。",
+          "passage": "（２）\n髪が私たちの頭を守っていることはよく知られている。しかし、髪の役割 （注 1）はほかにも\nある。\n私たちの体には、食べ物などから毒になるものが入ってきてしまうことがある。それらは、\n血液の流れに乗って髪に運ばれ、髪の毛一本一本にたまっていく。そして、時間がたって髪が\n自然に抜ける(注 2)とき、一緒に体から出ていくのだ。髪は、何かにぶつかったときなどに頭を\n守っているだけではないのである。\n(注 1)役割\nやくわり\n:ここでは、仕事\n(注 2)抜\nぬ\nける:取れる",
+          "choices": [
+            "体に悪いものが頭から入らないようにすること。",
+            "体にいいものを少しずつためておくこと。",
+            "体に毒になるものをためて体の外へ出すこと。",
+            "何かにぶつかったときなどに頭を守ること。"
+          ],
+          "correctAnswer": 4,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2015-12-grammar-m4-q26",
+          "section": "grammar",
+          "mondai": 4,
+          "questionNumber": 26,
+          "questionType": "READING_SHORT",
+          "questionText": "「ゴミゼロ活動」に参加したい人全員が、必ずしなければならないことは何か。",
+          "passage": "（３）\n町の掲\nけい\n示\nじ\n板\nばん\nに、このお知らせがはってある。\n13 日 9 時に集合してください。\n集合場所：第一公園\n活動内容：町内のゴミ拾い\n持ち物 ：手袋(掃除用に必ず持ってきてください)\n※ゴミ袋はこちらでも用意しますが、ご自宅にあれば、お持ちください。\n参加方法：当日、直接集合場所に来てください。申し込みは不要です。\n※大雨などで中止する場合の連絡を希望する方は、前日までにメールでお申し込みください。\n・活動終了後、お茶、ジュースをお配りします。\n帯川町町内会\n電話：222-33(森口)\nobikawacho＠xxmail.com",
+          "choices": [
+            "12 日までにメールで申し込み、13 日の 9 時に手袋を持って第一公園に行く。",
+            "12 日までにメールで申し込み、13 日の 9 時に手袋とゴミ袋を持って第一公園に行く。",
+            "13 日の 9 時に手袋を持って第一公園に行く。",
+            "13 日の 9 時に手袋とゴミ袋を持って第一公園に行く。"
+          ],
+          "correctAnswer": 3,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2015-12-grammar-m5-q27",
+          "section": "grammar",
+          "mondai": 5,
+          "questionNumber": 27,
+          "questionType": "READING_MEDIUM",
+          "questionText": "焼き魚定食を食べさせるのはどうしてか。",
+          "passage": "（４）\n最近、テレビで、面白いやり方で新入社員を選ぶ会社が紹介されていた。その会社は、\n手術用機械の細かい部品を作っているのだが、入社試験のときに 焼き魚定食を食べさせる\nそうだ。社長によると、はしを上手に使って、小さい骨をきれいに取りながら魚が食べら\nれる人には、細かい物を作る仕事もきちんとできる人が多いのだそうだ。私は、チェック\nポイントは食事中のマナーや話の内容などだろうと思って見ていたので、意外だったが、\nなるほどと思った。",
+          "choices": [
+            "手術用の機械が好きな人を選びたいから。",
+            "細かい物がうまく作れる人を選びたいから。",
+            "マナーが身についている人を選びたいから。",
+            "上手に話ができる面白い人を選びたいから。"
+          ],
+          "correctAnswer": 2,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2015-12-grammar-m5-q28",
+          "section": "grammar",
+          "mondai": 5,
+          "questionNumber": 28,
+          "questionType": "READING_MEDIUM",
+          "questionText": "①いつもわたしのそばにあったとあるが、どうしてか。",
+          "passage": "問題５ つぎの（１）と（２）の文章を読んで、質問に答えなさい。答えは、１・２・３・４か\nら最もよいものを一つ選びなさい。\n（１）\n子どものころ、両親や祖父母からお年玉をもらうことは、お正月の楽しみの一つだった。も\nらったお金で漫画やゲームなどを買うこともあったが、貯金をすることのほうが多かった。\n今から 20 年以上も前になるが、中学 2 年のとき、お年玉で前から欲しいと思っていたラジ\nカセを買うことにした。その年のお年玉だけでは足りなかったので、貯金をおろさなければ\nならなかった。そのラジカセで、勉強するときも寝るときも、毎日大好きな歌手の歌を聞い\nていた。ラジカセは、①いつもわたしのそばにあった。しかし、高校の入学祝いに CD プレ\nーヤーをもらうと、ラジカセは使わなくなってしまった。\nそのラジカセは、だれにも使われないまま、10 年以上わたしの部屋にあった。ラジカセを\n見ると、いつも母 は、「これは②必要のない買い物だったね。もうちょっと待っていたら、\nCD プレーヤーをもらえたんだから。」と言って笑っていた。しかし、わたしはそうは思わな\nい。自分がそのときに本当に欲しい物を買ったのだから、いい買い物をしたと、今でも思って\nいる。",
+          "choices": [
+            "両親や祖父母からの大切なプレゼントだったから。",
+            "ラジカセを使っていつも勉強をしていたから。",
+            "大好きな歌手の歌をいつも聞いていたから。",
+            "入学祝いにもらった物で、高価だったから。"
+          ],
+          "correctAnswer": 3,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2015-12-grammar-m5-q29",
+          "section": "grammar",
+          "mondai": 5,
+          "questionNumber": 29,
+          "questionType": "READING_MEDIUM",
+          "questionText": "母が、②必要のない買い物だったと言っているのは、どうしてか。",
+          "passage": "問題５ つぎの（１）と（２）の文章を読んで、質問に答えなさい。答えは、１・２・３・４か\nら最もよいものを一つ選びなさい。\n（１）\n子どものころ、両親や祖父母からお年玉をもらうことは、お正月の楽しみの一つだった。も\nらったお金で漫画やゲームなどを買うこともあったが、貯金をすることのほうが多かった。\n今から 20 年以上も前になるが、中学 2 年のとき、お年玉で前から欲しいと思っていたラジ\nカセを買うことにした。その年のお年玉だけでは足りなかったので、貯金をおろさなければ\nならなかった。そのラジカセで、勉強するときも寝るときも、毎日大好きな歌手の歌を聞い\nていた。ラジカセは、①いつもわたしのそばにあった。しかし、高校の入学祝いに CD プレ\nーヤーをもらうと、ラジカセは使わなくなってしまった。\nそのラジカセは、だれにも使われないまま、10 年以上わたしの部屋にあった。ラジカセを\n見ると、いつも母 は、「これは②必要のない買い物だったね。もうちょっと待っていたら、\nCD プレーヤーをもらえたんだから。」と言って笑っていた。しかし、わたしはそうは思わな\nい。自分がそのときに本当に欲しい物を買ったのだから、いい買い物をしたと、今でも思って\nいる。",
+          "choices": [
+            "まったく利用しなかったから。",
+            "短い間しか使わなかったから。",
+            "母には必要がない物だったから。",
+            "勉強には関係ない物だったから。"
+          ],
+          "correctAnswer": 2,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2015-12-grammar-m5-q30",
+          "section": "grammar",
+          "mondai": 5,
+          "questionNumber": 30,
+          "questionType": "READING_MEDIUM",
+          "questionText": "「わたし」は、今、ラジカセを買ったことをどう考えているか。",
+          "passage": "問題５ つぎの（１）と（２）の文章を読んで、質問に答えなさい。答えは、１・２・３・４か\nら最もよいものを一つ選びなさい。\n（１）\n子どものころ、両親や祖父母からお年玉をもらうことは、お正月の楽しみの一つだった。も\nらったお金で漫画やゲームなどを買うこともあったが、貯金をすることのほうが多かった。\n今から 20 年以上も前になるが、中学 2 年のとき、お年玉で前から欲しいと思っていたラジ\nカセを買うことにした。その年のお年玉だけでは足りなかったので、貯金をおろさなければ\nならなかった。そのラジカセで、勉強するときも寝るときも、毎日大好きな歌手の歌を聞い\nていた。ラジカセは、①いつもわたしのそばにあった。しかし、高校の入学祝いに CD プレ\nーヤーをもらうと、ラジカセは使わなくなってしまった。\nそのラジカセは、だれにも使われないまま、10 年以上わたしの部屋にあった。ラジカセを\n見ると、いつも母 は、「これは②必要のない買い物だったね。もうちょっと待っていたら、\nCD プレーヤーをもらえたんだから。」と言って笑っていた。しかし、わたしはそうは思わな\nい。自分がそのときに本当に欲しい物を買ったのだから、いい買い物をしたと、今でも思って\nいる。",
+          "choices": [
+            "本当に欲しくて買ったのだから、満足だ。",
+            "勉強に必要だったから、いい買い物だった。",
+            "CD プレーヤーを買ったほうがよかった。",
+            "本当に欲しい物を買ったほうがよかった。"
+          ],
+          "correctAnswer": 1,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2015-12-grammar-m5-q31",
+          "section": "grammar",
+          "mondai": 5,
+          "questionNumber": 31,
+          "questionType": "READING_MEDIUM",
+          "questionText": "紹介しはじめましたとあるが、それはどうしてか。",
+          "passage": "（２）\n私の住む町は自然に囲まれた美しいところですが、最近人口が減少してきて、だれも住ん\nでいない空き家が増えています。東京などの大都会に出ていく人が多くなったからです。で\nも、空き家の中には、まだ十分住める家が多くあります。\nそこで、町では、このような家をホームページで全国に 紹介しはじめました 。だれかが\n住んでくれたら、空き家が減って人口も増やせ、町が元気になると考えたのです。空き家\nを持っている人が家を売ったり貸したりしたいときには、相談を受け、新しく住もうとする\n人が家を直したいと考えたときには、町が少しお金を出すそうです。\n紹介が始まってまだ半年ですが、三家族が東京から移ってきました。引っ越してきた人た\nちは、畑を借りて野菜作りを楽しんだり、子供を自然の中で遊ばせたりできるので、来てよ\nかったと言っているそうです。希望者は、ほかにもいると聞きました。これからも私の町の\n良さを知って、ここに移り住む人が増えてくれるとうれしいです。",
+          "choices": [
+            "自然の中で生活したい人に頼まれたから。",
+            "空き家を持っている人に頼まれたから。",
+            "町の美しさを人々に知ってもらいたいから",
+            "空き家を減らして町の人口を増やしたいから。"
+          ],
+          "correctAnswer": 4,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2015-12-grammar-m5-q32",
+          "section": "grammar",
+          "mondai": 5,
+          "questionNumber": 32,
+          "questionType": "READING_MEDIUM",
+          "questionText": "町は、空き家の紹介以外に、例えばどんなことをしているか。",
+          "passage": "（２）\n私の住む町は自然に囲まれた美しいところですが、最近人口が減少してきて、だれも住ん\nでいない空き家が増えています。東京などの大都会に出ていく人が多くなったからです。で\nも、空き家の中には、まだ十分住める家が多くあります。\nそこで、町では、このような家をホームページで全国に 紹介しはじめました 。だれかが\n住んでくれたら、空き家が減って人口も増やせ、町が元気になると考えたのです。空き家\nを持っている人が家を売ったり貸したりしたいときには、相談を受け、新しく住もうとする\n人が家を直したいと考えたときには、町が少しお金を出すそうです。\n紹介が始まってまだ半年ですが、三家族が東京から移ってきました。引っ越してきた人た\nちは、畑を借りて野菜作りを楽しんだり、子供を自然の中で遊ばせたりできるので、来てよ\nかったと言っているそうです。希望者は、ほかにもいると聞きました。これからも私の町の\n良さを知って、ここに移り住む人が増えてくれるとうれしいです。",
+          "choices": [
+            "紹介する前に、空き家をきれいに直しておくこと。",
+            "空き家を買って、安く貸したり売ったりすること。",
+            "家賃を安くするように、空き家を貸す人に頼むこと。",
+            "空き家を借りる人に、家を修理するお金を少し出すこと。"
+          ],
+          "correctAnswer": 4,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2015-12-grammar-m6-q33",
+          "section": "grammar",
+          "mondai": 6,
+          "questionNumber": 33,
+          "questionType": "READING_LONG",
+          "questionText": "空き家の紹介の結果を知って、「私」はどう思っているか。",
+          "passage": "（２）\n私の住む町は自然に囲まれた美しいところですが、最近人口が減少してきて、だれも住ん\nでいない空き家が増えています。東京などの大都会に出ていく人が多くなったからです。で\nも、空き家の中には、まだ十分住める家が多くあります。\nそこで、町では、このような家をホームページで全国に 紹介しはじめました 。だれかが\n住んでくれたら、空き家が減って人口も増やせ、町が元気になると考えたのです。空き家\nを持っている人が家を売ったり貸したりしたいときには、相談を受け、新しく住もうとする\n人が家を直したいと考えたときには、町が少しお金を出すそうです。\n紹介が始まってまだ半年ですが、三家族が東京から移ってきました。引っ越してきた人た\nちは、畑を借りて野菜作りを楽しんだり、子供を自然の中で遊ばせたりできるので、来てよ\nかったと言っているそうです。希望者は、ほかにもいると聞きました。これからも私の町の\n良さを知って、ここに移り住む人が増えてくれるとうれしいです。",
+          "choices": [
+            "この方法は良いようだが、この町に人が増える方法はほかにもありそうだ。",
+            "この方法はうまくいっているようだし、今後もこの町に人が増え続ければいい。",
+            "半年で三家族しか引っ越してきていないので、この町の良さはなかなか伝わらない。",
+            "自然を楽しむ人が増えたので、今後はこの町の良さが全国に知られていくだろう。"
+          ],
+          "correctAnswer": 2,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2015-12-grammar-m6-q34",
+          "section": "grammar",
+          "mondai": 6,
+          "questionNumber": 34,
+          "questionType": "READING_LONG",
+          "questionText": "①難しかったとあるが、何が難しかったのか。",
+          "passage": "問題６ つぎの文章を読んで、質問に答えなさい。答えは、１・２・３・４から最もよいもの\nを一つえらびなさい。\n私たち夫婦は明日、引っ越しの日を迎える。\n今度住む息子の家は広くないので、物はできるだけ減らすつもりで片付け始めたが、これ\nが意外に ①難しかった。自分たちの着なくなった服や古い靴などはすぐに捨てられるのだが、\n押し入れの奥の段ボール箱から次々に出てくる物はそうではない。「これは何だろう。」\n「それはあの時の。」などと思い出を語っているうちに、時間がたってしまう。そ  して、捨\nてられなくなる。\n例えば、小さな黄色い靴。これは息子が初めて履いた靴だ。息子の小さかったころを思い\n出して本当に懐かしくなる。ついこの間まで子供だった息子が新しい家を建てて、一緒に住\nもうと言ってくれた。優しい子に育ってくれたとうれしくなったり、時間が過ぎるのがあま\nりに早くて少し悲しくなったり...。\n家族のアルバムや古い手紙などが出てきても、 ②同じことになる 。片付けは引っ越しの一\n週間前になっても終わらず物もほとんど減らせなかった。\nでも、これではだめだということになり、私たちは ③考えをまったく変えることにした 。\n今度の家は広くないし、私たちにとっては大事な物でも息子たちにとってはそうではないだ\nろう。それで、思い出の物は、アルバム以外は全部捨てることにした。私たちの思い出は段\nボール箱ではなく、心の中にしまっておけばいいのだ。\nしかし、この三週間はとても楽しかった。歩いてきた人生をもう一度思い出すことができた\nからである。そして、持ち物の整理もすることができた。頼んでおいた引っ越しのトラックは、\n少し大きすぎたかもしれないが、それはそれでいい。",
+          "choices": [
+            "息子の家に引っ越しすると決めること。",
+            "引っ越しのために物をできるだけ減らすこと。",
+            "押し入れに入っていた物を次々に出すこと。",
+            "しまっておいた物が何だったか思い出すこと。"
+          ],
+          "correctAnswer": 2,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2015-12-grammar-m6-q35",
+          "section": "grammar",
+          "mondai": 6,
+          "questionNumber": 35,
+          "questionType": "READING_LONG",
+          "questionText": "②同じことになるとあるが、どうなるのか。",
+          "passage": "問題６ つぎの文章を読んで、質問に答えなさい。答えは、１・２・３・４から最もよいもの\nを一つえらびなさい。\n私たち夫婦は明日、引っ越しの日を迎える。\n今度住む息子の家は広くないので、物はできるだけ減らすつもりで片付け始めたが、これ\nが意外に ①難しかった。自分たちの着なくなった服や古い靴などはすぐに捨てられるのだが、\n押し入れの奥の段ボール箱から次々に出てくる物はそうではない。「これは何だろう。」\n「それはあの時の。」などと思い出を語っているうちに、時間がたってしまう。そ  して、捨\nてられなくなる。\n例えば、小さな黄色い靴。これは息子が初めて履いた靴だ。息子の小さかったころを思い\n出して本当に懐かしくなる。ついこの間まで子供だった息子が新しい家を建てて、一緒に住\nもうと言ってくれた。優しい子に育ってくれたとうれしくなったり、時間が過ぎるのがあま\nりに早くて少し悲しくなったり...。\n家族のアルバムや古い手紙などが出てきても、 ②同じことになる 。片付けは引っ越しの一\n週間前になっても終わらず物もほとんど減らせなかった。\nでも、これではだめだということになり、私たちは ③考えをまったく変えることにした 。\n今度の家は広くないし、私たちにとっては大事な物でも息子たちにとってはそうではないだ\nろう。それで、思い出の物は、アルバム以外は全部捨てることにした。私たちの思い出は段\nボール箱ではなく、心の中にしまっておけばいいのだ。\nしかし、この三週間はとても楽しかった。歩いてきた人生をもう一度思い出すことができた\nからである。そして、持ち物の整理もすることができた。頼んでおいた引っ越しのトラックは、\n少し大きすぎたかもしれないが、それはそれでいい。",
+          "choices": [
+            "片付けに時間がかかってしまい、思い出が十分に語り合えなくなる。",
+            "時間のたつのが早く、片付けが間に合わなくなりそうで、嫌になる。",
+            "いろいろと思い出話をしてしまい、結局、捨てることができなくなる。",
+            "今住んでいる家の良さをあれこれ話してしまい、悲しい気持ちになる。"
+          ],
+          "correctAnswer": 4,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2015-12-grammar-m6-q36",
+          "section": "grammar",
+          "mondai": 6,
+          "questionNumber": 36,
+          "questionType": "READING_LONG",
+          "questionText": "③考えをまったく変えることにしたとあるが、どうすることにしたのか。",
+          "passage": "問題６ つぎの文章を読んで、質問に答えなさい。答えは、１・２・３・４から最もよいもの\nを一つえらびなさい。\n私たち夫婦は明日、引っ越しの日を迎える。\n今度住む息子の家は広くないので、物はできるだけ減らすつもりで片付け始めたが、これ\nが意外に ①難しかった。自分たちの着なくなった服や古い靴などはすぐに捨てられるのだが、\n押し入れの奥の段ボール箱から次々に出てくる物はそうではない。「これは何だろう。」\n「それはあの時の。」などと思い出を語っているうちに、時間がたってしまう。そ  して、捨\nてられなくなる。\n例えば、小さな黄色い靴。これは息子が初めて履いた靴だ。息子の小さかったころを思い\n出して本当に懐かしくなる。ついこの間まで子供だった息子が新しい家を建てて、一緒に住\nもうと言ってくれた。優しい子に育ってくれたとうれしくなったり、時間が過ぎるのがあま\nりに早くて少し悲しくなったり...。\n家族のアルバムや古い手紙などが出てきても、 ②同じことになる 。片付けは引っ越しの一\n週間前になっても終わらず物もほとんど減らせなかった。\nでも、これではだめだということになり、私たちは ③考えをまったく変えることにした 。\n今度の家は広くないし、私たちにとっては大事な物でも息子たちにとってはそうではないだ\nろう。それで、思い出の物は、アルバム以外は全部捨てることにした。私たちの思い出は段\nボール箱ではなく、心の中にしまっておけばいいのだ。\nしかし、この三週間はとても楽しかった。歩いてきた人生をもう一度思い出すことができた\nからである。そして、持ち物の整理もすることができた。頼んでおいた引っ越しのトラックは、\n少し大きすぎたかもしれないが、それはそれでいい。",
+          "choices": [
+            "アルバムだけを残して、思い出の物をみんな捨てる。",
+            "息子たちにも相談して、持っていく物を初めから選び直す。",
+            "荷物が多くなってもかまわないから、すべての物を持っていく。",
+            "思い出の物をできるだけ持っていけるように、ほかの荷物を減らす。"
+          ],
+          "correctAnswer": 1,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2015-12-grammar-m7-q37",
+          "section": "grammar",
+          "mondai": 7,
+          "questionNumber": 37,
+          "questionType": "READING_INFO",
+          "questionText": "引っ越しの準備について、「私」はどう思っているか",
+          "passage": "問題６ つぎの文章を読んで、質問に答えなさい。答えは、１・２・３・４から最もよいもの\nを一つえらびなさい。\n私たち夫婦は明日、引っ越しの日を迎える。\n今度住む息子の家は広くないので、物はできるだけ減らすつもりで片付け始めたが、これ\nが意外に ①難しかった。自分たちの着なくなった服や古い靴などはすぐに捨てられるのだが、\n押し入れの奥の段ボール箱から次々に出てくる物はそうではない。「これは何だろう。」\n「それはあの時の。」などと思い出を語っているうちに、時間がたってしまう。そ  して、捨\nてられなくなる。\n例えば、小さな黄色い靴。これは息子が初めて履いた靴だ。息子の小さかったころを思い\n出して本当に懐かしくなる。ついこの間まで子供だった息子が新しい家を建てて、一緒に住\nもうと言ってくれた。優しい子に育ってくれたとうれしくなったり、時間が過ぎるのがあま\nりに早くて少し悲しくなったり...。\n家族のアルバムや古い手紙などが出てきても、 ②同じことになる 。片付けは引っ越しの一\n週間前になっても終わらず物もほとんど減らせなかった。\nでも、これではだめだということになり、私たちは ③考えをまったく変えることにした 。\n今度の家は広くないし、私たちにとっては大事な物でも息子たちにとってはそうではないだ\nろう。それで、思い出の物は、アルバム以外は全部捨てることにした。私たちの思い出は段\nボール箱ではなく、心の中にしまっておけばいいのだ。\nしかし、この三週間はとても楽しかった。歩いてきた人生をもう一度思い出すことができた\nからである。そして、持ち物の整理もすることができた。頼んでおいた引っ越しのトラックは、\n少し大きすぎたかもしれないが、それはそれでいい。",
+          "choices": [
+            "大変だったが、楽しい時間でもあり、持ち物も減らすことができてよかった。",
+            "大変だったが、荷物を息子と整理しながら、自分の人生を伝えられてよかった。",
+            "楽しかったが、荷物が減らせたので、もっと小さなトラックを頼んだほうがよかった。",
+            "楽しかったが、もっと計画を立ててから、荷物を整理したほうがよかった。"
+          ],
+          "correctAnswer": 1,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2015-12-grammar-m7-q38",
+          "section": "grammar",
+          "mondai": 7,
+          "questionNumber": 38,
+          "questionType": "READING_INFO",
+          "questionText": "ナットさんは、今度の金曜日に 7 歳の娘一人と 4 歳の息子一人を連れて出かける。 乗り放題きっぷを利用したいが、どのきっぷを何枚買わなければならないか。",
+          "passage": "問題７下のページは、山登りのお知らせである。これを読んで、下の質問に答えなさい。\n答えは 1・2・3・4 から最もよいものを一つえらびなさい。",
+          "choices": [
+            "おとな料金の「一日満足きっぷ」1 枚と、こども料金の「一日満足きっぷ」1 枚",
+            "おとな料金の「一日満足きっぷ」1 枚と、こども料金の「一日満足きっぷ」2 枚",
+            "「親子でお出かけきっぷ」1 枚と、こども料金の「一日満足きっぷ」1 枚",
+            "「親子でお出かけきっぷ」１枚だけ"
+          ],
+          "correctAnswer": 1,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2015-12-grammar-m7-q39",
+          "section": "grammar",
+          "mondai": 7,
+          "questionNumber": 39,
+          "questionType": "READING_INFO",
+          "questionText": "次の中で、「学生応援きっぷ」を使えるのはどの人か。 使いたい人 利用の目的 ① 小学生のスミスさんと両親、スミスさんの友達と その家族 11 人 原山にハイキングに行く。 ② 中学生のサントスさんとクラスメート 12 人 クラスメートの家に遊びに行く。 ③ 大学生のヘジンさん 大学に通う。 ④ 教師の水口さんと指導するクラブの高校生 10 人 高校の野球クラブの試合に行く。",
+          "passage": "問題７下のページは、山登りのお知らせである。これを読んで、下の質問に答えなさい。\n答えは 1・2・3・4 から最もよいものを一つえらびなさい。",
+          "choices": [
+            "①",
+            "②",
+            "③",
+            "④ 中池鉄道乗り放題きっぷのご紹介 ・中池鉄道の乗り放題きっぷを使えば、始発の「原山」から終点の「中池大学前」までのす べての駅で、1 日何回でも乗り降りできます。 ・中池鉄道では、以下の 3 種類の乗り放題きっぷをご用意しております。 一日満足きっぷ 親子でお出かけきっ ぷ 学生応援きっぷ 特徴 どなたでも使える乗 り放題きっぷです。 おとな一人とこども 一人の料金がセット になったきっぷで す。 小 学 生 、 中 学 生 、 高 校 生、大学生 *①が、学校に かかわる活動 *②のため に、10 人以上で乗車する 場 合 に ご 利 用 に な れ ま す。 利用可能曜日 金、土、日 土、日 毎日 おとな料金 (12 歳以上) 900 円 1,000 円 (おとな一人とこども 一人) 800 円 こども料金 (6 歳~11 歳) *③ 450 円 400 円 購入について ご利用当日、各駅の きっぷ売り場で買う ことができます。 ご利用当日、各駅の きっぷ売り場で買う ことができます。 前日までに各駅の事務所に 申込書を出し、きっぷを買 ってください。 *① 学生と一緒に行く場合は、指導者の方もご利用になれます。 *② 学校のクラブ活動や遠足などにご利用になれます。通学にはご利用になれません。 *③ 5 歳以下のお子様は、おとなと一緒の場合、二人まで無料になります。三人目からは、 こども料金が必要になります。 中池鉄道 お問い合わせ先:099-315-1111"
+          ],
+          "correctAnswer": 4,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        }
+      ]
+    },
+    {
+      "sectionId": "listening",
+      "title": "聴解",
+      "titleVi": "Nghe hiểu",
+      "timeLimitSec": 2400,
+      "totalQuestions": 28,
+      "questions": [
+        {
+          "id": "n3-2015-12-listening-m1-q1",
+          "section": "listening",
+          "mondai": 1,
+          "questionNumber": 1,
+          "questionType": "LISTEN_TASK",
+          "questionText": "問題 1 - 第 1 番",
+          "passage": null,
+          "choices": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ],
+          "correctAnswer": 1,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2015-12-listening-m1-q2",
+          "section": "listening",
+          "mondai": 1,
+          "questionNumber": 2,
+          "questionType": "LISTEN_TASK",
+          "questionText": "問題 1 - 第 2 番",
+          "passage": null,
+          "choices": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ],
+          "correctAnswer": 2,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2015-12-listening-m1-q3",
+          "section": "listening",
+          "mondai": 1,
+          "questionNumber": 3,
+          "questionType": "LISTEN_TASK",
+          "questionText": "問題 1 - 第 3 番",
+          "passage": null,
+          "choices": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ],
+          "correctAnswer": 3,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2015-12-listening-m1-q4",
+          "section": "listening",
+          "mondai": 1,
+          "questionNumber": 4,
+          "questionType": "LISTEN_TASK",
+          "questionText": "問題 1 - 第 4 番",
+          "passage": null,
+          "choices": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ],
+          "correctAnswer": 4,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2015-12-listening-m1-q5",
+          "section": "listening",
+          "mondai": 1,
+          "questionNumber": 5,
+          "questionType": "LISTEN_TASK",
+          "questionText": "問題 1 - 第 5 番",
+          "passage": null,
+          "choices": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ],
+          "correctAnswer": 1,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2015-12-listening-m1-q6",
+          "section": "listening",
+          "mondai": 1,
+          "questionNumber": 6,
+          "questionType": "LISTEN_TASK",
+          "questionText": "問題 1 - 第 6 番",
+          "passage": null,
+          "choices": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ],
+          "correctAnswer": 2,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2015-12-listening-m2-q7",
+          "section": "listening",
+          "mondai": 2,
+          "questionNumber": 7,
+          "questionType": "LISTEN_POINT",
+          "questionText": "問題 2 - 第 1 番",
+          "passage": null,
+          "choices": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ],
+          "correctAnswer": 1,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2015-12-listening-m2-q8",
+          "section": "listening",
+          "mondai": 2,
+          "questionNumber": 8,
+          "questionType": "LISTEN_POINT",
+          "questionText": "問題 2 - 第 2 番",
+          "passage": null,
+          "choices": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ],
+          "correctAnswer": 2,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2015-12-listening-m2-q9",
+          "section": "listening",
+          "mondai": 2,
+          "questionNumber": 9,
+          "questionType": "LISTEN_POINT",
+          "questionText": "問題 2 - 第 3 番",
+          "passage": null,
+          "choices": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ],
+          "correctAnswer": 3,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2015-12-listening-m2-q10",
+          "section": "listening",
+          "mondai": 2,
+          "questionNumber": 10,
+          "questionType": "LISTEN_POINT",
+          "questionText": "問題 2 - 第 4 番",
+          "passage": null,
+          "choices": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ],
+          "correctAnswer": 4,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2015-12-listening-m2-q11",
+          "section": "listening",
+          "mondai": 2,
+          "questionNumber": 11,
+          "questionType": "LISTEN_POINT",
+          "questionText": "問題 2 - 第 5 番",
+          "passage": null,
+          "choices": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ],
+          "correctAnswer": 1,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2015-12-listening-m2-q12",
+          "section": "listening",
+          "mondai": 2,
+          "questionNumber": 12,
+          "questionType": "LISTEN_POINT",
+          "questionText": "問題 2 - 第 6 番",
+          "passage": null,
+          "choices": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ],
+          "correctAnswer": 2,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2015-12-listening-m3-q13",
+          "section": "listening",
+          "mondai": 3,
+          "questionNumber": 13,
+          "questionType": "LISTEN_OVERVIEW",
+          "questionText": "問題 3 - 第 1 番",
+          "passage": null,
+          "choices": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ],
+          "correctAnswer": 1,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2015-12-listening-m3-q14",
+          "section": "listening",
+          "mondai": 3,
+          "questionNumber": 14,
+          "questionType": "LISTEN_OVERVIEW",
+          "questionText": "問題 3 - 第 2 番",
+          "passage": null,
+          "choices": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ],
+          "correctAnswer": 2,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2015-12-listening-m3-q15",
+          "section": "listening",
+          "mondai": 3,
+          "questionNumber": 15,
+          "questionType": "LISTEN_OVERVIEW",
+          "questionText": "問題 3 - 第 3 番",
+          "passage": null,
+          "choices": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ],
+          "correctAnswer": 3,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2015-12-listening-m4-q16",
+          "section": "listening",
+          "mondai": 4,
+          "questionNumber": 16,
+          "questionType": "LISTEN_PICTURE",
+          "questionText": "問題 4 - 第 1 番",
+          "passage": null,
+          "choices": [
+            "1",
+            "2",
+            "3"
+          ],
+          "correctAnswer": 1,
+          "imageRef": "/exams/images/n3-2015-12/Image78.jpg.jpg",
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2015-12-listening-m4-q17",
+          "section": "listening",
+          "mondai": 4,
+          "questionNumber": 17,
+          "questionType": "LISTEN_PICTURE",
+          "questionText": "問題 4 - 第 2 番",
+          "passage": null,
+          "choices": [
+            "1",
+            "2",
+            "3"
+          ],
+          "correctAnswer": 2,
+          "imageRef": "/exams/images/n3-2015-12/Image79.jpg.jpg",
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2015-12-listening-m4-q18",
+          "section": "listening",
+          "mondai": 4,
+          "questionNumber": 18,
+          "questionType": "LISTEN_PICTURE",
+          "questionText": "問題 4 - 第 3 番",
+          "passage": null,
+          "choices": [
+            "1",
+            "2",
+            "3"
+          ],
+          "correctAnswer": 3,
+          "imageRef": "/exams/images/n3-2015-12/Image89.jpg.jpg",
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2015-12-listening-m4-q19",
+          "section": "listening",
+          "mondai": 4,
+          "questionNumber": 19,
+          "questionType": "LISTEN_PICTURE",
+          "questionText": "問題 4 - 第 4 番",
+          "passage": null,
+          "choices": [
+            "1",
+            "2",
+            "3"
+          ],
+          "correctAnswer": 1,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2015-12-listening-m5-q20",
+          "section": "listening",
+          "mondai": 5,
+          "questionNumber": 20,
+          "questionType": "LISTEN_IMMEDIATE",
+          "questionText": "問題 5 - 第 1 番",
+          "passage": null,
+          "choices": [
+            "1",
+            "2",
+            "3"
+          ],
+          "correctAnswer": 1,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2015-12-listening-m5-q21",
+          "section": "listening",
+          "mondai": 5,
+          "questionNumber": 21,
+          "questionType": "LISTEN_IMMEDIATE",
+          "questionText": "問題 5 - 第 2 番",
+          "passage": null,
+          "choices": [
+            "1",
+            "2",
+            "3"
+          ],
+          "correctAnswer": 2,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2015-12-listening-m5-q22",
+          "section": "listening",
+          "mondai": 5,
+          "questionNumber": 22,
+          "questionType": "LISTEN_IMMEDIATE",
+          "questionText": "問題 5 - 第 3 番",
+          "passage": null,
+          "choices": [
+            "1",
+            "2",
+            "3"
+          ],
+          "correctAnswer": 3,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2015-12-listening-m5-q23",
+          "section": "listening",
+          "mondai": 5,
+          "questionNumber": 23,
+          "questionType": "LISTEN_IMMEDIATE",
+          "questionText": "問題 5 - 第 4 番",
+          "passage": null,
+          "choices": [
+            "1",
+            "2",
+            "3"
+          ],
+          "correctAnswer": 1,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2015-12-listening-m5-q24",
+          "section": "listening",
+          "mondai": 5,
+          "questionNumber": 24,
+          "questionType": "LISTEN_IMMEDIATE",
+          "questionText": "問題 5 - 第 5 番",
+          "passage": null,
+          "choices": [
+            "1",
+            "2",
+            "3"
+          ],
+          "correctAnswer": 2,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2015-12-listening-m5-q25",
+          "section": "listening",
+          "mondai": 5,
+          "questionNumber": 25,
+          "questionType": "LISTEN_IMMEDIATE",
+          "questionText": "問題 5 - 第 6 番",
+          "passage": null,
+          "choices": [
+            "1",
+            "2",
+            "3"
+          ],
+          "correctAnswer": 3,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2015-12-listening-m5-q26",
+          "section": "listening",
+          "mondai": 5,
+          "questionNumber": 26,
+          "questionType": "LISTEN_IMMEDIATE",
+          "questionText": "問題 5 - 第 7 番",
+          "passage": null,
+          "choices": [
+            "1",
+            "2",
+            "3"
+          ],
+          "correctAnswer": 1,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2015-12-listening-m5-q27",
+          "section": "listening",
+          "mondai": 5,
+          "questionNumber": 27,
+          "questionType": "LISTEN_IMMEDIATE",
+          "questionText": "問題 5 - 第 8 番",
+          "passage": null,
+          "choices": [
+            "1",
+            "2",
+            "3"
+          ],
+          "correctAnswer": 2,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        },
+        {
+          "id": "n3-2015-12-listening-m5-q28",
+          "section": "listening",
+          "mondai": 5,
+          "questionNumber": 28,
+          "questionType": "LISTEN_IMMEDIATE",
+          "questionText": "問題 5 - 第 9 番",
+          "passage": null,
+          "choices": [
+            "1",
+            "2",
+            "3"
+          ],
+          "correctAnswer": 3,
+          "imageRef": null,
+          "audioStartSec": null,
+          "audioEndSec": null
+        }
+      ]
+    }
+  ]
+}
