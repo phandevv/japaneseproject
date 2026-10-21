@@ -20,7 +20,7 @@
           "mondai": 1,
           "questionNumber": 1,
           "questionType": "KANJI_READING",
-          "questionText": "これは西洋の建物の写真です。",
+          "questionText": "これは<u>西洋</u>の建物の写真です。",
           "passage": null,
           "choices": [
             "せよう",
@@ -39,7 +39,7 @@
           "mondai": 1,
           "questionNumber": 2,
           "questionType": "KANJI_READING",
-          "questionText": "今回はとても苦しい試合だった。",
+          "questionText": "今回はとても<u>苦しい</u>試合だった。",
           "passage": null,
           "choices": [
             "おしい",
@@ -58,7 +58,7 @@
           "mondai": 1,
           "questionNumber": 3,
           "questionType": "KANJI_READING",
-          "questionText": "この手紙は他人に見せないでください。",
+          "questionText": "この手紙は<u>他人</u>に見せないでください。",
           "passage": null,
           "choices": [
             "たんじん",
@@ -77,7 +77,7 @@
           "mondai": 1,
           "questionNumber": 4,
           "questionType": "KANJI_READING",
-          "questionText": "昨日 きのう は腹痛で学校を休みました。",
+          "questionText": "昨日 きのう は<u>腹痛</u>で学校を休みました。",
           "passage": null,
           "choices": [
             "ふくつう",
@@ -96,7 +96,7 @@
           "mondai": 1,
           "questionNumber": 5,
           "questionType": "KANJI_READING",
-          "questionText": "次 つぎ の駅が終点です。",
+          "questionText": "次 つぎ の駅が<u>終点</u>です。",
           "passage": null,
           "choices": [
             "しゅうでん",
@@ -115,7 +115,7 @@
           "mondai": 1,
           "questionNumber": 6,
           "questionType": "KANJI_READING",
-          "questionText": "森 もり 田 た さんが泣いていました。",
+          "questionText": "森 もり 田 た さんが<u>泣いて</u>いました。",
           "passage": null,
           "choices": [
             "はたらいて",
@@ -134,7 +134,7 @@
           "mondai": 1,
           "questionNumber": 7,
           "questionType": "KANJI_READING",
-          "questionText": "この着物の帯は 美 うつく しいです。",
+          "questionText": "この着物の<u>帯</u>は 美 うつく しいです。",
           "passage": null,
           "choices": [
             "おび",
@@ -153,7 +153,7 @@
           "mondai": 1,
           "questionNumber": 8,
           "questionType": "KANJI_READING",
-          "questionText": "昨日 きのう 母から郵便が届 とど いた。",
+          "questionText": "昨日 きのう 母から<u>郵便</u>が届 とど いた。",
           "passage": null,
           "choices": [
             "ようべん",
@@ -172,7 +172,7 @@
           "mondai": 2,
           "questionNumber": 9,
           "questionType": "KANJI_WRITING",
-          "questionText": "このあたりはマンションが多い。",
+          "questionText": "この<u>あたり</u>はマンションが多い。",
           "passage": null,
           "choices": [
             "通り",
@@ -191,7 +191,7 @@
           "mondai": 2,
           "questionNumber": 10,
           "questionType": "KANJI_WRITING",
-          "questionText": "次 つぎ のずを見てください。",
+          "questionText": "次 つぎ の<u>ず</u>を見てください。",
           "passage": null,
           "choices": [
             "絵",
@@ -210,7 +210,7 @@
           "mondai": 2,
           "questionNumber": 11,
           "questionType": "KANJI_WRITING",
-          "questionText": "貯金 ちょきん が少しへりました。",
+          "questionText": "貯金 ちょきん が少し<u>へりました</u>。",
           "passage": null,
           "choices": [
             "細りました",
@@ -229,7 +229,7 @@
           "mondai": 2,
           "questionNumber": 12,
           "questionType": "KANJI_WRITING",
-          "questionText": "来年、ここにほどうができるそうです。",
+          "questionText": "来年、ここに<u>ほどう</u>ができるそうです。",
           "passage": null,
           "choices": [
             "歩動",
@@ -248,7 +248,7 @@
           "mondai": 2,
           "questionNumber": 13,
           "questionType": "KANJI_WRITING",
-          "questionText": "パソコンのキーボードをうつ音が聞こえる。",
+          "questionText": "パソコンのキーボードを<u>うつ</u>音が聞こえる。",
           "passage": null,
           "choices": [
             "打つ",
@@ -267,7 +267,7 @@
           "mondai": 2,
           "questionNumber": 14,
           "questionType": "KANJI_WRITING",
-          "questionText": "山田さんは、まじめなせいかくだ。",
+          "questionText": "山田さんは、まじめな<u>せいかく</u>だ。",
           "passage": null,
           "choices": [
             "姓格",

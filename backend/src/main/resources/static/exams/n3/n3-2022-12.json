@@ -20,7 +20,7 @@
           "mondai": 1,
           "questionNumber": 1,
           "questionType": "KANJI_READING",
-          "questionText": "この店では、いろいろな容器を売っています。",
+          "questionText": "この店では、いろいろな<u>容器</u>を売っています。",
           "passage": null,
           "choices": [
             "ようぎ",
@@ -39,7 +39,7 @@
           "mondai": 1,
           "questionNumber": 2,
           "questionType": "KANJI_READING",
-          "questionText": "山本さんは何と何を比べたんですか。",
+          "questionText": "山本さんは何と何を<u>比べた</u>んですか。",
           "passage": null,
           "choices": [
             "くらべた",
@@ -58,7 +58,7 @@
           "mondai": 1,
           "questionNumber": 3,
           "questionType": "KANJI_READING",
-          "questionText": "書類が複数あるので、間違えないでください。",
+          "questionText": "書類が<u>複数</u>あるので、間違えないでください。",
           "passage": null,
           "choices": [
             "ふくす",
@@ -77,7 +77,7 @@
           "mondai": 1,
           "questionNumber": 4,
           "questionType": "KANJI_READING",
-          "questionText": "昨日病院で血圧を計りました。",
+          "questionText": "昨日病院で<u>血圧</u>を計りました。",
           "passage": null,
           "choices": [
             "けつあつ",
@@ -96,7 +96,7 @@
           "mondai": 1,
           "questionNumber": 5,
           "questionType": "KANJI_READING",
-          "questionText": "ここから見る夕日はきれいだ。",
+          "questionText": "ここから見る<u>夕日</u>はきれいだ。",
           "passage": null,
           "choices": [
             "ゆび",
@@ -115,7 +115,7 @@
           "mondai": 1,
           "questionNumber": 6,
           "questionType": "KANJI_READING",
-          "questionText": "そこに一人で行くのは難しいと思います。",
+          "questionText": "そこに一人で行くのは<u>難しい</u>と思います。",
           "passage": null,
           "choices": [
             "きびしい",
@@ -134,7 +134,7 @@
           "mondai": 1,
           "questionNumber": 7,
           "questionType": "KANJI_READING",
-          "questionText": "中村さんから出張の件でお電話がありました。",
+          "questionText": "中村さんから出張の<u>件</u>でお電話がありました。",
           "passage": null,
           "choices": [
             "けい",
@@ -153,7 +153,7 @@
           "mondai": 1,
           "questionNumber": 8,
           "questionType": "KANJI_READING",
-          "questionText": "ここを横断するときは気をつけてください。",
+          "questionText": "ここを<u>横断</u>するときは気をつけてください。",
           "passage": null,
           "choices": [
             "おうざん",
@@ -172,7 +172,7 @@
           "mondai": 2,
           "questionNumber": 9,
           "questionType": "KANJI_WRITING",
-          "questionText": "車から出て、外の空気をすった。",
+          "questionText": "車から出て、外の空気を<u>すった</u>。",
           "passage": null,
           "choices": [
             "吹った",
@@ -191,7 +191,7 @@
           "mondai": 2,
           "questionNumber": 10,
           "questionType": "KANJI_WRITING",
-          "questionText": "あしたのアルバイトは、いつもより時間がみじかい。",
+          "questionText": "あしたのアルバイトは、いつもより時間が<u>みじかい</u>。",
           "passage": null,
           "choices": [
             "早い",
@@ -210,7 +210,7 @@
           "mondai": 2,
           "questionNumber": 11,
           "questionType": "KANJI_WRITING",
-          "questionText": "今日は少し、 いの調子がよくない。",
+          "questionText": "今日は少し、 <u>い</u>の調子がよくない。",
           "passage": null,
           "choices": [
             "肩",
@@ -229,7 +229,7 @@
           "mondai": 2,
           "questionNumber": 12,
           "questionType": "KANJI_WRITING",
-          "questionText": "その話を聞いて、みんながえがおになった。",
+          "questionText": "その話を聞いて、みんなが<u>えがお</u>になった。",
           "passage": null,
           "choices": [
             "楽顔",
@@ -248,7 +248,7 @@
           "mondai": 2,
           "questionNumber": 13,
           "questionType": "KANJI_WRITING",
-          "questionText": "こくばんを見てください。",
+          "questionText": "<u>こくばん</u>を見てください。",
           "passage": null,
           "choices": [
             "黒板",
@@ -267,7 +267,7 @@
           "mondai": 2,
           "questionNumber": 14,
           "questionType": "KANJI_WRITING",
-          "questionText": "それはいっぱんてきなことだと思う。",
+          "questionText": "それは<u>いっぱんてき</u>なことだと思う。",
           "passage": null,
           "choices": [
             "一段的",

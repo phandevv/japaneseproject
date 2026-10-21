@@ -20,7 +20,7 @@
           "mondai": 1,
           "questionNumber": 1,
           "questionType": "KANJI_READING",
-          "questionText": "鈴木さんの横にいるのは誰ですか。",
+          "questionText": "鈴木さんの<u>横</u>にいるのは誰ですか。",
           "passage": null,
           "choices": [
             "そば",
@@ -39,7 +39,7 @@
           "mondai": 1,
           "questionNumber": 2,
           "questionType": "KANJI_READING",
-          "questionText": "この辺りの自然はとても美しい。",
+          "questionText": "この辺りの<u>自然</u>はとても美しい。",
           "passage": null,
           "choices": [
             "じぜん",
@@ -58,7 +58,7 @@
           "mondai": 1,
           "questionNumber": 3,
           "questionType": "KANJI_READING",
-          "questionText": "すぐに替えてもらえませんか。",
+          "questionText": "すぐに<u>替えて</u>もらえませんか。",
           "passage": null,
           "choices": [
             "つたえて",
@@ -77,7 +77,7 @@
           "mondai": 1,
           "questionNumber": 4,
           "questionType": "KANJI_READING",
-          "questionText": "このロボットには、さまざまな技術が応用されています。",
+          "questionText": "このロボットには、さまざまな技術が<u>応用</u>されています。",
           "passage": null,
           "choices": [
             "いんよう",
@@ -96,7 +96,7 @@
           "mondai": 1,
           "questionNumber": 5,
           "questionType": "KANJI_READING",
-          "questionText": "それはあまり一般的とは言えないだろう。",
+          "questionText": "それはあまり<u>一般的</u>とは言えないだろう。",
           "passage": null,
           "choices": [
             "いちぱんてき",
@@ -115,7 +115,7 @@
           "mondai": 1,
           "questionNumber": 6,
           "questionType": "KANJI_READING",
-          "questionText": "それでは検査を始めましょう。",
+          "questionText": "それでは<u>検査</u>を始めましょう。",
           "passage": null,
           "choices": [
             "かんさ",
@@ -134,7 +134,7 @@
           "mondai": 1,
           "questionNumber": 7,
           "questionType": "KANJI_READING",
-          "questionText": "もう少し厚いほうがいいですね。",
+          "questionText": "もう少し<u>厚い</u>ほうがいいですね。",
           "passage": null,
           "choices": [
             "あつい",
@@ -153,7 +153,7 @@
           "mondai": 1,
           "questionNumber": 8,
           "questionType": "KANJI_READING",
-          "questionText": "ゆっくり呼吸をしてください。",
+          "questionText": "ゆっくり<u>呼吸</u>をしてください。",
           "passage": null,
           "choices": [
             "よきょう",
@@ -172,7 +172,7 @@
           "mondai": 2,
           "questionNumber": 9,
           "questionType": "KANJI_WRITING",
-          "questionText": "この場所にちゅうしゃしてはいけません。",
+          "questionText": "この場所に<u>ちゅうしゃ</u>してはいけません。",
           "passage": null,
           "choices": [
             "駅車",
@@ -191,7 +191,7 @@
           "mondai": 2,
           "questionNumber": 10,
           "questionType": "KANJI_WRITING",
-          "questionText": "事務所が新しいビルにうつりました。",
+          "questionText": "事務所が新しいビルに<u>うつりました</u>。",
           "passage": null,
           "choices": [
             "着りました",
@@ -210,7 +210,7 @@
           "mondai": 2,
           "questionNumber": 11,
           "questionType": "KANJI_WRITING",
-          "questionText": "初めて日本のおんせんに行きました。",
+          "questionText": "初めて日本の<u>おんせん</u>に行きました。",
           "passage": null,
           "choices": [
             "温泉",
@@ -229,7 +229,7 @@
           "mondai": 2,
           "questionNumber": 12,
           "questionType": "KANJI_WRITING",
-          "questionText": "外国のざっしを買ってきました。",
+          "questionText": "外国の<u>ざっし</u>を買ってきました。",
           "passage": null,
           "choices": [
             "稚志",
@@ -248,7 +248,7 @@
           "mondai": 2,
           "questionNumber": 13,
           "questionType": "KANJI_WRITING",
-          "questionText": "ときどき母の料理がこいしくなります。",
+          "questionText": "ときどき母の料理が<u>こいしく</u>なります。",
           "passage": null,
           "choices": [
             "恋しく",
@@ -267,7 +267,7 @@
           "mondai": 2,
           "questionNumber": 14,
           "questionType": "KANJI_WRITING",
-          "questionText": "その話が正しいとかていしてみましょう。",
+          "questionText": "その話が正しいと<u>かてい</u>してみましょう。",
           "passage": null,
           "choices": [
             "科定",

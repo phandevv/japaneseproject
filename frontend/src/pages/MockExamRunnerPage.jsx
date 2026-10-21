@@ -7,6 +7,7 @@ import {
 } from 'lucide-react';
 import { mockExamApi, getMediaUrl } from '../services/api';
 import ListeningSectionView from '../components/ListeningSectionView';
+import FormattedQuestionText from '../components/FormattedQuestionText';
 
 export default function MockExamRunnerPage({ examId: propExamId }) {
   const params = useParams();
@@ -503,12 +504,17 @@ export default function MockExamRunnerPage({ examId: propExamId }) {
                 <div style={{
                   fontSize: 18,
                   fontWeight: 600,
-                  lineHeight: 1.6,
+                  lineHeight: 1.7,
                   color: 'var(--text-primary)',
                   marginBottom: 24,
                   fontFamily: 'var(--font-jp)'
                 }}>
-                  {activeQuestion.questionText || `Câu hỏi số ${activeQuestion.questionNumber}`}
+                  <FormattedQuestionText
+                    text={activeQuestion.questionText}
+                    fallbackNumber={activeQuestion.questionNumber}
+                    questionType={activeQuestion.questionType}
+                    choices={activeQuestion.choices}
+                  />
                 </div>
 
                 {/* Attached question image if not listening section */}

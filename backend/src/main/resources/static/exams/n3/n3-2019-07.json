@@ -20,7 +20,7 @@
           "mondai": 1,
           "questionNumber": 1,
           "questionType": "KANJI_READING",
-          "questionText": "この前よりも遅くなってしまいました。",
+          "questionText": "この前よりも<u>遅く</u>なってしまいました。",
           "passage": null,
           "choices": [
             "おそく",
@@ -39,7 +39,7 @@
           "mondai": 1,
           "questionNumber": 2,
           "questionType": "KANJI_READING",
-          "questionText": "このペンを使って線を書いてください。",
+          "questionText": "このペンを使って<u>線</u>を書いてください。",
           "passage": null,
           "choices": [
             "ず",
@@ -58,7 +58,7 @@
           "mondai": 1,
           "questionNumber": 3,
           "questionType": "KANJI_READING",
-          "questionText": "夏休みは調査に行くつもりです。",
+          "questionText": "夏休みは<u>調査</u>に行くつもりです。",
           "passage": null,
           "choices": [
             "ちょうさつ",
@@ -77,7 +77,7 @@
           "mondai": 1,
           "questionNumber": 4,
           "questionType": "KANJI_READING",
-          "questionText": "今朝、郵便が届きました。",
+          "questionText": "今朝、<u>郵便</u>が届きました。",
           "passage": null,
           "choices": [
             "ゆべん",
@@ -96,7 +96,7 @@
           "mondai": 1,
           "questionNumber": 5,
           "questionType": "KANJI_READING",
-          "questionText": "腰に薬を塗ってもらった。",
+          "questionText": "<u>腰</u>に薬を塗ってもらった。",
           "passage": null,
           "choices": [
             "むね",
@@ -115,7 +115,7 @@
           "mondai": 1,
           "questionNumber": 6,
           "questionType": "KANJI_READING",
-          "questionText": "歩いているうちに方角がわからなくなった。",
+          "questionText": "歩いているうちに<u>方角</u>がわからなくなった。",
           "passage": null,
           "choices": [
             "ほうがく",
@@ -134,7 +134,7 @@
           "mondai": 1,
           "questionNumber": 7,
           "questionType": "KANJI_READING",
-          "questionText": "これを包んでもらえませんか。",
+          "questionText": "これを<u>包んで</u>もらえませんか。",
           "passage": null,
           "choices": [
             "むすんで",
@@ -153,7 +153,7 @@
           "mondai": 1,
           "questionNumber": 8,
           "questionType": "KANJI_READING",
-          "questionText": "昼食の後は工場見学です。",
+          "questionText": "<u>昼食</u>の後は工場見学です。",
           "passage": null,
           "choices": [
             "しょうしょく",
@@ -172,7 +172,7 @@
           "mondai": 2,
           "questionNumber": 9,
           "questionType": "KANJI_WRITING",
-          "questionText": "さいしょに来たのは鈴木さんです。",
+          "questionText": "<u>さいしょ</u>に来たのは鈴木さんです。",
           "passage": null,
           "choices": [
             "最後",
@@ -191,7 +191,7 @@
           "mondai": 2,
           "questionNumber": 10,
           "questionType": "KANJI_WRITING",
-          "questionText": "昨日の夜、３０分ていでんした。",
+          "questionText": "昨日の夜、３０分<u>ていでん</u>した。",
           "passage": null,
           "choices": [
             "消電",
@@ -210,7 +210,7 @@
           "mondai": 2,
           "questionNumber": 11,
           "questionType": "KANJI_WRITING",
-          "questionText": "この文章をやくしてもらえませんか。",
+          "questionText": "この文章を<u>やくして</u>もらえませんか。",
           "passage": null,
           "choices": [
             "訳して",
@@ -229,7 +229,7 @@
           "mondai": 2,
           "questionNumber": 12,
           "questionType": "KANJI_WRITING",
-          "questionText": "新しいかぐを買いました。",
+          "questionText": "新しい<u>かぐ</u>を買いました。",
           "passage": null,
           "choices": [
             "道具",
@@ -248,7 +248,7 @@
           "mondai": 2,
           "questionNumber": 13,
           "questionType": "KANJI_WRITING",
-          "questionText": "箱のうちがわを見てください。",
+          "questionText": "箱の<u>うちがわ</u>を見てください。",
           "passage": null,
           "choices": [
             "裏測",
@@ -267,7 +267,7 @@
           "mondai": 2,
           "questionNumber": 14,
           "questionType": "KANJI_WRITING",
-          "questionText": "もうすこしあさい皿がほしいです。",
+          "questionText": "もうすこし<u>あさい</u>皿がほしいです。",
           "passage": null,
           "choices": [
             "軽い",

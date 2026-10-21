@@ -20,7 +20,7 @@
           "mondai": 1,
           "questionNumber": 1,
           "questionType": "KANJI_READING",
-          "questionText": "まず、この問題を調査します。",
+          "questionText": "まず、この問題を<u>調査</u>します。",
           "passage": null,
           "choices": [
             "ちょうさ",
@@ -39,7 +39,7 @@
           "mondai": 1,
           "questionNumber": 2,
           "questionType": "KANJI_READING",
-          "questionText": "どんな種類がありますか。",
+          "questionText": "どんな<u>種類</u>がありますか。",
           "passage": null,
           "choices": [
             "しゅれい",
@@ -58,7 +58,7 @@
           "mondai": 1,
           "questionNumber": 3,
           "questionType": "KANJI_READING",
-          "questionText": "この辺は岩が多い場所だ。",
+          "questionText": "この辺は<u>岩</u>が多い場所だ。",
           "passage": null,
           "choices": [
             "かい",
@@ -77,7 +77,7 @@
           "mondai": 1,
           "questionNumber": 4,
           "questionType": "KANJI_READING",
-          "questionText": "たくさんの人と交流する。",
+          "questionText": "たくさんの人と<u>交流</u>する。",
           "passage": null,
           "choices": [
             "ごうりゅ",
@@ -96,7 +96,7 @@
           "mondai": 1,
           "questionNumber": 5,
           "questionType": "KANJI_READING",
-          "questionText": "荷物はフロントに預けておきました。",
+          "questionText": "荷物はフロントに<u>預けて</u>おきました。",
           "passage": null,
           "choices": [
             "とどけて",
@@ -115,7 +115,7 @@
           "mondai": 1,
           "questionNumber": 6,
           "questionType": "KANJI_READING",
-          "questionText": "わたしは、普通、7 時に起きます。",
+          "questionText": "わたしは、<u>普通</u>、7 時に起きます。",
           "passage": null,
           "choices": [
             "ふうだん",
@@ -134,7 +134,7 @@
           "mondai": 1,
           "questionNumber": 7,
           "questionType": "KANJI_READING",
-          "questionText": "理由もなく疑ってはいけないと思う。",
+          "questionText": "理由もなく<u>疑って</u>はいけないと思う。",
           "passage": null,
           "choices": [
             "ことわって",
@@ -153,7 +153,7 @@
           "mondai": 1,
           "questionNumber": 8,
           "questionType": "KANJI_READING",
-          "questionText": "来週は旅行で家を留守にします。",
+          "questionText": "来週は旅行で家を<u>留守</u>にします。",
           "passage": null,
           "choices": [
             "るす",
@@ -172,7 +172,7 @@
           "mondai": 2,
           "questionNumber": 9,
           "questionType": "KANJI_WRITING",
-          "questionText": "それはぎゃくですよ。",
+          "questionText": "それは<u>ぎゃく</u>ですよ。",
           "passage": null,
           "choices": [
             "途",
@@ -191,7 +191,7 @@
           "mondai": 2,
           "questionNumber": 10,
           "questionType": "KANJI_WRITING",
-          "questionText": "あしたの朝は気温がひくくなるそうです。",
+          "questionText": "あしたの朝は気温が<u>ひくく</u>なるそうです。",
           "passage": null,
           "choices": [
             "冷く",
@@ -210,7 +210,7 @@
           "mondai": 2,
           "questionNumber": 11,
           "questionType": "KANJI_WRITING",
-          "questionText": "授業で花の形や色をかんさつしました。",
+          "questionText": "授業で花の形や色を<u>かんさつ</u>しました。",
           "passage": null,
           "choices": [
             "観祭",
@@ -229,7 +229,7 @@
           "mondai": 2,
           "questionNumber": 12,
           "questionType": "KANJI_WRITING",
-          "questionText": "田村さんが手紙を読んでないていた。",
+          "questionText": "田村さんが手紙を読んで<u>ないて</u>いた。",
           "passage": null,
           "choices": [
             "恋いて",
@@ -248,7 +248,7 @@
           "mondai": 2,
           "questionNumber": 13,
           "questionType": "KANJI_WRITING",
-          "questionText": "夜の 11 時いこうは、料金が高くなる。",
+          "questionText": "夜の 11 時<u>いこう</u>は、料金が高くなる。",
           "passage": null,
           "choices": [
             "以降",
@@ -267,7 +267,7 @@
           "mondai": 2,
           "questionNumber": 14,
           "questionType": "KANJI_WRITING",
-          "questionText": "今はふくざつな気持ちだ。",
+          "questionText": "今は<u>ふくざつ</u>な気持ちだ。",
           "passage": null,
           "choices": [
             "復推",

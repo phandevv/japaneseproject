@@ -20,7 +20,7 @@
           "mondai": 1,
           "questionNumber": 1,
           "questionType": "KANJI_READING",
-          "questionText": "この町は、昔から商業が盛んだった。",
+          "questionText": "この町は、昔から<u>商業</u>が盛んだった。",
           "passage": null,
           "choices": [
             "さんぎょう",
@@ -39,7 +39,7 @@
           "mondai": 1,
           "questionNumber": 2,
           "questionType": "KANJI_READING",
-          "questionText": "メールアドレスは覚えていません。",
+          "questionText": "メールアドレスは<u>覚えて</u>いません。",
           "passage": null,
           "choices": [
             "おしえて",
@@ -58,7 +58,7 @@
           "mondai": 1,
           "questionNumber": 3,
           "questionType": "KANJI_READING",
-          "questionText": "新しいサービスの広告はまだできていません。",
+          "questionText": "新しいサービスの<u>広告</u>はまだできていません。",
           "passage": null,
           "choices": [
             "こうこく",
@@ -77,7 +77,7 @@
           "mondai": 1,
           "questionNumber": 4,
           "questionType": "KANJI_READING",
-          "questionText": "今日の試合の相手は強かった。",
+          "questionText": "今日の試合の<u>相手</u>は強かった。",
           "passage": null,
           "choices": [
             "そうて",
@@ -96,7 +96,7 @@
           "mondai": 1,
           "questionNumber": 5,
           "questionType": "KANJI_READING",
-          "questionText": "来月、スポーツ大会があります。",
+          "questionText": "来月、スポーツ<u>大会</u>があります。",
           "passage": null,
           "choices": [
             "たいがい",
@@ -115,7 +115,7 @@
           "mondai": 1,
           "questionNumber": 6,
           "questionType": "KANJI_READING",
-          "questionText": "花瓶が割れている。",
+          "questionText": "花瓶が<u>割れて</u>いる。",
           "passage": null,
           "choices": [
             "われて",
@@ -134,7 +134,7 @@
           "mondai": 1,
           "questionNumber": 7,
           "questionType": "KANJI_READING",
-          "questionText": "うるさくて仕事に集中できない。",
+          "questionText": "うるさくて仕事に<u>集中</u>できない。",
           "passage": null,
           "choices": [
             "しゅじゅう",
@@ -153,7 +153,7 @@
           "mondai": 1,
           "questionNumber": 8,
           "questionType": "KANJI_READING",
-          "questionText": "食器売り場はどこですか。",
+          "questionText": "<u>食器</u>売り場はどこですか。",
           "passage": null,
           "choices": [
             "しょくき",
@@ -172,7 +172,7 @@
           "mondai": 2,
           "questionNumber": 9,
           "questionType": "KANJI_WRITING",
-          "questionText": "子どもが壁に絵を書いてしまったので、けしてきれいにした。",
+          "questionText": "子どもが壁に絵を書いてしまったので、<u>けして</u>きれいにした。",
           "passage": null,
           "choices": [
             "流して",
@@ -191,7 +191,7 @@
           "mondai": 2,
           "questionNumber": 10,
           "questionType": "KANJI_WRITING",
-          "questionText": "風邪で学校をけっせきした。",
+          "questionText": "風邪で学校を<u>けっせき</u>した。",
           "passage": null,
           "choices": [
             "休座",
@@ -210,7 +210,7 @@
           "mondai": 2,
           "questionNumber": 11,
           "questionType": "KANJI_WRITING",
-          "questionText": "野菜をこまかく切ってください。",
+          "questionText": "野菜を<u>こまかく</u>切ってください。",
           "passage": null,
           "choices": [
             "細かく",
@@ -229,7 +229,7 @@
           "mondai": 2,
           "questionNumber": 12,
           "questionType": "KANJI_WRITING",
-          "questionText": "このアパートにはわかい人がたくさん住んでいる。",
+          "questionText": "このアパートには<u>わかい</u>人がたくさん住んでいる。",
           "passage": null,
           "choices": [
             "孝い",
@@ -248,7 +248,7 @@
           "mondai": 2,
           "questionNumber": 13,
           "questionType": "KANJI_WRITING",
-          "questionText": "ふくすうの写真からいいものを選んだ。",
+          "questionText": "<u>ふくすう</u>の写真からいいものを選んだ。",
           "passage": null,
           "choices": [
             "複数",
@@ -267,7 +267,7 @@
           "mondai": 2,
           "questionNumber": 14,
           "questionType": "KANJI_WRITING",
-          "questionText": "米の輸入量がげんしょうしている。",
+          "questionText": "米の輸入量が<u>げんしょう</u>している。",
           "passage": null,
           "choices": [
             "減小",

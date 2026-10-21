@@ -20,7 +20,7 @@
           "mondai": 1,
           "questionNumber": 1,
           "questionType": "KANJI_READING",
-          "questionText": "その会社の情報は、インターネットで見ました。",
+          "questionText": "その会社の<u>情報</u>は、インターネットで見ました。",
           "passage": null,
           "choices": [
             "じょうほう",
@@ -39,7 +39,7 @@
           "mondai": 1,
           "questionNumber": 2,
           "questionType": "KANJI_READING",
-          "questionText": "兄は、現在は海外で働いています。",
+          "questionText": "兄は、<u>現在</u>は海外で働いています。",
           "passage": null,
           "choices": [
             "けんさい",
@@ -58,7 +58,7 @@
           "mondai": 1,
           "questionNumber": 3,
           "questionType": "KANJI_READING",
-          "questionText": "小さくて丸いいすがほしい。",
+          "questionText": "小さくて<u>丸い</u>いすがほしい。",
           "passage": null,
           "choices": [
             "くろい",
@@ -77,7 +77,7 @@
           "mondai": 1,
           "questionNumber": 4,
           "questionType": "KANJI_READING",
-          "questionText": "その歌は日本でも有名です。",
+          "questionText": "その歌は日本でも<u>有名</u>です。",
           "passage": null,
           "choices": [
             "ゆめ",
@@ -96,7 +96,7 @@
           "mondai": 1,
           "questionNumber": 5,
           "questionType": "KANJI_READING",
-          "questionText": "そこの通りの角に、コンビニができるそうです。",
+          "questionText": "そこの通りの<u>角</u>に、コンビニができるそうです。",
           "passage": null,
           "choices": [
             "かど",
@@ -115,7 +115,7 @@
           "mondai": 1,
           "questionNumber": 6,
           "questionType": "KANJI_READING",
-          "questionText": "大切な物なので、丁寧に包んでください。",
+          "questionText": "大切な物なので、丁寧に<u>包んで</u>ください。",
           "passage": null,
           "choices": [
             "たたんで",
@@ -134,7 +134,7 @@
           "mondai": 1,
           "questionNumber": 7,
           "questionType": "KANJI_READING",
-          "questionText": "それは、もう計算しました。",
+          "questionText": "それは、もう<u>計算</u>しました。",
           "passage": null,
           "choices": [
             "けいけん",
@@ -153,7 +153,7 @@
           "mondai": 1,
           "questionNumber": 8,
           "questionType": "KANJI_READING",
-          "questionText": "私は毎日、どのくらい歩いたかきろくしている。",
+          "questionText": "私は毎日、どのくらい歩いたか<u>きろく</u>している。",
           "passage": null,
           "choices": [
             "基緑",
@@ -172,7 +172,7 @@
           "mondai": 2,
           "questionNumber": 9,
           "questionType": "KANJI_WRITING",
-          "questionText": "駅で新しいこうこくを見ました。",
+          "questionText": "駅で新しい<u>こうこく</u>を見ました。",
           "passage": null,
           "choices": [
             "校菅",
@@ -191,7 +191,7 @@
           "mondai": 2,
           "questionNumber": 10,
           "questionType": "KANJI_WRITING",
-          "questionText": "体がすっかりひえてしまいました。",
+          "questionText": "体がすっかり<u>ひえて</u>しまいました。",
           "passage": null,
           "choices": [
             "冷えて",
@@ -210,7 +210,7 @@
           "mondai": 2,
           "questionNumber": 11,
           "questionType": "KANJI_WRITING",
-          "questionText": "けんさはしたが何も問題はなかった。",
+          "questionText": "<u>けんさ</u>はしたが何も問題はなかった。",
           "passage": null,
           "choices": [
             "健査",
@@ -229,7 +229,7 @@
           "mondai": 2,
           "questionNumber": 12,
           "questionType": "KANJI_WRITING",
-          "questionText": "その話はたしかですか。",
+          "questionText": "その話は<u>たしか</u>ですか。",
           "passage": null,
           "choices": [
             "定か",
@@ -248,7 +248,7 @@
           "mondai": 2,
           "questionNumber": 13,
           "questionType": "KANJI_WRITING",
-          "questionText": "私の祖父は、日本のかいがをたくさん持っている。",
+          "questionText": "私の祖父は、日本の<u>かいが</u>をたくさん持っている。",
           "passage": null,
           "choices": [
             "絵面",

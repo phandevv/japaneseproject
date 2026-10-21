@@ -20,7 +20,7 @@
           "mondai": 1,
           "questionNumber": 1,
           "questionType": "KANJI_READING",
-          "questionText": "病院で血液型を調べました。",
+          "questionText": "病院で<u>血液型</u>を調べました。",
           "passage": null,
           "choices": [
             "ちいきがた",
@@ -39,7 +39,7 @@
           "mondai": 1,
           "questionNumber": 2,
           "questionType": "KANJI_READING",
-          "questionText": "湖の上を白い鳥が飛んでいる。",
+          "questionText": "<u>湖</u>の上を白い鳥が飛んでいる。",
           "passage": null,
           "choices": [
             "みずうみ",
@@ -58,7 +58,7 @@
           "mondai": 1,
           "questionNumber": 3,
           "questionType": "KANJI_READING",
-          "questionText": "この時代の生活にどんな変化があったのか、調べてみたい。",
+          "questionText": "この時代の生活にどんな<u>変化</u>があったのか、調べてみたい。",
           "passage": null,
           "choices": [
             "ぶんか",
@@ -77,7 +77,7 @@
           "mondai": 1,
           "questionNumber": 4,
           "questionType": "KANJI_READING",
-          "questionText": "休んでいる学生が何人いるか、伝えました。",
+          "questionText": "休んでいる学生が何人いるか、<u>伝えました</u>。",
           "passage": null,
           "choices": [
             "こたえました",
@@ -96,7 +96,7 @@
           "mondai": 1,
           "questionNumber": 5,
           "questionType": "KANJI_READING",
-          "questionText": "その荷物を運んでください。",
+          "questionText": "その<u>荷物</u>を運んでください。",
           "passage": null,
           "choices": [
             "しなもつ",
@@ -115,7 +115,7 @@
           "mondai": 1,
           "questionNumber": 6,
           "questionType": "KANJI_READING",
-          "questionText": "毎日、平均",
+          "questionText": "毎日、<u>平均</u>",
           "passage": null,
           "choices": [
             "時間くらい勉強しています。 １ へんきん",
@@ -134,7 +134,7 @@
           "mondai": 1,
           "questionNumber": 7,
           "questionType": "KANJI_READING",
-          "questionText": "この学校では、留学生に奨学金が支給されます。",
+          "questionText": "この学校では、留学生に奨学金が<u>支給</u>されます。",
           "passage": null,
           "choices": [
             "しこう",
@@ -153,7 +153,7 @@
           "mondai": 1,
           "questionNumber": 8,
           "questionType": "KANJI_READING",
-          "questionText": "このグラフは、毎月の雨の量を表したものです。",
+          "questionText": "このグラフは、毎月の雨の量を<u>表した</u>ものです。",
           "passage": null,
           "choices": [
             "あらわした",
@@ -172,7 +172,7 @@
           "mondai": 2,
           "questionNumber": 9,
           "questionType": "KANJI_WRITING",
-          "questionText": "この店は、いろいろながっきを売っている。",
+          "questionText": "この店は、いろいろな<u>がっき</u>を売っている。",
           "passage": null,
           "choices": [
             "薬具",
@@ -191,7 +191,7 @@
           "mondai": 2,
           "questionNumber": 10,
           "questionType": "KANJI_WRITING",
-          "questionText": "携帯電話をかりました。",
+          "questionText": "携帯電話を<u>かりました</u>。",
           "passage": null,
           "choices": [
             "代りました",
@@ -210,7 +210,7 @@
           "mondai": 2,
           "questionNumber": 11,
           "questionType": "KANJI_WRITING",
-          "questionText": "けってんのない人はいないだろう。",
+          "questionText": "<u>けってん</u>のない人はいないだろう。",
           "passage": null,
           "choices": [
             "欠点",
@@ -229,7 +229,7 @@
           "mondai": 2,
           "questionNumber": 12,
           "questionType": "KANJI_WRITING",
-          "questionText": "この古い橋は、げんざいは使われていない。",
+          "questionText": "この古い橋は、<u>げんざい</u>は使われていない。",
           "passage": null,
           "choices": [
             "原存",
@@ -248,7 +248,7 @@
           "mondai": 2,
           "questionNumber": 13,
           "questionType": "KANJI_WRITING",
-          "questionText": "みどりのペンで、線を引きました。",
+          "questionText": "<u>みどり</u>のペンで、線を引きました。",
           "passage": null,
           "choices": [
             "黄",
@@ -267,7 +267,7 @@
           "mondai": 2,
           "questionNumber": 14,
           "questionType": "KANJI_WRITING",
-          "questionText": "家族の幸せをねがっている。",
+          "questionText": "家族の幸せを<u>ねがって</u>いる。",
           "passage": null,
           "choices": [
             "顧って",

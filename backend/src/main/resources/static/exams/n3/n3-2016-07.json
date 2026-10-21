@@ -20,7 +20,7 @@
           "mondai": 1,
           "questionNumber": 1,
           "questionType": "KANJI_READING",
-          "questionText": "丸いテーブルが欲しい。",
+          "questionText": "<u>丸い</u>テーブルが欲しい。",
           "passage": null,
           "choices": [
             "ほそい",
@@ -39,7 +39,7 @@
           "mondai": 1,
           "questionNumber": 2,
           "questionType": "KANJI_READING",
-          "questionText": "この運動場は個人でも利用できる。",
+          "questionText": "この運動場は<u>個人</u>でも利用できる。",
           "passage": null,
           "choices": [
             "こうじん",
@@ -58,7 +58,7 @@
           "mondai": 1,
           "questionNumber": 3,
           "questionType": "KANJI_READING",
-          "questionText": "この方向で間違いない。",
+          "questionText": "この<u>方向</u>で間違いない。",
           "passage": null,
           "choices": [
             "ほうぼう",
@@ -77,7 +77,7 @@
           "mondai": 1,
           "questionNumber": 4,
           "questionType": "KANJI_READING",
-          "questionText": "申し込みはあしたまでです。",
+          "questionText": "<u>申し込み</u>はあしたまでです。",
           "passage": null,
           "choices": [
             "もしくみ",
@@ -96,7 +96,7 @@
           "mondai": 1,
           "questionNumber": 5,
           "questionType": "KANJI_READING",
-          "questionText": "きちんと測ってください。",
+          "questionText": "きちんと<u>測って</u>ください。",
           "passage": null,
           "choices": [
             "まもって",
@@ -115,7 +115,7 @@
           "mondai": 1,
           "questionNumber": 6,
           "questionType": "KANJI_READING",
-          "questionText": "その国は 20 年前に独立した。",
+          "questionText": "その国は 20 年前に<u>独立</u>した。",
           "passage": null,
           "choices": [
             "どくりつ",
@@ -134,7 +134,7 @@
           "mondai": 1,
           "questionNumber": 7,
           "questionType": "KANJI_READING",
-          "questionText": "落としたときに折れてしまいました。",
+          "questionText": "落としたときに<u>折れて</u>しまいました。",
           "passage": null,
           "choices": [
             "われて",
@@ -153,7 +153,7 @@
           "mondai": 1,
           "questionNumber": 8,
           "questionType": "KANJI_READING",
-          "questionText": "ごみを減らすためには、一人一人の努力が大切だ。",
+          "questionText": "ごみを減らすためには、一人一人の<u>努力</u>が大切だ。",
           "passage": null,
           "choices": [
             "どりょく",
@@ -172,7 +172,7 @@
           "mondai": 2,
           "questionNumber": 9,
           "questionType": "KANJI_WRITING",
-          "questionText": "捕まえた魚がにげてしまった。",
+          "questionText": "捕まえた魚が<u>にげて</u>しまった。",
           "passage": null,
           "choices": [
             "遠げて",
@@ -191,7 +191,7 @@
           "mondai": 2,
           "questionNumber": 10,
           "questionType": "KANJI_WRITING",
-          "questionText": "数学のせいせきが前よりよくなった。",
+          "questionText": "数学の<u>せいせき</u>が前よりよくなった。",
           "passage": null,
           "choices": [
             "成積",
@@ -210,7 +210,7 @@
           "mondai": 2,
           "questionNumber": 11,
           "questionType": "KANJI_WRITING",
-          "questionText": "魚をやいて食べた。",
+          "questionText": "魚を<u>やいて</u>食べた。",
           "passage": null,
           "choices": [
             "爆いて",
@@ -229,7 +229,7 @@
           "mondai": 2,
           "questionNumber": 12,
           "questionType": "KANJI_WRITING",
-          "questionText": "その赤いところをまわしてください。",
+          "questionText": "その赤いところを<u>まわして</u>ください。",
           "passage": null,
           "choices": [
             "回して",
@@ -248,7 +248,7 @@
           "mondai": 2,
           "questionNumber": 13,
           "questionType": "KANJI_WRITING",
-          "questionText": "話し合った内容をきろくしておく。",
+          "questionText": "話し合った内容を<u>きろく</u>しておく。",
           "passage": null,
           "choices": [
             "議録",
@@ -267,7 +267,7 @@
           "mondai": 2,
           "questionNumber": 14,
           "questionType": "KANJI_WRITING",
-          "questionText": "順番にじょうしゃしてください。",
+          "questionText": "順番に<u>じょうしゃ</u>してください。",
           "passage": null,
           "choices": [
             "下車",

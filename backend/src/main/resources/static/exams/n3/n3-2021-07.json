@@ -20,7 +20,7 @@
           "mondai": 1,
           "questionNumber": 1,
           "questionType": "KANJI_READING",
-          "questionText": "このビルの裏に小さなレストランがあります。",
+          "questionText": "このビルの<u>裏</u>に小さなレストランがあります。",
           "passage": null,
           "choices": [
             "そば",
@@ -39,7 +39,7 @@
           "mondai": 1,
           "questionNumber": 2,
           "questionType": "KANJI_READING",
-          "questionText": "それではゆっくり呼吸をしてください。",
+          "questionText": "それではゆっくり<u>呼吸</u>をしてください。",
           "passage": null,
           "choices": [
             "こぎゅう",
@@ -58,7 +58,7 @@
           "mondai": 1,
           "questionNumber": 3,
           "questionType": "KANJI_READING",
-          "questionText": "あの少年の悲しそうな顔が忘れられない。",
+          "questionText": "あの少年の<u>悲しそう</u>な顔が忘れられない。",
           "passage": null,
           "choices": [
             "やさしそう",
@@ -77,7 +77,7 @@
           "mondai": 1,
           "questionNumber": 4,
           "questionType": "KANJI_READING",
-          "questionText": "このあたりに駐車しましよう。",
+          "questionText": "このあたりに<u>駐車</u>しましよう。",
           "passage": null,
           "choices": [
             "しゅしや",
@@ -96,7 +96,7 @@
           "mondai": 1,
           "questionNumber": 5,
           "questionType": "KANJI_READING",
-          "questionText": "もう逃げてしまったようた。",
+          "questionText": "もう<u>逃げて</u>しまったようた。",
           "passage": null,
           "choices": [
             "にげて",
@@ -115,7 +115,7 @@
           "mondai": 1,
           "questionNumber": 6,
           "questionType": "KANJI_READING",
-          "questionText": "努力することは大切だと思います。",
+          "questionText": "<u>努力</u>することは大切だと思います。",
           "passage": null,
           "choices": [
             "どうりょく",
@@ -134,7 +134,7 @@
           "mondai": 1,
           "questionNumber": 7,
           "questionType": "KANJI_READING",
-          "questionText": "それは過去のことです。",
+          "questionText": "それは<u>過去</u>のことです。",
           "passage": null,
           "choices": [
             "かこ",
@@ -153,7 +153,7 @@
           "mondai": 1,
           "questionNumber": 8,
           "questionType": "KANJI_READING",
-          "questionText": "彼は話し方も動作もゆっくりしている。",
+          "questionText": "彼は話し方も<u>動作</u>もゆっくりしている。",
           "passage": null,
           "choices": [
             "とうさ",
@@ -172,7 +172,7 @@
           "mondai": 2,
           "questionNumber": 9,
           "questionType": "KANJI_WRITING",
-          "questionText": "昨日、友達が家にとまりにきた。",
+          "questionText": "昨日、友達が家に<u>とまり</u>にきた。",
           "passage": null,
           "choices": [
             "亭まり",
@@ -191,7 +191,7 @@
           "mondai": 2,
           "questionNumber": 10,
           "questionType": "KANJI_WRITING",
-          "questionText": "書類にはこの学校もきそくが書かれていた。",
+          "questionText": "書類にはこの学校も<u>きそく</u>が書かれていた。",
           "passage": null,
           "choices": [
             "現販",
@@ -210,7 +210,7 @@
           "mondai": 2,
           "questionNumber": 11,
           "questionType": "KANJI_WRITING",
-          "questionText": "ここにはあたたかいですね。",
+          "questionText": "ここには<u>あたたかい</u>ですね。",
           "passage": null,
           "choices": [
             "明かい",
@@ -229,7 +229,7 @@
           "mondai": 2,
           "questionNumber": 12,
           "questionType": "KANJI_WRITING",
-          "questionText": "やっきょくがなかなか見つかりません。",
+          "questionText": "<u>やっきょく</u>がなかなか見つかりません。",
           "passage": null,
           "choices": [
             "薬局",
@@ -248,7 +248,7 @@
           "mondai": 2,
           "questionNumber": 13,
           "questionType": "KANJI_WRITING",
-          "questionText": "お皿はかさねてその棚にしまってください。",
+          "questionText": "お皿は<u>かさねて</u>その棚にしまってください。",
           "passage": null,
           "choices": [
             "整ねて",
@@ -267,7 +267,7 @@
           "mondai": 2,
           "questionNumber": 14,
           "questionType": "KANJI_WRITING",
-          "questionText": "机の上にでんごんのメモがあった。",
+          "questionText": "机の上に<u>でんごん</u>のメモがあった。",
           "passage": null,
           "choices": [
             "伝記",

@@ -20,7 +20,7 @@
           "mondai": 1,
           "questionNumber": 1,
           "questionType": "KANJI_READING",
-          "questionText": "山田さんがチラシを配った。",
+          "questionText": "山田さんがチラシを<u>配った</u>。",
           "passage": null,
           "choices": [
             "ひろった",
@@ -39,7 +39,7 @@
           "mondai": 1,
           "questionNumber": 2,
           "questionType": "KANJI_READING",
-          "questionText": "私の国は石油を輸 ゆ 入 にゅう しています。",
+          "questionText": "私の国は<u>石油</u>を輸 ゆ 入 にゅう しています。",
           "passage": null,
           "choices": [
             "いしゅ",
@@ -58,7 +58,7 @@
           "mondai": 1,
           "questionNumber": 3,
           "questionType": "KANJI_READING",
-          "questionText": "卒業式には生 せい 徒 と の父母もたくさん来ていた。",
+          "questionText": "卒業式には生 せい 徒 と の<u>父母</u>もたくさん来ていた。",
           "passage": null,
           "choices": [
             "ふば",
@@ -77,7 +77,7 @@
           "mondai": 1,
           "questionNumber": 4,
           "questionType": "KANJI_READING",
-          "questionText": "この町の主要な産業は何ですか。",
+          "questionText": "この町の<u>主要</u>な産業は何ですか。",
           "passage": null,
           "choices": [
             "じゅうおう",
@@ -96,7 +96,7 @@
           "mondai": 1,
           "questionNumber": 5,
           "questionType": "KANJI_READING",
-          "questionText": "これは加熱してから食べてください。",
+          "questionText": "これは<u>加熱</u>してから食べてください。",
           "passage": null,
           "choices": [
             "かねつ",
@@ -115,7 +115,7 @@
           "mondai": 1,
           "questionNumber": 6,
           "questionType": "KANJI_READING",
-          "questionText": "川はこの辺 あた りで深くなっている。",
+          "questionText": "川はこの辺 あた りで<u>深く</u>なっている。",
           "passage": null,
           "choices": [
             "ふかく",
@@ -134,7 +134,7 @@
           "mondai": 1,
           "questionNumber": 7,
           "questionType": "KANJI_READING",
-          "questionText": "文句を言われたので、つい感情的になってしまった。 1   がんじょうてき 3   かんじょうてき 2   かんしょうてき 4   がんしょうてき",
+          "questionText": "文句を言われたので、つい<u>感情的</u>になってしまった。 1   がんじょうてき 3   かんじょうてき 2   かんしょうてき 4   がんしょうてき",
           "passage": null,
           "choices": [
             "1",
@@ -153,7 +153,7 @@
           "mondai": 1,
           "questionNumber": 8,
           "questionType": "KANJI_READING",
-          "questionText": "これは残さないでください。",
+          "questionText": "これは<u>残さないで</u>ください。",
           "passage": null,
           "choices": [
             "なくさないで",
@@ -172,7 +172,7 @@
           "mondai": 2,
           "questionNumber": 9,
           "questionType": "KANJI_WRITING",
-          "questionText": "ここからじゅんばんに見てください。",
+          "questionText": "ここから<u>じゅんばん</u>に見てください。",
           "passage": null,
           "choices": [
             "順番",
@@ -191,7 +191,7 @@
           "mondai": 2,
           "questionNumber": 10,
           "questionType": "KANJI_WRITING",
-          "questionText": "父は銀行につとめています。",
+          "questionText": "父は銀行に<u>つとめて</u>います。",
           "passage": null,
           "choices": [
             "勤めて",
@@ -210,7 +210,7 @@
           "mondai": 2,
           "questionNumber": 11,
           "questionType": "KANJI_WRITING",
-          "questionText": "ポケットがさゆうにあるんですね。",
+          "questionText": "ポケットが<u>さゆう</u>にあるんですね。",
           "passage": null,
           "choices": [
             "裏表",
@@ -229,7 +229,7 @@
           "mondai": 2,
           "questionNumber": 12,
           "questionType": "KANJI_WRITING",
-          "questionText": "昨日の試合はまけてしまいました。",
+          "questionText": "昨日の試合は<u>まけて</u>しまいました。",
           "passage": null,
           "choices": [
             "退けて",
@@ -248,7 +248,7 @@
           "mondai": 2,
           "questionNumber": 13,
           "questionType": "KANJI_WRITING",
-          "questionText": "かこの例も調べてみましょう。",
+          "questionText": "<u>かこ</u>の例も調べてみましょう。",
           "passage": null,
           "choices": [
             "適去",
@@ -267,7 +267,7 @@
           "mondai": 2,
           "questionNumber": 14,
           "questionType": "KANJI_WRITING",
-          "questionText": "この資 し 料 りょう はページがぎゃくになっていますよ。",
+          "questionText": "この資 し 料 りょう はページが<u>ぎゃく</u>になっていますよ。",
           "passage": null,
           "choices": [
             "違",

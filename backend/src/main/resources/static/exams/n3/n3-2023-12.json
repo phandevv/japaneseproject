@@ -20,7 +20,7 @@
           "mondai": 1,
           "questionNumber": 1,
           "questionType": "KANJI_READING",
-          "questionText": "すみません、汚してしまいました。",
+          "questionText": "すみません、<u>汚して</u>しまいました。",
           "passage": null,
           "choices": [
             "こわして",
@@ -39,7 +39,7 @@
           "mondai": 1,
           "questionNumber": 2,
           "questionType": "KANJI_READING",
-          "questionText": "体育館 たいいくかん に選手が入ってきました。",
+          "questionText": "体育館 たいいくかん に<u>選手</u>が入ってきました。",
           "passage": null,
           "choices": [
             "ぜんしゅ",
@@ -58,7 +58,7 @@
           "mondai": 1,
           "questionNumber": 3,
           "questionType": "KANJI_READING",
-          "questionText": "次 つぎ は月末に来てください。",
+          "questionText": "次 つぎ は<u>月末</u>に来てください。",
           "passage": null,
           "choices": [
             "げつもつ",
@@ -77,7 +77,7 @@
           "mondai": 1,
           "questionNumber": 4,
           "questionType": "KANJI_READING",
-          "questionText": "箱 はこ の裏をよく見てください。",
+          "questionText": "箱 はこ の<u>裏</u>をよく見てください。",
           "passage": null,
           "choices": [
             "うら",
@@ -96,7 +96,7 @@
           "mondai": 1,
           "questionNumber": 5,
           "questionType": "KANJI_READING",
-          "questionText": "この町の産業について話を聞いた。",
+          "questionText": "この町の<u>産業</u>について話を聞いた。",
           "passage": null,
           "choices": [
             "じょうぎょう",
@@ -115,7 +115,7 @@
           "mondai": 1,
           "questionNumber": 6,
           "questionType": "KANJI_READING",
-          "questionText": "あしたの朝刊は休みです 。",
+          "questionText": "あしたの<u>朝刊</u>は休みです 。",
           "passage": null,
           "choices": [
             "ちょうがん",
@@ -134,7 +134,7 @@
           "mondai": 1,
           "questionNumber": 7,
           "questionType": "KANJI_READING",
-          "questionText": "その話を聞いて、中村 なかむら さんは断ったそうです 。",
+          "questionText": "その話を聞いて、中村 なかむら さんは<u>断った</u>そうです 。",
           "passage": null,
           "choices": [
             "こわがった",
@@ -153,7 +153,7 @@
           "mondai": 1,
           "questionNumber": 8,
           "questionType": "KANJI_READING",
-          "questionText": "あしたは、2 時に広場に集まってください。",
+          "questionText": "あしたは、2 時に<u>広場</u>に集まってください。",
           "passage": null,
           "choices": [
             "ひろば",
@@ -172,7 +172,7 @@
           "mondai": 2,
           "questionNumber": 9,
           "questionType": "KANJI_WRITING",
-          "questionText": "次 つぎ の駅でおりましょう。",
+          "questionText": "次 つぎ の駅で<u>おりましょう</u>。",
           "passage": null,
           "choices": [
             "停りましょう",
@@ -191,7 +191,7 @@
           "mondai": 2,
           "questionNumber": 10,
           "questionType": "KANJI_WRITING",
-          "questionText": "いつも 7 時にはきたくしている。",
+          "questionText": "いつも 7 時には<u>きたく</u>している。",
           "passage": null,
           "choices": [
             "着宅",
@@ -210,7 +210,7 @@
           "mondai": 2,
           "questionNumber": 11,
           "questionType": "KANJI_WRITING",
-          "questionText": "野菜をこまかく切ってください。",
+          "questionText": "野菜を<u>こまかく</u>切ってください。",
           "passage": null,
           "choices": [
             "角かく",
@@ -229,7 +229,7 @@
           "mondai": 2,
           "questionNumber": 12,
           "questionType": "KANJI_WRITING",
-          "questionText": "ほうりつを守 まも ってください。",
+          "questionText": "<u>ほうりつ</u>を守 まも ってください。",
           "passage": null,
           "choices": [
             "法律",
@@ -248,7 +248,7 @@
           "mondai": 2,
           "questionNumber": 13,
           "questionType": "KANJI_WRITING",
-          "questionText": "袋 ふくろ の中はからでした。",
+          "questionText": "袋 ふくろ の中は<u>から</u>でした。",
           "passage": null,
           "choices": [
             "無",
@@ -267,7 +267,7 @@
           "mondai": 2,
           "questionNumber": 14,
           "questionType": "KANJI_WRITING",
-          "questionText": "今日のかいひは 3,000 円です 。",
+          "questionText": "今日の<u>かいひ</u>は 3,000 円です 。",
           "passage": null,
           "choices": [
             "会賃",

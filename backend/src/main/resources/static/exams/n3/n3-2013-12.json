@@ -20,7 +20,7 @@
           "mondai": 1,
           "questionNumber": 1,
           "questionType": "KANJI_READING",
-          "questionText": "庭に生えた草にきれいな花が咲いていた。",
+          "questionText": "庭に<u>生えた</u>草にきれいな花が咲いていた。",
           "passage": null,
           "choices": [
             "はえた",
@@ -39,7 +39,7 @@
           "mondai": 1,
           "questionNumber": 2,
           "questionType": "KANJI_READING",
-          "questionText": "今週は各地でいろいろなお祭りがあります。",
+          "questionText": "今週は<u>各地</u>でいろいろなお祭りがあります。",
           "passage": null,
           "choices": [
             "かっじ",
@@ -58,7 +58,7 @@
           "mondai": 1,
           "questionNumber": 3,
           "questionType": "KANJI_READING",
-          "questionText": "貯金がどのくらいかわかりません。",
+          "questionText": "<u>貯金</u>がどのくらいかわかりません。",
           "passage": null,
           "choices": [
             "だいきん",
@@ -77,7 +77,7 @@
           "mondai": 1,
           "questionNumber": 4,
           "questionType": "KANJI_READING",
-          "questionText": "隣のお宅は留守のようです。",
+          "questionText": "隣のお宅は<u>留守</u>のようです。",
           "passage": null,
           "choices": [
             "るす",
@@ -96,7 +96,7 @@
           "mondai": 1,
           "questionNumber": 5,
           "questionType": "KANJI_READING",
-          "questionText": "もう少し浅い皿はありませんか。",
+          "questionText": "もう少し<u>浅い</u>皿はありませんか。",
           "passage": null,
           "choices": [
             "ふかい",
@@ -115,7 +115,7 @@
           "mondai": 1,
           "questionNumber": 6,
           "questionType": "KANJI_READING",
-          "questionText": "この文章は長くてわかりにくい。",
+          "questionText": "この<u>文章</u>は長くてわかりにくい。",
           "passage": null,
           "choices": [
             "ぶんそ",
@@ -134,7 +134,7 @@
           "mondai": 1,
           "questionNumber": 7,
           "questionType": "KANJI_READING",
-          "questionText": "改札の前で待っています。",
+          "questionText": "<u>改札</u>の前で待っています。",
           "passage": null,
           "choices": [
             "かいさつ",
@@ -153,7 +153,7 @@
           "mondai": 1,
           "questionNumber": 8,
           "questionType": "KANJI_READING",
-          "questionText": "その話をしたら、彼女は笑っていました。",
+          "questionText": "その話をしたら、彼女は<u>笑って</u>いました。",
           "passage": null,
           "choices": [
             "こまって",
@@ -172,7 +172,7 @@
           "mondai": 2,
           "questionNumber": 9,
           "questionType": "KANJI_WRITING",
-          "questionText": "米の輸出量が去年の 2 ばいになった。",
+          "questionText": "米の輸出量が去年の 2 <u>ばい</u>になった。",
           "passage": null,
           "choices": [
             "培",
@@ -191,7 +191,7 @@
           "mondai": 2,
           "questionNumber": 10,
           "questionType": "KANJI_WRITING",
-          "questionText": "昨日の夕方、この辺りでていでんがあった。",
+          "questionText": "昨日の夕方、この辺りで<u>ていでん</u>があった。",
           "passage": null,
           "choices": [
             "止電",
@@ -210,7 +210,7 @@
           "mondai": 2,
           "questionNumber": 11,
           "questionType": "KANJI_WRITING",
-          "questionText": "すぐにつつんでください 。",
+          "questionText": "すぐに<u>つつんで</u>ください 。",
           "passage": null,
           "choices": [
             "呼んで",
@@ -229,7 +229,7 @@
           "mondai": 2,
           "questionNumber": 12,
           "questionType": "KANJI_WRITING",
-          "questionText": "田中さんはどくしんです。",
+          "questionText": "田中さんは<u>どくしん</u>です。",
           "passage": null,
           "choices": [
             "独身",
@@ -248,7 +248,7 @@
           "mondai": 2,
           "questionNumber": 13,
           "questionType": "KANJI_WRITING",
-          "questionText": "この本をかしてください。",
+          "questionText": "この本を<u>かして</u>ください。",
           "passage": null,
           "choices": [
             "措して",
@@ -267,7 +267,7 @@
           "mondai": 2,
           "questionNumber": 14,
           "questionType": "KANJI_WRITING",
-          "questionText": "この猫は、わたしが触ろうとすると、すぐにげる。",
+          "questionText": "この猫は、わたしが触ろうとすると、すぐ<u>にげる</u>。",
           "passage": null,
           "choices": [
             "逃げる",

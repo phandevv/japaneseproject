@@ -20,7 +20,7 @@
           "mondai": 1,
           "questionNumber": 1,
           "questionType": "KANJI_READING",
-          "questionText": "急に涙が出てしまいました。",
+          "questionText": "急に<u>涙</u>が出てしまいました。",
           "passage": null,
           "choices": [
             "なみだ",
@@ -39,7 +39,7 @@
           "mondai": 1,
           "questionNumber": 2,
           "questionType": "KANJI_READING",
-          "questionText": "けがは完全に治りました。",
+          "questionText": "けがは<u>完全</u>に治りました。",
           "passage": null,
           "choices": [
             "かんぜん",
@@ -58,7 +58,7 @@
           "mondai": 1,
           "questionNumber": 3,
           "questionType": "KANJI_READING",
-          "questionText": "雨で地面がぬれている。",
+          "questionText": "雨で<u>地面</u>がぬれている。",
           "passage": null,
           "choices": [
             "ちめい",
@@ -77,7 +77,7 @@
           "mondai": 1,
           "questionNumber": 4,
           "questionType": "KANJI_READING",
-          "questionText": "お金はあの箱に移したほうがいいですか。",
+          "questionText": "お金はあの箱に<u>移した</u>ほうがいいですか。",
           "passage": null,
           "choices": [
             "もどした",
@@ -96,7 +96,7 @@
           "mondai": 1,
           "questionNumber": 5,
           "questionType": "KANJI_READING",
-          "questionText": "ゆっくり呼吸をしてください。",
+          "questionText": "ゆっくり<u>呼吸</u>をしてください。",
           "passage": null,
           "choices": [
             "こきょう",
@@ -115,7 +115,7 @@
           "mondai": 1,
           "questionNumber": 6,
           "questionType": "KANJI_READING",
-          "questionText": "ここに身長を書いてください。",
+          "questionText": "ここに<u>身長</u>を書いてください。",
           "passage": null,
           "choices": [
             "せんちょう",
@@ -134,7 +134,7 @@
           "mondai": 1,
           "questionNumber": 7,
           "questionType": "KANJI_READING",
-          "questionText": "前田さんは困っているようだ。 1 まよって 3   こまって 2 おこって 4 だまって",
+          "questionText": "前田さんは<u>困っている</u>ようだ。 1 まよって 3   こまって 2 おこって 4 だまって",
           "passage": null,
           "choices": [
             "1",
@@ -153,7 +153,7 @@
           "mondai": 1,
           "questionNumber": 8,
           "questionType": "KANJI_READING",
-          "questionText": "近くに薬局はありますか。",
+          "questionText": "近くに<u>薬局</u>はありますか。",
           "passage": null,
           "choices": [
             "やっきょ",
@@ -172,7 +172,7 @@
           "mondai": 2,
           "questionNumber": 9,
           "questionType": "KANJI_WRITING",
-          "questionText": "この町で子どもをそだてたいと思っている。",
+          "questionText": "この町で子どもを<u>そだてたい</u>と思っている。",
           "passage": null,
           "choices": [
             "産てたい",
@@ -191,7 +191,7 @@
           "mondai": 2,
           "questionNumber": 10,
           "questionType": "KANJI_WRITING",
-          "questionText": "物が燃えるときに、けむりが出ます 。",
+          "questionText": "物が燃えるときに、<u>けむり</u>が出ます 。",
           "passage": null,
           "choices": [
             "煙",
@@ -210,7 +210,7 @@
           "mondai": 2,
           "questionNumber": 11,
           "questionType": "KANJI_WRITING",
-          "questionText": "ここからしんりんが見えます 。",
+          "questionText": "ここから<u>しんりん</u>が見えます 。",
           "passage": null,
           "choices": [
             "森村",
@@ -229,7 +229,7 @@
           "mondai": 2,
           "questionNumber": 12,
           "questionType": "KANJI_WRITING",
-          "questionText": "朝、シャワーをあびました。",
+          "questionText": "朝、シャワーを<u>あびました</u>。",
           "passage": null,
           "choices": [
             "流びました",
@@ -248,7 +248,7 @@
           "mondai": 2,
           "questionNumber": 13,
           "questionType": "KANJI_WRITING",
-          "questionText": "文字の色を変えることはかのうでしょうか。",
+          "questionText": "文字の色を変えることは<u>かのう</u>でしょうか。",
           "passage": null,
           "choices": [
             "可能",
@@ -267,7 +267,7 @@
           "mondai": 2,
           "questionNumber": 14,
           "questionType": "KANJI_WRITING",
-          "questionText": "今からメールをそうしんします 。",
+          "questionText": "今からメールを<u>そうしん</u>します 。",
           "passage": null,
           "choices": [
             "返信",

@@ -20,7 +20,7 @@
           "mondai": 1,
           "questionNumber": 1,
           "questionType": "KANJI_READING",
-          "questionText": "この国の人は自然を大切にしている。",
+          "questionText": "この国の人は<u>自然</u>を大切にしている。",
           "passage": null,
           "choices": [
             "しぜん",
@@ -39,7 +39,7 @@
           "mondai": 1,
           "questionNumber": 2,
           "questionType": "KANJI_READING",
-          "questionText": "あと 30 秒で完成します。",
+          "questionText": "あと 30 <u>秒</u>で完成します。",
           "passage": null,
           "choices": [
             "じょう",
@@ -58,7 +58,7 @@
           "mondai": 1,
           "questionNumber": 3,
           "questionType": "KANJI_READING",
-          "questionText": "夏休みも残り三日になってしまった。",
+          "questionText": "夏休みも<u>残り</u>三日になってしまった。",
           "passage": null,
           "choices": [
             "もとり",
@@ -77,7 +77,7 @@
           "mondai": 1,
           "questionNumber": 4,
           "questionType": "KANJI_READING",
-          "questionText": "このグラフは、人口の増減を表している。",
+          "questionText": "このグラフは、人口の<u>増減</u>を表している。",
           "passage": null,
           "choices": [
             "ぞうけん",
@@ -96,7 +96,7 @@
           "mondai": 1,
           "questionNumber": 5,
           "questionType": "KANJI_READING",
-          "questionText": "面接の結果は、1 週間以内に通知します。",
+          "questionText": "面接の結果は、1 週間以内に<u>通知</u>します。",
           "passage": null,
           "choices": [
             "つうち",
@@ -115,7 +115,7 @@
           "mondai": 1,
           "questionNumber": 6,
           "questionType": "KANJI_READING",
-          "questionText": "庭に生えた草にきれいな花が咲いていた。",
+          "questionText": "庭に<u>生えた</u>草にきれいな花が咲いていた。",
           "passage": null,
           "choices": [
             "はえた",
@@ -134,7 +134,7 @@
           "mondai": 1,
           "questionNumber": 7,
           "questionType": "KANJI_READING",
-          "questionText": "外国で一人暮らしをしているので、国の料理が恋しくなる。",
+          "questionText": "外国で一人暮らしをしているので、国の料理が<u>恋しく</u>なる。",
           "passage": null,
           "choices": [
             "なつかしく",
@@ -153,7 +153,7 @@
           "mondai": 1,
           "questionNumber": 8,
           "questionType": "KANJI_READING",
-          "questionText": "これを郵送してください。",
+          "questionText": "これを<u>郵送</u>してください。",
           "passage": null,
           "choices": [
             "ほそう",
@@ -172,7 +172,7 @@
           "mondai": 2,
           "questionNumber": 9,
           "questionType": "KANJI_WRITING",
-          "questionText": "あそこにいるのが私のむすめです。",
+          "questionText": "あそこにいるのが私の<u>むすめ</u>です。",
           "passage": null,
           "choices": [
             "妹",
@@ -191,7 +191,7 @@
           "mondai": 2,
           "questionNumber": 10,
           "questionType": "KANJI_WRITING",
-          "questionText": "彼女は頭もいいし、せいかくもいい。",
+          "questionText": "彼女は頭もいいし、<u>せいかく</u>もいい。",
           "passage": null,
           "choices": [
             "性格",
@@ -210,7 +210,7 @@
           "mondai": 2,
           "questionNumber": 11,
           "questionType": "KANJI_WRITING",
-          "questionText": "それは誰かのめいれいですか。",
+          "questionText": "それは誰かの<u>めいれい</u>ですか。",
           "passage": null,
           "choices": [
             "命例",
@@ -229,7 +229,7 @@
           "mondai": 2,
           "questionNumber": 12,
           "questionType": "KANJI_WRITING",
-          "questionText": "銀行へお金をあずけに行ってきます。",
+          "questionText": "銀行へお金を<u>あずけ</u>に行ってきます。",
           "passage": null,
           "choices": [
             "預け",
@@ -248,7 +248,7 @@
           "mondai": 2,
           "questionNumber": 13,
           "questionType": "KANJI_WRITING",
-          "questionText": "テストの点数がよそう以上によかった。",
+          "questionText": "テストの点数が<u>よそう</u>以上によかった。",
           "passage": null,
           "choices": [
             "予習",
@@ -267,7 +267,7 @@
           "mondai": 2,
           "questionNumber": 14,
           "questionType": "KANJI_WRITING",
-          "questionText": "これはとてもこうかなものだ。",
+          "questionText": "これはとても<u>こうか</u>なものだ。",
           "passage": null,
           "choices": [
             "高値",

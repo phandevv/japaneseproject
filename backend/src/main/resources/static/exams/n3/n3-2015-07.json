@@ -20,7 +20,7 @@
           "mondai": 1,
           "questionNumber": 1,
           "questionType": "KANJI_READING",
-          "questionText": "美しい曲を聞いて、涙が出た。",
+          "questionText": "<u>美しい</u>曲を聞いて、涙が出た。",
           "passage": null,
           "choices": [
             "うつくしい",
@@ -39,7 +39,7 @@
           "mondai": 1,
           "questionNumber": 2,
           "questionType": "KANJI_READING",
-          "questionText": "100 年後の世界を想像するのは難しい。",
+          "questionText": "100 年後の世界を<u>想像</u>するのは難しい。",
           "passage": null,
           "choices": [
             "そぞう",
@@ -58,7 +58,7 @@
           "mondai": 1,
           "questionNumber": 3,
           "questionType": "KANJI_READING",
-          "questionText": "汚れた傘がドアの前に置いてあった。",
+          "questionText": "<u>汚れた</u>傘がドアの前に置いてあった。",
           "passage": null,
           "choices": [
             "おれた",
@@ -77,7 +77,7 @@
           "mondai": 1,
           "questionNumber": 4,
           "questionType": "KANJI_READING",
-          "questionText": "朝食の時間は何時ですか。",
+          "questionText": "<u>朝食</u>の時間は何時ですか。",
           "passage": null,
           "choices": [
             "ちゅうしょく",
@@ -96,7 +96,7 @@
           "mondai": 1,
           "questionNumber": 5,
           "questionType": "KANJI_READING",
-          "questionText": "昨日から首が痛い。",
+          "questionText": "昨日から<u>首</u>が痛い。",
           "passage": null,
           "choices": [
             "かた",
@@ -115,7 +115,7 @@
           "mondai": 1,
           "questionNumber": 6,
           "questionType": "KANJI_READING",
-          "questionText": "大学で経営学を勉強しています。",
+          "questionText": "大学で<u>経営学</u>を勉強しています。",
           "passage": null,
           "choices": [
             "げいざいがく",
@@ -134,7 +134,7 @@
           "mondai": 1,
           "questionNumber": 7,
           "questionType": "KANJI_READING",
-          "questionText": "本を分類して、別々の箱に入れた。",
+          "questionText": "本を<u>分類</u>して、別々の箱に入れた。",
           "passage": null,
           "choices": [
             "ぶんるい",
@@ -153,7 +153,7 @@
           "mondai": 1,
           "questionNumber": 8,
           "questionType": "KANJI_READING",
-          "questionText": "洗濯物が多くて、干すのに時間がかかった。",
+          "questionText": "洗濯物が多くて、<u>干す</u>のに時間がかかった。",
           "passage": null,
           "choices": [
             "わたす",
@@ -172,7 +172,7 @@
           "mondai": 2,
           "questionNumber": 9,
           "questionType": "KANJI_WRITING",
-          "questionText": "これからクイズのせいかいを言います。",
+          "questionText": "これからクイズの<u>せいかい</u>を言います。",
           "passage": null,
           "choices": [
             "正解",
@@ -191,7 +191,7 @@
           "mondai": 2,
           "questionNumber": 10,
           "questionType": "KANJI_WRITING",
-          "questionText": "先生の話を聞いて、リサイクルにかんしんを持った。",
+          "questionText": "先生の話を聞いて、リサイクルに<u>かんしん</u>を持った。",
           "passage": null,
           "choices": [
             "向心",
@@ -210,7 +210,7 @@
           "mondai": 2,
           "questionNumber": 11,
           "questionType": "KANJI_WRITING",
-          "questionText": "そのボールをなげてください。",
+          "questionText": "そのボールを<u>なげて</u>ください。",
           "passage": null,
           "choices": [
             "打げて",
@@ -229,7 +229,7 @@
           "mondai": 2,
           "questionNumber": 12,
           "questionType": "KANJI_WRITING",
-          "questionText": "故障のげんいんはまだわからない。",
+          "questionText": "故障の<u>げんいん</u>はまだわからない。",
           "passage": null,
           "choices": [
             "元困",
@@ -248,7 +248,7 @@
           "mondai": 2,
           "questionNumber": 13,
           "questionType": "KANJI_WRITING",
-          "questionText": "兄はデパートにつとめている。",
+          "questionText": "兄はデパートに<u>つとめて</u>いる。",
           "passage": null,
           "choices": [
             "勤めて",
@@ -267,7 +267,7 @@
           "mondai": 2,
           "questionNumber": 14,
           "questionType": "KANJI_WRITING",
-          "questionText": "来年から会社のきそくが変わるそうだ。",
+          "questionText": "来年から会社の<u>きそく</u>が変わるそうだ。",
           "passage": null,
           "choices": [
             "基則",

@@ -20,7 +20,7 @@
           "mondai": 1,
           "questionNumber": 1,
           "questionType": "KANJI_READING",
-          "questionText": "10 時に予約をお願いします。",
+          "questionText": "10 時に<u>予約</u>をお願いします。",
           "passage": null,
           "choices": [
             "ようやく",
@@ -39,7 +39,7 @@
           "mondai": 1,
           "questionNumber": 2,
           "questionType": "KANJI_READING",
-          "questionText": "あの頃は私も若かった。",
+          "questionText": "あの頃は私も<u>若かった</u>。",
           "passage": null,
           "choices": [
             "わるかった",
@@ -58,7 +58,7 @@
           "mondai": 1,
           "questionNumber": 3,
           "questionType": "KANJI_READING",
-          "questionText": "上品な人ですね。",
+          "questionText": "<u>上品</u>な人ですね。",
           "passage": null,
           "choices": [
             "じょうひん",
@@ -77,7 +77,7 @@
           "mondai": 1,
           "questionNumber": 4,
           "questionType": "KANJI_READING",
-          "questionText": "山田さんに助けてもらった。",
+          "questionText": "山田さんに<u>助けて</u>もらった。",
           "passage": null,
           "choices": [
             "とどけて",
@@ -96,7 +96,7 @@
           "mondai": 1,
           "questionNumber": 5,
           "questionType": "KANJI_READING",
-          "questionText": "未来を考えてみる。",
+          "questionText": "<u>未来</u>を考えてみる。",
           "passage": null,
           "choices": [
             "しょらい",
@@ -115,7 +115,7 @@
           "mondai": 1,
           "questionNumber": 6,
           "questionType": "KANJI_READING",
-          "questionText": "この電車は各駅に止まります。",
+          "questionText": "この電車は<u>各駅</u>に止まります。",
           "passage": null,
           "choices": [
             "かくえき",
@@ -134,7 +134,7 @@
           "mondai": 1,
           "questionNumber": 7,
           "questionType": "KANJI_READING",
-          "questionText": "誰が勝ったんですか。",
+          "questionText": "誰が<u>勝った</u>んですか。",
           "passage": null,
           "choices": [
             "かざった",
@@ -153,7 +153,7 @@
           "mondai": 1,
           "questionNumber": 8,
           "questionType": "KANJI_READING",
-          "questionText": "彼に初めて会ったときの印象はどうでしたか。",
+          "questionText": "彼に初めて会ったときの<u>印象</u>はどうでしたか。",
           "passage": null,
           "choices": [
             "いんしょう",
@@ -172,7 +172,7 @@
           "mondai": 2,
           "questionNumber": 9,
           "questionType": "KANJI_WRITING",
-          "questionText": "りゆうはよくわかりません。",
+          "questionText": "<u>りゆう</u>はよくわかりません。",
           "passage": null,
           "choices": [
             "理有",
@@ -191,7 +191,7 @@
           "mondai": 2,
           "questionNumber": 10,
           "questionType": "KANJI_WRITING",
-          "questionText": "このしまには、初めて来ました。",
+          "questionText": "この<u>しま</u>には、初めて来ました。",
           "passage": null,
           "choices": [
             "寺",
@@ -210,7 +210,7 @@
           "mondai": 2,
           "questionNumber": 11,
           "questionType": "KANJI_WRITING",
-          "questionText": "卒業のきねんに写真を撮りました。",
+          "questionText": "卒業の<u>きねん</u>に写真を撮りました。",
           "passage": null,
           "choices": [
             "気念",
@@ -229,7 +229,7 @@
           "mondai": 2,
           "questionNumber": 12,
           "questionType": "KANJI_WRITING",
-          "questionText": "これがいっぱんてきな方法です。",
+          "questionText": "これが<u>いっぱんてき</u>な方法です。",
           "passage": null,
           "choices": [
             "一藩的",
@@ -248,7 +248,7 @@
           "mondai": 2,
           "questionNumber": 13,
           "questionType": "KANJI_WRITING",
-          "questionText": "今日もかならず行きます。",
+          "questionText": "今日も<u>かならず</u>行きます。",
           "passage": null,
           "choices": [
             "必ず",
@@ -267,7 +267,7 @@
           "mondai": 2,
           "questionNumber": 14,
           "questionType": "KANJI_WRITING",
-          "questionText": "効果があらわれたようですよ。",
+          "questionText": "効果が<u>あらわれた</u>ようですよ。",
           "passage": null,
           "choices": [
             "改れた",

@@ -52,7 +52,7 @@ public class ExamDataLoaderTest {
         assertTrue(qOpt.isPresent(), "Sample question n3-2023-07-vocab-m1-q1 should exist");
 
         JlptExamQuestion q = qOpt.get();
-        assertEquals("毎日復習したので、よくできるようになった。", q.getQuestionText());
+        assertEquals("毎日<u>復習</u>したので、よくできるようになった。", q.getQuestionText());
         assertNotNull(q.getChoicesJson());
         assertTrue(q.getChoicesJson().contains("ふくしゅう"), "Choices should contain authentic Japanese options");
         assertFalse(q.getChoicesJson().contains("[\"1\",\"2\",\"3\",\"4\"]"), "Choices must NOT be dummy [1, 2, 3, 4]");

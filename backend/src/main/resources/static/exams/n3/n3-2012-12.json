@@ -20,7 +20,7 @@
           "mondai": 1,
           "questionNumber": 1,
           "questionType": "KANJI_READING",
-          "questionText": "このひもは短すぎて使いにくい。",
+          "questionText": "このひもは<u>短すぎて</u>使いにくい。",
           "passage": null,
           "choices": [
             "よわすぎて",
@@ -39,7 +39,7 @@
           "mondai": 1,
           "questionNumber": 2,
           "questionType": "KANJI_READING",
-          "questionText": "あの人は他人の意見を全然聞かない。",
+          "questionText": "あの人は<u>他人</u>の意見を全然聞かない。",
           "passage": null,
           "choices": [
             "ちにん",
@@ -58,7 +58,7 @@
           "mondai": 1,
           "questionNumber": 3,
           "questionType": "KANJI_READING",
-          "questionText": "人口の変化をグラフで示した。",
+          "questionText": "人口の変化をグラフで<u>示した</u>。",
           "passage": null,
           "choices": [
             "うつした",
@@ -77,7 +77,7 @@
           "mondai": 1,
           "questionNumber": 4,
           "questionType": "KANJI_READING",
-          "questionText": "田中さんは外科のお医者さんです。",
+          "questionText": "田中さんは<u>外科</u>のお医者さんです。",
           "passage": null,
           "choices": [
             "がいか",
@@ -96,7 +96,7 @@
           "mondai": 1,
           "questionNumber": 5,
           "questionType": "KANJI_READING",
-          "questionText": "佐藤さんは笑顔がとてもすてきです。",
+          "questionText": "佐藤さんは<u>笑顔</u>がとてもすてきです。",
           "passage": null,
           "choices": [
             "えがお",
@@ -115,7 +115,7 @@
           "mondai": 1,
           "questionNumber": 6,
           "questionType": "KANJI_READING",
-          "questionText": "5 時以降にもう一度お電話ください。",
+          "questionText": "5 時<u>以降</u>にもう一度お電話ください。",
           "passage": null,
           "choices": [
             "いこ",
@@ -134,7 +134,7 @@
           "mondai": 1,
           "questionNumber": 7,
           "questionType": "KANJI_READING",
-          "questionText": "道路を横断するときは、車に十分注意してください。",
+          "questionText": "道路を<u>横断</u>するときは、車に十分注意してください。",
           "passage": null,
           "choices": [
             "おうだん",
@@ -153,7 +153,7 @@
           "mondai": 1,
           "questionNumber": 8,
           "questionType": "KANJI_READING",
-          "questionText": "わたしが合図をしたら、始めてください。",
+          "questionText": "わたしが<u>合図</u>をしたら、始めてください。",
           "passage": null,
           "choices": [
             "ごうと",
@@ -172,7 +172,7 @@
           "mondai": 2,
           "questionNumber": 9,
           "questionType": "KANJI_WRITING",
-          "questionText": "昨日は残業できたくが遅くなった。",
+          "questionText": "昨日は残業で<u>きたく</u>が遅くなった。",
           "passage": null,
           "choices": [
             "着家",
@@ -191,7 +191,7 @@
           "mondai": 2,
           "questionNumber": 10,
           "questionType": "KANJI_WRITING",
-          "questionText": "この辺りは、子供をそだてるのにいい環境だ。",
+          "questionText": "この辺りは、子供を<u>そだてる</u>のにいい環境だ。",
           "passage": null,
           "choices": [
             "産てる",
@@ -210,7 +210,7 @@
           "mondai": 2,
           "questionNumber": 11,
           "questionType": "KANJI_WRITING",
-          "questionText": "会議で決まったことをきちんときろくしておいてください。",
+          "questionText": "会議で決まったことをきちんと<u>きろく</u>しておいてください。",
           "passage": null,
           "choices": [
             "記録",
@@ -229,7 +229,7 @@
           "mondai": 2,
           "questionNumber": 12,
           "questionType": "KANJI_WRITING",
-          "questionText": "今朝からはが痛いんです。",
+          "questionText": "今朝から<u>は</u>が痛いんです。",
           "passage": null,
           "choices": [
             "腹",
@@ -248,7 +248,7 @@
           "mondai": 2,
           "questionNumber": 13,
           "questionType": "KANJI_WRITING",
-          "questionText": "リボンをきれいにむすぶのは難しい。",
+          "questionText": "リボンをきれいに<u>むすぶ</u>のは難しい。",
           "passage": null,
           "choices": [
             "組ぶ",
@@ -267,7 +267,7 @@
           "mondai": 2,
           "questionNumber": 14,
           "questionType": "KANJI_WRITING",
-          "questionText": "学校で勉強したことを毎日ふくしゅうしています。",
+          "questionText": "学校で勉強したことを毎日<u>ふくしゅう</u>しています。",
           "passage": null,
           "choices": [
             "復習",

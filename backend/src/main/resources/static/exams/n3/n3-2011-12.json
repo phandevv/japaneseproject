@@ -20,7 +20,7 @@
           "mondai": 1,
           "questionNumber": 1,
           "questionType": "KANJI_READING",
-          "questionText": "今年の夏は、過去十年間で一番の暑さだったそうだ。",
+          "questionText": "今年の夏は、<u>過去</u>十年間で一番の暑さだったそうだ。",
           "passage": null,
           "choices": [
             "かきょ",
@@ -39,7 +39,7 @@
           "mondai": 1,
           "questionNumber": 2,
           "questionType": "KANJI_READING",
-          "questionText": "あと５分で東京駅に到着します。",
+          "questionText": "あと５分で東京駅に<u>到着</u>します。",
           "passage": null,
           "choices": [
             "とうつく",
@@ -58,7 +58,7 @@
           "mondai": 1,
           "questionNumber": 3,
           "questionType": "KANJI_READING",
-          "questionText": "公園の木の枝を折ってはいけません。",
+          "questionText": "公園の木の枝を<u>折って</u>はいけません。",
           "passage": null,
           "choices": [
             "うって",
@@ -77,7 +77,7 @@
           "mondai": 1,
           "questionNumber": 4,
           "questionType": "KANJI_READING",
-          "questionText": "インターネットで最新の情報をチェックした。",
+          "questionText": "インターネットで最新の<u>情報</u>をチェックした。",
           "passage": null,
           "choices": [
             "じゅうほう",
@@ -96,7 +96,7 @@
           "mondai": 1,
           "questionNumber": 5,
           "questionType": "KANJI_READING",
-          "questionText": "最近、野菜の値段が高くなっています。",
+          "questionText": "最近、野菜の<u>値段</u>が高くなっています。",
           "passage": null,
           "choices": [
             "かかく",
@@ -115,7 +115,7 @@
           "mondai": 1,
           "questionNumber": 6,
           "questionType": "KANJI_READING",
-          "questionText": "彼はあの国の文化に深い関心を持っている。",
+          "questionText": "彼はあの国の文化に<u>深い</u>関心を持っている。",
           "passage": null,
           "choices": [
             "ふかい",
@@ -134,7 +134,7 @@
           "mondai": 1,
           "questionNumber": 7,
           "questionType": "KANJI_READING",
-          "questionText": "昨日、友達に本を返しました。",
+          "questionText": "昨日、友達に本を<u>返しました</u>。",
           "passage": null,
           "choices": [
             "かしました",
@@ -153,7 +153,7 @@
           "mondai": 1,
           "questionNumber": 8,
           "questionType": "KANJI_READING",
-          "questionText": "月の表面はでこぼこしている。",
+          "questionText": "月の<u>表面</u>はでこぼこしている。",
           "passage": null,
           "choices": [
             "しょめん",
@@ -172,7 +172,7 @@
           "mondai": 2,
           "questionNumber": 9,
           "questionType": "KANJI_WRITING",
-          "questionText": "東京はげんざい午後 3 時です。",
+          "questionText": "東京は<u>げんざい</u>午後 3 時です。",
           "passage": null,
           "choices": [
             "視在",
@@ -191,7 +191,7 @@
           "mondai": 2,
           "questionNumber": 10,
           "questionType": "KANJI_WRITING",
-          "questionText": "こちらのサンプルはごじゆうにお取りください。",
+          "questionText": "こちらのサンプルは<u>ごじゆう</u>にお取りください。",
           "passage": null,
           "choices": [
             "ご事有",
@@ -210,7 +210,7 @@
           "mondai": 2,
           "questionNumber": 11,
           "questionType": "KANJI_WRITING",
-          "questionText": "大学ではほうりつを勉強しました。 １ 方立 ２ 法立 ３方律 ４ 法律",
+          "questionText": "大学では<u>ほうりつ</u>を勉強しました。 １ 方立 ２ 法立 ３方律 ４ 法律",
           "passage": null,
           "choices": [
             "1",
@@ -229,7 +229,7 @@
           "mondai": 2,
           "questionNumber": 12,
           "questionType": "KANJI_WRITING",
-          "questionText": "いつか京都をゆっくりかんこうしたい。",
+          "questionText": "いつか京都をゆっくり<u>かんこう</u>したい。",
           "passage": null,
           "choices": [
             "観光",
@@ -248,7 +248,7 @@
           "mondai": 2,
           "questionNumber": 13,
           "questionType": "KANJI_WRITING",
-          "questionText": "当日、このけんを忘れないようにしてください。",
+          "questionText": "当日、この<u>けん</u>を忘れないようにしてください。",
           "passage": null,
           "choices": [
             "巻",
@@ -267,7 +267,7 @@
           "mondai": 2,
           "questionNumber": 14,
           "questionType": "KANJI_WRITING",
-          "questionText": "なかなかなみだが止まらなくて困りました。",
+          "questionText": "なかなか<u>なみだ</u>が止まらなくて困りました。",
           "passage": null,
           "choices": [
             "流",

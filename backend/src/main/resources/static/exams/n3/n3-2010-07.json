@@ -20,7 +20,7 @@
           "mondai": 1,
           "questionNumber": 1,
           "questionType": "KANJI_READING",
-          "questionText": "プレゼントはきれいな紙で包んであった。",
+          "questionText": "プレゼントはきれいな紙で<u>包んで</u>あった。",
           "passage": null,
           "choices": [
             "つつんで",
@@ -39,7 +39,7 @@
           "mondai": 1,
           "questionNumber": 2,
           "questionType": "KANJI_READING",
-          "questionText": "彼はダンスが得意だ。",
+          "questionText": "彼はダンスが<u>得意</u>だ。",
           "passage": null,
           "choices": [
             "どおくい",
@@ -58,7 +58,7 @@
           "mondai": 1,
           "questionNumber": 3,
           "questionType": "KANJI_READING",
-          "questionText": "新しい星が発見された。",
+          "questionText": "新しい星が<u>発見</u>された。",
           "passage": null,
           "choices": [
             "はっけん",
@@ -77,7 +77,7 @@
           "mondai": 1,
           "questionNumber": 4,
           "questionType": "KANJI_READING",
-          "questionText": "このグラフは人口の変化を表しています。",
+          "questionText": "このグラフは人口の変化を<u>表して</u>います。",
           "passage": null,
           "choices": [
             "しめして",
@@ -96,7 +96,7 @@
           "mondai": 1,
           "questionNumber": 5,
           "questionType": "KANJI_READING",
-          "questionText": "山田さんから、来週の会議の件で電話がありました。",
+          "questionText": "山田さんから、来週の会議の<u>件</u>で電話がありました。",
           "passage": null,
           "choices": [
             "けん",
@@ -115,7 +115,7 @@
           "mondai": 1,
           "questionNumber": 6,
           "questionType": "KANJI_READING",
-          "questionText": "通勤にとても時間がかかります。",
+          "questionText": "<u>通勤</u>にとても時間がかかります。",
           "passage": null,
           "choices": [
             "つうがく",
@@ -134,7 +134,7 @@
           "mondai": 1,
           "questionNumber": 7,
           "questionType": "KANJI_READING",
-          "questionText": "この海岸は岩が多い。",
+          "questionText": "この海岸は<u>岩</u>が多い。",
           "passage": null,
           "choices": [
             "かい",
@@ -153,7 +153,7 @@
           "mondai": 1,
           "questionNumber": 8,
           "questionType": "KANJI_READING",
-          "questionText": "努力することは大切だと思います。",
+          "questionText": "<u>努力</u>することは大切だと思います。",
           "passage": null,
           "choices": [
             "どうりょく",
@@ -172,7 +172,7 @@
           "mondai": 2,
           "questionNumber": 9,
           "questionType": "KANJI_WRITING",
-          "questionText": "機械がせいじょうかどうかチェックした。",
+          "questionText": "機械が<u>せいじょう</u>かどうかチェックした。",
           "passage": null,
           "choices": [
             "盛情",
@@ -191,7 +191,7 @@
           "mondai": 2,
           "questionNumber": 10,
           "questionType": "KANJI_WRITING",
-          "questionText": "健康診断でけつえき検査を受けた。",
+          "questionText": "健康診断で<u>けつえき</u>検査を受けた。",
           "passage": null,
           "choices": [
             "意識",
@@ -210,7 +210,7 @@
           "mondai": 2,
           "questionNumber": 11,
           "questionType": "KANJI_WRITING",
-          "questionText": "母親が子どもの後ろをおって走っている。",
+          "questionText": "母親が子どもの後ろを<u>おって</u>走っている。",
           "passage": null,
           "choices": [
             "送って",
@@ -229,7 +229,7 @@
           "mondai": 2,
           "questionNumber": 12,
           "questionType": "KANJI_WRITING",
-          "questionText": "電車をおりるときに、かさを忘れてしまった。",
+          "questionText": "電車を<u>おりる</u>ときに、かさを忘れてしまった。",
           "passage": null,
           "choices": [
             "移りる",
@@ -248,7 +248,7 @@
           "mondai": 2,
           "questionNumber": 13,
           "questionType": "KANJI_WRITING",
-          "questionText": "大学に入ってから、しんちょうが変わっていない。",
+          "questionText": "大学に入ってから、<u>しんちょう</u>が変わっていない。",
           "passage": null,
           "choices": [
             "背中",
@@ -267,7 +267,7 @@
           "mondai": 2,
           "questionNumber": 14,
           "questionType": "KANJI_WRITING",
-          "questionText": "ものがたりは誰でも知っている。",
+          "questionText": "<u>ものがたり</u>は誰でも知っている。",
           "passage": null,
           "choices": [
             "物語",

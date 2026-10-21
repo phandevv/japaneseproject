@@ -20,7 +20,7 @@
           "mondai": 1,
           "questionNumber": 1,
           "questionType": "KANJI_READING",
-          "questionText": "すみません、弟がこれを割ってしまいました。",
+          "questionText": "すみません、弟がこれを<u>割って</u>しまいました。",
           "passage": null,
           "choices": [
             "けって",
@@ -39,7 +39,7 @@
           "mondai": 1,
           "questionNumber": 2,
           "questionType": "KANJI_READING",
-          "questionText": "ピアノを基本から習いたい。",
+          "questionText": "ピアノを<u>基本</u>から習いたい。",
           "passage": null,
           "choices": [
             "ぎほん",
@@ -58,7 +58,7 @@
           "mondai": 1,
           "questionNumber": 3,
           "questionType": "KANJI_READING",
-          "questionText": "かばんは横においてください。",
+          "questionText": "かばんは<u>横</u>においてください。",
           "passage": null,
           "choices": [
             "よこ",
@@ -77,7 +77,7 @@
           "mondai": 1,
           "questionNumber": 4,
           "questionType": "KANJI_READING",
-          "questionText": "この仕事は今日が最初です。",
+          "questionText": "この仕事は今日が<u>最初</u>です。",
           "passage": null,
           "choices": [
             "さいしょ",
@@ -96,7 +96,7 @@
           "mondai": 1,
           "questionNumber": 5,
           "questionType": "KANJI_READING",
-          "questionText": "昨日、山田さんに本を返しました。",
+          "questionText": "昨日、山田さんに本を<u>返しました</u>。",
           "passage": null,
           "choices": [
             "わかしました",
@@ -115,7 +115,7 @@
           "mondai": 1,
           "questionNumber": 6,
           "questionType": "KANJI_READING",
-          "questionText": "この包丁は使いやすい。",
+          "questionText": "この<u>包丁</u>は使いやすい。",
           "passage": null,
           "choices": [
             "ぼうちょう",
@@ -134,7 +134,7 @@
           "mondai": 1,
           "questionNumber": 7,
           "questionType": "KANJI_READING",
-          "questionText": "適当なやり方を教えてください。",
+          "questionText": "<u>適当</u>なやり方を教えてください。",
           "passage": null,
           "choices": [
             "てきどう",
@@ -153,7 +153,7 @@
           "mondai": 1,
           "questionNumber": 8,
           "questionType": "KANJI_READING",
-          "questionText": "部屋が狭いので、大きな家具は置けません。",
+          "questionText": "部屋が狭いので、大きな<u>家具</u>は置けません。",
           "passage": null,
           "choices": [
             "やぐう",
@@ -172,7 +172,7 @@
           "mondai": 2,
           "questionNumber": 9,
           "questionType": "KANJI_WRITING",
-          "questionText": "この質問をといてください。",
+          "questionText": "この質問を<u>といて</u>ください。",
           "passage": null,
           "choices": [
             "試いて",
@@ -191,7 +191,7 @@
           "mondai": 2,
           "questionNumber": 10,
           "questionType": "KANJI_WRITING",
-          "questionText": "今日は少しこしが痛い。",
+          "questionText": "今日は少し<u>こし</u>が痛い。",
           "passage": null,
           "choices": [
             "胸",
@@ -210,7 +210,7 @@
           "mondai": 2,
           "questionNumber": 11,
           "questionType": "KANJI_WRITING",
-          "questionText": "入学式のよくしゅうから講義が始まる。",
+          "questionText": "入学式の<u>よくしゅう</u>から講義が始まる。",
           "passage": null,
           "choices": [
             "翌週",
@@ -229,7 +229,7 @@
           "mondai": 2,
           "questionNumber": 12,
           "questionType": "KANJI_WRITING",
-          "questionText": "今朝は気温がひくかったので、水が凍っていた。",
+          "questionText": "今朝は気温が<u>ひくかった</u>ので、水が凍っていた。",
           "passage": null,
           "choices": [
             "寒かった",
@@ -248,7 +248,7 @@
           "mondai": 2,
           "questionNumber": 13,
           "questionType": "KANJI_WRITING",
-          "questionText": "湖はどのほうこうにありますか。",
+          "questionText": "湖はどの<u>ほうこう</u>にありますか。",
           "passage": null,
           "choices": [
             "方向",
@@ -267,7 +267,7 @@
           "mondai": 2,
           "questionNumber": 14,
           "questionType": "KANJI_WRITING",
-          "questionText": "学校のきそくが少し変わるそうだ。",
+          "questionText": "学校の<u>きそく</u>が少し変わるそうだ。",
           "passage": null,
           "choices": [
             "規側",

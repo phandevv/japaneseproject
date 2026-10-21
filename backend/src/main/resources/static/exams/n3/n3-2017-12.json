@@ -20,7 +20,7 @@
           "mondai": 1,
           "questionNumber": 1,
           "questionType": "KANJI_READING",
-          "questionText": "中村部長と直接話した。",
+          "questionText": "中村部長と<u>直接</u>話した。",
           "passage": null,
           "choices": [
             "ちょくぜつ",
@@ -39,7 +39,7 @@
           "mondai": 1,
           "questionNumber": 2,
           "questionType": "KANJI_READING",
-          "questionText": "これはすぐには燃えません。",
+          "questionText": "これはすぐには<u>燃えません</u>。",
           "passage": null,
           "choices": [
             "にえません",
@@ -58,7 +58,7 @@
           "mondai": 1,
           "questionNumber": 3,
           "questionType": "KANJI_READING",
-          "questionText": "この位置に車を止めてください。",
+          "questionText": "この<u>位置</u>に車を止めてください。",
           "passage": null,
           "choices": [
             "とじ",
@@ -77,7 +77,7 @@
           "mondai": 1,
           "questionNumber": 4,
           "questionType": "KANJI_READING",
-          "questionText": "計算ができたので見てください。",
+          "questionText": "<u>計算</u>ができたので見てください。",
           "passage": null,
           "choices": [
             "けいかく",
@@ -96,7 +96,7 @@
           "mondai": 1,
           "questionNumber": 5,
           "questionType": "KANJI_READING",
-          "questionText": "ずっとパソコンを使っていて疲れたので、腕を回してみた。",
+          "questionText": "ずっとパソコンを使っていて疲れたので、腕を<u>回して</u>みた。",
           "passage": null,
           "choices": [
             "まわして",
@@ -115,7 +115,7 @@
           "mondai": 1,
           "questionNumber": 6,
           "questionType": "KANJI_READING",
-          "questionText": "ここは禁煙です。",
+          "questionText": "ここは<u>禁煙</u>です。",
           "passage": null,
           "choices": [
             "きねん",
@@ -134,7 +134,7 @@
           "mondai": 1,
           "questionNumber": 7,
           "questionType": "KANJI_READING",
-          "questionText": "きれいに結んでください。",
+          "questionText": "きれいに<u>結んで</u>ください。",
           "passage": null,
           "choices": [
             "たたんで",
@@ -153,7 +153,7 @@
           "mondai": 1,
           "questionNumber": 8,
           "questionType": "KANJI_READING",
-          "questionText": "手術をしなくても治りますから、大丈夫ですよ。",
+          "questionText": "<u>手術</u>をしなくても治りますから、大丈夫ですよ。",
           "passage": null,
           "choices": [
             "しゅじゅつ",
@@ -172,7 +172,7 @@
           "mondai": 2,
           "questionNumber": 9,
           "questionType": "KANJI_WRITING",
-          "questionText": "次の目標は 10 びょうです。",
+          "questionText": "次の目標は 10 <u>びょう</u>です。",
           "passage": null,
           "choices": [
             "培",
@@ -191,7 +191,7 @@
           "mondai": 2,
           "questionNumber": 10,
           "questionType": "KANJI_WRITING",
-          "questionText": "ボールが遠くまでとんだ。",
+          "questionText": "ボールが遠くまで<u>とんだ</u>。",
           "passage": null,
           "choices": [
             "投んだ",
@@ -210,7 +210,7 @@
           "mondai": 2,
           "questionNumber": 11,
           "questionType": "KANJI_WRITING",
-          "questionText": "ここは、さかみちが多いですね。",
+          "questionText": "ここは、<u>さかみち</u>が多いですね。",
           "passage": null,
           "choices": [
             "岩道",
@@ -229,7 +229,7 @@
           "mondai": 2,
           "questionNumber": 12,
           "questionType": "KANJI_WRITING",
-          "questionText": "この皿だけ色がちがいます。",
+          "questionText": "この皿だけ色が<u>ちがいます</u>。",
           "passage": null,
           "choices": [
             "遺います",
@@ -248,7 +248,7 @@
           "mondai": 2,
           "questionNumber": 13,
           "questionType": "KANJI_WRITING",
-          "questionText": "あの会社とは、いいかんけいをつくりたい。",
+          "questionText": "あの会社とは、いい<u>かんけい</u>をつくりたい。",
           "passage": null,
           "choices": [
             "関系",
@@ -267,7 +267,7 @@
           "mondai": 2,
           "questionNumber": 14,
           "questionType": "KANJI_WRITING",
-          "questionText": "父はきょうしをしています。",
+          "questionText": "父は<u>きょうし</u>をしています。",
           "passage": null,
           "choices": [
             "教仕",

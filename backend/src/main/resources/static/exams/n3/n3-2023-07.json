@@ -20,7 +20,7 @@
           "mondai": 1,
           "questionNumber": 1,
           "questionType": "KANJI_READING",
-          "questionText": "毎日復習したので、よくできるようになった。",
+          "questionText": "毎日<u>復習</u>したので、よくできるようになった。",
           "passage": null,
           "choices": [
             "ふうしゅう",
@@ -39,7 +39,7 @@
           "mondai": 1,
           "questionNumber": 2,
           "questionType": "KANJI_READING",
-          "questionText": "小型のラジオが欲しいてす。",
+          "questionText": "<u>小型</u>のラジオが欲しいてす。",
           "passage": null,
           "choices": [
             "こかた",
@@ -58,7 +58,7 @@
           "mondai": 1,
           "questionNumber": 3,
           "questionType": "KANJI_READING",
-          "questionText": "理由もないのに、人を疑ってはいけない。",
+          "questionText": "理由もないのに、人を<u>疑って</u>はいけない。",
           "passage": null,
           "choices": [
             "きらって",
@@ -77,7 +77,7 @@
           "mondai": 1,
           "questionNumber": 4,
           "questionType": "KANJI_READING",
-          "questionText": "ここから先は道が細くなっている。",
+          "questionText": "ここから先は道が<u>細く</u>なっている。",
           "passage": null,
           "choices": [
             "ひろく",
@@ -96,7 +96,7 @@
           "mondai": 1,
           "questionNumber": 5,
           "questionType": "KANJI_READING",
-          "questionText": "川井さんは明日、退院するそうです。",
+          "questionText": "川井さんは明日、<u>退院</u>するそうです。",
           "passage": null,
           "choices": [
             "たいいん",
@@ -115,7 +115,7 @@
           "mondai": 1,
           "questionNumber": 6,
           "questionType": "KANJI_READING",
-          "questionText": "バーテイーには夫婦で参加します。",
+          "questionText": "バーテイーには<u>夫婦</u>で参加します。",
           "passage": null,
           "choices": [
             "ふうふう",
@@ -134,7 +134,7 @@
           "mondai": 1,
           "questionNumber": 7,
           "questionType": "KANJI_READING",
-          "questionText": "留守の間に誰か来たようだ。",
+          "questionText": "<u>留守</u>の間に誰か来たようだ。",
           "passage": null,
           "choices": [
             "るしゅ",
@@ -153,7 +153,7 @@
           "mondai": 1,
           "questionNumber": 8,
           "questionType": "KANJI_READING",
-          "questionText": "これは、とても高価な花瓶だそうです。",
+          "questionText": "これは、とても<u>高価</u>な花瓶だそうです。",
           "passage": null,
           "choices": [
             "こうか",
@@ -172,7 +172,7 @@
           "mondai": 2,
           "questionNumber": 9,
           "questionType": "KANJI_WRITING",
-          "questionText": "彼はたんきだ。",
+          "questionText": "彼は<u>たんき</u>だ。",
           "passage": null,
           "choices": [
             "男気",
@@ -191,7 +191,7 @@
           "mondai": 2,
           "questionNumber": 10,
           "questionType": "KANJI_WRITING",
-          "questionText": "上田さんは少ししんぱいしているようだ。",
+          "questionText": "上田さんは少し<u>しんぱい</u>しているようだ。",
           "passage": null,
           "choices": [
             "心酔",
@@ -210,7 +210,7 @@
           "mondai": 2,
           "questionNumber": 11,
           "questionType": "KANJI_WRITING",
-          "questionText": "次はこれをやいてください。",
+          "questionText": "次はこれを<u>やいて</u>ください。",
           "passage": null,
           "choices": [
             "焼いて",
@@ -229,7 +229,7 @@
           "mondai": 2,
           "questionNumber": 12,
           "questionType": "KANJI_WRITING",
-          "questionText": "明日、かならず来てください。",
+          "questionText": "明日、<u>かならず</u>来てください。",
           "passage": null,
           "choices": [
             "確ず",
@@ -248,7 +248,7 @@
           "mondai": 2,
           "questionNumber": 13,
           "questionType": "KANJI_WRITING",
-          "questionText": "私の学校はせいふくがありません。",
+          "questionText": "私の学校は<u>せいふく</u>がありません。",
           "passage": null,
           "choices": [
             "清衣",
@@ -267,7 +267,7 @@
           "mondai": 2,
           "questionNumber": 14,
           "questionType": "KANJI_WRITING",
-          "questionText": "探していたやっきょくが、やっと見つかりました。",
+          "questionText": "探していた<u>やっきょく</u>が、やっと見つかりました。",
           "passage": null,
           "choices": [
             "薬局",

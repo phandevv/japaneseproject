@@ -20,7 +20,7 @@
           "mondai": 1,
           "questionNumber": 1,
           "questionType": "KANJI_READING",
-          "questionText": "会場には大勢の観客がいた。",
+          "questionText": "会場には大勢の<u>観客</u>がいた。",
           "passage": null,
           "choices": [
             "けんぎゃく",
@@ -39,7 +39,7 @@
           "mondai": 1,
           "questionNumber": 2,
           "questionType": "KANJI_READING",
-          "questionText": "田村さんが払ってくれました。",
+          "questionText": "田村さんが<u>払って</u>くれました。",
           "passage": null,
           "choices": [
             "くばって",
@@ -58,7 +58,7 @@
           "mondai": 1,
           "questionNumber": 3,
           "questionType": "KANJI_READING",
-          "questionText": "ホテルには 3 時ごろ到着します。",
+          "questionText": "ホテルには 3 時ごろ<u>到着</u>します。",
           "passage": null,
           "choices": [
             "とうちゃく",
@@ -77,7 +77,7 @@
           "mondai": 1,
           "questionNumber": 4,
           "questionType": "KANJI_READING",
-          "questionText": "山下さんが説明を加えました。",
+          "questionText": "山下さんが説明を<u>加えました</u>。",
           "passage": null,
           "choices": [
             "つたえました",
@@ -96,7 +96,7 @@
           "mondai": 1,
           "questionNumber": 5,
           "questionType": "KANJI_READING",
-          "questionText": "今から訓練を行います。",
+          "questionText": "今から<u>訓練</u>を行います。",
           "passage": null,
           "choices": [
             "くんれい",
@@ -115,7 +115,7 @@
           "mondai": 1,
           "questionNumber": 6,
           "questionType": "KANJI_READING",
-          "questionText": "この豆はスープに使うといいですよ。",
+          "questionText": "この<u>豆</u>はスープに使うといいですよ。",
           "passage": null,
           "choices": [
             "こな",
@@ -134,7 +134,7 @@
           "mondai": 1,
           "questionNumber": 7,
           "questionType": "KANJI_READING",
-          "questionText": "社会には共通のルールがあります。",
+          "questionText": "社会には<u>共通</u>のルールがあります。",
           "passage": null,
           "choices": [
             "きょうつ",
@@ -153,7 +153,7 @@
           "mondai": 1,
           "questionNumber": 8,
           "questionType": "KANJI_READING",
-          "questionText": "来年から税金が上がるそうだ。",
+          "questionText": "来年から<u>税金</u>が上がるそうだ。",
           "passage": null,
           "choices": [
             "ぜいきん",
@@ -172,7 +172,7 @@
           "mondai": 2,
           "questionNumber": 9,
           "questionType": "KANJI_WRITING",
-          "questionText": "しばらく、きれいななみを見ていた。",
+          "questionText": "しばらく、きれいな<u>なみ</u>を見ていた。",
           "passage": null,
           "choices": [
             "池",
@@ -191,7 +191,7 @@
           "mondai": 2,
           "questionNumber": 10,
           "questionType": "KANJI_WRITING",
-          "questionText": "もう少しはやく歩きましょう。",
+          "questionText": "もう少し<u>はやく</u>歩きましょう。",
           "passage": null,
           "choices": [
             "軽く",
@@ -210,7 +210,7 @@
           "mondai": 2,
           "questionNumber": 11,
           "questionType": "KANJI_WRITING",
-          "questionText": "わたしは今の生活にまんぞくしている。",
+          "questionText": "わたしは今の生活に<u>まんぞく</u>している。",
           "passage": null,
           "choices": [
             "満続",
@@ -229,7 +229,7 @@
           "mondai": 2,
           "questionNumber": 12,
           "questionType": "KANJI_WRITING",
-          "questionText": "父は腕をくんで何か考えていた。",
+          "questionText": "父は腕を<u>くんで</u>何か考えていた。",
           "passage": null,
           "choices": [
             "接んで",
@@ -248,7 +248,7 @@
           "mondai": 2,
           "questionNumber": 13,
           "questionType": "KANJI_WRITING",
-          "questionText": "この国は主に米をゆしゅつしている。",
+          "questionText": "この国は主に米を<u>ゆしゅつ</u>している。",
           "passage": null,
           "choices": [
             "輸出",
@@ -267,7 +267,7 @@
           "mondai": 2,
           "questionNumber": 14,
           "questionType": "KANJI_WRITING",
-          "questionText": "赤ちゃんが母親に抱かれてねむっています。",
+          "questionText": "赤ちゃんが母親に抱かれて<u>ねむって</u>います。",
           "passage": null,
           "choices": [
             "寝って",

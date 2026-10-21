@@ -20,7 +20,7 @@
           "mondai": 1,
           "questionNumber": 1,
           "questionType": "KANJI_READING",
-          "questionText": "息子は来年卒業します。",
+          "questionText": "息子は来年<u>卒業</u>します。",
           "passage": null,
           "choices": [
             "さつきょう",
@@ -39,7 +39,7 @@
           "mondai": 1,
           "questionNumber": 2,
           "questionType": "KANJI_READING",
-          "questionText": "留学について先生に相談した。",
+          "questionText": "留学について先生に<u>相談</u>した。",
           "passage": null,
           "choices": [
             "しょうたん",
@@ -58,7 +58,7 @@
           "mondai": 1,
           "questionNumber": 3,
           "questionType": "KANJI_READING",
-          "questionText": "確かにかばんにしまいました。",
+          "questionText": "<u>確か</u>にかばんにしまいました。",
           "passage": null,
           "choices": [
             "たしか",
@@ -77,7 +77,7 @@
           "mondai": 1,
           "questionNumber": 4,
           "questionType": "KANJI_READING",
-          "questionText": "こどもたちが遊ぶ声が聞こえます。",
+          "questionText": "こどもたちが<u>遊ぶ</u>声が聞こえます。",
           "passage": null,
           "choices": [
             "よぶ",
@@ -96,7 +96,7 @@
           "mondai": 1,
           "questionNumber": 5,
           "questionType": "KANJI_READING",
-          "questionText": "店の人はみんな同じ制服を着ていた。",
+          "questionText": "店の人はみんな同じ<u>制服</u>を着ていた。",
           "passage": null,
           "choices": [
             "ようふく",
@@ -115,7 +115,7 @@
           "mondai": 1,
           "questionNumber": 6,
           "questionType": "KANJI_READING",
-          "questionText": "鈴木さんが換えてくれました。",
+          "questionText": "鈴木さんが<u>換えて</u>くれました。",
           "passage": null,
           "choices": [
             "かえて",
@@ -134,7 +134,7 @@
           "mondai": 1,
           "questionNumber": 7,
           "questionType": "KANJI_READING",
-          "questionText": "血圧が前よりも高かったようです。",
+          "questionText": "<u>血圧</u>が前よりも高かったようです。",
           "passage": null,
           "choices": [
             "ちど",
@@ -153,7 +153,7 @@
           "mondai": 1,
           "questionNumber": 8,
           "questionType": "KANJI_READING",
-          "questionText": "改札の前で会いましょう。",
+          "questionText": "<u>改札</u>の前で会いましょう。",
           "passage": null,
           "choices": [
             "けいせつ",
@@ -172,7 +172,7 @@
           "mondai": 2,
           "questionNumber": 9,
           "questionType": "KANJI_WRITING",
-          "questionText": "高橋さんにしゅうかんしを買ってきてもらった。",
+          "questionText": "高橋さんに<u>しゅうかんし</u>を買ってきてもらった。",
           "passage": null,
           "choices": [
             "週完誌",
@@ -191,7 +191,7 @@
           "mondai": 2,
           "questionNumber": 10,
           "questionType": "KANJI_WRITING",
-          "questionText": "このドラマのつづきが楽しみだ。",
+          "questionText": "このドラマの<u>つづき</u>が楽しみだ。",
           "passage": null,
           "choices": [
             "総き",
@@ -210,7 +210,7 @@
           "mondai": 2,
           "questionNumber": 11,
           "questionType": "KANJI_WRITING",
-          "questionText": "毎日ねっしんに勉強している。",
+          "questionText": "毎日<u>ねっしん</u>に勉強している。",
           "passage": null,
           "choices": [
             "熱心",
@@ -229,7 +229,7 @@
           "mondai": 2,
           "questionNumber": 12,
           "questionType": "KANJI_WRITING",
-          "questionText": "中村さんは一週間前にたいいんしたそうです。",
+          "questionText": "中村さんは一週間前に<u>たいいん</u>したそうです。",
           "passage": null,
           "choices": [
             "帰院",
@@ -248,7 +248,7 @@
           "mondai": 2,
           "questionNumber": 13,
           "questionType": "KANJI_WRITING",
-          "questionText": "もうちょっとあついのが欲しいです。",
+          "questionText": "もうちょっと<u>あつい</u>のが欲しいです。",
           "passage": null,
           "choices": [
             "丸い",
@@ -267,7 +267,7 @@
           "mondai": 2,
           "questionNumber": 14,
           "questionType": "KANJI_WRITING",
-          "questionText": "あしたは 9 時にしゅっきんします。",
+          "questionText": "あしたは 9 時に<u>しゅっきん</u>します。",
           "passage": null,
           "choices": [
             "出勧",

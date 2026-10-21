@@ -20,7 +20,7 @@
           "mondai": 1,
           "questionNumber": 1,
           "questionType": "KANJI_READING",
-          "questionText": "日本の首都はどこですか。",
+          "questionText": "日本の<u>首都</u>はどこですか。",
           "passage": null,
           "choices": [
             "しゅとう",
@@ -39,7 +39,7 @@
           "mondai": 1,
           "questionNumber": 2,
           "questionType": "KANJI_READING",
-          "questionText": "地球は太陽のまわりを回っている。",
+          "questionText": "<u>地球</u>は太陽のまわりを回っている。",
           "passage": null,
           "choices": [
             "じきゅう",
@@ -58,7 +58,7 @@
           "mondai": 1,
           "questionNumber": 3,
           "questionType": "KANJI_READING",
-          "questionText": "あの時計は遅れている。",
+          "questionText": "あの時計は<u>遅れて</u>いる。",
           "passage": null,
           "choices": [
             "こわれて",
@@ -77,7 +77,7 @@
           "mondai": 1,
           "questionNumber": 4,
           "questionType": "KANJI_READING",
-          "questionText": "二人で協力すれば、仕事も早く終わるだろう。",
+          "questionText": "二人で<u>協力</u>すれば、仕事も早く終わるだろう。",
           "passage": null,
           "choices": [
             "きょりょく",
@@ -96,7 +96,7 @@
           "mondai": 1,
           "questionNumber": 5,
           "questionType": "KANJI_READING",
-          "questionText": "大学の奨学金に応募した。",
+          "questionText": "大学の奨学金に<u>応募</u>した。",
           "passage": null,
           "choices": [
             "おうぼ",
@@ -115,7 +115,7 @@
           "mondai": 1,
           "questionNumber": 6,
           "questionType": "KANJI_READING",
-          "questionText": "子どもの疑問に答えた。",
+          "questionText": "子どもの<u>疑問</u>に答えた。",
           "passage": null,
           "choices": [
             "くもん",
@@ -134,7 +134,7 @@
           "mondai": 1,
           "questionNumber": 7,
           "questionType": "KANJI_READING",
-          "questionText": "試験の成績が発表された。",
+          "questionText": "試験の成績が<u>発表</u>された。",
           "passage": null,
           "choices": [
             "はつひょう",
@@ -153,7 +153,7 @@
           "mondai": 1,
           "questionNumber": 8,
           "questionType": "KANJI_READING",
-          "questionText": "単語のリストはとなりのページにあります。",
+          "questionText": "<u>単語</u>のリストはとなりのページにあります。",
           "passage": null,
           "choices": [
             "げいご",
@@ -172,7 +172,7 @@
           "mondai": 2,
           "questionNumber": 9,
           "questionType": "KANJI_WRITING",
-          "questionText": "みんなで話し合って、問題をかいけつした。",
+          "questionText": "みんなで話し合って、問題を<u>かいけつ</u>した。",
           "passage": null,
           "choices": [
             "改決",
@@ -191,7 +191,7 @@
           "mondai": 2,
           "questionNumber": 10,
           "questionType": "KANJI_WRITING",
-          "questionText": "山口さんに東京をあんないしてもらった。",
+          "questionText": "山口さんに東京を<u>あんない</u>してもらった。",
           "passage": null,
           "choices": [
             "安内",
@@ -210,7 +210,7 @@
           "mondai": 2,
           "questionNumber": 11,
           "questionType": "KANJI_WRITING",
-          "questionText": "わたしはけんこうのために毎日走っています。",
+          "questionText": "わたしは<u>けんこう</u>のために毎日走っています。",
           "passage": null,
           "choices": [
             "健康",
@@ -229,7 +229,7 @@
           "mondai": 2,
           "questionNumber": 12,
           "questionType": "KANJI_WRITING",
-          "questionText": "今年の夏はきおんが高かった。",
+          "questionText": "今年の夏は<u>きおん</u>が高かった。",
           "passage": null,
           "choices": [
             "気湿",
@@ -248,7 +248,7 @@
           "mondai": 2,
           "questionNumber": 13,
           "questionType": "KANJI_WRITING",
-          "questionText": "頭がいたいので、薬を飲んだ。",
+          "questionText": "頭が<u>いたい</u>ので、薬を飲んだ。",
           "passage": null,
           "choices": [
             "病い",
@@ -267,7 +267,7 @@
           "mondai": 2,
           "questionNumber": 14,
           "questionType": "KANJI_WRITING",
-          "questionText": "このシャツは工場でたいりょうに作られている。",
+          "questionText": "このシャツは工場で<u>たいりょう</u>に作られている。",
           "passage": null,
           "choices": [
             "多量",

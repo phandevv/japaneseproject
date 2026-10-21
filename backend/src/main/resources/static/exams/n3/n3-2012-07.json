@@ -20,7 +20,7 @@
           "mondai": 1,
           "questionNumber": 1,
           "questionType": "KANJI_READING",
-          "questionText": "スポーツで汗をかいたので、シャワーをあびた。",
+          "questionText": "スポーツで<u>汗</u>をかいたので、シャワーをあびた。",
           "passage": null,
           "choices": [
             "あせ",
@@ -39,7 +39,7 @@
           "mondai": 1,
           "questionNumber": 2,
           "questionType": "KANJI_READING",
-          "questionText": "このお知らせをみんなに配ってください。",
+          "questionText": "このお知らせをみんなに<u>配って</u>ください。",
           "passage": null,
           "choices": [
             "だまって",
@@ -58,7 +58,7 @@
           "mondai": 1,
           "questionNumber": 3,
           "questionType": "KANJI_READING",
-          "questionText": "新しい道路がもうすぐ完成するそうだ。",
+          "questionText": "新しい道路がもうすぐ<u>完成</u>するそうだ。",
           "passage": null,
           "choices": [
             "かんせい",
@@ -77,7 +77,7 @@
           "mondai": 1,
           "questionNumber": 4,
           "questionType": "KANJI_READING",
-          "questionText": "ここから島がたくさん見えますよ。",
+          "questionText": "ここから<u>島</u>がたくさん見えますよ。",
           "passage": null,
           "choices": [
             "ほし",
@@ -96,7 +96,7 @@
           "mondai": 1,
           "questionNumber": 5,
           "questionType": "KANJI_READING",
-          "questionText": "田中さんはちょっと困っているみたいです。",
+          "questionText": "田中さんはちょっと<u>困って</u>いるみたいです。",
           "passage": null,
           "choices": [
             "まよって",
@@ -115,7 +115,7 @@
           "mondai": 1,
           "questionNumber": 6,
           "questionType": "KANJI_READING",
-          "questionText": "平日は午後 8 時まで開いています。",
+          "questionText": "<u>平日</u>は午後 8 時まで開いています。",
           "passage": null,
           "choices": [
             "ほんにち",
@@ -134,7 +134,7 @@
           "mondai": 1,
           "questionNumber": 7,
           "questionType": "KANJI_READING",
-          "questionText": "わたしは 3 年前に大学を卒業しました。",
+          "questionText": "わたしは 3 年前に大学を<u>卒業</u>しました。",
           "passage": null,
           "choices": [
             "さつぎょう",
@@ -153,7 +153,7 @@
           "mondai": 1,
           "questionNumber": 8,
           "questionType": "KANJI_READING",
-          "questionText": "びんのふたは固くしめておいてください。",
+          "questionText": "びんのふたは<u>固く</u>しめておいてください。",
           "passage": null,
           "choices": [
             "かるく",
@@ -172,7 +172,7 @@
           "mondai": 2,
           "questionNumber": 9,
           "questionType": "KANJI_WRITING",
-          "questionText": "やくそくをまもることは大切だ。",
+          "questionText": "やくそくを<u>まもる</u>ことは大切だ。",
           "passage": null,
           "choices": [
             "保る",
@@ -191,7 +191,7 @@
           "mondai": 2,
           "questionNumber": 10,
           "questionType": "KANJI_WRITING",
-          "questionText": "今、このしゅうかんしが一番売れている。",
+          "questionText": "今、この<u>しゅうかんし</u>が一番売れている。",
           "passage": null,
           "choices": [
             "週間議",
@@ -210,7 +210,7 @@
           "mondai": 2,
           "questionNumber": 11,
           "questionType": "KANJI_WRITING",
-          "questionText": "今日はこれから友達と旅行のそうだんをします。",
+          "questionText": "今日はこれから友達と旅行の<u>そうだん</u>をします。",
           "passage": null,
           "choices": [
             "想談",
@@ -229,7 +229,7 @@
           "mondai": 2,
           "questionNumber": 12,
           "questionType": "KANJI_WRITING",
-          "questionText": "わたしは体力にはじしんがあります。",
+          "questionText": "わたしは体力には<u>じしん</u>があります。",
           "passage": null,
           "choices": [
             "持信",
@@ -248,7 +248,7 @@
           "mondai": 2,
           "questionNumber": 13,
           "questionType": "KANJI_WRITING",
-          "questionText": "電子レンジでミルクをあたためました。",
+          "questionText": "電子レンジでミルクを<u>あたためました</u>。",
           "passage": null,
           "choices": [
             "温めました",
@@ -267,7 +267,7 @@
           "mondai": 2,
           "questionNumber": 14,
           "questionType": "KANJI_WRITING",
-          "questionText": "この製品のげんりょうはすべて輸入しています。",
+          "questionText": "この製品の<u>げんりょう</u>はすべて輸入しています。",
           "passage": null,
           "choices": [
             "材料",

@@ -20,7 +20,7 @@
           "mondai": 1,
           "questionNumber": 1,
           "questionType": "KANJI_READING",
-          "questionText": "苦しいときは、この歌を聞きます。",
+          "questionText": "<u>苦しい</u>ときは、この歌を聞きます。",
           "passage": null,
           "choices": [
             "かなしい",
@@ -39,7 +39,7 @@
           "mondai": 1,
           "questionNumber": 2,
           "questionType": "KANJI_READING",
-          "questionText": "来月、日本に出張する予定です。",
+          "questionText": "来月、日本に<u>出張</u>する予定です。",
           "passage": null,
           "choices": [
             "しゅちゅう",
@@ -58,7 +58,7 @@
           "mondai": 1,
           "questionNumber": 3,
           "questionType": "KANJI_READING",
-          "questionText": "一つだけ席があいていました。",
+          "questionText": "一つだけ<u>席</u>があいていました。",
           "passage": null,
           "choices": [
             "せき",
@@ -77,7 +77,7 @@
           "mondai": 1,
           "questionNumber": 4,
           "questionType": "KANJI_READING",
-          "questionText": "その木の根は薬にもなるそうです。",
+          "questionText": "その木の<u>根</u>は薬にもなるそうです。",
           "passage": null,
           "choices": [
             "ね",
@@ -96,7 +96,7 @@
           "mondai": 1,
           "questionNumber": 5,
           "questionType": "KANJI_READING",
-          "questionText": "すみませんが、事情があって、今日は行けません。",
+          "questionText": "すみませんが、<u>事情</u>があって、今日は行けません。",
           "passage": null,
           "choices": [
             "じこ",
@@ -115,7 +115,7 @@
           "mondai": 1,
           "questionNumber": 6,
           "questionType": "KANJI_READING",
-          "questionText": "面接の結果は、1 週間以内に通知します。",
+          "questionText": "面接の結果は、1 週間以内に<u>通知</u>します。",
           "passage": null,
           "choices": [
             "つうち",
@@ -134,7 +134,7 @@
           "mondai": 1,
           "questionNumber": 7,
           "questionType": "KANJI_READING",
-          "questionText": "あの人はプロのサッカー選手です。",
+          "questionText": "あの人はプロのサッカー<u>選手</u>です。",
           "passage": null,
           "choices": [
             "ぜんしゅ",
@@ -153,7 +153,7 @@
           "mondai": 1,
           "questionNumber": 8,
           "questionType": "KANJI_READING",
-          "questionText": "試合に出られなかったのは、実力が足りなかったからだ。",
+          "questionText": "試合に出られなかったのは、<u>実力</u>が足りなかったからだ。",
           "passage": null,
           "choices": [
             "しつりょく",
@@ -172,7 +172,7 @@
           "mondai": 2,
           "questionNumber": 9,
           "questionType": "KANJI_WRITING",
-          "questionText": "わたしは、彼ならできるとしんじています。",
+          "questionText": "わたしは、彼ならできると<u>しんじて</u>います。",
           "passage": null,
           "choices": [
             "真じて",
@@ -191,7 +191,7 @@
           "mondai": 2,
           "questionNumber": 10,
           "questionType": "KANJI_WRITING",
-          "questionText": "この店は夜おそくまで開いているので、とても便利だ。",
+          "questionText": "この店は夜<u>おそく</u>まで開いているので、とても便利だ。",
           "passage": null,
           "choices": [
             "達く",
@@ -210,7 +210,7 @@
           "mondai": 2,
           "questionNumber": 11,
           "questionType": "KANJI_WRITING",
-          "questionText": "この工場ではプラスチックのようきを生産しています。",
+          "questionText": "この工場ではプラスチックの<u>ようき</u>を生産しています。",
           "passage": null,
           "choices": [
             "溶器",
@@ -229,7 +229,7 @@
           "mondai": 2,
           "questionNumber": 12,
           "questionType": "KANJI_WRITING",
-          "questionText": "今日は一日中歩いていたので、足がつかれました。",
+          "questionText": "今日は一日中歩いていたので、足が<u>つかれました</u>。",
           "passage": null,
           "choices": [
             "疲れました",
@@ -248,7 +248,7 @@
           "mondai": 2,
           "questionNumber": 13,
           "questionType": "KANJI_WRITING",
-          "questionText": "お皿はかさねてその棚にしまってください。",
+          "questionText": "お皿は<u>かさねて</u>その棚にしまってください。",
           "passage": null,
           "choices": [
             "整ねて",
@@ -267,7 +267,7 @@
           "mondai": 2,
           "questionNumber": 14,
           "questionType": "KANJI_WRITING",
-          "questionText": "今週はざんぎょうが多かった。",
+          "questionText": "今週は<u>ざんぎょう</u>が多かった。",
           "passage": null,
           "choices": [
             "増勤",

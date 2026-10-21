@@ -20,7 +20,7 @@
           "mondai": 1,
           "questionNumber": 1,
           "questionType": "KANJI_READING",
-          "questionText": "ここは汚いから、 ほかの所へ行きましょう。",
+          "questionText": "ここは<u>汚い</u>から、 ほかの所へ行きましょう。",
           "passage": null,
           "choices": [
             "せまい",
@@ -39,7 +39,7 @@
           "mondai": 1,
           "questionNumber": 2,
           "questionType": "KANJI_READING",
-          "questionText": "商品に傷がないか確認します。",
+          "questionText": "<u>商品</u>に傷がないか確認します。",
           "passage": null,
           "choices": [
             "しょひん",
@@ -58,7 +58,7 @@
           "mondai": 1,
           "questionNumber": 3,
           "questionType": "KANJI_READING",
-          "questionText": "まだ冷えていないので、 もう少し待ってください。",
+          "questionText": "まだ<u>冷えて</u>いないので、 もう少し待ってください。",
           "passage": null,
           "choices": [
             "もえて",
@@ -77,7 +77,7 @@
           "mondai": 1,
           "questionNumber": 4,
           "questionType": "KANJI_READING",
-          "questionText": "体の調子がよくないので、早退した。",
+          "questionText": "体の調子がよくないので、<u>早退</u>した。",
           "passage": null,
           "choices": [
             "そうてい",
@@ -96,7 +96,7 @@
           "mondai": 1,
           "questionNumber": 5,
           "questionType": "KANJI_READING",
-          "questionText": "大事なことばに下線を引いてください。",
+          "questionText": "大事なことばに<u>下線</u>を引いてください。",
           "passage": null,
           "choices": [
             "げぜん",
@@ -115,7 +115,7 @@
           "mondai": 1,
           "questionNumber": 6,
           "questionType": "KANJI_READING",
-          "questionText": "転んだときに、割ってしまったみたいです。",
+          "questionText": "<u>転んだ</u>ときに、割ってしまったみたいです。",
           "passage": null,
           "choices": [
             "はこんだ",
@@ -134,7 +134,7 @@
           "mondai": 1,
           "questionNumber": 7,
           "questionType": "KANJI_READING",
-          "questionText": "今日の講義の主要なテーマは二つです。",
+          "questionText": "今日の講義の<u>主要</u>なテーマは二つです。",
           "passage": null,
           "choices": [
             "しゅよう",
@@ -153,7 +153,7 @@
           "mondai": 1,
           "questionNumber": 8,
           "questionType": "KANJI_READING",
-          "questionText": "今でもときどき過去のことを思い出す。",
+          "questionText": "今でもときどき<u>過去</u>のことを思い出す。",
           "passage": null,
           "choices": [
             "かこ",
@@ -172,7 +172,7 @@
           "mondai": 2,
           "questionNumber": 9,
           "questionType": "KANJI_WRITING",
-          "questionText": "バスがなかなか来なくてこまりました。",
+          "questionText": "バスがなかなか来なくて<u>こまりました</u>。",
           "passage": null,
           "choices": [
             "因りました",
@@ -191,7 +191,7 @@
           "mondai": 2,
           "questionNumber": 10,
           "questionType": "KANJI_WRITING",
-          "questionText": "給料が上がるのをきたいしている。",
+          "questionText": "給料が上がるのを<u>きたい</u>している。",
           "passage": null,
           "choices": [
             "規待",
@@ -210,7 +210,7 @@
           "mondai": 2,
           "questionNumber": 11,
           "questionType": "KANJI_WRITING",
-          "questionText": "昨日はずつうがひどかったので、家で寝ていた。",
+          "questionText": "昨日は<u>ずつう</u>がひどかったので、家で寝ていた。",
           "passage": null,
           "choices": [
             "腹病",
@@ -229,7 +229,7 @@
           "mondai": 2,
           "questionNumber": 12,
           "questionType": "KANJI_WRITING",
-          "questionText": "子どもが公園でいろいろな形のはを集めてきた。",
+          "questionText": "子どもが公園でいろいろな形の<u>は</u>を集めてきた。",
           "passage": null,
           "choices": [
             "草",
@@ -248,7 +248,7 @@
           "mondai": 2,
           "questionNumber": 13,
           "questionType": "KANJI_WRITING",
-          "questionText": "銀行へお金をあずけに行ってきます。",
+          "questionText": "銀行へお金を<u>あずけ</u>に行ってきます。",
           "passage": null,
           "choices": [
             "預け",
@@ -267,7 +267,7 @@
           "mondai": 2,
           "questionNumber": 14,
           "questionType": "KANJI_WRITING",
-          "questionText": "この荷物は東京をけいゆして送られるそうだ。",
+          "questionText": "この荷物は東京を<u>けいゆ</u>して送られるそうだ。",
           "passage": null,
           "choices": [
             "係郵",

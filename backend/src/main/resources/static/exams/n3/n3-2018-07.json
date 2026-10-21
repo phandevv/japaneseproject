@@ -20,7 +20,7 @@
           "mondai": 1,
           "questionNumber": 1,
           "questionType": "KANJI_READING",
-          "questionText": "塩は台所にありました。",
+          "questionText": "<u>塩</u>は台所にありました。",
           "passage": null,
           "choices": [
             "あぶら",
@@ -39,7 +39,7 @@
           "mondai": 1,
           "questionNumber": 2,
           "questionType": "KANJI_READING",
-          "questionText": "彼は犬に命令した。",
+          "questionText": "彼は犬に<u>命令</u>した。",
           "passage": null,
           "choices": [
             "めれん",
@@ -58,7 +58,7 @@
           "mondai": 1,
           "questionNumber": 3,
           "questionType": "KANJI_READING",
-          "questionText": "手紙には恋しい人を思う気持ちが書かれていた。",
+          "questionText": "手紙には<u>恋しい</u>人を思う気持ちが書かれていた。",
           "passage": null,
           "choices": [
             "こいしい",
@@ -77,7 +77,7 @@
           "mondai": 1,
           "questionNumber": 4,
           "questionType": "KANJI_READING",
-          "questionText": "機械が故障した。",
+          "questionText": "<u>機械</u>が故障した。",
           "passage": null,
           "choices": [
             "ぎかい",
@@ -96,7 +96,7 @@
           "mondai": 1,
           "questionNumber": 5,
           "questionType": "KANJI_READING",
-          "questionText": "今月は休日が多かった。",
+          "questionText": "今月は<u>休日</u>が多かった。",
           "passage": null,
           "choices": [
             "しゅくじつ",
@@ -115,7 +115,7 @@
           "mondai": 1,
           "questionNumber": 6,
           "questionType": "KANJI_READING",
-          "questionText": "この部分をよく見てください。",
+          "questionText": "この<u>部分</u>をよく見てください。",
           "passage": null,
           "choices": [
             "ぶふん",
@@ -134,7 +134,7 @@
           "mondai": 1,
           "questionNumber": 7,
           "questionType": "KANJI_READING",
-          "questionText": "池田さんは木村さんを疑っているようだ。",
+          "questionText": "池田さんは木村さんを<u>疑って</u>いるようだ。",
           "passage": null,
           "choices": [
             "しかって",
@@ -153,7 +153,7 @@
           "mondai": 1,
           "questionNumber": 8,
           "questionType": "KANJI_READING",
-          "questionText": "中島さんは数学が得意らしい。",
+          "questionText": "中島さんは数学が<u>得意</u>らしい。",
           "passage": null,
           "choices": [
             "とくい",
@@ -172,7 +172,7 @@
           "mondai": 2,
           "questionNumber": 9,
           "questionType": "KANJI_WRITING",
-          "questionText": "毎日パソコンを使うので、目のつかれが取れません。",
+          "questionText": "毎日パソコンを使うので、目の<u>つかれ</u>が取れません。",
           "passage": null,
           "choices": [
             "疫れ",
@@ -191,7 +191,7 @@
           "mondai": 2,
           "questionNumber": 10,
           "questionType": "KANJI_WRITING",
-          "questionText": "そんなになかないでください。",
+          "questionText": "そんなに<u>なかないで</u>ください。",
           "passage": null,
           "choices": [
             "涙かないで",
@@ -210,7 +210,7 @@
           "mondai": 2,
           "questionNumber": 11,
           "questionType": "KANJI_WRITING",
-          "questionText": "この小説はストーリーがふくざつだ。",
+          "questionText": "この小説はストーリーが<u>ふくざつ</u>だ。",
           "passage": null,
           "choices": [
             "複雑",
@@ -229,7 +229,7 @@
           "mondai": 2,
           "questionNumber": 12,
           "questionType": "KANJI_WRITING",
-          "questionText": "飛んできたボールが背中にあたった。",
+          "questionText": "飛んできたボールが背中に<u>あたった</u>。",
           "passage": null,
           "choices": [
             "過たった",
@@ -248,7 +248,7 @@
           "mondai": 2,
           "questionNumber": 13,
           "questionType": "KANJI_WRITING",
-          "questionText": "この交差点はうせつできません。",
+          "questionText": "この交差点は<u>うせつ</u>できません。",
           "passage": null,
           "choices": [
             "左折",
@@ -267,7 +267,7 @@
           "mondai": 2,
           "questionNumber": 14,
           "questionType": "KANJI_WRITING",
-          "questionText": "最近、父は仕事が忙しいらしく、きたくが遅い日が多い。",
+          "questionText": "最近、父は仕事が忙しいらしく、<u>きたく</u>が遅い日が多い。",
           "passage": null,
           "choices": [
             "着室",

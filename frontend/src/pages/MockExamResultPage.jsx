@@ -6,6 +6,7 @@ import {
   Sparkles, ChevronDown, ChevronUp, AlertCircle
 } from 'lucide-react';
 import { mockExamApi, getMediaUrl } from '../services/api';
+import FormattedQuestionText from '../components/FormattedQuestionText';
 
 export default function MockExamResultPage({ attemptId: propAttemptId }) {
   const params = useParams();
@@ -455,7 +456,12 @@ export default function MockExamResultPage({ attemptId: propAttemptId }) {
                       marginBottom: 16,
                       fontFamily: 'var(--font-jp)'
                     }}>
-                      {q.questionText || `Câu hỏi số ${q.questionNumber}`}
+                      <FormattedQuestionText
+                        text={q.questionText}
+                        fallbackNumber={q.questionNumber}
+                        questionType={q.questionType}
+                        choices={q.choices}
+                      />
                     </div>
 
                     {/* Attached Image if present */}
