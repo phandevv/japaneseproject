@@ -455,7 +455,8 @@ export default function MockExamResultPage({ attemptId: propAttemptId }) {
                       lineHeight: 1.6,
                       color: 'var(--text-primary)',
                       marginBottom: 16,
-                      fontFamily: 'var(--font-jp)'
+                      fontFamily: 'var(--font-jp)',
+                      userSelect: 'text'
                     }}>
                       <FormattedQuestionText
                         text={q.questionText}
@@ -530,7 +531,8 @@ export default function MockExamResultPage({ attemptId: propAttemptId }) {
                               justifyContent: 'center',
                               fontWeight: 700,
                               fontSize: 12,
-                              flexShrink: 0
+                              flexShrink: 0,
+                              userSelect: 'none'
                             }}>
                               {choiceNum}
                             </div>
@@ -539,7 +541,9 @@ export default function MockExamResultPage({ attemptId: propAttemptId }) {
                               fontWeight: (isCorrectAnswer || isUserChoice) ? 600 : 400,
                               color: 'var(--text-primary)',
                               fontFamily: 'var(--font-jp)',
-                              flex: 1
+                              flex: 1,
+                              userSelect: 'text',
+                              cursor: 'text'
                             }}>
                               {renderTextWithFurigana(cText, { keyPrefix: `res-ch-${cIdx}` })}
                             </div>

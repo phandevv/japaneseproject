@@ -536,7 +536,8 @@ export default function MockExamRunnerPage({ examId: propExamId }) {
                   lineHeight: 1.7,
                   color: 'var(--text-primary)',
                   marginBottom: 24,
-                  fontFamily: 'var(--font-jp)'
+                  fontFamily: 'var(--font-jp)',
+                  userSelect: 'text'
                 }}>
                   <FormattedQuestionText
                     text={activeQuestion.questionText}
@@ -571,7 +572,11 @@ export default function MockExamRunnerPage({ examId: propExamId }) {
                     return (
                       <div
                         key={cIdx}
-                        onClick={() => handleSelectAnswer(activeQuestion?.id, choiceNum)}
+                        onClick={() => {
+                          const selection = window.getSelection()?.toString();
+                          if (selection && selection.trim().length > 0) return;
+                          handleSelectAnswer(activeQuestion?.id, choiceNum);
+                        }}
                         style={{
                           display: 'flex',
                           alignItems: 'center',
@@ -581,8 +586,7 @@ export default function MockExamRunnerPage({ examId: propExamId }) {
                           border: `2px solid ${isSelected ? 'var(--accent-color)' : 'var(--border-color)'}`,
                           background: isSelected ? 'var(--accent-light)' : 'var(--bg-color)',
                           cursor: 'pointer',
-                          transition: 'all 0.15s ease',
-                          userSelect: 'none'
+                          transition: 'all 0.15s ease'
                         }}
                       >
                         {/* Choice number pill */}
@@ -598,7 +602,8 @@ export default function MockExamRunnerPage({ examId: propExamId }) {
                           justifyContent: 'center',
                           fontWeight: 700,
                           fontSize: 13,
-                          flexShrink: 0
+                          flexShrink: 0,
+                          userSelect: 'none'
                         }}>
                           {choiceNum}
                         </div>
@@ -609,7 +614,9 @@ export default function MockExamRunnerPage({ examId: propExamId }) {
                           fontWeight: isSelected ? 600 : 400,
                           color: 'var(--text-primary)',
                           fontFamily: 'var(--font-jp)',
-                          flex: 1
+                          flex: 1,
+                          userSelect: 'text',
+                          cursor: 'text'
                         }}>
                           {renderTextWithFurigana(choiceText, { keyPrefix: `runner-ch-${cIdx}` })}
                         </div>
