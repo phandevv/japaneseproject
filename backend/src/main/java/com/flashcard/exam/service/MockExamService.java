@@ -2,11 +2,12 @@ package com.flashcard.exam.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.flashcard.exam.dto.*;
-import com.flashcard.exam.model.*;
-import com.flashcard.exam.repository.MockExamAnswerRepository;
-import com.flashcard.exam.repository.MockExamAttemptRepository;
+import com.flashcard.exam.model.MockExamAnswer;
+import com.flashcard.exam.model.MockExamAttempt;
+import com.flashcard.exam.provider.ExamDataProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,28 +19,22 @@ public class MockExamService {
 
     private static final Logger log = LoggerFactory.getLogger(MockExamService.class);
 
-    private final MockExamAttemptRepository attemptRepository;
-    private final MockExamAnswerRepository answerRepository;
-    private final ExamDataService examDataService;
+    private final ExamDataProvider examDataProvider;
     private final ObjectMapper objectMapper;
 
-    public MockExamService(MockExamAttemptRepository attemptRepository,
-                           MockExamAnswerRepository answerRepository,
-                           ExamDataService examDataService,
-                           ObjectMapper objectMapper) {
-        this.attemptRepository = attemptRepository;
-        this.answerRepository = answerRepository;
-        this.examDataService = examDataService;
+    @Autowired
+    public MockExamService(ExamDataProvider examDataProvider, ObjectMapper objectMapper) {
+        this.examDataProvider = examDataProvider;
         this.objectMapper = objectMapper;
     }
 
     public List<ExamListItemDto> getExamList(Long userId) {
-        List<ExamListItemDto> exams = examDataService.getAllExams();
+        List<ExamListItemDto> exams = examDataProvider.getAllExams();
         if (userId == null) {
             return exams;
         }
 
-        List<MockExamAttempt> userAttempts = attemptRepository.findAllByUserIdOrderByStartedAtDesc(userId);
+        List<MockExamAttempt> userAttempts = examDataProvider.findAttemptsByUserId(userId);
         Map<String, MockExamAttempt> latestAttempts = new HashMap<>();
         for (MockExamAttempt att : userAttempts) {
             latestAttempts.putIfAbsent(att.getExamId(), att);
@@ -60,24 +55,21 @@ public class MockExamService {
     }
 
     public Optional<ExamDetailDto> getExamDetail(String examId) {
-        return examDataService.getExamDetail(examId);
+        return examDataProvider.getExamDetail(examId);
     }
 
     @Transactional
     public AttemptDto startOrResumeAttempt(Long userId, String examId) {
-        JlptExam exam = examDataService.getExam(examId)
+        ExamDetailDto examDetail = examDataProvider.getExamDetail(examId)
                 .orElseThrow(() -> new IllegalArgumentException("Exam not found: " + examId));
 
-        ExamDetailDto examDetail = examDataService.getExamDetail(examId)
-                .orElseThrow(() -> new IllegalArgumentException("Exam details could not be loaded: " + examId));
-
-        Optional<MockExamAttempt> existingOpt = attemptRepository.findInProgressAttempt(userId, examId);
+        Optional<MockExamAttempt> existingOpt = examDataProvider.findInProgressAttempt(userId, examId);
         MockExamAttempt attempt;
         Map<String, Integer> savedAnswers = new HashMap<>();
 
         if (existingOpt.isPresent()) {
             attempt = existingOpt.get();
-            List<MockExamAnswer> answers = answerRepository.findByAttemptId(attempt.getId());
+            List<MockExamAnswer> answers = examDataProvider.findAnswersByAttemptId(attempt.getId());
             for (MockExamAnswer ans : answers) {
                 if (ans.getSelectedChoice() != null) {
                     savedAnswers.put(ans.getQuestionId(), ans.getSelectedChoice());
@@ -87,12 +79,12 @@ public class MockExamService {
             attempt = new MockExamAttempt(
                     userId,
                     examId,
-                    exam.getLevel(),
-                    exam.getYear(),
-                    exam.getMonth(),
-                    exam.getTotalQuestions()
+                    examDetail.getLevel(),
+                    examDetail.getYear(),
+                    examDetail.getMonth(),
+                    examDetail.getTotalQuestions()
             );
-            attempt = attemptRepository.save(attempt);
+            attempt = examDataProvider.saveAttempt(attempt);
         }
 
         AttemptDto dto = new AttemptDto();
@@ -110,7 +102,7 @@ public class MockExamService {
 
     @Transactional
     public void saveProgress(Long userId, Long attemptId, SaveProgressRequest request) {
-        MockExamAttempt attempt = attemptRepository.findById(attemptId)
+        MockExamAttempt attempt = examDataProvider.findAttemptById(attemptId)
                 .orElseThrow(() -> new IllegalArgumentException("Attempt not found: " + attemptId));
 
         if (!attempt.getUserId().equals(userId)) {
@@ -123,36 +115,21 @@ public class MockExamService {
 
         attempt.setCurrentSectionIndex(request.getCurrentSectionIndex());
         attempt.setSectionTimeLeftSec(request.getSectionTimeLeftSec());
-        attemptRepository.save(attempt);
+        examDataProvider.saveAttempt(attempt);
 
         if (request.getAnswers() != null && !request.getAnswers().isEmpty()) {
-            List<JlptExamQuestion> allQuestions = examDataService.getAllQuestions(attempt.getExamId());
-            Map<String, String> qSecMap = new HashMap<>();
-            for (JlptExamQuestion q : allQuestions) {
-                qSecMap.put(q.getId(), q.getSectionId());
-            }
-
+            List<MockExamAnswer> answersToSave = new ArrayList<>();
             for (Map.Entry<String, Integer> entry : request.getAnswers().entrySet()) {
-                String qId = entry.getKey();
-                Integer choice = entry.getValue();
-                String sectionId = qSecMap.getOrDefault(qId, "unknown");
-
-                Optional<MockExamAnswer> existingAns = answerRepository.findByAttemptIdAndQuestionId(attemptId, qId);
-                MockExamAnswer ans;
-                if (existingAns.isPresent()) {
-                    ans = existingAns.get();
-                    ans.setSelectedChoice(choice);
-                } else {
-                    ans = new MockExamAnswer(attemptId, sectionId, qId, choice, null);
-                }
-                answerRepository.save(ans);
+                MockExamAnswer ans = new MockExamAnswer(attemptId, "section", entry.getKey(), entry.getValue(), null);
+                answersToSave.add(ans);
             }
+            examDataProvider.saveAllAnswers(answersToSave);
         }
     }
 
     @Transactional
     public AttemptResultDto submitExam(Long userId, Long attemptId, SubmitExamRequest request) {
-        MockExamAttempt attempt = attemptRepository.findById(attemptId)
+        MockExamAttempt attempt = examDataProvider.findAttemptById(attemptId)
                 .orElseThrow(() -> new IllegalArgumentException("Attempt not found: " + attemptId));
 
         if (!attempt.getUserId().equals(userId)) {
@@ -163,122 +140,95 @@ public class MockExamService {
             return getAttemptResult(userId, attemptId);
         }
 
-        JlptExam exam = examDataService.getExam(attempt.getExamId())
-                .orElseThrow(() -> new IllegalStateException("Exam not found in database: " + attempt.getExamId()));
+        ExamDetailDto exam = examDataProvider.getExamDetail(attempt.getExamId())
+                .orElseThrow(() -> new IllegalStateException("Exam not found: " + attempt.getExamId()));
 
-        List<JlptExamSection> dbSections = examDataService.getSections(attempt.getExamId());
-        List<JlptExamQuestion> dbQuestions = examDataService.getAllQuestions(attempt.getExamId());
+        Map<String, Integer> correctAnswers = examDataProvider.getCorrectAnswers(attempt.getExamId());
 
-        Map<String, String> qSecMap = new HashMap<>();
-        for (JlptExamQuestion q : dbQuestions) {
-            qSecMap.put(q.getId(), q.getSectionId());
-        }
-
-        // Apply any final answers submitted in request
         if (request != null && request.getAnswers() != null && !request.getAnswers().isEmpty()) {
+            List<MockExamAnswer> answersToSave = new ArrayList<>();
             for (Map.Entry<String, Integer> entry : request.getAnswers().entrySet()) {
-                String qId = entry.getKey();
-                Integer choice = entry.getValue();
-                String sectionId = qSecMap.getOrDefault(qId, "unknown");
-
-                Optional<MockExamAnswer> existingAns = answerRepository.findByAttemptIdAndQuestionId(attemptId, qId);
-                MockExamAnswer ans;
-                if (existingAns.isPresent()) {
-                    ans = existingAns.get();
-                    ans.setSelectedChoice(choice);
-                } else {
-                    ans = new MockExamAnswer(attemptId, sectionId, qId, choice, null);
-                }
-                answerRepository.save(ans);
+                answersToSave.add(new MockExamAnswer(attemptId, "section", entry.getKey(), entry.getValue(), null));
             }
+            examDataProvider.saveAllAnswers(answersToSave);
         }
 
-        // Fetch all saved answers from DB and merge with submission answers
-        List<MockExamAnswer> allSavedAnswers = answerRepository.findByAttemptId(attemptId);
+        List<MockExamAnswer> allSavedAnswers = examDataProvider.findAnswersByAttemptId(attemptId);
         Map<String, Integer> answerChoiceMap = new HashMap<>();
-        Map<String, MockExamAnswer> answerEntityMap = new HashMap<>();
         for (MockExamAnswer a : allSavedAnswers) {
             answerChoiceMap.put(a.getQuestionId(), a.getSelectedChoice());
-            answerEntityMap.put(a.getQuestionId(), a);
         }
         if (request != null && request.getAnswers() != null) {
             answerChoiceMap.putAll(request.getAnswers());
         }
 
-        // Group questions by sectionRecordId / sectionId
-        Map<String, List<JlptExamQuestion>> sectionQuestions = new LinkedHashMap<>();
-        for (JlptExamSection s : dbSections) {
-            sectionQuestions.put(s.getSectionId(), new ArrayList<>());
-        }
-        for (JlptExamQuestion q : dbQuestions) {
-            sectionQuestions.computeIfAbsent(q.getSectionId(), k -> new ArrayList<>()).add(q);
-        }
-
         int totalCorrect = 0;
-        int totalQuestions = dbQuestions.size();
+        int totalQuestions = (exam.getTotalQuestions() > 0) ? exam.getTotalQuestions() : 0;
         List<SectionResultDto> sectionResults = new ArrayList<>();
+        List<MockExamAnswer> gradedAnswers = new ArrayList<>();
 
-        for (JlptExamSection sec : dbSections) {
-            SectionResultDto secRes = new SectionResultDto();
-            secRes.setSectionId(sec.getSectionId());
-            secRes.setTitle(sec.getTitle());
-            secRes.setTitleVi(sec.getTitleVi());
+        if (exam.getSections() != null) {
+            int calculatedTotalQuestions = 0;
+            for (SectionDto sec : exam.getSections()) {
+                SectionResultDto secRes = new SectionResultDto();
+                secRes.setSectionId(sec.getSectionId());
+                secRes.setTitle(sec.getTitle());
+                secRes.setTitleVi(sec.getTitleVi());
 
-            List<JlptExamQuestion> qList = sectionQuestions.getOrDefault(sec.getSectionId(), Collections.emptyList());
-            secRes.setTotalQuestions(qList.size());
+                List<QuestionDto> qList = sec.getQuestions() != null ? sec.getQuestions() : Collections.emptyList();
+                secRes.setTotalQuestions(qList.size());
+                calculatedTotalQuestions += qList.size();
 
-            int secCorrect = 0;
-            List<QuestionReviewDto> qReviews = new ArrayList<>();
+                int secCorrect = 0;
+                List<QuestionReviewDto> qReviews = new ArrayList<>();
 
-            for (JlptExamQuestion q : qList) {
-                QuestionReviewDto qRev = new QuestionReviewDto();
-                qRev.setQuestionId(q.getId());
-                qRev.setMondai(q.getMondai());
-                qRev.setQuestionNumber(q.getQuestionNumber());
-                qRev.setQuestionType(q.getQuestionType());
-                qRev.setQuestionText(q.getQuestionText());
-                qRev.setPassage(q.getPassage());
-                qRev.setChoices(examDataService.parseChoices(q.getChoicesJson()));
-                qRev.setImageRef(q.getImageRef());
-                qRev.setAudioStartSec(q.getAudioStartSec());
-                qRev.setAudioEndSec(q.getAudioEndSec());
+                for (QuestionDto q : qList) {
+                    QuestionReviewDto qRev = new QuestionReviewDto();
+                    qRev.setQuestionId(q.getId());
+                    qRev.setMondai(q.getMondai());
+                    qRev.setQuestionNumber(q.getQuestionNumber());
+                    qRev.setQuestionType(q.getQuestionType());
+                    qRev.setQuestionText(q.getQuestionText());
+                    qRev.setPassage(q.getPassage());
+                    qRev.setChoices(q.getChoices() != null ? q.getChoices() : Collections.emptyList());
+                    qRev.setImageRef(q.getImageRef());
+                    qRev.setAudioStartSec(q.getAudioStartSec());
+                    qRev.setAudioEndSec(q.getAudioEndSec());
 
-                Integer correctAns = q.getCorrectAnswer();
-                qRev.setCorrectAnswer(correctAns);
+                    Integer correctAns = correctAnswers.get(q.getId());
+                    qRev.setCorrectAnswer(correctAns);
 
-                MockExamAnswer userAns = answerEntityMap.get(q.getId());
-                Integer userChoice = answerChoiceMap.get(q.getId());
-                qRev.setSelectedChoice(userChoice);
+                    Integer userChoice = answerChoiceMap.get(q.getId());
+                    qRev.setSelectedChoice(userChoice);
 
-                boolean isCorrect = (correctAns != null && correctAns.equals(userChoice));
-                qRev.setIsCorrect(isCorrect);
+                    boolean isCorrect = (correctAns != null && correctAns.equals(userChoice));
+                    qRev.setIsCorrect(isCorrect);
 
-                if (isCorrect) {
-                    secCorrect++;
-                    totalCorrect++;
+                    if (isCorrect) {
+                        secCorrect++;
+                        totalCorrect++;
+                    }
+
+                    if (userChoice != null) {
+                        gradedAnswers.add(new MockExamAnswer(attemptId, sec.getSectionId(), q.getId(), userChoice, isCorrect));
+                    }
+
+                    qReviews.add(qRev);
                 }
 
-                if (userAns != null) {
-                    userAns.setCorrect(isCorrect);
-                    userAns.setSelectedChoice(userChoice);
-                    answerRepository.save(userAns);
-                } else if (userChoice != null) {
-                    MockExamAnswer newAns = new MockExamAnswer(attemptId, sec.getSectionId(), q.getId(), userChoice, isCorrect);
-                    answerRepository.save(newAns);
-                }
+                secRes.setCorrectCount(secCorrect);
+                double secPct = qList.size() > 0
+                        ? Math.round((double) secCorrect / qList.size() * 1000.0) / 10.0
+                        : 0.0;
+                secRes.setPercentage(secPct);
+                secRes.setQuestions(qReviews);
 
-                qReviews.add(qRev);
+                sectionResults.add(secRes);
             }
-
-            secRes.setCorrectCount(secCorrect);
-            double secPct = qList.size() > 0
-                    ? Math.round((double) secCorrect / qList.size() * 1000.0) / 10.0
-                    : 0.0;
-            secRes.setPercentage(secPct);
-            secRes.setQuestions(qReviews);
-
-            sectionResults.add(secRes);
+            if (totalQuestions == 0) totalQuestions = calculatedTotalQuestions;
         }
+
+        examDataProvider.saveAllAnswers(gradedAnswers);
 
         double totalPct = totalQuestions > 0
                 ? Math.round((double) totalCorrect / totalQuestions * 1000.0) / 10.0
@@ -306,7 +256,7 @@ public class MockExamService {
             log.error("Failed to serialize section results: {}", e.getMessage());
         }
 
-        attemptRepository.save(attempt);
+        examDataProvider.saveAttempt(attempt);
 
         AttemptResultDto result = new AttemptResultDto();
         result.setAttemptId(attempt.getId());
@@ -323,81 +273,77 @@ public class MockExamService {
 
     @Transactional(readOnly = true)
     public AttemptResultDto getAttemptResult(Long userId, Long attemptId) {
-        MockExamAttempt attempt = attemptRepository.findById(attemptId)
+        MockExamAttempt attempt = examDataProvider.findAttemptById(attemptId)
                 .orElseThrow(() -> new IllegalArgumentException("Attempt not found: " + attemptId));
 
         if (!attempt.getUserId().equals(userId)) {
             throw new SecurityException("Unauthorized attempt access");
         }
 
-        JlptExam exam = examDataService.getExam(attempt.getExamId())
+        ExamDetailDto exam = examDataProvider.getExamDetail(attempt.getExamId())
                 .orElseThrow(() -> new IllegalStateException("Exam not found: " + attempt.getExamId()));
 
-        List<JlptExamSection> dbSections = examDataService.getSections(attempt.getExamId());
-        List<JlptExamQuestion> dbQuestions = examDataService.getAllQuestions(attempt.getExamId());
-
-        List<MockExamAnswer> answers = answerRepository.findByAttemptId(attemptId);
+        Map<String, Integer> correctAnswers = examDataProvider.getCorrectAnswers(attempt.getExamId());
+        List<MockExamAnswer> answers = examDataProvider.findAnswersByAttemptId(attemptId);
         Map<String, Integer> userAnswers = new HashMap<>();
         for (MockExamAnswer a : answers) {
             userAnswers.put(a.getQuestionId(), a.getSelectedChoice());
         }
 
-        Map<String, List<JlptExamQuestion>> sectionQuestions = new LinkedHashMap<>();
-        for (JlptExamSection s : dbSections) {
-            sectionQuestions.put(s.getSectionId(), new ArrayList<>());
-        }
-        for (JlptExamQuestion q : dbQuestions) {
-            sectionQuestions.computeIfAbsent(q.getSectionId(), k -> new ArrayList<>()).add(q);
-        }
-
+        int totalCorrect = (attempt.getTotalCorrect() != null) ? attempt.getTotalCorrect() : 0;
+        int totalQuestions = (attempt.getTotalQuestions() != null) ? attempt.getTotalQuestions() : 0;
         List<SectionResultDto> sectionResults = new ArrayList<>();
 
-        for (JlptExamSection sec : dbSections) {
-            SectionResultDto secRes = new SectionResultDto();
-            secRes.setSectionId(sec.getSectionId());
-            secRes.setTitle(sec.getTitle());
-            secRes.setTitleVi(sec.getTitleVi());
+        if (exam.getSections() != null) {
+            for (SectionDto sec : exam.getSections()) {
+                SectionResultDto secRes = new SectionResultDto();
+                secRes.setSectionId(sec.getSectionId());
+                secRes.setTitle(sec.getTitle());
+                secRes.setTitleVi(sec.getTitleVi());
 
-            List<JlptExamQuestion> qList = sectionQuestions.getOrDefault(sec.getSectionId(), Collections.emptyList());
-            secRes.setTotalQuestions(qList.size());
+                List<QuestionDto> qList = sec.getQuestions() != null ? sec.getQuestions() : Collections.emptyList();
+                secRes.setTotalQuestions(qList.size());
 
-            int secCorrect = 0;
-            List<QuestionReviewDto> qReviews = new ArrayList<>();
+                int secCorrect = 0;
+                List<QuestionReviewDto> qReviews = new ArrayList<>();
 
-            for (JlptExamQuestion q : qList) {
-                QuestionReviewDto qRev = new QuestionReviewDto();
-                qRev.setQuestionId(q.getId());
-                qRev.setMondai(q.getMondai());
-                qRev.setQuestionNumber(q.getQuestionNumber());
-                qRev.setQuestionType(q.getQuestionType());
-                qRev.setQuestionText(q.getQuestionText());
-                qRev.setPassage(q.getPassage());
-                qRev.setChoices(examDataService.parseChoices(q.getChoicesJson()));
-                qRev.setImageRef(q.getImageRef());
-                qRev.setAudioStartSec(q.getAudioStartSec());
-                qRev.setAudioEndSec(q.getAudioEndSec());
+                for (QuestionDto q : qList) {
+                    QuestionReviewDto qRev = new QuestionReviewDto();
+                    qRev.setQuestionId(q.getId());
+                    qRev.setMondai(q.getMondai());
+                    qRev.setQuestionNumber(q.getQuestionNumber());
+                    qRev.setQuestionType(q.getQuestionType());
+                    qRev.setQuestionText(q.getQuestionText());
+                    qRev.setPassage(q.getPassage());
+                    qRev.setChoices(q.getChoices() != null ? q.getChoices() : Collections.emptyList());
+                    qRev.setImageRef(q.getImageRef());
+                    qRev.setAudioStartSec(q.getAudioStartSec());
+                    qRev.setAudioEndSec(q.getAudioEndSec());
 
-                Integer correctAns = q.getCorrectAnswer();
-                qRev.setCorrectAnswer(correctAns);
+                    Integer correctAns = correctAnswers.get(q.getId());
+                    qRev.setCorrectAnswer(correctAns);
 
-                Integer userChoice = userAnswers.get(q.getId());
-                qRev.setSelectedChoice(userChoice);
+                    Integer userChoice = userAnswers.get(q.getId());
+                    qRev.setSelectedChoice(userChoice);
 
-                boolean isCorrect = (correctAns != null && correctAns.equals(userChoice));
-                qRev.setIsCorrect(isCorrect);
-                if (isCorrect) secCorrect++;
+                    boolean isCorrect = (correctAns != null && correctAns.equals(userChoice));
+                    qRev.setIsCorrect(isCorrect);
+                    if (isCorrect) {
+                        secCorrect++;
+                    }
 
-                qReviews.add(qRev);
+                    qReviews.add(qRev);
+                }
+
+                secRes.setCorrectCount(secCorrect);
+                double secPct = qList.size() > 0
+                        ? Math.round((double) secCorrect / qList.size() * 1000.0) / 10.0
+                        : 0.0;
+                secRes.setPercentage(secPct);
+                secRes.setQuestions(qReviews);
+
+                sectionResults.add(secRes);
             }
-
-            secRes.setCorrectCount(secCorrect);
-            double secPct = qList.size() > 0
-                    ? Math.round((double) secCorrect / qList.size() * 1000.0) / 10.0
-                    : 0.0;
-            secRes.setPercentage(secPct);
-            secRes.setQuestions(qReviews);
-
-            sectionResults.add(secRes);
         }
 
         AttemptResultDto result = new AttemptResultDto();
@@ -405,9 +351,9 @@ public class MockExamService {
         result.setExamId(attempt.getExamId());
         result.setExamTitle(exam.getTitle());
         result.setStatus(attempt.getStatus());
-        result.setTotalCorrect(attempt.getTotalCorrect());
-        result.setTotalQuestions(attempt.getTotalQuestions());
-        result.setPercentage(attempt.getPercentage());
+        result.setTotalCorrect(totalCorrect);
+        result.setTotalQuestions(totalQuestions);
+        result.setPercentage(attempt.getPercentage() != null ? attempt.getPercentage() : 0.0);
         result.setSectionResults(sectionResults);
 
         return result;
@@ -415,15 +361,15 @@ public class MockExamService {
 
     @Transactional(readOnly = true)
     public List<AttemptHistoryDto> getUserHistory(Long userId) {
-        List<MockExamAttempt> attempts = attemptRepository.findAllByUserIdOrderByStartedAtDesc(userId);
+        List<MockExamAttempt> attempts = examDataProvider.findAttemptsByUserId(userId);
         List<AttemptHistoryDto> list = new ArrayList<>();
 
         for (MockExamAttempt att : attempts) {
             AttemptHistoryDto dto = new AttemptHistoryDto();
             dto.setAttemptId(att.getId());
             dto.setExamId(att.getExamId());
-            Optional<JlptExam> examOpt = examDataService.getExam(att.getExamId());
-            dto.setExamTitle(examOpt.map(JlptExam::getTitle).orElse(att.getExamId()));
+            Optional<ExamDetailDto> examOpt = examDataProvider.getExamDetail(att.getExamId());
+            dto.setExamTitle(examOpt.map(ExamDetailDto::getTitle).orElse(att.getExamId()));
             dto.setLevel(att.getLevel());
             dto.setYear(att.getExamYear());
             dto.setMonth(att.getExamMonth());

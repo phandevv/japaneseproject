@@ -20,6 +20,8 @@ public interface MockExamAttemptRepository extends JpaRepository<MockExamAttempt
     @Query("SELECT a FROM MockExamAttempt a WHERE a.userId = :userId ORDER BY a.startedAt DESC")
     List<MockExamAttempt> findAllByUserIdOrderByStartedAtDesc(@Param("userId") Long userId);
 
+    Optional<MockExamAttempt> findByIdAndUserId(Long id, Long userId);
+
     @Query("SELECT COUNT(a) FROM MockExamAttempt a WHERE a.userId = :userId AND a.status = 'COMPLETED'")
     long countCompletedByUserId(@Param("userId") Long userId);
 }
