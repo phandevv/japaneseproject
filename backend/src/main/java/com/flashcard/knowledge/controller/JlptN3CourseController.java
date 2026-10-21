@@ -61,7 +61,9 @@ public class JlptN3CourseController {
     public ResponseEntity<?> getCourseOverview() {
         Long userId = getCurrentUserId();
         Map<String, Object> overview = courseService.getCourseOverview(userId);
-        return ResponseEntity.ok(overview);
+        return ResponseEntity.ok()
+                .header("Cache-Control", "private, max-age=60")
+                .body(overview);
     }
 
     /**
@@ -74,7 +76,9 @@ public class JlptN3CourseController {
             @PathVariable("lesson") int lesson) {
         Long userId = getCurrentUserId();
         Map<String, Object> lessonData = courseService.getLessonData(userId, chapter, lesson);
-        return ResponseEntity.ok(lessonData);
+        return ResponseEntity.ok()
+                .header("Cache-Control", "private, max-age=120")
+                .body(lessonData);
     }
 
     /**

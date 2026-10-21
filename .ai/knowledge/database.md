@@ -216,6 +216,7 @@ Cơ sở dữ liệu được khởi tạo và nâng cấp thông qua Flyway t�
 * **`V31__create_jlpt_n3_reading_table.sql`**: Tạo bảng `jlpt_n3_readings` lưu bài đọc hiểu trường văn N3 (~1500-2000 ký tự) kèm 10 câu hỏi trắc nghiệm, và bổ sung cột `reading_passed`, `reading_score` vào bảng `jlpt_n3_progress`.
 * **`V32__create_jlpt_n3_grammar_groups_table.sql`**: Tạo bảng `jlpt_n3_grammar_groups` lưu nhóm ngữ pháp AI clustering.
 * **`V33__add_grammar_group_and_review_fields.sql`**: Thêm `group_id`, `group_code`, `question_type` vào `jlpt_n3_grammar_quizzes`; thêm `grammar_review_passed`, `grammar_review_score`, `grammar_review_best_score` vào `jlpt_n3_progress`.
+* **`V35__add_mock_exam_compound_indexes.sql`**: Bổ sung các chỉ mục phức hợp (Compound Indexes) cho bảng `jlpt_exams` và `mock_exam_attempts` tối ưu hóa truy vấn lọc đề thi theo trình độ/thời gian và tra cứu lịch sử thi thử.
 
 ---
 
@@ -240,9 +241,9 @@ Cơ sở dữ liệu được khởi tạo và nâng cấp thông qua Flyway t�
 
 ---
 
-## 4. Cấu trúc MongoDB Collections (JLPT N3 Course & Quizzes & Reading)
+## 4. Cấu trúc MongoDB Collections (JLPT N3 Course, Quizzes, Reading & Mock Exams)
 
-Hệ thống lưu trữ dữ liệu khóa học JLPT N3, bộ trắc nghiệm và bài đọc hiểu trực tiếp trong MongoDB:
+Hệ thống lưu trữ dữ liệu khóa học JLPT N3, bộ trắc nghiệm, bài đọc hiểu và toàn bộ ngân hàng đề thi thử trực tiếp trong MongoDB:
 * **`jlpt_n3_readings`**: Lưu trữ bài đọc hiểu trường văn N3 (~1500 - 2000 ký tự tiếng Nhật) có Furigana `[Kanji|hiragana]`, bản dịch tiếng Việt, và bộ 10 câu hỏi đọc hiểu kèm trích dẫn giải thích 100% tiếng Việt.
   * `_id`: Long sequence ID
   * `chapterId`, `lessonId`: Chương và Bài học (Compound unique index `{ chapterId: 1, lessonId: 1 }`)
@@ -259,4 +260,15 @@ Hệ thống lưu trữ dữ liệu khóa học JLPT N3, bộ trắc nghiệm v�
 * **`jlpt_n3_progress`**: Tiến độ học từng bài của học viên (`vocabPassed`, `kanjiPassed`, `grammarPassed`, `quizPassed`, `readingPassed`, `readingScore`, `completed`, `bestScore`, `grammarReviewPassed`, `grammarReviewScore`, `grammarReviewBestScore`).
 * **`jlpt_n3_grammar_quizzes`**: Bộ 30 câu hỏi trắc nghiệm ngữ pháp AI tạo. Bổ sung `groupId`, `groupCode`, `questionType` cho Grammar Review.
 * **`jlpt_n3_grammar_groups`**: Nhóm ngữ pháp AI clustering (~25-35 nhóm), chứa `groupCode`, `title`, `description`, `usageGuide`, `usageCases`, `grammarPatternIds`, `exampleSentencesJson`, `sortOrder`, `totalPatterns`.
+* **`jlpt_exams`**: Ngân hàng đề thi JLPT N3/N2/N1 thật theo cấu trúc chuẩn JLPT (Knowledge, Reading, Listening) có hỗ trợ Furigana và Underline target.
+  * Compound Index 1: `{ level: 1, year: -1, month: -1 }` (Lọc danh sách đề thi theo cấp độ và năm giảm dần)
+  * Compound Index 2: `{ examId: 1, year: -1, month: -1 }`
+  * Sub-document Index: `{ "sections.questions.id": 1 }` (Tra cứu nhanh câu hỏi)
+* **`mock_exam_attempts`**: Lịch sử và phiên làm bài thi thử của người dùng.
+  * Compound Index 1: `{ userId: 1, startedAt: -1 }` (Lấy lịch sử làm bài gần nhất của user)
+  * Compound Index 2: `{ userId: 1, examId: 1, startedAt: -1 }` (Kiểm tra lượt làm đề cụ thể)
+  * Compound Index 3: `{ userId: 1, examId: 1, status: 1 }` (Lấy phiên IN_PROGRESS)
+  * Compound Index 4: `{ userId: 1, attemptId: 1 }` (Unique tra cứu lượt thi)
+  * Compound Index 5: `{ userId: 1, completedAt: -1 }` (Thống kê kết quả thi đã hoàn thành)
+
 

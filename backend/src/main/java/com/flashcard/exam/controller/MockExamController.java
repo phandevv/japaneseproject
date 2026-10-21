@@ -44,13 +44,17 @@ public class MockExamController {
     public ResponseEntity<List<ExamListItemDto>> getExamList() {
         Long userId = getCurrentUserId();
         List<ExamListItemDto> list = mockExamService.getExamList(userId);
-        return ResponseEntity.ok(list);
+        return ResponseEntity.ok()
+                .header("Cache-Control", "private, max-age=30")
+                .body(list);
     }
 
     @GetMapping("/{examId}")
     public ResponseEntity<ExamDetailDto> getExamDetail(@PathVariable String examId) {
         return mockExamService.getExamDetail(examId)
-                .map(ResponseEntity::ok)
+                .map(dto -> ResponseEntity.ok()
+                        .header("Cache-Control", "public, max-age=3600")
+                        .body(dto))
                 .orElse(ResponseEntity.notFound().build());
     }
 

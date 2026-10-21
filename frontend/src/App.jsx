@@ -115,6 +115,7 @@ function App() {
   const dailyMatch = location.pathname.match(/^\/daily\/(.+)$/);
   const mockExamRunMatch = location.pathname.match(/^\/mock-exams\/run\/(.+)$/);
   const mockExamResultMatch = location.pathname.match(/^\/mock-exams\/result\/(.+)$/);
+  const jlptN3Match = location.pathname.match(/^\/jlpt-?n3(?:\/chuong-(\d+))?(?:\/bai-(\d+))?/i);
   const currentLevelFromPath = flashcardMatch ? flashcardMatch[1] : (dailyMatch ? dailyMatch[1] : null);
   const selectedLevel = currentLevelFromPath || selectedLevelState;
 
@@ -131,7 +132,7 @@ function App() {
     if (path === '/admin-feedback') return 'admin-feedback';
     if (path === '/admin-ai') return 'admin-ai';
     if (path === '/search') return 'search';
-    if (path === '/jlpt-n3') return 'jlpt-n3';
+    if (path.startsWith('/jlpt-n3') || path.startsWith('/jlptn3')) return 'jlpt-n3';
     if (path.startsWith('/mock-exams/run')) return 'mock-exam-runner';
     if (path.startsWith('/mock-exams/result')) return 'mock-exam-result';
     if (path === '/mock-exams') return 'mock-exams';
@@ -431,7 +432,12 @@ function App() {
           <AuthPage onCancel={() => navigate('/')} onSuccess={handleLoginSuccess} />
         );
       case 'jlpt-n3':
-        return <JlptN3Page />;
+        return (
+          <JlptN3Page
+            chapterParam={jlptN3Match && jlptN3Match[1] ? parseInt(jlptN3Match[1], 10) : null}
+            lessonParam={jlptN3Match && jlptN3Match[2] ? parseInt(jlptN3Match[2], 10) : null}
+          />
+        );
       case 'mock-exams':
         return <MockExamListPage />;
       case 'mock-exam-runner':

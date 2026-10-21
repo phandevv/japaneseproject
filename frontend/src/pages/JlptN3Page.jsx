@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useMemo, useRef } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { 
   BookOpen, CheckCircle, XCircle, ChevronRight, ChevronLeft, RotateCcw, 
   Trophy, ArrowLeft, ArrowRight, Play, Sparkles, Layers, List, Award, 
@@ -138,10 +139,13 @@ const matchVietnameseAnswer = (userInput, correctMeaning) => {
   return false;
 };
 
-const JlptN3Page = () => {
+const JlptN3Page = ({ chapterParam, lessonParam }) => {
+  const navigate = useNavigate();
+  const location = useLocation();
   const { user } = useAuth();
   const isAdmin = user && (user.username === 'admin' || user.role === 'ADMIN' || user.roles?.includes('ADMIN') || user.roles?.includes('ROLE_ADMIN'));
   const fileInputRef = useRef(null);
+  const loadedLessonRef = useRef({ chapter: null, lesson: null });
 
   // State for Course & Lesson Navigation
   const [phase, setPhase] = useState('overview'); // 'overview' | 'lesson'
@@ -379,14 +383,26 @@ const JlptN3Page = () => {
       resetQuizState();
     }
     setActiveTab(tabKey);
+    if (phase === 'lesson' && selectedChapter && selectedLesson) {
+      const targetUrl = `/jlpt-n3/chuong-${selectedChapter}/bai-${selectedLesson}${tabKey && tabKey !== 'flashcard' ? `?tab=${tabKey}` : ''}`;
+      navigate(targetUrl, { replace: true });
+    }
+  };
+
+  const handleBackToOverview = () => {
+    setPhase('overview');
+    navigate('/jlpt-n3');
   };
 
   // Load specific Lesson Data when selected
-  const openLesson = async (chapterId, lessonId) => {
+  const loadLessonData = async (chapterId, lessonId) => {
+    if (loadedLessonRef.current.chapter === chapterId && loadedLessonRef.current.lesson === lessonId && lessonData) {
+      return;
+    }
+    loadedLessonRef.current = { chapter: chapterId, lesson: lessonId };
     setSelectedChapter(chapterId);
     setSelectedLesson(lessonId);
     setPhase('lesson');
-    setActiveTab('flashcard');
     setLoadingLesson(true);
     resetQuizState();
     setDetailModalIndex(null);
@@ -400,6 +416,38 @@ const JlptN3Page = () => {
       setLoadingLesson(false);
     }
   };
+
+  const openLesson = (chapterId, lessonId, tabKey = 'flashcard') => {
+    const targetUrl = `/jlpt-n3/chuong-${chapterId}/bai-${lessonId}${tabKey && tabKey !== 'flashcard' ? `?tab=${tabKey}` : ''}`;
+    navigate(targetUrl);
+  };
+
+  // Bi-directional synchronization with URL
+  useEffect(() => {
+    const pathname = location.pathname;
+    const match = pathname.match(/^\/jlpt-?n3(?:\/chuong-(\d+))?(?:\/bai-(\d+))?/i);
+    const searchParams = new URLSearchParams(location.search);
+    const tabParam = searchParams.get('tab');
+
+    if (match && match[1] && match[2]) {
+      const ch = parseInt(match[1], 10);
+      const les = parseInt(match[2], 10);
+      if (tabParam && ['flashcard', 'list', 'quiz', 'lesson_quiz', 'reading'].includes(tabParam)) {
+        setActiveTab(tabParam);
+      }
+      loadLessonData(ch, les);
+    } else if (chapterParam && lessonParam) {
+      if (tabParam && ['flashcard', 'list', 'quiz', 'lesson_quiz', 'reading'].includes(tabParam)) {
+        setActiveTab(tabParam);
+      }
+      loadLessonData(chapterParam, lessonParam);
+    } else if (pathname === '/jlpt-n3' || pathname === '/jlptn3' || pathname.startsWith('/jlpt-n3') || pathname.startsWith('/jlptn3')) {
+      if (!match || !match[1] || !match[2]) {
+        setPhase('overview');
+        loadedLessonRef.current = { chapter: null, lesson: null };
+      }
+    }
+  }, [location.pathname, location.search, chapterParam, lessonParam]);
 
 const isContainsKanji = (str) => {
   if (!str || typeof str !== 'string') return false;
@@ -1460,7 +1508,7 @@ const isContainsKanji = (str) => {
           {/* Top Bar */}
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '12px' }}>
             <button
-              onClick={() => setPhase('overview')}
+              onClick={handleBackToOverview}
               style={{
                 display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '10px 16px',
                 borderRadius: '10px', border: '1px solid var(--border-color)', background: 'var(--surface-color)',
@@ -2892,7 +2940,7 @@ const isContainsKanji = (str) => {
                           <BookOpen size={16} /> Ôn thẻ Flashcard
                         </button>
                         <button
-                          onClick={() => setPhase('overview')}
+                          onClick={handleBackToOverview}
                           style={{ padding: '14px 22px', borderRadius: '12px', border: 'none', background: 'var(--accent-color)', color: 'white', fontWeight: 800, cursor: 'pointer' }}
                         >
                           Danh sách Chương ➔

@@ -2,6 +2,7 @@ package com.flashcard.exam.document;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.CompoundIndex;
+import org.springframework.data.mongodb.core.index.CompoundIndexes;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -10,7 +11,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Document(collection = "mock_exam_attempts")
-@CompoundIndex(name = "user_started_idx", def = "{'userId': 1, 'startedAt': -1}")
+@CompoundIndexes({
+    @CompoundIndex(name = "user_started_idx", def = "{'userId': 1, 'startedAt': -1}"),
+    @CompoundIndex(name = "user_exam_started_idx", def = "{'userId': 1, 'examId': 1, 'startedAt': -1}"),
+    @CompoundIndex(name = "user_exam_status_idx", def = "{'userId': 1, 'examId': 1, 'status': 1, 'startedAt': -1}"),
+    @CompoundIndex(name = "user_attempt_id_idx", def = "{'userId': 1, '_id': 1}"),
+    @CompoundIndex(name = "user_completed_idx", def = "{'userId': 1, 'completedAt': -1}")
+})
 public class MockExamAttemptDoc {
 
     @Id

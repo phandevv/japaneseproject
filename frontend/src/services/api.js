@@ -157,9 +157,10 @@ axios.interceptors.response.use(response => {
   return Promise.reject(error);
 });
 
-// ── In-Flight Request Deduplicator & Short-Lived SWR Cache ──
+// ── In-Flight Request Deduplicator & Short-Lived SWR + SessionStorage Cache ──
 const inFlightRequests = new Map();
 const responseCache = new Map();
+const SESSION_CACHE_PREFIX = 'nihongo_cache:';
 
 export const cachedGet = async (url, config = {}, ttlMs = 15000) => {
   const cacheKey = `GET:${url}:${JSON.stringify(config.params || {})}`;
@@ -176,10 +177,36 @@ export const cachedGet = async (url, config = {}, ttlMs = 15000) => {
     return inFlightRequests.get(cacheKey);
   }
 
-  // 3. Make HTTP request
+  // 3. Check sessionStorage (re-hydrates memory cache for zero-latency back/forward navigation)
+  if (typeof window !== 'undefined' && window.sessionStorage) {
+    try {
+      const rawSession = window.sessionStorage.getItem(SESSION_CACHE_PREFIX + cacheKey);
+      if (rawSession) {
+        const parsed = JSON.parse(rawSession);
+        if (parsed && (now - parsed.timestamp < ttlMs)) {
+          responseCache.set(cacheKey, parsed);
+          return parsed.data;
+        } else {
+          window.sessionStorage.removeItem(SESSION_CACHE_PREFIX + cacheKey);
+        }
+      }
+    } catch (e) {
+      // ignore storage parsing / access errors
+    }
+  }
+
+  // 4. Make HTTP request
   const requestPromise = axios.get(url, config)
     .then(res => {
-      responseCache.set(cacheKey, { data: res.data, timestamp: Date.now() });
+      const entry = { data: res.data, timestamp: Date.now() };
+      responseCache.set(cacheKey, entry);
+      if (typeof window !== 'undefined' && window.sessionStorage) {
+        try {
+          window.sessionStorage.setItem(SESSION_CACHE_PREFIX + cacheKey, JSON.stringify(entry));
+        } catch (e) {
+          // Quota exceeded or private browsing
+        }
+      }
       inFlightRequests.delete(cacheKey);
       return res.data;
     })
@@ -195,12 +222,36 @@ export const cachedGet = async (url, config = {}, ttlMs = 15000) => {
 export const clearApiCache = (urlPrefix = '') => {
   if (!urlPrefix) {
     responseCache.clear();
+    if (typeof window !== 'undefined' && window.sessionStorage) {
+      try {
+        const keysToRemove = [];
+        for (let i = 0; i < window.sessionStorage.length; i++) {
+          const k = window.sessionStorage.key(i);
+          if (k && k.startsWith(SESSION_CACHE_PREFIX)) {
+            keysToRemove.push(k);
+          }
+        }
+        keysToRemove.forEach(k => window.sessionStorage.removeItem(k));
+      } catch (e) {}
+    }
     return;
   }
   for (const key of responseCache.keys()) {
     if (key.includes(urlPrefix)) {
       responseCache.delete(key);
     }
+  }
+  if (typeof window !== 'undefined' && window.sessionStorage) {
+    try {
+      const keysToRemove = [];
+      for (let i = 0; i < window.sessionStorage.length; i++) {
+        const k = window.sessionStorage.key(i);
+        if (k && k.startsWith(SESSION_CACHE_PREFIX) && k.includes(urlPrefix)) {
+          keysToRemove.push(k);
+        }
+      }
+      keysToRemove.forEach(k => window.sessionStorage.removeItem(k));
+    } catch (e) {}
   }
 };
 
@@ -854,15 +905,14 @@ export const jlptN3GrammarReviewApi = {
 
 export const mockExamApi = {
   getExams: async () => {
-    const response = await axios.get(`${API_BASE_URL}/mock-exams`);
-    return response.data;
+    return cachedGet(`${API_BASE_URL}/mock-exams`, {}, 30000);
   },
   getExamDetail: async (examId) => {
-    const response = await axios.get(`${API_BASE_URL}/mock-exams/${examId}`);
-    return response.data;
+    return cachedGet(`${API_BASE_URL}/mock-exams/${examId}`, {}, 300000);
   },
   startExam: async (examId) => {
     const response = await axios.post(`${API_BASE_URL}/mock-exams/${examId}/start`);
+    clearApiCache('/mock-exams/history');
     return response.data;
   },
   saveProgress: async (attemptId, { currentSectionIndex, sectionTimeLeftSec, answers }) => {
@@ -877,15 +927,15 @@ export const mockExamApi = {
     const response = await axios.post(`${API_BASE_URL}/mock-exams/attempts/${attemptId}/submit`, {
       answers
     });
+    clearApiCache('/mock-exams/history');
+    clearApiCache(`/mock-exams/attempts/${attemptId}`);
     return response.data;
   },
   getResult: async (attemptId) => {
-    const response = await axios.get(`${API_BASE_URL}/mock-exams/attempts/${attemptId}/result`);
-    return response.data;
+    return cachedGet(`${API_BASE_URL}/mock-exams/attempts/${attemptId}/result`, {}, 60000);
   },
   getHistory: async () => {
-    const response = await axios.get(`${API_BASE_URL}/mock-exams/history`);
-    return response.data;
+    return cachedGet(`${API_BASE_URL}/mock-exams/history`, {}, 15000);
   }
 };
 

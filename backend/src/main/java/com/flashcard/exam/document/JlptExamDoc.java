@@ -2,6 +2,7 @@ package com.flashcard.exam.document;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.CompoundIndex;
+import org.springframework.data.mongodb.core.index.CompoundIndexes;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -10,7 +11,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Document(collection = "jlpt_exams")
-@CompoundIndex(name = "exam_year_month_idx", def = "{'examYear': -1, 'examMonth': -1}")
+@CompoundIndexes({
+    @CompoundIndex(name = "level_year_month_idx", def = "{'level': 1, 'examYear': -1, 'examMonth': -1}"),
+    @CompoundIndex(name = "exam_year_month_idx", def = "{'examYear': -1, 'examMonth': -1}"),
+    @CompoundIndex(name = "sections_questions_id_idx", def = "{'sections.questions.id': 1}")
+})
 public class JlptExamDoc {
 
     @Id

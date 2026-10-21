@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { 
   GraduationCap, Clock, CheckCircle2, AlertCircle, Play, 
   RotateCcw, History, ArrowRight, Award, Calendar, Search, 
@@ -10,18 +10,49 @@ import { useAuth } from '../context/AuthContext';
 
 export default function MockExamListPage() {
   const navigate = useNavigate();
+  const location = useLocation();
   const { user, isAuthenticated } = useAuth();
+
+  const searchParams = new URLSearchParams(location.search);
+  const initialTab = searchParams.get('tab') === 'history' ? 'history' : 'exams';
+  const initialYear = searchParams.get('year') || 'ALL';
+  const initialMonth = searchParams.get('month') || 'ALL';
 
   const [exams, setExams] = useState([]);
   const [history, setHistory] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [activeTab, setActiveTab] = useState('exams'); // 'exams' | 'history'
+  const [activeTab, setActiveTab] = useState(initialTab);
   
   // Filters
-  const [selectedYear, setSelectedYear] = useState('ALL');
-  const [selectedMonth, setSelectedMonth] = useState('ALL');
+  const [selectedYear, setSelectedYear] = useState(initialYear);
+  const [selectedMonth, setSelectedMonth] = useState(initialMonth);
   const [statusFilter, setStatusFilter] = useState('ALL');
   const [searchQuery, setSearchQuery] = useState('');
+
+  // Sync state with URL params on back/forward
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const tabFromUrl = params.get('tab') === 'history' ? 'history' : 'exams';
+    const yearFromUrl = params.get('year') || 'ALL';
+    const monthFromUrl = params.get('month') || 'ALL';
+    if (tabFromUrl !== activeTab) setActiveTab(tabFromUrl);
+    if (yearFromUrl !== selectedYear) setSelectedYear(yearFromUrl);
+    if (monthFromUrl !== selectedMonth) setSelectedMonth(monthFromUrl);
+  }, [location.search]);
+
+  const updateUrlParams = (newTab, newYear, newMonth) => {
+    const params = new URLSearchParams();
+    const tabToUse = newTab !== undefined ? newTab : activeTab;
+    const yearToUse = newYear !== undefined ? newYear : selectedYear;
+    const monthToUse = newMonth !== undefined ? newMonth : selectedMonth;
+
+    if (tabToUse && tabToUse !== 'exams') params.set('tab', tabToUse);
+    if (yearToUse && yearToUse !== 'ALL') params.set('year', yearToUse);
+    if (monthToUse && monthToUse !== 'ALL') params.set('month', monthToUse);
+
+    const qs = params.toString();
+    navigate(qs ? `/mock-exams?${qs}` : '/mock-exams', { replace: true });
+  };
 
   useEffect(() => {
     loadData();
@@ -180,7 +211,10 @@ export default function MockExamListPage() {
         paddingBottom: 8
       }}>
         <button
-          onClick={() => setActiveTab('exams')}
+          onClick={() => {
+            setActiveTab('exams');
+            updateUrlParams('exams', selectedYear, selectedMonth);
+          }}
           style={{
             padding: '10px 20px',
             borderRadius: 'var(--radius-md)',
@@ -201,7 +235,10 @@ export default function MockExamListPage() {
 
         {isAuthenticated && (
           <button
-            onClick={() => setActiveTab('history')}
+            onClick={() => {
+              setActiveTab('history');
+              updateUrlParams('history', selectedYear, selectedMonth);
+            }}
             style={{
               padding: '10px 20px',
               borderRadius: 'var(--radius-md)',

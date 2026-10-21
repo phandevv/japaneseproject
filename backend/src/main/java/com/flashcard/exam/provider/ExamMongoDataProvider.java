@@ -15,10 +15,17 @@ import com.flashcard.exam.model.MockExamAnswer;
 import com.flashcard.exam.model.MockExamAttempt;
 import com.flashcard.exam.repository.mongo.JlptExamMongoRepository;
 import com.flashcard.exam.repository.mongo.MockExamAttemptMongoRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.index.Index;
+import org.springframework.data.mongodb.core.index.IndexOperations;
 import org.springframework.stereotype.Component;
 
+import jakarta.annotation.PostConstruct;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -26,14 +33,24 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Component
 @ConditionalOnProperty(name = "app.database.type", havingValue = "mongodb")
 public class ExamMongoDataProvider implements ExamDataProvider {
 
+    private static final Logger log = LoggerFactory.getLogger(ExamMongoDataProvider.class);
+
     private final JlptExamMongoRepository examMongoRepository;
     private final MockExamAttemptMongoRepository attemptMongoRepository;
     private final SequenceGeneratorService sequenceGeneratorService;
+
+    @Autowired(required = false)
+    private MongoTemplate mongoTemplate;
+
+    // Fast in-memory caches to speed up exam listing and exam question loading
+    private volatile List<ExamListItemDto> cachedExamList = null;
+    private final Map<String, ExamDetailDto> examDetailCache = new ConcurrentHashMap<>();
 
     @Autowired
     public ExamMongoDataProvider(JlptExamMongoRepository examMongoRepository,
@@ -42,6 +59,26 @@ public class ExamMongoDataProvider implements ExamDataProvider {
         this.examMongoRepository = examMongoRepository;
         this.attemptMongoRepository = attemptMongoRepository;
         this.sequenceGeneratorService = sequenceGeneratorService;
+    }
+
+    @PostConstruct
+    public void initIndexes() {
+        if (mongoTemplate == null) return;
+        try {
+            IndexOperations examIndexOps = mongoTemplate.indexOps(JlptExamDoc.class);
+            examIndexOps.ensureIndex(new Index().on("level", Sort.Direction.ASC).on("examYear", Sort.Direction.DESC).on("examMonth", Sort.Direction.DESC));
+            examIndexOps.ensureIndex(new Index().on("examYear", Sort.Direction.DESC).on("examMonth", Sort.Direction.DESC));
+            examIndexOps.ensureIndex(new Index().on("sections.questions.id", Sort.Direction.ASC));
+
+            IndexOperations attemptIndexOps = mongoTemplate.indexOps(MockExamAttemptDoc.class);
+            attemptIndexOps.ensureIndex(new Index().on("userId", Sort.Direction.ASC).on("startedAt", Sort.Direction.DESC));
+            attemptIndexOps.ensureIndex(new Index().on("userId", Sort.Direction.ASC).on("examId", Sort.Direction.ASC).on("startedAt", Sort.Direction.DESC));
+            attemptIndexOps.ensureIndex(new Index().on("userId", Sort.Direction.ASC).on("examId", Sort.Direction.ASC).on("status", Sort.Direction.ASC).on("startedAt", Sort.Direction.DESC));
+            attemptIndexOps.ensureIndex(new Index().on("userId", Sort.Direction.ASC).on("completedAt", Sort.Direction.DESC));
+            log.info("MongoDB compound indexes for jlpt_exams and mock_exam_attempts verified and initialized.");
+        } catch (Exception e) {
+            log.warn("Failed to initialize MongoDB indexes for mock exams: {}", e.getMessage());
+        }
     }
 
     @Override
@@ -67,6 +104,10 @@ public class ExamMongoDataProvider implements ExamDataProvider {
 
     @Override
     public List<ExamListItemDto> getAllExams() {
+        if (cachedExamList != null) {
+            return cachedExamList;
+        }
+
         List<JlptExamDoc> docs = examMongoRepository.findAllByOrderByExamYearDescExamMonthDesc();
         List<ExamListItemDto> list = new ArrayList<>();
 
@@ -92,11 +133,18 @@ public class ExamMongoDataProvider implements ExamDataProvider {
             list.add(dto);
         }
 
+        cachedExamList = list;
         return list;
     }
 
     @Override
     public Optional<ExamDetailDto> getExamDetail(String examId) {
+        if (examId == null) return Optional.empty();
+        ExamDetailDto cached = examDetailCache.get(examId);
+        if (cached != null) {
+            return Optional.of(cached);
+        }
+
         Optional<JlptExamDoc> docOpt = examMongoRepository.findById(examId);
         if (docOpt.isEmpty()) return Optional.empty();
 
@@ -163,6 +211,7 @@ public class ExamMongoDataProvider implements ExamDataProvider {
         dto.setAudioFile(doc.getAudioFile());
         dto.setSections(sectionDtos);
 
+        examDetailCache.put(examId, dto);
         return Optional.of(dto);
     }
 
@@ -266,6 +315,10 @@ public class ExamMongoDataProvider implements ExamDataProvider {
         }
         doc.setSections(sections);
         examMongoRepository.save(doc);
+        cachedExamList = null;
+        if (dto.getExamId() != null) {
+            examDetailCache.remove(dto.getExamId());
+        }
     }
 
     @Override
