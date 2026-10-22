@@ -43,4 +43,6 @@ public interface ExamDataProvider {
     Map<String, Integer> getCorrectAnswers(String examId);
 
     boolean existsExam(String examId);
+
+    default void clearCache() {}
 }

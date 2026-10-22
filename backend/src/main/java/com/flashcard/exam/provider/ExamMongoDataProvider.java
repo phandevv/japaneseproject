@@ -447,6 +447,13 @@ public class ExamMongoDataProvider implements ExamDataProvider {
         return examMongoRepository.existsById(examId);
     }
 
+    @Override
+    public void clearCache() {
+        cachedExamList = null;
+        examDetailCache.clear();
+        log.info("ExamMongoDataProvider in-memory caches cleared successfully.");
+    }
+
     private MockExamAttemptDoc toDoc(MockExamAttempt att) {
         MockExamAttemptDoc doc = new MockExamAttemptDoc();
         doc.setId(att.getId());

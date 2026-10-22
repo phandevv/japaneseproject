@@ -49,11 +49,17 @@ public class MockExamController {
                 .body(list);
     }
 
+    @PostMapping("/clear-cache")
+    public ResponseEntity<Map<String, String>> clearCache() {
+        mockExamService.clearCache();
+        return ResponseEntity.ok(Map.of("message", "Exam cache cleared successfully"));
+    }
+
     @GetMapping("/{examId}")
     public ResponseEntity<ExamDetailDto> getExamDetail(@PathVariable String examId) {
         return mockExamService.getExamDetail(examId)
                 .map(dto -> ResponseEntity.ok()
-                        .header("Cache-Control", "public, max-age=3600")
+                        .header("Cache-Control", "no-cache, must-revalidate")
                         .body(dto))
                 .orElse(ResponseEntity.notFound().build());
     }

@@ -59,6 +59,10 @@ public class MockExamService {
         return examDataProvider.getExamDetail(examId);
     }
 
+    public void clearCache() {
+        examDataProvider.clearCache();
+    }
+
     @Transactional
     public AttemptDto startOrResumeAttempt(Long userId, String examId) {
         ExamDetailDto examDetail = examDataProvider.getExamDetail(examId)
