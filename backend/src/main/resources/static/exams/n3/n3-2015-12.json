@@ -713,13 +713,13 @@
           "mondai": 1,
           "questionNumber": 2,
           "questionType": "GRAMMAR_CHOICE",
-          "questionText": "A「もしもし。今、駅に着いたんだけど、どこにいる?」 B「ええと、(            )本屋、知ってる?」 A「うん。」 B「そこにいるよ。」 １ 『キムラ・ブック』と",
+          "questionText": "A「もしもし。今、駅に着いたんだけど、どこにいる?」\nB「ええと、(   )本屋、知ってる?」\nA「うん。」\nB「そこにいるよ。」",
           "passage": null,
           "choices": [
-            "1",
-            "2",
-            "3",
-            "4"
+            "『キムラ・ブック』と",
+            "『キムラ・ブック』って",
+            "『キムラ・ブック』だって",
+            "『キムラ・ブック』なんか"
           ],
           "correctAnswer": 2,
           "imageRef": null,
@@ -732,13 +732,13 @@
           "mondai": 1,
           "questionNumber": 3,
           "questionType": "GRAMMAR_CHOICE",
-          "questionText": "『キムラ・ブック』だって ２ 『キムラ・ブック』って",
+          "questionText": "初めてアルバイトをして、お金を稼ぐのがどれだけ(   )わかった。",
           "passage": null,
           "choices": [
-            "1",
-            "2",
-            "3",
-            "4"
+            "大変か",
+            "大変だと",
+            "大変かどうか",
+            "大変なのが"
           ],
           "correctAnswer": 1,
           "imageRef": null,
@@ -865,13 +865,13 @@
           "mondai": 1,
           "questionNumber": 10,
           "questionType": "GRAMMAR_CHOICE",
-          "questionText": "(テレビの料理番組で) 「次に、鍋に油を入れ、170 度（   )温めてください。」 １ になるまで ３ になっていって ２ にしたくなって ４ にするより",
+          "questionText": "(テレビの料理番組で)\n「次に、鍋に油を入れ、170 度（   )温めてください。」",
           "passage": null,
           "choices": [
-            "1",
-            "2",
-            "3",
-            "4"
+            "になるまで",
+            "にしたくなって",
+            "になっていって",
+            "にするより"
           ],
           "correctAnswer": 1,
           "imageRef": null,

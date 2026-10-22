@@ -713,13 +713,13 @@
           "mondai": 1,
           "questionNumber": 2,
           "questionType": "GRAMMAR_CHOICE",
-          "questionText": "隣の席の山田さんは、文句が多い、いつも（  ）言っている。 １ 疲れて仕事が多くて ２ 疲れたり仕事が多かったり",
+          "questionText": "隣の席の山田さんは、文句が多い、いつも（  ）言っている。",
           "passage": null,
           "choices": [
-            "1",
-            "2",
-            "3",
-            "4"
+            "疲れて仕事が多くて",
+            "疲れたり仕事が多かったり",
+            "疲れたし仕事が多いし",
+            "疲れたとか仕事が多いとか"
           ],
           "correctAnswer": 4,
           "imageRef": null,

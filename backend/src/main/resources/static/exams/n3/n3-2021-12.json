@@ -998,13 +998,13 @@
           "mondai": 2,
           "questionNumber": 17,
           "questionType": "GRAMMAR_REORDER",
-          "questionText": "一人暮らしを始めて、両親が毎日仕事を            ★     大変なこと だったか、よくわかった。 １ どれだけ ３ 食事の準備や洗濯を 2 しながら 4 してくれていたことが",
+          "questionText": "一人暮らしを始めて、両親が毎日仕事を            ★     大変なことだったか、よくわかった。",
           "passage": null,
           "choices": [
-            "1",
-            "2",
-            "3",
-            "4"
+            "どれだけ",
+            "しながら",
+            "食事の準備や洗濯を",
+            "してくれていたことが"
           ],
           "correctAnswer": 4,
           "imageRef": null,

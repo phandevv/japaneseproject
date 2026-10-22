@@ -659,25 +659,6 @@
           "imageRef": null,
           "audioStartSec": null,
           "audioEndSec": null
-        },
-        {
-          "id": "n3-2022-07-vocab-m5-q35",
-          "section": "vocab",
-          "mondai": 5,
-          "questionNumber": 35,
-          "questionType": "VOCAB_USAGE",
-          "questionText": "",
-          "passage": null,
-          "choices": [
-            "1",
-            "2",
-            "3",
-            "4"
-          ],
-          "correctAnswer": 1,
-          "imageRef": null,
-          "audioStartSec": null,
-          "audioEndSec": null
         }
       ]
     },
@@ -713,13 +694,13 @@
           "mondai": 1,
           "questionNumber": 2,
           "questionType": "GRAMMAR_CHOICE",
-          "questionText": "A 「（   ）絵本、知ってる？」 B 「うん、知ってるよ。子供の時、大好きだった。」 1 「大きな家」と            2 「大きな家」って",
+          "questionText": "A 「（   ）絵本、知ってる？」\nB 「うん、知ってるよ。子供の時、大好きだった。」",
           "passage": null,
           "choices": [
-            "1",
-            "2",
-            "3",
-            "4"
+            "「大きな家」と",
+            "「大きな家」って",
+            "「大きな家」でも",
+            "「大きな家」なんか"
           ],
           "correctAnswer": 2,
           "imageRef": null,

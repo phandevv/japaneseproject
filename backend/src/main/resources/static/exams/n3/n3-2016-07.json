@@ -713,13 +713,13 @@
           "mondai": 1,
           "questionNumber": 2,
           "questionType": "GRAMMAR_CHOICE",
-          "questionText": "この大学では、海外に留学する学生（   ）奨学金を支給している。 １ にとって",
+          "questionText": "この大学では、海外に留学する学生（   ）奨学金を支給している。",
           "passage": null,
           "choices": [
-            "1",
-            "2",
-            "3",
-            "4"
+            "にとってい",
+            "にしたがって",
+            "に対して",
+            "に比べて"
           ],
           "correctAnswer": 3,
           "imageRef": null,
@@ -732,13 +732,13 @@
           "mondai": 1,
           "questionNumber": 3,
           "questionType": "GRAMMAR_CHOICE",
-          "questionText": "に対して ２ にしたがって",
+          "questionText": "友達に誘われて有名な画家の展覧会に行ったが、私にはよくわからない絵ばかりで、（   ）面白くなかった。",
           "passage": null,
           "choices": [
-            "1",
-            "2",
-            "3",
-            "4"
+            "少しも",
+            "絶対に",
+            "なかなか",
+            "せっかく"
           ],
           "correctAnswer": 1,
           "imageRef": null,
@@ -865,13 +865,13 @@
           "mondai": 1,
           "questionNumber": 10,
           "questionType": "GRAMMAR_CHOICE",
-          "questionText": "自分に合う仕事を見つける（   ）、時間をかけて探したいと思っている。 １ ことにするのは ３ ことにするまで ３ ことができるのは ４ ことができるまで",
+          "questionText": "自分に合う仕事を見つける（   ）、時間をかけて探したいと思っている。",
           "passage": null,
           "choices": [
-            "1",
-            "2",
-            "3",
-            "4"
+            "ことにするのは",
+            "ことができるのは",
+            "ことにするまで",
+            "ことができるまで"
           ],
           "correctAnswer": 4,
           "imageRef": null,
@@ -884,13 +884,13 @@
           "mondai": 1,
           "questionNumber": 11,
           "questionType": "GRAMMAR_CHOICE",
-          "questionText": "（不動産屋で） A「こちらのアパートはいかがですか。」 B「ううん、家賃は安いけど、駅まで歩いて 20 分もかかるのかな。」 A「少し家賃が高くても駅に（   ）、こちらはどうでしょうか。」 １ 近いほうがいいかどうか ３ 近いほうがよければ ２ 近すぎないかどうか ４ 近すぎなければ",
+          "questionText": "（不動産屋で）\nA「こちらのアパートはいかがですか。」\nB「ううん、家賃は安いけど、駅まで歩いて 20 分もかかるのかな。」\nA「少し家賃が高くても駅に（   ）、こちらはどうでしょうか。」",
           "passage": null,
           "choices": [
-            "1",
-            "2",
-            "3",
-            "4"
+            "近いほうがいいかどうか",
+            "近すぎないかどうか",
+            "近いほうがよければ",
+            "近すぎなければ"
           ],
           "correctAnswer": 3,
           "imageRef": null,
@@ -903,13 +903,13 @@
           "mondai": 1,
           "questionNumber": 12,
           "questionType": "GRAMMAR_CHOICE",
-          "questionText": "歌う前に暖かい飲み物を飲んで、のどを温めると、高い声も（   ）と聞いた。 １ 出しやすくなる ３ 出しつづけてみる ２ 出すことになった ４ 出してみようとした",
+          "questionText": "歌う前に暖かい飲み物を飲んで、のどを温めると、高い声も（   ）と聞いた。",
           "passage": null,
           "choices": [
-            "1",
-            "2",
-            "3",
-            "4"
+            "出しやすくなる",
+            "出すことになった",
+            "出しつづけてみる",
+            "出してみようとした"
           ],
           "correctAnswer": 1,
           "imageRef": null,
@@ -1074,13 +1074,13 @@
           "mondai": 3,
           "questionNumber": 21,
           "questionType": "GRAMMAR_PASSAGE",
-          "questionText": "１ 言いました ３ 言わせました ３ 言ってもらえました ４ 言わされました",
+          "questionText": "（ 21 ）",
           "passage": "問題３ 次の文章を読んで、文章全体の内容を考えて、（19）から（23）の中に入る最もよいもの\nを、１・２・３・４から一つえらびなさい。\n以下の文章は、留学生が書いた作文である。\n「便利」ということ\nソル ギョンイル\n最近、電気製品の店にいくと、パンが焼ける炊飯器や、部屋の空気もきれいにする掃除機\nなど、一台でいろいろなことができる商品が多いと感じ ます。私は、一台でいろいろできる\nのは便利なので、そういう商品が増えるのはいいことだと思っていました。でも、先日、",
           "choices": [
-            "1",
-            "2",
-            "3",
-            "4"
+            "言いました",
+            "言ってもらえました",
+            "言わせました",
+            "言わされました"
           ],
           "correctAnswer": 4,
           "imageRef": null,

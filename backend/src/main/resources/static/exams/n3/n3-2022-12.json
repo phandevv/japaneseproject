@@ -979,13 +979,13 @@
           "mondai": 2,
           "questionNumber": 16,
           "questionType": "GRAMMAR_REORDER",
-          "questionText": "バイオリンが         ★     こんなに面白い楽器はないと感じる。 １ 1 年前に習い始めたのだが ３ 弾けば ２ 弾くほど ４ 弾けるようになりたくて",
+          "questionText": "バイオリンが         ★     こんなに面白い楽器はないと感じる。",
           "passage": null,
           "choices": [
-            "1",
-            "2",
-            "3",
-            "4"
+            "1 年前に習い始めたのだが",
+            "弾くほど",
+            "弾けば",
+            "弾けるようになりたくて"
           ],
           "correctAnswer": 3,
           "imageRef": null,
