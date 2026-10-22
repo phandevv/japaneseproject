@@ -598,7 +598,7 @@
             "パーティーには私の知識のある人も大勢来ていた。",
             "この仕事は医学の知識がないとできない。"
           ],
-          "correctAnswer": 2,
+          "correctAnswer": 4,
           "imageRef": null,
           "audioStartSec": null,
           "audioEndSec": null
@@ -617,7 +617,7 @@
             "この広場で歌を歌うと声がよくひびく。",
             "社長が代わるといううわさが会社中でひびいている。"
           ],
-          "correctAnswer": 2,
+          "correctAnswer": 3,
           "imageRef": null,
           "audioStartSec": null,
           "audioEndSec": null
@@ -636,7 +636,7 @@
             "親戚の結婚が完成したので、お祝いを贈ろうと思います。",
             "今建てている家が完成したら、ぜひ遊びに来てください。"
           ],
-          "correctAnswer": 1,
+          "correctAnswer": 4,
           "imageRef": null,
           "audioStartSec": null,
           "audioEndSec": null
@@ -655,7 +655,7 @@
             "マラソン大会で優勝するため、私はゴールまであわてて走り続けた。",
             "あのレストランは人気があるので、お店の人はいつもあわてて働いている。"
           ],
-          "correctAnswer": 4,
+          "correctAnswer": 2,
           "imageRef": null,
           "audioStartSec": null,
           "audioEndSec": null
@@ -674,7 +674,7 @@
             "デパートで買い物をしたとき、実物が足りなかったので、クレジットカード で払った。",
             "緊張したので発表のときは失敗しましたが、実物はもっと上手にできました。"
           ],
-          "correctAnswer": 3,
+          "correctAnswer": 1,
           "imageRef": null,
           "audioStartSec": null,
           "audioEndSec": null

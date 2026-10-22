@@ -159,7 +159,7 @@
             "ようべん",
             "ようびん",
             "ゆうべん",
-            "ゆうびん 選 えら びなさい。"
+            "ゆうびん"
           ],
           "correctAnswer": 4,
           "imageRef": null,
@@ -482,7 +482,7 @@
             "取 と り付 つ けて",
             "取 と り上 あ げて",
             "受 う け入 い れて",
-            "引 ひ き受 う けて えら びなさい。"
+            "引 ひ き受 う けて"
           ],
           "correctAnswer": 1,
           "imageRef": null,
@@ -598,7 +598,7 @@
             "風で帽 ぼう 子 し が飛 と ばされたが、石原 いしはら さんが走ってにぎってくれた。",
             "母親が、生まれたばかりの赤ちゃんを大事そうににぎっている。"
           ],
-          "correctAnswer": 4,
+          "correctAnswer": 2,
           "imageRef": null,
           "audioStartSec": null,
           "audioEndSec": null
@@ -636,7 +636,7 @@
             "来週から１か月海外に 出 しゅっ 張 ちょう する目的 もくてき なので、 準 じゅん 備 び に 忙 いそが しい。",
             "この研究の目的 もくてき は、新しい薬の効 こう 果 か を調べることです。"
           ],
-          "correctAnswer": 2,
+          "correctAnswer": 4,
           "imageRef": null,
           "audioStartSec": null,
           "audioEndSec": null
@@ -655,7 +655,7 @@
             "結婚 けっこん して 30 年たったので、妻 つま とは懐 なつ かしい関係 かんけい だ。",
             "私と田 た 村 むら さんは、会ってすぐに懐 なつ かしい友達 ともだち になった。"
           ],
-          "correctAnswer": 4,
+          "correctAnswer": 1,
           "imageRef": null,
           "audioStartSec": null,
           "audioEndSec": null

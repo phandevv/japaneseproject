@@ -598,7 +598,7 @@
             "担任 たんにん の先生は生 せい 徒 と から相 そう 談 だん を受 う け、丁 てい 寧 ねい に診 しん 察 さつ した。",
             "母は医者で、毎日たくさんの患者 かんじゃ を診 しん 察 さつ している。"
           ],
-          "correctAnswer": 3,
+          "correctAnswer": 4,
           "imageRef": null,
           "audioStartSec": null,
           "audioEndSec": null
@@ -617,7 +617,7 @@
             "次 つぎ の旅行の行き先を、今夜家 か 族 ぞく で話し合うつもりだ。",
             "この映画は見たことがあるので、内容 ないよう の行き先は知っている。"
           ],
-          "correctAnswer": 2,
+          "correctAnswer": 3,
           "imageRef": null,
           "audioStartSec": null,
           "audioEndSec": null
@@ -636,7 +636,7 @@
             "このパンはかびが生えているので、もう取 と り消 け したほうかいい。",
             "都合が悪 わる くなったので、レストランの予 よ 約 やく を取 と り消 け した。"
           ],
-          "correctAnswer": 1,
+          "correctAnswer": 4,
           "imageRef": null,
           "audioStartSec": null,
           "audioEndSec": null
@@ -655,7 +655,7 @@
             "私と姉は、周 まわ りの人から 共 きょう 通 つう の顔だとよく言われる。",
             "あしたも今日と 共 きょう 通 つう の気 き 温 おん で、 温 あたた かいそうだ。"
           ],
-          "correctAnswer": 1,
+          "correctAnswer": 2,
           "imageRef": null,
           "audioStartSec": null,
           "audioEndSec": null
@@ -674,7 +674,7 @@
             "お 客 きゃく さんのコップに水を詰 つ めてください。",
             "時々窓 まど を開けて、部屋 へや の中に新鮮 しんせん な空気を詰 つ めた。"
           ],
-          "correctAnswer": 4,
+          "correctAnswer": 1,
           "imageRef": null,
           "audioStartSec": null,
           "audioEndSec": null

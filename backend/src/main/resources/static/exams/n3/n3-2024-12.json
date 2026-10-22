@@ -598,7 +598,7 @@
             "古い財布から新しい財布へ内容を移しました。",
             "この手紙の内容は、ほかの人には秘密にしてください。"
           ],
-          "correctAnswer": 1,
+          "correctAnswer": 4,
           "imageRef": null,
           "audioStartSec": null,
           "audioEndSec": null
@@ -617,7 +617,7 @@
             "さっきまで活動していたパソコンが、急に動かなくなった。",
             "駅前のコンビニは 24 時間活動しているので便利だ。"
           ],
-          "correctAnswer": 2,
+          "correctAnswer": 1,
           "imageRef": null,
           "audioStartSec": null,
           "audioEndSec": null
@@ -636,7 +636,7 @@
             "あそこの木の上に美しい鳥が落ち着いています。",
             "大好きなこの曲を聞くと、いつも気持ちが落ち着きます。"
           ],
-          "correctAnswer": 2,
+          "correctAnswer": 4,
           "imageRef": null,
           "audioStartSec": null,
           "audioEndSec": null
@@ -655,7 +655,7 @@
             "今日は疲れているので、朝までぐっすり眠れそうだ。",
             "古い友人と久しぶりに会って、ぐっすりおしゃべりした。"
           ],
-          "correctAnswer": 4,
+          "correctAnswer": 3,
           "imageRef": null,
           "audioStartSec": null,
           "audioEndSec": null
@@ -674,7 +674,7 @@
             "値段が高くても、安全で性格のいい車を買うつもりです。",
             "音楽の性格を伸ばすために、5 歳から専門家の指導を受けました。"
           ],
-          "correctAnswer": 3,
+          "correctAnswer": 2,
           "imageRef": null,
           "audioStartSec": null,
           "audioEndSec": null

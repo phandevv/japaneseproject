@@ -28,7 +28,7 @@
             "じょうぼう",
             "ちょうぼう"
           ],
-          "correctAnswer": 3,
+          "correctAnswer": 1,
           "imageRef": null,
           "audioStartSec": null,
           "audioEndSec": null
@@ -47,7 +47,7 @@
             "けんざい",
             "げんざい"
           ],
-          "correctAnswer": 2,
+          "correctAnswer": 4,
           "imageRef": null,
           "audioStartSec": null,
           "audioEndSec": null
@@ -66,7 +66,7 @@
             "あおい",
             "かるい"
           ],
-          "correctAnswer": 4,
+          "correctAnswer": 2,
           "imageRef": null,
           "audioStartSec": null,
           "audioEndSec": null
@@ -85,7 +85,7 @@
             "ゆうめ",
             "ゆうめい"
           ],
-          "correctAnswer": 1,
+          "correctAnswer": 4,
           "imageRef": null,
           "audioStartSec": null,
           "audioEndSec": null
@@ -104,7 +104,7 @@
             "はし",
             "よこ"
           ],
-          "correctAnswer": 2,
+          "correctAnswer": 1,
           "imageRef": null,
           "audioStartSec": null,
           "audioEndSec": null
@@ -123,7 +123,7 @@
             "すすんで",
             "つつんで"
           ],
-          "correctAnswer": 2,
+          "correctAnswer": 4,
           "imageRef": null,
           "audioStartSec": null,
           "audioEndSec": null
@@ -161,7 +161,7 @@
             "基録",
             "記録"
           ],
-          "correctAnswer": 3,
+          "correctAnswer": 4,
           "imageRef": null,
           "audioStartSec": null,
           "audioEndSec": null
@@ -180,7 +180,7 @@
             "広営",
             "広告"
           ],
-          "correctAnswer": 1,
+          "correctAnswer": 4,
           "imageRef": null,
           "audioStartSec": null,
           "audioEndSec": null
@@ -218,7 +218,7 @@
             "検察",
             "健察"
           ],
-          "correctAnswer": 1,
+          "correctAnswer": 2,
           "imageRef": null,
           "audioStartSec": null,
           "audioEndSec": null
@@ -237,7 +237,7 @@
             "必か",
             "常か"
           ],
-          "correctAnswer": 1,
+          "correctAnswer": 2,
           "imageRef": null,
           "audioStartSec": null,
           "audioEndSec": null
@@ -256,7 +256,7 @@
             "絵画",
             "図画"
           ],
-          "correctAnswer": 1,
+          "correctAnswer": 3,
           "imageRef": null,
           "audioStartSec": null,
           "audioEndSec": null
@@ -294,7 +294,7 @@
             "内容",
             "部品"
           ],
-          "correctAnswer": 1,
+          "correctAnswer": 2,
           "imageRef": null,
           "audioStartSec": null,
           "audioEndSec": null
@@ -313,7 +313,7 @@
             "くやしかった",
             "ずるかった"
           ],
-          "correctAnswer": 1,
+          "correctAnswer": 3,
           "imageRef": null,
           "audioStartSec": null,
           "audioEndSec": null
@@ -332,7 +332,7 @@
             "ディスカウント",
             "チェックアウト"
           ],
-          "correctAnswer": 1,
+          "correctAnswer": 2,
           "imageRef": null,
           "audioStartSec": null,
           "audioEndSec": null
@@ -351,7 +351,7 @@
             "こぶ",
             "しみ"
           ],
-          "correctAnswer": 1,
+          "correctAnswer": 4,
           "imageRef": null,
           "audioStartSec": null,
           "audioEndSec": null
@@ -389,7 +389,7 @@
             "防ぐ",
             "守る"
           ],
-          "correctAnswer": 1,
+          "correctAnswer": 3,
           "imageRef": null,
           "audioStartSec": null,
           "audioEndSec": null
@@ -408,7 +408,7 @@
             "かわいた",
             "やせた"
           ],
-          "correctAnswer": 1,
+          "correctAnswer": 3,
           "imageRef": null,
           "audioStartSec": null,
           "audioEndSec": null
@@ -427,7 +427,7 @@
             "別々",
             "色々"
           ],
-          "correctAnswer": 1,
+          "correctAnswer": 3,
           "imageRef": null,
           "audioStartSec": null,
           "audioEndSec": null
@@ -446,7 +446,7 @@
             "受け取って",
             "話し合って"
           ],
-          "correctAnswer": 1,
+          "correctAnswer": 4,
           "imageRef": null,
           "audioStartSec": null,
           "audioEndSec": null
@@ -465,7 +465,7 @@
             "ずきずき",
             "からから"
           ],
-          "correctAnswer": 1,
+          "correctAnswer": 3,
           "imageRef": null,
           "audioStartSec": null,
           "audioEndSec": null
@@ -484,7 +484,7 @@
             "いつも",
             "例"
           ],
-          "correctAnswer": 1,
+          "correctAnswer": 3,
           "imageRef": null,
           "audioStartSec": null,
           "audioEndSec": null
@@ -522,7 +522,7 @@
             "公園",
             "運動場"
           ],
-          "correctAnswer": 1,
+          "correctAnswer": 4,
           "imageRef": null,
           "audioStartSec": null,
           "audioEndSec": null
@@ -560,13 +560,13 @@
             "簡単に",
             "熱心に"
           ],
-          "correctAnswer": 1,
+          "correctAnswer": 2,
           "imageRef": null,
           "audioStartSec": null,
           "audioEndSec": null
         },
         {
-          "id": "n3-2022-07-vocab-m4-q30",
+          "id": "n3-2022-07-vocab-m5-q30",
           "section": "vocab",
           "mondai": 4,
           "questionNumber": 30,
@@ -579,10 +579,11 @@
             "家を出てすぐに、鍵をかけるのを諦めたことに気づいた。",
             "悲しい小説だったので、泣くのを諦められなかった。"
           ],
-          "correctAnswer": 1,
+          "correctAnswer": 2,
           "imageRef": null,
           "audioStartSec": null,
-          "audioEndSec": null
+          "audioEndSec": null,
+          "prompt": "諦める"
         },
         {
           "id": "n3-2022-07-vocab-m5-q31",
@@ -598,10 +599,11 @@
             "あしたは息子と一緒にパーティーに参加するつもりだ。",
             "父は貿易会社に参加しているので、出張は海外が多い。"
           ],
-          "correctAnswer": 1,
+          "correctAnswer": 3,
           "imageRef": null,
           "audioStartSec": null,
-          "audioEndSec": null
+          "audioEndSec": null,
+          "prompt": "参加"
         },
         {
           "id": "n3-2022-07-vocab-m5-q32",
@@ -617,10 +619,11 @@
             "このレストランは、魚も野菜も盛んでおいしい。",
             "この町は以前から外国人との交流が盛んだ。"
           ],
-          "correctAnswer": 1,
+          "correctAnswer": 4,
           "imageRef": null,
           "audioStartSec": null,
-          "audioEndSec": null
+          "audioEndSec": null,
+          "prompt": "盛ん"
         },
         {
           "id": "n3-2022-07-vocab-m5-q33",
@@ -639,7 +642,8 @@
           "correctAnswer": 1,
           "imageRef": null,
           "audioStartSec": null,
-          "audioEndSec": null
+          "audioEndSec": null,
+          "prompt": "整理"
         },
         {
           "id": "n3-2022-07-vocab-m5-q34",
@@ -658,7 +662,8 @@
           "correctAnswer": 1,
           "imageRef": null,
           "audioStartSec": null,
-          "audioEndSec": null
+          "audioEndSec": null,
+          "prompt": "通り過ぎる"
         }
       ]
     },

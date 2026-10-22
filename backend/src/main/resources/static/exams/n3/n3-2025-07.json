@@ -598,7 +598,7 @@
             "調査によると、この国の人口は今後減少するそうだ。",
             "今年はりんごの値段が去年より減少したらしい。"
           ],
-          "correctAnswer": 2,
+          "correctAnswer": 3,
           "imageRef": null,
           "audioStartSec": null,
           "audioEndSec": null
@@ -617,7 +617,7 @@
             "外国での一人暮らしは、重大な経験になると思う。",
             "明日、社長から重大な発表があるそうだ。"
           ],
-          "correctAnswer": 1,
+          "correctAnswer": 4,
           "imageRef": null,
           "audioStartSec": null,
           "audioEndSec": null
@@ -636,7 +636,7 @@
             "ドアを開けたので、部屋の暖かい空気がばらばらになってしまった。",
             "コップが倒れて、中のジュースがばらばらになってしまった。"
           ],
-          "correctAnswer": 4,
+          "correctAnswer": 2,
           "imageRef": null,
           "audioStartSec": null,
           "audioEndSec": null
@@ -655,7 +655,7 @@
             "割った卵の皮はここに捨ててください。",
             "テキストの皮に名前が書いてあるので、誰の物か分かります 。"
           ],
-          "correctAnswer": 4,
+          "correctAnswer": 1,
           "imageRef": null,
           "audioStartSec": null,
           "audioEndSec": null
