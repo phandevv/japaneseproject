@@ -495,7 +495,7 @@
           "mondai": 4,
           "questionNumber": 26,
           "questionType": "VOCAB_SYNONYM",
-          "questionText": "電話で価格を聞いてみた。",
+          "questionText": "電話で<u>価格</u>を聞いてみた。",
           "passage": null,
           "choices": [
             "結果",
@@ -514,7 +514,7 @@
           "mondai": 4,
           "questionNumber": 27,
           "questionType": "VOCAB_SYNONYM",
-          "questionText": "これはらくな仕事ではない。",
+          "questionText": "これは<u>らくな</u>仕事ではない。",
           "passage": null,
           "choices": [
             "安全な",
@@ -533,7 +533,7 @@
           "mondai": 4,
           "questionNumber": 28,
           "questionType": "VOCAB_SYNONYM",
-          "questionText": "この用紙はあとで回収します。",
+          "questionText": "この用紙はあとで<u>回収します</u>。",
           "passage": null,
           "choices": [
             "あつめます",
@@ -552,7 +552,7 @@
           "mondai": 4,
           "questionNumber": 29,
           "questionType": "VOCAB_SYNONYM",
-          "questionText": "わたしのめいはみんな海外に住んでいます。",
+          "questionText": "わたしの<u>めい</u>はみんな海外に住んでいます。",
           "passage": null,
           "choices": [
             "兄弟の娘",
@@ -571,7 +571,7 @@
           "mondai": 4,
           "questionNumber": 30,
           "questionType": "VOCAB_SYNONYM",
-          "questionText": "おばあちゃんからおこづかいをもらった。",
+          "questionText": "おばあちゃんから<u>おこづかい</u>をもらった。",
           "passage": null,
           "choices": [
             "お菓子",

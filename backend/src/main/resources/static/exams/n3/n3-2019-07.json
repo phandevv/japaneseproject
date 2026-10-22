@@ -495,7 +495,7 @@
           "mondai": 4,
           "questionNumber": 26,
           "questionType": "VOCAB_SYNONYM",
-          "questionText": "倉庫を整理した。",
+          "questionText": "倉庫を<u>整理した</u>。",
           "passage": null,
           "choices": [
             "調べた",
@@ -514,7 +514,7 @@
           "mondai": 4,
           "questionNumber": 27,
           "questionType": "VOCAB_SYNONYM",
-          "questionText": "とてもおかしな話を聞きました。",
+          "questionText": "とても<u>おかしな</u>話を聞きました。",
           "passage": null,
           "choices": [
             "怖い",
@@ -533,7 +533,7 @@
           "mondai": 4,
           "questionNumber": 28,
           "questionType": "VOCAB_SYNONYM",
-          "questionText": "早く済ませてください。",
+          "questionText": "早く<u>済ませてください</u>。",
           "passage": null,
           "choices": [
             "使わせて",
@@ -552,7 +552,7 @@
           "mondai": 4,
           "questionNumber": 29,
           "questionType": "VOCAB_SYNONYM",
-          "questionText": "このパソコンには何か欠点がありますか。",
+          "questionText": "このパソコンには何か<u>欠点</u>がありますか。",
           "passage": null,
           "choices": [
             "よくないところ",
@@ -571,7 +571,7 @@
           "mondai": 4,
           "questionNumber": 30,
           "questionType": "VOCAB_SYNONYM",
-          "questionText": "先生に言われたことをそのまま書きました。",
+          "questionText": "先生に言われたことを<u>そのまま</u>書きました。",
           "passage": null,
           "choices": [
             "何も変えないで",

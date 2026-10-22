@@ -495,7 +495,7 @@
           "mondai": 4,
           "questionNumber": 26,
           "questionType": "VOCAB_SYNONYM",
-          "questionText": "それがこの辞書の欠点なんです。",
+          "questionText": "それがこの辞書の<u>欠点</u>なんです。",
           "passage": null,
           "choices": [
             "すきなところ",
@@ -514,7 +514,7 @@
           "mondai": 4,
           "questionNumber": 27,
           "questionType": "VOCAB_SYNONYM",
-          "questionText": "彼が留学したのは、大学卒業の翌年です。",
+          "questionText": "彼が留学したのは、大学卒業の<u>翌年</u>です。",
           "passage": null,
           "choices": [
             "前の前の年",
@@ -533,13 +533,13 @@
           "mondai": 4,
           "questionNumber": 28,
           "questionType": "VOCAB_SYNONYM",
-          "questionText": "来週の会議のスケジュールについて連絡があった。 １準備      ２ 予定     ３ 場所      ４ 資料",
+          "questionText": "来週の会議の<u>スケジュール</u>について連絡があった。",
           "passage": null,
           "choices": [
-            "1",
-            "2",
-            "3",
-            "4"
+            "準備",
+            "予定",
+            "場所",
+            "資料"
           ],
           "correctAnswer": 2,
           "imageRef": null,
@@ -552,7 +552,7 @@
           "mondai": 4,
           "questionNumber": 29,
           "questionType": "VOCAB_SYNONYM",
-          "questionText": "彼にはらくな仕事を頼んだ。",
+          "questionText": "彼には<u>らくな</u>仕事を頼んだ。",
           "passage": null,
           "choices": [
             "だいじな",
@@ -571,7 +571,7 @@
           "mondai": 4,
           "questionNumber": 30,
           "questionType": "VOCAB_SYNONYM",
-          "questionText": "山中さんからさっき電話がありましたよ。",
+          "questionText": "山中さんから<u>さっき</u>電話がありましたよ。",
           "passage": null,
           "choices": [
             "ずっと前に",

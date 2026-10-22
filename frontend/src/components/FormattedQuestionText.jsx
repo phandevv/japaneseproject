@@ -16,6 +16,7 @@ export default function FormattedQuestionText({
   fallbackNumber,
   questionType,
   choices = [],
+  mondai,
   style = {}
 }) {
   if (!text) {
@@ -55,6 +56,7 @@ export default function FormattedQuestionText({
 
   // 2. Client-side Fallback: If no <u> tag, try to detect target word dynamically
   let detectedTarget = null;
+  const isSynonym = questionType === 'VOCAB_SYNONYM' || mondai === 4;
 
   if (questionType === 'KANJI_READING' && choices.length > 0) {
     const kanjiWords = text.match(/[\u4e00-\u9faf]+[ぁ-ん]*/g) || [];
@@ -79,6 +81,34 @@ export default function FormattedQuestionText({
       if (hw.length >= 2 && !commonParticles.includes(hw)) {
         detectedTarget = hw;
         break;
+      }
+    }
+  } else if (isSynonym || questionType === 'VOCAB_USAGE') {
+    // Check known high-frequency N3 synonym adverbs/keywords first
+    const knownAdverbs = [
+      'さっき', '年中', 'そっと', '次第に', 'ちっとも', 'あいかわらず', 'まったく',
+      '多少', 'ようやく', 'そのまま', 'ぺこぺこだ', 'おしまい', 'サボって', 'くわしく',
+      'ぜったいに', 'ないしょ', 'このごろ', 'あわてて', 'だまって', '短気', '約'
+    ];
+    for (const adv of knownAdverbs) {
+      if (text.includes(adv)) {
+        detectedTarget = adv;
+        break;
+      }
+    }
+
+    if (!detectedTarget) {
+      // Look for Kanji compound (with possible inline furigana) or Katakana words
+      // Matches: e.g. "清潔 せいけつ な", "指 し 導 どう して", "キッチン"
+      const furiPattern = /([\u4e00-\u9faf々〆〇]+(?:\s+[\u3040-\u309f\u30a0-\u30ff]+)?(?:\s*[ぁ-ん]*)|[\u30a0-\u30ff]{2,})/g;
+      const candidates = text.match(furiPattern) || [];
+      for (const cand of candidates) {
+        const baseTrim = cand.replace(/\s+[\u3040-\u309f\u30a0-\u30ff]+/g, '').trim();
+        // Ignore generic words like ご飯, 人, もの, こと
+        if (baseTrim.length >= 2 && !['ご飯', 'こと', 'もの', 'とき', 'ため', 'ところ', '学校', '会社'].includes(baseTrim)) {
+          detectedTarget = cand;
+          break;
+        }
       }
     }
   }

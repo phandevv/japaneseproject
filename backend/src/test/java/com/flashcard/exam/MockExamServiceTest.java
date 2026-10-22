@@ -158,4 +158,55 @@ public class MockExamServiceTest {
         assertEquals(1, result.getSectionResults().get(0).getCorrectCount());
         verify(examDataProvider).saveAttempt(attempt);
     }
+
+    @Test
+    void testSubmitSectionGrading() {
+        Long userId = 100L;
+        Long attemptId = 60L;
+        String examId = "n3-2020-12";
+
+        MockExamAttempt attempt = new MockExamAttempt(userId, examId, "N3", 2020, 12, 4);
+        attempt.setId(attemptId);
+
+        ExamDetailDto detailDto = new ExamDetailDto();
+        detailDto.setExamId(examId);
+        detailDto.setLevel("N3");
+
+        SectionDto sec1 = new SectionDto();
+        sec1.setSectionId("vocab");
+        sec1.setTitle("Từ vựng");
+
+        QuestionDto q1 = new QuestionDto();
+        q1.setId("q1");
+        sec1.setQuestions(List.of(q1));
+
+        SectionDto sec2 = new SectionDto();
+        sec2.setSectionId("grammar");
+        sec2.setTitle("Ngữ pháp");
+        QuestionDto q2 = new QuestionDto();
+        q2.setId("q2");
+        sec2.setQuestions(List.of(q2));
+
+        detailDto.setSections(List.of(sec1, sec2));
+
+        when(examDataProvider.findAttemptById(attemptId)).thenReturn(Optional.of(attempt));
+        when(examDataProvider.getExamDetail(examId)).thenReturn(Optional.of(detailDto));
+        when(examDataProvider.getCorrectAnswers(examId)).thenReturn(Map.of("q1", 2, "q2", 4));
+        when(examDataProvider.findAnswersByAttemptId(attemptId)).thenReturn(Collections.emptyList());
+
+        SubmitSectionRequest req = new SubmitSectionRequest("vocab", Map.of("q1", 2));
+        SectionResultDto result = mockExamService.submitSection(userId, attemptId, req);
+
+        assertNotNull(result);
+        assertEquals("vocab", result.getSectionId());
+        assertEquals(1, result.getTotalQuestions());
+        assertEquals(1, result.getCorrectCount());
+        assertEquals(100.0, result.getPercentage());
+        assertEquals(1, result.getQuestions().size());
+        assertTrue(result.getQuestions().get(0).getIsCorrect());
+
+        // Status is still not COMPLETED since grammar is pending
+        assertNotEquals("COMPLETED", attempt.getStatus());
+        verify(examDataProvider).saveAttempt(attempt);
+    }
 }

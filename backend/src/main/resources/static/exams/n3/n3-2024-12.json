@@ -495,7 +495,7 @@
           "mondai": 4,
           "questionNumber": 26,
           "questionType": "VOCAB_SYNONYM",
-          "questionText": "明日までに検 けん 討 とう しておきます。",
+          "questionText": "明日までに<u>検 けん 討 とう して</u>おきます。",
           "passage": null,
           "choices": [
             "よく考えて",
@@ -514,7 +514,7 @@
           "mondai": 4,
           "questionNumber": 27,
           "questionType": "VOCAB_SYNONYM",
-          "questionText": "来週、ここで企業の説明会があります。",
+          "questionText": "来週、ここで<u>企業</u>の説明会があります。",
           "passage": null,
           "choices": [
             "旅行",
@@ -533,13 +533,13 @@
           "mondai": 4,
           "questionNumber": 28,
           "questionType": "VOCAB_SYNONYM",
-          "questionText": "ちょっとバックしてください。 1   前に進んで 3   横に動いて 2   後ろに下がって 4   そこで止まって",
+          "questionText": "ちょっと<u>バックして</u>ください。",
           "passage": null,
           "choices": [
-            "1",
-            "2",
-            "3",
-            "4"
+            "前に進んで",
+            "後ろに下がって",
+            "横に動いて",
+            "そこで止まって"
           ],
           "correctAnswer": 2,
           "imageRef": null,
@@ -552,7 +552,7 @@
           "mondai": 4,
           "questionNumber": 29,
           "questionType": "VOCAB_SYNONYM",
-          "questionText": "鈴 すず 木 き さんは一流の選手です。",
+          "questionText": "鈴 すず 木 き さんは<u>一流の</u>選手です。",
           "passage": null,
           "choices": [
             "かっこいい",
@@ -571,7 +571,7 @@
           "mondai": 4,
           "questionNumber": 30,
           "questionType": "VOCAB_SYNONYM",
-          "questionText": "田中さんがようやく来てくれました。",
+          "questionText": "田中さんが<u>ようやく</u>来てくれました。",
           "passage": null,
           "choices": [
             "本当に",

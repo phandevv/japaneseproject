@@ -495,7 +495,7 @@
           "mondai": 4,
           "questionNumber": 26,
           "questionType": "VOCAB_SYNONYM",
-          "questionText": "あの仕事は本当に苦労した。",
+          "questionText": "あの仕事は本当に<u>苦労した</u>。",
           "passage": null,
           "choices": [
             "危険だった",
@@ -514,7 +514,7 @@
           "mondai": 4,
           "questionNumber": 27,
           "questionType": "VOCAB_SYNONYM",
-          "questionText": "本田さんと佐藤さんは、部屋からそっと出ていった。",
+          "questionText": "本田さんと佐藤さんは、部屋から<u>そっと</u>出ていった。",
           "passage": null,
           "choices": [
             "静かに",
@@ -533,13 +533,13 @@
           "mondai": 4,
           "questionNumber": 28,
           "questionType": "VOCAB_SYNONYM",
-          "questionText": "昨日、田中さんは早退したそうです 。 1 早く起きた 3 早く寝た 2 早く来た 4 早く帰った",
+          "questionText": "昨日、田中さんは<u>早退した</u>そうです。",
           "passage": null,
           "choices": [
-            "1",
-            "2",
-            "3",
-            "4"
+            "早く起きた",
+            "早く来た",
+            "早く寝た",
+            "早く帰った"
           ],
           "correctAnswer": 4,
           "imageRef": null,
@@ -552,10 +552,10 @@
           "mondai": 4,
           "questionNumber": 29,
           "questionType": "VOCAB_SYNONYM",
-          "questionText": "ここに来てから",
+          "questionText": "ここに来てから１週間くらい<u>たちました</u>。",
           "passage": null,
           "choices": [
-            "週間くらいたちました。 1 待ちました",
+            "待ちました",
             "続けました",
             "休みました",
             "過ぎました"
@@ -571,7 +571,7 @@
           "mondai": 4,
           "questionNumber": 30,
           "questionType": "VOCAB_SYNONYM",
-          "questionText": "この店ではさまざまな料理が食べられます 。",
+          "questionText": "この店では<u>さまざま</u>な料理が食べられます 。",
           "passage": null,
           "choices": [
             "きれいな",

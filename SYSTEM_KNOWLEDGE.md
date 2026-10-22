@@ -293,10 +293,19 @@ Dưới đây là một số API RESTful chính được công bố trên backen
   * `GET /api/mock-exams/{examId}`: Chi tiết cấu trúc bộ đề gồm 3 phần thi (Văn tự - Từ vựng, Ngữ pháp - Đọc hiểu, Nghe hiểu). Đáp án đúng được ẩn để bảo mật đề thi (HTTP Cache 3600s, Client Cache 5 phút).
   * `POST /api/mock-exams/{examId}/start`: Bắt đầu phiên làm bài mới hoặc khôi phục phiên đang làm dở (resume attempt, tự động vô hiệu hóa cache danh sách/lịch sử).
   * `POST /api/mock-exams/attempts/{attemptId}/save`: Auto-save tiến độ làm bài thi định kỳ 30s một lần và khi chuyển câu/phần thi.
+  * `POST /api/mock-exams/attempts/{attemptId}/submit-section`: Nộp và chấm điểm tức thì theo từng phần thi (`SubmitSectionRequest`), trả về đáp án đúng và lời giải chi tiết cho phần thi vừa nộp (`SectionResultDto`), cho phép người học xem ngay đáp án mà không cần đợi nộp toàn bộ bài thi. Tự động chuyển trạng thái bài thi thành `COMPLETED` khi tất cả các phần thi đã nộp xong.
   * `POST /api/mock-exams/attempts/{attemptId}/submit`: Nộp bài thi, tính điểm chuẩn JLPT N3 (tổng >= 95/180, mỗi phần >= 19/60 để Đạt) và khóa bài thi (tự động xóa cache lịch sử).
   * `GET /api/mock-exams/attempts/{attemptId}/result`: Trả về bảng kết quả chi tiết từng phần, kèm đối chiếu từng câu hỏi với đáp án đúng và giải thích.
   * `GET /api/mock-exams/user/history`: Lấy toàn bộ lịch sử các lần thi thử của tài khoản hiện tại (Client Cache 15s).
-  * **Chỉ mục CSDL & Deep URL Routing**: Hỗ trợ Compound Indexes trên cả MongoDB Atlas (`level, year, month`, `userId, startedAt`, `userId, examId`) và MySQL/H2 (`V35__add_mock_exam_compound_indexes.sql`). Định tuyến URL hỗ trợ deep-linking `/jlptn3/chuong-:c/bai-:l?tab=...` và đồng bộ state bộ lọc thi thử vào search params giúp Back/Forward không mất dữ liệu.
+* **Ngữ Pháp Tần Suất Cao N3 Đề Thật 2010-2025 (`/api/grammar-frequency/*`)**:
+  * `GET /api/grammar-frequency`: Lấy danh sách 79 mẫu ngữ pháp tần suất cao kèm tiến độ SRS cá nhân hóa của người dùng (hỗ trợ lọc: `all`, `critical`, `n3`, `n4`, `due`).
+  * `GET /api/grammar-frequency/{id}`: Lấy chi tiết mẫu ngữ pháp kèm trích dẫn câu hỏi đề thi thật có Furigana.
+  * `POST /api/grammar-frequency/{id}/review?quality={1-4}`: Chấm điểm SRS theo thuật toán SM-2 (bảo toàn trạng thái đã học).
+  * `GET /api/grammar-frequency/due`: Lấy danh sách ngữ pháp đến hạn ôn tập.
+  * `GET /api/grammar-frequency/stats`: Thống kê tiến độ ôn tập (tổng, đã học, đã ôn, đến hạn).
+  * `POST /api/grammar-frequency/sync-mongo`: Đồng bộ 79 mẫu ngữ pháp tần suất cao lên collection `jlpt_n3_high_frequency_grammar` trong MongoDB.
+  * *Tự động Seed*: `HighFrequencyGrammarDataLoader` tự động kiểm tra và seed 79 mẫu từ classpath JSON vào cả JPA và MongoDB khi khởi động nếu số lượng < 79.
+  * **Chỉ mục CSDL & Deep URL Routing**: Hỗ trợ Compound Indexes trên cả MongoDB Atlas (`level, year, month`, `userId, startedAt`, `userId, examId`, `jlpt_n3_high_frequency_grammar: rankNumber`) và MySQL/H2 (`V35__add_mock_exam_compound_indexes.sql`). Định tuyến URL hỗ trợ deep-linking `/jlptn3/chuong-:c/bai-:l?tab=...` và đồng bộ state bộ lọc thi thử vào search params giúp Back/Forward không mất dữ liệu.
 
 ---
 

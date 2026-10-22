@@ -495,7 +495,7 @@
           "mondai": 4,
           "questionNumber": 26,
           "questionType": "VOCAB_SYNONYM",
-          "questionText": "この仕事はきついです。",
+          "questionText": "この仕事は<u>きつい</u>です。",
           "passage": null,
           "choices": [
             "簡単",
@@ -514,7 +514,7 @@
           "mondai": 4,
           "questionNumber": 27,
           "questionType": "VOCAB_SYNONYM",
-          "questionText": "それはいい案ですね。",
+          "questionText": "それはいい<u>案</u>ですね。",
           "passage": null,
           "choices": [
             "チャンス",
@@ -533,7 +533,7 @@
           "mondai": 4,
           "questionNumber": 28,
           "questionType": "VOCAB_SYNONYM",
-          "questionText": "昨日は本当にくたびれた。",
+          "questionText": "昨日は本当に<u>くたびれた</u>。",
           "passage": null,
           "choices": [
             "疲れた",
@@ -552,7 +552,7 @@
           "mondai": 4,
           "questionNumber": 29,
           "questionType": "VOCAB_SYNONYM",
-          "questionText": "荷物の重さは、約 10 キロでした。",
+          "questionText": "荷物の重さは、<u>約</u> 10 キロでした。",
           "passage": null,
           "choices": [
             "１０キロ以上",
@@ -571,7 +571,7 @@
           "mondai": 4,
           "questionNumber": 30,
           "questionType": "VOCAB_SYNONYM",
-          "questionText": "山田さんはこの機械の使い方を指導しています。",
+          "questionText": "山田さんはこの機械の使い方を<u>指導しています</u>。",
           "passage": null,
           "choices": [
             "考えています",

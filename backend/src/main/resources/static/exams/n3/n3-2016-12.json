@@ -495,7 +495,7 @@
           "mondai": 4,
           "questionNumber": 26,
           "questionType": "VOCAB_SYNONYM",
-          "questionText": "水の表面がかがやいています。",
+          "questionText": "水の表面が<u>かがやいています</u>。",
           "passage": null,
           "choices": [
             "止まって",
@@ -514,7 +514,7 @@
           "mondai": 4,
           "questionNumber": 27,
           "questionType": "VOCAB_SYNONYM",
-          "questionText": "その知らせを聞いたとき、わたしはとてもがっかりした。",
+          "questionText": "その知らせを聞いたとき、わたしはとても<u>がっかりした</u>。",
           "passage": null,
           "choices": [
             "残念だと思った",
@@ -533,7 +533,7 @@
           "mondai": 4,
           "questionNumber": 28,
           "questionType": "VOCAB_SYNONYM",
-          "questionText": "留学生活に不安は当然ありました。",
+          "questionText": "留学生活に不安は<u>当然</u>ありました。",
           "passage": null,
           "choices": [
             "いろいろ",
@@ -552,7 +552,7 @@
           "mondai": 4,
           "questionNumber": 29,
           "questionType": "VOCAB_SYNONYM",
-          "questionText": "パーティーの料理があまりました。",
+          "questionText": "パーティーの料理が<u>あまりました</u>。",
           "passage": null,
           "choices": [
             "多すぎて残りました",
@@ -571,7 +571,7 @@
           "mondai": 4,
           "questionNumber": 30,
           "questionType": "VOCAB_SYNONYM",
-          "questionText": "ここは横断禁止です。",
+          "questionText": "ここは<u>横断禁止</u>です。",
           "passage": null,
           "choices": [
             "座ってはいけません",

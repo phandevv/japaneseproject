@@ -495,13 +495,13 @@
           "mondai": 4,
           "questionNumber": 26,
           "questionType": "VOCAB_SYNONYM",
-          "questionText": "何度失敗しても、彼女はあきらめなかった。 １ 気にしなかった ３ 怒らなかった ２ やめようとしなかった ４ 謝ろうとしなかった",
+          "questionText": "何度失敗しても、彼女は<u>あきらめなかった</u>。",
           "passage": null,
           "choices": [
-            "1",
-            "2",
-            "3",
-            "4"
+            "気にしなかった",
+            "やめようとしなかった",
+            "怒らなかった",
+            "謝ろうとしなかった"
           ],
           "correctAnswer": 2,
           "imageRef": null,
@@ -514,7 +514,7 @@
           "mondai": 4,
           "questionNumber": 27,
           "questionType": "VOCAB_SYNONYM",
-          "questionText": "あのスーパーは、年中、セールをしている。",
+          "questionText": "あのスーパーは、<u>年中</u>、セールをしている。",
           "passage": null,
           "choices": [
             "最近",
@@ -533,7 +533,7 @@
           "mondai": 4,
           "questionNumber": 28,
           "questionType": "VOCAB_SYNONYM",
-          "questionText": "相手の選手にボールをうばわれてしまった。",
+          "questionText": "相手の選手にボールを<u>うばわれてしまった</u>。",
           "passage": null,
           "choices": [
             "入れられて",
@@ -552,7 +552,7 @@
           "mondai": 4,
           "questionNumber": 29,
           "questionType": "VOCAB_SYNONYM",
-          "questionText": "もう会議が始まっていますから、そっと中に入ってください。",
+          "questionText": "もう会議が始まっていますから、<u>そっと</u>中に入ってください。",
           "passage": null,
           "choices": [
             "後ろから",
@@ -571,13 +571,13 @@
           "mondai": 4,
           "questionNumber": 30,
           "questionType": "VOCAB_SYNONYM",
-          "questionText": "まぶしくてポスターの字がよく見えない。 １ 明るすぎて ３ 薄すぎて ２ 遠すぎて ４ 小さすぎて",
+          "questionText": "<u>まぶしくて</u>ポスターの字がよく見えない。",
           "passage": null,
           "choices": [
-            "1",
-            "2",
-            "3",
-            "4"
+            "明るすぎて",
+            "遠すぎて",
+            "薄すぎて",
+            "小さすぎて"
           ],
           "correctAnswer": 1,
           "imageRef": null,

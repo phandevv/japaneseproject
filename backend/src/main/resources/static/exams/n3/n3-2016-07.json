@@ -495,13 +495,13 @@
           "mondai": 4,
           "questionNumber": 26,
           "questionType": "VOCAB_SYNONYM",
-          "questionText": "このきまりについて、みなさんはどう思いますか。 １ 料金 ３ 結果 ２ 技術 ４ 規則",
+          "questionText": "この<u>きまり</u>について、みなさんはどう思いますか。",
           "passage": null,
           "choices": [
-            "1",
-            "2",
-            "3",
-            "4"
+            "料金",
+            "技術",
+            "結果",
+            "規則"
           ],
           "correctAnswer": 4,
           "imageRef": null,
@@ -514,13 +514,13 @@
           "mondai": 4,
           "questionNumber": 27,
           "questionType": "VOCAB_SYNONYM",
-          "questionText": "一人でこの山に登るのは不安だ。 １ 心配だ ３ 危険だ ２ 寂しい ４ つまらない",
+          "questionText": "一人でこの山に登るのは<u>不安だ</u>。",
           "passage": null,
           "choices": [
-            "1",
-            "2",
-            "3",
-            "4"
+            "心配だ",
+            "寂しい",
+            "危険だ",
+            "つまらない"
           ],
           "correctAnswer": 1,
           "imageRef": null,
@@ -533,7 +533,7 @@
           "mondai": 4,
           "questionNumber": 28,
           "questionType": "VOCAB_SYNONYM",
-          "questionText": "リーさんは日本の絵画をまなんでいるそうです。",
+          "questionText": "リーさんは日本の絵画を<u>まなんでいる</u>そうです。",
           "passage": null,
           "choices": [
             "紹介している",
@@ -552,7 +552,7 @@
           "mondai": 4,
           "questionNumber": 29,
           "questionType": "VOCAB_SYNONYM",
-          "questionText": "教室には人がまったくいなかった。",
+          "questionText": "教室には人が<u>まったく</u>いなかった。",
           "passage": null,
           "choices": [
             "あまり",
@@ -571,13 +571,13 @@
           "mondai": 4,
           "questionNumber": 30,
           "questionType": "VOCAB_SYNONYM",
-          "questionText": "今日の講演会は延期になった。 １ 後の別の日にやることになった 3 終わるのが予定より遅くなった ２ 始まるのが予定より早くなった ４ 後の別の日に続けることになった",
+          "questionText": "今日の講演会は<u>延期</u>になった。",
           "passage": null,
           "choices": [
-            "1",
-            "2",
-            "3",
-            "4"
+            "後の別の日にやることになった",
+            "始まるのが予定より早くなった",
+            "終わるのが予定より遅くなった",
+            "後の別の日に続けることになった"
           ],
           "correctAnswer": 1,
           "imageRef": null,

@@ -495,7 +495,7 @@
           "mondai": 4,
           "questionNumber": 26,
           "questionType": "VOCAB_SYNONYM",
-          "questionText": "これと同じサイズの皿はありますか。",
+          "questionText": "これと同じ<u>サイズ</u>の皿はありますか。",
           "passage": null,
           "choices": [
             "大きさ",
@@ -514,7 +514,7 @@
           "mondai": 4,
           "questionNumber": 27,
           "questionType": "VOCAB_SYNONYM",
-          "questionText": "サラダはもう注文しましたか。",
+          "questionText": "サラダはもう<u>注文しましたか</u>。",
           "passage": null,
           "choices": [
             "作りましたか",
@@ -533,7 +533,7 @@
           "mondai": 4,
           "questionNumber": 28,
           "questionType": "VOCAB_SYNONYM",
-          "questionText": "すみませんが、もう一回たしかめてくれませんか。",
+          "questionText": "すみませんが、もう一回<u>たしかめて</u>くれませんか。",
           "passage": null,
           "choices": [
             "コピーして",
@@ -552,7 +552,7 @@
           "mondai": 4,
           "questionNumber": 29,
           "questionType": "VOCAB_SYNONYM",
-          "questionText": "山田さんはこのごろ忙しそうですね。",
+          "questionText": "山田さんは<u>このごろ</u>忙しそうですね。",
           "passage": null,
           "choices": [
             "ずっと",
@@ -571,7 +571,7 @@
           "mondai": 4,
           "questionNumber": 30,
           "questionType": "VOCAB_SYNONYM",
-          "questionText": "さっきからあの子ばかりしゃべっている。",
+          "questionText": "さっきからあの子ばかり<u>しゃべっている</u>。",
           "passage": null,
           "choices": [
             "騒いで",

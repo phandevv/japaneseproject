@@ -495,7 +495,7 @@
           "mondai": 4,
           "questionNumber": 26,
           "questionType": "VOCAB_SYNONYM",
-          "questionText": "旅行中は団体で移動した。",
+          "questionText": "旅行中は<u>団体</u>で移動した。",
           "passage": null,
           "choices": [
             "一人で",
@@ -514,7 +514,7 @@
           "mondai": 4,
           "questionNumber": 27,
           "questionType": "VOCAB_SYNONYM",
-          "questionText": "ここではしゃべらないでください。",
+          "questionText": "ここでは<u>しゃべらないで</u>ください。",
           "passage": null,
           "choices": [
             "騒がないで",
@@ -533,7 +533,7 @@
           "mondai": 4,
           "questionNumber": 28,
           "questionType": "VOCAB_SYNONYM",
-          "questionText": "今日は退屈だった。",
+          "questionText": "今日は<u>退屈だった</u>。",
           "passage": null,
           "choices": [
             "楽しかった",
@@ -552,7 +552,7 @@
           "mondai": 4,
           "questionNumber": 29,
           "questionType": "VOCAB_SYNONYM",
-          "questionText": "このレストランは、多少うるさいが、料理はおいしい。",
+          "questionText": "このレストランは、<u>多少</u>うるさいが、料理はおいしい。",
           "passage": null,
           "choices": [
             "いつも",
@@ -571,7 +571,7 @@
           "mondai": 4,
           "questionNumber": 30,
           "questionType": "VOCAB_SYNONYM",
-          "questionText": "子どもたちがこちらに駆けてきた。",
+          "questionText": "子どもたちがこちらに<u>駆けてきた</u>。",
           "passage": null,
           "choices": [
             "走ってきた",

@@ -90,6 +90,17 @@ public class MockExamController {
         return ResponseEntity.ok(result);
     }
 
+    @PostMapping("/attempts/{attemptId}/submit-section")
+    public ResponseEntity<SectionResultDto> submitSection(@PathVariable Long attemptId,
+                                                          @RequestBody SubmitSectionRequest request) {
+        Long userId = getCurrentUserId();
+        if (userId == null) {
+            return ResponseEntity.status(401).build();
+        }
+        SectionResultDto result = mockExamService.submitSection(userId, attemptId, request);
+        return ResponseEntity.ok(result);
+    }
+
     @GetMapping("/attempts/{attemptId}/result")
     public ResponseEntity<AttemptResultDto> getResult(@PathVariable Long attemptId) {
         Long userId = getCurrentUserId();

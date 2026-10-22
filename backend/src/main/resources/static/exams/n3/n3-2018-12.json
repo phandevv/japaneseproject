@@ -495,7 +495,7 @@
           "mondai": 4,
           "questionNumber": 26,
           "questionType": "VOCAB_SYNONYM",
-          "questionText": "山口さんに指導してもらいました。",
+          "questionText": "山口さんに<u>指導</u>してもらいました。",
           "passage": null,
           "choices": [
             "教えて",
@@ -514,7 +514,7 @@
           "mondai": 4,
           "questionNumber": 27,
           "questionType": "VOCAB_SYNONYM",
-          "questionText": "もっとトレーニングをしたほうがいい。",
+          "questionText": "もっと<u>トレーニング</u>をしたほうがいい。",
           "passage": null,
           "choices": [
             "準備",
@@ -533,7 +533,7 @@
           "mondai": 4,
           "questionNumber": 28,
           "questionType": "VOCAB_SYNONYM",
-          "questionText": "どんな手段があるか考えてみた。",
+          "questionText": "どんな<u>手段</u>があるか考えてみた。",
           "passage": null,
           "choices": [
             "連絡",
@@ -552,7 +552,7 @@
           "mondai": 4,
           "questionNumber": 29,
           "questionType": "VOCAB_SYNONYM",
-          "questionText": "リーさんは日本語がぺらぺらです。",
+          "questionText": "リーさんは日本語が<u>ぺらぺらです</u>。",
           "passage": null,
           "choices": [
             "あまり書けません",
@@ -571,7 +571,7 @@
           "mondai": 4,
           "questionNumber": 30,
           "questionType": "VOCAB_SYNONYM",
-          "questionText": "その歌手はようやく有名になった。",
+          "questionText": "その歌手は<u>ようやく</u>有名になった。",
           "passage": null,
           "choices": [
             "とても",

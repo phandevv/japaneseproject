@@ -495,7 +495,7 @@
           "mondai": 4,
           "questionNumber": 26,
           "questionType": "VOCAB_SYNONYM",
-          "questionText": "もう少し時間をあたえようと思う 。",
+          "questionText": "もう少し時間を<u>あたえよう</u>と思う 。",
           "passage": null,
           "choices": [
             "あげよう",
@@ -514,7 +514,7 @@
           "mondai": 4,
           "questionNumber": 27,
           "questionType": "VOCAB_SYNONYM",
-          "questionText": "ここは車がずいぶん多いですね。",
+          "questionText": "ここは車が<u>ずいぶん</u>多いですね。",
           "passage": null,
           "choices": [
             "最も",
@@ -533,7 +533,7 @@
           "mondai": 4,
           "questionNumber": 28,
           "questionType": "VOCAB_SYNONYM",
-          "questionText": "荷物は、指定の場所に置いてください。",
+          "questionText": "荷物は、<u>指定の</u>場所に置いてください。",
           "passage": null,
           "choices": [
             "決められた",
@@ -552,7 +552,7 @@
           "mondai": 4,
           "questionNumber": 29,
           "questionType": "VOCAB_SYNONYM",
-          "questionText": "山田さんの話を聞くまでは不安だった。",
+          "questionText": "山田さんの話を聞くまでは<u>不安だった</u>。",
           "passage": null,
           "choices": [
             "賛成",
@@ -571,7 +571,7 @@
           "mondai": 4,
           "questionNumber": 30,
           "questionType": "VOCAB_SYNONYM",
-          "questionText": "スケジュールは川井さんに聞いてください。",
+          "questionText": "<u>スケジュール</u>は川井さんに聞いてください。",
           "passage": null,
           "choices": [
             "行き方",

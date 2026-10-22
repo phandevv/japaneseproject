@@ -13,6 +13,7 @@ public class AttemptDto {
     private LocalDateTime startedAt;
     private Map<String, Integer> savedAnswers;
     private ExamDetailDto exam;
+    private String sectionResultsJson;
 
     public AttemptDto() {}
 
@@ -39,4 +40,7 @@ public class AttemptDto {
 
     public ExamDetailDto getExam() { return exam; }
     public void setExam(ExamDetailDto exam) { this.exam = exam; }
+
+    public String getSectionResultsJson() { return sectionResultsJson; }
+    public void setSectionResultsJson(String sectionResultsJson) { this.sectionResultsJson = sectionResultsJson; }
 }

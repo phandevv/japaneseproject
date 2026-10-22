@@ -86,4 +86,9 @@ public class HighFrequencyGrammarController {
         Long userId = getCurrentUserId();
         return ResponseEntity.ok(service.getStats(userId));
     }
+
+    @PostMapping("/sync-mongo")
+    public ResponseEntity<Map<String, Object>> syncToMongo() {
+        return ResponseEntity.ok(service.syncToMongo());
+    }
 }

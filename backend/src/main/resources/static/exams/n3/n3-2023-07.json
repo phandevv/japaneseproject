@@ -495,7 +495,7 @@
           "mondai": 4,
           "questionNumber": 26,
           "questionType": "VOCAB_SYNONYM",
-          "questionText": "その部屋にある家具のサイズを聞いてきてください。",
+          "questionText": "その部屋にある家具の<u>サイズ</u>を聞いてきてください。",
           "passage": null,
           "choices": [
             "重さ",
@@ -514,7 +514,7 @@
           "mondai": 4,
           "questionNumber": 27,
           "questionType": "VOCAB_SYNONYM",
-          "questionText": "この部分を暗記してください。",
+          "questionText": "この部分を<u>暗記して</u>ください。",
           "passage": null,
           "choices": [
             "読んで",
@@ -533,13 +533,13 @@
           "mondai": 4,
           "questionNumber": 28,
           "questionType": "VOCAB_SYNONYM",
-          "questionText": "伊藤さんは魚を料理するのが得意なようだ。 １ あまり好きじゃない ３ とても好きな ２ あまり上手じゃない ４ とても上手な",
+          "questionText": "伊藤さんは魚を料理するのが<u>得意な</u>ようだ。",
           "passage": null,
           "choices": [
-            "1",
-            "2",
-            "3",
-            "4"
+            "あまり好きじゃない",
+            "あまり上手じゃない",
+            "とても好きな",
+            "とても上手な"
           ],
           "correctAnswer": 4,
           "imageRef": null,
@@ -552,13 +552,13 @@
           "mondai": 4,
           "questionNumber": 29,
           "questionType": "VOCAB_SYNONYM",
-          "questionText": "誰にでも欠点はあると思う。 １ つまらないところ ３ 間違えるところ ２ よくないところ ４ 忘れるところ",
+          "questionText": "誰にでも<u>欠点</u>はあると思う。",
           "passage": null,
           "choices": [
-            "1",
-            "2",
-            "3",
-            "4"
+            "つまらないところ",
+            "よくないところ",
+            "間違えるところ",
+            "忘れるところ"
           ],
           "correctAnswer": 2,
           "imageRef": null,
@@ -571,13 +571,13 @@
           "mondai": 4,
           "questionNumber": 30,
           "questionType": "VOCAB_SYNONYM",
-          "questionText": "そんなにどならないでください。 １ 大声で怒らないで ３ たくさん食べないで 2 強く押さないで 4 早く歩かないで",
+          "questionText": "そんなに<u>どならないで</u>ください。",
           "passage": null,
           "choices": [
-            "1",
-            "2",
-            "3",
-            "4"
+            "大声で怒らないで",
+            "強く押さないで",
+            "たくさん食べないで",
+            "早く歩かないで"
           ],
           "correctAnswer": 1,
           "imageRef": null,

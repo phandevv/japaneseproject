@@ -495,7 +495,7 @@
           "mondai": 4,
           "questionNumber": 26,
           "questionType": "VOCAB_SYNONYM",
-          "questionText": "わたしは妻と一緒に通勤しています。",
+          "questionText": "わたしは妻と一緒に<u>通勤しています</u>。",
           "passage": null,
           "choices": [
             "仕事に行って",
@@ -514,7 +514,7 @@
           "mondai": 4,
           "questionNumber": 27,
           "questionType": "VOCAB_SYNONYM",
-          "questionText": "とてもおそろしい経験をした。",
+          "questionText": "とても<u>おそろしい</u>経験をした。",
           "passage": null,
           "choices": [
             "たのしい",
@@ -533,7 +533,7 @@
           "mondai": 4,
           "questionNumber": 28,
           "questionType": "VOCAB_SYNONYM",
-          "questionText": "先生にわけを話した。",
+          "questionText": "先生に<u>わけ</u>を話した。",
           "passage": null,
           "choices": [
             "アイディア",
@@ -552,7 +552,7 @@
           "mondai": 4,
           "questionNumber": 29,
           "questionType": "VOCAB_SYNONYM",
-          "questionText": "最近、この川は水がへった気がする。",
+          "questionText": "最近、この川は水が<u>へった</u>気がする。",
           "passage": null,
           "choices": [
             "多くなった",
@@ -571,7 +571,7 @@
           "mondai": 4,
           "questionNumber": 30,
           "questionType": "VOCAB_SYNONYM",
-          "questionText": "実験がうまくいかなかったので、やりなおした。",
+          "questionText": "実験がうまくいかなかったので、<u>やりなおした</u>。",
           "passage": null,
           "choices": [
             "やり方を調べた",

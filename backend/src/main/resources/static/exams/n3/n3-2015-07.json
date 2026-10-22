@@ -495,7 +495,7 @@
           "mondai": 4,
           "questionNumber": 26,
           "questionType": "VOCAB_SYNONYM",
-          "questionText": "小林部長にはすべて報告しました。",
+          "questionText": "小林部長には<u>すべて</u>報告しました。",
           "passage": null,
           "choices": [
             "最初に",
@@ -514,7 +514,7 @@
           "mondai": 4,
           "questionNumber": 27,
           "questionType": "VOCAB_SYNONYM",
-          "questionText": "何か別の手段はありますか。",
+          "questionText": "何か別の<u>手段</u>はありますか。",
           "passage": null,
           "choices": [
             "アイディア",
@@ -533,7 +533,7 @@
           "mondai": 4,
           "questionNumber": 28,
           "questionType": "VOCAB_SYNONYM",
-          "questionText": "昨日は本当にくたびれた。",
+          "questionText": "昨日は本当に<u>くたびれた</u>。",
           "passage": null,
           "choices": [
             "疲れた",
@@ -552,7 +552,7 @@
           "mondai": 4,
           "questionNumber": 29,
           "questionType": "VOCAB_SYNONYM",
-          "questionText": "中村さんたちはずっとだまって仕事をしていた。",
+          "questionText": "中村さんたちはずっと<u>だまって</u>仕事をしていた。",
           "passage": null,
           "choices": [
             "座らずに",
@@ -571,7 +571,7 @@
           "mondai": 4,
           "questionNumber": 30,
           "questionType": "VOCAB_SYNONYM",
-          "questionText": "薬を飲んだら、熱は次第に下がってきた。",
+          "questionText": "薬を飲んだら、熱は<u>次第に</u>下がってきた。",
           "passage": null,
           "choices": [
             "すぐに",

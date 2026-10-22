@@ -1,12 +1,15 @@
 package com.flashcard.knowledge.service;
 
+import com.flashcard.knowledge.document.HighFrequencyGrammarDoc;
 import com.flashcard.knowledge.dto.HighFrequencyGrammarDto;
 import com.flashcard.knowledge.model.HighFrequencyGrammar;
 import com.flashcard.knowledge.model.HighFrequencyGrammarReview;
 import com.flashcard.knowledge.repository.HighFrequencyGrammarRepository;
 import com.flashcard.knowledge.repository.HighFrequencyGrammarReviewRepository;
+import com.flashcard.knowledge.repository.mongo.HighFrequencyGrammarMongoRepository;
 import com.flashcard.user.model.User;
 import com.flashcard.user.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,14 +24,18 @@ public class HighFrequencyGrammarService {
     private final HighFrequencyGrammarRepository grammarRepository;
     private final HighFrequencyGrammarReviewRepository reviewRepository;
     private final UserRepository userRepository;
+    private final HighFrequencyGrammarMongoRepository mongoRepository;
 
+    @Autowired
     public HighFrequencyGrammarService(
             HighFrequencyGrammarRepository grammarRepository,
             HighFrequencyGrammarReviewRepository reviewRepository,
-            UserRepository userRepository) {
+            UserRepository userRepository,
+            @Autowired(required = false) HighFrequencyGrammarMongoRepository mongoRepository) {
         this.grammarRepository = grammarRepository;
         this.reviewRepository = reviewRepository;
         this.userRepository = userRepository;
+        this.mongoRepository = mongoRepository;
     }
 
     @Transactional(readOnly = true)
@@ -193,5 +200,38 @@ public class HighFrequencyGrammarService {
         stats.put("reviewed", reviewedCount);
         stats.put("due", dueCount);
         return stats;
+    }
+
+    @Transactional
+    public Map<String, Object> syncToMongo() {
+        if (mongoRepository == null) {
+            return Map.of("status", "skipped", "message", "MongoDB repository is not active in current profile");
+        }
+        List<HighFrequencyGrammar> all = grammarRepository.findAllByOrderByRankNumberAsc();
+        List<HighFrequencyGrammarDoc> docs = new ArrayList<>();
+        for (HighFrequencyGrammar g : all) {
+            HighFrequencyGrammarDoc doc = new HighFrequencyGrammarDoc();
+            doc.setId(g.getId() != null ? g.getId() : (long) g.getRankNumber());
+            doc.setRankNumber(g.getRankNumber());
+            doc.setGrammar(g.getGrammar());
+            doc.setLevel(g.getLevel());
+            doc.setTotalOccurrences(g.getTotalOccurrences());
+            doc.setExamCoverage(g.getExamCoverage());
+            doc.setAvgPerExam(g.getAvgPerExam());
+            doc.setBunpouCount(g.getBunpouCount());
+            doc.setDokkaiCount(g.getDokkaiCount());
+            doc.setChoukaiCount(g.getChoukaiCount());
+            doc.setGoiCount(g.getGoiCount());
+            doc.setPriority(g.getPriority());
+            doc.setPriorityStars(g.getPriorityStars());
+            doc.setFormation(g.getFormation());
+            doc.setMeaning(g.getMeaning());
+            doc.setExamExamplesJson(g.getExamExamplesJson());
+            doc.setRecentTrend(g.getRecentTrend());
+            doc.setStudyTip(g.getStudyTip());
+            docs.add(doc);
+        }
+        mongoRepository.saveAll(docs);
+        return Map.of("status", "success", "count", docs.size(), "message", "Successfully synced " + docs.size() + " grammar points to MongoDB!");
     }
 }

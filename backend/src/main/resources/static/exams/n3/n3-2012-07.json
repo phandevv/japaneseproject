@@ -495,7 +495,7 @@
           "mondai": 4,
           "questionNumber": 26,
           "questionType": "VOCAB_SYNONYM",
-          "questionText": "これらのやり方には、共通点があります。",
+          "questionText": "これらのやり方には、<u>共通点</u>があります。",
           "passage": null,
           "choices": [
             "悪いところ",
@@ -514,7 +514,7 @@
           "mondai": 4,
           "questionNumber": 27,
           "questionType": "VOCAB_SYNONYM",
-          "questionText": "書類をみんなで整理した。",
+          "questionText": "書類をみんなで<u>整理した</u>。",
           "passage": null,
           "choices": [
             "数えた",
@@ -533,7 +533,7 @@
           "mondai": 4,
           "questionNumber": 28,
           "questionType": "VOCAB_SYNONYM",
-          "questionText": "田中さんはぜったいに来ると思います。",
+          "questionText": "田中さんは<u>ぜったいに</u>来ると思います。",
           "passage": null,
           "choices": [
             "すぐに",
@@ -552,7 +552,7 @@
           "mondai": 4,
           "questionNumber": 29,
           "questionType": "VOCAB_SYNONYM",
-          "questionText": "このことは、ないしょにしてください。",
+          "questionText": "このことは、<u>ないしょ</u>にしてください。",
           "passage": null,
           "choices": [
             "だれにも話さないで",
@@ -571,7 +571,7 @@
           "mondai": 4,
           "questionNumber": 30,
           "questionType": "VOCAB_SYNONYM",
-          "questionText": "この CD の中で一番気に入っている曲はこれです。",
+          "questionText": "この CD の中で一番<u>気に入っている</u>曲はこれです。",
           "passage": null,
           "choices": [
             "人気がある",

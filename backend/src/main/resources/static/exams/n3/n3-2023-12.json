@@ -495,7 +495,7 @@
           "mondai": 4,
           "questionNumber": 26,
           "questionType": "VOCAB_SYNONYM",
-          "questionText": "皆 みな さん、避 ひ 難 なん してください。",
+          "questionText": "皆 みな さん、<u>避 ひ 難 なん して</u>ください。",
           "passage": null,
           "choices": [
             "ならんで",
@@ -514,7 +514,7 @@
           "mondai": 4,
           "questionNumber": 27,
           "questionType": "VOCAB_SYNONYM",
-          "questionText": "何かいい案 あん はありませんか。",
+          "questionText": "何かいい<u>案 あん</u> はありませんか。",
           "passage": null,
           "choices": [
             "ルール",
@@ -533,7 +533,7 @@
           "mondai": 4,
           "questionNumber": 28,
           "questionType": "VOCAB_SYNONYM",
-          "questionText": "私が何を言っても、彼 かれ はずっとだまっていた。",
+          "questionText": "私が何を言っても、彼 かれ はずっと<u>だまっていた</u>。",
           "passage": null,
           "choices": [
             "話 はな さなかった",
@@ -552,7 +552,7 @@
           "mondai": 4,
           "questionNumber": 29,
           "questionType": "VOCAB_SYNONYM",
-          "questionText": "このやり方がベストだ。",
+          "questionText": "このやり方が<u>ベストだ</u>。",
           "passage": null,
           "choices": [
             "最もよい",
@@ -571,7 +571,7 @@
           "mondai": 4,
           "questionNumber": 30,
           "questionType": "VOCAB_SYNONYM",
-          "questionText": "お店の人が配達 はいたつ してくれた。",
+          "questionText": "お店の人が<u>配達 はいたつ して</u>くれた。",
           "passage": null,
           "choices": [
             "組 く み立 た てて",

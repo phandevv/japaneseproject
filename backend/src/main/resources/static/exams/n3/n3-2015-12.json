@@ -495,7 +495,7 @@
           "mondai": 4,
           "questionNumber": 26,
           "questionType": "VOCAB_SYNONYM",
-          "questionText": "山本さんが得意な料理は何ですか。",
+          "questionText": "山本さんが<u>得意な</u>料理は何ですか。",
           "passage": null,
           "choices": [
             "つくってみたい",
@@ -514,7 +514,7 @@
           "mondai": 4,
           "questionNumber": 27,
           "questionType": "VOCAB_SYNONYM",
-          "questionText": "わたしの弟は短気です。",
+          "questionText": "わたしの弟は<u>短気</u>です。",
           "passage": null,
           "choices": [
             "すぐ忘れます",
@@ -533,7 +533,7 @@
           "mondai": 4,
           "questionNumber": 28,
           "questionType": "VOCAB_SYNONYM",
-          "questionText": "小林さんは、その話を疑っているようだ。",
+          "questionText": "小林さんは、その話を<u>疑っている</u>ようだ。",
           "passage": null,
           "choices": [
             "本当ではないと思っている",
@@ -552,7 +552,7 @@
           "mondai": 4,
           "questionNumber": 29,
           "questionType": "VOCAB_SYNONYM",
-          "questionText": "機会があれば、やってみたいです。",
+          "questionText": "<u>機会</u>があれば、やってみたいです。",
           "passage": null,
           "choices": [
             "サービス",
@@ -571,7 +571,7 @@
           "mondai": 4,
           "questionNumber": 30,
           "questionType": "VOCAB_SYNONYM",
-          "questionText": "田中さんはあいかわらず忙しいらしいよ。",
+          "questionText": "田中さんは<u>あいかわらず</u>忙しいらしいよ。",
           "passage": null,
           "choices": [
             "前と同じで",

@@ -495,7 +495,7 @@
           "mondai": 4,
           "questionNumber": 26,
           "questionType": "VOCAB_SYNONYM",
-          "questionText": "今回の仕事はとてもきつい。",
+          "questionText": "今回の仕事はとても<u>きつい</u>。",
           "passage": null,
           "choices": [
             "大変だ",
@@ -514,7 +514,7 @@
           "mondai": 4,
           "questionNumber": 27,
           "questionType": "VOCAB_SYNONYM",
-          "questionText": "今日はとてもくたびれた。",
+          "questionText": "今日はとても<u>くたびれた</u>。",
           "passage": null,
           "choices": [
             "いそがしかった",
@@ -533,7 +533,7 @@
           "mondai": 4,
           "questionNumber": 28,
           "questionType": "VOCAB_SYNONYM",
-          "questionText": "休みが明けたら、また連絡します。",
+          "questionText": "休みが<u>明けたら</u>、また連絡します。",
           "passage": null,
           "choices": [
             "とれたら",
@@ -552,7 +552,7 @@
           "mondai": 4,
           "questionNumber": 29,
           "questionType": "VOCAB_SYNONYM",
-          "questionText": "この店はいつも混雑している。",
+          "questionText": "この店はいつも<u>混雑している</u>。",
           "passage": null,
           "choices": [
             "客があまりいない",
@@ -571,7 +571,7 @@
           "mondai": 4,
           "questionNumber": 30,
           "questionType": "VOCAB_SYNONYM",
-          "questionText": "このスポーツのルールは単純だ。",
+          "questionText": "このスポーツのルールは<u>単純だ</u>。",
           "passage": null,
           "choices": [
             "よく知られている",

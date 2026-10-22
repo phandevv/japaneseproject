@@ -495,7 +495,7 @@
           "mondai": 4,
           "questionNumber": 26,
           "questionType": "VOCAB_SYNONYM",
-          "questionText": "昨日見た映画は退屈だった。",
+          "questionText": "昨日見た映画は<u>退屈だった</u>。",
           "passage": null,
           "choices": [
             "めずらしかった",
@@ -514,7 +514,7 @@
           "mondai": 4,
           "questionNumber": 27,
           "questionType": "VOCAB_SYNONYM",
-          "questionText": "危険なので絶対にふれないでください。",
+          "questionText": "危険なので絶対に<u>ふれないで</u>ください。",
           "passage": null,
           "choices": [
             "座らないで",
@@ -533,7 +533,7 @@
           "mondai": 4,
           "questionNumber": 28,
           "questionType": "VOCAB_SYNONYM",
-          "questionText": "それはとてもいい機会だと思います。",
+          "questionText": "それはとてもいい<u>機会</u>だと思います。",
           "passage": null,
           "choices": [
             "プレゼント",
@@ -552,7 +552,7 @@
           "mondai": 4,
           "questionNumber": 29,
           "questionType": "VOCAB_SYNONYM",
-          "questionText": "今回の仕事は、いつもよりきつかった。",
+          "questionText": "今回の仕事は、いつもより<u>きつかった</u>。",
           "passage": null,
           "choices": [
             "大変だった",
@@ -571,7 +571,7 @@
           "mondai": 4,
           "questionNumber": 30,
           "questionType": "VOCAB_SYNONYM",
-          "questionText": "なぜ私のこたえが違うのか、友だちの説明を聞いて納得した。",
+          "questionText": "なぜ私のこたえが違うのか、友だちの説明を聞いて<u>納得した</u>。",
           "passage": null,
           "choices": [
             "少しかった",

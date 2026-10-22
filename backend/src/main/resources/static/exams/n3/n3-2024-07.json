@@ -495,7 +495,7 @@
           "mondai": 4,
           "questionNumber": 26,
           "questionType": "VOCAB_SYNONYM",
-          "questionText": "この商品は売り切れました。",
+          "questionText": "この商品は<u>売り切れました</u>。",
           "passage": null,
           "choices": [
             "ほとんど売れました",
@@ -514,7 +514,7 @@
           "mondai": 4,
           "questionNumber": 27,
           "questionType": "VOCAB_SYNONYM",
-          "questionText": "あそこは道がカーブしていますので、気をつけてください。",
+          "questionText": "あそこは道が<u>カーブしています</u>ので、気をつけてください。",
           "passage": null,
           "choices": [
             "狭くなって",
@@ -533,7 +533,7 @@
           "mondai": 4,
           "questionNumber": 28,
           "questionType": "VOCAB_SYNONYM",
-          "questionText": "今夜は家に誰もいないから退屈だ。",
+          "questionText": "今夜は家に誰もいないから<u>退屈だ</u>。",
           "passage": null,
           "choices": [
             "つまらない",
@@ -552,7 +552,7 @@
           "mondai": 4,
           "questionNumber": 29,
           "questionType": "VOCAB_SYNONYM",
-          "questionText": "テレビで紹介された店にさっそく行った。",
+          "questionText": "テレビで紹介された店に<u>さっそく</u>行った。",
           "passage": null,
           "choices": [
             "初めて",
@@ -571,7 +571,7 @@
           "mondai": 4,
           "questionNumber": 30,
           "questionType": "VOCAB_SYNONYM",
-          "questionText": "このズボンはゆるいので、別のズボンが欲しい。",
+          "questionText": "このズボンは<u>ゆるい</u>ので、別のズボンが欲しい。",
           "passage": null,
           "choices": [
             "古い",

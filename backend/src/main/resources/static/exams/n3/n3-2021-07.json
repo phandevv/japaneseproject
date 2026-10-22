@@ -495,7 +495,7 @@
           "mondai": 4,
           "questionNumber": 26,
           "questionType": "VOCAB_SYNONYM",
-          "questionText": "今日の会議ではさまざまな意見が出た。",
+          "questionText": "今日の会議では<u>さまざま</u>な意見が出た。",
           "passage": null,
           "choices": [
             "とくベつ",
@@ -514,7 +514,7 @@
           "mondai": 4,
           "questionNumber": 27,
           "questionType": "VOCAB_SYNONYM",
-          "questionText": "できるだけ早めに報告してください。",
+          "questionText": "できるだけ早めに<u>報告して</u>ください。",
           "passage": null,
           "choices": [
             "頼んで",
@@ -533,7 +533,7 @@
           "mondai": 4,
           "questionNumber": 28,
           "questionType": "VOCAB_SYNONYM",
-          "questionText": "山田さんは絶対に来ると思います。",
+          "questionText": "山田さんは<u>絶対に</u>来ると思います。",
           "passage": null,
           "choices": [
             "あとで",
@@ -552,7 +552,7 @@
           "mondai": 4,
           "questionNumber": 29,
           "questionType": "VOCAB_SYNONYM",
-          "questionText": "この話はおしまいです。",
+          "questionText": "この話は<u>おしまい</u>です。",
           "passage": null,
           "choices": [
             "おわり",
@@ -571,7 +571,7 @@
           "mondai": 4,
           "questionNumber": 30,
           "questionType": "VOCAB_SYNONYM",
-          "questionText": "先週、学校をサボってしまった。",
+          "questionText": "先週、学校を<u>サボってしまった</u>。",
           "passage": null,
           "choices": [
             "病気になって学校を辞めてしまった",

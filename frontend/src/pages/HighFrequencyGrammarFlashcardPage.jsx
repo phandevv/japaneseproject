@@ -229,7 +229,7 @@ const HighFrequencyGrammarFlashcardPage = () => {
           display: 'flex',
           alignItems: 'center',
           gap: '12px',
-          background: 'rgba(255, 255, 255, 0.04)',
+          background: 'var(--surface-color)',
           border: '1px solid var(--border-color)',
           padding: '6px 14px',
           borderRadius: '20px',
@@ -247,17 +247,18 @@ const HighFrequencyGrammarFlashcardPage = () => {
 
       {/* Hero Header */}
       <div style={{
-        background: 'linear-gradient(135deg, rgba(239, 68, 68, 0.12) 0%, rgba(168, 85, 247, 0.12) 100%)',
-        border: '1px solid rgba(239, 68, 68, 0.25)',
+        background: 'var(--surface-color)',
+        border: '1px solid var(--border-color)',
         borderRadius: '20px',
         padding: '24px',
         marginBottom: '24px',
         position: 'relative',
-        overflow: 'hidden'
+        overflow: 'hidden',
+        boxShadow: 'var(--shadow-sm)'
       }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '8px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '8px', flexWrap: 'wrap' }}>
           <span style={{
-            background: 'linear-gradient(135deg, #ef4444 0%, #ec4899 100%)',
+            background: 'var(--accent-color)',
             color: '#fff',
             padding: '4px 12px',
             borderRadius: '12px',
@@ -280,9 +281,7 @@ const HighFrequencyGrammarFlashcardPage = () => {
           fontSize: 'clamp(20px, 4vw, 26px)',
           fontWeight: '800',
           margin: '0 0 8px 0',
-          background: 'linear-gradient(135deg, #fff 0%, #fca5a5 100%)',
-          WebkitBackgroundClip: 'text',
-          WebkitTextFillColor: 'transparent'
+          color: 'var(--text-primary)'
         }}>
           Flashcard 79 Mẫu Ngữ Pháp Tần Suất Cao Nhất
         </h1>
@@ -326,12 +325,13 @@ const HighFrequencyGrammarFlashcardPage = () => {
                 whiteSpace: 'nowrap',
                 cursor: 'pointer',
                 transition: 'all 0.2s ease',
-                border: isActive ? '1px solid rgba(239, 68, 68, 0.6)' : '1px solid var(--border-color)',
-                background: isActive ? 'linear-gradient(135deg, rgba(239, 68, 68, 0.25) 0%, rgba(220, 38, 38, 0.15) 100%)' : 'var(--surface-color)',
-                color: isActive ? '#fff' : 'var(--text-secondary)'
+                border: isActive ? '1px solid var(--accent-color)' : '1px solid var(--border-color)',
+                background: isActive ? 'var(--accent-color)' : 'var(--surface-color)',
+                color: isActive ? '#ffffff' : 'var(--text-secondary)',
+                boxShadow: isActive ? 'var(--shadow-sm)' : 'none'
               }}
             >
-              <Icon size={15} color={isActive ? '#ef4444' : 'currentColor'} />
+              <Icon size={15} color={isActive ? '#ffffff' : 'currentColor'} />
               {tab.label}
             </button>
           );
@@ -507,14 +507,14 @@ const HighFrequencyGrammarFlashcardPage = () => {
                 minHeight: '440px',
                 backfaceVisibility: 'hidden',
                 WebkitBackfaceVisibility: 'hidden',
-                background: 'linear-gradient(145deg, var(--surface-color) 0%, rgba(30, 41, 59, 0.85) 100%)',
+                background: 'var(--surface-color)',
                 border: '1px solid var(--border-color)',
                 borderRadius: '24px',
                 padding: '32px 28px',
                 display: 'flex',
                 flexDirection: 'column',
                 justifyContent: 'space-between',
-                boxShadow: '0 20px 40px -15px rgba(0, 0, 0, 0.45)',
+                boxShadow: 'var(--shadow-md)',
                 boxSizing: 'border-box'
               }}>
                 {/* Header Row */}
@@ -529,7 +529,7 @@ const HighFrequencyGrammarFlashcardPage = () => {
                   }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                       <span style={{
-                        background: 'linear-gradient(135deg, #ef4444 0%, #dc2626 100%)',
+                        background: 'var(--accent-color)',
                         color: '#fff',
                         fontWeight: '800',
                         fontSize: '13px',
@@ -540,7 +540,7 @@ const HighFrequencyGrammarFlashcardPage = () => {
                         TOP #{currentItem?.rankNumber}
                       </span>
                       <span style={{
-                        background: 'rgba(255, 255, 255, 0.08)',
+                        background: 'var(--bg-color)',
                         border: '1px solid var(--border-color)',
                         color: 'var(--text-primary)',
                         fontWeight: '700',
@@ -566,11 +566,11 @@ const HighFrequencyGrammarFlashcardPage = () => {
                       gap: '6px',
                       background: 'rgba(239, 68, 68, 0.1)',
                       border: '1px solid rgba(239, 68, 68, 0.3)',
-                      color: '#fca5a5',
+                      color: 'var(--danger-color)',
                       padding: '4px 12px',
                       borderRadius: '16px',
                       fontSize: '12.5px',
-                      fontWeight: '600'
+                      fontWeight: '700'
                     }}>
                       <Flame size={14} /> Xuất hiện {currentItem?.totalOccurrences} lần ({currentItem?.examCoverage} đề)
                     </div>
@@ -592,7 +592,7 @@ const HighFrequencyGrammarFlashcardPage = () => {
                     <button
                       onClick={(e) => handleSpeak(currentItem?.grammar, e)}
                       style={{
-                        background: 'rgba(255, 255, 255, 0.06)',
+                        background: 'var(--bg-color)',
                         border: '1px solid var(--border-color)',
                         color: 'var(--text-secondary)',
                         padding: '8px 16px',
@@ -604,7 +604,7 @@ const HighFrequencyGrammarFlashcardPage = () => {
                         gap: '6px',
                         transition: 'all 0.2s ease'
                       }}
-                      onMouseEnter={e => e.currentTarget.style.color = '#ef4444'}
+                      onMouseEnter={e => e.currentTarget.style.color = 'var(--accent-color)'}
                       onMouseLeave={e => e.currentTarget.style.color = 'var(--text-secondary)'}
                     >
                       <Volume2 size={16} /> Nghe phát âm
@@ -622,51 +622,51 @@ const HighFrequencyGrammarFlashcardPage = () => {
                     marginRight: 'auto'
                   }}>
                     <div style={{
-                      background: 'rgba(255, 255, 255, 0.04)',
+                      background: 'var(--bg-color)',
                       border: '1px solid var(--border-color)',
                       padding: '10px 8px',
                       borderRadius: '12px',
                       textAlign: 'center'
                     }}>
                       <div style={{ fontSize: '11px', color: 'var(--text-secondary)', marginBottom: '2px' }}>文法 (Ngữ pháp)</div>
-                      <div style={{ fontSize: '16px', fontWeight: '800', color: '#60a5fa' }}>{currentItem?.bunpouCount || 0}</div>
+                      <div style={{ fontSize: '16px', fontWeight: '800', color: '#2563eb' }}>{currentItem?.bunpouCount || 0}</div>
                     </div>
                     <div style={{
-                      background: currentItem?.dokkaiCount > currentItem?.bunpouCount ? 'rgba(239, 68, 68, 0.12)' : 'rgba(255, 255, 255, 0.04)',
+                      background: currentItem?.dokkaiCount > currentItem?.bunpouCount ? 'rgba(239, 68, 68, 0.12)' : 'var(--bg-color)',
                       border: currentItem?.dokkaiCount > currentItem?.bunpouCount ? '1px solid rgba(239, 68, 68, 0.35)' : '1px solid var(--border-color)',
                       padding: '10px 8px',
                       borderRadius: '12px',
                       textAlign: 'center'
                     }}>
                       <div style={{ fontSize: '11px', color: 'var(--text-secondary)', marginBottom: '2px' }}>読解 (Đọc hiểu)</div>
-                      <div style={{ fontSize: '16px', fontWeight: '800', color: '#f87171' }}>{currentItem?.dokkaiCount || 0}</div>
+                      <div style={{ fontSize: '16px', fontWeight: '800', color: 'var(--danger-color)' }}>{currentItem?.dokkaiCount || 0}</div>
                     </div>
                     <div style={{
-                      background: 'rgba(255, 255, 255, 0.04)',
+                      background: 'var(--bg-color)',
                       border: '1px solid var(--border-color)',
                       padding: '10px 8px',
                       borderRadius: '12px',
                       textAlign: 'center'
                     }}>
                       <div style={{ fontSize: '11px', color: 'var(--text-secondary)', marginBottom: '2px' }}>聴解 (Nghe hiểu)</div>
-                      <div style={{ fontSize: '16px', fontWeight: '800', color: '#34d399' }}>{currentItem?.choukaiCount || 0}</div>
+                      <div style={{ fontSize: '16px', fontWeight: '800', color: '#059669' }}>{currentItem?.choukaiCount || 0}</div>
                     </div>
                     <div style={{
-                      background: 'rgba(255, 255, 255, 0.04)',
+                      background: 'var(--bg-color)',
                       border: '1px solid var(--border-color)',
                       padding: '10px 8px',
                       borderRadius: '12px',
                       textAlign: 'center'
                     }}>
                       <div style={{ fontSize: '11px', color: 'var(--text-secondary)', marginBottom: '2px' }}>語彙 (Từ vựng)</div>
-                      <div style={{ fontSize: '16px', fontWeight: '800', color: '#fbbf24' }}>{currentItem?.goiCount || 0}</div>
+                      <div style={{ fontSize: '16px', fontWeight: '800', color: '#d97706' }}>{currentItem?.goiCount || 0}</div>
                     </div>
                   </div>
 
                   {/* Real Exam Quick Challenge Context */}
                   {challengeExample && (
                     <div style={{
-                      background: 'rgba(0, 0, 0, 0.25)',
+                      background: 'var(--bg-color)',
                       border: '1px dashed var(--border-color)',
                       borderRadius: '14px',
                       padding: '14px 18px',
@@ -675,7 +675,7 @@ const HighFrequencyGrammarFlashcardPage = () => {
                       color: 'var(--text-secondary)',
                       lineHeight: 1.6
                     }}>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '11.5px', color: '#93c5fd', fontWeight: '600', marginBottom: '4px' }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '11.5px', color: 'var(--accent-color)', fontWeight: '700', marginBottom: '4px' }}>
                         <Trophy size={13} /> Câu trích từ đề thi thật [{challengeExample.session} / {challengeExample.section}]:
                       </div>
                       <div style={{ color: 'var(--text-primary)', fontStyle: 'italic' }}>
@@ -689,7 +689,7 @@ const HighFrequencyGrammarFlashcardPage = () => {
                 <div style={{
                   textAlign: 'center',
                   paddingTop: '20px',
-                  borderTop: '1px solid rgba(255, 255, 255, 0.06)',
+                  borderTop: '1px solid var(--border-color)',
                   color: 'var(--text-secondary)',
                   fontSize: '13px',
                   display: 'flex',
@@ -711,14 +711,14 @@ const HighFrequencyGrammarFlashcardPage = () => {
                 backfaceVisibility: 'hidden',
                 WebkitBackfaceVisibility: 'hidden',
                 transform: 'rotateY(180deg)',
-                background: 'linear-gradient(145deg, var(--surface-color) 0%, rgba(24, 30, 44, 0.95) 100%)',
-                border: '1px solid rgba(239, 68, 68, 0.4)',
+                background: 'var(--surface-color)',
+                border: '1px solid var(--accent-color)',
                 borderRadius: '24px',
                 padding: '32px 28px',
                 display: 'flex',
                 flexDirection: 'column',
                 justifyContent: 'space-between',
-                boxShadow: '0 20px 40px -15px rgba(0, 0, 0, 0.45)',
+                boxShadow: 'var(--shadow-md)',
                 boxSizing: 'border-box'
               }}>
                 <div>
@@ -728,11 +728,11 @@ const HighFrequencyGrammarFlashcardPage = () => {
                     alignItems: 'center',
                     justifyContent: 'space-between',
                     marginBottom: '18px',
-                    borderBottom: '1px solid rgba(255, 255, 255, 0.08)',
+                    borderBottom: '1px solid var(--border-color)',
                     paddingBottom: '12px'
                   }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                      <span style={{ fontWeight: '800', color: '#f87171', fontSize: '15px' }}>
+                      <span style={{ fontWeight: '800', color: 'var(--accent-color)', fontSize: '15px' }}>
                         TOP #{currentItem?.rankNumber}
                       </span>
                       <span style={{ fontWeight: '700', fontSize: '18px', color: 'var(--text-primary)' }}>
@@ -743,7 +743,7 @@ const HighFrequencyGrammarFlashcardPage = () => {
                     <button
                       onClick={(e) => handleSpeak(currentItem?.grammar, e)}
                       style={{
-                        background: 'rgba(255, 255, 255, 0.06)',
+                        background: 'var(--bg-color)',
                         border: '1px solid var(--border-color)',
                         color: 'var(--text-secondary)',
                         padding: '6px 12px',
@@ -761,7 +761,7 @@ const HighFrequencyGrammarFlashcardPage = () => {
 
                   {/* 1. Ý Nghĩa Cốt Lõi */}
                   <div style={{ marginBottom: '16px' }}>
-                    <div style={{ fontSize: '12px', textTransform: 'uppercase', color: '#10b981', fontWeight: '700', marginBottom: '4px', letterSpacing: '0.5px' }}>
+                    <div style={{ fontSize: '12px', textTransform: 'uppercase', color: '#059669', fontWeight: '700', marginBottom: '4px', letterSpacing: '0.5px' }}>
                       Ý nghĩa cốt lõi
                     </div>
                     <div style={{ fontSize: '17px', fontWeight: '700', color: 'var(--text-primary)', lineHeight: 1.5 }}>
@@ -771,16 +771,16 @@ const HighFrequencyGrammarFlashcardPage = () => {
 
                   {/* 2. Cấu Trúc / Formation */}
                   <div style={{
-                    background: 'rgba(255, 255, 255, 0.04)',
+                    background: 'var(--bg-color)',
                     border: '1px solid var(--border-color)',
                     borderRadius: '12px',
                     padding: '12px 16px',
                     marginBottom: '16px'
                   }}>
-                    <div style={{ fontSize: '12px', textTransform: 'uppercase', color: '#60a5fa', fontWeight: '700', marginBottom: '4px', letterSpacing: '0.5px' }}>
+                    <div style={{ fontSize: '12px', textTransform: 'uppercase', color: 'var(--accent-color)', fontWeight: '700', marginBottom: '4px', letterSpacing: '0.5px' }}>
                       Cấu trúc ngữ pháp
                     </div>
-                    <div style={{ fontSize: '14.5px', fontFamily: 'monospace', color: '#93c5fd', fontWeight: '600' }}>
+                    <div style={{ fontSize: '14.5px', fontFamily: 'monospace', color: 'var(--text-primary)', fontWeight: '700' }}>
                       {currentItem?.formation || currentItem?.grammar}
                     </div>
                   </div>
@@ -788,16 +788,16 @@ const HighFrequencyGrammarFlashcardPage = () => {
                   {/* 3. Mẹo Thực Chiến (Study Tip) */}
                   {currentItem?.studyTip && (
                     <div style={{
-                      background: 'rgba(245, 158, 11, 0.08)',
-                      border: '1px solid rgba(245, 158, 11, 0.3)',
+                      background: 'rgba(245, 158, 11, 0.1)',
+                      border: '1px solid rgba(245, 158, 11, 0.35)',
                       borderRadius: '12px',
                       padding: '12px 16px',
                       marginBottom: '16px',
                       fontSize: '13px',
-                      color: '#fde68a',
+                      color: 'var(--text-primary)',
                       lineHeight: 1.5
                     }}>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontWeight: '700', marginBottom: '2px', color: '#f59e0b' }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontWeight: '700', marginBottom: '4px', color: '#d97706' }}>
                         <Sparkles size={14} /> Mẹo thực chiến trong đề thi thật:
                       </div>
                       {currentItem.studyTip}
@@ -807,7 +807,7 @@ const HighFrequencyGrammarFlashcardPage = () => {
                   {/* 4. Ví Dụ Trích Dẫn Đề Thi Thật */}
                   {examExamples.length > 0 && (
                     <div>
-                      <div style={{ fontSize: '12px', textTransform: 'uppercase', color: '#f87171', fontWeight: '700', marginBottom: '8px', letterSpacing: '0.5px' }}>
+                      <div style={{ fontSize: '12px', textTransform: 'uppercase', color: 'var(--danger-color)', fontWeight: '700', marginBottom: '8px', letterSpacing: '0.5px' }}>
                         Trích dẫn đề thi chính thức ({examExamples.length} câu)
                       </div>
                       <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', maxHeight: '150px', overflowY: 'auto', paddingRight: '4px' }}>
@@ -815,8 +815,8 @@ const HighFrequencyGrammarFlashcardPage = () => {
                           <div
                             key={exIdx}
                             style={{
-                              background: 'rgba(0, 0, 0, 0.25)',
-                              borderLeft: '3px solid #ef4444',
+                              background: 'var(--bg-color)',
+                              borderLeft: '3px solid var(--accent-color)',
                               padding: '8px 12px',
                               borderRadius: '4px 8px 8px 4px',
                               fontSize: '13px'
@@ -838,7 +838,7 @@ const HighFrequencyGrammarFlashcardPage = () => {
                 {/* SRS Rating Actions on Back */}
                 <div style={{
                   paddingTop: '20px',
-                  borderTop: '1px solid rgba(255, 255, 255, 0.08)',
+                  borderTop: '1px solid var(--border-color)',
                   marginTop: '16px'
                 }}>
                   <div style={{
@@ -860,10 +860,10 @@ const HighFrequencyGrammarFlashcardPage = () => {
                     gap: '8px'
                   }}>
                     {[
-                      { quality: 1, label: '1. Quên', sub: '1 ngày', bg: 'rgba(239, 68, 68, 0.15)', border: '#ef4444', text: '#fca5a5' },
-                      { quality: 2, label: '2. Khó', sub: 'Ôn sớm', bg: 'rgba(245, 158, 11, 0.15)', border: '#f59e0b', text: '#fcd34d' },
-                      { quality: 3, label: '3. Nhớ', sub: 'Tốt', bg: 'rgba(16, 185, 129, 0.15)', border: '#10b981', text: '#6ee7b7' },
-                      { quality: 4, label: '4. Dễ', sub: 'Giãn dài', bg: 'rgba(59, 130, 246, 0.15)', border: '#3b82f6', text: '#93c5fd' }
+                      { quality: 1, label: '1. Quên', sub: '1 ngày', bg: 'rgba(239, 68, 68, 0.12)', border: '#ef4444', text: '#dc2626' },
+                      { quality: 2, label: '2. Khó', sub: 'Ôn sớm', bg: 'rgba(245, 158, 11, 0.12)', border: '#f59e0b', text: '#d97706' },
+                      { quality: 3, label: '3. Nhớ', sub: 'Tốt', bg: 'rgba(16, 185, 129, 0.12)', border: '#10b981', text: '#059669' },
+                      { quality: 4, label: '4. Dễ', sub: 'Giãn dài', bg: 'rgba(59, 130, 246, 0.12)', border: '#3b82f6', text: '#2563eb' }
                     ].map(btn => (
                       <button
                         key={btn.quality}
@@ -883,7 +883,7 @@ const HighFrequencyGrammarFlashcardPage = () => {
                         onMouseLeave={e => e.currentTarget.style.transform = 'translateY(0)'}
                       >
                         <div style={{ fontWeight: '700', fontSize: '13px' }}>{btn.label}</div>
-                        <div style={{ fontSize: '11px', opacity: 0.8 }}>{btn.sub}</div>
+                        <div style={{ fontSize: '11px', opacity: 0.85, fontWeight: '500' }}>{btn.sub}</div>
                       </button>
                     ))}
                   </div>
@@ -912,8 +912,8 @@ const HighFrequencyGrammarFlashcardPage = () => {
                 padding: '12px 24px',
                 borderRadius: '14px',
                 border: '1px solid var(--border-color)',
-                background: currentIndex === 0 ? 'rgba(255, 255, 255, 0.03)' : 'var(--surface-color)',
-                color: currentIndex === 0 ? 'rgba(255, 255, 255, 0.25)' : 'var(--text-primary)',
+                background: currentIndex === 0 ? 'var(--bg-color)' : 'var(--surface-color)',
+                color: currentIndex === 0 ? 'var(--text-muted)' : 'var(--text-primary)',
                 fontSize: '14px',
                 fontWeight: '600',
                 cursor: currentIndex === 0 ? 'not-allowed' : 'pointer',
@@ -931,13 +931,13 @@ const HighFrequencyGrammarFlashcardPage = () => {
                 gap: '8px',
                 padding: '12px 32px',
                 borderRadius: '14px',
-                border: '1px solid rgba(239, 68, 68, 0.5)',
-                background: 'linear-gradient(135deg, rgba(239, 68, 68, 0.2) 0%, rgba(220, 38, 38, 0.2) 100%)',
-                color: '#fff',
+                border: '1px solid var(--accent-color)',
+                background: 'var(--accent-color)',
+                color: '#ffffff',
                 fontSize: '14px',
                 fontWeight: '700',
                 cursor: 'pointer',
-                boxShadow: '0 4px 14px rgba(239, 68, 68, 0.25)',
+                boxShadow: 'var(--shadow-sm)',
                 transition: 'all 0.2s ease'
               }}
             >
@@ -954,8 +954,8 @@ const HighFrequencyGrammarFlashcardPage = () => {
                 padding: '12px 24px',
                 borderRadius: '14px',
                 border: '1px solid var(--border-color)',
-                background: currentIndex >= items.length - 1 ? 'rgba(255, 255, 255, 0.03)' : 'var(--surface-color)',
-                color: currentIndex >= items.length - 1 ? 'rgba(255, 255, 255, 0.25)' : 'var(--text-primary)',
+                background: currentIndex >= items.length - 1 ? 'var(--bg-color)' : 'var(--surface-color)',
+                color: currentIndex >= items.length - 1 ? 'var(--text-muted)' : 'var(--text-primary)',
                 fontSize: '14px',
                 fontWeight: '600',
                 cursor: currentIndex >= items.length - 1 ? 'not-allowed' : 'pointer',
@@ -979,9 +979,9 @@ const HighFrequencyGrammarFlashcardPage = () => {
             flexWrap: 'wrap'
           }}>
             <span>⌨️ Phím tắt:</span>
-            <span><kbd style={{ background: 'rgba(255,255,255,0.08)', padding: '2px 6px', borderRadius: '4px' }}>Space</kbd> Lật thẻ</span>
-            <span><kbd style={{ background: 'rgba(255,255,255,0.08)', padding: '2px 6px', borderRadius: '4px' }}>←</kbd> / <kbd style={{ background: 'rgba(255,255,255,0.08)', padding: '2px 6px', borderRadius: '4px' }}>→</kbd> Chuyển thẻ</span>
-            <span><kbd style={{ background: 'rgba(255,255,255,0.08)', padding: '2px 6px', borderRadius: '4px' }}>1-4</kbd> Đánh giá SRS</span>
+            <span><kbd style={{ background: 'var(--surface-color)', border: '1px solid var(--border-color)', padding: '2px 6px', borderRadius: '4px' }}>Space</kbd> Lật thẻ</span>
+            <span><kbd style={{ background: 'var(--surface-color)', border: '1px solid var(--border-color)', padding: '2px 6px', borderRadius: '4px' }}>←</kbd> / <kbd style={{ background: 'var(--surface-color)', border: '1px solid var(--border-color)', padding: '2px 6px', borderRadius: '4px' }}>→</kbd> Chuyển thẻ</span>
+            <span><kbd style={{ background: 'var(--surface-color)', border: '1px solid var(--border-color)', padding: '2px 6px', borderRadius: '4px' }}>1-4</kbd> Đánh giá SRS</span>
           </div>
         </div>
       )}

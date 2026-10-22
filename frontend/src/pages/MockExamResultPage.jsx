@@ -462,6 +462,7 @@ export default function MockExamResultPage({ attemptId: propAttemptId }) {
                         text={q.questionText}
                         fallbackNumber={q.questionNumber}
                         questionType={q.questionType}
+                        mondai={q.mondai}
                         choices={q.choices}
                       />
                     </div>

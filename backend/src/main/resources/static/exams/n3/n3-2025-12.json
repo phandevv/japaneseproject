@@ -495,7 +495,7 @@
           "mondai": 4,
           "questionNumber": 26,
           "questionType": "VOCAB_SYNONYM",
-          "questionText": "清潔 せいけつ なタオルを拭 ふ いてください。",
+          "questionText": "<u>清潔 せいけつ な</u>タオルを拭 ふ いてください。",
           "passage": null,
           "choices": [
             "柔 やわ らかい",
@@ -514,7 +514,7 @@
           "mondai": 4,
           "questionNumber": 27,
           "questionType": "VOCAB_SYNONYM",
-          "questionText": "さっきご飯を食べました。",
+          "questionText": "<u>さっき</u>ご飯を食べました。",
           "passage": null,
           "choices": [
             "急いで",
@@ -533,7 +533,7 @@
           "mondai": 4,
           "questionNumber": 28,
           "questionType": "VOCAB_SYNONYM",
-          "questionText": "これはキッチンに置 お いてください。",
+          "questionText": "これは<u>キッチン</u>に置 お いてください。",
           "passage": null,
           "choices": [
             "居間 いま",
@@ -552,7 +552,7 @@
           "mondai": 4,
           "questionNumber": 29,
           "questionType": "VOCAB_SYNONYM",
-          "questionText": "今、野 の 口 ぐち さんが指 し 導 どう しています。",
+          "questionText": "今、野 の 口 ぐち さんが<u>指 し 導 どう しています</u>。",
           "passage": null,
           "choices": [
             "調べて",
@@ -571,7 +571,7 @@
           "mondai": 4,
           "questionNumber": 30,
           "questionType": "VOCAB_SYNONYM",
-          "questionText": "そろそろおしまいましょう。",
+          "questionText": "そろそろ<u>おしまいましょう</u>。",
           "passage": null,
           "choices": [
             "休みましょう",

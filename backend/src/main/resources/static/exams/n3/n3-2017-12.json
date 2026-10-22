@@ -495,7 +495,7 @@
           "mondai": 4,
           "questionNumber": 26,
           "questionType": "VOCAB_SYNONYM",
-          "questionText": "前田さんも協力してください。",
+          "questionText": "前田さんも<u>協力して</u>ください。",
           "passage": null,
           "choices": [
             "急いで",
@@ -514,7 +514,7 @@
           "mondai": 4,
           "questionNumber": 27,
           "questionType": "VOCAB_SYNONYM",
-          "questionText": "この仕事のスケジュールを教えてください。",
+          "questionText": "この仕事の<u>スケジュール</u>を教えてください。",
           "passage": null,
           "choices": [
             "規則",
@@ -533,10 +533,10 @@
           "mondai": 4,
           "questionNumber": 28,
           "questionType": "VOCAB_SYNONYM",
-          "questionText": "食事代は約",
+          "questionText": "食事代は<u>約</u> 1 万円でした。",
           "passage": null,
           "choices": [
-            "万円でした。 １ だいたい 1 万円",
+            "だいたい 1 万円",
             "ちょうど 1 万円",
             "1 万円以上",
             "1 万円以下"
@@ -552,7 +552,7 @@
           "mondai": 4,
           "questionNumber": 29,
           "questionType": "VOCAB_SYNONYM",
-          "questionText": "高橋さんにどなられた。",
+          "questionText": "高橋さんに<u>どなられた</u>。",
           "passage": null,
           "choices": [
             "大声で怒られた",
@@ -571,7 +571,7 @@
           "mondai": 4,
           "questionNumber": 30,
           "questionType": "VOCAB_SYNONYM",
-          "questionText": "中島さんはあらゆる質問に丁寧に答えた。",
+          "questionText": "中島さんは<u>あらゆる</u>質問に丁寧に答えた。",
           "passage": null,
           "choices": [
             "一つの",

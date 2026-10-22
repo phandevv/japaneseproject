@@ -495,7 +495,7 @@
           "mondai": 4,
           "questionNumber": 26,
           "questionType": "VOCAB_SYNONYM",
-          "questionText": "山口さんならさっき帰りましたよ。",
+          "questionText": "山口さんなら<u>さっき</u>帰りましたよ。",
           "passage": null,
           "choices": [
             "すぐに",
@@ -514,7 +514,7 @@
           "mondai": 4,
           "questionNumber": 27,
           "questionType": "VOCAB_SYNONYM",
-          "questionText": "隣の部屋からおかしな音が聞こえる。",
+          "questionText": "隣の部屋から<u>おかしな</u>音が聞こえる。",
           "passage": null,
           "choices": [
             "いろいろな",
@@ -533,7 +533,7 @@
           "mondai": 4,
           "questionNumber": 28,
           "questionType": "VOCAB_SYNONYM",
-          "questionText": "あれから約１週間たちました。",
+          "questionText": "あれから約１週間<u>たちました</u>。",
           "passage": null,
           "choices": [
             "過ぎました",
@@ -552,7 +552,7 @@
           "mondai": 4,
           "questionNumber": 29,
           "questionType": "VOCAB_SYNONYM",
-          "questionText": "山本さんはあわてて出ていきましたよ。",
+          "questionText": "山本さんは<u>あわてて</u>出ていきましたよ。",
           "passage": null,
           "choices": [
             "困ったようすで",
@@ -571,7 +571,7 @@
           "mondai": 4,
           "questionNumber": 30,
           "questionType": "VOCAB_SYNONYM",
-          "questionText": "道がカーブしているので、気をつけてください。",
+          "questionText": "道が<u>カーブしている</u>ので、気をつけてください。",
           "passage": null,
           "choices": [
             "曲がっている",

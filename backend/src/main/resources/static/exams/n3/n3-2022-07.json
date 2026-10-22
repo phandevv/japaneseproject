@@ -495,7 +495,7 @@
           "mondai": 4,
           "questionNumber": 26,
           "questionType": "VOCAB_SYNONYM",
-          "questionText": "あの人は短気だ。",
+          "questionText": "あの人は<u>短気だ</u>。",
           "passage": null,
           "choices": [
             "すぐ怒る",
@@ -514,7 +514,7 @@
           "mondai": 4,
           "questionNumber": 27,
           "questionType": "VOCAB_SYNONYM",
-          "questionText": "12 時にグラウンドに来てください。",
+          "questionText": "12 時に<u>グラウンド</u>に来てください。",
           "passage": null,
           "choices": [
             "屋上",
@@ -533,7 +533,7 @@
           "mondai": 4,
           "questionNumber": 28,
           "questionType": "VOCAB_SYNONYM",
-          "questionText": "私のおいは東京に住んでいます。",
+          "questionText": "私の<u>おい</u>は東京に住んでいます。",
           "passage": null,
           "choices": [
             "姉の息子",
@@ -552,7 +552,7 @@
           "mondai": 4,
           "questionNumber": 29,
           "questionType": "VOCAB_SYNONYM",
-          "questionText": "もっとくわしく説明してください。",
+          "questionText": "もっと<u>くわしく</u>説明してください。",
           "passage": null,
           "choices": [
             "早く",
@@ -571,7 +571,7 @@
           "mondai": 4,
           "questionNumber": 30,
           "questionType": "VOCAB_SYNONYM",
-          "questionText": "諦める",
+          "questionText": "<u>諦める</u>",
           "passage": null,
           "choices": [
             "今日は天気がいいから、傘を諦めてよさそうた。",

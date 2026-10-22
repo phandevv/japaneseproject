@@ -495,7 +495,7 @@
           "mondai": 4,
           "questionNumber": 26,
           "questionType": "VOCAB_SYNONYM",
-          "questionText": "高橋さんの家はキッチンが広くていいですね。",
+          "questionText": "高橋さんの家は<u>キッチン</u>が広くていいですね。",
           "passage": null,
           "choices": [
             "玄関",
@@ -514,7 +514,7 @@
           "mondai": 4,
           "questionNumber": 27,
           "questionType": "VOCAB_SYNONYM",
-          "questionText": "机の位置を確認しておいてください。",
+          "questionText": "机の<u>位置</u>を確認しておいてください。",
           "passage": null,
           "choices": [
             "値段",
@@ -533,7 +533,7 @@
           "mondai": 4,
           "questionNumber": 28,
           "questionType": "VOCAB_SYNONYM",
-          "questionText": "その商品は売り切れた。",
+          "questionText": "その商品は<u>売り切れた</u>。",
           "passage": null,
           "choices": [
             "全部売れた",
@@ -552,7 +552,7 @@
           "mondai": 4,
           "questionNumber": 29,
           "questionType": "VOCAB_SYNONYM",
-          "questionText": "今度、わけを教えてください",
+          "questionText": "今度、<u>わけ</u>を教えてください",
           "passage": null,
           "choices": [
             "計画",
@@ -571,7 +571,7 @@
           "mondai": 4,
           "questionNumber": 30,
           "questionType": "VOCAB_SYNONYM",
-          "questionText": "今からアンケートを回収します。",
+          "questionText": "今からアンケートを<u>回収します</u>。",
           "passage": null,
           "choices": [
             "渡す",

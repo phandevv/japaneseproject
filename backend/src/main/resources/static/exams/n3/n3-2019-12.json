@@ -495,7 +495,7 @@
           "mondai": 4,
           "questionNumber": 26,
           "questionType": "VOCAB_SYNONYM",
-          "questionText": "鈴木さんへ感謝の手紙を送った。",
+          "questionText": "鈴木さんへ<u>感謝</u>の手紙を送った。",
           "passage": null,
           "choices": [
             "お願い",
@@ -514,7 +514,7 @@
           "mondai": 4,
           "questionNumber": 27,
           "questionType": "VOCAB_SYNONYM",
-          "questionText": "子どもたちはキッチンにいます。",
+          "questionText": "子どもたちは<u>キッチン</u>にいます。",
           "passage": null,
           "choices": [
             "廊下",
@@ -533,7 +533,7 @@
           "mondai": 4,
           "questionNumber": 28,
           "questionType": "VOCAB_SYNONYM",
-          "questionText": "不安なので、私は行かないことにした。",
+          "questionText": "<u>不安</u>なので、私は行かないことにした。",
           "passage": null,
           "choices": [
             "時間がない",
@@ -552,7 +552,7 @@
           "mondai": 4,
           "questionNumber": 29,
           "questionType": "VOCAB_SYNONYM",
-          "questionText": "おなかがぺこぺこだ。",
+          "questionText": "おなかが<u>ぺこぺこだ</u>。",
           "passage": null,
           "choices": [
             "痛い",
@@ -571,7 +571,7 @@
           "mondai": 4,
           "questionNumber": 30,
           "questionType": "VOCAB_SYNONYM",
-          "questionText": "兄は黙ってずっと漫画を読んでいる。",
+          "questionText": "兄は<u>黙って</u>ずっと漫画を読んでいる。",
           "passage": null,
           "choices": [
             "何も話さないで",

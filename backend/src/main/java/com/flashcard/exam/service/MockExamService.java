@@ -1,5 +1,6 @@
 package com.flashcard.exam.service;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.flashcard.exam.dto.*;
 import com.flashcard.exam.model.MockExamAnswer;
@@ -96,6 +97,7 @@ public class MockExamService {
         dto.setStartedAt(attempt.getStartedAt());
         dto.setSavedAnswers(savedAnswers);
         dto.setExam(examDetail);
+        dto.setSectionResultsJson(attempt.getSectionResultsJson());
 
         return dto;
     }
@@ -269,6 +271,154 @@ public class MockExamService {
         result.setSectionResults(sectionResults);
 
         return result;
+    }
+
+    @Transactional
+    public SectionResultDto submitSection(Long userId, Long attemptId, SubmitSectionRequest request) {
+        if (request == null || request.getSectionId() == null || request.getSectionId().isBlank()) {
+            throw new IllegalArgumentException("Section ID must be provided");
+        }
+
+        MockExamAttempt attempt = examDataProvider.findAttemptById(attemptId)
+                .orElseThrow(() -> new IllegalArgumentException("Attempt not found: " + attemptId));
+
+        if (!attempt.getUserId().equals(userId)) {
+            throw new SecurityException("Unauthorized attempt access");
+        }
+
+        ExamDetailDto exam = examDataProvider.getExamDetail(attempt.getExamId())
+                .orElseThrow(() -> new IllegalStateException("Exam not found: " + attempt.getExamId()));
+
+        Map<String, Integer> correctAnswers = examDataProvider.getCorrectAnswers(attempt.getExamId());
+
+        SectionDto targetSection = null;
+        if (exam.getSections() != null) {
+            for (SectionDto sec : exam.getSections()) {
+                if (request.getSectionId().equals(sec.getSectionId())) {
+                    targetSection = sec;
+                    break;
+                }
+            }
+        }
+        if (targetSection == null) {
+            throw new IllegalArgumentException("Section not found: " + request.getSectionId());
+        }
+
+        if (request.getAnswers() != null && !request.getAnswers().isEmpty()) {
+            List<MockExamAnswer> answersToSave = new ArrayList<>();
+            for (Map.Entry<String, Integer> entry : request.getAnswers().entrySet()) {
+                answersToSave.add(new MockExamAnswer(attemptId, targetSection.getSectionId(), entry.getKey(), entry.getValue(), null));
+            }
+            examDataProvider.saveAllAnswers(answersToSave);
+        }
+
+        List<MockExamAnswer> allSavedAnswers = examDataProvider.findAnswersByAttemptId(attemptId);
+        Map<String, Integer> answerChoiceMap = new HashMap<>();
+        for (MockExamAnswer a : allSavedAnswers) {
+            answerChoiceMap.put(a.getQuestionId(), a.getSelectedChoice());
+        }
+        if (request.getAnswers() != null) {
+            answerChoiceMap.putAll(request.getAnswers());
+        }
+
+        List<QuestionDto> qList = targetSection.getQuestions() != null ? targetSection.getQuestions() : Collections.emptyList();
+        int secCorrect = 0;
+        List<QuestionReviewDto> qReviews = new ArrayList<>();
+        List<MockExamAnswer> gradedAnswers = new ArrayList<>();
+
+        for (QuestionDto q : qList) {
+            QuestionReviewDto qRev = new QuestionReviewDto();
+            qRev.setQuestionId(q.getId());
+            qRev.setMondai(q.getMondai());
+            qRev.setQuestionNumber(q.getQuestionNumber());
+            qRev.setQuestionType(q.getQuestionType());
+            qRev.setQuestionText(q.getQuestionText());
+            qRev.setPassage(q.getPassage());
+            qRev.setChoices(q.getChoices() != null ? q.getChoices() : Collections.emptyList());
+            qRev.setImageRef(q.getImageRef());
+            qRev.setAudioStartSec(q.getAudioStartSec());
+            qRev.setAudioEndSec(q.getAudioEndSec());
+
+            Integer correctAns = correctAnswers.get(q.getId());
+            qRev.setCorrectAnswer(correctAns);
+
+            Integer userChoice = answerChoiceMap.get(q.getId());
+            qRev.setSelectedChoice(userChoice);
+
+            boolean isCorrect = (correctAns != null && correctAns.equals(userChoice));
+            qRev.setIsCorrect(isCorrect);
+
+            if (isCorrect) {
+                secCorrect++;
+            }
+
+            if (userChoice != null) {
+                gradedAnswers.add(new MockExamAnswer(attemptId, targetSection.getSectionId(), q.getId(), userChoice, isCorrect));
+            }
+
+            qReviews.add(qRev);
+        }
+
+        examDataProvider.saveAllAnswers(gradedAnswers);
+
+        SectionResultDto secRes = new SectionResultDto();
+        secRes.setSectionId(targetSection.getSectionId());
+        secRes.setTitle(targetSection.getTitle());
+        secRes.setTitleVi(targetSection.getTitleVi());
+        secRes.setTotalQuestions(qList.size());
+        secRes.setCorrectCount(secCorrect);
+        double secPct = qList.size() > 0
+                ? Math.round((double) secCorrect / qList.size() * 1000.0) / 10.0
+                : 0.0;
+        secRes.setPercentage(secPct);
+        secRes.setQuestions(qReviews);
+
+        List<Map<String, Object>> lightSecSummary = new ArrayList<>();
+        if (attempt.getSectionResultsJson() != null && !attempt.getSectionResultsJson().isBlank()) {
+            try {
+                lightSecSummary = objectMapper.readValue(attempt.getSectionResultsJson(), new TypeReference<List<Map<String, Object>>>() {});
+            } catch (Exception e) {
+                log.warn("Failed to parse existing sectionResultsJson: {}", e.getMessage());
+            }
+        }
+
+        final String secIdToRemove = secRes.getSectionId();
+        lightSecSummary.removeIf(m -> secIdToRemove.equals(m.get("sectionId")));
+        Map<String, Object> currentSecMap = new HashMap<>();
+        currentSecMap.put("sectionId", secRes.getSectionId());
+        currentSecMap.put("title", secRes.getTitle());
+        currentSecMap.put("totalQuestions", secRes.getTotalQuestions());
+        currentSecMap.put("correctCount", secRes.getCorrectCount());
+        currentSecMap.put("percentage", secRes.getPercentage());
+        lightSecSummary.add(currentSecMap);
+
+        try {
+            attempt.setSectionResultsJson(objectMapper.writeValueAsString(lightSecSummary));
+        } catch (Exception e) {
+            log.error("Failed to serialize section results: {}", e.getMessage());
+        }
+
+        int totalSectionsInExam = exam.getSections() != null ? exam.getSections().size() : 0;
+        if (totalSectionsInExam > 0 && lightSecSummary.size() >= totalSectionsInExam) {
+            int totalCorrect = 0;
+            int totalQuestions = 0;
+            for (Map<String, Object> sm : lightSecSummary) {
+                if (sm.get("correctCount") instanceof Number n) totalCorrect += n.intValue();
+                if (sm.get("totalQuestions") instanceof Number n) totalQuestions += n.intValue();
+            }
+            double totalPct = totalQuestions > 0
+                    ? Math.round((double) totalCorrect / totalQuestions * 1000.0) / 10.0
+                    : 0.0;
+            attempt.setTotalCorrect(totalCorrect);
+            attempt.setTotalQuestions(totalQuestions);
+            attempt.setPercentage(totalPct);
+            attempt.setStatus("COMPLETED");
+            attempt.setCompletedAt(LocalDateTime.now());
+        }
+
+        examDataProvider.saveAttempt(attempt);
+
+        return secRes;
     }
 
     @Transactional(readOnly = true)

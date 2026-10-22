@@ -923,6 +923,15 @@ export const mockExamApi = {
     });
     return response.data;
   },
+  submitSection: async (attemptId, { sectionId, answers }) => {
+    const response = await axios.post(`${API_BASE_URL}/mock-exams/attempts/${attemptId}/submit-section`, {
+      sectionId,
+      answers
+    });
+    clearApiCache('/mock-exams/history');
+    clearApiCache(`/mock-exams/attempts/${attemptId}`);
+    return response.data;
+  },
   submitExam: async (attemptId, answers) => {
     const response = await axios.post(`${API_BASE_URL}/mock-exams/attempts/${attemptId}/submit`, {
       answers

@@ -495,7 +495,7 @@
           "mondai": 4,
           "questionNumber": 26,
           "questionType": "VOCAB_SYNONYM",
-          "questionText": "絶対会いに来てくださいね。",
+          "questionText": "<u>絶対</u>会いに来てくださいね。",
           "passage": null,
           "choices": [
             "いつでも",
@@ -514,7 +514,7 @@
           "mondai": 4,
           "questionNumber": 27,
           "questionType": "VOCAB_SYNONYM",
-          "questionText": "山口さんは逆のほうに行きましたよ。",
+          "questionText": "山口さんは<u>逆</u>のほうに行きましたよ。",
           "passage": null,
           "choices": [
             "反対",
@@ -533,7 +533,7 @@
           "mondai": 4,
           "questionNumber": 28,
           "questionType": "VOCAB_SYNONYM",
-          "questionText": "みんな木村さんの話を信じている。",
+          "questionText": "みんな木村さんの話を<u>信じている</u>。",
           "passage": null,
           "choices": [
             "面白いと思っている",
@@ -552,7 +552,7 @@
           "mondai": 4,
           "questionNumber": 29,
           "questionType": "VOCAB_SYNONYM",
-          "questionText": "今日の実験はおしまいです。",
+          "questionText": "今日の実験は<u>おしまい</u>です。",
           "passage": null,
           "choices": [
             "終わり",
@@ -571,7 +571,7 @@
           "mondai": 4,
           "questionNumber": 30,
           "questionType": "VOCAB_SYNONYM",
-          "questionText": "まぶしくて看板の字がよく見えません。",
+          "questionText": "<u>まぶしくて</u>看板の字がよく見えません。",
           "passage": null,
           "choices": [
             "小さすぎて",
