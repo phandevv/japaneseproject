@@ -1,5 +1,6 @@
 package com.flashcard.knowledge.dto;
 
+import com.flashcard.knowledge.document.HighFrequencyGrammarDoc;
 import com.flashcard.knowledge.model.HighFrequencyGrammar;
 import com.flashcard.knowledge.model.HighFrequencyGrammarReview;
 
@@ -57,6 +58,29 @@ public class HighFrequencyGrammarDto {
             this.examExamplesJson = entity.getExamExamplesJson();
             this.recentTrend = entity.getRecentTrend();
             this.studyTip = entity.getStudyTip();
+        }
+    }
+
+    public HighFrequencyGrammarDto(HighFrequencyGrammarDoc doc) {
+        if (doc != null) {
+            this.id = doc.getId();
+            this.rankNumber = doc.getRankNumber();
+            this.grammar = doc.getGrammar();
+            this.level = doc.getLevel();
+            this.totalOccurrences = doc.getTotalOccurrences();
+            this.examCoverage = doc.getExamCoverage();
+            this.avgPerExam = doc.getAvgPerExam();
+            this.bunpouCount = doc.getBunpouCount();
+            this.dokkaiCount = doc.getDokkaiCount();
+            this.choukaiCount = doc.getChoukaiCount();
+            this.goiCount = doc.getGoiCount();
+            this.priority = doc.getPriority();
+            this.priorityStars = doc.getPriorityStars();
+            this.formation = doc.getFormation();
+            this.meaning = doc.getMeaning();
+            this.examExamplesJson = doc.getExamExamplesJson();
+            this.recentTrend = doc.getRecentTrend();
+            this.studyTip = doc.getStudyTip();
         }
     }
 

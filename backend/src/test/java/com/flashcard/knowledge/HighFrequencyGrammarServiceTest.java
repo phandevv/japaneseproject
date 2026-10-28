@@ -1,10 +1,12 @@
 package com.flashcard.knowledge;
 
+import com.flashcard.knowledge.document.HighFrequencyGrammarDoc;
 import com.flashcard.knowledge.dto.HighFrequencyGrammarDto;
 import com.flashcard.knowledge.model.HighFrequencyGrammar;
 import com.flashcard.knowledge.model.HighFrequencyGrammarReview;
 import com.flashcard.knowledge.repository.HighFrequencyGrammarRepository;
 import com.flashcard.knowledge.repository.HighFrequencyGrammarReviewRepository;
+import com.flashcard.knowledge.repository.mongo.HighFrequencyGrammarMongoRepository;
 import com.flashcard.knowledge.service.HighFrequencyGrammarService;
 import com.flashcard.user.model.User;
 import com.flashcard.user.repository.UserRepository;
@@ -33,6 +35,9 @@ class HighFrequencyGrammarServiceTest {
 
     @Mock
     private UserRepository userRepository;
+
+    @Mock
+    private HighFrequencyGrammarMongoRepository mongoRepository;
 
     @InjectMocks
     private HighFrequencyGrammarService service;
@@ -73,6 +78,23 @@ class HighFrequencyGrammarServiceTest {
 
         List<HighFrequencyGrammarDto> n3List = service.getGrammarList(100L, "n3");
         assertEquals(0, n3List.size());
+    }
+
+    @Test
+    @DisplayName("Fallback lấy từ Mongo khi JPA database rỗng")
+    void testFallbackToMongoWhenJpaIsEmpty() {
+        when(grammarRepository.findAllByOrderByRankNumberAsc()).thenReturn(Collections.emptyList());
+        HighFrequencyGrammarDoc doc = new HighFrequencyGrammarDoc();
+        doc.setId(2L);
+        doc.setRankNumber(2);
+        doc.setGrammar("〜使役 (sai khiến)");
+        doc.setLevel("N4");
+        doc.setPriority("Critical");
+        when(mongoRepository.findAllByOrderByRankNumberAsc()).thenReturn(List.of(doc));
+
+        List<HighFrequencyGrammarDto> result = service.getGrammarList(null, "all");
+        assertEquals(1, result.size());
+        assertEquals("〜使役 (sai khiến)", result.get(0).getGrammar());
     }
 
     @Test
