@@ -40,12 +40,24 @@ public class HighFrequencyGrammarDataLoader implements CommandLineRunner {
     @Override
     public void run(String... args) {
         try {
-            boolean needsJpaSeed = repository.count() < 79;
-            boolean needsMongoSeed = mongoRepository != null && mongoRepository.count() < 79;
+            boolean needsJpaSeed = false;
+            try {
+                needsJpaSeed = repository.count() < 79;
+            } catch (Exception e) {
+                logger.warn("JPA database check skipped or table does not exist: {}", e.getMessage());
+            }
+
+            boolean needsMongoSeed = false;
+            if (mongoRepository != null) {
+                try {
+                    needsMongoSeed = mongoRepository.count() < 79;
+                } catch (Exception e) {
+                    logger.warn("MongoDB check skipped: {}", e.getMessage());
+                }
+            }
 
             if (!needsJpaSeed && !needsMongoSeed) {
-                logger.info("High frequency grammar already loaded (JPA: {}, Mongo: {}). Skipping seed.",
-                        repository.count(), mongoRepository != null ? mongoRepository.count() : "N/A");
+                logger.info("High frequency grammar already loaded. Skipping seed.");
                 return;
             }
 
@@ -89,8 +101,12 @@ public class HighFrequencyGrammarDataLoader implements CommandLineRunner {
                         entities.add(g);
                     }
                     if (!entities.isEmpty()) {
-                        repository.saveAll(entities);
-                        logger.info("Successfully seeded {} high frequency grammar patterns into JPA database!", entities.size());
+                        try {
+                            repository.saveAll(entities);
+                            logger.info("Successfully seeded {} high frequency grammar patterns into JPA database!", entities.size());
+                        } catch (Exception e) {
+                            logger.warn("Could not save to JPA database (table may not exist in Mongo mode): {}", e.getMessage());
+                        }
                     }
                 }
 

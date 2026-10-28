@@ -34,6 +34,7 @@ async function main() {
       const doc = {
         _id: rank,
         id: rank,
+        _class: 'com.flashcard.knowledge.document.HighFrequencyGrammarDoc',
         rankNumber: rank,
         grammar: item.grammar || '',
         level: item.level || 'N3',
@@ -51,6 +52,7 @@ async function main() {
         examExamplesJson: item.examExamples ? JSON.stringify(item.examExamples) : '[]',
         recentTrend: item.recentTrend || '',
         studyTip: item.studyTip || '',
+        createdAt: new Date(),
         updatedAt: new Date()
       };
 

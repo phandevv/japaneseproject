@@ -64,12 +64,18 @@ public class HighFrequencyGrammarService {
         Map<Long, HighFrequencyGrammarReview> reviewMap = Collections.emptyMap();
 
         if (userId != null) {
-            List<HighFrequencyGrammarReview> reviews = reviewRepository.findByUserId(userId);
-            reviewMap = reviews.stream().collect(Collectors.toMap(
-                    r -> r.getGrammar().getId(),
-                    r -> r,
-                    (existing, replacement) -> existing
-            ));
+            try {
+                List<HighFrequencyGrammarReview> reviews = reviewRepository.findByUserId(userId);
+                if (reviews != null && !reviews.isEmpty()) {
+                    reviewMap = reviews.stream().collect(Collectors.toMap(
+                            r -> r.getGrammar() != null ? r.getGrammar().getId() : 0L,
+                            r -> r,
+                            (existing, replacement) -> existing
+                    ));
+                }
+            } catch (Exception e) {
+                logger.warn("Could not load reviews from JPA reviewRepository: {}", e.getMessage());
+            }
         }
 
         Instant now = Instant.now();
@@ -113,19 +119,35 @@ public class HighFrequencyGrammarService {
     @Transactional(readOnly = true)
     public HighFrequencyGrammarDto getGrammarDetail(Long id, Long userId) {
         HighFrequencyGrammarDto dto = null;
-        Optional<HighFrequencyGrammar> gOpt = grammarRepository.findById(id);
-        if (gOpt.isPresent()) {
-            dto = new HighFrequencyGrammarDto(gOpt.get());
-        } else if (mongoRepository != null) {
-            Optional<HighFrequencyGrammarDoc> docOpt = mongoRepository.findById(id);
-            if (docOpt.isEmpty() && id <= Integer.MAX_VALUE) {
-                docOpt = mongoRepository.findByRankNumber(id.intValue());
-            }
-            if (docOpt.isPresent()) {
-                dto = new HighFrequencyGrammarDto(docOpt.get());
+
+        // 1. Try MongoDB Atlas
+        if (mongoRepository != null) {
+            try {
+                Optional<HighFrequencyGrammarDoc> docOpt = mongoRepository.findById(id);
+                if (docOpt.isEmpty() && id <= Integer.MAX_VALUE) {
+                    docOpt = mongoRepository.findByRankNumber(id.intValue());
+                }
+                if (docOpt.isPresent()) {
+                    dto = new HighFrequencyGrammarDto(docOpt.get());
+                }
+            } catch (Exception e) {
+                logger.warn("Mongo lookup failed for grammar ID {}: {}", id, e.getMessage());
             }
         }
 
+        // 2. Try JPA
+        if (dto == null) {
+            try {
+                Optional<HighFrequencyGrammar> gOpt = grammarRepository.findById(id);
+                if (gOpt.isPresent()) {
+                    dto = new HighFrequencyGrammarDto(gOpt.get());
+                }
+            } catch (Exception e) {
+                logger.warn("JPA lookup failed for grammar ID {}: {}", id, e.getMessage());
+            }
+        }
+
+        // 3. Fallback to classpath JSON
         if (dto == null) {
             List<HighFrequencyGrammarDto> dtos = loadGrammarFromClasspathJson();
             dto = dtos.stream()
@@ -135,7 +157,11 @@ public class HighFrequencyGrammarService {
         }
 
         if (userId != null) {
-            reviewRepository.findByUserIdAndGrammarId(userId, id).ifPresent(dto::applyReview);
+            try {
+                reviewRepository.findByUserIdAndGrammarId(userId, id).ifPresent(dto::applyReview);
+            } catch (Exception e) {
+                logger.warn("Could not load review for user {} and grammar {}: {}", userId, id, e.getMessage());
+            }
         }
         return dto;
     }
@@ -149,11 +175,21 @@ public class HighFrequencyGrammarService {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new NoSuchElementException("Không tìm thấy người dùng ID: " + userId));
 
-        HighFrequencyGrammar grammar = grammarRepository.findById(grammarId)
-                .orElseGet(() -> ensureGrammarEntity(grammarId));
+        HighFrequencyGrammar grammarCandidate = null;
+        try {
+            grammarCandidate = grammarRepository.findById(grammarId).orElseGet(() -> ensureGrammarEntity(grammarId));
+        } catch (Exception e) {
+            grammarCandidate = ensureGrammarEntity(grammarId);
+        }
+        final HighFrequencyGrammar grammar = grammarCandidate;
 
-        HighFrequencyGrammarReview review = reviewRepository.findByUserIdAndGrammarId(userId, grammarId)
-                .orElseGet(() -> new HighFrequencyGrammarReview(user, grammar));
+        HighFrequencyGrammarReview review = null;
+        try {
+            review = reviewRepository.findByUserIdAndGrammarId(userId, grammarId)
+                    .orElseGet(() -> new HighFrequencyGrammarReview(user, grammar));
+        } catch (Exception e) {
+            review = new HighFrequencyGrammarReview(user, grammar);
+        }
 
         // SM-2 Algorithm calculation
         double ef = review.getEaseFactor();
@@ -197,7 +233,13 @@ public class HighFrequencyGrammarService {
         review.setLastQuality(quality);
         review.setUpdatedAt(Instant.now());
 
-        HighFrequencyGrammarReview saved = reviewRepository.save(review);
+        HighFrequencyGrammarReview saved = review;
+        try {
+            saved = reviewRepository.save(review);
+        } catch (Exception e) {
+            logger.warn("Could not save review to JPA database: {}", e.getMessage());
+        }
+
         HighFrequencyGrammarDto dto = new HighFrequencyGrammarDto(grammar);
         dto.applyReview(saved);
         return dto;
@@ -206,24 +248,42 @@ public class HighFrequencyGrammarService {
     @Transactional(readOnly = true)
     public List<HighFrequencyGrammarDto> getDueReviews(Long userId) {
         if (userId == null) return Collections.emptyList();
-        List<HighFrequencyGrammarReview> dueReviews = reviewRepository.findDueReviews(userId, Instant.now());
-        List<HighFrequencyGrammarDto> dtos = new ArrayList<>();
-        for (HighFrequencyGrammarReview r : dueReviews) {
-            HighFrequencyGrammarDto dto = new HighFrequencyGrammarDto(r.getGrammar());
-            dto.applyReview(r);
-            dtos.add(dto);
+        try {
+            List<HighFrequencyGrammarReview> dueReviews = reviewRepository.findDueReviews(userId, Instant.now());
+            List<HighFrequencyGrammarDto> dtos = new ArrayList<>();
+            for (HighFrequencyGrammarReview r : dueReviews) {
+                if (r.getGrammar() != null) {
+                    HighFrequencyGrammarDto dto = new HighFrequencyGrammarDto(r.getGrammar());
+                    dto.applyReview(r);
+                    dtos.add(dto);
+                }
+            }
+            return dtos;
+        } catch (Exception e) {
+            logger.warn("Could not fetch due reviews from JPA: {}", e.getMessage());
+            return Collections.emptyList();
         }
-        return dtos;
     }
 
     @Transactional(readOnly = true)
     public Map<String, Object> getStats(Long userId) {
-        long total = grammarRepository.count();
-        if (total == 0 && mongoRepository != null) {
+        long total = 0;
+
+        // 1. Try Mongo
+        if (mongoRepository != null) {
             try {
                 total = mongoRepository.count();
             } catch (Exception ignored) {}
         }
+
+        // 2. Try JPA
+        if (total == 0) {
+            try {
+                total = grammarRepository.count();
+            } catch (Exception ignored) {}
+        }
+
+        // 3. Fallback
         if (total == 0) {
             total = 79L;
         }
@@ -233,11 +293,17 @@ public class HighFrequencyGrammarService {
         int reviewedCount = 0;
 
         if (userId != null) {
-            learned = reviewRepository.countLearnedByUserId(userId);
-            List<HighFrequencyGrammarReview> reviews = reviewRepository.findByUserId(userId);
-            reviewedCount = reviews.size();
-            Instant now = Instant.now();
-            dueCount = (int) reviews.stream().filter(r -> r.getNextReview() != null && !r.getNextReview().isAfter(now)).count();
+            try {
+                learned = reviewRepository.countLearnedByUserId(userId);
+                List<HighFrequencyGrammarReview> reviews = reviewRepository.findByUserId(userId);
+                if (reviews != null) {
+                    reviewedCount = reviews.size();
+                    Instant now = Instant.now();
+                    dueCount = (int) reviews.stream().filter(r -> r.getNextReview() != null && !r.getNextReview().isAfter(now)).count();
+                }
+            } catch (Exception e) {
+                logger.warn("Could not fetch stats from reviewRepository: {}", e.getMessage());
+            }
         }
 
         Map<String, Object> stats = new HashMap<>();
@@ -282,13 +348,7 @@ public class HighFrequencyGrammarService {
     }
 
     private List<HighFrequencyGrammarDto> loadAllGrammarDtos() {
-        // 1. Try JPA database
-        List<HighFrequencyGrammar> allJpa = grammarRepository.findAllByOrderByRankNumberAsc();
-        if (allJpa != null && !allJpa.isEmpty()) {
-            return allJpa.stream().map(HighFrequencyGrammarDto::new).collect(Collectors.toList());
-        }
-
-        // 2. Try MongoDB Atlas
+        // 1. Try MongoDB Atlas (Production & Primary Database)
         if (mongoRepository != null) {
             try {
                 List<HighFrequencyGrammarDoc> allMongo = mongoRepository.findAllByOrderByRankNumberAsc();
@@ -298,6 +358,16 @@ public class HighFrequencyGrammarService {
             } catch (Exception e) {
                 logger.warn("Could not load high frequency grammar from Mongo: {}", e.getMessage());
             }
+        }
+
+        // 2. Try JPA database (when available)
+        try {
+            List<HighFrequencyGrammar> allJpa = grammarRepository.findAllByOrderByRankNumberAsc();
+            if (allJpa != null && !allJpa.isEmpty()) {
+                return allJpa.stream().map(HighFrequencyGrammarDto::new).collect(Collectors.toList());
+            }
+        } catch (Exception e) {
+            logger.warn("JPA table jlpt_n3_high_frequency_grammar check skipped: {}", e.getMessage());
         }
 
         // 3. Fallback to classpath JSON
@@ -351,33 +421,39 @@ public class HighFrequencyGrammarService {
 
     private HighFrequencyGrammar ensureGrammarEntity(Long grammarId) {
         if (mongoRepository != null) {
-            Optional<HighFrequencyGrammarDoc> docOpt = mongoRepository.findById(grammarId);
-            if (docOpt.isEmpty() && grammarId <= Integer.MAX_VALUE) {
-                docOpt = mongoRepository.findByRankNumber(grammarId.intValue());
-            }
-            if (docOpt.isPresent()) {
-                HighFrequencyGrammarDoc doc = docOpt.get();
-                HighFrequencyGrammar g = new HighFrequencyGrammar();
-                g.setId(doc.getId());
-                g.setRankNumber(doc.getRankNumber());
-                g.setGrammar(doc.getGrammar());
-                g.setLevel(doc.getLevel());
-                g.setTotalOccurrences(doc.getTotalOccurrences());
-                g.setExamCoverage(doc.getExamCoverage());
-                g.setAvgPerExam(doc.getAvgPerExam());
-                g.setBunpouCount(doc.getBunpouCount());
-                g.setDokkaiCount(doc.getDokkaiCount());
-                g.setChoukaiCount(doc.getChoukaiCount());
-                g.setGoiCount(doc.getGoiCount());
-                g.setPriority(doc.getPriority());
-                g.setPriorityStars(doc.getPriorityStars());
-                g.setFormation(doc.getFormation());
-                g.setMeaning(doc.getMeaning());
-                g.setExamExamplesJson(doc.getExamExamplesJson());
-                g.setRecentTrend(doc.getRecentTrend());
-                g.setStudyTip(doc.getStudyTip());
-                return grammarRepository.save(g);
-            }
+            try {
+                Optional<HighFrequencyGrammarDoc> docOpt = mongoRepository.findById(grammarId);
+                if (docOpt.isEmpty() && grammarId <= Integer.MAX_VALUE) {
+                    docOpt = mongoRepository.findByRankNumber(grammarId.intValue());
+                }
+                if (docOpt.isPresent()) {
+                    HighFrequencyGrammarDoc doc = docOpt.get();
+                    HighFrequencyGrammar g = new HighFrequencyGrammar();
+                    g.setId(doc.getId());
+                    g.setRankNumber(doc.getRankNumber());
+                    g.setGrammar(doc.getGrammar());
+                    g.setLevel(doc.getLevel());
+                    g.setTotalOccurrences(doc.getTotalOccurrences());
+                    g.setExamCoverage(doc.getExamCoverage());
+                    g.setAvgPerExam(doc.getAvgPerExam());
+                    g.setBunpouCount(doc.getBunpouCount());
+                    g.setDokkaiCount(doc.getDokkaiCount());
+                    g.setChoukaiCount(doc.getChoukaiCount());
+                    g.setGoiCount(doc.getGoiCount());
+                    g.setPriority(doc.getPriority());
+                    g.setPriorityStars(doc.getPriorityStars());
+                    g.setFormation(doc.getFormation());
+                    g.setMeaning(doc.getMeaning());
+                    g.setExamExamplesJson(doc.getExamExamplesJson());
+                    g.setRecentTrend(doc.getRecentTrend());
+                    g.setStudyTip(doc.getStudyTip());
+                    try {
+                        return grammarRepository.save(g);
+                    } catch (Exception e) {
+                        return g;
+                    }
+                }
+            } catch (Exception ignored) {}
         }
 
         List<HighFrequencyGrammarDto> dtos = loadGrammarFromClasspathJson();
@@ -402,7 +478,11 @@ public class HighFrequencyGrammarService {
                 g.setExamExamplesJson(d.getExamExamplesJson());
                 g.setRecentTrend(d.getRecentTrend());
                 g.setStudyTip(d.getStudyTip());
-                return grammarRepository.save(g);
+                try {
+                    return grammarRepository.save(g);
+                } catch (Exception e) {
+                    return g;
+                }
             }
         }
 
